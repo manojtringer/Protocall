@@ -42,23 +42,23 @@ var template = {
 	subMenuTabHTML:function(){
 		var html = '<a href="/{{subMenuTab-name}}" class="snap submenu-tab bg-color-green right f-sz-16 ptsans-light {{subMenuTab-name}} p-relative" data-type="page" data-submenu="{{subMenuTab-name}}">'
 										+'<div class="sprite-im {{subMenuTab-icon-class}} inline-block tab-icon v-align-mid" style="{{isSubMenuTabIconCl}}">&nbsp;</div>'
-										+'<div class="submenu-title t-caps inline-block f-color-w v-align-mid">{{subMenuTab-name}}</div>'
+										+'<div class="submenu-title t-caps inline-block f-color-w v-align-mid">{{subMenuTab-name-title}}</div>'
 										+'<div class="cnt-blk inline-block v-align-mid" style="{{isSubMenuTabCountCl}}">(<span class="cnt-no">{{subMenuTab-count}}</span>)</div>'
 					+'</a>';
 		return html;
 	},
 	
 	subMenuBreadCrumbHTML:function(){
-		var html = '<div class="bcrum-lb-submenu left">'
-									+'<a href="#" class="snap left f-sz-16 ptsans-light {{bc-title}} t-upper p-relative f-color-green" data-type="page" data-submenu="{{bc-title}}" class="">'
+		var html =//'<div class="bcrum-lb-submenu left">'
+									'<a href="#" class="snap left f-sz-16 ptsans-light {{bc-title}} t-upper p-relative f-color-green" data-type="page" data-submenu="{{bc-title}}" class="">'
 									+	'<div class="clr-fl">'
 									+		'<div class="sprite-im left {{bc-icon-class}} mr-space-10 mt-space-ic">&nbsp;</div>'
-									+		'<span class="sub-menu-text left">{{bc-title}}</span>'
+									+		'<span class="sub-menu-text left">{{bc-name-title}}</span>'
 									+	'</div>'
 									+'</a>'
-									+'<div class="bcrum-icon-blk left f-color-green f-sz-16 ptsans-light" style="{{isBC}}">></div>'
-									+'<a href="#" class="snap left f-sz-16 ptsans-light feeds-customer t-caps p-relative f-color-green" data-type="page" data-submenu="{{bc-title}}-customer" style="{{isBC}}">{{customer-name}}</a>'
-					+'</div>';
+									+'<div class="bcrum-icon-blk left f-color-green f-sz-16 ptsans-light" style="{{isBC_Name}}">></div>'
+									+'<a href="#" class="snap left f-sz-16 ptsans-light feeds-customer t-caps p-relative f-color-green" data-type="page" data-submenu="{{bc-title}}-customer" style="{{isBC_Name}}">{{customer-name}}</a>'
+					//+'</div>';
 		return html;		
 	},
 	
@@ -69,6 +69,24 @@ var template = {
 				+'</div>';
 				
 		return html;		
+	},
+	
+	
+	subMenuBlk:function(){
+		var html = '<div class="mb-submenu-in clr-fl">'
+								+'<div class="bcrum-lb-submenu left">'
+									// BreadCrumb Zone
+								+	'{{breadcrumb_block}}'
+								+'</div>'
+								+'<div class="tab-rb-submenu right">'
+								+	'<div class="tab-rb-submenu-in-block p-relative">'
+										// Tab Zone
+								+	'{{tab_block}}'										
+								+	'</div>'
+								+'</div>'
+							+'</div>';
+		return html;
+		
 	},
 	
 	feedsTemplateHTML:function(){
