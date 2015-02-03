@@ -14,110 +14,119 @@
 </head>
 <body class="body-bg-color">
 
-	<div id="page" class="anim page" style="opacity:1;">
-		<div class="m-width">
+<div id="page" class="anim page" style="opacity:1;">
+	<div class="m-width">
+		<div class="ctrl-blk">
 			<header class="w-pad">
 				<div class="logo-info-blk clr-fl p-relative">
 					<div class="lf-block left clr-fl header-left-panel">
-						<div class="left">
-							<div class="logo-holder">
-								<img src="images/Logo.png" alt="" class="logo" />
-							</div>
-						</div>
-						<div class="left search-blk">
-							<form name="globalSearch" method="GET" action="#search" class="" onsubmit="event.preventDefault();">
-								<div class="searchbox-holder">
-									<input class="search-ip opensans-regular" type="search" name="" placeholder="Search">
+						<div class="leftblk-spacing">
+							<div style="width:100%;">
+								<div class="logo-container left">
+									<div class="logo-holder">
+										<img src="images/Logo.png" alt="" class="logo" />
+									</div>
 								</div>
-							</form>
+								<div class="left search-blk">
+									<form name="globalSearch" method="GET" action="#search" class="" onsubmit="event.preventDefault();">
+									<div style="width:100%;">
+										<div class="searchbox-border">
+											<input class="search-ip opensans-regular" type="search" name="" placeholder="Search">
+											</div>
+										</div>
+									</form>
+								</div>
+								<div class="clear"></div>
+							</div>
 						</div>					
 					</div>					
 					<div class="rg-block left p-relative">
-						 <a href="/profile" id="profile" class="logged-user-info clr-fl snap" data-type="profile-link">
+						<a href="/profile" id="profile" class="logged-user-info clr-fl snap" data-type="profile-link">
 							<div id="" class="left user-pic-box">
-								<img src="" alt="Profile pic" class="setProfilePic">
+								<img src="https://uniwallpapers.files.wordpress.com/2012/06/animal-nature-21.jpg" alt="Profile pic" class="setProfilePic">
 							</div>
 							<div class="left user-info">
 								<div class="opensans-regular text-ellipsis">
-									<span>Hi</span>
+									<span>Hi,</span>
 									<span class="t-caps">John Doe</span>
 								</div>		
 							</div>
 							<div class="left sprite-im drop-down-icon user-drop-icon">&nbsp;</div>
-						</a> 
+							<div class="clear"></div>
+						</a>						
 					</div>
 				</div>
 			</header>
 			<div class="m-block p-relative">
 				<div class="clr-fl">
 					<div class="lf-block left">
-						<div class="mb-menu bg-color-green clr-fl t-center t-upper">
-							<a href="/home" class="snap menu-box left f-sz-18 ptsans-light home p-relative f-color-w" data-type="page" data-page="home">
-								<div class="menu-center">
-									<div class="sprite-im home-icon menu-icon">&nbsp;</div>
-									<span class="menu-text t-caps">Home</span>
-								</div>
-							</a>
-							<a href="/carriers" class="snap menu-box left f-sz-18 ptsans-light carriers p-relative f-color-w" data-type="page" data-page="carriers">
-								<div class="menu-center">
-									<div class="sprite-im carriers-icon menu-icon">&nbsp;</div>
-									<span class="menu-text t-caps">Carriers</span>
-								</div>
-							</a>
-							<a href="/customers" class="snap menu-box left f-sz-18 ptsans-light customers p-relative f-color-w" data-type="page" data-page="customers">
-								<div class="menu-center">
-									<div class="sprite-im customers-icon menu-icon">&nbsp;</div>
-									<span class="menu-text t-caps">Customers</span>
-								</div>
-							</a>
-							<a href="/myreps" class="snap menu-box left f-sz-18 ptsans-light myreps p-relative f-color-w" data-type="page" data-page="myreps">
-								<div class="menu-center">
-									<div class="sprite-im myreps-icon menu-icon">&nbsp;</div>
-									<span class="menu-text t-caps">My Reps</span>
-								</div>
-							</a>						
-						</div>
-						<div class="mb-submenu">
-							<!-- <div class="mb-submenu-in clr-fl">
-								<div class="bcrum-lb-submenu left">
-									<a href="#" class="snap left f-sz-16 ptsans-light feeds t-upper p-relative f-color-green" data-type="page" data-submenu="feeds" class="">
-										<div class="clr-fl">
-											<div class="sprite-im left feeds-icon mr-space-10 mt-space-ic">&nbsp;</div>
-											<span class="sub-menu-text left">Feeds</span>
+						<div class="leftblk-spacing">
+							<div class="mb-menu bg-color-green clr-fl t-center t-upper">
+								<a href="/home" class="snap menu-box left f-sz-18 ptsans-light home p-relative f-color-w" data-type="page" data-page="home">
+									<div class="menu-center">
+										<div class="sprite-im home-icon menu-icon">&nbsp;</div>
+										<span class="menu-text t-caps">Home</span>
+									</div>
+								</a>
+								<a href="/carriers" class="snap menu-box left f-sz-18 ptsans-light carriers p-relative f-color-w" data-type="page" data-page="carriers">
+									<div class="menu-center">
+										<div class="sprite-im carriers-icon menu-icon">&nbsp;</div>
+										<span class="menu-text t-caps">Carriers</span>
+									</div>
+								</a>
+								<a href="/customers" class="snap menu-box left f-sz-18 ptsans-light customers p-relative f-color-w" data-type="page" data-page="customers">
+									<div class="menu-center">
+										<div class="sprite-im customers-icon menu-icon">&nbsp;</div>
+										<span class="menu-text t-caps">Customers</span>
+									</div>
+								</a>
+								<a href="/myreps" class="snap menu-box left f-sz-18 ptsans-light myreps p-relative f-color-w" data-type="page" data-page="myreps">
+									<div class="menu-center">
+										<div class="sprite-im myreps-icon menu-icon">&nbsp;</div>
+										<span class="menu-text t-caps">My Reps</span>
+									</div>
+								</a>						
+							</div>
+							<div class="mb-submenu">
+								<div class="mb-submenu-in p-relative">
+									<div class="bcrum-lb-submenu inline-block v-align-mid">
+										<a href="#" class="snap left f-sz-16 ptsans-light feeds t-upper p-relative f-color-green" data-type="page" data-submenu="feeds" class="">
+											<div class="">
+												<div class="sprite-im inline-block v-align-mid feeds-icon mr-space-10">&nbsp;</div>
+												<span class="sub-menu-text inline-block v-align-mid">Feeds</span>
+											</div>
+										</a>										
+									</div>
+									<div class="tab-rb-submenu  inline-block v-align-mid">
+										<div class="p-relative">
+											<div href="#" class="snap submenu-sort right f-sz-16 ptsans-light p-relative" data-type="page" data-submenu="sortby">
+												<div class="sort-text f-italic">Sort by</div>
+												<div class="sprite-im drop-down-icon submenu-drop-icon">&nbsp;</div>
+											</div>
+											<a href="/incidents" class="snap submenu-tab bg-color-green right f-sz-16 ptsans-light incidents p-relative" data-type="page" data-submenu="incidents">
+												<div class="sprite-im drop-down-icon inline-block tab-icon v-align-mid">&nbsp;</div>
+												<div class="submenu-title t-caps inline-block f-color-w v-align-mid">incidents</div>
+												<div class="cnt-blk inline-block v-align-mid">(<span class="cnt-no">24</span>)</div>
+											</a>
+											<a href="/policies" class="snap submenu-tab bg-color-green right f-sz-16 ptsans-light policies p-relative" data-type="page" data-submenu="policies">
+												<span class="submenu-title t-caps f-color-w">Policies</span>
+												<span class="cnt-blk">(<span class="cnt-no">24</span>)</span>
+											</a>
+											<a href="/myalerts" class="snap submenu-tab bg-color-green right f-sz-16 ptsans-light myalerts p-relative selected-tab" data-type="page" data-submenu="myalerts">
+												<span class="submenu-title t-caps f-color-w">My Alerts</span>
+												<span class="cnt-blk">(<span class="cnt-no">24</span>)</span>
+											</a>														
 										</div>
-									</a>
-									<div class="bcrum-icon-blk left f-color-green f-sz-16 ptsans-light">></div>
-									<a href="#" class="snap left f-sz-16 ptsans-light feeds-customer t-caps p-relative f-color-green" data-type="page" data-submenu="feeds-customer" class="">Hugh Jackman</a>
-								</div>
-								<div class="tab-rb-submenu right">
-									<div class="p-relative">
-										<div href="#" class="snap submenu-sort right f-sz-16 ptsans-light p-relative" data-type="page" data-submenu="sortby">
-											<div class="sort-text f-italic">Sort by</div>
-											<div class="sprite-im drop-down-icon submenu-drop-icon">&nbsp;</div>
-										</div>
-										<a href="/incidents" class="snap submenu-tab bg-color-green right f-sz-16 ptsans-light incidents p-relative" data-type="page" data-submenu="incidents">
-											<div class="sprite-im drop-down-icon inline-block tab-icon v-align-mid">&nbsp;</div>
-											<div class="submenu-title t-caps inline-block f-color-w v-align-mid">incidents</div>
-											<div class="cnt-blk inline-block v-align-mid">(<span class="cnt-no">24</span>)</div>
-										</a>
-										<a href="/policies" class="snap submenu-tab bg-color-green right f-sz-16 ptsans-light policies p-relative" data-type="page" data-submenu="policies">
-											<span class="submenu-title t-caps f-color-w">Policies</span>
-											<span class="cnt-blk">(<span class="cnt-no">24</span>)</span>
-										</a>
-										<a href="/myalerts" class="snap submenu-tab bg-color-green right f-sz-16 ptsans-light myalerts p-relative selected-tab" data-type="page" data-submenu="myalerts">
-											<span class="submenu-title t-caps f-color-w">My Alerts</span>
-											<span class="cnt-blk">(<span class="cnt-no">24</span>)</span>
-										</a>														
 									</div>
 								</div>
-							</div>  -->
-						</div>	
+							</div>							
+						</div>					
 					</div>				
 					<div class="rg-block left p-relative">
 						<div class="agency-info p-relative clr-fl bg-color-dblue">
 							<a href="/agency" class="agency-details clr-fl snap" data-type="agency-link">
 								<div id="" class="left agency-pic-box p-relative">
-									<img src="" alt="agency pic" class="setAgencyPic">
+									<img src="http://www.ecouterre.com/wp-content/uploads/2012/02/bunny-537x402.jpg" alt="agency pic" class="setAgencyPic">
 									<div class="edit-agency-pic p-absolute anim bg-color-red f-color-w snap" data-type="editAgencyPic">
 										<div class="p-relative t-center">
 											<div class="sprite-im mobile-icon inline-block v-align-mid">&nbsp;</div>
@@ -136,9 +145,12 @@
 			</div>
 			<div class="container">
 				<div class="content-holder">
-					
-					<!-- <div class="view-feed-block">
-						<div class="view-in-blocks inline-block bg-color-dblue p-relative">
+				
+				
+				
+					<!-- 
+					<div class="view-feed-block">
+						<div class="view-in-blocks inline-block bg-color-dblue p-relative v-align-mid">
 							<div class="p-relative">
 								<div class="feed-user-top-details">
 									<div class="feed-pic-b inline-block v-align-mid">
@@ -247,11 +259,97 @@
 								</div>
 							</div>
 						</div>
-						<div class="view-in-blocks inline-block bg-color-dblue p-relative">
-							<div class="p-relative">
+						<div class="view-in-blocks inline-block v-align-mid bg-color-dblue p-relative">
+							<div class="p-relative policy-main-blk">
 								<div class="insurance-policy-blk">
-									
-								
+										<div class="policy-det-blk inline-block  v-align-mid">
+											<input type="checkbox" id="policy1" name="" class="checkbox" />
+											<label for="policy1" class="policy-label">
+												<div class="p-relative insurance-main-det inline-block v-align-top">
+													<div class="insurance-tit-blk">
+														<div class="f-sz-16 inline-block opensans-regular">Ideal Insurance,</div>
+														<div class="f-sz-13	inline-block opensans-regular">#454723</div>
+													</div>
+													<div class="insurance-det-blk">
+														<ul class="ins-sub-det-group f-sz-12 opensans-regular">
+															<li class="t-left">
+																<span class="f-italic t-left text-ellipsis inline-block v-align-mid ins-sub-head" title="Due Amount">Due Amount</span>
+																<span class="inline-block v-align-mid t-center">:</span>
+																<span class="t-left inline-block v-align-mid bold">$244</span>
+															</li>
+															<li class="t-left">
+																<span class="f-italic t-left text-ellipsis inline-block v-align-mid ins-sub-head" title="Next Due Date">Next Due Date</span>
+																<span class="inline-block v-align-mid t-center">:</span>
+																<span class="t-left inline-block v-align-mid bold">Oct 25, 2026</span>
+															</li>
+															<li class="t-left">
+																<span class="f-italic t-left text-ellipsis inline-block v-align-mid ins-sub-head" title="Policy Type">Policy Type</span>
+																<span class="inline-block v-align-mid t-center">:</span>
+																<span class="t-left inline-block v-align-mid bold">Property</span>
+															</li>
+													</div>
+												</div>
+											</label>		
+										</div>
+										<div class="policy-btn-blk inline-block p-relative v-align-mid">
+											<div class="p-relative f-sz-12 opensans-regular t-center">
+												<div class="date-blk p-relative">
+													<span class="bold">Sep 24,2014</span>
+													<span>to</span>
+													<span class="bold">Oct 25,2026</span>
+												</div>
+												<div class="match-blk p-relative">
+													<a href="/matchReleaseClaim" class="snap bg-color-green block f-sz-12 ptsans-light t-upper t-center matchReleaseClaim p-relative f-color-w" data-type="matchReleaseClaim">
+														<div>Match & Release Claim</div>				
+													</a>
+												</div>											
+											</div>
+										</div>
+								</div>
+								<div class="insurance-policy-blk">
+										<div class="policy-det-blk inline-block  v-align-mid">
+											<input type="checkbox" id="policy1" name="" class="checkbox" />
+											<label for="policy1" class="policy-label">
+												<div class="p-relative insurance-main-det inline-block v-align-top">
+													<div class="insurance-tit-blk">
+														<div class="f-sz-16 inline-block opensans-regular">Ideal Insurance,</div>
+														<div class="f-sz-13	inline-block opensans-regular">#454723</div>
+													</div>
+													<div class="insurance-det-blk">
+														<ul class="ins-sub-det-group f-sz-12 opensans-regular">
+															<li class="t-left">
+																<span class="f-italic t-left text-ellipsis inline-block v-align-mid ins-sub-head" title="Due Amount">Due Amount</span>
+																<span class="inline-block v-align-mid t-center">:</span>
+																<span class="t-left inline-block v-align-mid bold">$244</span>
+															</li>
+															<li class="t-left">
+																<span class="f-italic t-left text-ellipsis inline-block v-align-mid ins-sub-head" title="Next Due Date">Next Due Date</span>
+																<span class="inline-block v-align-mid t-center">:</span>
+																<span class="t-left inline-block v-align-mid bold">Oct 25, 2026</span>
+															</li>
+															<li class="t-left">
+																<span class="f-italic t-left text-ellipsis inline-block v-align-mid ins-sub-head" title="Policy Type">Policy Type</span>
+																<span class="inline-block v-align-mid t-center">:</span>
+																<span class="t-left inline-block v-align-mid bold">Property</span>
+															</li>
+													</div>
+												</div>
+											</label>		
+										</div>
+										<div class="policy-btn-blk inline-block p-relative v-align-mid">
+											<div class="p-relative f-sz-12 opensans-regular t-center">
+												<div class="date-blk p-relative">
+													<span class="bold">Sep 24,2014</span>
+													<span>to</span>
+													<span class="bold">Oct 25,2026</span>
+												</div>
+												<div class="match-blk p-relative">
+													<a href="/matchReleaseClaim" class="snap bg-color-green block f-sz-12 ptsans-light t-upper t-center matchReleaseClaim p-relative f-color-w" data-type="matchReleaseClaim">
+														<div>Match & Release Claim</div>				
+													</a>
+												</div>											
+											</div>
+										</div>
 								</div>
 							</div>
 						</div>
@@ -263,183 +361,15 @@
 							</div>
 						</div>
 						
-					</div> -->
+					</div>		 -->	
 					
-					
-				
-					<!-- <div class="feed-block clr-fl">
-						<div class="lf-block left">
-							<div class="feed-det bg-color-dblue p-relative">
-								<div class="feed-det-pad p-relative">
-									<div class="feed-pic-b inline-block v-align-mid">
-										<div id="" class="feed-user-pic-box">
-											<img src="https://scontent-a-sin.xx.fbcdn.net/hphotos-xap1/v/l/t1.0-9/10371471_829516550428290_1138559404412308929_n.jpg?oh=ec4ad2bd950d38c93ea3066ff7485b6b&oe=556A7697" alt="" class="feeduserpic">
-										</div>
-									</div>
-									<div class="feed-user-det-b inline-block v-align-mid">
-										<div class="top-b p-relative">
-											<div class="p-relative inline-block v-align-top">
-												<div class="sprite-im mobile-icon mobile-icon-pos">&nbsp;</div>
-											</div>
-											<div class="p-relative inline-block opensans-regular v-align-bot f-sz-16 cust-name t-caps">Hugh Jackman</div>
-											<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 feed-time t-upper">10.55 AM</div>
-											<div class="p-relative inline-block opensans-regular v-align-bot f-sz-13 alert-color alert-type t-caps">incident alert</div>
-											<div class="p-relative inline-block v-align-mid">
-												<div class="sprite-im rep-icon rep-icon-pos">&nbsp;</div>
-											</div>
-											<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 rep-name t-caps">robert</div>
-										</div>
-										<div class="bot-b">
-											<div class="p-relative inline-block v-align-bot">
-												<div class="sprite-im calendar-icon calendar-icon-pos">&nbsp;</div>
-											</div>
-											<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 feed-date t-caps">Nov 18,2014</div>
-											<div class="p-relative inline-block v-align-bot">
-												<div class="sprite-im map-icon map-icon-pos">&nbsp;</div>
-											</div>
-											<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 feed-location t-caps">California</div>
-											<div class="p-relative inline-block v-align-bot">
-												<div class="sprite-im phone-icon phone-icon-pos">&nbsp;</div>
-											</div>
-											<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 cust-phone t-caps">0000 000 000</div>
-											<div class="p-relative inline-block v-align-bot">
-												<div class="sprite-im email-icon email-icon-pos">&nbsp;</div>
-											</div>
-											<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 cust-email no-right-margin">xyz@mail.com</div>
-										</div>
-									</div>
-									<div class="feed-user-share-b inline-block v-align-mid">
-										<a href="/share" class="snap feed-btn bg-color-green inline-block v-align-mid f-sz-14 opensans-regular f-color-w share p-relative" data-type="share">
-											<div class="t-center mid-align">
-												<div class="sprite-im inline-block v-align-mid share-icon">&nbsp;</div>
-												<span class="feed-menu-text inline-block v-align-mid f-color-w">Share</span>
-											</div>
-										</a>
-										<a href="/view" class="snap feed-btn bg-color-green inline-block v-align-mid f-sz-14 opensans-regular f-color-w view p-relative" data-type="view">
-											<div class="t-center mid-align">
-												<div class="sprite-im inline-block v-align-mid view-icon">&nbsp;</div>
-												<span class="feed-menu-text inline-block v-align-mid f-color-w">View</span>
-											</div>
-										</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="rg-block left p-relative">
-							<div class="feed-det bg-color-dblue p-relative">
-								<div class="feed-docs-pad p-relative docs-block t-center">
-									<a href="/text" class="snap feed-docs inline-block v-align-mid f-sz-14 opensans-regular f-color-green textDoc p-relative" data-type="textDoc">
-											<div class="t-center p-relative">
-												<div class="doc-icon-box" >
-													<div class="sprite-im text-icon doc-icon-placement">&nbsp;</div>																									
-												</div>
-												<div class="doc-cnt-box"><span class="doc-count doc-count-placement">2</span></div>	
-												<div class="feed-menu-text bold">Text</div>
-											</div>
-									</a>
-									<a href="/photos" class="snap feed-docs inline-block v-align-mid f-sz-14 opensans-regular f-color-green photosDoc p-relative" data-type="photosDoc">
-											<div class="t-center p-relative">
-												<div class="doc-icon-box" >
-													<div class="sprite-im photos-icon doc-icon-placement">&nbsp;</div>																									
-												</div>
-												<div class="doc-cnt-box"><span class="doc-count doc-count-placement">2</span></div>	
-												<div class="feed-menu-text bold">Photos</div>
-											</div>
-									</a>
-									<a href="/voice" class="snap feed-docs inline-block v-align-mid f-sz-14 opensans-regular f-color-green voiceDoc p-relative" data-type="voiceDoc">
-											<div class="t-center p-relative">
-												<div class="doc-icon-box" >
-													<div class="sprite-im voice-icon doc-icon-placement">&nbsp;</div>																									
-												</div>
-												<div class="doc-cnt-box"><span class="doc-count doc-count-placement">2</span></div>	
-												<div class="feed-menu-text bold">Voice</div>
-											</div>
-									</a>
-								</div>							
-							</div>
-						</div>					
-					</div>
-					
-					
-					
-					<div class="feed-block clr-fl">
-						<div class="lf-block left">
-							<div class="feed-det bg-color-dblue p-relative">
-								<div class="feed-det-pad p-relative">
-									<div class="feed-pic-b inline-block v-align-mid">
-										<div id="" class="feed-user-pic-box">
-											<img src="https://scontent-a-sin.xx.fbcdn.net/hphotos-xap1/v/l/t1.0-9/10371471_829516550428290_1138559404412308929_n.jpg?oh=ec4ad2bd950d38c93ea3066ff7485b6b&oe=556A7697" alt="" class="feeduserpic">
-										</div>
-									</div>
-									<div class="feed-user-det-b inline-block v-align-mid">
-										<div class="top-b p-relative">
-											<div class="p-relative inline-block v-align-top">
-												<div class="sprite-im mobile-icon mobile-icon-pos">&nbsp;</div>
-											</div>
-											<div class="p-relative inline-block opensans-regular v-align-bot f-sz-16 cust-name t-caps">Hugh Jackman</div>
-											<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 feed-time t-upper">10.55 AM</div>
-											<div class="p-relative inline-block opensans-regular v-align-bot f-sz-13 alert-color alert-type t-caps">incident alert</div>
-											<div class="p-relative inline-block v-align-mid">
-												<div class="sprite-im rep-icon rep-icon-pos">&nbsp;</div>
-											</div>
-											<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 rep-name t-caps">robert</div>
-										</div>
-										<div class="bot-b">
-											<div class="p-relative inline-block v-align-bot">
-												<div class="sprite-im calendar-icon calendar-icon-pos">&nbsp;</div>
-											</div>
-											<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 feed-date t-caps">Nov 18,2014</div>
-											<div class="p-relative inline-block v-align-bot">
-												<div class="sprite-im map-icon map-icon-pos">&nbsp;</div>
-											</div>
-											<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 feed-location t-caps">California</div>
-											<div class="p-relative inline-block v-align-bot">
-												<div class="sprite-im phone-icon phone-icon-pos">&nbsp;</div>
-											</div>
-											<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 cust-phone t-caps">0000 000 000</div>
-											<div class="p-relative inline-block v-align-bot">
-												<div class="sprite-im email-icon email-icon-pos">&nbsp;</div>
-											</div>
-											<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 cust-email no-right-margin">xyz@mail.com</div>
-										</div>
-									</div>
-									<div class="feed-user-share-b inline-block v-align-mid">
-										<a href="/share" class="snap feed-btn bg-color-green inline-block v-align-mid f-sz-14 opensans-regular f-color-w share p-relative" data-type="share">
-											<div class="t-center mid-align">
-												<div class="sprite-im inline-block v-align-mid share-icon">&nbsp;</div>
-												<span class="feed-menu-text inline-block v-align-mid f-color-w">Share</span>
-											</div>
-										</a>
-										<a href="/view" class="snap feed-btn bg-color-green inline-block v-align-mid f-sz-14 opensans-regular f-color-w view p-relative" data-type="view">
-											<div class="t-center mid-align">
-												<div class="sprite-im inline-block v-align-mid view-icon">&nbsp;</div>
-												<span class="feed-menu-text inline-block v-align-mid f-color-w">View</span>
-											</div>
-										</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="rg-block left p-relative">
-							<div class="feed-det bg-color-dblue p-relative">
-								<div class="feed-docs-pad p-relative docs-block t-center">
-									<a href="/changecoverage" class="snap feed-addRemove-block inline-block v-align-mid f-sz-14 opensans-regular f-color-green changeCoverage p-relative" data-type="changeCoverage">
-											<div class="t-center">
-												<div class="sprite-im inline-block v-align-mid message-green-icon">&nbsp;</div>
-												<span class="feed-addRemove-text inline-block v-align-mid t-caps">Add / change coverage on home</span>
-											</div>
-									</a>
-								</div>							
-							</div>
-						</div>					
-					</div>				
-					 -->
 					
 					
 				</div>
 			</div>
-		</div>
-		<footer class="p-absolute bg-color-dblue">
+			</div>
+	</div>
+	<footer class="p-absolute bg-color-dblue">
 				<div class="p-relative foot-in clr-fl">
 					<div class="foot-lb left">
 						<span class="foot-web-addr opensans-regular f-sz-12">protocol.com</span>
@@ -453,15 +383,19 @@
 						</div>
 					</div>
 				</div>
-		</footer>
+	</footer>
 		
+</div>
+
+<div id="spinner" class="anim anim-opacity overlay spinner" style="display:none;">
+	<div class="spin-class p-absolute">
+		<img src="http://www.ibm.com/social-business/us/en/images/socbiz-loader.gif" alt="agency pic" class="setSpinner">
 	</div>
-
-
-<div id="overlay" data-close="overlay" class="anim anim-opacity overlay" style="display:none;">
-	<div class="o-box p-relative">
-		  <div class="sprite-im snap close-icon o-close-pos p-absolute" data-type="hideOverlay"></div>
-		  <div class="o-content p-relative">
+</div>
+<div id="overlay" data-type="closeOverlay" class="overlay" style="display:none;"></div>
+<!-- 	<div class="o-box p-relative">
+		  <div class="sprite-im snap close-icon o-close-pos p-absolute" data-type="closeOverlay"></div>
+		  <div class="o-content p-relative"> -->
 		  
 			<!-- Alert Screen in Overlay -->
 			<!-- <h2 class="t-left opensans-regular f-color-green" style="display:none;">Header</h2>
@@ -551,9 +485,9 @@
 			</div> -->		
 			
 			
-		  </div>
-	</div>
-</div>
+<!-- 		  </div>
+	</div> -->
+
 <script src="js/server.js"></script> 
 <script>
 		function serverInit(){			
@@ -568,5 +502,7 @@
 <script src="https://apis.google.com/js/client.js?onload=serverInit"></script>
 <script src="js/index.js" type="text/javascript"></script>
 <script src="js/template.js" type="text/javascript"></script>
+<script src="js/static.js" type="text/javascript"></script>
+<script src="js/overlay.js" type="text/javascript"></script>
 </body>
 </html>

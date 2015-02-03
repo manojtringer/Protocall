@@ -2,43 +2,6 @@
 // String Replace >>> html = html.replace(/{{example}}/g, example);
 var template = {
 	
-	// headerHTML:function(){
-		// var html = '<header class="w-pad">'
-					// '<div class="logo-info-blk clr-fl p-relative">
-					// <div class="lf-block left clr-fl header-left-panel">
-						// <div class="left">
-							// <div class="logo-holder">
-								// <img src="images/Logo.png" alt="" class="logo" />
-							// </div>
-						// </div>
-						// <div class="left search-blk">
-							// <form name="globalSearch" method="GET" action="#search" class="" onsubmit="event.preventDefault();">
-								// <div class="searchbox-holder">
-									// <input class="search-ip opensans-regular" type="search" name="" placeholder="Search">
-								// </div>
-							// </form>
-						// </div>					
-					// </div>					
-					// <div class="rg-block left p-relative">
-						// <a href="/profile" id="profile" class="logged-user-info clr-fl snap" data-type="profile-link">
-							// <div id="" class="left user-pic-box">
-								// <img src="http://jinigram-dot-soy-key-327.appspot.com/jinigram/service/file/AMIfv94GuelwXfPdF_mNVpTLNC7hT5MU3UzzkD_zBmXLLVxhv7RWlnTrLB7f68jrdJHgD47Y8Qcp2Ojv2e8PF3roruK51bvgbk0Khg4BQ1ZYCHozuSVoEuIHyBC5btQ76HOyw9gXgsonabMRvNLraMx9FLqbsFQrM1ybvPkBG3gbbvb318LhzxP5oyxR7D2ZAMNpLhoa-VoOEtMn3lpItqOqm6ps1DtGlA" alt="Profile pic" class="setProfilePic">
-							// </div>
-							// <div class="left user-info">
-								// <div class="opensans-regular text-ellipsis">
-									// <span>Hi</span>
-									// <span class="t-caps">John Doe</span>
-								// </div>		
-							// </div>
-							// <div class="left sprite-im drop-down-icon user-drop-icon">&nbsp;</div>
-						// </a>
-					// </div>
-				// </div>
-			// </header>'
-		
-		
-	// }
-	
 	subMenuTabHTML:function(){
 		var html = '<a href="/{{subMenuTab-name}}" class="snap submenu-tab bg-color-green right f-sz-16 ptsans-light {{subMenuTab-name}} p-relative" data-type="page" data-submenu="{{subMenuTab-name}}">'
 										+'<div class="sprite-im {{subMenuTab-icon-class}} inline-block tab-icon v-align-mid" style="{{isSubMenuTabIconCl}}">&nbsp;</div>'
@@ -51,9 +14,9 @@ var template = {
 	subMenuBreadCrumbHTML:function(){
 		var html =//'<div class="bcrum-lb-submenu left">'
 									'<a href="#" class="snap left f-sz-16 ptsans-light {{bc-title}} t-upper p-relative f-color-green" data-type="page" data-submenu="{{bc-title}}" class="">'
-									+	'<div class="clr-fl">'
-									+		'<div class="sprite-im left {{bc-icon-class}} mr-space-10 mt-space-ic">&nbsp;</div>'
-									+		'<span class="sub-menu-text left">{{bc-name-title}}</span>'
+									+	'<div class="">'
+									+		'<div class="sprite-im  inline-block v-align-mid {{bc-icon-class}} mr-space-10 ">&nbsp;</div>'
+									+		'<span class="sub-menu-text  inline-block v-align-mid">{{bc-name-title}}</span>'
 									+	'</div>'
 									+'</a>'
 									+'<div class="bcrum-icon-blk left f-color-green f-sz-16 ptsans-light" style="{{isBC_Name}}">></div>'
@@ -73,12 +36,12 @@ var template = {
 	
 	
 	subMenuBlk:function(){
-		var html = '<div class="mb-submenu-in clr-fl">'
-								+'<div class="bcrum-lb-submenu left">'
+		var html = '<div class="mb-submenu-in p-relative">'
+								+'<div class="bcrum-lb-submenu clr-fl inline-block v-align-mid">'
 									// BreadCrumb Zone
 								+	'{{breadcrumb_block}}'
 								+'</div>'
-								+'<div class="tab-rb-submenu right">'
+								+'<div class="tab-rb-submenu  inline-block v-align-mid">'
 								+	'<div class="tab-rb-submenu-in-block p-relative">'
 										// Tab Zone
 								+	'{{tab_block}}'										

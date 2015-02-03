@@ -15,7 +15,7 @@ var CONSTANTS = {
 	CHANNEL_TOKEN : null,
 	LINK_TYPE : {
 		PAGE:"page",HOME_PAGE: "home", CARRIERS_PAGE: "carriers", CUSTOMERS_PAGE: "customers", MY_REP_PAGE: "myreps", LOGIN_page:"login",
-		VIEW_FEED:"view",
+		VIEW_FEED:"view", FEEDS: "feeds",SHARE_TO_REP:"share", CLOSE_OVERLAY:"closeOverlay"
 	},
 	ERROR_MSG : {
 		ajaxFailed: "Oops! This action could not be completed now! Please try again"
@@ -71,7 +71,7 @@ var SUB_MENU = {
 			{
 				TITLE: "my_alerts",
 				ICON_CLASS: "",
-				COUNT : ""
+				COUNT : "24"
 			},
 		],
 		ISSORTBY : true
@@ -171,6 +171,27 @@ var SUB_MENU = {
 	
 };
 
+// DROPDOWN CONSTANTS
+var DROPDOWN = {
+	SORTBY : {
+		CLASS: "highlight",
+		ITEMS: ["Recent", "Alphabetical"]
+		
+	},
+	PROFILE : {
+		CLASS: "normal",
+		ITEMS: ["My Profile", "Settings", "Help", "Log Out"]		
+	},
+	RANGE_SELECTOR:{
+		CLASS: "highlight",
+		ITEMS: ["Alphabetical", "City, State"]		
+	},
+	ALPHABETICAL_SORT:{
+		CLASS: "highlight",
+		ITEMS: ["Select All", "Select A","Select B","Select C","Select D","Select E","Select F","Select G","Select H","Select I","Select J","Select K","Select L","Select M","Select N","Select O","Select P","Select Q","Select R","Select S","Select T","Select U","Select V","Select W","Select X","Select Y","Select Z"]
+	}	
+};
+
 
 //PRE-DEFINED FUNCTIONS
 Array.prototype.remove = function(from, to) {
@@ -198,6 +219,7 @@ Array.prototype.move = function (old_index, new_index) {
 
 $(document).ready(function() {
 	//initialise protocall
+	protocall.displaySpinner(true);
 	setTimeout(function() {
 		// To wait for client endpoint to load
 		protocall.init(); 
@@ -207,6 +229,7 @@ $(document).ready(function() {
 
 protocall = {
 	init: function(){
+		protocall.displaySpinner(true);
 		if(this.isLoggedIn()){
 			this.setPageNavigation(localStorage.currentPage);
         } else {
@@ -221,10 +244,11 @@ protocall = {
         }
 		this.events.createEvents();
 	},
-	loadPage: function(page){
+	loadPage: function(page,subMenu){
 		this.setMenuSelection(page);
+		this.displaySpinner(true);
 		this.setLocalStorage(page);
-		if(page==HOME_PAGE) {			
+		if(page==HOME_PAGE) {		
 			this.view.loadHomePage(false);			
     	} else if(page==CARRIERS_PAGE) {
 			this.view.loadCarrierPage(false);
@@ -284,8 +308,17 @@ protocall = {
 			$(".mb-menu a.customers").addClass("selected-tab");
 		}  else if(page == CONSTANTS.LINK_TYPE.MY_REP_PAGE){
 			$(".mb-menu a.myreps").addClass("selected-tab");
-		}
-		
+		}		
+	},
+	displaySpinner:function(show){
+		if(show){
+			$("#spinner").css("display","block");
+		} else {
+			$("#spinner").css("display","none");			
+		}		
+	},
+	closeOverlay:function(){
+		overlay.closeOverlay();		
 	}
 };
 protocall.events ={
@@ -310,11 +343,12 @@ protocall.events ={
 			var $el = $(e.currentTarget);
 			if($el.prop("tagName")=="A") {e.preventDefault(); }
 			var type = $el.data("type")?$el.data("type"):null;
-			var page = $el.data("page")?$el.data("page"):null;			
+			var page = $el.data("page")?$el.data("page"):null;
+			var subMenu = $el.data("submenu")?$el.data("submenu"):null;
 			if(!type) return;
 			switch(type) {
 				case CONSTANTS.LINK_TYPE.PAGE:
-					if(!page) return;
+					if(!page && !subMenu) return;
 					switch(page) {
 						case CONSTANTS.LINK_TYPE.HOME_PAGE:
 							protocall.view.loadHomePage(true);
@@ -328,10 +362,22 @@ protocall.events ={
 						case CONSTANTS.LINK_TYPE.MY_REP_PAGE:
 							protocall.view.loadMyRepsPage(true);
 							break;
+					}				
+					switch(subMenu) {
+						case CONSTANTS.LINK_TYPE.FEEDS:
+							protocall.view.loadHomePage(true);
+							break;					
 					}
 					break;
 				case CONSTANTS.LINK_TYPE.VIEW_FEED:
 					protocall.view.viewFeed();
+					break;
+				case CONSTANTS.LINK_TYPE.SHARE_TO_REP:
+					protocall.view.shareToRep();
+					break;
+				case CONSTANTS.LINK_TYPE.CLOSE_OVERLAY:
+					protocall.closeOverlay();
+					break;
 				default:
 					break;
 			}
@@ -347,13 +393,14 @@ protocall.events ={
 protocall.view ={
 		loadHomePage:function(isClickEvent){
 			console.log("Load Home Page");
-			protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE,"");
+			protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE);
 			//Call the below in home.js
 			protocall.home.initHomePage();
 			protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
 			if(isClickEvent){
 				protocall.setPage(CONSTANTS.LINK_TYPE.HOME_PAGE, CONSTANTS.LINK_TYPE.HOME_PAGE, CONSTANTS.LINK_TYPE.HOME_PAGE, "");				
 			}
+			protocall.displaySpinner(false);
 		},
 		loadCarrierPage:function(isClickEvent){
 			console.log("Load Carrier Page");
@@ -364,22 +411,37 @@ protocall.view ={
 			if(isClickEvent){
 				protocall.setPage(CONSTANTS.LINK_TYPE.CARRIERS_PAGE,CONSTANTS.LINK_TYPE.CARRIERS_PAGE,CONSTANTS.LINK_TYPE.CARRIERS_PAGE,"");
 			}
+			protocall.displaySpinner(false);
 		},
 		loadCustomerPage:function(isClickEvent){
 			if(isClickEvent){
 				
 			}
-		
+			protocall.displaySpinner(false);
 		},
 		loadMyRepsPage:function(isClickEvent){
 			if(isClickEvent){
 				
-			}		
+			}
+			protocall.displaySpinner(false);
 		},
 		viewFeed:function(){
-			protocall.home.loadFeed();			
+			protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_FEED);
+			protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
+			protocall.setPage(CONSTANTS.LINK_TYPE.HOME_PAGE,CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_FEED,CONSTANTS.LINK_TYPE.VIEW_FEED,"");
+			protocall.home.loadFeed();
+			
+			//Call the below dynamically
+			var breadCrumbObj = {};
+			breadCrumbObj.customerName = "Hugh Jackman";
+			protocall.view.buildSubMenuBlk(CONSTANTS.LINK_TYPE.HOME_PAGE, breadCrumbObj);
+			protocall.displaySpinner(false);
 		},
-		buildSubMenuBlk:function(page){
+		shareToRep:function(){					
+			var html = staticTemplate.home.shareWithRepTemplate();
+			overlay.displayOverlay(html);			
+		},
+		buildSubMenuBlk:function(page, breadCrumbObj){
 			var subMenuBlockTemplate = template.subMenuBlk(),
 				subMenuSortHTML = template.subMenuSortHTML(),
 				subMenuBreadCrumbHTML = template.subMenuBreadCrumbHTML(),
@@ -398,6 +460,10 @@ protocall.view ={
 						bcTotalHTML = "";
 					var isBCNamePresent = "display:none;";
 					var customerName = "";
+					if(breadCrumbObj && breadCrumbObj!= undefined){
+						isBCNamePresent = "display:inline-block;"
+						customerName = breadCrumbObj.customerName;
+					}
 					for(var bc =0; bc < subMenuObj.BREADCRUMB.length; bc++){
 						var bcHTML = template.subMenuBreadCrumbHTML();
 						var titleSplitArray = subMenuObj.BREADCRUMB[bc].TITLE.split("_");
@@ -429,8 +495,8 @@ protocall.view ={
 					var subMenuTabCount = "";
 					for(var t =0; t < subMenuObj.TABS.length; t++){
 						var tabHtml = template.subMenuTabHTML();
-						isSubMenuIconClass = (subMenuObj.TABS[t].ICON_CLASS!="") ? "display:block;": "display:none;";
-						isSubMenuCountClass = (subMenuObj.TABS[t].COUNT!="") ? "display:block;": "display:none;";
+						isSubMenuIconClass = (subMenuObj.TABS[t].ICON_CLASS!="") ? "display:inline-block;": "display:none;";
+						isSubMenuCountClass = (subMenuObj.TABS[t].COUNT!="") ? "display:inline-block;": "display:none;";
 						
 						var titleSplitArray = subMenuObj.TABS[t].TITLE.split("_");
 						var hrefTabTags = "", titleTabName = "";
@@ -452,6 +518,10 @@ protocall.view ={
 						tabTotalHTML = tabTotalHTML + tabHtml;
 					}					
 				}
+				if(breadCrumbObj && breadCrumbObj!= undefined){
+					tabTotalHTML = "";
+				}
+				
 				var tabsWithSortHTML = "";
 				if(subMenuObj.ISSORTBY){					
 					var sortHtml = template.subMenuSortHTML();
@@ -484,9 +554,14 @@ protocall.home = {
 		//var resp = utils.server.makeServerCall(page,data,callback,authId,deepPath,spinnerMsg);
 		//console.log(resp);
 		protocall.view.buildSubMenuBlk(page);
-		var template = protocall.home.staticFeedTemplate();
+		var totalHTML = "";
+		var totalLen = 5;
+		for(var h = 0; h < totalLen; h++){
+			var template = staticTemplate.home.staticFeedTemplate();
+			totalHTML = totalHTML + template;
+		}
 		$(".content-holder").empty();
-		$(".content-holder").append($(template));
+		$(".content-holder").append($(totalHTML));
 		
 	},
 	loadHomePageData : function(data,page){		
@@ -497,8 +572,7 @@ protocall.home = {
 			for(var r = 0; r < result.length; r++){
 				var alertDetailsObj = result[r].alertDetails;
 				var userDetailsObj = result[r].userDetails;
-				var representativeDetailsObj = result[r].representativeDetails;
-				
+				var representativeDetailsObj = result[r].representativeDetails;				
 			}	
 		}	
 	},
@@ -506,243 +580,21 @@ protocall.home = {
 		
 		
 	},
-	loadFeed:function(){
-		var html = protocall.home.staticFeedViewTemplate();
+	loadFeed:function(){		
+		var html = staticTemplate.home.staticFeedViewTemplate();
 		$(".content-holder").empty();
 		$(".content-holder").append($(html));
-		
-	},
-	staticFeedTemplate:function(){
-		var html = '<div class="feed-block clr-fl">'
-						+'<div class="lf-block left">'
-							+'<div class="feed-det bg-color-dblue p-relative">'
-								+'<div class="feed-det-pad p-relative">'
-									+'<div class="feed-pic-b inline-block v-align-mid">'
-										+'<div id="" class="feed-user-pic-box">'
-											+'<img src="" alt="" class="feeduserpic">'
-										+'</div>'
-									+'</div>'
-									+'<div class="feed-user-det-b inline-block v-align-mid">'
-										+'<div class="top-b p-relative">'
-											+'<div class="p-relative inline-block v-align-top">'
-												+'<div class="sprite-im mobile-icon mobile-icon-pos">&nbsp;</div>'
-											+'</div>'
-											+'<div class="p-relative inline-block opensans-regular v-align-bot f-sz-16 cust-name t-caps">Hugh Jackman</div>'
-											+'<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 feed-time t-upper">10.55 AM</div>'
-											+'<div class="p-relative inline-block opensans-regular v-align-bot f-sz-13 alert-color alert-type t-caps">incident alert</div>'
-											+'<div class="p-relative inline-block v-align-mid">'
-												+'<div class="sprite-im rep-icon rep-icon-pos">&nbsp;</div>'
-											+'</div>'
-											+'<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 rep-name t-caps">robert</div>'
-										+'</div>'
-										+'<div class="bot-b">'
-											+'<div class="p-relative inline-block v-align-bot">'
-												+'<div class="sprite-im calendar-icon calendar-icon-pos">&nbsp;</div>'
-											+'</div>'
-											+'<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 feed-date t-caps">Nov 18,2014</div>'
-											+'<div class="p-relative inline-block v-align-bot">'
-												+'<div class="sprite-im map-icon map-icon-pos">&nbsp;</div>'
-											+'</div>'
-											+'<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 feed-location t-caps">California</div>'
-											+'<div class="p-relative inline-block v-align-bot">'
-												+'<div class="sprite-im phone-icon phone-icon-pos">&nbsp;</div>'
-											+'</div>'
-											+'<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 cust-phone t-caps">0000 000 000</div>'
-											+'<div class="p-relative inline-block v-align-bot">'
-												+'<div class="sprite-im email-icon email-icon-pos">&nbsp;</div>'
-											+'</div>'
-											+'<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 cust-email no-right-margin">xyz@mail.com</div>'
-										+'</div>'
-									+'</div>'
-									+'<div class="feed-user-share-b inline-block v-align-mid">'
-										+'<a href="/share" class="snap feed-btn bg-color-green inline-block v-align-mid f-sz-14 opensans-regular f-color-w share p-relative" data-type="share">'
-											+'<div class="t-center mid-align">'
-												+'<div class="sprite-im inline-block v-align-mid share-icon">&nbsp;</div>'
-												+'<span class="feed-menu-text inline-block v-align-mid f-color-w">Share</span>'
-											+'</div>'
-										+'</a>'
-										+'<a href="/view" class="snap feed-btn bg-color-green inline-block v-align-mid f-sz-14 opensans-regular f-color-w view p-relative" data-type="view">'
-											+'<div class="t-center mid-align">'
-												+'<div class="sprite-im inline-block v-align-mid view-icon">&nbsp;</div>'
-												+'<span class="feed-menu-text inline-block v-align-mid f-color-w">View</span>'
-											+'</div>'
-										+'</a>'
-									+'</div>'
-								+'</div>'
-							+'</div>'
-						+'</div>'
-						+'<div class="rg-block left p-relative">'
-							+'<div class="feed-det bg-color-dblue p-relative">'
-								+'<div class="feed-docs-pad p-relative docs-block t-center">'
-									+'<a href="/text" class="snap feed-docs inline-block v-align-mid f-sz-14 opensans-regular f-color-green textDoc p-relative" data-type="textDoc">'
-											+'<div class="t-center p-relative">'
-												+'<div class="doc-icon-box" >'
-													+'<div class="sprite-im text-icon doc-icon-placement">&nbsp;</div>'																									
-												+'</div>'
-												+'<div class="doc-cnt-box"><span class="doc-count doc-count-placement">2</span></div>'	
-												+'<div class="feed-menu-text bold">Text</div>'
-											+'</div>'
-									+'</a>'
-									+'<a href="/photos" class="snap feed-docs inline-block v-align-mid f-sz-14 opensans-regular f-color-green photosDoc p-relative" data-type="photosDoc">'
-											+'<div class="t-center p-relative">'
-												+'<div class="doc-icon-box" >'
-													+'<div class="sprite-im photos-icon doc-icon-placement">&nbsp;</div>'
-												+'</div>'
-												+'<div class="doc-cnt-box"><span class="doc-count doc-count-placement">2</span></div>'
-												+'<div class="feed-menu-text bold">Photos</div>'
-											+'</div>'
-									+'</a>'
-									+'<a href="/voice" class="snap feed-docs inline-block v-align-mid f-sz-14 opensans-regular f-color-green voiceDoc p-relative" data-type="voiceDoc">'
-											+'<div class="t-center p-relative">'
-												+'<div class="doc-icon-box" >'
-													+'<div class="sprite-im voice-icon doc-icon-placement">&nbsp;</div>'																							
-												+'</div>'
-												+'<div class="doc-cnt-box"><span class="doc-count doc-count-placement">2</span></div>'	
-												+'<div class="feed-menu-text bold">Voice</div>'
-											+'</div>'
-									+'</a>'
-								+'</div>'							
-							+'</div>'
-						+'</div>'			
-					+'</div>';
-					
-		return html;
-	},
-	
-	
-	staticFeedViewTemplate:function(){
-		var html = '<div class="view-feed-block">'
-						+'<div class="view-in-blocks inline-block bg-color-dblue p-relative">'
-							+'<div class="p-relative">'
-								+'<div class="feed-user-top-details">'
-									+'<div class="feed-pic-b inline-block v-align-mid">'
-										+'<div id="" class="feed-user-pic-box border-all">'
-											+'<img src="" alt="" class="feeduserpic">'
-										+'</div>'
-									+'</div>'
-									
-									+'<div class="feed-user-details-top inline-block v-align-mid">'
-										+'<div class="line1">'
-											+'<div class="p-relative inline-block v-align-top">'
-												+'<div class="sprite-im mobile-icon mobile-icon-pos">&nbsp;</div>'
-											+'</div>'
-											+'<div class="p-relative inline-block opensans-regular v-align-bot f-sz-16 cust-name t-caps bold">Hugh Jackman</div>'
-											+'<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 feed-time t-upper">10.55 AM</div>'
-										+'</div>'
-										+'<div class="line1">'
-											+'<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 cust-name t-caps">Male</div>'
-											+'<div class="p-relative inline-block v-align-top">'
-												+'<div class="sprite-im mobile-icon mobile-icon-pos">&nbsp;</div>'
-											+'</div>'										
-											+'<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 cust-bday t-upper">19/05/1985</div>'
-										+'</div>'
-										+'<div class="feed-user-other-details">'
-											+'<div class="p-relative inline-block v-align-bot">'
-													+'<div class="sprite-im calendar-icon calendar-icon-pos">&nbsp;</div>'
-											+'</div>'
-											+'<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 feed-date t-caps">Nov 18,2014</div>'
-											+'<div class="p-relative inline-block v-align-bot">'
-												+'<div class="sprite-im map-icon map-icon-pos">&nbsp;</div>'
-											+'</div>'
-											+'<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 feed-location t-caps">California</div>'
-											+'<div class="p-relative inline-block v-align-bot">'
-												+'<div class="sprite-im phone-icon phone-icon-pos">&nbsp;</div>'
-											+'</div>'
-											+'<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 cust-phone t-caps">0000 000 000</div>'
-											+'<div class="p-relative inline-block v-align-bot">'
-												+'<div class="sprite-im email-icon email-icon-pos">&nbsp;</div>'
-											+'</div>'
-											+'<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 cust-email no-right-margin">xyz@mail.com</div>'								
-										+'</div>'									
-									+'</div>'							
-								+'</div>'
-								+'<div class="feed-user-bottom-details">'
-									+'<div class="inline-block v-align-mid">'
-										+'<a href="/share" class="snap feed-btn bg-color-green block f-sz-14 opensans-regular f-color-w share p-relative t-center" data-type="share">'
-											+'<div class="t-center mid-align">'
-												+'<div class="sprite-im inline-block v-align-mid share-icon">&nbsp;</div>'
-												+'<span class="feed-menu-text inline-block v-align-mid f-color-w">Share</span>'
-											+'</div>'
-										+'</a>'
-										+'<div class="bg-color-green block feed-btn f-sz-14 opensans-regular f-color-w p-relative t-center alert-type-box">Incident Alert'											
-										+'</div>'
-									+'</div>'
-
-									+'<div class="inline-block v-align-mid" style="display:none;">'
-										+'<a href="/text" class="snap feed-doc-btn block f-sz-14 opensans-regular textDoc p-relative" data-type="textDoc">'
-											+'<div class="t-center p-relative bg-color-white f-color-green">'
-												+'<div class="doc-icon-box inline-block">'
-													+'<div class="sprite-im text-icon doc-icon-placement">&nbsp;</div>'																								
-												+'</div>'
-												+'<div class="feed-menu-text inline-block f-color-green">Files</div>'
-											+'</div>'
-											+'<div class="t-center p-relative bg-color-green f-color-w">'
-												+'<div class="file-count inline-block">2</div>'
-												+'<div class="inline-block">View</div>'
-											+'</div>'
-										+'</a>'
-									+'</div>'
-									+'<div class="inline-block v-align-mid" style="display:none;">'
-										+'<a href="/photos" class="snap feed-doc-btn block f-sz-14 opensans-regular photosDoc p-relative" data-type="photosDoc">'
-											+'<div class="t-center p-relative bg-color-white f-color-green">'
-												+'<div class="doc-icon-box inline-block">'
-													+'<div class="sprite-im photos-icon doc-icon-placement">&nbsp;</div>'																								
-												+'</div>'											
-												+'<div class="feed-menu-text inline-block f-color-green">Photos</div>'
-											+'</div>'
-											+'<div class="t-center p-relative bg-color-green f-color-w">'
-												+'<div class="file-count inline-block">2</div>'
-												+'<div class="inline-block">View</div>'
-											+'</div>'
-										+'</a>'
-									+'</div>'
-									+'<div class="inline-block v-align-mid" style="display:none;">'
-										+'<a href="/voice" class="snap feed-doc-btn block f-sz-14 opensans-regular voiceDoc p-relative" data-type="voiceDoc">'
-											+'<div class="t-center p-relative bg-color-white f-color-green">'
-												+'<div class="doc-icon-box inline-block">'
-													+'<div class="sprite-im voice-icon doc-icon-placement">&nbsp;</div>'																									
-												+'</div>'							
-												+'<div class="feed-menu-text inline-block f-color-green">Voice</div>'
-											+'</div>'
-											+'<div class="t-center p-relative bg-color-green f-color-w">'
-												+'<div class="file-count inline-block">2</div>'
-												+'<div class="inline-block">View</div>'
-											+'</div>'
-										+'</a>'
-									+'</div>'
-									+'<div class="inline-block v-align-mid">'
-										+'<a href="/changecoverage" class="snap feed-doc-btn block f-sz-17 opensans-regular f-color-green changeCoverage p-relative" data-type="changeCoverage">'
-											+'<div class="t-center p-relative">'
-												+'<div class="sprite-im message-green-icon center-icon">&nbsp;</div>'									
-											+'</div>'
-											+'<div class="feed-addRemove-text t-center p-relative t-caps">Add / change coverage on home</div>'
-										+'</a>'
-									+'</div>'
-								+'</div>'
-							+'</div>'
-						+'</div>'
-						+'<div class="view-in-blocks inline-block bg-color-dblue p-relative">'
-							+'<div class="p-relative">'
-								+'<div class="insurance-policy-blk">'
-									
-								
-								+'</div>'
-							+'</div>'
-						+'</div>'
-						+'<div class="related-feeds p-relative">'
-							+'<div class="rel-feeds-title border-bot text-color-overlay">'
-								+'<div class="f-sz-14 opensans-regular t-upper">Related Feeds</div>'
-							+'</div>'
-							+'<div class="rel-feeds-content">'
-							+'</div>'
-						+'</div>'
-						
-					+'</div>';
-					
-		return html;
-		
+		var totalHTML = "";
+		var totalLen = 1;
+		for(var h = 0; h < totalLen; h++){
+			var template = staticTemplate.home.staticFeedTemplate();
+			totalHTML = totalHTML + template;
+		}
+		$(".rel-feeds-content").empty();
+		$(".rel-feeds-content").append($(totalHTML));
 		
 	}
+	
 	
 };
 
