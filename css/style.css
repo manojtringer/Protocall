@@ -192,7 +192,7 @@ max-height: 53px;
 
 .logo-info-blk{
 max-height: 90px;
-margin:20px auto 15px auto;
+margin:0px auto 15px auto;
 overflow: hidden;
 }
 
@@ -632,6 +632,9 @@ color: #fff;
 background: #f34f4e;
 }
 
+.feed-menu-text{padding-left:5px;}
+
+
 .submenu-tab >span:first-child{
 text-transform:capitalize;
 }
@@ -771,6 +774,7 @@ margin-right:0 !important;
 width: 25%;
 position: relative;
 /*margin-left: 20px;*/
+font-family: 'PTSansLight';
 }
 
 .feed-user-share-b .feed-btn{
@@ -1242,7 +1246,7 @@ background: #f34f4e;
 }
 
 .carriers-left-content,.carriers-right-content{
-    width: 48%;
+    width: 45%;
     padding: 5px;
     height: 150px;
 }
@@ -1559,6 +1563,12 @@ width: 95%;
 		line-height: 15px;
 }
 
+.spanCLassElement{
+margin: 15px 20px;
+padding-bottom: 10px;
+
+}
+
 /**************** Overlay Contents ***********************/
 
 
@@ -1568,10 +1578,10 @@ width: 95%;
 
 .myshare{float: left;width:50%;}
 .myview{float: left;width:50%;}
-.inner-share-spacing{background: #379ba2;margin-right: 5px;padding:5px;}
+.inner-share-spacing{background: #379ba2;margin-right: 5px;padding:5px;cursor:pointer;}
 .inner-share-spacing:first-child{margin-right: 5px;padding:5px; }
 .inner-share-spacing:hover{background: #f34f4e;}
-.inner-view-spacing{background: #379ba2;margin-left: 5px;padding:5px; }
+.inner-view-spacing{background: #379ba2;margin-left: 5px;padding:5px;cursor:pointer; }
 .inner-view-spacing:hover{background: #f34f4e;}
 
 
@@ -1603,7 +1613,7 @@ font-size: 13px;
 width:100%;
 margin:auto;
 }
-.ctrl-blk{padding:25px;}
+.ctrl-blk{padding:0px 25px;}
 
 .w-pad{
 width:100%;

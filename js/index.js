@@ -18,7 +18,7 @@ var CONSTANTS = {
 		PAGE:"page",HOME_PAGE: "home", CARRIERS_PAGE: "carriers", CUSTOMERS_PAGE: "customers", MY_REP_PAGE: "myreps", LOGIN_page:"login",
 		VIEW_FEED:"view", FEEDS: "feeds",SHARE_TO_REP:"share", CLOSE_OVERLAY:"closeOverlay", EDIT_AGENCY_PIC:"editAgencyPic", 
 		MY_ALERTS:"myalerts",INCIDENTS:"incidents",POLICIES:"policies",MATCH_RELEASE_CLAIMS:"matchReleaseClaim",INVITE_REPS:"invitereps",
-		ASSIGN_TO_REPS:"assignrep"
+		ASSIGN_TO_REPS:"assignrep",PHOTS_OVERLAY_DISPLAY:"photosDoc",THUMB_NAIL :"thumbNail",PREVIOUS :"previous", NEXT : "next"
 	},
 	ERROR_MSG : {
 		ajaxFailed: "Oops! This action could not be completed now! Please try again"
@@ -351,6 +351,9 @@ protocall = {
 	},
 	closeOverlay:function(){
 		overlay.closeOverlay();		
+	},
+	closePopUp:function(){
+		popUpContent.closePopUpContent();		
 	}
 };
 protocall.events ={
@@ -362,9 +365,15 @@ protocall.events ={
 				e.stopPropagation();
 				protocall.events.handleClick(e);
 			});
+			$(document).on("click",".overalyPhots", function(e) {
+				e.stopPropagation();
+				console.log(".o-content");
+				protocall.events.handleClickForPhotosOverlay(e);
+			});
 			$(window).on("resize", function(e) {
 				protocall.events.handleResize(e);
 			});
+						
 		
 		},
 		handleScroll:function(){
@@ -416,6 +425,9 @@ protocall.events ={
 						case CONSTANTS.LINK_TYPE.ASSIGN_TO_REPS:
 							protocall.view.loadAssignToReps($el,true);
 							break;
+						case CONSTANTS.LINK_TYPE.SORTBY:
+							protocall.view.loadSortBy($el,true);
+							break;	
 						default:
 							break;
 					}
@@ -429,16 +441,68 @@ protocall.events ={
 				case CONSTANTS.LINK_TYPE.CLOSE_OVERLAY:
 					protocall.closeOverlay();
 					break;
+				case CONSTANTS.LINK_TYPE.CLOSE_POPUP:
+					protocall.closePopUp();
+					break;
 				case CONSTANTS.LINK_TYPE.EDIT_AGENCY_PIC:
 					protocall.view.editAgencyPic();
 					break;
 				case CONSTANTS.LINK_TYPE.MATCH_RELEASE_CLAIMS:
 					protocall.view.matchReleaseClaimAlert();
-					break;	
+					break;
+				case CONSTANTS.LINK_TYPE.MY_PROFILE:
+					protocall.view.loadProfile($el);
+					break;
+				case CONSTANTS.LINK_TYPE.PHOTS_OVERLAY_DISPLAY:
+					protocall.view.staticPhotOverlayDisplay();
+							break;
 				default:
 					break;
 			}
 		
+		},
+		handleClickForPhotosOverlay:function(e){
+			console.log("hello"+$(this).find("img").attr("src"));
+			var $el = $(e.currentTarget);
+			console.log("valuers"+$el.data("type"));
+			var type = $el.data("type")?$el.data("type"):null;
+			console.log("data type is"+type);
+			switch(type) {
+				case CONSTANTS.LINK_TYPE.THUMB_NAIL:
+					protocall.view.displayOrignalImage($el);
+				break;
+				case CONSTANTS.LINK_TYPE.PREVIOUS:
+					protocall.view.displayPreviousImage($el);
+				break;
+				case CONSTANTS.LINK_TYPE.NEXT:
+					protocall.view.displayNextImage($el);
+				break;
+				default:
+					break;
+			}
+			/* $("#thumbNailImages li a").click(function(e){
+				$(".previous").show();
+				$(".next").show();
+				console.log("event fired"+$(this).find("img").attr("src"));
+				$(this).addClass("active");
+				$("#viewingImage").html('<img src='+$(this).find("img").attr("src")+' style="width:200px;height:200px;position: absolute;left: 250px;top: 76px;" />');
+				return false;
+			});
+			$(".previous").click(function(e){
+				//console.log("clicked"+clickedParent);
+				var $liElement = $("#thumbNailViewImages li");
+				$.each($liElement,function(index,element){
+				
+					console.log($(this));
+					if(($(this).find("a").hasClass("active"))){
+						console.log("count in back");
+						console.log("parent"+$(this).parent());
+						loadingScrollBack($(this));
+					}
+				});
+				//loadingScrollBack(clickedParent);
+				e.preventDefault();
+			}); */
 		},
 		handleResize:function(){
 			
@@ -458,6 +522,8 @@ protocall.view ={
 				protocall.setPage(CONSTANTS.LINK_TYPE.HOME_PAGE, CONSTANTS.LINK_TYPE.HOME_PAGE, CONSTANTS.LINK_TYPE.HOME_PAGE, "");				
 			}
 			protocall.displaySpinner(false);
+			var $myAlerts = $(".myalerts")
+			protocall.view.setSelectedLinkClasses($myAlerts,true);
 		},
 		loadCarrierPage:function(isClickEvent){
 			console.log("Load Carrier Page");
@@ -555,10 +621,27 @@ protocall.view ={
 			}
 		},
 		
+		loadSortBy:function($el){
+			var html = "<div>static content</div>";
+			popUpContent.displayPopUpContent($el,html);
+		},
+		loadProfile:function($el){
+			var html = "<div>static content</div>";
+			popUpContent.displayPopUpContent($el,html);			
+		},
+
 		shareToRep:function(){					
 			var html = staticTemplate.home.shareWithRepTemplate();
 			overlay.displayOverlay(html);			
 		},
+		/*Added by Naveen -- Start*/
+		staticPhotOverlayDisplay:function(){
+			var html = staticTemplate.home.showPhotsOverlayTemplate();
+			overlay.displayOverlay(html);
+			overlay.sliderControl();
+			protocall.displaySpinner(false);			
+		},
+		/*Added by Naveen -- End*/
 		editAgencyPic:function(){
 			var html = staticTemplate.home.editAgencyPicTemplate();
 			overlay.displayOverlay(html);			
@@ -675,6 +758,54 @@ protocall.view ={
 				$(".mb-submenu").append($(subMenuBlockTemplate));
 			}
 			
+		}, 
+		displayOrignalImage : function($e1){
+			console.log($e1.find("img").attr("src"));
+			$("#thumbNailImages li a").removeClass("active");
+			$e1.addClass("active");
+			$("#viewingImage").html('<img src='+$e1.find("img").attr("src")+' style="width:200px;height:200px;position: absolute;left: 214px;top: 76px;" />');
+			$(".previous").show();
+			$(".next").show();
+		},
+		displayPreviousImage : function(){
+			var $liElement = $("#thumbNailImages li");
+				$.each($liElement,function(index,element){
+					if(($(this).find("a").hasClass("active"))){
+						protocall.view.loadingScrollPrevious($(this));
+						return false;
+					}
+				});
+		},
+		displayNextImage : function(){
+			var $liElement = $("#thumbNailImages li");
+			 	$.each($liElement,function(index,element){
+					if(($(this).find("a").hasClass("active"))){
+						protocall.view.loadingScrollNext($(this));
+						return false;
+					}
+				});
+		},
+		loadingScrollNext : function(liEleme){
+			var indexValue = $("#thumbNailImages li").index(liEleme)+1 , nextElementToBeloaded;
+			if(indexValue !== 0 && indexValue < $("#thumbNailImages li").length){
+				nextElementToBeloaded = $("#thumbNailImages li:eq( "+indexValue+" )");
+				$("#thumbNailImages li a").removeClass("active");
+				nextElementToBeloaded.find("a").addClass("active");
+				imageSrcTobeLoadedBack = nextElementToBeloaded.find("img").attr("src");
+				$("#viewingImage").html('<img src='+imageSrcTobeLoadedBack+' style="width:200px;height:200px;position: absolute;left: 214px;top: 76px;" />');
+			}	
+		},
+		loadingScrollPrevious : function(liEleme){
+			var indexValue = $("#thumbNailImages li").index(liEleme)-1 , nextElementToBeloaded;
+			console.log("loadingScrollBack"+indexValue);
+			if(indexValue !== -1){
+				nextElementToBeloaded = $("#thumbNailImages li:eq( "+indexValue+" )");
+				$("#thumbNailImages li a").removeClass("active");
+				nextElementToBeloaded.find("a").addClass("active");
+				imageSrcTobeLoadedBack = nextElementToBeloaded.find("img").attr("src");
+				console.log("imageSrcTobeLoaded"+imageSrcTobeLoadedBack);
+				$("#viewingImage").html('<img src='+imageSrcTobeLoadedBack+' style="width:200px;height:200px;position: absolute;left: 214px;top: 76px;" />');
+			}	
 		}
 };
 

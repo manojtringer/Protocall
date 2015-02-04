@@ -416,6 +416,32 @@ var staticTemplate = {
 			return html;			
 		},
 		
+		/*Added by Naveen - Start */
+		showPhotsOverlayTemplate:function(){
+			var html ='<div class="o-sub-content p-relative">'
+					+'<div class="clr-fl">'
+						+'<div style="width:30%;float:left;">'
+							+'<ul style="list-style:none;padding:0px;" id="thumbNailImages">'
+								+'<li><a href="javascript:void(0)" class="overalyPhots" data-type="thumbNail"><img src="images/carDamage1.png" style="width: 100px; height: 100px" /></a></li>'
+								+'<li><a href="javascript:void(0)" class="overalyPhots" data-type="thumbNail"><img src="images/carDamage2.png" style="width: 100px; height: 100px" /></a></li>'
+								+'<li><a href="javascript:void(0)" class="overalyPhots" data-type="thumbNail"><img src="images/carDamage3.png" style="width: 100px; height: 100px" /></a></li>'
+							+'</ul>'
+						+'</div>'
+						+'<div id="slider-vertical" style="float:left;position: absolute;height: 312px;left: 123px;top: 10px;">'
+						+'</div>'
+						+'<div style="width:70%;float:left;border-bottom: 1px solid #b9b8b8;padding:10px 0px;">'
+							+'<span class="spanCLassElement t-left f-color-green opensans-regular" style="margin:0px">Accident Image</span><span class="spanCLassElement f-italic" style="margin:0px;color:#939393;font-size:11px">,New jersy</span>'
+							+'<img src="images/saveImage.png" style="width:20px;height:20px;position: absolute;right: 170px;"/>'
+							+'<img src="images/printImage.png" style="width:20px;height:20px;position: absolute;right: 135px;"/>'
+							+'<a href="javascript:void(0)" class="overalyPhots previous" data-type="previous" style="position: absolute;top: 150px;left: 176px;"><img src="images/backwardArrow.png" /></a>'
+							+'<div id="viewingImage"></div>'
+							+'<a href="javascript:void(0)" class="overalyPhots next" data-type="next" style="position: absolute;top: 150px;right: 35px;"><img src="images/frontArrow.png" /></a>'
+						+'</div>'
+					+'</div>';
+			return html;			
+		},
+		/*Added by Naveen - End */
+		
 		assignToRepTemplate:function(){
 			var html = '<h2 class="t-left f-color-green opensans-regular" style="">Assign to Representatives</h2>'
 							+'<div class="o-sub-content p-relative">'
