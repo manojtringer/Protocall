@@ -18,7 +18,7 @@ var CONSTANTS = {
 		PAGE:"page",HOME_PAGE: "home", CARRIERS_PAGE: "carriers", CUSTOMERS_PAGE: "customers", MY_REP_PAGE: "myreps", LOGIN_page:"login",
 		VIEW_FEED:"view", FEEDS: "feeds",SHARE_TO_REP:"share", CLOSE_OVERLAY:"closeOverlay", EDIT_AGENCY_PIC:"editAgencyPic", 
 		MY_ALERTS:"myalerts",INCIDENTS:"incidents",POLICIES:"policies",MATCH_RELEASE_CLAIMS:"matchReleaseClaim",INVITE_REPS:"invitereps",
-		ASSIGN_TO_REPS:"assignrep",PHOTS_OVERLAY_DISPLAY:"photosDoc",THUMB_NAIL :"thumbNail",PREVIOUS :"previous", NEXT : "next"
+		ASSIGN_TO_REPS:"assignrep",PHOTS_OVERLAY_DISPLAY:"photosDoc",THUMB_NAIL :"thumbNail",PREVIOUS :"previous", NEXT : "next",VIEW_CARRIER_FEEDVIEW:"viewcarrierfeedview"
 	},
 	ERROR_MSG : {
 		ajaxFailed: "Oops! This action could not be completed now! Please try again"
@@ -432,6 +432,9 @@ protocall.events ={
 							break;
 					}
 					break;
+				case CONSTANTS.LINK_TYPE.VIEW_CARRIER_FEEDVIEW:
+					protocall.view.viewCarrierViewFeed(true);
+					break;
 				case CONSTANTS.LINK_TYPE.VIEW_FEED:
 					protocall.view.viewFeed(true);
 					break;
@@ -572,6 +575,22 @@ protocall.view ={
 				protocall.view.setSelectedLinkClasses($(this),false);
 			});
 			protocall.view.buildSubMenuBlk(CONSTANTS.LINK_TYPE.HOME_PAGE, breadCrumbObj);
+			protocall.displaySpinner(false);
+		},
+		viewCarrierViewFeed:function(isClickEvent){
+			protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.CARRIERS_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_CARRIER_FEEDVIEW);
+			protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CARRIERS_PAGE);
+			if(isClickEvent){
+				protocall.setPage(CONSTANTS.LINK_TYPE.CARRIERS_PAGE,CONSTANTS.LINK_TYPE.CARRIERS_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_CARRIER_FEEDVIEW,CONSTANTS.LINK_TYPE.VIEW_CARRIER_FEEDVIEW,"");
+			}
+			protocall.carrier.loadFeed();		
+			//Call the below dynamically
+			var breadCrumbObj = {};
+			breadCrumbObj.customerName = "Way to Safe";
+			$('.tab-rb-submenu a').each(function(){
+				protocall.view.setSelectedLinkClasses($(this),false);
+			});
+			protocall.view.buildSubMenuBlk(CONSTANTS.LINK_TYPE.CARRIERS_PAGE, breadCrumbObj);
 			protocall.displaySpinner(false);
 		},
 		loadMyAlertsFeeds:function($el,isClickEvent){
@@ -906,7 +925,21 @@ protocall.carrier = {
 		var template = staticTemplate.carriers.staticCarrierTemplate();
 		$(".content-holder").empty();
 		$(".content-holder").append($(template));
-	}
+	},
+	loadFeed:function(){		
+		var html = staticTemplate.carriers.staticCarrierFeedViewTemplate();
+		$(".content-holder").empty();
+		$(".content-holder").append($(html));
+		var totalHTML = "";
+		var totalLen = 1;
+		for(var h = 0; h < totalLen; h++){
+			var template = staticTemplate.carriers.staticCarrierFeedViewTemplate();
+			totalHTML = totalHTML + template;
+		}
+		$(".rel-feeds-content").empty();
+		$(".rel-feeds-content").append($(totalHTML));
+		
+	},
 };
 protocall.customer = {
 	initCustomerPage:function(){

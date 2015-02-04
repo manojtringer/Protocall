@@ -1180,7 +1180,122 @@ background: #f34f4e;
 	
 
 
-/************* Carrier Page ********************/
+/************* Carrier View Page ********************/
+.carrier-view-name{
+	color: #989898;
+	font-size: 16px;
+	margin-right: 15px;
+	}
+   .carrier-view-id{
+    color: #989898;
+	font-size: 16px;
+	margin-right: 15px;
+   }
+.carrier-view-parent{
+overflow: hidden;
+}
+
+.carrier-view-auth{
+padding: 15px 15px;
+}
+.carrier-logo-view{
+width: 94%;
+background-color: #eee;
+margin-left: 15px;
+}
+.carrierlogo-viewpic{
+position: relative;
+overflow: hidden;
+margin: auto;
+width:175px;
+padding: 19px 15px 15px 15px;
+}
+.carrier-view-social{
+width: 96%;
+padding: 15px 15px;
+}
+.carrier-view-website{
+padding: 6px;
+bottom: 8px;
+margin-right: 6px;
+width: 44%;
+}
+.carrier-view-facebook{
+padding: 6px;
+bottom: 8px;
+margin-right: 6px;
+width: 44%;
+}
+.carrier-website-name{
+   
+	font-size: 16px;
+	margin-right: 15px;
+}
+.carrier-facebook-name{
+    
+	font-size: 16px;
+	margin-right: 15px;
+}
+
+.carrier-view-info1{
+/*width:100%;*/
+margin-left: 15px;
+}
+.carrier-view-info2{
+width:100%;
+}
+.carrier-info-left{
+padding: 10px 0px 15px 30px;
+}
+.carrier-info-right{
+padding: 20px 10px 10px 10px;
+}
+.carrier-info-left-name{
+     font-size: 16px;
+	margin-right: 15px;
+}
+
+.carrierinternal-block{
+margin-top: 36px;
+padding: 0px 20px;
+}
+.carrier-group-block{
+padding: 10px 10px 10px 30px;
+}
+.carrier-view-block{
+width:90%;
+margin: auto;
+}
+.carrier-view-left{
+width:50%;
+}
+.carrier-view-right{
+width:50%;
+}
+.carrier-left-width{
+width:100%;
+ font-size: 16px;
+	color: #989898;
+}
+.carrier-left-title{
+width:45%;
+}
+.carrier-left-content{
+width:45%;
+ font-size: 16px;
+	margin-right: 15px;
+	color: #989898;
+}
+.carrier-view-rightblock{
+width:74%;
+/*padding:26px 0px 0px 0px;*/
+}
+.carrier-view-leftbloack{
+width:25%;
+}
+.carrier-border-view{
+padding: 10px 0px;
+}
 
 
 /********** Content Section *************************/

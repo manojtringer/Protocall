@@ -752,40 +752,62 @@ var staticTemplate = {
 			var html = '<div class="carrier-home-parent p-relative"><div class="carrier-profile-screen left border-all p-relative"><div class="carrier-logo p-relative  opensans-regular"><div class="carrierlogo-pic">'
 			+'<img src="http://devilsworkshop.org/files/2013/01/enlarged-facebook-profile-picture.jpg" alt="" class="carrier-img-width"></div></div><div class="carrier-info bg-color-white p-relative carrier-groupblock  opensans-regular"><div class="carrier-name t-caps t-center">way to safe</div>'
 			+'<div class="carrier-location  t-caps t-center">location</div><div class="carrier-email t-center">carrier@mail.com</div></div>'
-			+'<div class="carrier-view p-relative  bg-color-red  t-caps t-center opensans-regular f-color-w">view</div></div>'
+			+'<div class="carrier-view p-relative  bg-color-red  t-caps t-center opensans-regular f-color-w snap" data-type="viewcarrierfeedview">view</div></div>'
 			+'<div class="carrier-profile-screen left border-all p-relative"><div class="carrier-logo p-relative  opensans-regular"><div class="carrierlogo-pic">'
 			+'<img src="http://devilsworkshop.org/files/2013/01/enlarged-facebook-profile-picture.jpg" alt="" class="carrier-img-width"></div></div><div class="carrier-info bg-color-white p-relative carrier-groupblock  opensans-regular"><div class="carrier-name t-caps t-center">health plus</div>'
 			+'<div class="carrier-location  t-caps t-center">location</div><div class="carrier-email t-center">carrier@mail.com</div></div>'
-			+'<div class="carrier-view p-relative  bg-color-green  t-caps t-center opensans-regular f-color-w">view</div></div>'
+			+'<div class="carrier-view p-relative  bg-color-green  t-caps t-center opensans-regular f-color-w snap" data-type="viewcarrierfeedview">view</div></div>'
 			+'<div class="carrier-profile-screen left border-all p-relative"><div class="carrier-logo p-relative  opensans-regular"><div class="carrierlogo-pic">'
 			+'<img src="http://devilsworkshop.org/files/2013/01/enlarged-facebook-profile-picture.jpg" alt="" class="carrier-img-width"></div></div><div class="carrier-info bg-color-white p-relative carrier-groupblock  opensans-regular">'
 			+'<div class="carrier-name t-caps t-center">auto owners insurance</div>'
 			+'<div class="carrier-location  t-caps t-center">location</div><div class="carrier-email t-center">carrier@mail.com</div></div>'
-			+'<div class="carrier-view p-relative  bg-color-green  t-caps t-center opensans-regular f-color-w">view</div></div>'
+			+'<div class="carrier-view p-relative  bg-color-green  t-caps t-center opensans-regular f-color-w snap" data-type="viewcarrierfeedview">view</div></div>'
 			+'<div class="carrier-profile-screen left border-all p-relative"><div class="carrier-logo p-relative  opensans-regular"><div class="carrierlogo-pic">'
 			+'<img src="http://devilsworkshop.org/files/2013/01/enlarged-facebook-profile-picture.jpg" alt="" class="carrier-img-width"></div></div><div class="carrier-info bg-color-white p-relative carrier-groupblock  opensans-regular">'
 			+'<div class="carrier-name t-caps t-center">safe co insurance</div>'
 			+'<div class="carrier-location  t-caps t-center">location</div><div class="carrier-email t-center">carrier@mail.com</div></div>'
-			+'<div class="carrier-view p-relative  bg-color-green  t-caps t-center opensans-regular f-color-w">view</div></div></div>'
+			+'<div class="carrier-view p-relative  bg-color-green  t-caps t-center opensans-regular f-color-w snap" data-type="viewcarrierfeedview">view</div></div></div>'
 			+'<div class="carrier-profile-screen left border-all p-relative"><div class="carrier-logo p-relative  opensans-regular"><div class="carrierlogo-pic">'
 			+'<img src="http://devilsworkshop.org/files/2013/01/enlarged-facebook-profile-picture.jpg" alt="" class="carrier-img-width"></div></div><div class="carrier-info bg-color-white p-relative carrier-groupblock  opensans-regular">'
 			+'<div class="carrier-name t-caps t-center">IEE master corp</div>'
 			+'<div class="carrier-location  t-caps t-center">location</div><div class="carrier-email t-center">carrier@mail.com</div></div>'
-			+'<div class="carrier-view p-relative  bg-color-green  t-caps t-center opensans-regular f-color-w">view</div></div></div>'
+			+'<div class="carrier-view p-relative  bg-color-green  t-caps t-center opensans-regular f-color-w snap" data-type="viewcarrierfeedview">view</div></div></div>'
 			+'<div class="carrier-profile-screen left border-all p-relative"><div class="carrier-logo p-relative  opensans-regular"><div class="carrierlogo-pic">'
 			+'<img src="http://devilsworkshop.org/files/2013/01/enlarged-facebook-profile-picture.jpg" alt="" class="carrier-img-width"></div></div><div class="carrier-info bg-color-white p-relative carrier-groupblock  opensans-regular">'
 			+'<div class="carrier-name t-caps t-center">auto owner insurance</div>'
 			+'<div class="carrier-location  t-caps t-center">location</div><div class="carrier-email t-center">carrier@mail.com</div></div>'
-			+'<div class="carrier-view p-relative  bg-color-green  t-caps t-center opensans-regular f-color-w">view</div></div></div>'
+			+'<div class="carrier-view p-relative  bg-color-green  t-caps t-center opensans-regular f-color-w snap" data-type="viewcarrierfeedview">view</div></div></div>'
 			+'<div class="carrier-profile-screen left border-all p-relative"><div class="carrier-logo p-relative  opensans-regular"><div class="carrierlogo-pic">'
 			+'<img src="http://devilsworkshop.org/files/2013/01/enlarged-facebook-profile-picture.jpg" alt="" class="carrier-img-width"></div></div><div class="carrier-info bg-color-white p-relative carrier-groupblock  opensans-regular">'
 			+'<div class="carrier-name t-caps t-center">way to safe</div>'
 			+'<div class="carrier-location  t-caps t-center">location</div><div class="carrier-email t-center">carrier@mail.com</div></div>'
-			+'<div class="carrier-view p-relative  bg-color-green  t-caps t-center opensans-regular f-color-w">view</div></div></div>';
+			+'<div class="carrier-view p-relative  bg-color-green  t-caps t-center opensans-regular f-color-w snap" data-type="viewcarrierfeedview">view</div></div></div>';
 			return html;
-		}
+		},
+		staticCarrierFeedViewTemplate:function(){
+		var html ='<div class="carrier-view-parent bg-color-white p-relative"><div class="carrier-view-leftbloack inline-block v-align-mid p-relative"><div class="carrier-view-auth  opensans-regular p-relative">'
+		+'<div class="carrier-view-name inline-block t-caps">agency id</div><div class="carrier-view-id  inline-block">#HP092 542</div></div><div class="carrier-logo-view p-relative">'
+		+'<div class="carrierlogo-viewpic"><img src="http://devilsworkshop.org/files/2013/01/enlarged-facebook-profile-picture.jpg" alt="" class="carrier-img-width"></div></div>'
+		+'<div class="carrier-view-social p-relative"><div class="carrier-view-website p-relative  inline-block left bg-color-green  t-caps t-center opensans-regular f-color-w">'
+		+'<div class="carrier-website-name t-caps">website</div></div><div class="carrier-view-facebook p-relative inline-block left bg-color-green  t-caps t-center opensans-regular f-color-w">'
+		+'<div class="carrier-facebook-icon  "></div><div class="carrier-facebook-name t-caps">facebook</div></div></div></div><div class="carrier-view-rightblock inline-block v-align-mid p-relative ">'
+		+'<div class="carrier-view-block p-relative "> <div class="carrier-border-view clr-fl border-bot"><div class="carrier-view-left p-relative left"><div class="carrier-left-width t-caps opensans-regular clr-fl">'
+		+'<div class="carrier-left-title t-right left">agency name</div><div class="carrier-left-content t-left right ">way to safe</div></div></div><div class="carrier-view-right right t-caps opensans-regular">'
+		+'<div class="carrier-left-width clr-fl"><div class="carrier-left-title t-right left">address</div><div class="carrier-left-content t-left right">westere parkway</div></div></div></div></div>'
+		+'<div class="carrier-view-block p-relative "><div class="carrier-border-view clr-fl border-bot"><div class="carrier-view-left p-relative left"><div class="carrier-left-width t-caps opensans-regular clr-fl">'
+		+'<div class="carrier-left-title t-right left">address</div><div class="carrier-left-content t-left right ">san francisco</div></div></div><div class="carrier-view-right right t-caps opensans-regular">'
+		+'<div class="carrier-left-width clr-fl"><div class="carrier-left-title t-right left">state</div><div class="carrier-left-content t-left right">us</div></div></div></div>'
+		+'<div class="carrier-view-block p-relative "><div class="carrier-border-view clr-fl border-bot"><div class="carrier-view-left p-relative left"><div class="carrier-left-width t-caps opensans-regular clr-fl">'
+		+'<div class="carrier-left-title t-right left">city</div><div class="carrier-left-content t-left right ">san francisco</div></div></div><div class="carrier-view-right right t-caps opensans-regular">'
+		+'<div class="carrier-left-width clr-fl"><div class="carrier-left-title t-right left">phone</div><div class="carrier-left-content t-left right">(914)000 000 00</div></div></div></div></div>'
+		+' <div class="carrier-view-block p-relative "> <div class="carrier-border-view clr-fl"><div class="carrier-view-left p-relative left"><div class="carrier-left-width t-caps opensans-regular clr-fl">'
+		+'<div class="carrier-left-title t-right left">zip</div><div class="carrier-left-content t-left right ">9401</div></div></div><div class="carrier-view-right right t-caps opensans-regular">'
+		+'<div class="carrier-left-width clr-fl"><div class="carrier-left-title t-right left">email</div><div class="carrier-left-content t-left right">waytosafe@mail.com</div></div></div></div></div></div>';
+		return html;
+	}
 		
 	},
+	
 	customers:{
 		staticCustomerTemplate:function(){
 			var html = '<div class="customer-home-parent clr-fl p-relative"><div class="customer-feed-screen clr-fl left border-all p-relative"><div class="customer-feed-info clr-fl p-relative">'
