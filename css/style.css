@@ -539,6 +539,20 @@ background: #fff;
 .agency-pic-box:hover  .edit-agency-pic {
 bottom: 5px;
 }
+.agency-pic-box:hover .edit-cover-pic{
+	opacity:0.5;
+	transition: all 0.5s;
+}
+
+
+.edit-cover-pic{
+opacity:0;
+height:100%;
+width:100%;
+margin:auto;
+background:#333;
+}
+
 
 .edit-agency-pic{
 opacity: 1;
@@ -612,6 +626,10 @@ display: block;
 padding:0px 20px;
 line-height: 38px;
 color: #fff;
+}
+
+.tab-rb-submenu > div .submenu-tab:hover{
+background: #f34f4e;
 }
 
 .submenu-tab >span:first-child{
@@ -882,6 +900,11 @@ margin-top:10px;
 padding:5px 15px;
 }
 
+.view-in-blocks .feed-user-bottom-details .share:hover{
+background: #f34f4e;
+}
+
+
 .view-in-blocks .feed-user-bottom-details .feed-doc-btn >div{
 padding:8px 35px;
 }
@@ -1027,14 +1050,349 @@ margin: auto;
 padding: 5px 15px;
 }
 
+.policy-btn-blk .match-blk a:hover{
+background: #f34f4e;
+}
+
 
 /*********** View Feeds ************/
+
+
+/************* Carrier Page ********************/
+.agenyparent-class{
+	position: relative;
+	padding: 10px;
+    }
+	.agenyleft-profile{
+	width: 10%;
+	margin-right: 25px;
+	}
+	.agenyleft-image{
+	padding: 5px;
+	}
+	.agenyright-profile{
+	width: 85%;
+    position: relative;
+	}
+	.agenytitle-block{
+	color: #989898;
+	font-size: 16px;
+	margin-right: 15px;
+	}
+	.agenycontent-block{
+	
+	}
+	.agenygroup-block{
+	padding: 10px 0px;
+	}
+	.agenyinternal-block .agenygroup-block:last-child {
+	border: none;
+	}
+	.agenypic-info{
+	width: 120px;
+	height: 106px;
+	position: relative;
+	overflow: hidden;
+	}
+	.agency-img-width{
+	 width:100%;
+	}
+	
+	.carrier-home-parent{
+	padding: 0px;
+	margin-bottom:5px;
+	}
+	.carrier-profile-screen{
+	width:24%;
+	margin-right:10px;
+	margin-bottom: 13px;
+	}
+	.carrier-logo{
+	width: 100%;
+   /* height: 85px;*/
+	}
+	.carrier-info{
+	width: 100%;
+    /*height: 71px;*/
+	}
+	.carrier-name{
+	color: #989898;
+	font-size: 16px;
+	/*margin-right: 15px;*/
+	}
+	.carrier-location{
+	color: #989898;
+	font-size: 16px;
+	/*margin-right: 15px;*/
+	}
+	.carrier-email{
+	color: #989898;
+	font-size: 16px;
+	/*margin-right: 15px;*/
+	}
+	.carrier-view{
+	width: 100%;
+   /* height: 25px;*/
+   padding: 5px 0px;
+	}
+	.carrier-groupblock{
+	padding:14px 0px;
+	}
+	.carrierlogo-pic{
+	width: 160px;
+	position: relative;
+	overflow: hidden;
+	margin: auto;
+	}
+	.carrier-img-width{
+	width:100%;
+	}
+	.customer-home-parent {
+	padding: 10px;
+	}
+	.customer-feed-screen{
+	width:24%;
+	margin-right:10px;
+	margin-bottom: 10px;
+	}
+	.customer-feed-info{
+	padding: 7px 7px;
+	}
+	.customer-feed-pic{
+	width: 80px;
+	height: 67px;
+	background: #fff;/* 
+	border: 2px solid #b9b8b8;
+	color: #FFF; */
+	text-align: center;
+	margin-right:5px;
+	}
+	.customer-profile-info{
+	
+	}
+	.customer-feed-view{
+	width:100%;
+	}
+	
+
+
+/************* Carrier Page ********************/
 
 
 /********** Content Section *************************/
 
 
 /**************** Overlay Contents ***********************/
+
+/********* Added by Manoj **************/
+
+
+
+.delivery-box{
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #c8d2d5;
+}
+.select-date-content{
+    width: 50%;
+}
+
+.select-date-content .date-content{
+    border: 1px solid #CCC;
+    padding: 5px;
+    width: 35%;
+}
+.time-content{
+    width: 50%;
+}
+
+.time-content .time{
+    width: 35%;
+}
+.later-box{
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.time-content .time-dropdown{
+    border: 1px solid #CCC;
+    padding: 5px;
+    width: 30%;
+    margin-right: 11px;
+}
+
+.time-content .am-pm-dropdowm{
+    border: 1px solid #CCC;
+    padding: 5px;
+    width: 20%;
+}
+
+.delivery-time,.select-date{
+    width: 38%;
+    margin-bottom: 15px;
+}
+
+
+.deliverytime-content {
+    width: 60%;
+
+}
+.deliverytime-content .now{
+    width: 40%;
+}
+
+.carriers-left-content,.carriers-right-content{
+    width: 48%;
+    padding: 5px;
+    height: 150px;
+}
+
+.carriers-right-content .c-agency-logo{
+    height: 45px;
+    margin-bottom: 5px;
+    border: 1px solid #ccc;
+}
+.carriers-right-content .c-agency-logo .txt-agency-logo-name{
+    background-color: #ffffff;
+    font-style: italic;
+    font-size: 14px;
+    color: #333;
+}
+
+.carriers-right-content .c-agency-name .txt-agency-name{
+    background-color: #ffffff;
+    font-style: italic;
+    font-size: 14px;
+    color: #333;
+}
+
+.carriers-right-content .c-agency-emailid .txt-agency-emailid{
+    background-color: #ffffff;
+    font-style: italic;
+    /* font-size: 14px; */
+    color: #333;
+}
+
+.carriers-right-content .c-agency-name{
+    height: 44px;
+    margin-bottom: 5px;
+    border: 1px solid #ccc;
+    background-color: #ffffff;
+}
+
+
+.carriers-right-content .c-agency-emailid{
+    height: 46px;
+    border: 1px solid #ccc;
+}
+
+.agency-prof-overlay-header .manageAgency {
+top: 20%;
+bottom: 20%;
+right: 0;
+margin: auto;
+}
+
+.carriers-left-content .profile-pic-content{
+    width: 100%;
+    height: 150px;
+    /* padding: 5px; */
+    border: 1px solid #CCC;
+}
+.carriers-left-content .profile-pic-content > div{
+width:80%;
+margin:auto;
+}
+
+.carriers-left-content .profile-pic-content .agency-pic-text {
+bottom: 15px;
+left: 0;
+right: 0;
+margin: auto;
+}
+
+.carriers-left-content .profile-pic-content .profile-pic-icon{
+    background-position: -71px -602px; 
+    width: 45%;
+    height: 50%;
+}
+
+.uparrow{
+    width: 1px; 
+    left: 85%;
+    top: -5px;
+    /* color: #ffffff; */
+    height: 0px; 
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid #ffffff;
+}
+
+.none-1,.none-2{
+    width: 71%;
+}
+
+.dropdown-icon{
+    top: 14px;
+    right: 12px;
+}
+.range-box{
+    margin-top: 10px;
+}
+
+.alert-mess-text{
+    margin-top:50px;
+}
+
+
+.left-sub-content,.right-sub-content{
+    width: 48%;
+}
+
+.sortby-content,.profile-content{
+    padding: 10px 5px;
+    position: relative;
+    /* margin-top: 10px; */
+}
+.sortby-content .recent {
+    padding: 5px;
+    text-align: left;
+    height: 25px;
+    line-height: 25px;
+    margin-left: 5px;
+}
+
+
+.sortby-content > div:hover{
+    color: #379ba2;
+    background-color: #CCC;
+}
+
+.profile-content > div:hover{
+    color: #379ba2;
+}
+
+.sortby-content .alphabetical {
+    padding: 5px;
+    text-align: left;
+    height: 25px;
+    line-height: 25px;
+    margin-left: 5px;
+}
+
+.profile-content .myprofile,.profile-content .settings,.profile-content .log-out,.profile-content .help{
+    padding: 5px;
+    text-align: left;
+    height: 25px;
+    line-height: 25px;
+    margin-left: 5px;
+}
+
+
+
+/************ Added by Manoj ************/
+
+
 
 .spinner .spin-class{
 width: 125px;
@@ -1158,6 +1516,10 @@ padding: 10px 5px;
 margin-left:15px;
 }
 
+.rep-label .lbl-in-block{
+    display: inline-block;
+    width: 95%;
+}
 
 /* input[type=checkbox]:checked + label:before {  
     content: "\2713";  
@@ -1207,9 +1569,10 @@ width: 95%;
 .myshare{float: left;width:50%;}
 .myview{float: left;width:50%;}
 .inner-share-spacing{background: #379ba2;margin-right: 5px;padding:5px;}
-.inner-share-spacing:first-child{background: #f34f4e;margin-right: 5px;padding:5px; }
+.inner-share-spacing:first-child{margin-right: 5px;padding:5px; }
+.inner-share-spacing:hover{background: #f34f4e;}
 .inner-view-spacing{background: #379ba2;margin-left: 5px;padding:5px; }
-
+.inner-view-spacing:hover{background: #f34f4e;}
 
 
 @media all and (max-width: 1070px) {

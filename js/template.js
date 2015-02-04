@@ -164,6 +164,23 @@ var template = {
 						+					'</div>'
 						+			'</a>';
 		return html;		
+	},
+	
+	//agency template feed ui
+	agencyProfiletemplate:function(){
+	   var html ='<div class="agenyparent-class bg-color-white"><div class="p-relative"><div class="agenyleft-profile inline-block v-align-mid p-relative"><div class="agenyleft-image border-all">'
+	                 + '<div class="overflow-hidden">'
+					 +'<div class="agenypic-info"><img src="{{my-prof-pic}}"alt="" class="ageny-img-width"></div>'
+					 +'<div class="v-align-mid opensans-regular text-color-overlay f-sz-12 p-relative"><div class="sprite-im calendar-icon inline-block">&nbsp;</div>'
+					 +'<div class="t-upper inline-block">Change Image</div>'
+					 +'</div></div></div></div><div class="agenyright-profile inline-block v-align-mid"><div class="agenyparent-block"><div class ="agenyinternal-block">'
+					 +'{{prof-info-group}}' //iterate
+					 +'</div></div></div></div></div>'; 
+	},
+	agencyProfileDetailsGrouptemplate:function(){
+	   var html ='<div class="agenygroup-block border-bot opensans-regular"><div class="agenychild-block"><div class="agenytitle-block  inline-block p-relative">{{prof-content-title}}</div>'
+	                  +  '<div class="agenycontent-block  inline-block p-relative">{{prof-content-detail}}</div></div></div>';
+		return html;			  
 	}
 	
 

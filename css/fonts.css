@@ -36,23 +36,23 @@
 
 @font-face {
     font-family:PTSansLight;
-    src: url('fonts/PTS55F.ttf');
+    src: url('fonts/PTS55F.ttf') format('truetype');
 }
 
 @font-face {
     font-family:PTSansLightItalic;
-    src: url('fonts/PTS56F.ttf');
+    src: url('fonts/PTS56F.ttf') format('truetype');
 }
 
 
 @font-face {
     font-family:PTSansBold;
-    src: url('fonts/PTS75F.ttf');
+    src: url('fonts/PTS75F.ttf') format('truetype');
 }
 
 @font-face {
     font-family:PTSansBoldItalic;
-    src: url('fonts/PTS76F.ttf');
+    src: url('fonts/PTS76F.ttf') format('truetype');
 }
 
 .opensans-light{

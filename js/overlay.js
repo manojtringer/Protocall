@@ -10,9 +10,11 @@ var overlay ={
 	displayOverlay:function(content){
 		this.initOverlay();
 		var $contentSec = $('.o-content');
+		$('.overlay').fadeIn(400);
+		$('.o-box').addClass("o-box-load");
 		$contentSec.append($(content));
 		overlay.centerIt();		
-		$('.overlay').fadeIn(400);
+		
 		
 	},
 	initOverlay:function(){

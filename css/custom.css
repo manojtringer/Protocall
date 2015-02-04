@@ -27,7 +27,11 @@
     height:100%;
     overflow: hidden;
 }
-
+.transform-scale{
+	-ms-transform:  scale(1);  /* IE 9 */
+    -webkit-transform:  scale(1);  /* Chrome, Safari, Opera */
+    transform:  scale(1); 
+}
 .o-box{
     width: 36%;  
     position: absolute;
@@ -38,6 +42,18 @@
 	top: 100px;
 	margin:auto;
 	min-width: 540px;
+	-webkit-transition: -webkit-transform 1s; /* For Safari 3.1 to 6.0 */
+    transition: transform 1s;
+	-ms-transform: scale(0); /* IE 9 */
+    -webkit-transform: scale(0); /* Chrome, Safari, Opera */
+    transform: scale(0); 
+}
+
+.o-box-load{
+	-ms-transform: scale(1); /* IE 9 */
+    -webkit-transform: scale(1); /* Chrome, Safari, Opera */
+    transform: scale(1); /* Standard syntax */
+
 }
 .o-box .o-content{
 

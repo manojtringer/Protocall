@@ -1,5 +1,6 @@
 window.addEventListener('popstate', function(event) {
   console.log('popstate fired!');
+  console.log('Event State URL ----->',event.state.url)
   protocall.stateNavigation(event.state.url);
 });
 
@@ -15,7 +16,9 @@ var CONSTANTS = {
 	CHANNEL_TOKEN : null,
 	LINK_TYPE : {
 		PAGE:"page",HOME_PAGE: "home", CARRIERS_PAGE: "carriers", CUSTOMERS_PAGE: "customers", MY_REP_PAGE: "myreps", LOGIN_page:"login",
-		VIEW_FEED:"view", FEEDS: "feeds",SHARE_TO_REP:"share", CLOSE_OVERLAY:"closeOverlay"
+		VIEW_FEED:"view", FEEDS: "feeds",SHARE_TO_REP:"share", CLOSE_OVERLAY:"closeOverlay", EDIT_AGENCY_PIC:"editAgencyPic", 
+		MY_ALERTS:"myalerts",INCIDENTS:"incidents",POLICIES:"policies",MATCH_RELEASE_CLAIMS:"matchReleaseClaim",INVITE_REPS:"invitereps",
+		ASSIGN_TO_REPS:"assignrep"
 	},
 	ERROR_MSG : {
 		ajaxFailed: "Oops! This action could not be completed now! Please try again"
@@ -45,7 +48,7 @@ CURRENT_PAGE = "";
 LOGIN_PAGE= "";
 HOME_PAGE= "home"; 
 CARRIERS_PAGE= "carriers"; 
-CUSTOMERS_PAGE= "customer";
+CUSTOMERS_PAGE= "customers";
 MY_REP_PAGE= "myreps";
 
 //PAGE & SUBMENU OBJECTS
@@ -244,19 +247,48 @@ protocall = {
         }
 		this.events.createEvents();
 	},
-	loadPage: function(page,subMenu){
+	loadPage: function(pageUrl){
+		var pageArr = pageUrl.split("/");
+		var page = "",subMenu = [];
+		if(pageArr.length > 0){
+			page = pageArr[0];
+			for(var s =1; s < pageArr.length; s++){
+				subMenu.push(pageArr[s]);
+			}
+		} else {
+			page = pageUrl;
+		}		
 		this.setMenuSelection(page);
 		this.displaySpinner(true);
 		this.setLocalStorage(page);
+				
 		if(page==HOME_PAGE) {		
 			this.view.loadHomePage(false);			
     	} else if(page==CARRIERS_PAGE) {
 			this.view.loadCarrierPage(false);
 		} else if(page==CUSTOMERS_PAGE) {
-    	
+			this.view.loadCustomerPage(false);
 		} else if(page==MY_REP_PAGE) {
-    		
-    	}	
+    		this.view.loadMyRepsPage(false);
+    	}
+				
+		if(subMenu.length > 0){
+			var subMenuName = subMenu[0];
+			console.log("SubMenu Name",subMenuName)
+			if(subMenuName == CONSTANTS.LINK_TYPE.VIEW_FEED){
+				this.view.viewFeed(false);
+			} else if(subMenuName == CONSTANTS.LINK_TYPE.MY_ALERTS){
+				var $el = $('.myalerts')
+				this.view.loadMyAlertsFeeds($el,false);
+			} else if(subMenuName == CONSTANTS.LINK_TYPE.INCIDENTS){
+				var $el = $('.incidents')
+				this.view.loadIncidentsFeeds($el,false);
+			} else if(subMenuName == CONSTANTS.LINK_TYPE.POLICIES){
+				var $el = $('.policies')
+				this.view.loadPoliciesFeeds($el,false);
+			}
+		
+		}
 	},
 	setPage: function(page, url, title, data) {
     	data = data?data:""; // json data for the page
@@ -362,15 +394,34 @@ protocall.events ={
 						case CONSTANTS.LINK_TYPE.MY_REP_PAGE:
 							protocall.view.loadMyRepsPage(true);
 							break;
+						default:
+							break;
 					}				
 					switch(subMenu) {
 						case CONSTANTS.LINK_TYPE.FEEDS:
 							protocall.view.loadHomePage(true);
-							break;					
+							break;
+						case CONSTANTS.LINK_TYPE.MY_ALERTS:
+							protocall.view.loadMyAlertsFeeds($el,true);
+							break;
+						case CONSTANTS.LINK_TYPE.INCIDENTS:
+							protocall.view.loadIncidentsFeeds($el,true);
+							break;
+						case CONSTANTS.LINK_TYPE.POLICIES:
+							protocall.view.loadPoliciesFeeds($el,true);
+							break;
+						case CONSTANTS.LINK_TYPE.INVITE_REPS:
+							protocall.view.loadInviteReps($el,true);
+							break;
+						case CONSTANTS.LINK_TYPE.ASSIGN_TO_REPS:
+							protocall.view.loadAssignToReps($el,true);
+							break;
+						default:
+							break;
 					}
 					break;
 				case CONSTANTS.LINK_TYPE.VIEW_FEED:
-					protocall.view.viewFeed();
+					protocall.view.viewFeed(true);
 					break;
 				case CONSTANTS.LINK_TYPE.SHARE_TO_REP:
 					protocall.view.shareToRep();
@@ -378,6 +429,12 @@ protocall.events ={
 				case CONSTANTS.LINK_TYPE.CLOSE_OVERLAY:
 					protocall.closeOverlay();
 					break;
+				case CONSTANTS.LINK_TYPE.EDIT_AGENCY_PIC:
+					protocall.view.editAgencyPic();
+					break;
+				case CONSTANTS.LINK_TYPE.MATCH_RELEASE_CLAIMS:
+					protocall.view.matchReleaseClaimAlert();
+					break;	
 				default:
 					break;
 			}
@@ -414,32 +471,109 @@ protocall.view ={
 			protocall.displaySpinner(false);
 		},
 		loadCustomerPage:function(isClickEvent){
+			console.log("Load Customer Page");
+			protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);		
+			//Call the below in customer.js
+			protocall.customer.initCustomerPage();
+			protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
 			if(isClickEvent){
-				
+				protocall.setPage(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE, CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE, CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE, "");		
 			}
 			protocall.displaySpinner(false);
 		},
 		loadMyRepsPage:function(isClickEvent){
+			console.log("Load My Reps Page");
+			protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.MY_REP_PAGE);		
+			//Call the below in myreps.js
+			protocall.myRep.initMyRepsPage();
+			protocall.setMenuSelection(CONSTANTS.LINK_TYPE.MY_REP_PAGE);
 			if(isClickEvent){
-				
+				protocall.setPage(CONSTANTS.LINK_TYPE.MY_REP_PAGE, CONSTANTS.LINK_TYPE.MY_REP_PAGE, CONSTANTS.LINK_TYPE.MY_REP_PAGE, "");	
 			}
 			protocall.displaySpinner(false);
 		},
-		viewFeed:function(){
+		viewFeed:function(isClickEvent){
 			protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_FEED);
 			protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
-			protocall.setPage(CONSTANTS.LINK_TYPE.HOME_PAGE,CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_FEED,CONSTANTS.LINK_TYPE.VIEW_FEED,"");
-			protocall.home.loadFeed();
-			
+			if(isClickEvent){
+				protocall.setPage(CONSTANTS.LINK_TYPE.HOME_PAGE,CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_FEED,CONSTANTS.LINK_TYPE.VIEW_FEED,"");
+			}
+			protocall.home.loadFeed();			
 			//Call the below dynamically
 			var breadCrumbObj = {};
 			breadCrumbObj.customerName = "Hugh Jackman";
+			$('.tab-rb-submenu a').each(function(){
+				protocall.view.setSelectedLinkClasses($(this),false);
+			});
 			protocall.view.buildSubMenuBlk(CONSTANTS.LINK_TYPE.HOME_PAGE, breadCrumbObj);
 			protocall.displaySpinner(false);
 		},
+		loadMyAlertsFeeds:function($el,isClickEvent){
+			protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.MY_ALERTS);
+			protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
+			if(isClickEvent){
+				protocall.setPage(CONSTANTS.LINK_TYPE.HOME_PAGE,CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.MY_ALERTS,CONSTANTS.LINK_TYPE.MY_ALERTS,"");
+			}
+			protocall.home.displayMyAlertsFeeds();
+			$('.tab-rb-submenu a').each(function(){
+				protocall.view.setSelectedLinkClasses($(this),false);
+			});
+			protocall.view.setSelectedLinkClasses($el,true);
+			protocall.displaySpinner(false);
+		},
+		loadIncidentsFeeds:function($el,isClickEvent){
+			protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.INCIDENTS);
+			protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
+			if(isClickEvent){
+				protocall.setPage(CONSTANTS.LINK_TYPE.HOME_PAGE,CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.INCIDENTS,CONSTANTS.LINK_TYPE.INCIDENTS,"");
+			}
+			protocall.home.displayIncidentsFeeds();
+			$('.tab-rb-submenu a').each(function(){
+				protocall.view.setSelectedLinkClasses($(this),false);
+			});
+			protocall.view.setSelectedLinkClasses($el,true);
+			protocall.displaySpinner(false);
+		},
+		loadPoliciesFeeds:function($el,isClickEvent){
+			protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.POLICIES);
+			protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
+			if(isClickEvent){
+				protocall.setPage(CONSTANTS.LINK_TYPE.HOME_PAGE,CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.POLICIES,CONSTANTS.LINK_TYPE.POLICIES,"");
+			}
+			protocall.home.displayPoliciesFeeds();
+			$('.tab-rb-submenu a').each(function(){
+				protocall.view.setSelectedLinkClasses($(this),false);
+			});
+			protocall.view.setSelectedLinkClasses($el,true);
+			protocall.displaySpinner(false);
+		},
+		setSelectedLinkClasses:function($el,isSet){
+			if(isSet){
+				$el.addClass("selected-tab");
+			} else {
+				$el.removeClass("selected-tab");
+			}
+		},
+		
 		shareToRep:function(){					
 			var html = staticTemplate.home.shareWithRepTemplate();
 			overlay.displayOverlay(html);			
+		},
+		editAgencyPic:function(){
+			var html = staticTemplate.home.editAgencyPicTemplate();
+			overlay.displayOverlay(html);			
+		},
+		matchReleaseClaimAlert:function(){
+			var html = staticTemplate.home.matchReleaseClaimTemplate();
+			overlay.displayOverlay(html);
+		},
+		loadInviteReps:function(){
+			var html = staticTemplate.myreps.inviteRepsTemplate();
+			overlay.displayOverlay(html);
+		},
+		loadAssignToReps:function(){
+			var html = staticTemplate.home.assignToRepTemplate();
+			overlay.displayOverlay(html);
 		},
 		buildSubMenuBlk:function(page, breadCrumbObj){
 			var subMenuBlockTemplate = template.subMenuBlk(),
@@ -451,6 +585,12 @@ protocall.view ={
 				subMenuObj = SUB_MENU.HOME;				
 			} else if(page === CARRIERS_PAGE){
 				subMenuObj = SUB_MENU.CARRIERS;				
+			} else if(page === CUSTOMERS_PAGE){
+				subMenuObj = SUB_MENU.CUSTOMERS;				
+			} else if(page === MY_REP_PAGE){
+				subMenuObj = SUB_MENU.MY_REPS;				
+			} else {
+				subMenuObj = "";
 			}
 			
 			if(subMenuObj!== ""){
@@ -533,7 +673,6 @@ protocall.view ={
 				subMenuBlockTemplate = subMenuBlockTemplate.replace(/{{tab_block}}/g, tabsWithSortHTML);
 				$(".mb-submenu").empty();
 				$(".mb-submenu").append($(subMenuBlockTemplate));
-				//$(".bcrum-lb-submenu").append($(bcTotalHTML));
 			}
 			
 		}
@@ -554,6 +693,9 @@ protocall.home = {
 		//var resp = utils.server.makeServerCall(page,data,callback,authId,deepPath,spinnerMsg);
 		//console.log(resp);
 		protocall.view.buildSubMenuBlk(page);
+		$('.tab-rb-submenu a').each(function(){
+				protocall.view.setSelectedLinkClasses($(this),false);
+		});
 		var totalHTML = "";
 		var totalLen = 5;
 		for(var h = 0; h < totalLen; h++){
@@ -593,7 +735,34 @@ protocall.home = {
 		$(".rel-feeds-content").empty();
 		$(".rel-feeds-content").append($(totalHTML));
 		
-	}
+	},
+	displayMyAlertsFeeds:function(){
+		var totalLen = 1, totalHTML="";
+		for(var h = 0; h < totalLen; h++){
+			var template = staticTemplate.home.staticFeedTemplate();
+			totalHTML = totalHTML + template;
+		}
+		var policyTemplate = staticTemplate.home.staticPoliciesFeedTemplate();
+		totalHTML = totalHTML + policyTemplate;
+		$(".content-holder").empty();
+		$(".content-holder").append($(totalHTML));
+	},
+	displayIncidentsFeeds:function(){
+		var totalLen = 1, totalHTML="";
+		for(var h = 0; h < totalLen; h++){
+			var template = staticTemplate.home.staticFeedTemplate();
+			totalHTML = totalHTML + template;
+		}
+		$(".content-holder").empty();
+		$(".content-holder").append($(totalHTML));
+	},
+	displayPoliciesFeeds:function(){
+		var totalHTML = "";
+		var policyTemplate = staticTemplate.home.staticPoliciesFeedTemplate();
+		totalHTML = totalHTML + policyTemplate;
+		$(".content-holder").empty();
+		$(".content-holder").append($(totalHTML));
+	},
 	
 	
 };
@@ -603,7 +772,27 @@ protocall.carrier = {
 		$(".content-holder").empty();
 		var page = "carriers";
 		protocall.view.buildSubMenuBlk(page);
+		var template = staticTemplate.carriers.staticCarrierTemplate();
+		$(".content-holder").empty();
+		$(".content-holder").append($(template));
 	}
-	
-	
 };
+protocall.customer = {
+	initCustomerPage:function(){
+		$(".content-holder").empty();
+		var page = "customers";
+		protocall.view.buildSubMenuBlk(page);
+		var template = staticTemplate.customers.staticCustomerTemplate();
+		$(".content-holder").empty();
+		$(".content-holder").append($(template));
+	}
+}
+protocall.myRep = {
+	initMyRepsPage:function(){
+		$(".content-holder").empty();
+		var page = "myreps"
+		protocall.view.buildSubMenuBlk(page);
+		
+	}
+}
+
