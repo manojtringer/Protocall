@@ -41,12 +41,7 @@ var template = {
 									// BreadCrumb Zone
 								+	'{{breadcrumb_block}}'
 								+'</div>'
-								+'<div class="tab-rb-submenu  inline-block v-align-mid" style="width:70%;">'
-								+	'<div class="tab-rb-submenu-in-block p-relative">'
-										// Tab Zone
-								+	'{{tab_block}}'										
-								+	'</div>'
-								+'</div>'
+								
 							+'</div>';
 		return html;
 		

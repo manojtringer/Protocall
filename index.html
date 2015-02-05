@@ -90,35 +90,43 @@
 							</div>
 							<div class="mb-submenu">
 								<div class="mb-submenu-in p-relative">
-									<div class="bcrum-lb-submenu inline-block v-align-mid">
-										<a href="#" class="snap left f-sz-16 ptsans-light feeds t-upper p-relative f-color-green" data-type="page" data-submenu="feeds" class="">
-											<div class="">
-												<div class="sprite-im inline-block v-align-mid feeds-icon mr-space-10">&nbsp;</div>
-												<span class="sub-menu-text inline-block v-align-mid">Feeds</span>
-											</div>
-										</a>										
-									</div>
+									
 									<div class="tab-rb-submenu  inline-block v-align-mid">
-										<div class="p-relative">
+										<div class="p-relative ">
+										
+										<a href="/myalerts" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light myalerts p-relative selected-tab" data-type="page" data-submenu="myalerts">
+												<span class="submenu-title t-caps f-color-w">My Alerts</span>
+												<span class="cnt-blk">(<span class="cnt-no">24</span>)</span>
+											</a>
+											
+											<a href="/incidents" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light incidents p-relative" data-type="page" data-submenu="incidents">
+												<div class="submenu-title t-caps inline-block f-color-w v-align-mid">incidents</div>
+											</a>	
+											
+											<a href="/policies" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light policies p-relative" data-type="page" data-submenu="policies">
+												<span class="submenu-title t-caps f-color-w">Policies</span>
+												
+											</a>
+											
+											<a href="/policies" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light policies p-relative" data-type="page" data-submenu="archives">
+												<span class="submenu-title t-caps f-color-w">Archives</span>
+												
+											</a>
+											
+											<a href="/policies" class="snap submenu-tab bg-color-green left  f-sz-16 ptsans-light policies p-relative" data-type="page" data-submenu="view_archives">
+												<span class="submenu-title t-caps f-color-w">View Archived</span>
+												
+											</a>
+											
 											<div href="#" class="snap submenu-sort right f-sz-16 ptsans-light p-relative" data-type="page" data-submenu="sortby">
 												<div class="sort-text f-italic">Sort by</div>
 												<div class="sprite-im drop-down-icon submenu-drop-icon">&nbsp;</div>
 											</div>
-											<a href="/incidents" class="snap submenu-tab bg-color-green right f-sz-16 ptsans-light incidents p-relative" data-type="page" data-submenu="incidents">
-												<div class="sprite-im drop-down-icon inline-block tab-icon v-align-mid">&nbsp;</div>
-												<div class="submenu-title t-caps inline-block f-color-w v-align-mid">incidents</div>
-												<div class="cnt-blk inline-block v-align-mid">(<span class="cnt-no">24</span>)</div>
-											</a>
-											<a href="/policies" class="snap submenu-tab bg-color-green right f-sz-16 ptsans-light policies p-relative" data-type="page" data-submenu="policies">
-												<span class="submenu-title t-caps f-color-w">Policies</span>
-												<span class="cnt-blk">(<span class="cnt-no">24</span>)</span>
-											</a>
-											<a href="/myalerts" class="snap submenu-tab bg-color-green right f-sz-16 ptsans-light myalerts p-relative selected-tab" data-type="page" data-submenu="myalerts">
-												<span class="submenu-title t-caps f-color-w">My Alerts</span>
-												<span class="cnt-blk">(<span class="cnt-no">24</span>)</span>
-											</a>														
+											
 										</div>
+										<div class="clear"></div>
 									</div>
+									
 								</div>
 							</div>							
 						</div>					
@@ -173,9 +181,10 @@
 
 <div id="spinner" class="anim anim-opacity overlay spinner" style="display:none;">
 	<div class="spin-class p-absolute">
-		<img src="http://www.ibm.com/social-business/us/en/images/socbiz-loader.gif" alt="agency pic" class="setSpinner">
+		<div class="loader">Loading...</div>
 	</div>
 </div>
+
 <div id="overlay" data-type="closeOverlay" class="overlay overlay-snap" style="display:none;"></div>
 
 <div id="pop-up-content" class="pop-up-content" style="display:none;"></div>

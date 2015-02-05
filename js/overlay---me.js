@@ -42,23 +42,6 @@ var overlay ={
 		// $('#page').attr("data-type","closeOverlay");
 		// $('#page').addClass("snap");		
 	},
-	/*Added by Naveen - Slider Control */
-	sliderControl:function(){
-		$(".previous").show();
-		$(".next").show();
-		$("#slider-vertical").hide();
-		$("#thumbNailImages li:eq(0)").find("a").addClass("active");
-		var firstImageSource = $("#thumbNailImages li:eq(0) a img").attr("src");
-		$("#viewingImage").html('<img src='+firstImageSource+' style="width:200px;height:200px;position: absolute;left: 214px;top: 76px;" />');
-		$("#slider-vertical").slider({
-		  orientation: "vertical",
-		  range: "min",
-		  min: 0,
-		  max: 100,
-		  value: 60
-		});
-	},
-	/*Added by Naveen - Slider Control */
 	initOverlay:function(){
 		var $parent=$('#overlay');
 		var subContent = this.formatOverlay();
@@ -89,14 +72,6 @@ var overlay ={
 };
 
 var popUpContent = {
-	togglePopUpContent:function($el,content){
-		var $popUpContent = $('#pop-up-content');
-		if($popUpContent && $popUpContent.length > 0 && $popUpContent.is(":visible")){
-			this.closePopUpContent();
-		}else {
-			this.displayPopUpContent($el,content)
-		}
-	},
 	displayPopUpContent:function($el,content){
 		popUpContent.initPopUpContent();
 		var $contentSec = $('.pop-content-block');
@@ -123,7 +98,7 @@ var popUpContent = {
 	},
 	closePopUpContent: function() {
 		console.log("close pop-up-content" );
-		var $popUpContent = $('#pop-up-content');
+		var $popUpContent = $('#pop-up-content')
 		if($popUpContent && $popUpContent.length > 0 && $popUpContent.is(":visible")){
 			$('#pop-up-content').fadeOut(400,function() {			
 	            $('#pop-up-content').empty();

@@ -161,12 +161,12 @@ width:100%;
 margin:auto;
 }
 .lf-block{
-width: 68%;
+width: 70%;
 overflow: hidden;
 }
 .leftblk-spacing{padding-right: 16px;}
 .rg-block{
-width: 28%;
+width: 30%;
 overflow: hidden;
 }
 .header-left-panel > div{
@@ -456,6 +456,14 @@ width: 250px;
 	height: 21px;
 }
 
+/**************Added By Manoj**************/
+.datepicker-icon{
+    background-position:-11px -211px;
+    width: 15px;
+    height: 16px;
+    top: 10px;
+    right: 10px;
+}
 /************* Icons *******************/
 
 
@@ -581,6 +589,18 @@ width: 100%;
 margin-top: 20px;
 line-height: 30px;
 }
+
+
+
+.prof-view-overlay{padding:10px;border-bottom:solid 1px lightgray;font-family: 'PTSansLight';cursor:pointer;}
+.prof-view-overlay:last-child{border-bottom:none;}
+.prof-view-overlay:first-child{color: #379ba2;}
+
+.prof-view-overlay-sort{padding:5px;border-bottom:solid 1px lightgray;font-family: 'PTSansLight';cursor:pointer;}
+.prof-view-overlay-sort:last-child{border-bottom:none;}
+.prof-view-overlay-sort:first-child{color: #379ba2;background-color:lightgray;}
+
+
 /*********** Agency Info ***********************/
 
 
@@ -594,7 +614,7 @@ width:25%;
 line-height: 39px;
 }
 .mb-submenu .mb-submenu-in  >div:last-child{
-width:75%;
+width:100%;
 }
 
 
@@ -651,7 +671,7 @@ margin-left: 15px;
 .submenu-sort .submenu-drop-icon{
 position:absolute;
 right: 15px;
-top:15px;
+top:15px;cursor:pointer;
 }
 .submenu-sort  .sort-text{
 line-height: 37px;
@@ -668,7 +688,7 @@ max-height:42px;
 }
 footer  .foot-in{
 line-height:42px;
-width: 95%;
+width: 1300px;
 margin: auto;
 }
 .foot-rb .foot-nav{
@@ -1297,72 +1317,156 @@ width:25%;
 padding: 10px 0px;
 }
 
-
-/********** Content Section *************************/
-
-
 /**************** Overlay Contents ***********************/
+/********* ***********Added by Manoj *********************/
 
-/********* Added by Manoj **************/
+/************Push Message***********************************/
 
-
-
-.delivery-box{
-    margin-top: 15px;
-    margin-bottom: 15px;
-    border-bottom: 1px solid #c8d2d5;
-}
-.select-date-content{
-    width: 50%;
-}
-
-.select-date-content .date-content{
-    border: 1px solid #CCC;
-    padding: 5px;
-    width: 35%;
-}
-.time-content{
-    width: 50%;
-}
-
-.time-content .time{
-    width: 35%;
-}
-.later-box{
-    margin-top: 15px;
-    margin-bottom: 15px;
-}
-
-.time-content .time-dropdown{
-    border: 1px solid #CCC;
-    padding: 5px;
-    width: 30%;
-    margin-right: 11px;
-}
-
-.time-content .am-pm-dropdowm{
-    border: 1px solid #CCC;
-    padding: 5px;
-    width: 20%;
-}
-
-.delivery-time,.select-date{
-    width: 38%;
-    margin-bottom: 15px;
+.c-textarea{
+    height: 100px !important;
 }
 
 
-.deliverytime-content {
-    width: 60%;
+.textarea{
+    height: 100%;
+    background-color: #fff;
+    color: black;
+}
+
+.select-date-icon{
 
 }
-.deliverytime-content .now{
+/***********************************************************/
+
+
+/************************Agency Profile Styles************/
+
+.header-panel{
+    width: 93%;
+    height: 50px;
+    margin: 0px 18px;
+    margin-bottom: 20px;
+}
+
+.left-content-panel{
     width: 40%;
+    height: 50px;
+    line-height: 50px;
+}
+.right-content-panel{
+    width: 40%;
+    height: 50px;
+    line-height: 50px;
+}
+
+
+.browse-button-content{
+    height: 30px;
+    width: 15%;
+    background-color: green;
+    top: 14px;
+    right: 33px;
+    line-height: 30px;
+    text-align: center;
+}
+
+
+
+.carriers-left-content{
+    width: 45%;
+    padding: 5px;
+    height: 150px;
+    min-width: 100px;
+    margin-left: 8px;
+}
+.carriers-right-content{
+    width: 45%;
+    padding: 5px;
+    height: 150px;
+    min-width: 100px;
+    margin-left: 19px;
+}
+
+
+.carriers-right-content .c-agency-logo{
+    height: 45px;
+    margin-bottom: 5px;
+    border: 1px solid #ccc;
+}
+.carriers-right-content .c-agency-logo .txt-agency-logo-name{
+    background-color: #ffffff;
+    font-style: italic;
+    font-size: 14px;
+    color: #333;
+}
+.txt-agency-logo-name{
+    width: 60%;
+}
+
+.carriers-right-content .c-agency-name .txt-agency-name{
+    background-color: #ffffff;
+    font-style: italic;
+    font-size: 14px;
+    color: #333;
+}
+
+.carriers-right-content .c-agency-emailid .txt-agency-emailid{
+    background-color: #ffffff;
+    font-style: italic;
+    color: #333;
+}
+
+.carriers-right-content .c-agency-name{
+    height: 44px;
+    margin-bottom: 5px;
+    border: 1px solid #ccc;
+    background-color: #ffffff;
+}
+
+.carriers-right-content .c-agency-emailid{
+    height: 46px;
+    border: 1px solid #ccc;
+}
+
+.carriers-left-content .profile-pic-content{
+    width: 100%;
+    height: 150px;
+    /* padding: 5px; */
+    border: 1px solid #CCC;
+}
+.carriers-left-content .profile-pic-content > div{
+    width:80%;
+    margin:auto;
+}
+
+.carriers-left-content .profile-pic-content .agency-pic-text {
+    bottom: 15px;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.agency-logo,.agencyprofilelogo{
+    text-align: center;
+    height: 70%;
+    top: 15px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center; 
+}
+
+#id-agencyprofilelogo{
+    height: 100%;
+    width: 100%;
+    max-width:  300px;
+    max-height:  500px;  
 }
 
 .carriers-left-content,.carriers-right-content{
     width: 45%;
-    padding: 5px;
     height: 150px;
 }
 
@@ -1405,11 +1509,222 @@ padding: 10px 0px;
     border: 1px solid #ccc;
 }
 
+.o-btn {
+    width: 20%;
+    height:42px;
+    line-height:40px;
+    position:relative;
+    margin: 20px auto;
+    text-align: center;
+}
+
+/*****************Agency Profile Styles Ends Here *******/
+
+
+/*****************Share With Rep Styles ************************/
+.none-1,.none-2{
+    width: 71%;
+}
+
+.dropdown-icon{
+    top: 16px;
+    /* right: 12px; */
+}
+.range-box{
+    margin-top: 10px;
+}
+
+.range-title{
+    height:40px;
+    line-height:38px;
+    margin:0px 0px;
+}
+.range-sel1 {
+    width: 30%;
+    margin: 0px 0px 0px 15px;
+}
+.time-dropdown-1{
+    width: 46%;
+    margin: 0px 0px 0px 15px;
+}
+.push-select-dropdown{
+    width: 49%;
+
+}
+.time-dropdown-2{
+    width: 30%;
+    margin: 0px 0px 0px 27px;
+}
+.range-sel2 {
+    width: 40%;
+    margin:0px 0px;
+    margin-left: 10px;
+}
+
+.drop-down-icon-1{
+    right: 10px;
+    /* margin-right: -32px; */
+}
+.drop-down-icon-2{
+    right: 10px;
+
+}
+
+.rep-block{
+    margin:15px 0px 10px 0px;
+}
+.rep-block .rep-title-blk{
+    padding-bottom:10px;
+    margin-bottom:5px;
+    border-bottom:1px solid #b9b8b8;
+}
+
+.rep-block .rep-content-blk{
+    overflow:auto;
+    max-height:200px;
+}
+
+.rep-block .rep-content-blk .rep-grp-blk{
+    padding: 10px 5px;
+}
+
+.rep-block .rep-content-blk .rep-grp-blk .rep-name{
+    margin-left:15px;
+}
+
+.rep-label .lbl-in-block{
+    display: inline-block;
+    width: 95%;
+}
+
+.checkbox{
+    width:10px;
+    height:10px;
+}
+
+.rep-label{
+    display: inline-block;
+    cursor: pointer;
+    width: 95%;
+}
+
+.rep-label:before {
+    content: "";
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    background: #fff;
+    color: #333;
+    text-align: center;
+    border:1px solid #b9b8b8;
+    border-radius: 3px;
+}
+.rep-grp-blk input[type=checkbox]:checked + .rep-label:before {
+    content: "\2713";
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+    font-size: 15px;
+    line-height: 15px;
+}
+/*****************Share With Rep Styles Ends Here****************/
+
+/*****************Send app link to customers styles ************************/
+
+
+
+
+
+
+
+/*****************Send app link to customers styles Ends Here****************/
+
+
+
+/*********Ends Here ******** ****** Added by Manoj **************/
+
+.enable-text{
+    margin-bottom: 15px;
+}
+.nameRepId{
+    margin-left: 145px;
+    text-align: center;
+}
+
+.delivery-box{
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #c8d2d5;
+}
+.select-date-content{
+    width: 47%;
+}
+
+.select-date-content .date-content{
+    border: 1px solid #CCC;
+    padding: 5px;
+    width: 36%;
+}
+.time-content{
+    width: 53%;
+    /* margin-left: 19px; */
+}
+
+.time-content .time{
+    width: 10%;
+    line-height: 39px;
+}
+.later-box{
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.time-content .time-dropdown{
+    border: 1px solid #CCC;
+    padding: 5px;
+    width: 30%;
+    margin-right: 11px;
+}
+
+.time-content .am-pm-dropdowm{
+    border: 1px solid #CCC;
+    padding: 5px;
+    width: 20%;
+}
+
+.delivery-time,.select-date{
+    width: 38%;
+    margin-bottom: 15px;
+    line-height: 33px;
+}
+.push-drop-down-icon-1{
+    /* width: 17px; */
+    /* height: 9px; */
+    top: 14px;
+    height: 28px;
+    left: 129px;
+    width: 32px;
+}
+
+.push-drop-down-icon-2{
+    top: 14px;
+
+    right: 8px;
+}
+
+.deliverytime-content {
+    width: 60%;
+
+}
+.deliverytime-content .now{
+    width: 45%;
+}
+
+
+
 .agency-prof-overlay-header .manageAgency {
-top: 20%;
-bottom: 20%;
-right: 0;
-margin: auto;
+    top: 20%;
+    bottom: 20%;
+    right: 0;
+    margin: auto;
 }
 
 .carriers-left-content .profile-pic-content{
@@ -1419,15 +1734,15 @@ margin: auto;
     border: 1px solid #CCC;
 }
 .carriers-left-content .profile-pic-content > div{
-width:80%;
-margin:auto;
+    width:80%;
+    margin:auto;
 }
 
 .carriers-left-content .profile-pic-content .agency-pic-text {
-bottom: 15px;
-left: 0;
-right: 0;
-margin: auto;
+    bottom: 15px;
+    left: 0;
+    right: 0;
+    margin: auto;
 }
 
 .carriers-left-content .profile-pic-content .profile-pic-icon{
@@ -1452,8 +1767,10 @@ margin: auto;
 }
 
 .dropdown-icon{
-    top: 14px;
-    right: 12px;
+    /* top: 14px; */
+    /* left: 62px; */
+    /* height: 10px; */
+    /* width: 12px; */
 }
 .range-box{
     margin-top: 10px;
@@ -1508,28 +1825,23 @@ margin: auto;
 }
 
 
-
-/************ Added by Manoj ************/
-
-
-
 .spinner .spin-class{
-width: 125px;
-height: 125px;
-top: 0;
-bottom: 0;
-left: 0;
-right: 0;
-margin: auto;
+    width: 125px;
+    height: 125px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
 }
 
 .spinner .spin-class img{
-top:0;
-bottom:0;
-left:0;
-right:0;
-margin:auto;
-width:100%;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    margin:auto;
+    width:100%;
 }
 
 .alert-mess-text, .invite-reps-text, .text-color-overlay{
@@ -1537,102 +1849,100 @@ width:100%;
 }
 
 .alert-mess-text{
-margin-top:50px;
+    margin-top:50px;
 }
 
-.o-btn {
-    width: 20%;
-	height:42px;
-	line-height:40px;
-	position:relative;
-	margin: 20px auto;
-}
+
 
 .text-box-outer{
-height:40px;
-border:1px solid #b9b8b8;
-margin:20px 0px;
+    height: 38px;
+    border:1px solid #b9b8b8;
+    /* margin:20px 0px; */
+    /* background-color: #101010; */
 }
 .text-box-outer input{
-background:#fff;
-color:#b4b4b4;
+    background:#fff;
+    color:#b4b4b4;
+    text-indent:15px;	
 }
 .range-color,.location-color{
-color:#b4b4b4;
+    color:#b4b4b4;
 }
 .text-box-outer input::-webkit-input-placeholder {
     color:#b4b4b4;
 }
 .text-box-outer input:-moz-placeholder {
-   color:#b4b4b4;
-   opacity:  1;
+    color:#b4b4b4;
+    opacity:  1;
 }
 .text-box-outer input::-moz-placeholder {
-   color:#b4b4b4;
-   opacity:  1;
+    color:#b4b4b4;
+    opacity:  1;
 }
 .text-box-outer input:-ms-input-placeholder {
-   color:#b4b4b4;
+    color:#b4b4b4;
 }
 
 .textBox-placeholder-italic input::-webkit-input-placeholder {
     font-style:italic;
 }
 .textBox-placeholder-italic input:-moz-placeholder {
-   font-style:italic;
+    font-style:italic;
 }
 .textBox-placeholder-italic input::-moz-placeholder {
-  font-style:italic;
+    font-style:italic;
 }
 .textBox-placeholder-italic input:-ms-input-placeholder {
-   font-style:italic;
+    font-style:italic;
 }
 
 
 .policy-group{
-margin:10px 0px;
+    margin:10px 0px;
 }
 
 .policy-group .policy-title{
-width:30%;
+    width:30%;
 }
 
 .policy-group .policy-value{
-width:65%;
+    width:65%;
 }
 .range-title{
-height:40px;
-line-height:38px;
-margin:0px 0px;
+    height:40px;
+    line-height:38px;
+    /* margin:0px 0px; */
+    margin-right: 16px;
 }
 .range-sel1 {
-width: 30%;
-margin:0px 10px 0px 15px;
+    width: 31%;
+    margin:0px 10px 0px 15px;
 }
 .range-sel2 {
-width: 40%;
-margin:0px 0px;
+    width: 48%;
+    margin:0px 0px;
+    /* margin-left: -3px; */
 }
 .rep-block{
-margin:15px 0px 10px 0px;
+    margin:15px 0px 10px 0px;
 }
 .rep-block .rep-title-blk{
-padding-bottom:10px;
-margin-bottom:5px;
-border-bottom:1px solid #b9b8b8;
+    padding-bottom:10px;
+    margin-bottom:5px;
+    border-bottom:1px solid #b9b8b8;
 }
 
 .rep-block .rep-content-blk{
-overflow:auto;
-max-height:200px;
+    overflow:auto;
+    max-height:200px;
 }
 
 .rep-block .rep-content-blk .rep-grp-blk{
-padding: 10px 5px;
+    padding: 10px 5px;
 }
 
 .rep-block .rep-content-blk .rep-grp-blk .rep-name{
-margin-left:15px;
+    margin-left:15px;
 }
 
 .rep-label .lbl-in-block{
@@ -1648,40 +1958,39 @@ margin-left:15px;
     text-align: center;  
     line-height: 15px;  
 }  */ 
- 
+
 .checkbox{
-width:10px;
-height:10px;
+    width:10px;
+    height:10px;
 }
 
 .rep-label{
-display: inline-block;
-cursor: pointer;
-width: 95%;
+    display: inline-block;
+    cursor: pointer;
+    width: 95%;
 }
 
 .rep-label:before {
-		content: "";
-		display: inline-block;
-		width: 15px;
-		height: 15px;
-		background: #fff;
-		color: #333;
-		text-align: center;
-		border:1px solid #b9b8b8;
-		border-radius: 3px;
+    content: "";
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    background: #fff;
+    color: #333;
+    text-align: center;
+    border:1px solid #b9b8b8;
+    border-radius: 3px;
 }
 .rep-grp-blk input[type=checkbox]:checked + .rep-label:before {
-		content: "\2713";
-		text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
-		font-size: 15px;
-		line-height: 15px;
+    content: "\2713";
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+    font-size: 15px;
+    line-height: 15px;
 }
 
 .spanCLassElement{
-margin: 15px 20px;
-padding-bottom: 10px;
-
+    margin: 15px 20px;
+    padding-bottom: 10px;
 }
 
 /**************** Overlay Contents ***********************/
@@ -1705,11 +2014,22 @@ padding-bottom: 10px;
 }
 
 
-@media all and (max-width: 1050px) {
+@media all and (max-width: 1090px) {
+.tab-rb-submenu > div .submenu-tab {padding:0px 10px !important;}
+}
+
+@media only screen and (min-width: 850px) and (max-width:950px){
+.tab-rb-submenu > div .submenu-tab {padding:0px 5px !important;}
+.submenu-sort{margin-left:0px;}
+}
+
+@media only screen and (min-width: 950px) and (max-width:1050px){
 .tab-rb-submenu > div .submenu-tab{
 padding: 0px 10px !important;
-font-size: 13px;
+font-size: 16px;
 }
+.submenu-sort{margin-left:0px;}
+
 .docs-block a{margin-right: 35px;}
 .feed-addRemove-text{font-size: 13px;}
 .feed-user-share-b{width:30% !important;}
@@ -1718,7 +2038,7 @@ font-size: 13px;
 @media all and (max-width: 850px) {
 .tab-rb-submenu > div .submenu-tab{
 padding: 0px 10px !important;
-font-size: 13px;
+font-size: 16px;
 }
 }
 
@@ -1728,6 +2048,13 @@ font-size: 13px;
 width:100%;
 margin:auto;
 }
+
+footer  .foot-in{
+line-height:42px;
+width: 95%;
+margin: auto;
+}
+
 .ctrl-blk{padding:0px 25px;}
 
 .w-pad{
@@ -1787,6 +2114,10 @@ margin: 0px 12px;
 
 }
 
+
+
+
+
 @media all and (max-width: 1200px) {
 .mb-submenu-in{
 width:100%;
@@ -1796,10 +2127,10 @@ width:100%;
 font-size:13px;
 }
 .mb-submenu .mb-submenu-in >div:last-child{
-width: 70%;
+/*width: 70%;*/
 }
 .mb-submenu .mb-submenu-in >div:first-child{
-width:30%;
+/*width:30%;*/
 }
 .tab-rb-submenu > div .submenu-tab{
 
@@ -1876,6 +2207,17 @@ width: 50%;
 
 }
 
+    /*********************Media Query ********* Added By Manoj**************************************/
+
+    @media screen and (max-width: 600px) {
+        .o-box {
+            width: 40%;
+        }
+    }
+
+
+    /*********************Media Query Ends *** Added By Manoj**************************************/
+}
 
 
 

@@ -286,40 +286,14 @@ var staticTemplate = {
 						+'</div>'					
 					+'</div>';						
 			return html;
+		},
+
+		staticArchiveFeedTemplate:function(){
+			var html= '<div class="feed-block clr-fl"><div class="lf-block left"><div class="leftblk-spacing"><div class="feed-det bg-color-dblue p-relative"><div class="feed-det-pad p-relative"><div class="feed-pic-b inline-block v-align-mid"><div id="" class="feed-user-pic-box"><img src="http://www.deshow.net/d/file/animal/2009-05/animal-pictures-pet-photography-557-4.jpg" alt="" class="feeduserpic"></div></div><div class="feed-user-det-b inline-block v-align-mid"><div class="top-b p-relative"><div class="p-relative inline-block v-align-top"><div class="sprite-im mobile-icon mobile-icon-pos">&nbsp;</div></div><div class="p-relative inline-block opensans-regular v-align-bot f-sz-16 cust-name t-caps">Hugh Jackman</div><div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 feed-time t-upper">10.55 AM</div><div class="p-relative inline-block opensans-regular v-align-bot f-sz-13 alert-color alert-type t-caps">policy alert</div><div class="p-relative inline-block v-align-mid"><div class="sprite-im rep-icon rep-icon-pos">&nbsp;</div></div><div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 rep-name t-caps">robert</div></div><div class="bot-b"><div class="p-relative inline-block v-align-bot"><div class="sprite-im calendar-icon calendar-icon-pos">&nbsp;</div></div><div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 feed-date t-caps">Nov 18,2014</div><div class="p-relative inline-block v-align-bot"><div class="sprite-im map-icon map-icon-pos">&nbsp;</div></div><div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 feed-location t-caps">California</div><div class="p-relative inline-block v-align-bot"><div class="sprite-im phone-icon phone-icon-pos">&nbsp;</div></div><div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 cust-phone t-caps">0000 000 000</div><div class="p-relative inline-block v-align-bot"><div class="sprite-im email-icon email-icon-pos">&nbsp;</div></div><div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 cust-email no-right-margin">xyz@mail.com</div></div></div><div class="feed-user-share-b inline-block v-align-mid"><div class="myshare"><div class="inner-share-spacing snap" data-type="share"><div class="t-center mid-align"><div class="sprite-im inline-block v-align-mid share-icon">&nbsp;</div><span class="feed-menu-text inline-block v-align-mid f-color-w">Share</span></div></div></div><div class="myview"><div class="inner-view-spacing snap" data-type="view"><div class="t-center mid-align"><div class="sprite-im inline-block v-align-mid view-icon">&nbsp;</div><span class="feed-menu-text inline-block v-align-mid f-color-w">View</span></div></div></div></div></div></div></div></div><div class="rg-block left p-relative"><div class="feed-det bg-color-dblue p-relative"><div class="feed-docs-pad p-relative docs-block t-center"><a href="/text" class="snap feed-docs inline-block v-align-mid f-sz-14 opensans-regular f-color-green textDoc p-relative" data-type="textDoc"><div class="t-center p-relative"><div class="doc-icon-box"><div class="sprite-im text-icon doc-icon-placement">&nbsp;</div></div><div class="doc-cnt-box"><span class="doc-count doc-count-placement">2</span></div><div class="feed-menu-text bold">Text</div></div></a><a href="/photos" class="snap feed-docs inline-block v-align-mid f-sz-14 opensans-regular f-color-green photosDoc p-relative" data-type="photosDoc"><div class="t-center p-relative"><div class="doc-icon-box"><div class="sprite-im photos-icon doc-icon-placement">&nbsp;</div></div><div class="doc-cnt-box"><span class="doc-count doc-count-placement">2</span></div><div class="feed-menu-text bold">Photos</div></div></a><a href="/voice" class="snap feed-docs inline-block v-align-mid f-sz-14 opensans-regular f-color-green voiceDoc p-relative" data-type="voiceDoc"><div class="t-center p-relative"><div class="doc-icon-box"><div class="sprite-im voice-icon doc-icon-placement">&nbsp;</div></div><div class="doc-cnt-box"><span class="doc-count doc-count-placement">2</span></div><div class="feed-menu-text bold">Voice</div></div></a></div></div></div></div>';
+			return html;
 		},		
 		
-		editAgencyPicTemplate:function(){
-			var html= '<h2 class="t-left f-color-green opensans-regular p-relative agency-prof-overlay-header" style="">'
-							+'<span>Agency Profile</span>'
-							+'<a href="/manageAgency" class="f-color-red snap p-absolute manageAgency f-sz-14 opensans-regular f-italic">Manage Agency</a>'
-						+'</h2>'
-                               +'<div class="o-sub-content p-relative">'
-									+'<div class="carriers-left-content left ">'
-                                        +'<div class="profile-pic-content p-relative t-center">'
-											+'<div class="t-center">'
-												+'<div class="sprite-im p-relative profile-pic-icon">&nbsp</div>'
-												+'<div class="p-absolute agency-pic-text t-upper f-sz-14 text-color-overlay">Agency Logo</div>'
-											+'</div>'
-                                       +'</div>'
-                                    +'</div>'
-                                    +'<div class="carriers-right-content left">'
-										+'<form>'
-											+'<div class="c-agency-logo">'
-												+'<input type="file" class="txt-agency-logo-name opensans-regular f-sz-14">'
-											+'</div>'
-											+'<div class="c-agency-name">'
-												+'<input type="text" class="txt-agency-name opensans-regular f-sz-14 f-italic text-color-overlay" value="Auto care">'
-											+'</div>'
-											+'<div class="c-agency-emailid">'
-											   +'<input type="text" class="txt-agency-emailid opensans-regular f-sz-14"  value="autocare@gmail.com">'
-											+'</div>'
-										+'</form>'
-                                    +'</div>'
-                                +'</div>'
-                                +'<div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="overlaybtn">Save</div>';			
-			return html;
-			
-		},
+		
 		matchReleaseClaimTemplate:function(){
 			var html = '<h2 class="t-left opensans-regular f-color-green" style="display:none;">Header</h2>'
 							+'<div class="o-sub-content p-relative">'
@@ -330,91 +304,35 @@ var staticTemplate = {
 		
 		},
 		
-		shareWithRepTemplate:function(){
-			var html = '<h2 class="t-left f-color-green opensans-regular" style="">Share with Representatives</h2>'
-							+'<div class="o-sub-content p-relative">'
-								+'<div class="text-box-outer textBox-placeholder-italic">'
-									+'<input type="search" class="opensans-regular" placeholder="Search.." />'
-								+'</div>'
-								+'<div class="range-box clr-fl">'
-									+'<div class="opensans-regular f-sz-14 range-color left f-italic range-title">Select Range</div>'
-									+'<div class="text-box-outer textBox-placeholder-italic left range-sel1">'				
-										+'<input type="text" class="opensans-regular" placeholder="None" />'
-										+'<div class="sprite-im drop-down-icon dropdown-icon  p-absolute"></div>'
-									+'</div>'
-									+'<div class="text-box-outer textBox-placeholder-italic left range-sel2">'				
-										+'<input type="text" class="opensans-regular" placeholder="None" />'
-										+'<div class="sprite-im drop-down-icon dropdown-icon  p-absolute"></div>'
-									+'</div>'
-								+'</div>'
-								+'<div class="rep-block">'
-									+'<div class="rep-title-blk clr-fl">'
-										+'<div class="name-title opensans-regular t-upper left text-color-overlay bold">names</div>'
-										+'<div class="name-title opensans-regular t-upper right text-color-overlay bold">city,state</div>'
-									+'</div>'
-									+'<div class="rep-content-blk">'
-										+'<form>'
-                                            +'<div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative">'
-                                                +'<input type="checkbox" id="name1" name="" class="checkbox" />'
-                                                +'<label for="name1" class="rep-label">'
-                                                        +'<div class="lbl-in-block p-relative">'
-															+'<div class="f-sz-14 text-color-overlay left rep-name">Anderson</div>'
-                                                            +'<div class="t-caps f-sz-13 right f-italic t-right location-color rep-location">NewYork, CA</div>'
-                                                        +'</div>'
-                                                +'</label>'
-                                           +'</div>'
-										    +'<div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative">'
-                                                +'<input type="checkbox" id="name1" name="" class="checkbox" />'
-                                                +'<label for="name1" class="rep-label">'
-                                                        +'<div class="lbl-in-block p-relative">'
-															+'<div class="f-sz-14 text-color-overlay left rep-name">Anderson</div>'
-                                                            +'<div class="t-caps f-sz-13 right f-italic t-right location-color rep-location">NewYork, CA</div>'
-                                                        +'</div>'
-                                                +'</label>'
-                                           +'</div>'
-										    +'<div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative">'
-                                                +'<input type="checkbox" id="name1" name="" class="checkbox" />'
-                                                +'<label for="name1" class="rep-label">'
-                                                        +'<div class="lbl-in-block p-relative">'
-															+'<div class="f-sz-14 text-color-overlay left rep-name">Anderson</div>'
-                                                            +'<div class="t-caps f-sz-13 right f-italic t-right location-color rep-location">NewYork, CA</div>'
-                                                        +'</div>'
-                                                +'</label>'
-                                           +'</div>'
-										    +'<div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative">'
-                                                +'<input type="checkbox" id="name1" name="" class="checkbox" />'
-                                                +'<label for="name1" class="rep-label">'
-                                                        +'<div class="lbl-in-block p-relative">'
-															+'<div class="f-sz-14 text-color-overlay left rep-name">Anderson</div>'
-                                                            +'<div class="t-caps f-sz-13 right f-italic t-right location-color rep-location">NewYork, CA</div>'
-                                                        +'</div>'
-                                                +'</label>'
-                                           +'</div>'
-											 +'<div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative">'
-                                                +'<input type="checkbox" id="name1" name="" class="checkbox" />'
-                                                +'<label for="name1" class="rep-label">'
-                                                        +'<div class="lbl-in-block p-relative">'
-															+'<div class="f-sz-14 text-color-overlay left rep-name">Anderson</div>'
-                                                            +'<div class="t-caps f-sz-13 right f-italic t-right location-color rep-location">NewYork, CA</div>'
-                                                        +'</div>'
-                                                +'</label>'
-                                           +'</div>'
-										    +'<div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative">'
-                                                +'<input type="checkbox" id="name1" name="" class="checkbox" />'
-                                                +'<label for="name1" class="rep-label">'
-                                                        +'<div class="lbl-in-block p-relative">'
-															+'<div class="f-sz-14 text-color-overlay left rep-name">Anderson</div>'
-                                                            +'<div class="t-caps f-sz-13 right f-italic t-right location-color rep-location">NewYork, CA</div>'
-                                                        +'</div>'
-                                                +'</label>'
-                                           +'</div>'
-                                        '</form>'
-									+'</div>'
-								+'</div>'	
-								+'<div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="overlaybtn">Assign</div>'
-							+'</div>';
-			return html;			
-		},
+		 editAgencyPicTemplate: function () {
+            var html = '<div class="header-panel border-bot"> <div class="left-content-panel t-left left f-color-green f-sz-18 opensans-regular">'
+                    + 'Agency Profile</div> <div class="right-content-panel t-right right f-color-red f-sz-12 opensans-regular"> <i>Manage Agency</i></div>'
+                    + '</div> <div class="o-sub-content p-relative"> <div class="carriers-left-content left "> <div class="profile-pic-content"> '
+                    + '<div id="id-agency-logo" class="agency-logo p-relative"> <img src="images/Logo.png" alt="" id="id-agencyprofilelogo" class="agencyprofilelogo"> '
+                    + '</div> </div> </div> <div class="carriers-right-content left "> <div class="c-agency-logo"> '
+                    + '<input type="text" id="id-agency-logo-name" class="txt-agency-logo-name opensans-regular f-sz-14" value="Agency Logo.jpg" disabled> '
+                    + '<input type="file" style="display:none;" id="inputfile" onchange="readURL(this)" /> '
+                    + '<div class="browse-button-content p-absolute f-color-w f-sz-16 opensans-regular" onclick="javascript:document.getElementById(\'inputfile\').click();"> Browse </div>'
+                    + '</div> <div class="c-agency-name"> <input type="text" class="txt-agency-name opensans-regular f-sz-14" value="John Doe"> </div>'
+                    + '<div class="c-agency-emailid"> <input type="text" class="txt-agency-emailid opensans-regular f-sz-14" value="johndoe@gmail.com"> </div> </div>'
+                    + '</div> <div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="overlaybtn">Save</div>';
+
+            return html;
+
+        },
+        pushMessageTemplate: function () {
+            var html = ' <h2 class="t-left f-color-green opensans-regular" style="">Push Message</h2> <div class="o-sub-content p-relative"> <div class="c-textarea text-box-outer textBox-placeholder-italic"> <textarea draggable="false" class="textarea opensans-regular" placeholder="Type message" maxlength="170"></textarea> </div> <div class="delivery-box clr-fl"> <div class="delivery-time left opensans-regular">Delivery Time</div> <div class="deliverytime-content left opensans-regular clr-fl"> <div class="now left">Now</div> <div class="later left">Later</div> </div> </div> <div class="later-box clr-fl"> <div class="select-date-content left opensans-regular"> <div class="select-date left opensans-regular">Select Date</div> <div class="text-box-outer textBox-placeholder-italic left push-select-dropdown border-all p-relative"> <input type="text" class="none-1 opensans-regular left" placeholder="22-11-2014" /> <div class="sprite-im datepicker-icon p-absolute"></div> </div> </div> <div class="time-content left opensans-regular clr-fl"> <div class="time left opensans-regular">Time</div> <div class="text-box-outer textBox-placeholder-italic left time-dropdown-1 border-all p-relative"> <input type="text" class="none-1 opensans-regular left" placeholder="10.55" /> <div class="sprite-im drop-down-icon push-drop-down-icon-1 p-absolute"></div> </div> <div class="text-box-outer textBox-placeholder-italic left time-dropdown-2 border-all p-relative"> <input type="text" class="none-1 opensans-regular left" placeholder="AM" /> <div class="sprite-im drop-down-icon push-drop-down-icon-2 p-absolute"></div> </div> <!-- <div class="time-dropdown left opensans-regular p-relative">10.55<div class="sprite-im push-drop-down-icon-1 dropdown-icon p-absolute"></div></div> <div class="am-pm-dropdowm left opensans-regular">AM<div class="sprite-im push-drop-down-icon-2 drop-down-icon dropdown-icon p-absolute"></div></div>--> </div> </div> <div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="overlaybtn">Send</div> </div> ';
+
+            return html;
+
+        },
+        privacyTemplate: function () {
+            var html = '<h2 class="t-center f-color-green opensans-regular" style="">Privacy</h2> <div class="o-sub-content p-relative"> <h3 class="enable-text t-center f-sz-14 opensans-regular "><b>Enable / disable privacy option for your agency</b></h3> <h3 class="enable-text t-left f-sz-14 opensans-regular ">Make all profile public</h3> <h3 class="enable-text t-left f-sz-14 opensans-regular ">Make all profile private</h3> <h3 class="enable-text t-left f-sz-14 opensans-regular ">Custom</h3> <div class="text-box-outer textBox-placeholder-italic border-all"> <input type="search" class="opensans-regular" placeholder="Search.." /> </div> <div class="rep-block"> <div class="rep-title-blk clr-fl"> <div class="name-title opensans-regular t-upper left text-color-overlay bold">Member Names</div> <div class="nameRepId opensans-regular t-upper left text-color-overlay bold">Rep ID</div> <div class="name-title opensans-regular t-upper right text-color-overlay bold">Private / Public</div> </div> <div class="rep-content-blk"> <form> <div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative"> <input type="checkbox" id="name1" name="" class="checkbox" /> <label for="name1" class="rep-label"> <div class="lbl-in-block p-relative"> <div class="f-sz-14 text-color-overlay left rep-name">Anderson</div> <div class="nameRepId f-sz-14 text-color-overlay left"><i>#5454547</i></div> <div class="t-caps f-sz-13 right f-italic t-right location-color rep-location">NewYork, CA</div> </div> </label> </div> <div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative"> <input type="checkbox" id="name1" name="" class="checkbox" /> <label for="name1" class="rep-label"> <div class="lbl-in-block p-relative"> <div class="f-sz-14 text-color-overlay left rep-name">Anderson</div> <div class="nameRepId f-sz-14 text-color-overlay left"><i>#5454547</i></div> <div class="t-caps f-sz-13 right f-italic t-right location-color rep-location">NewYork, CA</div> </div> </label> </div> <div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative"> <input type="checkbox" id="name1" name="" class="checkbox" /> <label for="name1" class="rep-label"> <div class="lbl-in-block p-relative"> <div class="f-sz-14 text-color-overlay left rep-name">Anderson</div> <div class="nameRepId f-sz-14 text-color-overlay left"><i>#5454547</i></div> <div class="t-caps f-sz-13 right f-italic t-right location-color rep-location">NewYork, CA</div> </div> </label> </div> <div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative"> <input type="checkbox" id="name1" name="" class="checkbox" /> <label for="name1" class="rep-label"> <div class="lbl-in-block p-relative"> <div class="f-sz-14 text-color-overlay left rep-name">Anderson</div> <div class="nameRepId f-sz-14 text-color-overlay left"><i>#5454547</i></div> <div class="t-caps f-sz-13 right f-italic t-right location-color rep-location">NewYork, CA</div> </div> </label> </div> <div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative"> <input type="checkbox" id="name1" name="" class="checkbox" /> <label for="name1" class="rep-label"> <div class="lbl-in-block p-relative"> <div class="f-sz-14 text-color-overlay left rep-name">Anderson</div> <div class="nameRepId f-sz-14 text-color-overlay left"><i>#5454547</i></div> <div class="t-caps f-sz-13 right f-italic t-right location-color rep-location">NewYork, CA</div> </div> </label> </div> </form> </div> </div> <div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="overlaybtn">Send</div> </div>';
+
+            return html;
+
+        },
+       
 		
 		/*Added by Naveen - Start */
 		showPhotsOverlayTemplate:function(){
@@ -440,6 +358,23 @@ var staticTemplate = {
 					+'</div>';
 			return html;			
 		},
+
+		shareWithRepTemplate: function () {
+            var html = ' <h2 class="t-left f-color-green opensans-regular" style="">Share with Representatives</h2>'
+                    + ' <div class="o-sub-content p-relative"> <div class="text-box-outer textBox-placeholder-italic"> <input type="search"'
+                    + 'class="opensans-regular" placeholder="Search.." /> </div> <div class="range-box clr-fl"> <div class="opensans-regular'
+                    + 'f-sz-14 range-color left f-italic range-title">Select Range</div> <div class="text-box-outer p-relative textBox-placeholder-italic left range-sel1">'
+                    + '<input type="text" class="opensans-regular p-relative" placeholder="None" /> '
+                    + '<div class="drop-down-icon-1 sprite-im drop-down-icon dropdown-icon p-absolute"></div> </div> <div class="text-box-outer '
+                    + 'textBox-placeholder-italic p-relative left range-sel2"> <input type="text" class="opensans-regular p-relative" placeholder="None" /> '
+                    + '<div class="drop-down-icon-2 sprite-im drop-down-icon dropdown-icon p-absolute"></div> </div> </div> <div class="rep-block">'
+                    + '<div class="rep-title-blk clr-fl"> <div class="name-title opensans-regular t-upper left text-color-overlay bold">NAMES</div>'
+                    + '<div class="name-title opensans-regular t-upper right text-color-overlay bold">CITY,STATE</div> </div> <div class="rep-content-blk"> <form> <div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative"> <input type="checkbox" id="name1" name="" class="checkbox" /> <label for="name1" class=" rep-label"> <div class="lbl-in-block p-relative"> <div class="f-sz-14 text-color-overlay left rep-name">Anderson</div> <div class="t-caps f-sz-13 right f-italic t-right location-color rep-location">NewYork, CA</div> </div> </label> </div> <div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative"> <input type="checkbox" id="name2" name="" class="checkbox" /> <label for="name2" class=" rep-label"> <div class="lbl-in-block p-relative"> <div class="f-sz-14 text-color-overlay left rep-name">Anderson</div> <div class="t-caps f-sz-13 right f-italic t-right location-color rep-location">NewYork, CA</div> </div> </label> </div> <div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative"> <input type="checkbox" id="name3" name="" class="checkbox" /> <label for="name3" class=" rep-label"> <div class="lbl-in-block p-relative"> <div class="f-sz-14 text-color-overlay left rep-name">Anderson</div> <div class="t-caps f-sz-13 right f-italic t-right location-color rep-location">NewYork, CA</div> </div> </label> </div> <div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative"> <input type="checkbox" id="name4" name="" class="checkbox" /> <label for="name4" class=" rep-label"> <div class="lbl-in-block p-relative"> <div class="f-sz-14 text-color-overlay left rep-name">Anderson</div> <div class="t-caps f-sz-13 right f-italic t-right location-color rep-location">NewYork, CA</div> </div> </label> </div> <div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative"> <input type="checkbox" id="name5" name="" class="checkbox" /> <label for="name5" class=" rep-label"> <div class="lbl-in-block p-relative"> <div class="f-sz-14 text-color-overlay left rep-name">Anderson</div> <div class="t-caps f-sz-13 right f-italic t-right location-color rep-location">NewYork, CA</div> </div> </label> </div> <div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative"> <input type="checkbox" id="name6" name="" class="checkbox" /> <label for="name6" class=" rep-label"> <div class="lbl-in-block p-relative"> <div class="f-sz-14 text-color-overlay left rep-name">Anderson</div> <div class="t-caps f-sz-13 right f-italic t-right location-color rep-location">NewYork, CA</div> </div> </label> </div> </form> </div> </div> <div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="overlaybtn">Assign</div> </div> ';
+
+            return html;
+        },
+
+
 		/*Added by Naveen - End */
 		
 		assignToRepTemplate:function(){
