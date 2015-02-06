@@ -277,6 +277,16 @@ width: 250px;
 
 
 /************* Icons *********************/
+.pop-out{
+     background-position:-64px -331px;
+	width: 25px;
+	height: 21px;
+}
+.edit-icon{
+    background-position:-8px -115px;
+	width: 15px;
+	height: 15px;
+}
 .pause-icon{
 	background-position: -74px -310px;
 	width: 9px;
@@ -378,7 +388,7 @@ width: 250px;
 }
 
 .drop-down-icon{
-	background-position: -41px -312px;
+	background-position: -43px -243px;
 	width: 17px;
 	height: 9px;
 }
@@ -592,10 +602,10 @@ line-height: 30px;
 
 
 
-.prof-view-overlay{padding:10px;border-bottom:solid 1px lightgray;font-family: 'PTSansLight';cursor:pointer;}
+.prof-view-overlay{padding:10px;border-bottom:solid 1px lightgray;font-family: 'PTSansLight';cursor:pointer;opacity:0.6;}
 .prof-view-overlay:last-child{border-bottom:none;}
-.prof-view-overlay:first-child{color: #379ba2;}
-
+.pop-selected-color{color: #379ba2;}
+.prof-view-overlay:hover{color: #379ba2;opacity:1;transition:all 0.4s;background:		#FCFCFC}
 .prof-view-overlay-sort{padding:5px;border-bottom:solid 1px lightgray;font-family: 'PTSansLight';cursor:pointer;}
 .prof-view-overlay-sort:last-child{border-bottom:none;}
 .prof-view-overlay-sort:first-child{color: #379ba2;background-color:lightgray;}
@@ -742,16 +752,24 @@ margin-right: 15px;
 .feed-block .feed-det .feed-det-pad .feed-pic-b .feed-user-pic-box{
 width: 80px;
 height: 67px;
-position: relative;
-overflow: hidden;
 background: #fff;
 border:2px solid #b9b8b8;
 color: #FFF;
-text-align: center;
+position: relative;
+margin-left: auto;
+margin-right: auto;
+overflow: hidden;
 }
 
 .feed-block .feed-det .feed-det-pad .feed-pic-b .feed-user-pic-box img{
 width:100%;
+position: absolute;
+margin: auto;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+height: 100%;
 }
 
 .feed-user-det-b {
@@ -887,6 +905,13 @@ border: 2px solid #b9b8b8;
 }
 .view-in-blocks .feed-user-top-details .feed-pic-b .feed-user-pic-box img{
 width:100%;
+height: 100%;
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+margin: auto;
 }
 .view-in-blocks .feed-user-top-details .feed-pic-b {
 margin-right:15px;
@@ -985,6 +1010,13 @@ cursor: pointer;
 width: 100%;
 }
 
+
+.policy-label{
+display: inline-block;
+cursor: pointer;
+width: 100%;
+}
+
 .policy-main-blk .insurance-policy-blk .policy-det-blk .policy-label:before {
 		content: "";
 		display: inline-block;
@@ -997,6 +1029,22 @@ width: 100%;
 		vertical-align:top;
 		margin-right: 10px;
 }
+
+.feed-label:before {
+		content: "";
+		display: inline-block;
+		width: 20px;
+		height: 20px;
+		background: #eeeeee;
+		color: #f34f4e;
+		text-align: center;
+		border: 1px solid #b9b8b8;
+		vertical-align: top;
+		margin-right: 10px;
+		position: absolute;
+		z-index: 9999;
+		top: 0;
+}
 .policy-det-blk input[type=checkbox]:checked + .policy-label:before {
 		content: "\2713";
 		text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
@@ -1005,6 +1053,18 @@ width: 100%;
 		font-weight: bold;
 		font-family: 'OpenSansRegular';
 }
+
+input[type=checkbox]:checked + .feed-label:before {
+		content: "\2713";
+		text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+		font-size: 15px;
+		line-height: 20px;
+		font-weight: bold;
+		font-family: 'OpenSansRegular';
+}
+
+
+
 
 .policy-label .insurance-main-det{
 width: 85%;
@@ -1080,9 +1140,10 @@ background: #f34f4e;
 
 
 /*********** View Feeds ************/
-
-
-/************* Carrier Page ********************/
+/***** agencymyproflileview ***/
+.ageny-img-width{
+width:100%;
+}
 .agenyparent-class{
 	position: relative;
 	padding: 10px;
@@ -1113,8 +1174,7 @@ background: #f34f4e;
 	border: none;
 	}
 	.agenypic-info{
-	width: 120px;
-	height: 106px;
+	width: 108px;
 	position: relative;
 	overflow: hidden;
 	}
@@ -1201,7 +1261,81 @@ background: #f34f4e;
 
 
 /************* Carrier View Page ********************/
-.carrier-view-name{
+.carrier-home-parent{
+	padding: 10px;
+	}
+	.carrier-profile-screen{
+	width:24%;
+	/*height: 200px;*/
+	margin-right:10px;
+	}
+	.carrier-logo{
+	width: 100%;
+   /* height: 85px;*/
+	}
+	.carrier-info{
+	width: 100%;
+    /*height: 71px;*/
+	}
+	.carrier-name{
+	color: #989898;
+	font-size: 16px;
+	/*margin-right: 15px;*/
+	}
+	.carrier-location{
+	color: #989898;
+	font-size: 16px;
+	/*margin-right: 15px;*/
+	}
+	.carrier-email{
+	color: #989898;
+	font-size: 16px;
+	/*margin-right: 15px;*/
+	}
+	.carrier-view{
+	width: 100%;
+   /* height: 25px;*/
+   padding: 5px 0px;
+	}
+	.carrier-groupblock{
+	padding:14px 0px;
+	}
+	.carrierlogo-pic{
+	width: 160px;
+	position: relative;
+	overflow: hidden;
+	margin: auto;
+	}
+	.carrier-img-width{
+	width:100%;
+	}
+	.customer-home-parent {
+	padding: 10px;
+	}
+	.customer-feed-screen{
+	width:24%;
+	/*height: 200px;*/
+	margin-right:10px;
+	}
+	.customer-feed-info{
+	padding: 7px 7px;
+	}
+	.customer-feed-pic{
+	width: 80px;
+	height: 67px;
+	background: #fff;
+	border: 2px solid #b9b8b8;
+	color: #FFF;
+	text-align: center;
+	margin-right:5px;
+	}
+	.customer-profile-info{
+	width: 60%;
+	}
+	.customer-feed-view{
+	width:100%;
+	}
+	.carrier-view-name{
 	color: #989898;
 	font-size: 16px;
 	margin-right: 15px;
@@ -1238,7 +1372,7 @@ padding: 15px 15px;
 padding: 6px;
 bottom: 8px;
 margin-right: 6px;
-width: 44%;
+width: 43%;
 }
 .carrier-view-facebook{
 padding: 6px;
@@ -1283,7 +1417,7 @@ padding: 0px 20px;
 padding: 10px 10px 10px 30px;
 }
 .carrier-view-block{
-width:90%;
+width:95%;
 margin: auto;
 }
 .carrier-view-left{
@@ -1301,10 +1435,10 @@ width:100%;
 width:45%;
 }
 .carrier-left-content{
-width:45%;
- font-size: 16px;
+	width:45%;
+	 font-size: 16px;
 	margin-right: 15px;
-	color: #989898;
+	color: black;
 }
 .carrier-view-rightblock{
 width:74%;
@@ -1316,6 +1450,166 @@ width:25%;
 .carrier-border-view{
 padding: 10px 0px;
 }
+
+/************ Associated Carrier view related feed ********/
+.associated-carrierview{
+width:100%;
+padding: 20px 0px;
+}
+.associated-carrier-sort{
+font-size: 16px;
+margin-right: 15px;
+color: #989898;
+}
+.associated-carrier-feed{
+padding:10px 0px;
+}
+.associated-carrier-pic{
+width: 80px;
+margin: auto;
+position: relative;
+padding: 10px 9px;
+}
+.carrier-feed-associated-view{
+padding: 25px 0px;
+margin-right: 15px;
+}
+.associated-cus-info{
+padding: 0px 5px;
+}
+/******* customer profile view *****/
+.customer-view-feed{
+width: 13%;
+/*padding: 15px 0px;*/
+}
+.customer-logo-view{
+width: 100%;
+margin-left: 8px;
+margin-top: -41px;
+}
+.customerlogo-viewpic {
+position: relative;
+overflow: hidden;
+margin: auto;
+}
+.customer-view-name{
+padding: 8px 0px 0px 0px;
+}
+.customer-view-policy{
+font-size: 16px;
+color: #989898;
+/*padding: 10px 0px;*/
+width: 25%;
+}
+.customer-policy-button{
+width: 12%;
+padding: 5px 4px 5px 5px;
+}
+.customer-view-button{
+padding: 15px 15px 27px 15px;
+width: 100%;
+}
+.customer-border-view {
+padding: 15px 0px 0px 0px;
+}
+.customer-view-block {
+width: 95%;
+margin: auto;
+}
+.customer-view-mbapp{
+right: -251px;
+}
+.carrier-mobile-icon{
+	background-position: -83px -80px;
+	width: 10px;
+	height: 18px;
+}
+/***** settings page *****/
+.app-link{
+font-size: 16px;
+color: black;
+}
+.app-download-bar{
+width: 78%;
+padding: 10px 0px;
+margin-right: 15px;
+font-size: 16px;
+color: #989898;
+}
+.send-app-bar{
+padding: 10px 0px;
+width: 20%;
+}
+.app-parent{
+padding: 15px 0px;
+}
+.settings-click-button{
+width: 100%;
+padding: 40px 0px 0px;
+}
+.settings-agency-bar{
+width: 10%;
+padding: 5px 0px;
+margin-right: 0px;
+}
+.settings-vendor-bar{
+width:12%;
+padding: 5px 0px;
+}
+.settings-edit-bar{
+width: 7%;
+padding: 5px 0px;
+}
+.settings-view-leftblock {
+width: 20%;
+}
+.settings-view-auth {
+padding: 10px 18px;
+}
+.settingslogo-viewpic {
+position: relative;
+/*overflow: hidden;*/
+margin: auto;
+/*width: 175px;*/
+/* padding: 19px 15px 15px 15px; */
+}
+.settings-view-social {
+width: 97%;
+padding: 10px 15px;
+}
+.settings-view-website {
+padding: 5px 5px;
+margin-bottom: 10px;
+width: 94%;
+}
+.settings-view-facebook {
+padding: 6px;
+margin-bottom: 10px;
+width: 94%;
+}
+.settings-view-rightblock {
+width: 79%;
+}
+.settings-logo-view {
+width: 94%;
+background-color: #eee;
+margin-left: 15px;
+}
+.container-maxwidth{
+margin-bottom: 20px;
+min-height: 500px;
+margin-top: 15px;
+max-height: 100%;
+overflow: auto;
+}
+.customer-feed-screen:hover .customer-feed-view{
+background:#f34f4e;
+}
+.carrier-profile-screen:hover  .carrier-view{
+background:#f34f4e;
+}
+.settings-agency-bar:hover{background:#f34f4e;}
+.settings-vendor-bar:hover{background:#f34f4e;}
 
 /**************** Overlay Contents ***********************/
 /********* ***********Added by Manoj *********************/
@@ -1994,6 +2288,8 @@ padding: 10px 0px;
 }
 
 /**************** Overlay Contents ***********************/
+
+
 
 
 

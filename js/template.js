@@ -181,7 +181,13 @@ var template = {
 	   var html ='<div class="agenygroup-block border-bot opensans-regular"><div class="agenychild-block"><div class="agenytitle-block  inline-block p-relative">{{prof-content-title}}</div>'
 	                  +  '<div class="agenycontent-block  inline-block p-relative">{{prof-content-detail}}</div></div></div>';
 		return html;			  
+	},
+
+	GetarchiveMenu:function(){
+	   var html ='<div class="mb-submenu-in p-relative"><div class="tab-rb-submenu inline-block v-align-mid"><div class="p-relative "><a href="/myalerts" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light myalerts p-relative selected-tab" data-type="page" data-submenu="myalerts"><span class="submenu-title t-caps f-color-w">My Alerts</span><span class="cnt-blk">(<span class="cnt-no">24</span>)</span></a><a href="/incidents" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light incidents p-relative" data-type="page" data-submenu="incidents"><div class="submenu-title t-caps inline-block f-color-w v-align-mid">incidents</div></a><a href="/policies" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light policies p-relative" data-type="page" data-submenu="policies"><span class="submenu-title t-caps f-color-w">Policies</span></a><a href="/policies" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light policies p-relative" data-type="page" data-submenu="archives"><span class="submenu-title t-caps f-color-w">Archives</span></a><a href="/policies" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light policies p-relative" data-type="page" data-submenu="view_archives"><span class="submenu-title t-caps f-color-w">View Archived</span></a><div href="#" class="snap submenu-sort right f-sz-16 ptsans-light p-relative" data-type="page" data-submenu="sortby"><div class="sort-text f-italic">Sort by</div><div class="sprite-im drop-down-icon submenu-drop-icon">&nbsp;</div></div></div><div class="clear"></div></div></div>';
+		return html;			  
 	}
+	
 	
 
 

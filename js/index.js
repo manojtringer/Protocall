@@ -18,7 +18,7 @@ var CONSTANTS = {
 		PAGE:"page",HOME_PAGE: "home", CARRIERS_PAGE: "carriers", CUSTOMERS_PAGE: "customers", MY_REP_PAGE: "myreps", LOGIN_page:"login",
 		VIEW_FEED:"view", FEEDS: "feeds",SHARE_TO_REP:"share", CLOSE_OVERLAY:"closeOverlay", CLOSE_POPUP:"closePopUp",EDIT_AGENCY_PIC:"editAgencyPic", 
 		MY_ALERTS:"myalerts",INCIDENTS:"incidents",POLICIES:"policies",MATCH_RELEASE_CLAIMS:"matchReleaseClaim",INVITE_REPS:"invitereps",
-		ASSIGN_TO_REPS:"assignrep",PHOTS_OVERLAY_DISPLAY:"photosDoc",THUMB_NAIL :"thumbNail",PREVIOUS :"previous", NEXT : "next",VIEW_CARRIER_FEEDVIEW:"viewcarrierfeedview",PUSHMESSAGE: "pushmessage", PRIVACY: "privacy",ARCHIVES:"archives",VIEW_ARCHIVES:"view_archives",SORTBY:"sortby", MY_PROFILE:"profile-link"
+		ASSIGN_TO_REPS:"assignrep",PHOTS_OVERLAY_DISPLAY:"photosDoc",THUMB_NAIL :"thumbNail",PREVIOUS :"previous", NEXT : "next",VIEW_CARRIER_FEEDVIEW:"viewcarrierfeedview",PUSHMESSAGE: "pushmessage", PRIVACY: "privacy",ARCHIVES:"archives",VIEW_ARCHIVES:"view_archives",SORTBY:"sortby", MY_PROFILE:"profile-link",VIEW_CUSTOMER_FEEDVIEW:"customerprofileviewfeed",SETTINGS_PAGE:"mysettings",PROFILE_PAGE:"myProfileView"
 	},
 	ERROR_MSG : {
 		ajaxFailed: "Oops! This action could not be completed now! Please try again"
@@ -50,6 +50,9 @@ HOME_PAGE= "home";
 CARRIERS_PAGE= "carriers"; 
 CUSTOMERS_PAGE= "customers";
 MY_REP_PAGE= "myreps";
+SETTINGS_PAGE="mysettings";
+PROFILE_PAGE="myProfileView";
+
 
 //PAGE & SUBMENU OBJECTS
 var SUB_MENU = {
@@ -234,11 +237,21 @@ protocall = {
 	init: function(){
 		protocall.displaySpinner(true);
 		if(this.isLoggedIn()){
-			this.setPageNavigation(localStorage.currentPage);
+			var pageNameFromURL = this.grabHashPage();
+			if(pageNameFromURL !=="" && typeof pageNameFromURL !== "undefined" && pageNameFromURL.length!= 0){
+				this.setPageNavigation(pageNameFromURL);
+			} else{
+				this.setPageNavigation(localStorage.currentPage);
+			}
         } else {
-			if((typeof localStorage != "undefined" && localStorage != null && localStorage.length !=0) && (localStorage.currentPage!=null && localStorage.currentPage!="")){
-				this.setPageNavigation(localStorage.currentPage);	
-			} else {
+			var pageNameFromURL = this.grabHashPage();
+			if(pageNameFromURL !=="" && typeof pageNameFromURL !== "undefined" && pageNameFromURL.length!= 0){
+				this.setPageNavigation(pageNameFromURL);
+			}
+			//else if((typeof localStorage != "undefined" && localStorage != null && localStorage.length !=0) && (localStorage.currentPage!=null && localStorage.currentPage!="")){
+			//	this.setPageNavigation(localStorage.currentPage);	
+			//} 
+			else {
 				this.setPageNavigation(HOME_PAGE);									
 			}			
             setTimeout(function() {
@@ -246,6 +259,15 @@ protocall = {
             }, 300);
         }
 		this.events.createEvents();
+	},
+	grabHashPage:function(){
+		var pageName = "";		
+		if(window.location.hash !== "" && window.location.hash!== null){
+			var hashArr = window.location.hash.split("#");
+			pageName = hashArr[1];		
+			console.log("Page name from URL",pageName);		
+		}
+		return pageName;
 	},
 	loadPage: function(pageUrl){
 		var pageArr = pageUrl.split("/");
@@ -270,6 +292,12 @@ protocall = {
 			this.view.loadCustomerPage(false);
 		} else if(page==MY_REP_PAGE) {
     		this.view.loadMyRepsPage(false);
+    	} else if(page==SETTINGS_PAGE) {
+			var $el = $(".mysettings");
+    		this.view.viewSettingsPage(false,$el);
+    	}else if(page==PROFILE_PAGE) {
+			var $el = $(".myProfileView");
+    		this.view.viewProfileViewPage(false,$el);
     	}
 				
 		if(subMenu.length > 0){
@@ -277,7 +305,14 @@ protocall = {
 			console.log("SubMenu Name",subMenuName)
 			if(subMenuName == CONSTANTS.LINK_TYPE.VIEW_FEED){
 				this.view.viewFeed(false);
-			} else if(subMenuName == CONSTANTS.LINK_TYPE.MY_ALERTS){
+			     } 
+		   else if(subMenuName == CONSTANTS.LINK_TYPE.VIEW_CARRIER_FEEDVIEW){
+                  this.view.viewCarrierViewFeed(false);
+                  } 
+		    else if(subMenuName == CONSTANTS.LINK_TYPE.VIEW_CUSTOMER_FEEDVIEW){
+                  this.view.viewCustomerViewFeed(false);
+                  }
+            else if(subMenuName == CONSTANTS.LINK_TYPE.MY_ALERTS){
 				var $el = $('.myalerts')
 				this.view.loadMyAlertsFeeds($el,false);
 			} else if(subMenuName == CONSTANTS.LINK_TYPE.INCIDENTS){
@@ -391,6 +426,7 @@ protocall.events ={
 				case CONSTANTS.LINK_TYPE.PAGE:
 					if(!page && !subMenu) return;
 					switch(page) {
+						
 						case CONSTANTS.LINK_TYPE.HOME_PAGE:
 							protocall.view.loadHomePage(true);
 							break;
@@ -407,6 +443,12 @@ protocall.events ={
 							break;
 					}				
 					switch(subMenu) {
+						case CONSTANTS.LINK_TYPE.CARRIERS_PAGE:
+							protocall.view.loadCarrierPage(true);
+							break;
+						case CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE:
+							protocall.view.loadCustomerPage(true);
+							break;
 						case CONSTANTS.LINK_TYPE.FEEDS:
 							protocall.view.loadHomePage(true);
 							break;
@@ -443,6 +485,15 @@ protocall.events ={
 						default:
 							break;
 					}
+					break;
+				case CONSTANTS.LINK_TYPE.SETTINGS_PAGE:
+					protocall.view.viewSettingsPage(true,$el);
+					break;
+				case CONSTANTS.LINK_TYPE.PROFILE_PAGE:
+					protocall.view.viewProfileViewPage(true,$el);
+					break;
+			    case CONSTANTS.LINK_TYPE.VIEW_CUSTOMER_FEEDVIEW:
+					protocall.view.viewCustomerViewFeed(true);
 					break;
 				case CONSTANTS.LINK_TYPE.VIEW_CARRIER_FEEDVIEW:
 					protocall.view.viewCarrierViewFeed(true);
@@ -545,6 +596,7 @@ protocall.view ={
 			protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.CARRIERS_PAGE);		
 			//Call the below in carrier.js
 			protocall.carrier.initCarrierPage();
+			
 			protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CARRIERS_PAGE);
 			if(isClickEvent){
 				protocall.setPage(CONSTANTS.LINK_TYPE.CARRIERS_PAGE,CONSTANTS.LINK_TYPE.CARRIERS_PAGE,CONSTANTS.LINK_TYPE.CARRIERS_PAGE,"");
@@ -587,6 +639,42 @@ protocall.view ={
 				protocall.view.setSelectedLinkClasses($(this),false);
 			});
 			protocall.view.buildSubMenuBlk(CONSTANTS.LINK_TYPE.HOME_PAGE, breadCrumbObj);
+			protocall.displaySpinner(false);
+		},
+		viewCustomerViewFeed:function(isClickEvent){
+			protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_CUSTOMER_FEEDVIEW);
+			protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
+			if(isClickEvent){
+				protocall.setPage(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE,CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_CUSTOMER_FEEDVIEW,CONSTANTS.LINK_TYPE.VIEW_CUSTOMER_FEEDVIEW,"");
+			}
+			protocall.customer.loadFeed();		
+			//Call the below dynamically
+			var breadCrumbObj = {};
+			breadCrumbObj.customerName = "James Jeo";
+			$('.tab-rb-submenu a').each(function(){
+				protocall.view.setSelectedLinkClasses($(this),false);
+			});
+			protocall.view.buildSubMenuBlk(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE, breadCrumbObj);
+			protocall.displaySpinner(false);
+		},
+		viewSettingsPage:function(isClickEvent,$el){
+			protocall.clickPageNavigation( CONSTANTS.LINK_TYPE.SETTINGS_PAGE);
+		//	protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
+			if(isClickEvent){
+				protocall.setPage(CONSTANTS.LINK_TYPE.SETTINGS_PAGE,CONSTANTS.LINK_TYPE.SETTINGS_PAGE,CONSTANTS.LINK_TYPE.SETTINGS_PAGE,"");
+			}
+			protocall.myProfile.loadFeedSetting($el);
+			protocall.view.buildSubMenuBlk(CONSTANTS.LINK_TYPE.SETTINGS_PAGE);
+			protocall.displaySpinner(false);
+		},
+		viewProfileViewPage:function(isClickEvent,$el){
+			protocall.clickPageNavigation( CONSTANTS.LINK_TYPE.PROFILE_PAGE);
+		//	protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
+			if(isClickEvent){
+				protocall.setPage(CONSTANTS.LINK_TYPE.PROFILE_PAGE,CONSTANTS.LINK_TYPE.PROFILE_PAGE,CONSTANTS.LINK_TYPE.PROFILE_PAGE,"");
+			}
+			protocall.myProfile.loadMyProfileView($el);
+			protocall.view.buildSubMenuBlk(CONSTANTS.LINK_TYPE.PROFILE_PAGE);
 			protocall.displaySpinner(false);
 		},
 		viewCarrierViewFeed:function(isClickEvent){
@@ -684,9 +772,8 @@ protocall.view ={
 			popUpContent.togglePopUpContent($el,html);
 		},
 		loadProfile:function($el){
-
-			
-			var html = '<div><div class="prof-view-overlay">My Profile</div><div class="prof-view-overlay">Settings</div><div class="prof-view-overlay">Help</div><div class="prof-view-overlay">Log out</div></div>';
+			var html = '<div><div class="prof-view-overlay snap myProfileView" data-type="myProfileView">My Profile</div><div class="prof-view-overlay snap mysettings" data-type="mysettings">Settings</div>'
+			+'<div class="prof-view-overlay">Help</div><div class="prof-view-overlay">Log out</div></div>';
 			popUpContent.togglePopUpContent($el,html);			
 		},
 
@@ -729,8 +816,9 @@ protocall.view ={
 		},
 		buildHomeMenuBlk:function(page, breadCrumbObj){
 		
+		var ArchiveHtml = template.GetarchiveMenu();			
 		$(".mb-submenu").empty();
-		$(".mb-submenu").append($('<div class="mb-submenu-in p-relative"><div class="tab-rb-submenu inline-block v-align-mid"><div class="p-relative "><a href="/myalerts" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light myalerts p-relative selected-tab" data-type="page" data-submenu="myalerts"><span class="submenu-title t-caps f-color-w">My Alerts</span><span class="cnt-blk">(<span class="cnt-no">24</span>)</span></a><a href="/incidents" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light incidents p-relative" data-type="page" data-submenu="incidents"><div class="submenu-title t-caps inline-block f-color-w v-align-mid">incidents</div></a><a href="/policies" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light policies p-relative" data-type="page" data-submenu="policies"><span class="submenu-title t-caps f-color-w">Policies</span></a><a href="/policies" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light policies p-relative" data-type="page" data-submenu="archives"><span class="submenu-title t-caps f-color-w">Archives</span></a><a href="/policies" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light policies p-relative" data-type="page" data-submenu="view_archives"><span class="submenu-title t-caps f-color-w">View Archived</span></a><div href="#" class="snap submenu-sort right f-sz-16 ptsans-light p-relative" data-type="page" data-submenu="sortby"><div class="sort-text f-italic">Sort by</div><div class="sprite-im drop-down-icon submenu-drop-icon">&nbsp;</div></div></div><div class="clear"></div></div></div>'));
+		$(".mb-submenu").append($(ArchiveHtml));
 		},
 		buildSubMenuBlk:function(page, breadCrumbObj){
 			
@@ -747,7 +835,12 @@ protocall.view ={
 				subMenuObj = SUB_MENU.CUSTOMERS;				
 			} else if(page === MY_REP_PAGE){
 				subMenuObj = SUB_MENU.MY_REPS;				
-			} else {
+			} else if(page === SETTINGS_PAGE){
+				subMenuObj = SUB_MENU.SETTINGS;				
+			} else if(page === PROFILE_PAGE){
+				subMenuObj = SUB_MENU.PROFILE;				
+			} 
+			else {
 				subMenuObj = "";
 			}
 			
@@ -910,6 +1003,8 @@ protocall.home = {
 			var template = staticTemplate.home.staticFeedTemplate();
 			totalHTML = totalHTML + template;
 		}
+		$(".container").addClass("container");
+		$(".container").removeClass("container-maxwidth");
 		$(".content-holder").empty();
 		$(".content-holder").append($(totalHTML));
 		
@@ -994,6 +1089,8 @@ protocall.carrier = {
 		var page = "carriers";
 		protocall.view.buildSubMenuBlk(page);
 		var template = staticTemplate.carriers.staticCarrierTemplate();
+		$(".container").addClass("container-maxwidth");
+		$(".container").removeClass("container");
 		$(".content-holder").empty();
 		$(".content-holder").append($(template));
 	},
@@ -1007,6 +1104,8 @@ protocall.carrier = {
 			var template = staticTemplate.carriers.staticCarrierFeedViewTemplate();
 			totalHTML = totalHTML + template;
 		}
+		$(".container").addClass("container-maxwidth");
+		$(".container").removeClass("container");
 		$(".rel-feeds-content").empty();
 		$(".rel-feeds-content").append($(totalHTML));
 		
@@ -1020,8 +1119,43 @@ protocall.customer = {
 		var template = staticTemplate.customers.staticCustomerTemplate();
 		$(".content-holder").empty();
 		$(".content-holder").append($(template));
-	}
+		$(".container").addClass("container-maxwidth");
+		$(".container").removeClass("container");
+	},
+	loadFeedSetting:function(){		
+		var html = staticTemplate.customers.staticSettingViewTemplate();
+		$(".content-holder").empty();
+		$(".content-holder").append($(html));
+		var totalHTML = "";
+		var totalLen = 1;
+		for(var h = 0; h < totalLen; h++){
+			var template = staticTemplate.customers.staticSettingViewTemplate();
+			totalHTML = totalHTML + template;
+		}
+		$(".container").addClass("container-maxwidth");
+		$(".container").removeClass("container");
+		$(".rel-feeds-content").empty();
+		$(".rel-feeds-content").append($(totalHTML));
+		
+	},
+	loadFeed:function(){		
+		var html = staticTemplate.customers.staticCustomerViewTemplate();
+		$(".content-holder").empty();
+		$(".content-holder").append($(html));
+		var totalHTML = "";
+		var totalLen = 1;
+		for(var h = 0; h < totalLen; h++){
+			var template = staticTemplate.customers.staticCustomerViewTemplate();
+			totalHTML = totalHTML + template;
+		}
+		$(".container").addClass("container-maxwidth");
+		$(".container").removeClass("container");
+		$(".rel-feeds-content").empty();
+		$(".rel-feeds-content").append($(totalHTML));
+		
+	},
 }
+
 protocall.myRep = {
 	initMyRepsPage:function(){
 		$(".content-holder").empty();
@@ -1033,7 +1167,31 @@ protocall.myRep = {
 
 
 
-
+protocall.myProfile={
+		loadFeedSetting:function($el){		
+			var html = staticTemplate.customers.staticSettingsTemplate();
+			$(".content-holder").empty();
+			$(".content-holder").append($(html));	
+			this.setSelectedClassPopContent($el);
+		},
+		loadMyProfileView:function($el){		
+			var html = staticTemplate.customers.staticMyProfileViewTemplate();
+			$(".content-holder").empty();
+			$(".content-holder").append($(html));	
+			this.setSelectedClassPopContent($el);
+		},
+		setSelectedClassPopContent:function($el){
+			var $popUpContent = $("#pop-up-content");
+			if($popUpContent && $popUpContent.length > 0 && $popUpContent.is(":visible")){
+				if($popUpContent.find(".prof-view-overlay").length > 0){
+					$(".prof-view-overlay").removeClass("pop-selected-color");
+					$el.addClass("pop-selected-color");					
+				}
+			}
+			
+		}
+		
+}
 
 //--------------------------- Agency Logo Added By Manoj -----------------------------------
 function readURL(input) {
