@@ -37,6 +37,8 @@ var overlay ={
 		var $contentSec = $('.o-content');
 		$('#overlay').fadeIn(400);
 		$('.o-box').addClass("o-box-load");
+		$("body").css("overflow","hidden");
+		$(".container").css("overflow","hidden");
 		$contentSec.append($(content));
 		overlay.centerIt();
 		// $('#page').attr("data-type","closeOverlay");
@@ -44,12 +46,29 @@ var overlay ={
 	},
 	/*Added by Naveen - Slider Control */
 	sliderControl:function(){
+		console.log("start");
+		var $obxParent = $("div.o-box");
+		$obxParent.removeClass("o-box").addClass("o-box-custom");
+		var firstImageSource = $("#thumbNailImages li:eq(0) a img").attr("src");
+		$("#viewingImage").html('<img src='+firstImageSource+' />');
 		$(".previous").show();
 		$(".next").show();
-		$("#slider-vertical").hide();
 		$("#thumbNailImages li:eq(0)").find("a").addClass("active");
-		var firstImageSource = $("#thumbNailImages li:eq(0) a img").attr("src");
-		$("#viewingImage").html('<img src='+firstImageSource+' style="width:200px;height:200px;position: absolute;left: 214px;top: 76px;" />');
+		$("#slider-vertical").slider({
+		  orientation: "vertical",
+		  range: "min",
+		  min: 0,
+		  max: 100,
+		  value: 60
+		});
+		console.log("end");
+	},
+	audioInit : function(){
+		var $obxParent = $("div.o-box");
+		$obxParent.removeClass("o-box").addClass("o-box-custom");
+		var $firstAudioThumbNailView=$('#audioThumbNailView').children().first();
+		console.log("$firstAudioThumbNailView"+$firstAudioThumbNailView);
+		$firstAudioThumbNailView.addClass("activeAudio");
 		$("#slider-vertical").slider({
 		  orientation: "vertical",
 		  range: "min",
@@ -83,7 +102,9 @@ var overlay ={
 	closeOverlay: function() {
 		console.log("close overlay" );
 		$('#overlay').fadeOut(400,function() {			
-            $('#overlay').empty();
+            	$('#overlay').empty();
+		$('body').css("overflow","auto");
+		$('.container').css("overflow","auto");
         });
     }
 };

@@ -18,7 +18,7 @@ var CONSTANTS = {
 		PAGE:"page",HOME_PAGE: "home", CARRIERS_PAGE: "carriers", CUSTOMERS_PAGE: "customers", MY_REP_PAGE: "myreps", LOGIN_page:"login",
 		VIEW_FEED:"view", FEEDS: "feeds",SHARE_TO_REP:"share", CLOSE_OVERLAY:"closeOverlay", CLOSE_POPUP:"closePopUp",EDIT_AGENCY_PIC:"editAgencyPic", 
 		MY_ALERTS:"myalerts",INCIDENTS:"incidents",POLICIES:"policies",MATCH_RELEASE_CLAIMS:"matchReleaseClaim",INVITE_REPS:"invitereps",
-		ASSIGN_TO_REPS:"assignrep",PHOTS_OVERLAY_DISPLAY:"photosDoc",THUMB_NAIL :"thumbNail",PREVIOUS :"previous", NEXT : "next",VIEW_CARRIER_FEEDVIEW:"viewcarrierfeedview",PUSHMESSAGE: "pushmessage", PRIVACY: "privacy",ARCHIVES:"archives",VIEW_ARCHIVES:"view_archives",SORTBY:"sortby", MY_PROFILE:"profile-link",VIEW_CUSTOMER_FEEDVIEW:"customerprofileviewfeed",SETTINGS_PAGE:"mysettings",PROFILE_PAGE:"myProfileView"
+		ASSIGN_TO_REPS:"assignrep",PHOTS_OVERLAY_DISPLAY:"photosDoc",THUMB_NAIL :"thumbNail",PREVIOUS :"previous", NEXT : "next",VIEW_CARRIER_FEEDVIEW:"viewcarrierfeedview",PUSHMESSAGE: "pushmessage", PRIVACY: "privacy",ARCHIVES:"archives",VIEW_ARCHIVES:"view_archives",SORTBY:"sortby", MY_PROFILE:"profile-link",VIEW_CUSTOMER_FEEDVIEW:"customerprofileviewfeed",SETTINGS_PAGE: "mysettings", PROFILE_PAGE: "myProfileView", SENDAPPLINK: "sendapplink",AUDIO_OVERLAY:"voiceDoc",AUDIO_PLAY : "playAudio"
 	},
 	ERROR_MSG : {
 		ajaxFailed: "Oops! This action could not be completed now! Please try again"
@@ -405,6 +405,11 @@ protocall.events ={
 				console.log(".o-content");
 				protocall.events.handleClickForPhotosOverlay(e);
 			});
+			$(document).on("click",".audioOverlay", function(e) {
+				e.stopPropagation();
+				console.log(".o-content");
+				protocall.events.handleClickForAudioOverlay(e);
+			});
 			$(window).on("resize", function(e) {
 				protocall.events.handleResize(e);
 			});
@@ -507,6 +512,10 @@ protocall.events ={
 				case CONSTANTS.LINK_TYPE.SHARE_TO_REP:
 					protocall.view.shareToRep();
 					break;
+				case CONSTANTS.LINK_TYPE.SENDAPPLINK:
+                			protocall.view.sendAppLink();
+                			break;	
+
 				case CONSTANTS.LINK_TYPE.CLOSE_OVERLAY:
 					protocall.closeOverlay();
 					break;
@@ -522,7 +531,10 @@ protocall.events ={
 				
 				case CONSTANTS.LINK_TYPE.PHOTS_OVERLAY_DISPLAY:
 					protocall.view.staticPhotOverlayDisplay();
-							break;
+					break;
+				case CONSTANTS.LINK_TYPE.AUDIO_OVERLAY:
+					protocall.view.staticAudioOverlayDisplay();
+					break;
 				default:
 					break;
 			}
@@ -547,29 +559,26 @@ protocall.events ={
 				default:
 					break;
 			}
-			/* $("#thumbNailImages li a").click(function(e){
-				$(".previous").show();
-				$(".next").show();
-				console.log("event fired"+$(this).find("img").attr("src"));
-				$(this).addClass("active");
-				$("#viewingImage").html('<img src='+$(this).find("img").attr("src")+' style="width:200px;height:200px;position: absolute;left: 250px;top: 76px;" />');
-				return false;
-			});
-			$(".previous").click(function(e){
-				//console.log("clicked"+clickedParent);
-				var $liElement = $("#thumbNailViewImages li");
-				$.each($liElement,function(index,element){
-				
-					console.log($(this));
-					if(($(this).find("a").hasClass("active"))){
-						console.log("count in back");
-						console.log("parent"+$(this).parent());
-						loadingScrollBack($(this));
-					}
-				});
-				//loadingScrollBack(clickedParent);
-				e.preventDefault();
-			}); */
+			
+		},
+		handleClickForAudioOverlay:function(e){
+			var $el = $(e.currentTarget);
+			console.log("valuers"+$el.data("type"));
+			var type = $el.data("type")?$el.data("type"):null;
+			console.log("data type is"+type);
+			switch(type) {
+				case CONSTANTS.LINK_TYPE.AUDIO_PLAY:
+					protocall.view.playAudioFile($el);
+				break;
+				/* case CONSTANTS.LINK_TYPE.PREVIOUS:
+					protocall.view.displayPreviousImage($el);
+				break;
+				case CONSTANTS.LINK_TYPE.NEXT:
+					protocall.view.displayNextImage($el);
+				break; */
+				default:
+					break;
+			}
 		},
 		handleResize:function(){
 			
@@ -781,6 +790,10 @@ protocall.view ={
 			var html = staticTemplate.home.shareWithRepTemplate();
 			overlay.displayOverlay(html);			
 		},
+		sendAppLink: function () {
+        		var html = staticTemplate.home.sendAppLinkTemplate();
+        		overlay.displayOverlay(html);
+    		},
 		//    Added By Manoj
 		    pushMessage: function () {
 			var html = staticTemplate.home.pushMessageTemplate();
@@ -794,7 +807,15 @@ protocall.view ={
 		staticPhotOverlayDisplay:function(){
 			var html = staticTemplate.home.showPhotsOverlayTemplate();
 			overlay.displayOverlay(html);
+console.log("in photo");
 			overlay.sliderControl();
+			protocall.displaySpinner(false);			
+		},
+		staticAudioOverlayDisplay:function(){
+			var html = staticTemplate.home.showAudioOverlayTemplate();
+			overlay.displayOverlay(html);
+console.log("in function");
+			overlay.audioInit();
 			protocall.displaySpinner(false);			
 		},
 		/*Added by Naveen -- End*/
@@ -933,7 +954,7 @@ protocall.view ={
 			console.log($e1.find("img").attr("src"));
 			$("#thumbNailImages li a").removeClass("active");
 			$e1.addClass("active");
-			$("#viewingImage").html('<img src='+$e1.find("img").attr("src")+' style="width:200px;height:200px;position: absolute;left: 214px;top: 76px;" />');
+			$("#viewingImage").html('<img src='+$e1.find("img").attr("src")+' />');
 			$(".previous").show();
 			$(".next").show();
 		},
@@ -962,7 +983,7 @@ protocall.view ={
 				$("#thumbNailImages li a").removeClass("active");
 				nextElementToBeloaded.find("a").addClass("active");
 				imageSrcTobeLoadedBack = nextElementToBeloaded.find("img").attr("src");
-				$("#viewingImage").html('<img src='+imageSrcTobeLoadedBack+' style="width:200px;height:200px;position: absolute;left: 214px;top: 76px;" />');
+				$("#viewingImage").html('<img src='+imageSrcTobeLoadedBack+' />');
 			}	
 		},
 		loadingScrollPrevious : function(liEleme){
@@ -974,8 +995,116 @@ protocall.view ={
 				nextElementToBeloaded.find("a").addClass("active");
 				imageSrcTobeLoadedBack = nextElementToBeloaded.find("img").attr("src");
 				console.log("imageSrcTobeLoaded"+imageSrcTobeLoadedBack);
-				$("#viewingImage").html('<img src='+imageSrcTobeLoadedBack+' style="width:200px;height:200px;position: absolute;left: 214px;top: 76px;" />');
+				$("#viewingImage").html('<img src='+imageSrcTobeLoadedBack+' />');
 			}	
+		},
+		playAudioFile : function($e1){
+			console.log("playAudioFile");
+			console.log("$e1"+$e1.parent());
+			var $ele = $e1.parent();
+			var duration;
+			var music = document.getElementById('music');
+			var pButton = document.getElementById('pButton');
+			var pButton2 = document.getElementById('pButton2');
+			var timeline = document.getElementById('timeline'); // timeline
+			var playhead = document.getElementById('playhead'); // playhead
+			playhead.addEventListener('mousedown', protocall.view.mouseDown(music), false);
+			var timelineWidth = timeline.offsetWidth - playhead.offsetWidth;
+			music.addEventListener("canplaythrough", protocall.view.canPlayThorgh(music,duration), false);
+			//music.addEventListener("timeupdate", protocall.view.timeUpdate(music,pButton,pButton2,timeline,timelineWidth,playhead), false);
+			timeline.addEventListener("click", protocall.view.timeLine(music,playhead,timeline,timelineWidth,event), false);
+			if (music.paused) {
+				console.log("music.paused");
+				music.play();
+				// remove play, add pause
+				pButton.className = "";
+				pButton.className = "pause";
+				pButton2.className = "";
+				pButton2.className = "pause";
+			} else { // pause music
+				console.log("else music.paused");
+				music.pause();
+				// remove pause, add play
+				pButton.className = "";
+				pButton.className = "play";
+				pButton2.className = "";
+				pButton2.className = "play";
+			} 
+		},
+		timeUpdate :function(music,duration){
+			var timeline = document.getElementById('timeline'); // timeline
+			var playhead = document.getElementById('playhead'); // playhead
+			var timelineWidth = timeline.offsetWidth - playhead.offsetWidth;
+			var pButton = document.getElementById('pButton');
+			var pButton2 = document.getElementById('pButton2');
+			var playPercent = timelineWidth * (music.currentTime / duration);
+			if (music.currentTime == duration) {
+				pButton.className = "";
+				pButton.className = "play";
+				pButton2.className = "";
+				pButton2.className = "play";
+			}
+		},
+		canPlayThorgh : function(music,duration){
+			var durationIn = music.duration; 
+			console.log("durationIn"+durationIn);
+	
+			if (isNaN(durationIn)){
+				console.log("if");
+			time = '00:00';
+			document.getElementById("audioDuration").innerHTML = time;
+		  } 
+		  else{
+			var time = protocall.view.formatSecondsAsTime(durationIn);
+			console.log("time in else"+time);
+			document.getElementById("audioDuration").innerHTML = time;
+		  }
+		  protocall.view.timeLine(music,durationIn);
+		  protocall.view.timeUpdate(music,durationIn);
+		},
+		formatSecondsAsTime : function(duration){
+			var secs = duration;
+			console.log("secs"+secs);
+			var hr  = Math.floor(secs / 3600);
+			
+			  var min = Math.floor((secs - (hr * 3600))/60);
+			  var sec = Math.floor(secs - (hr * 3600) -  (min * 60));
+
+			  if (min < 10){ 
+				min = "0" + min; 
+			  }
+			  if (sec < 10){ 
+				sec  = "0" + sec;
+			  }
+
+			  return min + ':' + sec;
+		},
+		timeLine : function (music,duration,event){
+			var timeline = document.getElementById('timeline'); // timeline
+			var playhead = document.getElementById('playhead'); // playhead
+			var timelineWidth = timeline.offsetWidth - playhead.offsetWidth;
+			//protocall.view.moveplayhead(playhead,timelineWidth,event);
+			//music.currentTime = duration * protocall.view.clickPercent(timeline,timelineWidth,event);
+		},
+		moveplayhead : function(playhead,timelineWidth,event){
+			var newMargLeft = event.pageX - timeline.offsetLeft;
+			if (newMargLeft >= 0 && newMargLeft <= timelineWidth) {
+				playhead.style.marginLeft = newMargLeft + "px";
+			}
+			if (newMargLeft < 0) {
+				playhead.style.marginLeft = "0px";
+			}
+			if (newMargLeft > timelineWidth) {
+				playhead.style.marginLeft = timelineWidth + "px";
+			}
+		},
+		clickPercent : function(event){
+			return (event.pageX - timeline.offsetLeft) / timelineWidth;
+		},
+		mouseDown : function(music){
+			onplayhead = true;
+			//window.addEventListener('mousemove', protocall.view.moveplayhead, true);
+			music.removeEventListener('timeupdate', protocall.view.timeUpdate(music,pButton,pButton2), false);
 		}
 };
 
@@ -1161,10 +1290,14 @@ protocall.myRep = {
 		$(".content-holder").empty();
 		var page = "myreps"
 		protocall.view.buildSubMenuBlk(page);
-		
+		protocall.view.buildSubMenuBlk(page);
+		var template = staticTemplate.myreps.staticRepsTemplate();
+		$(".content-holder").empty();
+		$(".content-holder").append($(template));
+		$(".container").addClass("container-maxwidth");
+		$(".container").removeClass("container");
 	}
 }
-
 
 
 protocall.myProfile={
@@ -1213,6 +1346,22 @@ function readURL(input) {
         };
         reader.readAsDataURL(input.files[0]);
 
+    }
+}
+
+$(function () {
+    $("#datepicker").datepicker({dateFormat: 'dd-mm-yy'});
+});
+
+function checkboxStatus(idValue) {
+
+   
+    if (idValue === "radio-button-now") {
+        document.getElementById("radio-button-now").checked = true;
+        document.getElementById("radio-button-later").checked = false;
+    } else {
+        document.getElementById("radio-button-now").checked = false;
+        document.getElementById("radio-button-later").checked = true;
     }
 }
 //------------------------------------------------------------------------------

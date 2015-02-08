@@ -48,7 +48,7 @@ h1, h2, h3, h4, h5, h6 {
 font-weight:normal;
 }
 a {
-color: #333;
+color: #fff;
 text-decoration: none;
 }
 *::-webkit-input-placeholder {
@@ -481,7 +481,7 @@ width: 250px;
 
 /********** Main Menu ******************/
 .m-block {
-
+border-bottom: 1px solid #b9b8b8;
 /* width: 100%; */
 }
 
@@ -490,12 +490,12 @@ width: 250px;
 }
 
 .m-block .lf-block{
-border-bottom: 1px solid #b9b8b8;
+/*border-bottom: 1px solid #b9b8b8;*/
 padding-bottom: 15px;
 }
 
 .m-block .rg-block{
-border-bottom: 1px solid #b9b8b8;
+/*border-bottom: 1px solid #b9b8b8;*/
 padding-bottom: 15px;
 }
 
@@ -581,6 +581,7 @@ left: 0;
 height: 18px;
 right: 0;
 margin: auto;
+cursor:pointer;
 }
 
 
@@ -1551,10 +1552,12 @@ padding: 40px 0px 0px;
 width: 10%;
 padding: 5px 0px;
 margin-right: 0px;
+background-color: #ccc;
 }
 .settings-vendor-bar{
 width:12%;
 padding: 5px 0px;
+background-color: #ccc;
 }
 .settings-edit-bar{
 width: 7%;
@@ -1610,25 +1613,156 @@ background:#f34f4e;
 }
 .settings-agency-bar:hover{background:#f34f4e;}
 .settings-vendor-bar:hover{background:#f34f4e;}
+/*** prefferred vendors *******/
+.preferred-vendor-block{
+width:100%;
+display:none;
+}
+.preferred-vendor-remove-block{
+width:100%;
+display:none;
+}
+.preffered-border-view{
+width: 100%;
+}
+.preffered-view-left {
+width: 30%;
+padding: 10px 10px 10px 10px;
+}
+.preffered-view-right {
+width: 38%;
+padding: 10px 0px;
+}
+.addvendor-bar{
+width: 12%;
+padding: 5px 0px;
+text-indent: 12px;
+margin-right:5px;
+}
+.removevendor-bar{
+width: 12%;
+padding: 5px 0px;
+text-indent: 12px;
+margin-right:5px;
+}
+.vendor-remove-margin{
+margin-left: 25px;
+}
+
+
+.vendor-label:before {
+		content: "";
+		display: inline-block;
+		width: 20px;
+		height: 20px;
+		background: #eeeeee;
+		color: #f34f4e;
+		text-align: center;
+		border: 1px solid #b9b8b8;
+		vertical-align: top;
+		margin-right: 10px;
+		position: absolute;
+		z-index: 9999;
+		/*top: 0;*/
+}
+.policy-det-blk input[type=checkbox]:checked + .policy-label:before {
+		content: "\2713";
+		text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+		font-size: 15px;
+		line-height: 20px;
+		font-weight: bold;
+		font-family: 'OpenSansRegular';
+}
+
+input[type=checkbox]:checked + .vendor-label:before {
+		content: "\2713";
+		text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+		font-size: 15px;
+		line-height: 20px;
+		font-weight: bold;
+		font-family: 'OpenSansRegular';
+}
+
+.settings-vendor-bar{
+width:12%;
+padding: 5px 0px;
+margin-right:5px;
+}
+.vendor-view-block {
+width: 98%;
+padding: 15px 0px;
+}
+.vendor-view-left {
+width: 33%;
+}
+.vendor-view-right {
+width: 66%;
+}
+.vendor-back-button{
+width: 13%;
+margin: auto;
+padding: 15px 0px;
+}
+.vendor-back-bar {
+width: 110px;
+padding: 5px 0px;
+text-align: center;
+}
+.vendor-detail-block{
+display:none;
+}
+.reps-feed-bar{
+padding: 5px 0px;
+}
 
 /**************** Overlay Contents ***********************/
 /********* ***********Added by Manoj *********************/
 
 /************Push Message***********************************/
 
+input[type="checkbox"]{
+    -webkit-appearance: checkbox;
+}
+input[type="radio"]{
+    -webkit-appearance: radio;
+}
+
+input[type='radio']:before {
+    content:'';
+    display:block;
+    width: 8px;
+    height: 8px;
+    margin: -7% auto;    
+    margin-left: -25%;
+    border-radius: 200px;    
+}
+/*input[type='radio']:checked:before {
+    background:red;
+}
+
+input[type='radio']:checked:after {
+    background:white;
+}*/
+
+
 .c-textarea{
     height: 100px !important;
 }
-
+textarea::-webkit-input-placeholder {  color: #999;}
 
 .textarea{
     height: 100%;
-    background-color: #fff;
-    color: black;
+    background-color: #ffffff;
+    color: #999;
 }
 
-.select-date-icon{
+.txt-now{
+}
 
+#radio-button-now,#radio-button-later{
+    width: 23px;
+    height: 20px;
+    margin-right: 10px;
 }
 /***********************************************************/
 
@@ -1741,22 +1875,14 @@ background:#f34f4e;
 }
 
 .agency-logo,.agencyprofilelogo{
-    text-align: center;
-    height: 70%;
+    height: 120px;  
     top: 15px;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
-    overflow: hidden;
-    background-size: cover;
-    background-position: center; 
 }
 
 #id-agencyprofilelogo{
     height: 100%;
     width: 100%;
-    max-width:  300px;
-    max-height:  500px;  
+
 }
 
 .carriers-left-content,.carriers-right-content{
@@ -1810,6 +1936,7 @@ background:#f34f4e;
     position:relative;
     margin: 20px auto;
     text-align: center;
+    cursor:pointer;
 }
 
 /*****************Agency Profile Styles Ends Here *******/
@@ -1820,14 +1947,35 @@ background:#f34f4e;
     width: 71%;
 }
 
+.rep-location{
+    /* margin-left: 0px; */
+
+}
 .dropdown-icon{
     top: 16px;
-    /* right: 12px; */
+    right: 12px;
 }
 .range-box{
     margin-top: 10px;
 }
+.c-search-icon{
+    top: 13px;
+    right: 15px;
+}
 
+.c-sendapplink-search-icon{
+    top: 158px;
+    right: 15px;
+}
+
+.c-privacysearch-icon{
+    top: 157px;
+    right: 15px;
+}
+#name1{
+    /* margin-top: -12px; */
+
+}
 .range-title{
     height:40px;
     line-height:38px;
@@ -1842,17 +1990,12 @@ background:#f34f4e;
     margin: 0px 0px 0px 15px;
 }
 .push-select-dropdown{
-    width: 49%;
+    width: 53%;
 
 }
 .time-dropdown-2{
     width: 30%;
     margin: 0px 0px 0px 27px;
-}
-.range-sel2 {
-    width: 40%;
-    margin:0px 0px;
-    margin-left: 10px;
 }
 
 .drop-down-icon-1{
@@ -1935,6 +2078,34 @@ background:#f34f4e;
 
 /*********Ends Here ******** ****** Added by Manoj **************/
 
+.link{
+    width: 20%;
+    height: 30px;
+    float: left;
+    line-height: 43px;
+}
+
+.message{
+    width: 20%;
+    height: 30px;
+    float: left;
+    line-height: 73px;
+}
+.message-box{
+    width: 79%;
+    height: 68px;
+    float: right;
+    margin-top: 10px;
+}
+
+.url-box{
+    width: 79%;
+    height: 30px;
+    float: right;
+    /* min-height: 60px; */
+}
+
+
 .enable-text{
     margin-bottom: 15px;
 }
@@ -1967,8 +2138,9 @@ background:#f34f4e;
     line-height: 39px;
 }
 .later-box{
-    margin-top: 15px;
+    margin-top: -10px;
     margin-bottom: 15px;
+    padding: 14px;
 }
 
 .time-content .time-dropdown{
@@ -1992,24 +2164,26 @@ background:#f34f4e;
 .push-drop-down-icon-1{
     /* width: 17px; */
     /* height: 9px; */
-    top: 14px;
+    top: 9px;
     height: 28px;
-    left: 129px;
+    left: 116px;
     width: 32px;
 }
 
 .push-drop-down-icon-2{
     top: 14px;
 
-    right: 8px;
+    right: 10px;
 }
 
 .deliverytime-content {
     width: 60%;
 
+    line-height: 33px;
 }
 .deliverytime-content .now{
     width: 45%;
+    /* line-height: 34px; */
 }
 
 
@@ -2057,7 +2231,7 @@ background:#f34f4e;
 }
 
 .none-1,.none-2{
-    width: 71%;
+    width: 100%;
 }
 
 .dropdown-icon{
@@ -2140,6 +2314,7 @@ background:#f34f4e;
 
 .alert-mess-text, .invite-reps-text, .text-color-overlay{
     color: #5c5c5c;
+    margin-bottom: 15px;
 }
 
 .alert-mess-text{
@@ -2149,7 +2324,7 @@ background:#f34f4e;
 
 
 .text-box-outer{
-    height: 38px;
+    height: 40px;
     border:1px solid #b9b8b8;
     /* margin:20px 0px; */
     /* background-color: #101010; */
@@ -2157,7 +2332,6 @@ background:#f34f4e;
 .text-box-outer input{
     background:#fff;
     color:#b4b4b4;
-    text-indent:15px;	
 }
 .range-color,.location-color{
     color:#b4b4b4;
@@ -2206,16 +2380,16 @@ background:#f34f4e;
     height:40px;
     line-height:38px;
     /* margin:0px 0px; */
-    margin-right: 16px;
+    margin-right: 15px;
 }
 .range-sel1 {
     width: 31%;
-    margin:0px 10px 0px 15px;
+    margin: 0px 15px 0px 0px;
 }
 .range-sel2 {
-    width: 48%;
+    width: 50.8%;
     margin:0px 0px;
-    /* margin-left: -3px; */
+    /*margin-left: 13px;*/
 }
 .rep-block{
     margin:15px 0px 10px 0px;
@@ -2241,7 +2415,9 @@ background:#f34f4e;
 
 .rep-label .lbl-in-block{
     display: inline-block;
-    width: 95%;
+    width: 96%;
+    height: 18px;
+    height: 16px;
 }
 
 /* input[type=checkbox]:checked + label:before {  
@@ -2261,19 +2437,23 @@ background:#f34f4e;
 .rep-label{
     display: inline-block;
     cursor: pointer;
-    width: 95%;
+    width: 100%;
+    /* line-height: 30px; */
+    height: 21px;
 }
 
 .rep-label:before {
     content: "";
     display: inline-block;
     width: 15px;
-    height: 15px;
+    height: 14px;
     background: #fff;
     color: #333;
     text-align: center;
     border:1px solid #b9b8b8;
     border-radius: 3px;
+    /* top: 4px; */
+    /* margin-top: -20px; */
 }
 .rep-grp-blk input[type=checkbox]:checked + .rep-label:before {
     content: "\2713";
@@ -2286,6 +2466,103 @@ background:#f34f4e;
     margin: 15px 20px;
     padding-bottom: 10px;
 }
+
+
+
+/**************** Overlay Contents added by naveen ***********************/
+
+
+#audioplayer{
+	width: 600px;
+	height: 60px;
+	position: relative;
+	top: 40px;
+}
+
+#pButton,#pButton2{
+    height:30px; 
+    width: 30px;
+    border: none;
+    background-size: 50% 50%;
+    background-repeat: no-repeat;
+    background-position: center;
+    float:left;
+    outline:none;
+}
+
+.play{background: url('http://www.alexkatz.me/codepen/images/play.png') ;}
+.pause{background: url('http://www.alexkatz.me/codepen/images/pause.png') ;}
+
+#timeline{
+	width: 300px;
+	height: 10px;
+	margin-top: 10px;
+	float: left;
+	border-radius: 15px;
+	background: white;
+  
+}
+#playhead{
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	/*margin-top: 1px;*/
+	background: #379ba2;
+
+}
+
+.voice-ctrler{
+width: 225px;
+height: 40px;
+background: #379ba2;
+border-radius: 10px;
+position: absolute;
+right: 213px;
+top: 240px;
+}
+.voice-ctrler div{
+display: inline-block;
+padding: 5px 10px;
+margin-left: 20px;
+vertical-align: middle;
+	}
+	
+.botMargin15{
+	margin-bottom : 10px;
+}
+
+.activeAudio{
+	overflow:hidden;
+	border: 1px solid red;
+}
+
+#thumbNailImages ul li a{
+	 width: 48px;
+	 height: 48px;
+}
+
+#thumbNailImages ul li a img{
+	max-width: 100%;
+	max-height: 100%;
+}
+
+#viewingImage{
+	 width: 250px;
+	height: 200px;
+	position: absolute;
+	top: -20px;
+	left: -20px;
+}
+
+#viewingImage img{
+	max-width: 100%;
+	max-height: 100%;
+}
+
+
+
+/**************** Overlay Contents ***********************/
+
 
 /**************** Overlay Contents ***********************/
 
@@ -2305,45 +2582,6 @@ background:#f34f4e;
 .inner-view-spacing:hover{background: #f34f4e;}
 
 
-@media all and (max-width: 1070px) {
-.feed-user-share-b{margin-left: 15%;margin-top: 10px;}
-}
-
-
-@media all and (max-width: 1090px) {
-.tab-rb-submenu > div .submenu-tab {padding:0px 10px !important;}
-}
-
-@media only screen and (min-width: 850px) and (max-width:950px){
-.tab-rb-submenu > div .submenu-tab {padding:0px 5px !important;}
-.submenu-sort{margin-left:0px;}
-}
-
-@media only screen and (min-width: 950px) and (max-width:1050px){
-.tab-rb-submenu > div .submenu-tab{
-padding: 0px 10px !important;
-font-size: 16px;
-}
-.submenu-sort{margin-left:0px;}
-
-.docs-block a{margin-right: 35px;}
-.feed-addRemove-text{font-size: 13px;}
-.feed-user-share-b{width:30% !important;}
-}
-
-@media all and (max-width: 850px) {
-.tab-rb-submenu > div .submenu-tab{
-padding: 0px 10px !important;
-font-size: 16px;
-}
-}
-
-
-@media all and (max-width: 1350px) {
-.m-width{
-width:100%;
-margin:auto;
-}
 
 footer  .foot-in{
 line-height:42px;
@@ -2406,114 +2644,6 @@ margin: 0px 12px;
 }
 
 
-
-
-}
-
-
-
-
-
-@media all and (max-width: 1200px) {
-.mb-submenu-in{
-width:100%;
-}
-
-.bcrum-lb-submenu  a:last-child{
-font-size:13px;
-}
-.mb-submenu .mb-submenu-in >div:last-child{
-/*width: 70%;*/
-}
-.mb-submenu .mb-submenu-in >div:first-child{
-/*width:30%;*/
-}
-.tab-rb-submenu > div .submenu-tab{
-
-}
-
-
-.feed-block .feed-det .feed-det-pad .feed-pic-b{
-margin-right: 10px;
-}
-
-.feed-user-det-b .bot-b .feed-date, .feed-user-det-b .bot-b .feed-location, .feed-user-det-b .bot-b .cust-phone, .feed-user-det-b .bot-b .cust-email {
-margin: 0px 2px;
-
-}
-
-
-
-
-}
-
-@media all and (max-width: 1000px) {
-.search-blk{
-/*width:70%;*/
-}
-.logged-user-info .user-info > div{
-width:100%;
-font-size:14px;
-}
-
-.agency-details .agency-pic-box{
-width: 40%;
-}
-
-
-
-}
-
-@media all and (max-width: 850px) {
-
-.search-blk {
-/*width: 60%;*/
-}
-.logged-user-info .user-info > div >span:last-child{
-display:none;
-}
-
-
-@media all and (max-width: 600px) {
-
-.search-blk {
-width: 55%;
-}
-.logged-user-info{
-border:none;
-width:60px;
-right: -60%;
-}
-.logged-user-info  > div {
-float:none;
-}
-
-.logged-user-info :nth-child(n+2){
-display:none;
-}
-
-
-}
-
-@media all and (max-width: 500px) {
-.search-blk {
-width: 50%;
-}
-
-
-}
-
-    /*********************Media Query ********* Added By Manoj**************************************/
-
-    @media screen and (max-width: 600px) {
-        .o-box {
-            width: 40%;
-        }
-    }
-
-
-    /*********************Media Query Ends *** Added By Manoj**************************************/
-}
 
 
 
