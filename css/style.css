@@ -1638,32 +1638,36 @@ width: 12%;
 padding: 5px 0px;
 text-indent: 12px;
 margin-right:5px;
+display:none;
 }
 .removevendor-bar{
 width: 12%;
 padding: 5px 0px;
 text-indent: 12px;
 margin-right:5px;
+display:none;
 }
 .vendor-remove-margin{
 margin-left: 25px;
 }
-
+.name-color{
+color: #989898!important;
+}
 
 .vendor-label:before {
 		content: "";
 		display: inline-block;
-		width: 20px;
-		height: 20px;
+		width: 15px;
+		height: 15px;
 		background: #eeeeee;
 		color: #f34f4e;
 		text-align: center;
 		border: 1px solid #b9b8b8;
-		vertical-align: top;
-		margin-right: 10px;
+		margin-right: 6px;
 		position: absolute;
 		z-index: 9999;
-		/*top: 0;*/
+		top: 15px;
+
 }
 .policy-det-blk input[type=checkbox]:checked + .policy-label:before {
 		content: "\2713";

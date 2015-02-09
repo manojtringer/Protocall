@@ -18,7 +18,7 @@ var CONSTANTS = {
 		PAGE:"page",HOME_PAGE: "home", CARRIERS_PAGE: "carriers", CUSTOMERS_PAGE: "customers", MY_REP_PAGE: "myreps", LOGIN_page:"login",
 		VIEW_FEED:"view", FEEDS: "feeds",SHARE_TO_REP:"share", CLOSE_OVERLAY:"closeOverlay", CLOSE_POPUP:"closePopUp",EDIT_AGENCY_PIC:"editAgencyPic", 
 		MY_ALERTS:"myalerts",INCIDENTS:"incidents",POLICIES:"policies",MATCH_RELEASE_CLAIMS:"matchReleaseClaim",INVITE_REPS:"invitereps",
-		ASSIGN_TO_REPS:"assignrep",PHOTS_OVERLAY_DISPLAY:"photosDoc",THUMB_NAIL :"thumbNail",PREVIOUS :"previous", NEXT : "next",VIEW_CARRIER_FEEDVIEW:"viewcarrierfeedview",PUSHMESSAGE: "pushmessage", PRIVACY: "privacy",ARCHIVES:"archives",VIEW_ARCHIVES:"view_archives",SORTBY:"sortby", MY_PROFILE:"profile-link",VIEW_CUSTOMER_FEEDVIEW:"customerprofileviewfeed",SETTINGS_PAGE: "mysettings", PROFILE_PAGE: "myProfileView", SENDAPPLINK: "sendapplink",AUDIO_OVERLAY:"voiceDoc",AUDIO_PLAY : "playAudio"
+		ASSIGN_TO_REPS:"assignrep",PHOTS_OVERLAY_DISPLAY:"photosDoc",THUMB_NAIL :"thumbNail",PREVIOUS :"previous", NEXT : "next",VIEW_CARRIER_FEEDVIEW:"viewcarrierfeedview",PUSHMESSAGE: "pushmessage", PRIVACY: "privacy",ARCHIVES:"archives",VIEW_ARCHIVES:"view_archives",SORTBY:"sortby", MY_PROFILE:"profile-link",VIEW_CUSTOMER_FEEDVIEW:"customerprofileviewfeed",SETTINGS_PAGE: "mysettings", PROFILE_PAGE: "myProfileView", SENDAPPLINK: "sendapplink",AUDIO_OVERLAY:"voiceDoc",AUDIO_PLAY : "playAudio",AGENCY_VIEW_LOAD:"agency-view-load",PREFERRED_VENDOE_VIEW_LOAD:"preferred vendors-view-load",AGENCY_EDIT_LOAD:"agency-edit-load",AGENCY_REMOVE_LOAD:"agency-remove-load",AGENCY_ADD_VENDOR_LOAD:"agency-addvendor-load",VENDOR_PROFILE_INFO:"vendor-profile-info"
 	},
 	ERROR_MSG : {
 		ajaxFailed: "Oops! This action could not be completed now! Please try again"
@@ -515,7 +515,24 @@ protocall.events ={
 				case CONSTANTS.LINK_TYPE.SENDAPPLINK:
                 			protocall.view.sendAppLink();
                 			break;	
-
+                 case CONSTANTS.LINK_TYPE.PREFERRED_VENDOE_VIEW_LOAD:
+                			protocall.view.LoadPreferrredvendorInfo();
+                			break;	
+				case CONSTANTS.LINK_TYPE.AGENCY_VIEW_LOAD:
+                			protocall.view.LoadAgencyInfo();
+                			break;		
+                case CONSTANTS.LINK_TYPE.AGENCY_EDIT_LOAD:
+                			protocall.view.LoadAgencyEdit();
+                			break;	
+                 case CONSTANTS.LINK_TYPE.AGENCY_REMOVE_LOAD:
+                			protocall.view.LoadAgencyRemove();
+                			break;	
+				case CONSTANTS.LINK_TYPE.AGENCY_ADD_VENDOR_LOAD:
+                			protocall.view.LoadAddVendor();
+                			break;	
+                case CONSTANTS.LINK_TYPE.VENDOR_PROFILE_INFO:
+                			protocall.view.LoadVendorInfo();
+                			break;								
 				case CONSTANTS.LINK_TYPE.CLOSE_OVERLAY:
 					protocall.closeOverlay();
 					break;
@@ -794,6 +811,89 @@ protocall.view ={
         		var html = staticTemplate.home.sendAppLinkTemplate();
         		overlay.displayOverlay(html);
     		},
+		LoadAgencyInfo: function () {
+				$(".agency-view-block").css({
+		             'display':'block'
+                       });
+				$(".preferred-vendor-block").css({
+		             'display':'none'
+                       });
+				$(".preferred-vendor-remove-block").css({
+		             'display':'none'
+                       });
+				$(".vendor-detail-block").css({
+		             'display':'none'
+                       });
+				$(".settings-edit-bar").css({
+		             'display':'block'
+                       });
+				$(".removevendor-bar").css({
+		             'display':'none'
+                       });
+				$(".addvendor-bar").css({
+		             'display':'none'
+                       });	   
+    		},
+		LoadPreferrredvendorInfo: function () {
+        		$(".agency-view-block").css({
+		             'display':'none'
+                       });
+				$(".preferred-vendor-block").css({
+		             'display':'block'
+                       });
+				$(".preferred-vendor-remove-block").css({
+		             'display':'none'
+                       });
+				$(".vendor-detail-block").css({
+		             'display':'none'
+                       });
+				$(".settings-edit-bar").css({
+		             'display':'none'
+                       });
+				$(".removevendor-bar").css({
+		             'display':'block'
+                       });
+				$(".addvendor-bar").css({
+		             'display':'block'
+                       });	   
+    		},
+		LoadAgencyRemove: function () {
+			$(".agency-view-block").css({
+		             'display':'none'
+                       });
+				$(".preferred-vendor-block").css({
+		             'display':'none'
+                       });
+				$(".preferred-vendor-remove-block").css({
+		             'display':'block'
+                       });
+				$(".vendor-detail-block").css({
+		             'display':'none'
+                       });
+		},
+		LoadVendorInfo: function () {
+			$(".agency-view-block").css({
+		             'display':'none'
+                       });
+				$(".preferred-vendor-block").css({
+		             'display':'none'
+                       });
+				$(".preferred-vendor-remove-block").css({
+		             'display':'none'
+                       });
+				$(".vendor-detail-block").css({
+		             'display':'block'
+                       });
+				$(".settings-edit-bar").css({
+		             'display':'block'
+                       });
+				$(".removevendor-bar").css({
+		             'display':'none'
+                       });
+				$(".addvendor-bar").css({
+		             'display':'none'
+                       });	   
+		},
 		//    Added By Manoj
 		    pushMessage: function () {
 			var html = staticTemplate.home.pushMessageTemplate();
