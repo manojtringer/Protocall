@@ -15,7 +15,7 @@ utils.server = {
 		// }
 		// t.showCurrentPage();
      },
-     makeServerCall: function(page,data,callback,authId,deepPath,spinnerMsg) {
+     makeServerCall: function(page,data,callback,deepPath) {
         // if(typeof data.spinner != "undefined") {
             // t.form.showFormSpinner();
         // } else {
@@ -28,7 +28,7 @@ utils.server = {
         }
      },
      getData: function(page,data,callback,deepPath) {
-               //console.log(deepPath);
+               console.log(deepPath);
                var ref= page;
                var data=data;
                var path = this.getServerPath(deepPath);
@@ -37,9 +37,11 @@ utils.server = {
                     console.log("error");
 					//utils.server.handleError(resp,ref,false);
                 } else {
+					
 					console.log("success");
                     if(typeof callback != "undefined" && callback != null) {
                         callback(resp,ref);
+							//console.log(resp);
                     } else {
                         return resp;
                     }
@@ -112,6 +114,7 @@ utils.server = {
     },
     getServerPath: function(deepPath) {
         var path = gapi.client.protocall;
+		 
         deepPath = deepPath.split(".");
         //console.log(deepPath);
         for(var i=0; i<deepPath.length; i++) {

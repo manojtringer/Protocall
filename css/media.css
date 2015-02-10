@@ -4,151 +4,193 @@
 @media all and (max-width: 1090px) {
 
 }
-@media only screen and (min-width: 300px) and (max-width:825px){
-.o-box{width:70%;min-width:0px;}
+@media only screen and (min-width: 5px) and (max-width:825px){
+    .o-box{
+        width: 86%;min-width: 0px;left: -20px;
+    }
+    .lbl-in-block{
+        width: 90%;
+    }
 }
 
-
-
 @media all and (max-width: 1070px) {
-.feed-user-share-b{margin-left: 15%;margin-top: 10px;}
+    .feed-user-share-b{margin-left: 15%;margin-top: 10px;}
 }
 
 
 @media all and (max-width: 1090px) {
-.tab-rb-submenu > div .submenu-tab {padding:0px 15px !important;}
+    .tab-rb-submenu > div .submenu-tab {padding:0px 15px !important;}
 }
 
 @media only screen and (min-width: 750px) and (max-width:1000px){
-.submenu-sort{margin:10px 0px;float:left !important;min-width:150px;}
-.feed-user-det-b{min-width:350px;}
+    .submenu-sort{margin:10px 0px;float:left !important;min-width:150px;}
+    .feed-user-det-b{min-width:350px;}
 }
 
 @media only screen and (min-width: 950px) and (max-width:1010px){
-.tab-rb-submenu > div .submenu-tab{
-padding: 0px 15px !important;
-font-size: 16px;
-}
+    .tab-rb-submenu > div .submenu-tab{
+        padding: 0px 15px !important;
+        font-size: 16px;
+    }
 
-.docs-block a{margin-right: 35px;}
-.feed-addRemove-text{font-size: 13px;}
-.feed-user-share-b{width:30% !important;}
+    .docs-block a{margin-right: 35px;}
+    .feed-addRemove-text{font-size: 13px;}
+    .feed-user-share-b{width:30% !important;}
 }
 
 @media all and (max-width: 850px) {
-.tab-rb-submenu > div .submenu-tab{
-padding: 0px 10px !important;
-font-size: 16px;
-}
+    .tab-rb-submenu > div .submenu-tab{
+        padding: 0px 10px !important;
+        font-size: 16px;
+    }
 }
 
 
 @media all and (max-width: 1350px) {
-.m-width{
-width:100%;
-margin:auto;
+    .m-width{
+        width:100%;
+        margin:auto;
+    }
+
+
+
+    @media all and (max-width: 1200px) {
+        .mb-submenu-in{
+            width:100%;
+        }
+
+        .bcrum-lb-submenu  a:last-child{
+            font-size:13px;
+        }
+        .mb-submenu .mb-submenu-in >div:last-child{
+            /*width: 70%;*/
+        }
+        .mb-submenu .mb-submenu-in >div:first-child{
+            /*width:30%;*/
+        }
+        .tab-rb-submenu > div .submenu-tab{
+
+        }
+
+
+        .feed-block .feed-det .feed-det-pad .feed-pic-b{
+            margin-right: 10px;
+        }
+
+        .feed-user-det-b .bot-b .feed-date, .feed-user-det-b .bot-b .feed-location, .feed-user-det-b .bot-b .cust-phone, .feed-user-det-b .bot-b .cust-email {
+            margin: 0px 12px;
+
+        }
+
+
+
+
+    }
+
+    @media all and (max-width: 1000px) {
+        .search-blk{
+            /*width:70%;*/
+        }
+        .logged-user-info .user-info > div{
+            width:100%;
+            font-size:14px;
+        }
+
+        .agency-details .agency-pic-box{
+            width: 40%;
+        }
+
+        .reps-feed-screen {
+            width: 30%;
+        }
+
+        .customer-feed-screen {
+            width: 31%;
+        }
+        .carrier-profile-screen {
+            width: 31%;
+        }
+
+
+    }
+
+    @media all and (max-width: 850px) {
+
+        .search-blk {
+            /*width: 60%;*/
+        }
+        .logged-user-info .user-info > div >span:last-child{
+            display:none;
+        }
+
+        .reps-feed-screen {
+            width: 44%;
+        }
+        .customer-feed-screen {
+            width: 45%;
+        }
+        .carrier-profile-screen {
+            width: 44%;
+            left: 40px;
+        }
+
+    }
+    @media all and (max-width: 600px) {
+
+        .search-blk {
+            width: 55%;
+        }
+        .logged-user-info{
+            border:none;
+            width:60px;
+            right: -60%;
+        }
+        .logged-user-info  > div {
+            float:none;
+        }
+
+        .logged-user-info :nth-child(n+2){
+            display:none;
+        }
+        .customer-feed-screen {
+            width: 46%;
+        }
+        .carrier-profile-screen {
+            width: 47%;
+        }
+
+    }
+
+    @media all and (max-width: 500px) {
+        .search-blk {
+            width: 50%;
+        }
+
+        .reps-feed-screen {
+            width: 90%;
+            left: 20px;
+        }
+        .customer-feed-screen {
+            width: 90%;
+            left: 20px;
+        }
+        .carrier-profile-screen {
+            width: 90%;
+            left: 15px;
+        }
+    }
+
+
+    @media screen and (max-width: 600px) {
+        .o-box {
+            /* width: 40%; */
+        }
+    }
+
 }
 
 
 
-@media all and (max-width: 1200px) {
-.mb-submenu-in{
-width:100%;
-}
-
-.bcrum-lb-submenu  a:last-child{
-font-size:13px;
-}
-.mb-submenu .mb-submenu-in >div:last-child{
-/*width: 70%;*/
-}
-.mb-submenu .mb-submenu-in >div:first-child{
-/*width:30%;*/
-}
-.tab-rb-submenu > div .submenu-tab{
-
-}
-
-
-.feed-block .feed-det .feed-det-pad .feed-pic-b{
-margin-right: 10px;
-}
-
-.feed-user-det-b .bot-b .feed-date, .feed-user-det-b .bot-b .feed-location, .feed-user-det-b .bot-b .cust-phone, .feed-user-det-b .bot-b .cust-email {
-margin: 0px 12px;
-
-}
-
-
-
-
-}
-
-@media all and (max-width: 1000px) {
-.search-blk{
-/*width:70%;*/
-}
-.logged-user-info .user-info > div{
-width:100%;
-font-size:14px;
-}
-
-.agency-details .agency-pic-box{
-width: 40%;
-}
-
-
-
-}
-
-@media all and (max-width: 850px) {
-
-.search-blk {
-/*width: 60%;*/
-}
-.logged-user-info .user-info > div >span:last-child{
-display:none;
-}
-
-
-@media all and (max-width: 600px) {
-
-.search-blk {
-width: 55%;
-}
-.logged-user-info{
-border:none;
-width:60px;
-right: -60%;
-}
-.logged-user-info  > div {
-float:none;
-}
-
-.logged-user-info :nth-child(n+2){
-display:none;
-}
-
-
-}
-
-@media all and (max-width: 500px) {
-.search-blk {
-width: 50%;
-}
-
-
-}
-
-  
-@media screen and (max-width: 600px) {
-.o-box {
-    width: 40%;
-}
-}
-
-
-  
 
 
 

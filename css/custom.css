@@ -112,14 +112,14 @@ padding: 5px;
 }
 
 .o-box .o-content h2{
-margin: 15px 20px;
+margin: 15px 15px;
 padding-bottom: 10px;
 border-bottom: 1px solid #b9b8b8;
 }
 .o-box .o-content .o-sub-content{
 /* margin-top:50px; */
-margin:0px 20px;
-min-height: 175px;
+margin: 0px 4px;
+min-height: 190px;
 }
 
 
@@ -130,7 +130,7 @@ min-height: 175px;
     margin-bottom: 12px;
 }
 .o-close-pos{
-    right: -50px;
+    right: -48px;
     top:0;
     cursor:pointer;
 }
