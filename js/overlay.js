@@ -49,26 +49,15 @@ var overlay ={
 		console.log("start");
 		var $obxParent = $("div.o-box");
 		$obxParent.removeClass("o-box").addClass("o-box-custom");
-		var firstImageSource = $("#thumbNailImages li:eq(0) a img").attr("src");
-		$("#viewingImage").html('<img src='+firstImageSource+' />');
-		$(".previous").show();
-		$(".next").show();
-		$("#thumbNailImages li:eq(0)").find("a").addClass("active");
-		$("#slider-vertical").slider({
-		  orientation: "vertical",
-		  range: "min",
-		  min: 0,
-		  max: 100,
-		  value: 60
-		});
+		overlay.slider();
 		console.log("end");
 	},
-	audioInit : function(){
+	audioInit : function(resultObject){
 		var $obxParent = $("div.o-box");
 		$obxParent.removeClass("o-box").addClass("o-box-custom");
-		var $firstAudioThumbNailView=$('#audioThumbNailView').children().first();
-		console.log("$firstAudioThumbNailView"+$firstAudioThumbNailView);
-		$firstAudioThumbNailView.addClass("activeAudio");
+		overlay.slider();
+	},
+	slider : function(){
 		$("#slider-vertical").slider({
 		  orientation: "vertical",
 		  range: "min",

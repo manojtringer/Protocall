@@ -123,7 +123,7 @@ input, select, textarea {
 .bold{font-weight:bold;}
 .f-sz-20{font-size:20px;}
 .f-sz-18{font-size:18px;}
-.f-sz-17{font-size:17px;}
+.f-sz-17{font-size: 17px;}
 .f-sz-16{font-size:16px;}
 .f-sz-14{font-size: 14px;}
 .f-sz-13{font-size:13px;}
@@ -131,7 +131,7 @@ input, select, textarea {
 .f-italic{font-style:italic;}
 .v-align-bot{vertical-align:bottom;}
 .v-align-t-bot{vertical-align:text-bottom;}
-.v-align-mid{vertical-align:middle;}
+.v-align-mid{vertical-align:middle;/* margin-top: 3px; *//* margin-left: 4px; */}
 .v-align-top{vertical-align:top;}
 .t-upper{text-transform: uppercase;}
 .t-caps{text-transform:capitalize;}
@@ -141,7 +141,8 @@ input, select, textarea {
     text-overflow: ellipsis;
 }
 .border-all{
-    border:1px solid #b9b8b8;
+    border: 1px solid #b9b8b8;
+    box-shadow: lavenderblush;
 }
 .border-top{
     border-top:1px solid #b9b8b8;
@@ -278,14 +279,16 @@ input, select, textarea {
 
 /************* Icons *********************/
 .pop-out{
-   background-position:-64px -402px;
-	width: 25px;
-	height: 21px;
+    background-position:-64px -402px;
+    width: 25px;
+    height: 21px;
 }
 .edit-icon{
     background-position:-10px -587px;
     width: 15px;
     height: 15px;
+    margin-right: 7px;
+    margin-left: 0px;
 }
 .add-icon{
     background-position:-9px -508px;
@@ -345,7 +348,7 @@ input, select, textarea {
 
 .mobile-icon{
     background-position: -83px -80px;
-    width: 8px;
+    width: 10px;
     height: 18px;
 }
 
@@ -370,7 +373,7 @@ input, select, textarea {
 .email-icon{
     background-position:-10px -247px;
     width: 18px;
-    height: 18px;
+    height: 15px;
 }
 
 .share-icon{
@@ -394,7 +397,8 @@ input, select, textarea {
 .rep-icon{
     background-position:-48px -83px;
     width: 13px;
-    height: 12px;
+    height: 15px;
+    margin-right: 5px;
 }
 
 .drop-down-icon{
@@ -465,6 +469,40 @@ input, select, textarea {
     height: 36px;
 }
 
+.view-download-icon{
+    background-position:-71px -645px;
+    width: 28px;
+    height: 20px;
+}
+
+.icon-profile-icon{
+    background-position:-33px -501px;
+    width: 27px;
+    height: 25px;
+}
+
+.icon-settings-icon{
+    background-position:-64px -546px;
+    width: 24px;
+    height: 24px;
+}
+
+.icon-carrier-icon{
+    background-position:-7px -306px;
+    width: 23px;
+    height: 21px;
+}
+
+.icon-customers-icon{
+    background-position:no-repeat -45px -41px;
+    width: 24px;
+    height: 24px;
+}
+.icon-rep-icon{
+    background-position:no-repeat -80px -5px;
+    width: 17px;
+    height: 24px;
+}
 .copy-icon{
     background-position:-55px -163px;
     width: 37px;
@@ -617,7 +655,7 @@ input, select, textarea {
 
 
 
-.prof-view-overlay{padding:10px;border-bottom:solid 1px lightgray;font-family: 'PTSansLight';cursor:pointer;opacity:0.6;}
+.prof-view-overlay{padding:10px;border-bottom:solid 1px lightgray;font-family: 'PTSansLight';cursor:pointer;opacity:0.6;font-size: 17px;}
 .prof-view-overlay:last-child{border-bottom:none;}
 .pop-selected-color{color: #379ba2;}
 .prof-view-overlay:hover{color: #379ba2;opacity:1;transition:all 0.4s;background:		#FCFCFC}
@@ -632,6 +670,7 @@ input, select, textarea {
 /************* Sub Menu **************************/
 .sub-menu-text {
     line-height: 25px;
+    font-size: 18px;
 }
 
 .mb-submenu .mb-submenu-in  >div:first-child{
@@ -652,6 +691,7 @@ input, select, textarea {
 
 .tab-rb-submenu {
     overflow: hidden;
+    /* width: 28%; */
 }
 
 .mr-space-10{
@@ -665,7 +705,7 @@ input, select, textarea {
 }
 
 .tab-rb-submenu > div .submenu-tab{
-    margin-right:2px;
+    margin-right: 2px;
     height:39px;
     display: block;
     padding:0px 20px;
@@ -686,7 +726,7 @@ input, select, textarea {
 .submenu-sort{
     padding: 0px 15px;
     border: 1px solid #b9b8b8;
-    width: 80px;
+    width: 160px;
     max-height: 37px;
     overflow: hidden;
     height: 37px;
@@ -788,7 +828,7 @@ footer  .foot-in{
 }
 
 .feed-user-det-b {
-    width: 60%;
+    width: 63%;
 }
 
 .feed-user-det-b  .top-b {
@@ -813,6 +853,7 @@ footer  .foot-in{
 }
 .feed-user-det-b  .top-b .rep-name{
     color:#4f4b4b;
+    margin-left: 5px;
 }
 
 .feed-user-det-b  .bot-b .feed-date, .feed-user-det-b  .bot-b .feed-location, 
@@ -1141,7 +1182,7 @@ input[type=checkbox]:checked + .feed-label:before {
     margin:0px 5px;
 }
 .policy-btn-blk .date-blk, .policy-btn-blk .match-blk{
-    margin:5px 0px;
+    margin: 7px 0px;
 }
 .policy-btn-blk .match-blk a {
     width: 50%;
@@ -1169,6 +1210,7 @@ input[type=checkbox]:checked + .feed-label:before {
 }
 .agenyleft-image{
     padding: 5px;
+    background: #CCC;
 }
 .agenyright-profile{
     width: 85%;
@@ -1293,17 +1335,18 @@ input[type=checkbox]:checked + .feed-label:before {
     /*height: 71px;*/
 }
 .carrier-name{
-    color: #989898;
+    color: black;
     font-size: 16px;
     /*margin-right: 15px;*/
+    /* text-align: left; */
 }
 .carrier-location{
-    color: #989898;
+    color: black;
     font-size: 16px;
     /*margin-right: 15px;*/
 }
 .carrier-email{
-    color: #989898;
+    color: black;
     font-size: 16px;
     /*margin-right: 15px;*/
 }
@@ -1323,6 +1366,7 @@ input[type=checkbox]:checked + .feed-label:before {
 }
 .carrier-img-width{
     width:100%;
+    height: 100%;
 }
 .customer-home-parent {
     padding: 10px;
@@ -1331,6 +1375,7 @@ input[type=checkbox]:checked + .feed-label:before {
     width:24%;
     /*height: 200px;*/
     margin-right:10px;
+    background-color: white;
 }
 .customer-feed-info{
     padding: 7px 7px;
@@ -1346,17 +1391,21 @@ input[type=checkbox]:checked + .feed-label:before {
 }
 .customer-profile-info{
     width: 60%;
+    /* text-align: left; */
+    margin-left: 5px;
 }
 .customer-feed-view{
     width:100%;
+    height: 25px;
+    line-height: 25px;
 }
 .carrier-view-name{
-    color: #989898;
+    color: black;
     font-size: 16px;
     margin-right: 15px;
 }
 .carrier-view-id{
-    color: #989898;
+    color: #939393;
     font-size: 16px;
     margin-right: 15px;
 }
@@ -1432,7 +1481,7 @@ input[type=checkbox]:checked + .feed-label:before {
     padding: 10px 10px 10px 30px;
 }
 .carrier-view-block{
-    width:95%;
+    width: 95%;
     margin: auto;
 }
 .carrier-view-left{
@@ -1457,12 +1506,24 @@ input[type=checkbox]:checked + .feed-label:before {
     color: black;
 }
 .carrier-left-content-textbox{
-    width:45%;
+    width: 45%;
     font-size: 16px;
-    margin-right: 19px;
+    margin-right: 0px;
     color: black;
     height: 24px;
-    margin-left: 6%;
+    margin-left: 53%;
+    /* margin-bottom: -40px; */
+    border: 1px solid #CCC;
+}
+
+.agenycontent-block-textbox{
+    width: 31%;
+    font-size: 16px;
+    margin-right: 0px;
+    color: black;
+    height: 25px;
+    margin-top: -21px;
+    margin-left: 8%;
     /* margin-bottom: -40px; */
     border: 1px solid #CCC;
 }
@@ -1483,9 +1544,10 @@ input[type=checkbox]:checked + .feed-label:before {
     padding: 20px 0px;
 }
 .associated-carrier-sort{
+    width: 18%;
     font-size: 16px;
-    margin-right: 15px;
-    color: #989898;
+    /* margin-right: 15px; */
+    color: black;
 }
 .associated-carrier-feed{
     padding:10px 0px;
@@ -1550,6 +1612,19 @@ input[type=checkbox]:checked + .feed-label:before {
     width: 10px;
     height: 18px;
 }
+
+.push-message-icon{
+    background-position: -11px -649px;
+    width: 18px;
+    height: 13px;
+}
+
+.download-icon{
+    background-position: -11px -649px;
+    width: 18px;
+    height: 13px;
+}
+
 /***** settings page *****/
 .app-link{
     font-size: 16px;
@@ -1637,8 +1712,10 @@ input[type=checkbox]:checked + .feed-label:before {
 .carrier-profile-screen:hover  .carrier-view{
     background:#f34f4e;
 }
-.settings-agency-bar:hover{background:#f34f4e;}
-.settings-vendor-bar:hover{background:#f34f4e;}
+.settings-agency-bar:hover{background-color: #f34f4e;}
+.settings-vendor-bar:hover{background-color:#f34f4e;}
+
+
 /*** prefferred vendors *******/
 .preferred-vendor-block{
     width:100%;
@@ -1746,6 +1823,7 @@ input[type=checkbox]:checked + .vendor-label:before {
 /**** MY REPS PAGE *******/
 .reps-feed-info {
     padding: 5px 5px;
+    background-color: white;
 }
 .reps-feed-pic {
     width: 120px;
@@ -1760,6 +1838,7 @@ input[type=checkbox]:checked + .vendor-label:before {
     width: 100%;
     padding: 5px 0px;
 }
+.reps-feed-view:hover{background-color: #f34f4e};
 .reps-feed-screen {
     width: 23%;
     margin-right: 10px;
@@ -1770,10 +1849,32 @@ input[type=checkbox]:checked + .vendor-label:before {
 /**************** Overlay Contents ***********************/
 /********* ***********Added by Manoj *********************/
 
+/**************** Overlay Contents ***********************/
+/********* ***********Added by Manoj *********************/
+
 /************Push Message***********************************/
 
 .enable-text-1{
     margin-bottom: 22px;
+}
+
+.top-search-icon{
+    top: 18px;
+    right: 15px;
+}
+#id-submenu-title{
+    margin-left: 5px;
+
+}
+.c-editicon{
+    margin-left: 10px;
+}
+.c-agency-name{
+    color: #3e3e3e;
+
+}
+.c-associate-carrier{
+    background-color: #c8d2d5;
 }
 
 #id-switch-container,#id2-switch-container,#id3-switch-container,#id4-switch-container,#id5-switch-container,#id6-switch-container,#id7-switch-container,#id8-switch-container{
@@ -1820,7 +1921,7 @@ input[type='radio']:before {
     /* top: 37px; */
 }
 input[type='radio']:checked:before {
-    background:red;
+    background:#f34f4e;
 }
 
 .c-textarea{
@@ -2172,6 +2273,8 @@ textarea::-webkit-input-placeholder {  color: #999;}
     top: 16px;
     right: 12px;
 }
+
+
 .range-box{
     margin-top: 10px;
 }
@@ -2284,6 +2387,13 @@ textarea::-webkit-input-placeholder {  color: #999;}
 }
 /*****************Share With Rep Styles Ends Here****************/
 /*********Ends Here ******** ****** Added by Manoj **************/
+
+
+.c-download-icon{
+    display: inline-block;
+    position: absolute;
+    right: 4px;
+}
 
 .vendorbox{
     margin-bottom: 5px;
@@ -2761,18 +2871,17 @@ textarea::-webkit-input-placeholder {  color: #999;}
 }
 
 .activeAudio{
-    overflow:hidden;
     border: 1px solid red;
 }
 
-#thumbNailImages ul li a{
-    width: 48px;
-    height: 48px;
-}
-
-#thumbNailImages ul li a img{
+#thumbNailImages img{
     max-width: 100%;
     max-height: 100%;
+}
+
+#thumbNailImages{
+    position: fixed;
+    top: 15px;
 }
 
 #viewingImage{
@@ -2850,16 +2959,18 @@ footer  .foot-in{
 }
 
 .agency-details .agency-name-details .agency-name{
-    font-size:16px;
+    font-size: 18px;
+    color: #3e3e3e;
 }
 .agency-details .agency-name-details .agency-email{
     font-size:14px;
+    color: #3e3e3e;
 }
 .agency-details .agency-pic-box{
     margin-right: 15px;
 }
 .feed-user-share-b{
-    width:25%;
+    width: 24%;
 }
 .feed-user-share-b a:first-child {
     margin-right: 0px;
@@ -2870,6 +2981,12 @@ footer  .foot-in{
 }
 .feed-user-det-b .bot-b .feed-date, .feed-user-det-b .bot-b .feed-location, .feed-user-det-b .bot-b .cust-phone, .feed-user-det-b .bot-b .cust-email{
     margin: 0px 12px;
+}
+.pop-up-content{
+    display: block;
+    top: 240.197920245889px;
+    left: 925.659790039063px;
+    width: 192px;
 }
 
 
