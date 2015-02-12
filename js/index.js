@@ -16,12 +16,13 @@ var CONSTANTS = {
     FORM_SUBMIT_OPACITY: 0.2,
     CHANNEL_TOKEN: null,
     LINK_TYPE: {
-        PAGE: "page", HOME_PAGE: "home", CARRIERS_PAGE: "carriers", CUSTOMERS_PAGE: "customers", MY_REP_PAGE: "myreps", LOGIN_page: "login",
+        PAGE: "page", HOME_PAGE: "home", CARRIERS_PAGE: "carriers", CUSTOMERS_PAGE: "customers", MY_REP_PAGE: "myreps", LOGIN_PAGE: "login", LOGIN_YES: "login-yes", LOGOUT_YES: "logout-yes",
         VIEW_FEED: "view", FEEDS: "feeds", SHARE_TO_REP: "share", CLOSE_OVERLAY: "closeOverlay", CLOSE_POPUP: "closePopUp", EDIT_AGENCY_PIC: "editAgencyPic",
         MY_ALERTS: "myalerts", INCIDENTS: "incidents", POLICIES: "policies", MATCH_RELEASE_CLAIMS: "matchReleaseClaim", INVITE_REPS: "invitereps",
         ASSIGN_TO_REPS: "assignrep", PHOTS_OVERLAY_DISPLAY: "photosDoc", THUMB_NAIL: "thumbNail", PREVIOUS: "previous", NEXT: "next", VIEW_CARRIER_FEEDVIEW: "viewcarrierfeedview", PUSHMESSAGE: "pushmessage", PRIVACY: "privacy", ARCHIVES: "archives", VIEW_ARCHIVES: "view_archives", SORTBY: "sortby", MY_PROFILE: "profile-link", VIEW_CUSTOMER_FEEDVIEW: "customerprofileviewfeed", SETTINGS_PAGE: "mysettings", PROFILE_PAGE: "myProfileView", SENDAPPLINK: "sendapplink", AUDIO_OVERLAY: "voiceDoc", AUDIO_PLAY: "playAudio", AGENCY_VIEW_LOAD: "agency-view-load", PREFERRED_VENDOE_VIEW_LOAD: "preferred vendors-view-load", AGENCY_EDIT_LOAD: "agency-edit-load", AGENCY_REMOVE_LOAD: "agency-remove-load", AGENCY_ADD_VENDOR_LOAD: "agency-addvendor-load", VENDOR_PROFILE_INFO: "vendor-profile-info",
-        ASSIGN_TO_CUSTOMERS: "dt-assigncustomer", PROPERTY_POLICY: "dt-propertypolicy", HEALTH_POLICY: "dt-healthpolicy", VEHICLE_POLICY: "dt-vehiclepolicy",
-        PROFILEEDIT: "edit", EDIT_PROFILEIMAGE: "dt-changeImage"
+        ASSIGN_TO_CUSTOMERS: "dt-assigncustomer", PROPERTY_POLICY: "dt-propertypolicy", HEALTH_POLICY: "dt-healthpolicy",
+        VEHICLE_POLICY: "dt-vehiclepolicy", RESETPASSWORD: "dtresetpassword", SIGNUP: "dtsignup", OVERLAY_RESETPASSALERTBOX: "dtoverlayresetpassword",
+        EDITPASSWORDYES: "dtoverlayrestpassyes", EDITPASSWORDNO: "dtoverlayrestpassno"
     },
     ERROR_MSG: {
         ajaxFailed: "Oops! This action could not be completed now! Please try again"
@@ -44,9 +45,11 @@ var ENDPOINT = {
     AGENCY_DASHBOARD_DESIGN: "agencydashboarddesign",
     GIVE_RECORDED_BY_USER: "giverecordedbyuser"
 };
+//API
+ProfileAPI = 'https://proto-call-test.appspot.com/file/'
 //PAGE NAMES
 CURRENT_PAGE = "";
-LOGIN_PAGE = "";
+LOGIN_PAGE = "login";
 HOME_PAGE = "home";
 CARRIERS_PAGE = "carriers";
 CUSTOMERS_PAGE = "customers";
@@ -227,24 +230,23 @@ $(document).ready(function () {
 protocall = {
     init: function () {
         protocall.displaySpinner(true);
+
         if (this.isLoggedIn()) {
+
             var pageNameFromURL = this.grabHashPage();
             if (pageNameFromURL !== "" && typeof pageNameFromURL !== "undefined" && pageNameFromURL.length != 0) {
-                this.setPageNavigation(pageNameFromURL);
+                if (pageNameFromURL === LOGIN_PAGE) {
+                    this.setPageNavigation(HOME_PAGE);
+                } else {
+                    this.setPageNavigation(pageNameFromURL);
+                }
             } else {
                 this.setPageNavigation(localStorage.currentPage);
             }
-        } else {
-            var pageNameFromURL = this.grabHashPage();
-            if (pageNameFromURL !== "" && typeof pageNameFromURL !== "undefined" && pageNameFromURL.length != 0) {
-                this.setPageNavigation(pageNameFromURL);
-            }
-            //else if((typeof localStorage != "undefined" && localStorage != null && localStorage.length !=0) && (localStorage.currentPage!=null && localStorage.currentPage!="")){
-            //	this.setPageNavigation(localStorage.currentPage);	
-            //} 
-            else {
-                this.setPageNavigation(HOME_PAGE);
-            }
+        }
+        else {
+            this.setPageNavigation(LOGIN_PAGE);
+
             setTimeout(function () {
                 window.scrollTo(0, 1); //to fix refresh scrolling issue when page is reloaded with page scrolled
             }, 300);
@@ -274,7 +276,12 @@ protocall = {
         this.setMenuSelection(page);
         this.displaySpinner(true);
         this.setLocalStorage(page);
-        if (page == HOME_PAGE) {
+
+        if (page == LOGIN_PAGE) {
+            this.view.loadLoginPage(false);
+        }
+
+        else if (page == HOME_PAGE) {
             this.view.loadHomePage(false);
         } else if (page == CARRIERS_PAGE) {
             this.view.loadCarrierPage(false);
@@ -479,9 +486,6 @@ protocall.events = {
                     case CONSTANTS.LINK_TYPE.PRIVACY:
                         protocall.view.privacy($el, true);
                         break;
-                    case CONSTANTS.LINK_TYPE.PROFILEEDIT:
-                        protocall.view.editProfileDetails();
-                        break;
                     default:
                         break;
                 }
@@ -534,6 +538,12 @@ protocall.events = {
             case CONSTANTS.LINK_TYPE.AGENCY_EDIT_LOAD:
                 protocall.view.LoadAgencyEdit();
                 break;
+            case CONSTANTS.LINK_TYPE.LOGIN_YES:
+                protocall.view.LoginAuthenticateYes();
+                break;
+            case CONSTANTS.LINK_TYPE.LOGOUT_YES:
+                protocall.view.LogoutAuthenticateYes();
+                break;
             case CONSTANTS.LINK_TYPE.AGENCY_REMOVE_LOAD:
                 var vendorCheck = document.getElementById('removevendor');
                 if (vendorCheck.checked) {
@@ -572,8 +582,24 @@ protocall.events = {
             case CONSTANTS.LINK_TYPE.AUDIO_OVERLAY:
                 protocall.view.staticAudioOverlayDisplay();
                 break;
-            case CONSTANTS.LINK_TYPE.EDIT_PROFILEIMAGE:
-                protocall.view.editProfileImage();
+            case CONSTANTS.LINK_TYPE.SIGNUP:
+                protocall.view.loadSignupPage();
+                break;
+            case CONSTANTS.LINK_TYPE.LOGIN_PAGE:
+                protocall.view.loadLoginPage();
+                break;
+            case CONSTANTS.LINK_TYPE.RESETPASSWORD:
+                protocall.view.loadResetPassAlertBox();
+                break;
+            case CONSTANTS.LINK_TYPE.OVERLAY_RESETPASSALERTBOX:
+                protocall.view.loadResetPassMailAlertBox();
+                break;
+            case CONSTANTS.LINK_TYPE.EDITPASSWORDYES:
+                protocall.closeOverlay();
+                protocall.view.loadResetPasswordPage();
+                break;
+            case CONSTANTS.LINK_TYPE.EDITPASSWORDNO:
+                protocall.closeOverlay();
                 break;
             default:
                 break;
@@ -581,22 +607,25 @@ protocall.events = {
 
     },
     handleClickForPhotosOverlay: function (e) {
-        console.log("current target", $(e.currentTarget).attr("data-type"));
-        var dataType = $(e.currentTarget).attr("data-type");
-        var currentTarget = $(e.currentTarget);
-        switch (dataType) {
+        console.log("hello" + $(this).find("img").attr("src"));
+        var $el = $(e.currentTarget);
+        console.log("valuers" + $el.data("type"));
+        var type = $el.data("type") ? $el.data("type") : null;
+        console.log("data type is" + type);
+        switch (type) {
             case CONSTANTS.LINK_TYPE.THUMB_NAIL:
-                protocall.view.displayOrignalImage(currentTarget);
+                protocall.view.displayOrignalImage($el);
                 break;
             case CONSTANTS.LINK_TYPE.PREVIOUS:
-                protocall.view.displayPreviousImage(currentTarget);
+                protocall.view.displayPreviousImage($el);
                 break;
             case CONSTANTS.LINK_TYPE.NEXT:
-                protocall.view.displayNextImage(currentTarget);
+                protocall.view.displayNextImage($el);
                 break;
             default:
                 break;
         }
+
     },
     handleClickForAudioOverlay: function (e) {
         var $el = $(e.currentTarget);
@@ -617,31 +646,6 @@ protocall.events = {
                 break;
         }
     },
-    handleClickForAudioThumbNail: function (e) {
-        console.log("handleClickForAudioThumbNail");
-        console.log($(e.currentTarget));
-        $("#audioThumbNailView>div").removeClass("activeAudio");
-        $(e.currentTarget).addClass("activeAudio");
-        var currentMediaID = $(e.currentTarget).find("p#mediaID").text(), mainAudioHTML = "";
-        console.log("RESPONSE.AUDIODETAILS", RESPONSE.AUDIODETAILS);
-        $.each(RESPONSE.AUDIODETAILS, function (i, element) {
-            console.log("media id", element.mediaId);
-            if (currentMediaID == element.mediaId) {
-                console.log("condition satisfied");
-                mainAudioHTML = '<p class="spanCLassElement t-left f-color-green opensans-regular" style="margin:0px">' + element.fileName + '<span  style="font-size:11px">,New jersy</span></p>'
-                        + '<p style="color:#939393;font-size:12px">' + element.timeStamp + '</p>'
-                        + '<div style="padding:30px;border-top: 1px solid #b9b8b8;margin-top: 10px;width: 476px;">'
-                        + '<audio id="music" preload="none" controls style="position: relative;left: 75px;top: 25px;">'
-                        + '<source src=' + element.audioSourceURL + '>'
-                        + '<source src=' + element.audioSourceURL + '>'
-                        + '</audio>'
-                        + '<div class="voice-ctrler">'
-                        + '<div>prev</div><div><button id="pButton2" class="play audioOverlay" data-type="playAudio"></button></div><div>next</div>'
-                        + '</div>';
-            }
-        });
-        $("#originalAudio").html(mainAudioHTML);
-    },
     handleResize: function () {
 
 
@@ -649,6 +653,36 @@ protocall.events = {
 };
 //protocall view functions
 protocall.view = {
+    loadSignupPage: function (isClickEvent) {
+        console.log("Load signup Page");
+        protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.SIGNUP);
+        protocall.home.initSignUpPage();
+        protocall.setMenuSelection(CONSTANTS.LINK_TYPE.SIGNUP);
+        if (isClickEvent) {
+            protocall.setPage(CONSTANTS.LINK_TYPE.SIGNUP, CONSTANTS.LINK_TYPE.SIGNUP, CONSTANTS.LINK_TYPE.SIGNUP, "");
+        }
+        protocall.displaySpinner(false);
+    },
+    loadResetPasswordPage: function (isClickEvent) {
+        console.log("Load Reset Password Page");
+        protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.RESETPASSWORD);
+        protocall.home.initResetPasswordPage();
+        protocall.setMenuSelection(CONSTANTS.LINK_TYPE.RESETPASSWORD);
+        if (isClickEvent) {
+            protocall.setPage(CONSTANTS.LINK_TYPE.RESETPASSWORD, CONSTANTS.LINK_TYPE.RESETPASSWORD, CONSTANTS.LINK_TYPE.RESETPASSWORD, "");
+        }
+        protocall.displaySpinner(false);
+    },
+    loadLoginPage: function (isClickEvent) {
+        console.log("Load login Page");
+        protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.LOGIN_PAGE);
+        protocall.home.initLoginPage();
+        protocall.setMenuSelection(CONSTANTS.LINK_TYPE.LOGIN_PAGE);
+        if (isClickEvent) {
+            protocall.setPage(CONSTANTS.LINK_TYPE.LOGIN_PAGE, CONSTANTS.LINK_TYPE.LOGIN_PAGE, CONSTANTS.LINK_TYPE.LOGIN_PAGE, "");
+        }
+        protocall.displaySpinner(false);
+    },
     loadHomePage: function (isClickEvent) {
         console.log("Load Home Page");
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE);
@@ -658,8 +692,8 @@ protocall.view = {
             protocall.setPage(CONSTANTS.LINK_TYPE.HOME_PAGE, CONSTANTS.LINK_TYPE.HOME_PAGE, CONSTANTS.LINK_TYPE.HOME_PAGE, "");
         }
         protocall.displaySpinner(false);
-        var $myAlerts = $(".myalerts")
-        protocall.view.setSelectedLinkClasses($myAlerts, true);
+        //var $myAlerts = $(".myalerts")
+        // protocall.view.setSelectedLinkClasses($myAlerts, true);
     },
     loadCarrierPage: function (isClickEvent) {
         console.log("Load Carrier Page");
@@ -727,8 +761,9 @@ protocall.view = {
         protocall.displaySpinner(false);
     },
     viewSettingsPage: function (isClickEvent, $el) {
+
+
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.SETTINGS_PAGE);
-        //	protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.SETTINGS_PAGE, CONSTANTS.LINK_TYPE.SETTINGS_PAGE, CONSTANTS.LINK_TYPE.SETTINGS_PAGE, "");
         }
@@ -840,7 +875,7 @@ protocall.view = {
     },
     loadProfile: function ($el) {
         var html = '<div><div class="prof-view-overlay snap myProfileView" data-type="myProfileView">My Profile</div><div class="prof-view-overlay snap mysettings" data-type="mysettings">Settings</div>'
-                + '<div class="prof-view-overlay">Help</div><div class="prof-view-overlay">Log out</div></div>';
+                + '<div class="prof-view-overlay">Help</div><div class="prof-view-overlay snap" data-type="logout-yes">Log out</div></div>';
         popUpContent.togglePopUpContent($el, html);
     },
     shareToRep: function () {
@@ -853,6 +888,14 @@ protocall.view = {
     },
     properityPolicy: function () {
         var html = staticTemplate.home.properyPolicyTemplate();
+        overlay.displayOverlay(html);
+    },
+    loadResetPassMailAlertBox: function () {
+        var html = staticTemplate.home.passwordResetEmailAlertTemplate();
+        overlay.displayOverlay(html);
+    },
+    loadResetPassAlertBox: function () {
+        var html = staticTemplate.home.passwordResetAlertTemplate();
         overlay.displayOverlay(html);
     },
     addVendorDetails: function () {
@@ -873,16 +916,12 @@ protocall.view = {
     },
     LoadAgencyInfo: function () {
 
-        $("#id-settings-agency-bar").css("background-color", "#f34f4e");
-        $("#id-settings-vendor-bar").css("background-color", "#ccc");
-
         if (IsVendorDataChanged === true) {
             editVendorSaveData();
             IsVendorDataChanged = false;
         }
-
-        hideAgencyTextboxes();
         REFERENCE_TYPE = "agency_info";
+
         $(".agency-view-block").css({
             'display': 'block'
         });
@@ -911,9 +950,7 @@ protocall.view = {
             editAgencySaveData();
             IsAgencyDataChanged = false;
         }
-        $("#id-settings-agency-bar").css("background-color", "#ccc");
-        $("#id-settings-vendor-bar").css("background-color", "#f34f4e");
-        hideVendorTextboxes();
+
         REFERENCE_TYPE = "vendor_info";
         $(".agency-view-block").css({
             'display': 'none'
@@ -974,6 +1011,26 @@ protocall.view = {
             'display': 'none'
         });
     },
+    LoginAuthenticateYes: function () {
+        protocall.displaySpinner(true);
+        var label = $('#usertype :selected').parent().attr('label');
+        var email = $('#email').val();
+        var password = $('#password').val();
+        var login = "yes";
+
+        page = "login";
+        var data = {employeeType: "agencyrepresentative", userId: email, password: password, agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"};
+        callback = utils.server.gotloginresponse;
+        deepPath = "employeeauthentication";
+        utils.server.makeServerCall(page, data, callback, deepPath);
+    },
+    LogoutAuthenticateYes: function () {
+        protocall.displaySpinner(true);
+        localStorage.loggedIn = "";
+        localStorage.agencyEmail = "";
+        localStorage.agencyId = "";
+        protocall.setPageNavigation(LOGIN_PAGE);
+    },
     //    Added By Manoj
     pushMessage: function () {
         var html = staticTemplate.home.pushMessageTemplate();
@@ -983,51 +1040,20 @@ protocall.view = {
         var html = staticTemplate.home.privacyTemplate();
         overlay.displayOverlay(html);
     },
-    editProfileDetails: function () {
-        REFERENCE_TYPE = "profile_editinfo";
-        editDataInfo();
-    },
-    editProfileImage: function () {
-        editProfileImage();
-    },
     /*Added by Naveen -- Start*/
     staticPhotOverlayDisplay: function () {
-        $.ajax({
-            url: 'sampleJson.json',
-            type: 'GET',
-            success: function (data) {
-                console.log("in success", data.resultObject);
-                RESPONSE.RESULTOBJECT = data.resultObject;
-                var html = staticTemplate.home.showPhotsOverlayTemplate(RESPONSE.RESULTOBJECT);
-                overlay.displayOverlay(html);
-                console.log("in photo");
-                overlay.sliderControl();
-                $("#thumbNailImages div:nth-child(1)").addClass("activeAudio");
-                protocall.displaySpinner(false);
-            },
-            error: function (e) {
-                console.log("in error");
-            }
-        });
+        var html = staticTemplate.home.showPhotsOverlayTemplate();
+        overlay.displayOverlay(html);
+        console.log("in photo");
+        overlay.sliderControl();
+        protocall.displaySpinner(false);
     },
     staticAudioOverlayDisplay: function () {
-        $.ajax({
-            url: 'sampleJson.json',
-            type: 'GET',
-            success: function (data) {
-                console.log("in success", data.resultObject);
-                RESPONSE.RESULTOBJECT = data.resultObject;
-                var html = staticTemplate.home.showAudioOverlayTemplate(data.resultObject);
-                overlay.displayOverlay(html);
-                console.log("in function");
-                overlay.audioInit(data.resultObject);
-                $("#audioThumbNailView div:nth-child(1)").addClass("activeAudio");
-                protocall.displaySpinner(false);
-            },
-            error: function (e) {
-                console.log("in error");
-            }
-        });
+        var html = staticTemplate.home.showAudioOverlayTemplate();
+        overlay.displayOverlay(html);
+        console.log("in function");
+        overlay.audioInit();
+        protocall.displaySpinner(false);
     },
     /*Added by Naveen -- End*/
     editAgencyPic: function () {
@@ -1162,75 +1188,49 @@ protocall.view = {
         }
 
     },
-    displayOrignalImage: function (currentTarget) {
-        $("#thumbNailImages>div").removeClass("activeAudio");
-        currentTarget.addClass("activeAudio");
-        var currentMediaID = currentTarget.attr("name"), mainAudioHTML = "";
-        $.each(RESPONSE.PICTUREDETAILS, function (i, element) {
-            console.log("media id", element.mediaId);
-            if (currentMediaID == element.mediaId) {
-                mainImageHTML = '<img src=' + element.imageSource + ' />';
-                imageInformationHTML = element.imageText;
+    displayOrignalImage: function ($e1) {
+        console.log($e1.find("img").attr("src"));
+        $("#thumbNailImages li a").removeClass("active");
+        $e1.addClass("active");
+        $("#viewingImage").html('<img src=' + $e1.find("img").attr("src") + ' />');
+        $(".previous").show();
+        $(".next").show();
+    },
+    displayPreviousImage: function () {
+        var $liElement = $("#thumbNailImages li");
+        $.each($liElement, function (index, element) {
+            if (($(this).find("a").hasClass("active"))) {
+                protocall.view.loadingScrollPrevious($(this));
+                return false;
             }
         });
-        $("#viewingImage").html(mainImageHTML);
-        $("#imageinformation span:first-child").html(imageInformationHTML);
     },
-    displayOrignalImage: function (currentTarget) {
-        $("#thumbNailImages>div").removeClass("activeAudio");
-        currentTarget.addClass("activeAudio");
-        var currentMediaID = currentTarget.attr("name"), mainAudioHTML = "";
-        $.each(RESPONSE.PICTUREDETAILS, function (i, element) {
-            console.log("media id", element.mediaId);
-            if (currentMediaID == element.mediaId) {
-                mainImageHTML = '<img src=' + element.imageSource + ' />';
-                imageInformationHTML = element.imageText;
-            }
-        });
-        $("#viewingImage").html(mainImageHTML);
-        $("#imageinformation span:first-child").html(imageInformationHTML);
-    },
-            displayPreviousImage: function () {
-                var $divElement = $("#thumbNailImages"), activeAudioClass = false;
-                console.log("$liElement", $divElement);
-                $.each($divElement, function (index, element) {
-                    console.log($(this).find("div").hasClass("activeAudio"));
-                    activeAudioClass = $(this).find("div").hasClass("activeAudio")
-                    if (activeAudioClass) {
-                        protocall.view.loadingScrollPrevious($(this).find("div.activeAudio"));
-                        return false;
-                    }
-                });
-            },
     displayNextImage: function () {
-        var $divElement = $("#thumbNailImages"), activeAudioClass = false;
-        console.log("$liElement", $divElement);
-        $.each($divElement, function (index, element) {
-            console.log($(this).find("div").hasClass("activeAudio"));
-            activeAudioClass = $(this).find("div").hasClass("activeAudio")
-            if (activeAudioClass) {
-                protocall.view.loadingScrollNext($(this).find("div.activeAudio"));
+        var $liElement = $("#thumbNailImages li");
+        $.each($liElement, function (index, element) {
+            if (($(this).find("a").hasClass("active"))) {
+                protocall.view.loadingScrollNext($(this));
                 return false;
             }
         });
     },
     loadingScrollNext: function (liEleme) {
-        var indexValue = $("#thumbNailImages div").index(liEleme) + 1, nextElementToBeloaded;
-        if (indexValue !== 0 && indexValue < $("#thumbNailImages div").length) {
-            nextElementToBeloaded = $("#thumbNailImages div:eq( " + indexValue + " )");
-            $("#thumbNailImages div").removeClass("activeAudio");
-            nextElementToBeloaded.addClass("activeAudio");
+        var indexValue = $("#thumbNailImages li").index(liEleme) + 1, nextElementToBeloaded;
+        if (indexValue !== 0 && indexValue < $("#thumbNailImages li").length) {
+            nextElementToBeloaded = $("#thumbNailImages li:eq( " + indexValue + " )");
+            $("#thumbNailImages li a").removeClass("active");
+            nextElementToBeloaded.find("a").addClass("active");
             imageSrcTobeLoadedBack = nextElementToBeloaded.find("img").attr("src");
             $("#viewingImage").html('<img src=' + imageSrcTobeLoadedBack + ' />');
         }
     },
     loadingScrollPrevious: function (liEleme) {
-        var indexValue = $("#thumbNailImages div").index(liEleme) - 1, nextElementToBeloaded;
+        var indexValue = $("#thumbNailImages li").index(liEleme) - 1, nextElementToBeloaded;
         console.log("loadingScrollBack" + indexValue);
         if (indexValue !== -1) {
-            nextElementToBeloaded = $("#thumbNailImages div:eq( " + indexValue + " )");
-            $("#thumbNailImages div").removeClass("activeAudio");
-            nextElementToBeloaded.addClass("activeAudio");
+            nextElementToBeloaded = $("#thumbNailImages li:eq( " + indexValue + " )");
+            $("#thumbNailImages li a").removeClass("active");
+            nextElementToBeloaded.find("a").addClass("active");
             imageSrcTobeLoadedBack = nextElementToBeloaded.find("img").attr("src");
             console.log("imageSrcTobeLoaded" + imageSrcTobeLoadedBack);
             $("#viewingImage").html('<img src=' + imageSrcTobeLoadedBack + ' />');
@@ -1343,50 +1343,110 @@ protocall.view = {
     }
 };
 protocall.home = {
-    initHomePage: function () {
-        var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
-        deepPath = "agencydashboarddesign",
-                page = "home",
-                callback = protocall.home.loadHomePageData,
-                authId = "",
-                spinnerMsg = "";
-        //Hardcoding Agency ID
-        //var agencyID = "8d087b9a-1ca5-47e3-9332-23659c5692b3";
-        //Building Request 
-        //data.agencyId = agencyID;
-        var resp = utils.server.makeServerCall(page, data, callback, deepPath);
-        protocall.view.buildHomeMenuBlk(page);
-        $('.tab-rb-submenu a').each(function () {
-            protocall.view.setSelectedLinkClasses($(this), false);
-        });
-        // var totalHTML = "";
-        // var totalLen = 5;
-        // for(var h = 0; h < totalLen; h++){
-        // var template = staticTemplate.home.staticFeedTemplate();
-        // totalHTML = totalHTML + template;
-        // }
+   initHomePage:function(){
+		    $(".content-holder").empty();
+          var page = "home";
+           var data = {agencyId:localStorage.agencyId,agencyRepresentativeId:localStorage.agencyEmail},
+			deepPath = "alertlist",
+			page = "home",
+			callback = protocall.home.loadHomePageData,
+			authId = "",
+			spinnerMsg = "";
+		var resp = utils.server.makeServerCall(page,data,callback,deepPath);	
+		protocall.view.buildHomeMenuBlk(page);
+		$('.tab-rb-submenu a').each(function(){
+				protocall.view.setSelectedLinkClasses($(this),false);
+		});
+	},
+    initLoginPage: function () {
 
+        var template = LoginTemplate.login.staticLoginTemplate();
+        $(".container").addClass("container");
+        $(".container").removeClass("container-maxwidth");
+        $("#page").empty();
+        $("#page").append($(template));
+        $("#id_loginfadeinout").fadeIn();
+        $("#id_loginfadeinout").fadeIn("slow");
+        $("#id_loginfadeinout").fadeIn(3000);
 
     },
-    loadHomePageData: function (data, page) {
-        //console.log(data, page);
-        var feedHTML = "";
-        //console.log("datalength",data.resultMap.userTab.length);
-        if (data.resultMap.userTab != null && data.resultMap.userTab != "" && data.resultMap.userTab.length > 0) {
-            var result = data.resultMap.userTab;
+    initSignUpPage: function () {
+        var template = LoginTemplate.login.staticSignUpTemplate();
+        $(".container").addClass("container");
+        $(".container").removeClass("container-maxwidth");
+        $("#page").empty();
+        $("#page").append($(template));
+        $(".c_signup").fadeIn();
+        $(".c_signup").fadeIn("slow");
+        $(".c_signup").fadeIn(3000);
+    },
+    initResetPasswordPage: function () {
+        var template = LoginTemplate.login.staticResetPasswordTemplate();
+        $(".container").addClass("container");
+        $(".container").removeClass("container-maxwidth");
+        $("#page").empty();
+        $("#page").append($(template));
+        $(".c_resetpassword").fadeIn();
+        $(".c_resetpassword").fadeIn("slow");
+        $(".c_resetpassword").fadeIn(3000);
+    },
+	 loadHomePageData: function (data, page) {
+	
+       // console.log(data, page);
+		//console.log(data.result.resultObject.length);
+       var feedHTML = "";
+		//console.log("datalength",data.resultMap.userTab.length);
+        if (data.result.resultObject.length!= null && data.result.resultObject.length!= "") {
+            var result = data.result.resultObject;
+			//console.log(result)
             for (var r = 0; r < result.length; r++) {
-                //console.log(result[r]);
-                var a = result[r];
-                feedHTML += template.feedsTemplateHTML(a);
+				
+                 var a = result[r];
+				 //console.log(a)
+				 				 if(a.userDetails.profilePicture == undefined)
+						
+						{
+							
+							profilePicture = "http://www.deshow.net/d/file/animal/2009-05/animal-pictures-pet-photography-557-4.jpg";
+								
+						}else{
+							
+							var profilePath = a.userDetails.profilePicture;
+							profilePicture = ProfileAPI+profilePath;
+							//console.log(pic)
+						 //profilePicture "pic/profilePicture";
+						 //console.log(profilePicture);
+						}
+						if(a.userDetails.emailId == undefined){
+					     feedUserEmail =' ';
+					
+						}else{
+								feedUserEmail = a.userDetails.emailId.email;
+								
+						}
+
+					if(a.userDetails.lastName == undefined)
+											{
+												lastName =' ';
+													
+											}else {
+											 lastName = a.userDetails.lastName;
+											}
+											
+				        bDay = a.userDetails.birthDate;
+						bDate =  moment(bDay).format('ll');
+			       
+			feedHTML+= template.feedsTemplateHTML(a);
             }
-            $(".container").addClass("container");
-            $(".container").removeClass("container-maxwidth");
-            $(".content-holder").empty();
-            $(".content-holder").append($(feedHTML));
-            //console.log(feedHTML)
+			$(".container").addClass("container");
+			$(".container").removeClass("container-maxwidth");
+			$(".content-holder").empty();
+			$(".content-holder").append($(feedHTML));
+		//console.log(feedHTML)
         }
     },
-    buildScreen: function (data, template) {
+
+       buildScreen: function (data, template) {
 
 
     },
@@ -1444,14 +1504,66 @@ protocall.home = {
 };
 protocall.carrier = {
     initCarrierPage: function () {
-        $(".content-holder").empty();
+		 $(".content-holder").empty();
         var page = "carriers";
+		var data = {agencyId:"49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
+			deepPath = "agencydashboarddesign",
+			page = "home",
+			callback = protocall.carrier.loadHomePageData,
+			authId = "",
+			spinnerMsg = "";
+		var resp = utils.server.makeServerCall(page,data,callback,deepPath);	
         protocall.view.buildSubMenuBlk(page);
-        var template = staticTemplate.carriers.staticCarrierTemplate();
-        $(".container").addClass("container-maxwidth");
-        $(".container").removeClass("container");
-        $(".content-holder").empty();
-        $(".content-holder").append($(template));
+        //var template = staticTemplate.carriers.staticCarrierTemplate();
+        // $(".container").addClass("container-maxwidth");
+        // $(".container").removeClass("container");
+        // $(".content-holder").empty();
+        // $(".content-holder").append($(template));
+    },
+	loadHomePageData: function (data, page) {
+        //console.log(data, page);
+        feedHTML1 = '<div class="carrier-home-parent p-relative">';
+		var feedHTML ="";
+		//console.log("datalength",data.resultMap.userTab.length);
+        if (data.resultMap!= null && data.resultMap!= "") {
+            var resultCarrier = data.resultMap.carrierTab;
+			//console.log(resultCarrier.length)
+		
+            for (var rc = 0; rc < resultCarrier.length; rc++) {
+				var c = resultCarrier[rc];
+				//emailId = c.emailId.email;
+				//cEmailId = (c.emailId.email).toString();
+				
+				if(c.emailId == undefined){
+					cEmail =' ';
+					console.log(cEmail);
+				}else{
+						cEmail = c.emailId.email;
+						console.log(cEmail);
+				}
+				if(c.carrierLogo == undefined)
+						
+						{
+							
+							profilePicture = "http://devilsworkshop.org/files/2013/01/enlarged-facebook-profile-picture.jpg";
+								
+						}else{
+							
+							var profilePath = c.carrierLogo;
+							profilePicture = ProfileAPI+profilePath;
+						}
+				
+				feedHTML+= template.CarrierfeedsTemplateHTML(c);
+			}
+			
+
+			var feedHTML2 ='</div>';
+			$(".container").addClass("container");
+			$(".container").removeClass("container-maxwidth");
+			$(".content-holder").empty();
+			$(".content-holder").append($(feedHTML1+feedHTML+feedHTML2));
+		//console.log(feedHTML)
+        }
     },
     loadFeed: function () {
         var html = staticTemplate.carriers.staticCarrierFeedViewTemplate();
@@ -1473,12 +1585,70 @@ protocall.customer = {
     initCustomerPage: function () {
         $(".content-holder").empty();
         var page = "customers";
+		var data = {agencyId:"49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
+			deepPath = "agencydashboarddesign",
+			page = "home",
+			callback = protocall.customer.loadHomePageData,
+			authId = "",
+			spinnerMsg = "";
+		var resp = utils.server.makeServerCall(page,data,callback,deepPath);	
         protocall.view.buildSubMenuBlk(page);
-        var template = staticTemplate.customers.staticCustomerTemplate();
-        $(".content-holder").empty();
-        $(".content-holder").append($(template));
-        $(".container").addClass("container-maxwidth");
-        $(".container").removeClass("container");
+    },
+     loadHomePageData: function (data, page) {
+        //console.log(data, page);
+        feedHTML1 = '<div class="carrier-home-parent p-relative">';
+		var feedHTML ="";
+		//console.log("datalength",data.resultMap.userTab.length);
+        if (data.resultMap!= null && data.resultMap!= "") {
+            var resultCustomer = data.resultMap.userTab;
+			//console.log(resultCarrier.length)
+		
+            for (var c = 0; c < resultCustomer.length; c++) {
+				console.log(cus)
+				var cus = resultCustomer[c];
+				//emailId = c.emailId.email;
+				//cEmailId = (c.emailId.email).toString();
+				
+				if(cus.emailId == undefined){
+					cusEmail =' ';
+					
+				}else{
+						cusEmail = cus.emailId.email;
+						
+				}
+				 if(cus.lastName == undefined)
+						{
+							lastName =' ';
+								
+						}else {
+						 lastName = cus.lastName;
+						}
+						
+				if(cus.profilePicture == undefined)
+						
+						{
+							
+							profilePicture = "http://www.deshow.net/d/file/animal/2009-05/animal-pictures-pet-photography-557-4.jpg";
+								
+						}else{
+							
+							var profilePath = cus.profilePicture;
+							profilePicture = ProfileAPI+profilePath;
+							//console.log(pic)
+						 //profilePicture "pic/profilePicture";
+						 //console.log(profilePicture);
+						}
+
+
+				feedHTML+= template.CustomerfeedsTemplateHTML(cus);
+			}
+			var feedHTML2 ='</div>';
+			$(".container").addClass("container");
+			$(".container").removeClass("container-maxwidth");
+			$(".content-holder").empty();
+			$(".content-holder").append($(feedHTML1+feedHTML+feedHTML2));
+		//console.log(feedHTML)
+        }
     },
     loadFeedSetting: function () {
         var html = staticTemplate.customers.staticSettingViewTemplate();
@@ -1516,34 +1686,94 @@ protocall.myRep = {
     initMyRepsPage: function () {
         $(".content-holder").empty();
         var page = "myreps"
+		var data = {agencyId:"49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
+			deepPath = "agencydashboarddesign",
+			page = "myreps",
+			callback = protocall.myRep.loadHomePageData,
+			authId = "",
+			spinnerMsg = "";
+		var resp = utils.server.makeServerCall(page,data,callback,deepPath);	
         protocall.view.buildSubMenuBlk(page);
-        protocall.view.buildSubMenuBlk(page);
-        var template = staticTemplate.myreps.staticRepsTemplate();
-        $(".content-holder").empty();
-        $(".content-holder").append($(template));
-        $(".container").addClass("container-maxwidth");
-        $(".container").removeClass("container");
-    }
+        // var template = staticTemplate.myreps.staticRepsTemplate();
+        // $(".content-holder").empty();
+        // $(".content-holder").append($(template));
+        // $(".container").addClass("container-maxwidth");
+        // $(".container").removeClass("container");
+    },
+	
+ loadHomePageData: function (data, page) {
+        //console.log(data, page);
+        feedHTML1 = '<div class="customer-home-parent clr-fl p-relative">';
+		var feedHTML ="";
+		//console.log("datalength",data.resultMap.userTab.length);
+        if (data.resultMap!= null && data.resultMap!= "") {
+            var resultReps = data.resultMap.repTab;
+			//console.log(resultCarrier.length)
+		
+            for (var mp = 0; mp < resultReps.length; mp++) {
+				
+				var rep = resultReps[mp];
+				console.log(rep)
+				
+				if(rep.agencyRepresentativeId == undefined){
+					repEmail =' ';
+					
+				}else{
+						repEmail = rep.agencyRepresentativeId.email;
+						
+				}
+				if(rep.profilePicture == undefined)
+						
+						{
+							
+							profilePicture = "http://johnjournal.bravesites.com/files/images/Profile_Score_Photo.jpg";
+								
+						}else{
+							
+							var profilePath = rep.profilePicture;
+							profilePicture = ProfileAPI+profilePath;
+							//console.log(pic)
+						 //profilePicture "pic/profilePicture";
+						 //console.log(profilePicture);
+						}
+
+
+				feedHTML+= template.RepsfeedsTemplateHTML(rep);
+			}
+			var feedHTML2 ='</div>';
+			$(".container").addClass("container");
+			$(".container").removeClass("container-maxwidth");
+			$(".content-holder").empty();
+			$(".content-holder").append($(feedHTML1+feedHTML+feedHTML2));
+		//console.log(feedHTML)
+        }
+    },
+
 }
 
 
 protocall.myProfile = {
     loadFeedSetting: function ($el) {
+
+        page = "settings";
+        var data = {agencyId: localStorage.agencyId};
+        callback = protocall.myProfile.MytestResponse;
+        deepPath = "readAgency";
+
+//        response = utils.server.makeServerCall(page, data, callback, deepPath);
         var html = staticTemplate.customers.staticSettingsTemplate();
         $(".content-holder").empty();
         $(".content-holder").append($(html));
         this.setSelectedClassPopContent($el);
-        REFERENCE_TYPE = "agency_info";
-        $("#id-settings-agency-bar").css("background-color", "#f34f4e");
-        $("#id-settings-vendor-bar").css("background-color", "#ccc");
-        hideAgencyTextboxes();
+    },
+    MytestResponse: function () {
+
     },
     loadMyProfileView: function ($el) {
         var html = staticTemplate.customers.staticMyProfileViewTemplate();
         $(".content-holder").empty();
         $(".content-holder").append($(html));
         this.setSelectedClassPopContent($el);
-        hideProfileTextboxes();
     },
     setSelectedClassPopContent: function ($el) {
         var $popUpContent = $("#pop-up-content");
@@ -1557,6 +1787,7 @@ protocall.myProfile = {
     }
 
 }
+
 
 //--------------------------- Agency Logo Added By Manoj -----------------------------------
 function readURL(input) {
@@ -1610,45 +1841,12 @@ function moveani(idValue, idcontainerValue) {
     } else if (idValue === "id-switch-on") {
         document.getElementById(idcontainerValue).style.marginLeft = "-8px";
     }
+
 }
 
-function hideAgencyTextboxes() {
-    $("#id-carrier-agencyid").hide();
-    $("#id-carrier-masteragencyid").hide();
-    $("#id-carrier-agencytype").hide();
-    $("#id-carrier-agencyname").hide();
-    $("#id-carrier-agencyaddress1").hide();
-    $("#id-carrier-agencyaddress2").hide();
-    $("#id-carrier-agencycity").hide();
-    $("#id-carrier-agencystate").hide();
-    $("#id-carrier-agencyzipcode").hide();
-    $("#id-carrier-agencyphone").hide();
-    $("#id-carrier-agencyemail").hide();
-}
-
-
-function hideProfileTextboxes() {
-    $("#id-settings-profileName").hide();
-    $("#id-settings-profilePhonenumber").hide();
-    $("#id-settings-profileEmailId").hide();
-}
-
-function hideVendorTextboxes() {
-    $("#id-vendor-preferredvendorid").hide();
-    $("#id-vendor-type").hide();
-    $("#id-vendor-name").hide();
-    $("#id-vendor-phone").hide();
-    $("#id-vendor-address1").hide();
-    $("#id-vendor-address2").hide();
-    $("#id-vendor-city").hide();
-    $("#id-vendor-state").hide();
-    $("#id-vendor-zipcode").hide();
-}
 
 function editAgencySaveData() {
     addBottomBorder();
-
-    hideAgencyTextboxes();
     document.getElementById("id-carrier-edit").innerHTML = "edit";
     document.getElementById("id-c-agencyid").innerHTML = document.getElementById("id-carrier-agencyid").value;
     document.getElementById("id-c-masteragencyid").innerHTML = document.getElementById("id-carrier-masteragencyid").value;
@@ -1661,72 +1859,81 @@ function editAgencySaveData() {
     document.getElementById("id-c-agencyzip").innerHTML = document.getElementById("id-carrier-agencyzipcode").value;
     document.getElementById("id-c-agencyphone").innerHTML = document.getElementById("id-carrier-agencyphone").value;
     document.getElementById("id-c-agencyemail").innerHTML = document.getElementById("id-carrier-agencyemail").value;
-    $("#id-c-agencyid").show();
-    $("#id-c-masteragencyid").show();
-    $("#id-c-agencytype").show();
-    $("#id-c-agencyname").show();
-    $("#id-c-agencyaddress1").show();
-    $("#id-c-agencyaddress2").show();
-    $("#id-c-agencycity").show();
-    $("#id-c-agencystate").show();
-    $("#id-c-agencyzip").show();
-    $("#id-c-agencyphone").show();
-    $("#id-c-agencyemail").show();
-
+    document.getElementById("id-c-agencyid").style.visibility = "visible";
+    document.getElementById("id-c-masteragencyid").style.visibility = "visible";
+    document.getElementById("id-c-agencytype").style.visibility = "visible";
+    document.getElementById("id-c-agencyname").style.visibility = "visible";
+    document.getElementById("id-c-agencyaddress1").style.visibility = "visible";
+    document.getElementById("id-c-agencyaddress2").style.visibility = "visible";
+    document.getElementById("id-c-agencycity").style.visibility = "visible";
+    document.getElementById("id-c-agencystate").style.visibility = "visible";
+    document.getElementById("id-c-agencyzip").style.visibility = "visible";
+    document.getElementById("id-c-agencyphone").style.visibility = "visible";
+    document.getElementById("id-c-agencyemail").style.visibility = "visible";
+    document.getElementById("id-carrier-agencyid").style.visibility = "hidden";
+    document.getElementById("id-carrier-masteragencyid").style.visibility = "hidden";
+    document.getElementById("id-carrier-agencytype").style.visibility = "hidden";
+    document.getElementById("id-carrier-agencyname").style.visibility = "hidden";
+    document.getElementById("id-carrier-agencyaddress1").style.visibility = "hidden";
+    document.getElementById("id-carrier-agencyaddress2").style.visibility = "hidden";
+    document.getElementById("id-carrier-agencycity").style.visibility = "hidden";
+    document.getElementById("id-carrier-agencystate").style.visibility = "hidden";
+    document.getElementById("id-carrier-agencyzipcode").style.visibility = "hidden";
+    document.getElementById("id-carrier-agencyphone").style.visibility = "hidden";
+    document.getElementById("id-carrier-agencyemail").style.visibility = "hidden";
 }
 
 function editAgencyEditData() {
     removerBottomBorder();
     document.getElementById("id-carrier-edit").innerHTML = "Save";
-    $("#id-c-agencyid").hide();
-    $("#id-c-masteragencyid").hide();
-    $("#id-c-agencytype").hide();
-    $("#id-c-agencyname").hide();
-    $("#id-c-agencyaddress1").hide();
-    $("#id-c-agencyaddress2").hide();
-    $("#id-c-agencycity").hide();
-    $("#id-c-agencystate").hide();
-    $("#id-c-agencyzip").hide();
-    $("#id-c-agencyphone").hide();
-    $("#id-c-agencyemail").hide();
-    document.getElementById("id-carrier-agencyid").value = document.getElementById("id-c-agencyid").innerHTML;
-    document.getElementById("id-carrier-masteragencyid").value = document.getElementById("id-c-masteragencyid").innerHTML;
-    document.getElementById("id-carrier-agencytype").value = document.getElementById("id-c-agencytype").innerHTML;
-    document.getElementById("id-carrier-agencyname").value = document.getElementById("id-c-agencyname").innerHTML;
-    document.getElementById("id-carrier-agencyaddress1").value = document.getElementById("id-c-agencyaddress1").innerHTML;
-    document.getElementById("id-carrier-agencyaddress2").value = document.getElementById("id-c-agencyaddress2").innerHTML;
-    document.getElementById("id-carrier-agencycity").value = document.getElementById("id-c-agencycity").innerHTML;
-    document.getElementById("id-carrier-agencystate").value = document.getElementById("id-c-agencystate").innerHTML;
-    document.getElementById("id-carrier-agencyzipcode").value = document.getElementById("id-c-agencyzip").innerHTML;
-    document.getElementById("id-carrier-agencyphone").value = document.getElementById("id-c-agencyphone").innerHTML;
-    document.getElementById("id-carrier-agencyemail").value = document.getElementById("id-c-agencyemail").innerHTML;
-    $("#id-carrier-agencyid").show();
-    $("#id-carrier-masteragencyid").show();
-    $("#id-carrier-agencytype").show();
-    $("#id-carrier-agencyname").show();
-    $("#id-carrier-agencyaddress1").show();
-    $("#id-carrier-agencyaddress2").show();
-    $("#id-carrier-agencycity").show();
-    $("#id-carrier-agencystate").show();
-    $("#id-carrier-agencyzipcode").show();
-    $("#id-carrier-agencyphone").show();
-    $("#id-carrier-agencyemail").show();
-
+    document.getElementById("id-c-agencyid").style.visibility = "hidden";
+    document.getElementById("id-c-masteragencyid").style.visibility = "hidden";
+    document.getElementById("id-c-agencytype").style.visibility = "hidden";
+    document.getElementById("id-c-agencyname").style.visibility = "hidden";
+    document.getElementById("id-c-agencyaddress1").style.visibility = "hidden";
+    document.getElementById("id-c-agencyaddress2").style.visibility = "hidden";
+    document.getElementById("id-c-agencycity").style.visibility = "hidden";
+    document.getElementById("id-c-agencystate").style.visibility = "hidden";
+    document.getElementById("id-c-agencyzip").style.visibility = "hidden";
+    document.getElementById("id-c-agencyphone").style.visibility = "hidden";
+    document.getElementById("id-c-agencyemail").style.visibility = "hidden";
+    document.getElementById("id-carrier-agencyid").style.visibility = "visible";
+    document.getElementById("id-carrier-masteragencyid").style.visibility = "visible";
+    document.getElementById("id-carrier-agencytype").style.visibility = "visible";
+    document.getElementById("id-carrier-agencyname").style.visibility = "visible";
+    document.getElementById("id-carrier-agencyaddress1").style.visibility = "visible";
+    document.getElementById("id-carrier-agencyaddress2").style.visibility = "visible";
+    document.getElementById("id-carrier-agencycity").style.visibility = "visible";
+    document.getElementById("id-carrier-agencystate").style.visibility = "visible";
+    document.getElementById("id-carrier-agencyzipcode").style.visibility = "visible";
+    document.getElementById("id-carrier-agencyphone").style.visibility = "visible";
+    document.getElementById("id-carrier-agencyemail").style.visibility = "visible";
 }
 
 function editVendorSaveData() {
     addBottomBorder();
     document.getElementById("id-carrier-edit").innerHTML = "edit";
-    $("#id-v-preferredvendorid").show();
-    $("#id-v-vendortype").show();
-    $("#id-v-vendorname").show();
-    $("#id-v-vendorphone").show();
-    $("#id-v-address1").show();
-    $("#id-v-address2").show();
-    $("#id-v-city").show();
-    $("#id-v-state").show();
-    $("#id-v-zipcode").show();
-    hideVendorTextboxes();
+
+    document.getElementById("id-v-preferredvendorid").style.visibility = "visible";
+    document.getElementById("id-v-vendortype").style.visibility = "visible";
+    document.getElementById("id-v-vendorname").style.visibility = "visible";
+    document.getElementById("id-v-vendorphone").style.visibility = "visible";
+    document.getElementById("id-v-address1").style.visibility = "visible";
+    document.getElementById("id-v-address2").style.visibility = "visible";
+    document.getElementById("id-v-city").style.visibility = "visible";
+    document.getElementById("id-v-state").style.visibility = "visible";
+    document.getElementById("id-v-zipcode").style.visibility = "visible";
+
+    document.getElementById("id-vendor-preferredvendorid").style.visibility = "hidden";
+    document.getElementById("id-vendor-type").style.visibility = "hidden";
+    document.getElementById("id-vendor-name").style.visibility = "hidden";
+    document.getElementById("id-vendor-phone").style.visibility = "hidden";
+    document.getElementById("id-vendor-address1").style.visibility = "hidden";
+    document.getElementById("id-vendor-address2").style.visibility = "hidden";
+    document.getElementById("id-vendor-city").style.visibility = "hidden";
+    document.getElementById("id-vendor-state").style.visibility = "hidden";
+    document.getElementById("id-vendor-zipcode").style.visibility = "hidden";
+
     document.getElementById("id-v-preferredvendorid").innerHTML = document.getElementById("id-vendor-preferredvendorid").value;
     document.getElementById("id-v-vendortype").innerHTML = document.getElementById("id-vendor-type").value;
     document.getElementById("id-v-vendorname").innerHTML = document.getElementById("id-vendor-name").value;
@@ -1736,83 +1943,32 @@ function editVendorSaveData() {
     document.getElementById("id-v-city").innerHTML = document.getElementById("id-vendor-city").value;
     document.getElementById("id-v-state").innerHTML = document.getElementById("id-vendor-state").value;
     document.getElementById("id-v-zipcode").innerHTML = document.getElementById("id-vendor-zipcode").value;
+
+
 }
 
 function editVendorEditData() {
     removerBottomBorder();
     document.getElementById("id-carrier-edit").innerHTML = "Save";
+    document.getElementById("id-v-preferredvendorid").style.visibility = "hidden";
+    document.getElementById("id-v-vendortype").style.visibility = "hidden";
+    document.getElementById("id-v-vendorname").style.visibility = "hidden";
+    document.getElementById("id-v-vendorphone").style.visibility = "hidden";
+    document.getElementById("id-v-address1").style.visibility = "hidden";
+    document.getElementById("id-v-address2").style.visibility = "hidden";
+    document.getElementById("id-v-city").style.visibility = "hidden";
+    document.getElementById("id-v-state").style.visibility = "hidden";
+    document.getElementById("id-v-zipcode").style.visibility = "hidden";
 
-    $("#id-vendor-preferredvendorid").show();
-    $("#id-vendor-type").show();
-    $("#id-vendor-name").show();
-    $("#id-vendor-phone").show();
-    $("#id-vendor-address1").show();
-    $("#id-vendor-address2").show();
-    $("#id-vendor-city").show();
-    $("#id-vendor-state").show();
-    $("#id-vendor-zipcode").show();
-    document.getElementById("id-vendor-preferredvendorid").value = document.getElementById("id-v-preferredvendorid").innerHTML;
-    document.getElementById("id-vendor-type").value = document.getElementById("id-v-vendortype").innerHTML;
-    document.getElementById("id-vendor-name").value = document.getElementById("id-v-vendorname").innerHTML;
-    document.getElementById("id-vendor-phone").value = document.getElementById("id-v-vendorphone").innerHTML;
-    document.getElementById("id-vendor-address1").value = document.getElementById("id-v-address1").innerHTML;
-    document.getElementById("id-vendor-address2").value = document.getElementById("id-v-address2").innerHTML;
-    document.getElementById("id-vendor-city").value = document.getElementById("id-v-city").innerHTML;
-    document.getElementById("id-vendor-state").value = document.getElementById("id-v-state").innerHTML;
-    document.getElementById("id-vendor-zipcode").value = document.getElementById("id-v-zipcode").innerHTML;
-    $("#id-v-preferredvendorid").hide();
-    $("#id-v-vendortype").hide();
-    $("#id-v-vendorname").hide();
-    $("#id-v-vendorphone").hide();
-    $("#id-v-address1").hide();
-    $("#id-v-address2").hide();
-    $("#id-v-city").hide();
-    $("#id-v-state").hide();
-    $("#id-v-zipcode").hide();
-}
-
-function editProfileData() {
-
-    var className = document.getElementsByClassName("agenygroup-block");
-    for (var i = 0; i < className.length; i++) {
-        className[i].style.borderBottom = "0px";
-    }
-
-    document.getElementById("id-submenu-title").innerHTML = "Save";
-
-    $("#id-settings-profileName").show();
-    $("#id-settings-profilePhonenumber").show();
-    $("#id-settings-profileEmailId").show();
-
-    document.getElementById("id-settings-profileName").value = document.getElementById("id-set-profileName").innerHTML;
-    document.getElementById("id-settings-profilePhonenumber").value = document.getElementById("id-set-profilePhone").innerHTML;
-    document.getElementById("id-settings-profileEmailId").value = document.getElementById("id-set-profileEmailId").innerHTML;
-
-    $("#id-set-profileName").hide();
-    $("#id-set-profilePhone").hide();
-    $("#id-set-profileEmailId").hide();
-}
-
-function saveProfileData() {
-
-    var className = document.getElementsByClassName("agenygroup-block");
-    for (var i = 0; i < className.length - 1; i++) {
-        className[i].style.borderBottom = "1px solid #ccc";
-    }
-
-    document.getElementById("id-submenu-title").innerHTML = "edit";
-
-    $("#id-settings-profileName").hide();
-    $("#id-settings-profilePhonenumber").hide();
-    $("#id-settings-profileEmailId").hide();
-
-    document.getElementById("id-set-profileName").innerHTML = document.getElementById("id-settings-profileName").value;
-    document.getElementById("id-set-profilePhone").innerHTML = document.getElementById("id-settings-profilePhonenumber").value;
-    document.getElementById("id-set-profileEmailId").innerHTML = document.getElementById("id-settings-profileEmailId").value;
-
-    $("#id-set-profileName").show();
-    $("#id-set-profilePhone").show();
-    $("#id-set-profileEmailId").show();
+    document.getElementById("id-vendor-preferredvendorid").style.visibility = "visible";
+    document.getElementById("id-vendor-type").style.visibility = "visible";
+    document.getElementById("id-vendor-name").style.visibility = "visible";
+    document.getElementById("id-vendor-phone").style.visibility = "visible";
+    document.getElementById("id-vendor-address1").style.visibility = "visible";
+    document.getElementById("id-vendor-address2").style.visibility = "visible";
+    document.getElementById("id-vendor-city").style.visibility = "visible";
+    document.getElementById("id-vendor-state").style.visibility = "visible";
+    document.getElementById("id-vendor-zipcode").style.visibility = "visible";
 
 }
 
@@ -1838,63 +1994,26 @@ function addBottomBorder() {
     }
 }
 
-function editProfileImage() {
-    document.getElementById("id-profileedit-fileOpenDialgue").click();
-    var uploadElement = document.getElementById('id-profileedit-fileOpenDialgue'),
-            alertValue = function () {
-                if (uploadElement.value) {
-                    var startIndex = (uploadElement.value.indexOf('\\') >= 0 ? uploadElement.value.lastIndexOf('\\') :
-                            uploadElement.value.lastIndexOf('/'));
-                    var filename = uploadElement.value.substring(startIndex);
-                    if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
-                        filename = filename.substring(1);
-                    }
-                }
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#id-profileedit-image').attr('src', e.target.result);
-                };
-                reader.readAsDataURL(uploadElement.files[0]);
-            };
-
-    if (window.addEventListener) {
-        uploadElement.addEventListener('change', alertValue);
-    }
-    else {
-        uploadElement.attachEvent('onchange', alertValue);
-    }
-
-
-
-}
-
 function editDataInfo() {
 
+    var innerHtmlValue = document.getElementById("id-carrier-edit").innerHTML;
+
     if (REFERENCE_TYPE === "agency_info") {
-        var innerHtmlValue = document.getElementById("id-carrier-edit").innerHTML;
-        if (innerHtmlValue.trim() === "edit") {
+        if (innerHtmlValue === "edit") {
             editAgencyEditData();
             IsAgencyDataChanged = true;
         } else {
             editAgencySaveData();
         }
     } else if (REFERENCE_TYPE === "vendor_info") {
-        var innerHtmlValue = document.getElementById("id-carrier-edit").innerHTML;
-        if (innerHtmlValue.trim() === "edit") {
+        if (innerHtmlValue === "edit") {
             editVendorEditData();
             IsVendorDataChanged = true;
         } else {
             editVendorSaveData();
         }
-    } else if (REFERENCE_TYPE === "profile_editinfo") {
-        var innerHtmlValue = document.getElementById("id-submenu-title").innerHTML;
-        if (innerHtmlValue.trim() === "edit") {
-            editProfileData();
-        } else {
-            saveProfileData();
-        }
     }
 }
-
 //------------------------------------------------------------------------------
+
 

@@ -11,6 +11,9 @@
     .lbl-in-block{
         width: 90%;
     }
+    .signup-root-content{
+        width: 65%;
+    }
 }
 
 @media all and (max-width: 1070px) {
@@ -88,6 +91,9 @@
     }
 
     @media all and (max-width: 1000px) {
+        .signup-root-content{
+            width: 65%;
+        }
         .search-blk{
             /*width:70%;*/
         }

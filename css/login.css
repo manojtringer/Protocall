@@ -1,0 +1,29 @@
+.login-logo{margin:auto;text-align:center;margin-top:100px;}
+.login-type-box1{display:inline-block;width:200px;height:350px;vertical-align:middle;}
+.login-type-box2{display:inline-block;width:400px;height:350px;vertical-align:middle;background:white;margin-left:-4px;}
+.ctrl-login-box{width: 50%;margin:auto;padding-top:40px;min-height:400px;}
+.mylistbox{padding: 15px 0px;
+background: lightgray;margin-bottom:10px;text-align:center;color:white;cursor:pointer;}
+.login-head{color: #f34f4e;text-align: center;padding: 20px 0px;}
+.box {padding:20px;}
+.box div input{background:none;color:black;}
+.userbox{border:solid 1px lightgrey;color:black;margin-bottom:15px;}
+.passbox{border:solid 1px lightgrey;color:black;margin-bottom:15px;}
+.logbutton{background:#f34f4e;color:white;margin-bottom:15px;cursor:pointer;}
+
+/* Webkit */
+::-webkit-input-placeholder { color: #CCC; }
+
+/* Firefox 4-18 */
+:-moz-placeholder { color: #CCC; }
+
+/* Firefox 19+ */
+::-moz-placeholder { color: #CCC; }
+
+/* IE10+ */
+:-ms-input-placeholder { color: #CCC; }
+
+.loginbutton{cursor:pointer;color: white !important;
+font-weight: bold;}
+
+.login-error{padding: 0px 20px;color: red;text-align: center;}

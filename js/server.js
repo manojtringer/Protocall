@@ -3,24 +3,13 @@ var utils = {
 	
 };
 utils.server = {
-    //Server configuration done in the serverInit() in the index.html
+    
     authendicate:function() {
-        // Init place for website       
-		console.log("API Got loaded");
-		// if(localStorage.currentPage != "LOGIN" && localStorage.length != 0) {
-			// console.log("channel check",t.channel_all);
-			// var authId = localStorage.authId;
-			// var smbId = localStorage.smbId;            
-			// t.channel_all.initiateChannel(authId,smbId);
-		// }
-		// t.showCurrentPage();
+
+		
      },
      makeServerCall: function(page,data,callback,deepPath) {
-        // if(typeof data.spinner != "undefined") {
-            // t.form.showFormSpinner();
-        // } else {
-            // t.ui.showPageSpinner(spinnerMsg);
-        // }
+       //console.log(page,data,callback,deepPath);
         var self = utils.server;
         var response=this.getData(page,data,callback,deepPath);
         if(response != "undefined" || response != null || typeof response != undefined) {
@@ -28,20 +17,19 @@ utils.server = {
         }
      },
      getData: function(page,data,callback,deepPath) {
-               console.log(deepPath);
+               //console.log(deepPath);
                var ref= page;
                var data=data;
                var path = this.getServerPath(deepPath);
+ 		console.log("geetha response",path);
                var request = path(data).execute(function(resp) {
                 if(resp.error) {
                     console.log("error");
-					//utils.server.handleError(resp,ref,false);
+					utils.server.handleError(resp,ref,false);
                 } else {
-					
 					console.log("success");
                     if(typeof callback != "undefined" && callback != null) {
                         callback(resp,ref);
-							//console.log(resp);
                     } else {
                         return resp;
                     }
@@ -77,7 +65,7 @@ utils.server = {
      },
 	 
      handleError: function(data,ref,bgcheck) {
-			console.log(data,ref,bgcheck);
+	
         if(!bgcheck) {
             console.log(data,ref);
             //with ref you can handle the error with particular requirements
@@ -114,16 +102,62 @@ utils.server = {
     },
     getServerPath: function(deepPath) {
         var path = gapi.client.protocall;
-		 
         deepPath = deepPath.split(".");
-        //console.log(deepPath);
         for(var i=0; i<deepPath.length; i++) {
-           // console.log(path,deepPath[i]);
+            console.log("path",deepPath[i]);
             path = path[deepPath[i]];
         }
         return path;
     },
 	
+    gotloginresponse: function(data) {
+
+
+    
+			if(data.resultMap.TypeCode == '4002'){
+			var error = "Your password is wrong, check whether the caplock is enabled";
+				protocall.displaySpinner(false);
+			$('.login-error').html(error);return false
+			}
+			else if(data.resultMap.TypeCode == '4005'){
+			var error = "You are not a registered user";
+				protocall.displaySpinner(false);
+			$('.login-error').html(error);return false
+			}
+			else if(data.resultMap.TypeCode == '4007'){
+			var error = "Provide your agencyId";
+				protocall.displaySpinner(false);
+			$('.login-error').html(error);return false
+			}
+
+	
+	
+
+		if(data.resultMap.TypeCode == '4001'){
+
+			$("#homecontent").css("display", "block");
+			localStorage.loggedIn    = "true";
+			localStorage.agencyEmail = data.resultMap.emailId;
+			localStorage.agencyId    = data.resultMap.agencyId;
+			protocall.setPageNavigation(HOME_PAGE);
+
+					var header = '<div class="m-width"> <div class="ctrl-blk"> <header class="w-pad"> <div class="logo-info-blk clr-fl p-relative"> <div class="lf-block left clr-fl header-left-panel"> <div class="leftblk-spacing"> <div style="width:100%;"> <div class="logo-container left"> <div class="logo-holder"> <img src="images/Logo.png" alt="" class="logo"/> </div></div><div class="left search-blk"> <form name="globalSearch" method="GET" action="#search" class="" onsubmit="event.preventDefault();"> <div style="width:100%;"> <div class="searchbox-border"> <input class="search-ip opensans-regular" type="search" name="" placeholder="Search"> </div></div></form> </div><div class="clear"></div></div></div></div><div class="rg-block left p-relative"> <a href="/profile" id="profile" class="logged-user-info clr-fl snap" data-type="profile-link"> <div id="" class="left user-pic-box"> <img src="https://uniwallpapers.files.wordpress.com/2012/06/animal-nature-21.jpg" alt="Profile pic" class="setProfilePic"> </div><div class="left user-info"> <div class="opensans-regular text-ellipsis"> <span>Hi,</span> <span class="t-caps">John Doe</span> </div></div><div class="left sprite-im drop-down-icon user-drop-icon">&nbsp;</div><div class="clear"></div></a> </div></div></header> <div class="m-block p-relative"> <div class="clr-fl"> <div class="lf-block left"> <div class="leftblk-spacing"> <div class="mb-menu bg-color-green clr-fl t-center t-upper"> <a href="/home" class="snap menu-box left f-sz-18 ptsans-light home p-relative f-color-w" data-type="page" data-page="home"> <div class="menu-center"> <div class="sprite-im home-icon menu-icon">&nbsp;</div><span class="menu-text t-caps">Home</span> </div></a> <a href="/carriers" class="snap menu-box left f-sz-18 ptsans-light carriers p-relative f-color-w" data-type="page" data-page="carriers"> <div class="menu-center"> <div class="sprite-im carriers-icon menu-icon">&nbsp;</div><span class="menu-text t-caps">Carriers</span> </div></a> <a href="/customers" class="snap menu-box left f-sz-18 ptsans-light customers p-relative f-color-w" data-type="page" data-page="customers"> <div class="menu-center"> <div class="sprite-im customers-icon menu-icon">&nbsp;</div><span class="menu-text t-caps">Customers</span> </div></a> <a href="/myreps" class="snap menu-box left f-sz-18 ptsans-light myreps p-relative f-color-w" data-type="page" data-page="myreps"> <div class="menu-center"> <div class="sprite-im myreps-icon menu-icon">&nbsp;</div><span class="menu-text t-caps">My Reps</span> </div></a> </div><div class="mb-submenu"> <div class="mb-submenu-in p-relative"> <div class="tab-rb-submenu inline-block v-align-mid"> <div class="p-relative "> <a href="/myalerts" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light myalerts p-relative selected-tab" data-type="page" data-submenu="myalerts"> <span class="submenu-title t-caps f-color-w">My Alerts</span> <span class="cnt-blk">(<span class="cnt-no">24</span>)</span> </a> <a href="/incidents" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light incidents p-relative" data-type="page" data-submenu="incidents"> <div class="submenu-title t-caps inline-block f-color-w v-align-mid">incidents</div></a> <a href="/policies" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light policies p-relative" data-type="page" data-submenu="policies"> <span class="submenu-title t-caps f-color-w">Policies</span> </a> <a href="/policies" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light policies p-relative" data-type="page" data-submenu="archives"> <span class="submenu-title t-caps f-color-w">Archives</span> </a> <a href="/policies" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light policies p-relative" data-type="page" data-submenu="view_archives"> <span class="submenu-title t-caps f-color-w">View Archived</span> </a> <div href="#" class="snap submenu-sort right f-sz-16 ptsans-light p-relative" data-type="page" data-submenu="sortby"> <div class="sort-text f-italic">Sort by</div><div class="sprite-im drop-down-icon submenu-drop-icon">&nbsp;</div></div></div><div class="clear"></div></div></div></div></div></div><div class="rg-block left p-relative"> <div class="agency-info p-relative clr-fl bg-color-dblue"> <a class="agency-details clr-fl snap" data-type="agency-link"> <div id="" class="left agency-pic-box p-relative"> <img src="http://www.ecouterre.com/wp-content/uploads/2012/02/bunny-537x402.jpg" alt="agency pic" class="setAgencyPic"> <div class="edit-cover-pic p-absolute anim-opacity">&nbsp;</div><div class="edit-agency-pic p-absolute anim bg-color-red f-color-w snap" data-type="editAgencyPic"> <div class="p-relative t-center"> <div class="sprite-im mobile-icon inline-block v-align-mid">&nbsp;</div><div class="inline-block f-sz-12 v-align-mid opensans-regular ">Edit</div></div></div></div><div class="left agency-name-details t-left anim"> <div class="opensans-regular text-ellipsis f-italic f-sz-17 agency-name t-caps">Auto care</div><div class="opensans-regular text-ellipsis f-italic agency-email">Insure@autocare.com</div></div></a> </div></div></div></div>';
+
+				var template = protocall.home.initHomePage();
+                  
+				var content = '<div class="container"> <div class="content-holder">'+template+'</div></div></div></div>';
+
+				var footer = '<footer class="p-absolute bg-color-dblue"> <div class="p-relative foot-in clr-fl"> <div class="foot-lb left"> <span class="foot-web-addr opensans-regular f-sz-12">protocol.com</span> </div><div class="foot-rb right"> <div class="foot-nav opensans-regular f-sz-12"> <a href="/help" class="help snap footer-links" data-type="help">Help</a> <a href="/faq" class="faq snap footer-links" data-type="faq">FAQ</a> <a href="/privacy" class="privacy snap footer-links" data-type="privacy">Privacy</a> <a href="/tc" class="tc snap footer-links" data-type="tc">Terms &#38; Conditions</a> </div></div></div></footer>';
+
+				$("#page").empty();
+				
+				totalHtml = header+content+footer;
+						
+				$("#page").append(totalHtml);
+				protocall.displaySpinner(false);
+		}
+
+	},
 	
     imagesToServer: function(form, callback, isFormData, ref, qs,pagespinner) {        
         if(pagespinner) {

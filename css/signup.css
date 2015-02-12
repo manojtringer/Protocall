@@ -1,0 +1,186 @@
+
+.root-logo-content{
+    width: 15%;
+    background-color: transparent;
+    left: 45%;
+    top: 60px;
+}
+
+.o-btn-yes{
+    width: 16%;
+    height:42px;
+    line-height:40px;
+    position:relative;
+    margin: 20px auto;
+    text-align: center;
+    margin-right: 5px;
+    left: 31%;
+}
+.o-btn-no{
+    width: 16%;
+    height:42px;
+    line-height:40px;
+    position:relative;
+    margin: 20px auto;
+    text-align: center;
+    margin-left: 5px;
+    left: 42%;
+}
+.signup-root-content{
+    width: 45%;
+    /* max-height: 1003px; */
+    height: auto;
+    background-color: #Fff;
+    margin: auto;
+    top: 160px;
+    /* overflow: hidden; */
+    display: table;
+}
+.signup-parent-content{
+    margin: 0px 100px 0px 100px;
+    height: 100%;
+    background: transparent;
+    overflow: a;
+}
+.c-signup-text{
+    /* top: 40px; */
+    margin-bottom: 10px;
+}
+.signup-text{
+    top: 35px;
+
+}
+.login-text{
+    margin-bottom: 10px;}
+.opensans-regular{
+    font-family:'OpenSansRegular';
+}
+.c-firstname{
+    height: 41px;
+    margin-top: 20px;
+    top: 25px;
+}
+.firstname-icon{
+    height: 40px;
+    width: 20%;
+}
+.firstname-textbox{
+    height: 40px;
+    width: 85%;
+    color: black;
+}
+
+.completed-button {
+    width: 100%;
+    height:42px;
+    line-height:40px;
+    position:relative;
+    margin: 50px auto 15px auto;
+    text-align: center;
+
+}
+.c-info-icon{
+    right: 0px;
+}
+.o-signup{
+    height: 12%;
+    width: 18%;
+    top: -28px;
+    left: 41%;
+    background-color: white;
+    border-radius: 150px; 
+    border: 1px solid #ccc;
+}
+.o-signup-icon{
+    width: 54% !important;
+    left: 17px;
+    top: 10px;
+}
+.o-signup-reset{
+    height: 18%;
+    width: 18%;
+    top: -35px;
+    left: 41%;
+    background-color: white;
+    border-radius: 150px; 
+    border: 1px solid #ccc;
+}
+
+div#id-emailid-infobox span {
+    position: absolute;
+    width:200px;
+    color: black;
+    background: #DCEDEC;
+    height: 30px;
+    right: -160px;
+    top: 14%;
+    line-height: 30px;
+    text-align: center;
+    visibility: hidden;
+    border-radius: 6px;
+
+}
+div#id-emailid-infobox span:after {
+    content: '';
+    width: 0; 
+    height: 0; 
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent; 
+    border-right:10px solid #DCEDEC; 
+    position: absolute;
+    top: 20%;
+    left: -4%;
+}
+div:hover#id-emailid-infobox span {
+    visibility: visible;
+    opacity: 0.8;
+    bottom: 30px;
+    left: 80%;
+    margin-left: 25px;
+    z-index: 999;
+}
+
+
+
+div#id-emailpassword-infobox span {
+    position: absolute;
+    width:280px;
+    color: black;
+    background: #DCEDEC;
+    height: 130px;
+    right: -160px;
+    top: 14%;
+    line-height: 30px;
+    text-align: center;
+    visibility: hidden;
+    border-radius: 6px;
+    text-align: left;
+}
+div#id-emailpassword-infobox span:after {
+    content: '';
+    width: 0; 
+    height: 0; 
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent; 
+    border-right:10px solid #DCEDEC; 
+    position: absolute;
+    top: 20%;
+    left: -4%;
+}
+div:hover#id-emailpassword-infobox span {
+    visibility: visible;
+    opacity: 0.8;
+    bottom: 30px;
+    left: 80%;
+    margin-left: 25px;
+    z-index: 999;
+}
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+    color: #636363;
+}
+input:-moz-placeholder, textarea:-moz-placeholder {
+    color: #636363;
+}
+
+.o-btn-yes:hover{background: #f34f4e;}
+.o-btn-no:hover{background: #f34f4e;}
