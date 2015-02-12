@@ -1464,15 +1464,28 @@ protocall.home = {
         $(".rel-feeds-content").append($(totalHTML));
     },
     displayMyAlertsFeeds: function () {
-        var totalLen = 1, totalHTML = "";
-        for (var h = 0; h < totalLen; h++) {
-            var template = staticTemplate.home.staticFeedTemplate();
-            totalHTML = totalHTML + template;
-        }
-        var policyTemplate = staticTemplate.home.staticPoliciesFeedTemplate();
-        totalHTML = totalHTML + policyTemplate;
-        $(".content-holder").empty();
-        $(".content-holder").append($(totalHTML));
+		   $(".content-holder").empty();
+          var page = "myalerts";
+           var data = {agencyId:localStorage.agencyId,agencyRepresentativeId:localStorage.agencyEmail},
+			deepPath = "alertlist",
+			page = "myalerts",
+			callback = protocall.home.loadHomePageData,
+			authId = "",
+			spinnerMsg = "";
+		var resp = utils.server.makeServerCall(page,data,callback,deepPath);	
+		protocall.view.buildHomeMenuBlk(page);
+		$('.tab-rb-submenu a').each(function(){
+				protocall.view.setSelectedLinkClasses($(this),false);
+		});
+        // var totalLen = 1, totalHTML = "";
+        // for (var h = 0; h < totalLen; h++) {
+            // var template = staticTemplate.home.staticFeedTemplate();
+            // totalHTML = totalHTML + template;
+        // }
+        // var policyTemplate = staticTemplate.home.staticPoliciesFeedTemplate();
+        // totalHTML = totalHTML + policyTemplate;
+        // $(".content-holder").empty();
+        // $(".content-holder").append($(totalHTML));
     },
     displayArchiveFeeds: function () {
         var totalLen = 1, totalHTML = "";
@@ -1486,13 +1499,26 @@ protocall.home = {
         $(".content-holder").append($(totalHTML));
     },
     displayIncidentsFeeds: function () {
-        var totalLen = 1, totalHTML = "";
-        for (var h = 0; h < totalLen; h++) {
-            var template = staticTemplate.home.staticFeedTemplate();
-            totalHTML = totalHTML + template;
-        }
-        $(".content-holder").empty();
-        $(".content-holder").append($(totalHTML));
+		$(".content-holder").empty();
+          var page = "myalerts";
+           var data = {alertType:"incidentalert"},
+			deepPath = "alertlist",
+			page = "myalerts",
+			callback = protocall.home.loadHomePageData,
+			authId = "",
+			spinnerMsg = "";
+		var resp = utils.server.makeServerCall(page,data,callback,deepPath);	
+		protocall.view.buildHomeMenuBlk(page);
+		$('.tab-rb-submenu a').each(function(){
+				protocall.view.setSelectedLinkClasses($(this),false);
+		});
+        // var totalLen = 1, totalHTML = "";
+        // for (var h = 0; h < totalLen; h++) {
+            // var template = staticTemplate.home.staticFeedTemplate();
+            // totalHTML = totalHTML + template;
+        // }
+        // $(".content-holder").empty();
+        // $(".content-holder").append($(totalHTML));
     },
     displayPoliciesFeeds: function () {
         var totalHTML = "";
@@ -1521,6 +1547,7 @@ protocall.carrier = {
         // $(".content-holder").append($(template));
     },
 	loadHomePageData: function (data, page) {
+		protocall.displaySpinner(false);
         //console.log(data, page);
         feedHTML1 = '<div class="carrier-home-parent p-relative">';
 		var feedHTML ="";
