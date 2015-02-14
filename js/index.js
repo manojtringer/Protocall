@@ -396,7 +396,15 @@ protocall.events = {
         $(document).on("click", ".snap", function (e) {
             e.stopPropagation();
             protocall.events.handleClick(e);
+
         });
+
+        $(".mysnap").on("click", function () {
+            $(".mysnap").css("background", "lightgrey");
+            $(this).css("background", "#f34f4e");
+            $(".box").fadeIn();
+        });
+
         $(document).on("click", ".overalyPhots", function (e) {
             e.stopPropagation();
             console.log(".o-content");
@@ -882,10 +890,16 @@ protocall.view = {
         var html = staticTemplate.home.shareWithRepTemplate();
         overlay.displayOverlay(html);
     },
+    //ADDED BY MANOJ FRIDAY 13 2015---->STARTS HERE
     assignToCustomers: function () {
-        var html = staticTemplate.home.assignCustomersTemplate();
-        overlay.displayOverlay(html);
+        protocall.displaySpinner(true);
+        var page = "pageassigncustomersoverlay";
+        var data = {};
+        var callback = utils.server.gotAssignCustomersResponse;
+        var deepPath = "userlist";
+        utils.server.makeServerCall(page, data, callback, deepPath);
     },
+    //----------------------------------------------------
     properityPolicy: function () {
         var html = staticTemplate.home.properyPolicyTemplate();
         overlay.displayOverlay(html);
@@ -1025,11 +1039,13 @@ protocall.view = {
         utils.server.makeServerCall(page, data, callback, deepPath);
     },
     LogoutAuthenticateYes: function () {
+        popUpContent.closePopUpContent();
         protocall.displaySpinner(true);
         localStorage.loggedIn = "";
         localStorage.agencyEmail = "";
         localStorage.agencyId = "";
         protocall.setPageNavigation(LOGIN_PAGE);
+
     },
     //    Added By Manoj
     pushMessage: function () {
@@ -1343,21 +1359,21 @@ protocall.view = {
     }
 };
 protocall.home = {
-   initHomePage:function(){
-		    $(".content-holder").empty();
-          var page = "home";
-           var data = {agencyId:localStorage.agencyId,agencyRepresentativeId:localStorage.agencyEmail},
-			deepPath = "alertlist",
-			page = "home",
-			callback = protocall.home.loadHomePageData,
-			authId = "",
-			spinnerMsg = "";
-		var resp = utils.server.makeServerCall(page,data,callback,deepPath);	
-		protocall.view.buildHomeMenuBlk(page);
-		$('.tab-rb-submenu a').each(function(){
-				protocall.view.setSelectedLinkClasses($(this),false);
-		});
-	},
+    initHomePage: function () {
+        $(".content-holder").empty();
+        var page = "home";
+        var data = {agencyId: localStorage.agencyId, agencyRepresentativeId: localStorage.agencyEmail},
+        deepPath = "alertlist",
+                page = "home",
+                callback = protocall.home.loadHomePageData,
+                authId = "",
+                spinnerMsg = "";
+        var resp = utils.server.makeServerCall(page, data, callback, deepPath);
+        protocall.view.buildHomeMenuBlk(page);
+        $('.tab-rb-submenu a').each(function () {
+            protocall.view.setSelectedLinkClasses($(this), false);
+        });
+    },
     initLoginPage: function () {
 
         var template = LoginTemplate.login.staticLoginTemplate();
@@ -1390,63 +1406,62 @@ protocall.home = {
         $(".c_resetpassword").fadeIn("slow");
         $(".c_resetpassword").fadeIn(3000);
     },
-	 loadHomePageData: function (data, page) {
-	
-       // console.log(data, page);
-		//console.log(data.result.resultObject.length);
-       var feedHTML = "";
-		//console.log("datalength",data.resultMap.userTab.length);
-        if (data.result.resultObject.length!= null && data.result.resultObject.length!= "") {
-            var result = data.result.resultObject;
-			//console.log(result)
-            for (var r = 0; r < result.length; r++) {
-				
-                 var a = result[r];
-				 //console.log(a)
-				 				 if(a.userDetails.profilePicture == undefined)
-						
-						{
-							
-							profilePicture = "http://www.deshow.net/d/file/animal/2009-05/animal-pictures-pet-photography-557-4.jpg";
-								
-						}else{
-							
-							var profilePath = a.userDetails.profilePicture;
-							profilePicture = ProfileAPI+profilePath;
-							//console.log(pic)
-						 //profilePicture "pic/profilePicture";
-						 //console.log(profilePicture);
-						}
-						if(a.userDetails.emailId == undefined){
-					     feedUserEmail =' ';
-					
-						}else{
-								feedUserEmail = a.userDetails.emailId.email;
-								
-						}
+    loadHomePageData: function (data, page) {
 
-					if(a.userDetails.lastName == undefined)
-											{
-												lastName =' ';
-													
-											}else {
-											 lastName = a.userDetails.lastName;
-											}
-											
-				        bDay = a.userDetails.birthDate;
-						bDate =  moment(bDay).format('ll');
-			       
-			feedHTML+= template.feedsTemplateHTML(a);
+        // console.log(data, page);
+        //console.log(data.result.resultObject.length);
+        var feedHTML = "";
+        //console.log("datalength",data.resultMap.userTab.length);
+        if (data.result.resultObject.length != null && data.result.resultObject.length != "") {
+            var result = data.result.resultObject;
+            //console.log(result)
+            for (var r = 0; r < result.length; r++) {
+
+                var a = result[r];
+                //console.log(a)
+                if (a.userDetails.profilePicture == undefined)
+
+                {
+
+                    profilePicture = "http://www.deshow.net/d/file/animal/2009-05/animal-pictures-pet-photography-557-4.jpg";
+
+                } else {
+
+                    var profilePath = a.userDetails.profilePicture;
+                    profilePicture = ProfileAPI + profilePath;
+                    //console.log(pic)
+                    //profilePicture "pic/profilePicture";
+                    //console.log(profilePicture);
+                }
+                if (a.userDetails.emailId == undefined) {
+                    feedUserEmail = ' ';
+
+                } else {
+                    feedUserEmail = a.userDetails.emailId.email;
+
+                }
+
+                if (a.userDetails.lastName == undefined)
+                {
+                    lastName = ' ';
+
+                } else {
+                    lastName = a.userDetails.lastName;
+                }
+
+                bDay = a.userDetails.birthDate;
+                bDate = moment(bDay).format('ll');
+
+                feedHTML += template.feedsTemplateHTML(a);
             }
-			$(".container").addClass("container");
-			$(".container").removeClass("container-maxwidth");
-			$(".content-holder").empty();
-			$(".content-holder").append($(feedHTML));
-		//console.log(feedHTML)
+            $(".container").addClass("container");
+            $(".container").removeClass("container-maxwidth");
+            $(".content-holder").empty();
+            $(".content-holder").append($(feedHTML));
+            //console.log(feedHTML)
         }
     },
-
-       buildScreen: function (data, template) {
+    buildScreen: function (data, template) {
 
 
     },
@@ -1464,23 +1479,23 @@ protocall.home = {
         $(".rel-feeds-content").append($(totalHTML));
     },
     displayMyAlertsFeeds: function () {
-		   $(".content-holder").empty();
-          var page = "myalerts";
-           var data = {agencyId:localStorage.agencyId,agencyRepresentativeId:localStorage.agencyEmail},
-			deepPath = "alertlist",
-			page = "myalerts",
-			callback = protocall.home.loadHomePageData,
-			authId = "",
-			spinnerMsg = "";
-		var resp = utils.server.makeServerCall(page,data,callback,deepPath);	
-		protocall.view.buildHomeMenuBlk(page);
-		$('.tab-rb-submenu a').each(function(){
-				protocall.view.setSelectedLinkClasses($(this),false);
-		});
+        $(".content-holder").empty();
+        var page = "myalerts";
+        var data = {agencyId: localStorage.agencyId, agencyRepresentativeId: localStorage.agencyEmail},
+        deepPath = "alertlist",
+                page = "myalerts",
+                callback = protocall.home.loadHomePageData,
+                authId = "",
+                spinnerMsg = "";
+        var resp = utils.server.makeServerCall(page, data, callback, deepPath);
+        protocall.view.buildHomeMenuBlk(page);
+        $('.tab-rb-submenu a').each(function () {
+            protocall.view.setSelectedLinkClasses($(this), false);
+        });
         // var totalLen = 1, totalHTML = "";
         // for (var h = 0; h < totalLen; h++) {
-            // var template = staticTemplate.home.staticFeedTemplate();
-            // totalHTML = totalHTML + template;
+        // var template = staticTemplate.home.staticFeedTemplate();
+        // totalHTML = totalHTML + template;
         // }
         // var policyTemplate = staticTemplate.home.staticPoliciesFeedTemplate();
         // totalHTML = totalHTML + policyTemplate;
@@ -1499,23 +1514,23 @@ protocall.home = {
         $(".content-holder").append($(totalHTML));
     },
     displayIncidentsFeeds: function () {
-		$(".content-holder").empty();
-          var page = "myalerts";
-           var data = {alertType:"incidentalert"},
-			deepPath = "alertlist",
-			page = "myalerts",
-			callback = protocall.home.loadHomePageData,
-			authId = "",
-			spinnerMsg = "";
-		var resp = utils.server.makeServerCall(page,data,callback,deepPath);	
-		protocall.view.buildHomeMenuBlk(page);
-		$('.tab-rb-submenu a').each(function(){
-				protocall.view.setSelectedLinkClasses($(this),false);
-		});
+        $(".content-holder").empty();
+        var page = "myalerts";
+        var data = {alertType: "incidentalert"},
+        deepPath = "alertlist",
+                page = "myalerts",
+                callback = protocall.home.loadHomePageData,
+                authId = "",
+                spinnerMsg = "";
+        var resp = utils.server.makeServerCall(page, data, callback, deepPath);
+        protocall.view.buildHomeMenuBlk(page);
+        $('.tab-rb-submenu a').each(function () {
+            protocall.view.setSelectedLinkClasses($(this), false);
+        });
         // var totalLen = 1, totalHTML = "";
         // for (var h = 0; h < totalLen; h++) {
-            // var template = staticTemplate.home.staticFeedTemplate();
-            // totalHTML = totalHTML + template;
+        // var template = staticTemplate.home.staticFeedTemplate();
+        // totalHTML = totalHTML + template;
         // }
         // $(".content-holder").empty();
         // $(".content-holder").append($(totalHTML));
@@ -1530,15 +1545,15 @@ protocall.home = {
 };
 protocall.carrier = {
     initCarrierPage: function () {
-		 $(".content-holder").empty();
+        $(".content-holder").empty();
         var page = "carriers";
-		var data = {agencyId:"49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
-			deepPath = "agencydashboarddesign",
-			page = "home",
-			callback = protocall.carrier.loadHomePageData,
-			authId = "",
-			spinnerMsg = "";
-		var resp = utils.server.makeServerCall(page,data,callback,deepPath);	
+        var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
+        deepPath = "agencydashboarddesign",
+                page = "home",
+                callback = protocall.carrier.loadHomePageData,
+                authId = "",
+                spinnerMsg = "";
+        var resp = utils.server.makeServerCall(page, data, callback, deepPath);
         protocall.view.buildSubMenuBlk(page);
         //var template = staticTemplate.carriers.staticCarrierTemplate();
         // $(".container").addClass("container-maxwidth");
@@ -1546,50 +1561,50 @@ protocall.carrier = {
         // $(".content-holder").empty();
         // $(".content-holder").append($(template));
     },
-	loadHomePageData: function (data, page) {
-		protocall.displaySpinner(false);
+    loadHomePageData: function (data, page) {
+        protocall.displaySpinner(false);
         //console.log(data, page);
         feedHTML1 = '<div class="carrier-home-parent p-relative">';
-		var feedHTML ="";
-		//console.log("datalength",data.resultMap.userTab.length);
-        if (data.resultMap!= null && data.resultMap!= "") {
+        var feedHTML = "";
+        //console.log("datalength",data.resultMap.userTab.length);
+        if (data.resultMap != null && data.resultMap != "") {
             var resultCarrier = data.resultMap.carrierTab;
-			//console.log(resultCarrier.length)
-		
-            for (var rc = 0; rc < resultCarrier.length; rc++) {
-				var c = resultCarrier[rc];
-				//emailId = c.emailId.email;
-				//cEmailId = (c.emailId.email).toString();
-				
-				if(c.emailId == undefined){
-					cEmail =' ';
-					console.log(cEmail);
-				}else{
-						cEmail = c.emailId.email;
-						console.log(cEmail);
-				}
-				if(c.carrierLogo == undefined)
-						
-						{
-							
-							profilePicture = "http://devilsworkshop.org/files/2013/01/enlarged-facebook-profile-picture.jpg";
-								
-						}else{
-							
-							var profilePath = c.carrierLogo;
-							profilePicture = ProfileAPI+profilePath;
-						}
-				
-				feedHTML+= template.CarrierfeedsTemplateHTML(c);
-			}
-			
+            //console.log(resultCarrier.length)
 
-			var feedHTML2 ='</div>';
-			$(".container").addClass("container");
-			$(".container").removeClass("container-maxwidth");
-			$(".content-holder").empty();
-			$(".content-holder").append($(feedHTML1+feedHTML+feedHTML2));
-		//console.log(feedHTML)
+            for (var rc = 0; rc < resultCarrier.length; rc++) {
+                var c = resultCarrier[rc];
+                //emailId = c.emailId.email;
+                //cEmailId = (c.emailId.email).toString();
+
+                if (c.emailId == undefined) {
+                    cEmail = ' ';
+                    console.log(cEmail);
+                } else {
+                    cEmail = c.emailId.email;
+                    console.log(cEmail);
+                }
+                if (c.carrierLogo == undefined)
+
+                {
+
+                    profilePicture = "http://devilsworkshop.org/files/2013/01/enlarged-facebook-profile-picture.jpg";
+
+                } else {
+
+                    var profilePath = c.carrierLogo;
+                    profilePicture = ProfileAPI + profilePath;
+                }
+
+                feedHTML += template.CarrierfeedsTemplateHTML(c);
+            }
+
+
+            var feedHTML2 = '</div>';
+            $(".container").addClass("container");
+            $(".container").removeClass("container-maxwidth");
+            $(".content-holder").empty();
+            $(".content-holder").append($(feedHTML1 + feedHTML + feedHTML2));
+            //console.log(feedHTML)
         }
     },
     loadFeed: function () {
@@ -1612,69 +1627,69 @@ protocall.customer = {
     initCustomerPage: function () {
         $(".content-holder").empty();
         var page = "customers";
-		var data = {agencyId:"49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
-			deepPath = "agencydashboarddesign",
-			page = "home",
-			callback = protocall.customer.loadHomePageData,
-			authId = "",
-			spinnerMsg = "";
-		var resp = utils.server.makeServerCall(page,data,callback,deepPath);	
+        var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
+        deepPath = "agencydashboarddesign",
+                page = "home",
+                callback = protocall.customer.loadHomePageData,
+                authId = "",
+                spinnerMsg = "";
+        var resp = utils.server.makeServerCall(page, data, callback, deepPath);
         protocall.view.buildSubMenuBlk(page);
     },
-     loadHomePageData: function (data, page) {
+    loadHomePageData: function (data, page) {
         //console.log(data, page);
         feedHTML1 = '<div class="carrier-home-parent p-relative">';
-		var feedHTML ="";
-		//console.log("datalength",data.resultMap.userTab.length);
-        if (data.resultMap!= null && data.resultMap!= "") {
+        var feedHTML = "";
+        //console.log("datalength",data.resultMap.userTab.length);
+        if (data.resultMap != null && data.resultMap != "") {
             var resultCustomer = data.resultMap.userTab;
-			//console.log(resultCarrier.length)
-		
+            //console.log(resultCarrier.length)
+
             for (var c = 0; c < resultCustomer.length; c++) {
-				console.log(cus)
-				var cus = resultCustomer[c];
-				//emailId = c.emailId.email;
-				//cEmailId = (c.emailId.email).toString();
-				
-				if(cus.emailId == undefined){
-					cusEmail =' ';
-					
-				}else{
-						cusEmail = cus.emailId.email;
-						
-				}
-				 if(cus.lastName == undefined)
-						{
-							lastName =' ';
-								
-						}else {
-						 lastName = cus.lastName;
-						}
-						
-				if(cus.profilePicture == undefined)
-						
-						{
-							
-							profilePicture = "http://www.deshow.net/d/file/animal/2009-05/animal-pictures-pet-photography-557-4.jpg";
-								
-						}else{
-							
-							var profilePath = cus.profilePicture;
-							profilePicture = ProfileAPI+profilePath;
-							//console.log(pic)
-						 //profilePicture "pic/profilePicture";
-						 //console.log(profilePicture);
-						}
+                console.log(cus)
+                var cus = resultCustomer[c];
+                //emailId = c.emailId.email;
+                //cEmailId = (c.emailId.email).toString();
+
+                if (cus.emailId == undefined) {
+                    cusEmail = ' ';
+
+                } else {
+                    cusEmail = cus.emailId.email;
+
+                }
+                if (cus.lastName == undefined)
+                {
+                    lastName = ' ';
+
+                } else {
+                    lastName = cus.lastName;
+                }
+
+                if (cus.profilePicture == undefined)
+
+                {
+
+                    profilePicture = "http://www.deshow.net/d/file/animal/2009-05/animal-pictures-pet-photography-557-4.jpg";
+
+                } else {
+
+                    var profilePath = cus.profilePicture;
+                    profilePicture = ProfileAPI + profilePath;
+                    //console.log(pic)
+                    //profilePicture "pic/profilePicture";
+                    //console.log(profilePicture);
+                }
 
 
-				feedHTML+= template.CustomerfeedsTemplateHTML(cus);
-			}
-			var feedHTML2 ='</div>';
-			$(".container").addClass("container");
-			$(".container").removeClass("container-maxwidth");
-			$(".content-holder").empty();
-			$(".content-holder").append($(feedHTML1+feedHTML+feedHTML2));
-		//console.log(feedHTML)
+                feedHTML += template.CustomerfeedsTemplateHTML(cus);
+            }
+            var feedHTML2 = '</div>';
+            $(".container").addClass("container");
+            $(".container").removeClass("container-maxwidth");
+            $(".content-holder").empty();
+            $(".content-holder").append($(feedHTML1 + feedHTML + feedHTML2));
+            //console.log(feedHTML)
         }
     },
     loadFeedSetting: function () {
@@ -1713,13 +1728,13 @@ protocall.myRep = {
     initMyRepsPage: function () {
         $(".content-holder").empty();
         var page = "myreps"
-		var data = {agencyId:"49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
-			deepPath = "agencydashboarddesign",
-			page = "myreps",
-			callback = protocall.myRep.loadHomePageData,
-			authId = "",
-			spinnerMsg = "";
-		var resp = utils.server.makeServerCall(page,data,callback,deepPath);	
+        var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
+        deepPath = "agencydashboarddesign",
+                page = "myreps",
+                callback = protocall.myRep.loadHomePageData,
+                authId = "",
+                spinnerMsg = "";
+        var resp = utils.server.makeServerCall(page, data, callback, deepPath);
         protocall.view.buildSubMenuBlk(page);
         // var template = staticTemplate.myreps.staticRepsTemplate();
         // $(".content-holder").empty();
@@ -1727,73 +1742,72 @@ protocall.myRep = {
         // $(".container").addClass("container-maxwidth");
         // $(".container").removeClass("container");
     },
-	
- loadHomePageData: function (data, page) {
+    loadHomePageData: function (data, page) {
         //console.log(data, page);
         feedHTML1 = '<div class="customer-home-parent clr-fl p-relative">';
-		var feedHTML ="";
-		//console.log("datalength",data.resultMap.userTab.length);
-        if (data.resultMap!= null && data.resultMap!= "") {
+        var feedHTML = "";
+        //console.log("datalength",data.resultMap.userTab.length);
+        if (data.resultMap != null && data.resultMap != "") {
             var resultReps = data.resultMap.repTab;
-			//console.log(resultCarrier.length)
-		
+            //console.log(resultCarrier.length)
+
             for (var mp = 0; mp < resultReps.length; mp++) {
-				
-				var rep = resultReps[mp];
-				console.log(rep)
-				
-				if(rep.agencyRepresentativeId == undefined){
-					repEmail =' ';
-					
-				}else{
-						repEmail = rep.agencyRepresentativeId.email;
-						
-				}
-				if(rep.profilePicture == undefined)
-						
-						{
-							
-							profilePicture = "http://johnjournal.bravesites.com/files/images/Profile_Score_Photo.jpg";
-								
-						}else{
-							
-							var profilePath = rep.profilePicture;
-							profilePicture = ProfileAPI+profilePath;
-							//console.log(pic)
-						 //profilePicture "pic/profilePicture";
-						 //console.log(profilePicture);
-						}
+
+                var rep = resultReps[mp];
+                console.log(rep)
+
+                if (rep.agencyRepresentativeId == undefined) {
+                    repEmail = ' ';
+
+                } else {
+                    repEmail = rep.agencyRepresentativeId.email;
+
+                }
+                if (rep.profilePicture == undefined)
+
+                {
+
+                    profilePicture = "http://johnjournal.bravesites.com/files/images/Profile_Score_Photo.jpg";
+
+                } else {
+
+                    var profilePath = rep.profilePicture;
+                    profilePicture = ProfileAPI + profilePath;
+                    //console.log(pic)
+                    //profilePicture "pic/profilePicture";
+                    //console.log(profilePicture);
+                }
 
 
-				feedHTML+= template.RepsfeedsTemplateHTML(rep);
-			}
-			var feedHTML2 ='</div>';
-			$(".container").addClass("container");
-			$(".container").removeClass("container-maxwidth");
-			$(".content-holder").empty();
-			$(".content-holder").append($(feedHTML1+feedHTML+feedHTML2));
-		//console.log(feedHTML)
+                feedHTML += template.RepsfeedsTemplateHTML(rep);
+            }
+            var feedHTML2 = '</div>';
+            $(".container").addClass("container");
+            $(".container").removeClass("container-maxwidth");
+            $(".content-holder").empty();
+            $(".content-holder").append($(feedHTML1 + feedHTML + feedHTML2));
+            //console.log(feedHTML)
         }
     },
-
 }
 
 
 protocall.myProfile = {
     loadFeedSetting: function ($el) {
 
-        page = "settings";
+        var page = "settings";
         var data = {agencyId: localStorage.agencyId};
-        callback = protocall.myProfile.MytestResponse;
-        deepPath = "readAgency";
+        var callback = protocall.myProfile.MysettingsResponse;
+        var deepPath = "readagency";
 
-//        response = utils.server.makeServerCall(page, data, callback, deepPath);
-        var html = staticTemplate.customers.staticSettingsTemplate();
-        $(".content-holder").empty();
-        $(".content-holder").append($(html));
+        var response = utils.server.makeServerCall(page, data, callback, deepPath);
         this.setSelectedClassPopContent($el);
     },
-    MytestResponse: function () {
+    MysettingsResponse: function (data) {
+        console.log(data);
+        var html = staticTemplate.customers.staticSettingsTemplate(data);
+        $(".content-holder").empty();
+        $(".content-holder").append($(html));
 
     },
     loadMyProfileView: function ($el) {
@@ -2041,6 +2055,10 @@ function editDataInfo() {
         }
     }
 }
+
+
+
+
 //------------------------------------------------------------------------------
 
 
