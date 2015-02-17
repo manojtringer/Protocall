@@ -23,7 +23,7 @@ var CONSTANTS = {
         ASSIGN_TO_CUSTOMERS: "dt-assigncustomer", PROPERTY_POLICY: "dt-propertypolicy", HEALTH_POLICY: "dt-healthpolicy",
         VEHICLE_POLICY: "dt-vehiclepolicy", RESETPASSWORD: "dtresetpassword", SIGNUP: "dtsignup", OVERLAY_RESETPASSALERTBOX: "dtoverlayresetpassword",
         EDITPASSWORDYES: "dtoverlayrestpassyes", EDITPASSWORDNO: "dtoverlayrestpassno", BUTTON_ASSIGNCUSTOMERS: "dt_overlaybtn_assigncustomers",
-        BUTTON_SHAREWITHREP: "dt_overlaybtn_sharerepwithcustomers", DOCUMENTSOVERLAY: "textDoc"
+        BUTTON_SHAREWITHREP: "dt_overlaybtn_sharerepwithcustomers", DOCUMENTSOVERLAY: "textDoc",MYPROFEDIT : "edit"
     },
     ERROR_MSG: {
         ajaxFailed: "Oops! This action could not be completed now! Please try again"
@@ -1184,7 +1184,7 @@ protocall.view = {
         var login = "yes";
 
         page = "login";
-        var data = {employeeType: "agencyrepresentative", userId: email, password: password, agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"};
+        var data = {employeeType: "agencyowner", userId: email, password: password, agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"};
         callback = utils.server.gotloginresponse;
         deepPath = "employeeauthentication";
         utils.server.makeServerCall(page, data, callback, deepPath);
@@ -2153,7 +2153,7 @@ protocall.myProfile = {
     loadFeedSetting: function ($el) {
 
         var page = "settings";
-        var data = {agencyId: localStorage.agencyId};
+        var data = {agencyId:"49c03e36-f3f1-4132-8115-2f74c8a7bae3"};
         var callback = protocall.myProfile.MysettingsResponse;
         var deepPath = "readagency";
 
@@ -2162,12 +2162,14 @@ protocall.myProfile = {
     },
     MysettingsResponse: function (data) {
         console.log(data);
+        popUpContent.closePopUpContent();
         var html = staticTemplate.customers.staticSettingsTemplate(data);
         $(".content-holder").empty();
         $(".content-holder").append($(html));
 
     },
     loadMyProfileView: function ($el) {
+        popUpContent.closePopUpContent();
         var html = staticTemplate.customers.staticMyProfileViewTemplate();
         $(".content-holder").empty();
         $(".content-holder").append($(html));
