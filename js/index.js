@@ -22,7 +22,8 @@ var CONSTANTS = {
         ASSIGN_TO_REPS: "assignrep", PHOTS_OVERLAY_DISPLAY: "photosDoc", THUMB_NAIL: "thumbNail", PREVIOUS: "previous", NEXT: "next", VIEW_CARRIER_FEEDVIEW: "viewcarrierfeedview", PUSHMESSAGE: "pushmessage", PRIVACY: "privacy", ARCHIVES: "archives", VIEW_ARCHIVES: "view_archives", SORTBY: "sortby", MY_PROFILE: "profile-link", VIEW_CUSTOMER_FEEDVIEW: "customerprofileviewfeed", SETTINGS_PAGE: "mysettings", PROFILE_PAGE: "myProfileView", SENDAPPLINK: "sendapplink", AUDIO_OVERLAY: "voiceDoc", AUDIO_PLAY: "playAudio", AGENCY_VIEW_LOAD: "agency-view-load", PREFERRED_VENDOE_VIEW_LOAD: "preferred vendors-view-load", AGENCY_EDIT_LOAD: "agency-edit-load", AGENCY_REMOVE_LOAD: "agency-remove-load", AGENCY_ADD_VENDOR_LOAD: "agency-addvendor-load", VENDOR_PROFILE_INFO: "vendor-profile-info",
         ASSIGN_TO_CUSTOMERS: "dt-assigncustomer", PROPERTY_POLICY: "dt-propertypolicy", HEALTH_POLICY: "dt-healthpolicy",
         VEHICLE_POLICY: "dt-vehiclepolicy", RESETPASSWORD: "dtresetpassword", SIGNUP: "dtsignup", OVERLAY_RESETPASSALERTBOX: "dtoverlayresetpassword",
-        EDITPASSWORDYES: "dtoverlayrestpassyes", EDITPASSWORDNO: "dtoverlayrestpassno", BUTTON_ASSIGNCUSTOMERS: "dt_overlaybtn_assigncustomers"
+        EDITPASSWORDYES: "dtoverlayrestpassyes", EDITPASSWORDNO: "dtoverlayrestpassno", BUTTON_ASSIGNCUSTOMERS: "dt_overlaybtn_assigncustomers",
+        BUTTON_SHAREWITHREP: "dt_overlaybtn_sharerepwithcustomers", DOCUMENTSOVERLAY: "textDoc"
     },
     ERROR_MSG: {
         ajaxFailed: "Oops! This action could not be completed now! Please try again"
@@ -45,7 +46,6 @@ var ENDPOINT = {
     AGENCY_DASHBOARD_DESIGN: "agencydashboarddesign",
     GIVE_RECORDED_BY_USER: "giverecordedbyuser"
 };
-/*Naveen 16-2-2015 changes Start */
 var RESPONSE = {
     RESULTOBJECT: {},
     AUDIODETAILS: [],
@@ -74,7 +74,6 @@ var RESPONSE = {
     LEFTSIDEFEED: [],
     RIGHTSIDEFEED: []
 };
-/*Naveen 16-2-2015 changes End */
 //API
 ProfileAPI = 'https://proto-call-test.appspot.com/file/'
 //PAGE NAMES
@@ -411,6 +410,19 @@ protocall = {
             $("#spinner").css("display", "none");
         }
     },
+    displaySpinnerForAlerts: function (show) {
+        console.log("displaySpinnerForAlerts", show);
+        if (show) {
+            $("#loadingAlerts").css("display", "block");
+        } else {
+            $("#loadingAlerts").css("display", "none");
+        }
+        /* if (show) {
+         $(".container").addClass("modal").fadeIn("slow");
+         } else {
+         $(".container").removeClass("modal").fadeOut("slow");
+         } */
+    },
     closeOverlay: function () {
         overlay.closeOverlay();
     },
@@ -429,10 +441,15 @@ protocall.events = {
 
         });
 
-        $(".mysnap").on("click", function () {
+
+        $(document).on("click", ".mysnap", function (e) {
             $(".mysnap").css("background", "lightgrey");
             $(this).css("background", "#f34f4e");
+            var loginContent = LoginTemplate.login.MyloginContent();
+            $(".box").empty();
+            $(".box").append($(loginContent));
             $(".box").fadeIn();
+
         });
 
         $(document).on("click", ".overalyPhots", function (e) {
@@ -440,18 +457,41 @@ protocall.events = {
             console.log(".o-content");
             protocall.events.handleClickForPhotosOverlay(e);
         });
+        /* $(document).on("click", ".audioOverlay", function (e) {
+         e.stopPropagation();
+         console.log(".o-content");
+         protocall.events.handleClickForAudioOverlay(e);
+         }); */
+        $(document).on("click", ".overlayDocs", function (e) {
+            e.stopPropagation();
+            console.log(".o-content");
+            protocall.events.handleClickForDocsOverlay(e);
+        });
         $(document).on("click", ".audioOverlay", function (e) {
             e.stopPropagation();
             console.log(".o-content");
-            protocall.events.handleClickForAudioOverlay(e);
+            protocall.events.handleClickForAudioThumbNail(e);
         });
         $(window).on("resize", function (e) {
             protocall.events.handleResize(e);
         });
     },
-    handleScroll: function () {
-
-
+    handleScroll: function (e) {
+        var container = $('.container');
+        console.log("scrollHeight", container[0].scrollHeight);
+        console.log("ScrollTop", container.scrollTop());
+        console.log("outerHeight", container.outerHeight());
+        if (container[0].scrollHeight - container.scrollTop() == container.outerHeight()) {
+            container.scrollTop(0);
+            console.log("calling the custom spinner");
+            protocall.displaySpinnerForAlerts(true);
+            //protocall.home.initHomePage();
+            //protocall.events.sampleTestFun();
+        }
+        //protocall.displaySpinner(false);
+    },
+    sampleTestFun: function () {
+        protocall.displaySpinnerForAlerts(false);
     },
     handleClick: function (e) {
         var $el = $(e.currentTarget);
@@ -461,6 +501,7 @@ protocall.events = {
         var type = $el.data("type") ? $el.data("type") : null;
         var page = $el.data("page") ? $el.data("page") : null;
         var subMenu = $el.data("submenu") ? $el.data("submenu") : null;
+
 
         if (!type)
             return;
@@ -525,6 +566,10 @@ protocall.events = {
                     case CONSTANTS.LINK_TYPE.PRIVACY:
                         protocall.view.privacy($el, true);
                         break;
+                    case CONSTANTS.LINK_TYPE.MYPROFEDIT:
+                        protocall.view.MyprofEdit();
+                        break;
+
                     default:
                         break;
                 }
@@ -621,6 +666,9 @@ protocall.events = {
             case CONSTANTS.LINK_TYPE.AUDIO_OVERLAY:
                 protocall.view.staticAudioOverlayDisplay();
                 break;
+            case CONSTANTS.LINK_TYPE.DOCUMENTSOVERLAY:
+                protocall.view.staticDocumentOverlayDisplay();
+                break;
             case CONSTANTS.LINK_TYPE.SIGNUP:
                 protocall.view.loadSignupPage();
                 break;
@@ -643,31 +691,43 @@ protocall.events = {
             case CONSTANTS.LINK_TYPE.BUTTON_ASSIGNCUSTOMERS:
                 utils.server.submitAssignCustomersData();
                 break;
+            case CONSTANTS.LINK_TYPE.BUTTON_SHAREWITHREP:
+                utils.server.submitShareWithRepsData();
+                break;
             default:
                 break;
         }
 
     },
     handleClickForPhotosOverlay: function (e) {
-        console.log("hello" + $(this).find("img").attr("src"));
-        var $el = $(e.currentTarget);
-        console.log("valuers" + $el.data("type"));
-        var type = $el.data("type") ? $el.data("type") : null;
-        console.log("data type is" + type);
-        switch (type) {
+        console.log("current target", $(e.currentTarget).attr("data-type"));
+        var dataType = $(e.currentTarget).attr("data-type");
+        var currentTarget = $(e.currentTarget);
+        switch (dataType) {
             case CONSTANTS.LINK_TYPE.THUMB_NAIL:
-                protocall.view.displayOrignalImage($el);
+                protocall.view.displayOrignalImage(currentTarget);
                 break;
             case CONSTANTS.LINK_TYPE.PREVIOUS:
-                protocall.view.displayPreviousImage($el);
+                protocall.view.displayPreviousImage(currentTarget);
                 break;
             case CONSTANTS.LINK_TYPE.NEXT:
-                protocall.view.displayNextImage($el);
+                protocall.view.displayNextImage(currentTarget);
                 break;
             default:
                 break;
         }
-
+    },
+    handleClickForDocsOverlay: function (e) {
+        console.log("current target", $(e.currentTarget).attr("data-type"));
+        var currentTarget = $(e.currentTarget);
+        var dataType = $(e.currentTarget).attr("data-type");
+        switch (dataType) {
+            case CONSTANTS.LINK_TYPE.THUMB_NAIL:
+                protocall.view.displayOrignalDoc(currentTarget);
+                break;
+            default:
+                break;
+        }
     },
     handleClickForAudioOverlay: function (e) {
         var $el = $(e.currentTarget);
@@ -684,6 +744,23 @@ protocall.events = {
                  case CONSTANTS.LINK_TYPE.NEXT:
                  protocall.view.displayNextImage($el);
                  break; */
+            default:
+                break;
+        }
+    },
+    handleClickForAudioThumbNail: function (e) {
+        var dataType = $(e.currentTarget).attr("data-type");
+        var currentTarget = $(e.currentTarget);
+        switch (dataType) {
+            case CONSTANTS.LINK_TYPE.THUMB_NAIL:
+                protocall.view.displayOrignalAudio(currentTarget);
+                break;
+            case CONSTANTS.LINK_TYPE.PREVIOUS_AUDIO:
+                protocall.view.displayPreviousAudio(currentTarget);
+                break;
+            case CONSTANTS.LINK_TYPE.NEXT_AUDIO:
+                protocall.view.displayNextAudio(currentTarget);
+                break;
             default:
                 break;
         }
@@ -714,6 +791,42 @@ protocall.view = {
             protocall.setPage(CONSTANTS.LINK_TYPE.RESETPASSWORD, CONSTANTS.LINK_TYPE.RESETPASSWORD, CONSTANTS.LINK_TYPE.RESETPASSWORD, "");
         }
         protocall.displaySpinner(false);
+    },
+    MyprofEdit: function (isClickEvent) {
+
+
+        var mytxtval = $.trim($('.submenu-title').text());
+        if (mytxtval == 'edit' | mytxtval == 'Edit') {
+
+            var name = $("#nameview").text();
+            var phone = $("#phoneview").text();
+            var email = $("#emailview").text();
+
+            $('.submenu-title').empty();
+            $('.submenu-title').append("Save");
+            $(".profile-result-cls").css("display", "none");
+            $(".agencyprofinput").css("display", "inline-block");
+            $('#namenew').val(name);
+            $('#phonenew').val(phone);
+            $('#emailnew').val(email);
+        } else {
+
+            var name = $("#namenew").val();
+            var phone = $("#phonenew").val();
+            var email = $("#emailnew").val();
+            $('.submenu-title').val("Edit");
+            $('.submenu-title').empty();
+            $('.submenu-title').append("Edit");
+            $(".profile-result-cls").css("display", "block");
+            $(".agencyprofinput").css("display", "none");
+            $('#nameview').html(name);
+            $('#phoneview').html(phone);
+            $('#emailview').html(email);
+//Make call here
+
+        }
+
+
     },
     loadLoginPage: function (isClickEvent) {
         console.log("Load login Page");
@@ -938,7 +1051,6 @@ protocall.view = {
         var deepPath = "userlist";
         utils.server.makeServerCall(page, data, callback, deepPath);
     },
-    //----------------------------------------------------
     properityPolicy: function () {
         var html = staticTemplate.home.properyPolicyTemplate();
         overlay.displayOverlay(html);
@@ -1097,18 +1209,62 @@ protocall.view = {
     },
     /*Added by Naveen -- Start*/
     staticPhotOverlayDisplay: function () {
-        var html = staticTemplate.home.showPhotsOverlayTemplate();
-        overlay.displayOverlay(html);
-        console.log("in photo");
-        overlay.sliderControl();
-        protocall.displaySpinner(false);
+        $.ajax({
+            url: 'sampleJson.json',
+            type: 'GET',
+            success: function (data) {
+                console.log("in success", data.resultObject);
+                RESPONSE.RESULTOBJECT = data.resultObject;
+                var html = staticTemplate.home.showPhotsOverlayTemplate(RESPONSE.RESULTOBJECT);
+                overlay.displayOverlay(html);
+                console.log("in photo");
+                overlay.sliderControl();
+                $("#thumbNailImages div:nth-child(1)").addClass("activeAudio");
+                protocall.displaySpinner(false);
+            },
+            error: function (e) {
+                console.log("in error");
+            }
+        });
     },
     staticAudioOverlayDisplay: function () {
-        var html = staticTemplate.home.showAudioOverlayTemplate();
-        overlay.displayOverlay(html);
-        console.log("in function");
-        overlay.audioInit();
-        protocall.displaySpinner(false);
+        $.ajax({
+            url: 'sampleJson.json',
+            type: 'GET',
+            success: function (data) {
+                console.log("in success", data.resultObject);
+                RESPONSE.RESULTOBJECT = data.resultObject;
+                var html = staticTemplate.home.showAudioOverlayTemplate(data.resultObject);
+                overlay.displayOverlay(html);
+                console.log("in function");
+                overlay.audioInit(data.resultObject);
+                $("#audioThumbNailView div:nth-child(1)").addClass("activeAudio");
+                protocall.displaySpinner(false);
+            },
+            error: function (e) {
+                console.log("in error");
+            }
+        });
+    },
+    staticDocumentOverlayDisplay: function () {
+        $.ajax({
+            url: 'sampleJson.json',
+            type: 'GET',
+            success: function (data) {
+                console.log("in success", data.resultObject);
+                RESPONSE.RESULTOBJECT = data.resultObject;
+                var html = staticTemplate.home.showDocumentOverlayTemplate(data.resultObject);
+                overlay.displayOverlay(html);
+                console.log("in staticDocumentOverlayDisplay function");
+                overlay.documentInIt(data.resultObject);
+                $("#thumbNailDocs div:nth-child(1)").addClass("activeAudio");
+                //$("#audioThumbNailView div:nth-child(1)").addClass("activeAudio"); 
+                protocall.displaySpinner(false);
+            },
+            error: function (e) {
+                console.log("in error");
+            }
+        });
     },
     /*Added by Naveen -- End*/
     editAgencyPic: function () {
@@ -1243,52 +1399,201 @@ protocall.view = {
         }
 
     },
-    displayOrignalImage: function ($e1) {
-        console.log($e1.find("img").attr("src"));
-        $("#thumbNailImages li a").removeClass("active");
-        $e1.addClass("active");
-        $("#viewingImage").html('<img src=' + $e1.find("img").attr("src") + ' />');
-        $(".previous").show();
-        $(".next").show();
+    displayOrignalImage: function (currentTarget) {
+        $("#thumbNailImages>div").removeClass("activeAudio");
+        currentTarget.addClass("activeAudio");
+        var currentMediaID = currentTarget.attr("name"), mainAudioHTML = "";
+        $.each(RESPONSE.PICTUREDETAILS, function (i, element) {
+            console.log("media id", element.mediaId);
+            if (currentMediaID == element.mediaId) {
+                mainImageHTML = '<img src=' + element.imageSource + ' />';
+                imageInformationHTML = element.imageText;
+            }
+        });
+        $("#viewingImage").html(mainImageHTML);
+        $("#imageinformation span:first-child").html(imageInformationHTML);
+    },
+    displayOrignalDoc: function (currentTarget) {
+        $("#thumbNailDocs>div").removeClass("activeAudio");
+        currentTarget.addClass("activeAudio");
+        var currentDocName = currentTarget.find("p").text(), mainAudioHTML = "";
+        console.log("currentDocName");
+        $.each(RESPONSE.OTHERPARTYDETAILS, function (i, element) {
+            console.log("media id", element.fileName);
+            if (currentDocName == element.fileName) {
+                mainDocHTML = '<div class="leftDiv">'
+                        + '<p>'
+                        + '<span class="firstSpan">Name</span>'
+                        + '<span class="secondSpan">' + element.fileName + '</span>'
+                        + '</p>'
+                        + '<p>'
+                        + '<span class="firstSpan">Role</span>'
+                        + '<span class="secondSpan">' + element.role + '</span>'
+                        + '</p>'
+                        + '<p>'
+                        + '<span class="firstSpan">Phone</span>'
+                        + '<span class="secondSpan">' + element.phone.number + '</span>'
+                        + '</p>'
+                        + '<p>'
+                        + '<span class="firstSpan">Address</span>'
+                        + '<span class="secondSpan">' + element.address.address + '</span>'
+                        + '</p>'
+                        + '<p>'
+                        + '<span class="firstSpan">Insurance co</span>'
+                        + '<span class="secondSpan">' + element.carrier + '</span>'
+                        + '</p>'
+                        + '<p>'
+                        + '<span class="firstSpan">Policy #</span>'
+                        + '<span class="secondSpan">' + element.policyNumber + '</span>'
+                        + '</p>'
+                        + '<p>'
+                        + '<span class="firstSpan">Auto Yr/make/model</span>'
+                        + '<span class="secondSpan">' + element.model + '</span>'
+                        + '</p>'
+                        + '<p>'
+                        + '<span class="firstSpan">Auto License plate state & Number</span>'
+                        + '<span class="secondSpan">' + element.vehicleIdentificationNumber + '</span>'
+                        + '</p>'
+                        + '<p>'
+                        + '<span class="firstSpan">Drivers License State</span>'
+                        + '<span class="secondSpan">' + element.driverLicenseState + '</span>'
+                        + '</p>'
+                        + '<p>'
+                        + '<span class="firstSpan">Drivers License Number</span>'
+                        + '<span class="secondSpan">' + element.driverLicenseNumber + '</span>'
+                        + '</p>'
+                        + '<p>'
+                        + '<span class="firstSpan">Injuries</span>'
+                        + '<span class="secondSpan">' + element.injuries + '</span>'
+                        + '</p>'
+                        + '<p>'
+                        + '<span class="firstSpan">Other info</span>'
+                        + '<span class="secondSpan">' + element.otherInformation + '</span>'
+                        + '</p>'
+                        + '</div>';
+            }
+        });
+        $("#docinformation span").html(currentDocName);
+        $("#originalDocDIV").html(mainDocHTML);
     },
     displayPreviousImage: function () {
-        var $liElement = $("#thumbNailImages li");
-        $.each($liElement, function (index, element) {
-            if (($(this).find("a").hasClass("active"))) {
-                protocall.view.loadingScrollPrevious($(this));
+        var $divElement = $("#thumbNailImages"), activeAudioClass = false;
+        console.log("$liElement", $divElement);
+        $.each($divElement, function (index, element) {
+            console.log($(this).find("div").hasClass("activeAudio"));
+            activeAudioClass = $(this).find("div").hasClass("activeAudio")
+            if (activeAudioClass) {
+                protocall.view.loadingScrollPrevious($(this).find("div.activeAudio"));
                 return false;
             }
         });
     },
     displayNextImage: function () {
-        var $liElement = $("#thumbNailImages li");
-        $.each($liElement, function (index, element) {
-            if (($(this).find("a").hasClass("active"))) {
-                protocall.view.loadingScrollNext($(this));
+        var $divElement = $("#thumbNailImages"), activeAudioClass = false;
+        console.log("$liElement", $divElement);
+        $.each($divElement, function (index, element) {
+            console.log($(this).find("div").hasClass("activeAudio"));
+            activeAudioClass = $(this).find("div").hasClass("activeAudio")
+            if (activeAudioClass) {
+                protocall.view.loadingScrollNext($(this).find("div.activeAudio"));
                 return false;
             }
         });
     },
     loadingScrollNext: function (liEleme) {
-        var indexValue = $("#thumbNailImages li").index(liEleme) + 1, nextElementToBeloaded;
-        if (indexValue !== 0 && indexValue < $("#thumbNailImages li").length) {
-            nextElementToBeloaded = $("#thumbNailImages li:eq( " + indexValue + " )");
-            $("#thumbNailImages li a").removeClass("active");
-            nextElementToBeloaded.find("a").addClass("active");
+        var indexValue = $("#thumbNailImages div").index(liEleme) + 1, nextElementToBeloaded;
+        if (indexValue !== 0 && indexValue < $("#thumbNailImages div").length) {
+            nextElementToBeloaded = $("#thumbNailImages div:eq( " + indexValue + " )");
+            $("#thumbNailImages div").removeClass("activeAudio");
+            nextElementToBeloaded.addClass("activeAudio");
             imageSrcTobeLoadedBack = nextElementToBeloaded.find("img").attr("src");
             $("#viewingImage").html('<img src=' + imageSrcTobeLoadedBack + ' />');
         }
     },
     loadingScrollPrevious: function (liEleme) {
-        var indexValue = $("#thumbNailImages li").index(liEleme) - 1, nextElementToBeloaded;
+        var indexValue = $("#thumbNailImages div").index(liEleme) - 1, nextElementToBeloaded;
         console.log("loadingScrollBack" + indexValue);
         if (indexValue !== -1) {
-            nextElementToBeloaded = $("#thumbNailImages li:eq( " + indexValue + " )");
-            $("#thumbNailImages li a").removeClass("active");
-            nextElementToBeloaded.find("a").addClass("active");
+            nextElementToBeloaded = $("#thumbNailImages div:eq( " + indexValue + " )");
+            $("#thumbNailImages div").removeClass("activeAudio");
+            nextElementToBeloaded.addClass("activeAudio");
             imageSrcTobeLoadedBack = nextElementToBeloaded.find("img").attr("src");
             console.log("imageSrcTobeLoaded" + imageSrcTobeLoadedBack);
             $("#viewingImage").html('<img src=' + imageSrcTobeLoadedBack + ' />');
+        }
+    },
+    /*Audio Click functions*/
+    displayOrignalAudio: function (currentTarget) {
+        $("#audioThumbNailView>div").removeClass("activeAudio");
+        currentTarget.addClass("activeAudio");
+        var currentMediaID = currentTarget.find("p#mediaID").text(), mainAudioHTML = "";
+        console.log("RESPONSE.AUDIODETAILS", RESPONSE.AUDIODETAILS);
+        $.each(RESPONSE.AUDIODETAILS, function (i, element) {
+            console.log("media id", element.mediaId);
+            if (currentMediaID == element.mediaId) {
+                console.log("condition satisfied");
+                mainAudioHTML = '<p class="spanCLassElement t-left f-color-green opensans-regular" style="margin:0px">' + element.fileName + '<span  style="font-size:11px">,New jersy</span></p>'
+                        + '<p style="color:#939393;font-size:12px">' + element.timeStamp + '</p>'
+                        + '<div style="padding:30px;border-top: 1px solid #b9b8b8;margin-top: 10px;width: 476px;">'
+                        + '<audio id="music" preload="none" controls style="position: relative;left: 75px;top: 25px;">'
+                        + '<source src=' + element.audioSourceURL + '>'
+                        + '<source src=' + element.audioSourceURL + '>'
+                        + '</audio>';
+                /*+ '<div class="voice-ctrler">'
+                 + '<div class="audioOverlay" data-type="previousAudio" style="cursor:pointer;">prev</div><div><button id="pButton2" class="play audioOverlay" data-type="playAudio"></button></div><div class="audioOverlay" data-type="nextAudio" style="cursor:pointer;">next</div>'
+                 + '</div>'; */
+            }
+        });
+        $("#originalAudio").html(mainAudioHTML);
+    },
+    displayPreviousAudio: function () {
+        var $divElement = $("#audioThumbNailView"), activeAudioClass = false;
+        console.log("$liElement", $divElement);
+        $.each($divElement, function (index, element) {
+            console.log($(this).find("div").hasClass("activeAudio"));
+            activeAudioClass = $(this).find("div").hasClass("activeAudio")
+            if (activeAudioClass) {
+                protocall.view.loadingPreviousAudio($(this).find("div.activeAudio"));
+                return false;
+            }
+        });
+    },
+    loadingPreviousAudio: function (divEleme) {
+        console.log("loadingPreviousAudio");
+        var indexValue = $("#audioThumbNailView div").index(divEleme) - 1, nextElementToBeloaded, nextAudioElement;
+        console.log("loadingScrollBack" + indexValue);
+        if (indexValue !== -1) {
+            nextElementToBeloaded = $("#audioThumbNailView div:eq( " + indexValue + " )");
+            $("#audioThumbNailView div").removeClass("activeAudio");
+            nextElementToBeloaded.addClass("activeAudio");
+            nextAudioElement = nextElementToBeloaded.find("p#mediaID").attr("name");
+            console.log("imageSrcTobeLoaded" + nextAudioElement);
+            $("#music").find("source").attr("src", nextAudioElement);
+        }
+    },
+    displayNextAudio: function () {
+        var $divElement = $("#audioThumbNailView"), activeAudioClass = false;
+        console.log("$liElement", $divElement);
+        $.each($divElement, function (index, element) {
+            console.log($(this).find("div").hasClass("activeAudio"));
+            activeAudioClass = $(this).find("div").hasClass("activeAudio")
+            if (activeAudioClass) {
+                protocall.view.loadingNextAudio($(this).find("div.activeAudio"));
+                return false;
+            }
+        });
+    },
+    loadingNextAudio: function (divEleme) {
+        console.log("loadingPreviousAudio");
+        var indexValue = $("#audioThumbNailView div").index(divEleme) + 1, nextElementToBeloaded, nextAudioElement;
+        console.log("loadingScrollBack" + indexValue);
+        if (indexValue !== 0 && indexValue < $("#audioThumbNailView div").length) {
+            nextElementToBeloaded = $("#audioThumbNailView div:eq( " + indexValue + " )");
+            $("#audioThumbNailView div").removeClass("activeAudio");
+            nextElementToBeloaded.addClass("activeAudio");
+            nextAudioElement = nextElementToBeloaded.find("p#mediaID").attr("name");
+            console.log("imageSrcTobeLoaded" + nextAudioElement);
+            $("#music").find("source").attr("src", nextAudioElement);
         }
     },
     playAudioFile: function ($e1) {
@@ -1408,7 +1713,7 @@ protocall.home = {
                 authId = "",
                 spinnerMsg = "";
         var resp = utils.server.makeServerCall(page, data, callback, deepPath);
-        protocall.view.buildHomeMenuBlk(page);
+        //protocall.view.buildHomeMenuBlk(page);
         $('.tab-rb-submenu a').each(function () {
             protocall.view.setSelectedLinkClasses($(this), false);
         });
@@ -1449,7 +1754,7 @@ protocall.home = {
     loadHomePageData: function (data, page) {
         console.log("data in home", data);
         console.log("status", data.resultMap.TypeCode);
-
+        protocall.displaySpinner(true);
         if (data.resultMap.TypeCode == "4011") {
             var alertIDS = [];
             if (data !== "undefined" && data.result !== "undefined" && data.result.resultObject !== "undefined") {
@@ -1461,12 +1766,39 @@ protocall.home = {
                 });
                 console.log("RESPONSE.FEEDSDETAILS", RESPONSE.FEEDSDETAILS);
             }
+            var leftSideFeedValueBeforeSort = RESPONSE.LEFTSIDEFEED, leftSideFeedValueAfterSort;
+            leftSideFeedValueAfterSortByName = leftSideFeedValueBeforeSort.sort(function (a, b) {
+                if (a.userDetails.firstName < b.userDetails.firstName) {
+                    return -1
+                }
+                ;
+                if (a.userDetails.firstName > b.userDetails.firstName) {
+                    return 1
+                }
+                ;
+                return 0;
+            });
+            console.log("leftSideFeedValueAfterSortByName", leftSideFeedValueAfterSortByName);
+            leftSideFeedValueAfterSortByTimeStamp = leftSideFeedValueBeforeSort.sort(function (a, b) {
+                if (a.alertDetails.lastModified < b.alertDetails.lastModified) {
+                    return -1
+                }
+                ;
+                if (a.alertDetails.lastModified > b.alertDetails.lastModified) {
+                    return 1
+                }
+                ;
+                return 0;
+            });
+            console.log("leftSideFeedValueAfterSortByTimeStamp", leftSideFeedValueAfterSortByTimeStamp);
             console.log("alertIDS length", alertIDS.length);
             var deepPath = "giveRecordedByUser";
             var reuestedDataForSideFeeds = {"alertList": alertIDS};
             console.log("data", data);
             var resp = utils.server.makeServerCall(page, reuestedDataForSideFeeds, protocall.home.userRecords, deepPath);
+            protocall.view.buildHomeMenuBlk(page);
         }
+
     },
     userRecords: function (data, page) {
         var feedHTML = "", alertIDSinUserRecords = [];
@@ -1479,13 +1811,13 @@ protocall.home = {
             });
             console.log("alertIDSinUserRecords", alertIDSinUserRecords);
         }
-        feedHTML = template.feedsTemplateHTML();
-        $(".container").addClass("container");
-        $(".container").removeClass("container-maxwidth");
-        $(".content-holder").empty();
-        $(".content-holder").append($(feedHTML));
+
+        template.feedsTemplateHTML();
+        /* $(".container").addClass("container");
+         $(".container").removeClass("container-maxwidth");
+         $(".content-holder").empty();
+         $(".content-holder").append($(feedHTML)); */
     },
-    /*Naveen 16-2-2015 changes End */
     buildScreen: function (data, template) {
 
 
@@ -2080,10 +2412,19 @@ function editDataInfo() {
         }
     }
 }
-
-
-
-
 //------------------------------------------------------------------------------
+
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('.ageny-img-width').attr('src', e.target.result);
+            $('.setProfilePic').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
 
 

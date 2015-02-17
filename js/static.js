@@ -329,8 +329,7 @@ var staticTemplate = {
             return html;
         },
         pushMessageTemplate: function () {
-            var html = ' <h2 class="t-left f-color-green opensans-regular" style="">Push Message</h2> <div class="o-sub-content p-relative"> <div class="c-textarea text-box-outer textBox-placeholder-italic"> <textarea draggable="false" class="textarea opensans-regular" placeholder="Type message" maxlength="170"></textarea> </div> <div class="delivery-box clr-fl"> <div class="delivery-time left opensans-regular">Delivery Time</div> <div class="deliverytime-content left opensans-regular clr-fl"> <div class="now left"> <input id="radio-button-now" type="radio" value="now" checked="true" onclick="checkboxStatus(\'radio-button-now\')"> <span class="txt-now opensans-regular f-sz-15">Now</span> </div> <div class="later left"> <input id="radio-button-later" type="radio" value="later" onclick="checkboxStatus(\'radio-button-later\')"> <span class="txt-later opensans-regular f-sz-15">Later</span> </div> </div> </div> </div> <div class="later-box clr-fl"> <div class="select-date-content left opensans-regular"> <div class="select-date left opensans-regular">Select Date</div> <div class="text-box-outer textBox-placeholder-italic left push-select-dropdown border-all p-relative"> <input id="datepicker" type="date" size="9" class="c-datepicker opensans-regular left" placeholder="22-11-2014" /> <div class="sprite-im datepicker-icon p-absolute"></div> </div> </div> <div class="time-content left opensans-regular clr-fl"> <div class="time left opensans-regular">Time</div> <div class="text-box-outer textBox-placeholder-italic left time-dropdown-1 border-all p-relative" data-type="dt-time-dropdown">'
-                    + '<select id="timepicker" class="none-1 opensans-regular left"> <option selected> 10:25 </option> <option>10:30</option> <option>10:35</option> </select> <div class="sprite-im drop-down-icon push-drop-down-icon-1 p-absolute"></div> </div> <div class="text-box-outer textBox-placeholder-italic left time-dropdown-2 border-all p-relative" data-type="dt-am-pm-dropdown"> <select id="timepicker" class="none-1 opensans-regular left"> <option selected> AM </option> <option>PM</option> </select> <div class="sprite-im drop-down-icon push-drop-down-icon-2 p-absolute"></div> </div> </div> </div> <div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="overlaybtn">Send</div> </div>';
+            var html = ' <h2 class="t-left f-color-green opensans-regular" style="">Push Message</h2> <div class="o-sub-content p-relative"> <div class="c-textarea text-box-outer textBox-placeholder-italic"> <textarea draggable="false" class="textarea opensans-regular" placeholder="Type message" maxlength="170"></textarea> </div> <div class="delivery-box clr-fl"> <div class="delivery-time left opensans-regular">Delivery Time</div> <div class="deliverytime-content left opensans-regular clr-fl"> <div class="now left"> <input id="radio-button-now" type="radio" value="now" checked="true" onclick="checkboxStatus(\'radio-button-now\')"> <span class="txt-now opensans-regular f-sz-15">Now</span> </div> <div class="later left"> <input id="radio-button-later" type="radio" value="later" onclick="checkboxStatus(\'radio-button-later\')"> <span class="txt-later opensans-regular f-sz-15">Later</span> </div> </div> </div> </div> <div class="later-box clr-fl"> <div class="select-date-content left opensans-regular"> <div class="select-date left opensans-regular">Select Date</div> <div class="text-box-outer textBox-placeholder-italic left push-select-dropdown border-all p-relative"> <input id="datepicker" type="date" size="9" class="c-datepicker opensans-regular left" placeholder="22-11-2014" /> <div class="sprite-im datepicker-icon p-absolute"></div> </div> </div> <div class="time-content left opensans-regular clr-fl"> <div class="time left opensans-regular">Time</div> <div class="text-box-outer textBox-placeholder-italic left time-dropdown-1 border-all p-relative" data-type="dt-time-dropdown"> <select id="timepicker" class="none-1 opensans-regular left"> <option selected> 10:25 </option> <option>10:30</option> <option>10:35</option> </select> <div class="sprite-im drop-down-icon push-drop-down-icon-1 p-absolute"></div> </div> <div class="text-box-outer textBox-placeholder-italic left time-dropdown-2 border-all p-relative" data-type="dt-am-pm-dropdown"> <select id="timepicker" class="none-1 opensans-regular left"> <option selected> AM </option> <option>PM</option> </select> <div class="sprite-im drop-down-icon push-drop-down-icon-2 p-absolute"></div> </div> </div> </div> <div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="overlaybtn">Send</div> </div>';
             return html;
         },
         privacyTemplate: function () {
@@ -338,106 +337,244 @@ var staticTemplate = {
             return html;
         },
         /*Added by Naveen - Start */
-        showPhotsOverlayTemplate: function () {
+        showPhotsOverlayTemplate: function (resultObject) {
+            var numberOfPictures = 0, pictureThumbNailViewHTML = "", sliderBar = "", imageTextSavePrintHTML = "", originalImageHTML = "";
+            $.each(resultObject, function (i, element) {
+                console.log("in static method", element);
+                console.log("in static method", element.NoofPictureRecord);
+                console.log("Audio Details", element.PictureDetails);
+                numberOfPictures = element.NoofPictureRecord;
+                RESPONSE.PICTUREDETAILS = element.PictureDetails;
+            });
+            console.log("RESPONSE.PICTUREDETAILS", RESPONSE.PICTUREDETAILS);
+            console.log("numberOfPictures", numberOfPictures);
+            $.each(RESPONSE.PICTUREDETAILS, function (i, element) {
+                console.log("media id", element.mediaId);
+                RESPONSE.MEDIAIDFORPICTURE.push(element.mediaId);
+                RESPONSE.IMAGEURLS.push(element.imageSource);
+                RESPONSE.IMGETEXT.push(element.imageText);
+            });
+            if (numberOfPictures > 5) {
+                sliderBar = '<div id="slider-vertical" style="float:left;position: absolute;height: 332px;left: 96px;top: 10px;">'
+                        + '</div>';
+            }
+            for (var i = 1, j = 0; i <= numberOfPictures; i++, j++) {
+                console.log("in for loop");
+                pictureThumbNailViewHTML = pictureThumbNailViewHTML
+                        + '<div style="padding: 0px;margin: 0px;width: 99px;height: 100px;margin-bottom: 10px;background: #fff;cursor:pointer;" class="overalyPhots" data-type="thumbNail" name=' + RESPONSE.MEDIAIDFORPICTURE[j] + '><img src=' + RESPONSE.IMAGEURLS[j] + ' style="width: 100%; height: 100%" /></div>';
+            }
+            imageTextSavePrintHTML = imageTextSavePrintHTML
+                    + '<span class="spanCLassElement t-left f-color-green opensans-regular" style="margin:0px">' + RESPONSE.IMGETEXT[0] + '</span><span class="spanCLassElement f-italic" style="margin:0px;color:#939393;font-size:11px">,New jersy</span>';
+            originalImageHTML = originalImageHTML + '<div id="viewingImage"><img src=' + RESPONSE.IMAGEURLS[0] + ' /></div>';
+            console.log("originalImageHTML", originalImageHTML);
+
             console.log("showPhotsOverlayTemplate");
             var html = '<div class="o-sub-content p-relative">'
-                    + '<div class="clr-fl">'
+                    + '<div>'
                     + '<div style="float:left;">'
-                    + '<ul style="list-style:none;padding:0px;" id="thumbNailImages">'
-                    + '<li style="padding: 0px;margin: 0px;width: 99px;height: 100px;margin-bottom: 10px;background: #fff;"><a href="javascript:void(0)" class="overalyPhots" data-type="thumbNail"><img src="images/carDamage1.png" style="width: 100%; height: 100%" /></a></li>'
-                    + '<li style="padding: 0px;margin: 0px;width: 99px;height: 100px;margin-bottom: 10px;background: #fff;"><a href="javascript:void(0)" class="overalyPhots" data-type="thumbNail"><img src="images/carDamage2.png" style="width: 100%; height: 100%"  /></a></li>'
-                    + '<li style="padding: 0px;margin: 0px;width: 99px;height: 100px;margin-bottom: 10px;background: #fff;"><a href="javascript:void(0)" class="overalyPhots" data-type="thumbNail"><img src="images/carDamage3.png" style="width: 100%; height: 100%" /></a></li>'
-                    + '</ul>'
-                    + '</div>' + '<div id="slider-vertical" style="float:left;position: absolute;height: 319px;left: 109px;top: 15px;">'
+                    + '<div id="thumbNailImages">'
+                    + pictureThumbNailViewHTML
                     + '</div>'
-                    + '<div style="width: 80%;float:left;padding:10px 0px;height: 300px;position: absolute;left: 120px;top: 15px;background: #fff;">'
-                    + '<div style="border-bottom: 1px solid #b9b8b8;position: absolute;padding-bottom: 15px;left: 16px;width: 485px;">'
-                    + '<span class="spanCLassElement t-left f-color-green opensans-regular" style="margin:0px">Accident Image</span><span class="spanCLassElement f-italic" style="margin:0px;color:#939393;font-size:11px">,New jersy</span>'
+                    + '</div>'
+                    + sliderBar
+                    + '<div style="width: 80%;float:left;padding:10px 0px;height: 300px;position: fixed;left: 120px;top: 15px;background: #fff;">'
+                    + '<div style="border-bottom: 1px solid #b9b8b8;position: absolute;padding-bottom: 15px;left: 16px;width: 485px;" id="imageinformation">'
+                    + imageTextSavePrintHTML
                     + '<img src="images/saveImage.png" style="width:20px;height:20px;position: absolute;right: 170px;"/>'
                     + '<img src="images/printImage.png" style="width:20px;height:20px;position: absolute;right: 135px;"/>'
                     + '</div>'
-                    + '<div style="width: 400px;position: absolute;top: 90px;left: 140px;">'
+                    + '<div style="width: 400px;position: absolute;top: 90px;left: 140px;" id="originalImageDIV">'
                     + '<a href="javascript:void(0)" class="overalyPhots previous" data-type="previous" style="position: absolute;top: 65px;left: -131px;"><img src="images/backwardArrow.png" /></a>'
-                    + '<div id="viewingImage"></div>'
+                    + originalImageHTML
                     + '<a href="javascript:void(0)" class="overalyPhots next" data-type="next" style="position: absolute;top: 73px;right: 43px;"><img src="images/frontArrow.png" /></a>'
                     + '</div>'
                     + '</div>'
                     + '</div>';
             return html;
         },
-        showAudioOverlayTemplate: function () {
+        showAudioOverlayTemplate: function (resultObject) {
             console.log("in audio");
-            var html = '<div class="o-sub-content p-relative" style = "background-color:none;">'
-                    + '<div class="clr-fl">'
-                    + '<div style="float:left;" id="audioThumbNailView">'
-                    + '<div style="margin-bottom: 10px;height: 75px;width: 85px;margin-top: 10px;background: #fff;" class="">'
-                    + '<img src="images/voiceRecording.png" style="width:30px;position: relative;left: 25px;"/>'
-                    + '<p style="color:#939393;font-size:11px;position: relative;left: 13px;">Recording 1</p>'
-                    + '<p style="color:#939393;font-size:11px;position: relative;  left: 13px;">Feb 5th 2015</p>'
-                    + '</div>'
-                    + '<div style="margin-bottom: 10px;height: 75px;width: 85px;margin-top: 10px;background: #fff;">'
-                    + '<img src="images/voiceRecording.png" style="width:30px;position: relative;left: 25px;"/>'
-                    + '<p style="color:#939393;font-size:11px;position: relative;left: 13px;">Recording 2</p>'
-                    + '<p style="color:#939393;font-size:11px;position: relative;  left: 13px;">Feb 5th 2015</p>'
-                    + '</div>'
-                    + '<div style="margin-bottom: 10px;height: 75px;width: 85px;margin-top: 10px;background: #fff;">'
-                    + '<img src="images/voiceRecording.png" style="width:30px;position: relative;left: 25px;"/>'
-                    + '<p style="color:#939393;font-size:11px;position: relative;left: 13px;">Recording 3</p>'
-                    + '<p style="color:#939393;font-size:11px;position: relative;  left: 13px;">Feb 5th 2015</p>'
-                    + '</div>'
-                    + '<div style="margin-bottom: 10px;height: 75px;width: 85px;margin-top: 10px;background: #fff;">'
-                    + '<img src="images/voiceRecording.png" style="width:30px;position: relative;left: 25px;"/>'
-                    + '<p style="color:#939393;font-size:11px;position: relative;left: 13px;">Recording 4</p>'
-                    + '<p style="color:#939393;font-size:11px;position: relative;  left: 13px;">Feb 5th 2015</p>'
-                    + '</div>'
-                    + '</div>'
-                    + '<div id="slider-vertical" style="float:left;position: absolute;height: 332px;left: 96px;top: 10px;">'
-                    + '</div>'
-                    + '<div style="width: 75%;float: right;padding-top: 12px;padding-bottom: 10px;padding-right: 70px;padding-left: 15px;height: 310px;background: #fff;position: absolute;left: 110px;top: 10px;">'
-                    + '<p class="spanCLassElement t-left f-color-green opensans-regular" style="margin:0px">Recording 1<span  style="font-size:11px">,New jersy</span></p>'
-                    + '<p style="color:#939393;font-size:12px">Feb 5th 2015 12.50PM</p>'
-                    + '<div style="padding:30px;border-top: 1px solid #b9b8b8;margin-top: 17px;">'
-                    + '<audio id="music" preload="true">'
-                    + '<source src="http://www.alexkatz.me/codepen/music/interlude.mp3">'
-                    + '<source src="http://www.alexkatz.me/codepen/music/interlude.ogg">'
-                    + '</audio>'
-                    + '<div id="audioplayer">'
-                    + '<div style="display: inline-block;vertical-align: middle;background-color: #E6E6E6;">'
-                    + '<button id="pButton" class="play audioOverlay" data-type="playMainAudio"></button>'
-                    + '</div>'
-
-                    + '<div style="display: inline-block;vertical-align: middle;height: 30px;background-color: #E6E6E6;">'
-                    + '<div id="timeline">'
-                    + '<div id="playhead" style="margin-left: 0px;"></div>'
-                    + '</div>'
-                    + '</div>'
-
-                    + '<div style="display: inline-block;vertical-align: middle;height: 30px;background-color: #E6E6E6;margin-left: -4px;">'
-                    + '<div id="audioDuration" style="padding: 7px 10px;">00:26</div>'
-                    + '</div>'
-
-                    + '</div>'
-
+            var numberOfAudio = 0, thumbNailViewHTML = "", resultThumbNail = "", originalAudioFileHTML = "", resultOriginaAudioFile = "", sliderBar = "";
+            $.each(resultObject, function (i, element) {
+                console.log("in static method", element);
+                console.log("in static method", element.NoofAudioRecord);
+                console.log("Audio Details", element.AudioDetails);
+                numberOfAudio = element.NoofAudioRecord;
+                RESPONSE.AUDIODETAILS = element.AudioDetails;
+                //audioDetailsArray.push(element.AudioDetails);
+            });
+            console.log("audioDetailsArray", RESPONSE.AUDIODETAILS.length);
+            $.each(RESPONSE.AUDIODETAILS, function (i, element) {
+                console.log("media id", element.mediaId);
+                RESPONSE.MEDIAID.push(element.mediaId);
+                RESPONSE.AUDIOTEXT.push(element.fileName);
+                RESPONSE.TIMESTAMPAUDIO.push(element.timeStamp);
+                RESPONSE.AUDIOURLS.push(element.audioSourceURL);
+            });
+            console.log("RESPONSE.MEDIAID", RESPONSE.MEDIAID);
+            if (numberOfAudio > 5) {
+                sliderBar = '<div id="slider-vertical" style="float:left;position: absolute;height: 332px;left: 96px;top: 10px;">'
+                        + '</div>';
+            }
+            //numberOfAudio = 2;
+            for (var i = 1, j = 0; i <= numberOfAudio; i++, j++) {
+                console.log("in for loop");
+                thumbNailViewHTML = thumbNailViewHTML + '<div style="height: 75px;width: 85px;margin-top: 10px;background: #fff;cursor:pointer;" class="audioOverlay" data-type="thumbNail">'
+                        + '<img src="images/voiceRecording.png" style="max-width:30px;position: relative;left: 25px;"/>'
+                        + '<p style="color:#939393;font-size:11px;position: relative;left: 13px;" id="mediaID" name=' + RESPONSE.AUDIOURLS[j] + '>' + RESPONSE.MEDIAID[j] + '</p>'
+                        + '<p style="color:#939393;font-size:11px;position: relative;  left: 13px;">' + RESPONSE.TIMESTAMPAUDIO[j] + '</p>'
+                        + '</div>';
+            }
+            originalAudioFileHTML = originalAudioFileHTML + '<div style="width: 479px;float: right;padding-top: 12px;padding-bottom: 10px;padding-right: 70px;padding-left: 15px;height: 310px;background: #fff;position: fixed;left: 108px;top: 9px;" id="originalAudio">'
                     + '<div>'
-                    + '<div class="voice-ctrler">'
-                    + '<div>prev</div><div><button id="pButton2" class="play audioOverlay" data-type="playAudio"></button></div><div>next</div>'
+                    + '<p class="spanCLassElement t-left f-color-green opensans-regular" style="margin:0px">' + RESPONSE.AUDIOTEXT[0] + '<span  style="font-size:11px">,New jersy</span></p>'
+                    + '<p style="color:#939393;font-size:12px">' + RESPONSE.TIMESTAMPAUDIO[0] + '</p>'
                     + '</div>'
+                    + '<div style="padding:30px;border-top: 1px solid #b9b8b8;margin-top: 10px;width: 476px;">'
+                    + '<audio id="music" preload="none" controls style="position: relative;left: 75px;top: 25px;">'
+                    + '<source src=' + RESPONSE.AUDIOURLS[0] + '>'
+                    + '<source src=' + RESPONSE.AUDIOURLS[0] + '>'
+                    + '</audio>'
                     + '</div>'
-
+                    + '</div>';
+            resultThumbNail = thumbNailViewHTML;
+            resultOriginaAudioFile = originalAudioFileHTML;
+            console.log("resultThumbNail", resultThumbNail);
+            var html = '<div class="o-sub-content p-relative" style = "background-color:none;">'
+                    + '<div>'
+                    + '<div style="float:left;" id="audioThumbNailView">'
+                    + resultThumbNail
                     + '</div>'
-                    + '</div>'
+                    + sliderBar
+                    + resultOriginaAudioFile
                     + '</div>'
                     + '</div>';
             return html;
         },
+        showDocumentOverlayTemplate: function (resultObject) {
+            var resultThumbNail = "", noofDocuments = 0, sliderBar = "", resultDocumentFile = "", documentThumbNailViewHTML = "", originalImageHTML = "", imageTextSavePrintHTML = "";
+            $.each(resultObject, function (i, element) {
+                console.log("in static method", element);
+                console.log("Audio Details", element.OtherPartyDetails);
+                noofDocuments = element.NoofOtherPartyRecord;
+                console.log("noofDocuments", noofDocuments);
+                RESPONSE.OTHERPARTYDETAILS = element.OtherPartyDetails;
+                //audioDetailsArray.push(element.AudioDetails);
+            });
+            console.log("RESPONSE.OTHERPARTYDETAILS", RESPONSE.OTHERPARTYDETAILS.length);
+            $.each(RESPONSE.OTHERPARTYDETAILS, function (i, element) {
+                console.log("media id", element.fileName);
+                RESPONSE.OTHERPARTYIDS.push(element.otherPartyId);
+                RESPONSE.NAMES.push(element.fileName);
+                RESPONSE.ROLE.push(element.role);
+                RESPONSE.PHONE.push(element.phone.number);
+                RESPONSE.ADDRESS.push(element.address.address);
+                RESPONSE.INSURANCECO.push(element.carrier);
+                RESPONSE.POLICY.push(element.policyNumber);
+                RESPONSE.VEHICLENO.push(element.vehicleIdentificationNumber);
+                RESPONSE.VEHICLEMODEL.push(element.model);
+                RESPONSE.DRIVINGLICENCESTATE.push(element.driverLicenseState);
+                RESPONSE.DRIVINGLICENCENUMBER.push(element.driverLicenseNumber);
+                RESPONSE.INJURIES.push(element.injuries);
+                RESPONSE.OTHERINFORMATION.push(element.otherInformation);
+            });
+            if (noofDocuments > 5) {
+                sliderBar = '<div id="slider-vertical" style="float:left;position: absolute;height: 332px;left: 96px;top: 10px;">'
+                        + '</div>';
+            }
+            for (var i = 1, j = 0; i <= noofDocuments; i++, j++) {
+                console.log("in for loop");
+                documentThumbNailViewHTML = documentThumbNailViewHTML
+                        + '<div style="padding: 0px;margin: 0px;width: 99px;height: 100px;margin-bottom: 10px;background: #fff;cursor:pointer;" class="overlayDocs" data-type="thumbNail"><p style="text-align: center;padding-top: 33px;">' + RESPONSE.NAMES[j] + '</p></div>';
+            }
+            docTextSavePrintHTML = '<span class="spanCLassElement t-left f-color-green opensans-regular" style="margin:0px">' + RESPONSE.NAMES[0] + '</span>';
+            originalDocumentHTML = '<div class="leftDiv">'
+                    + '<p>'
+                    + '<span class="firstSpan">Name</span>'
+                    + '<span class="secondSpan">' + RESPONSE.NAMES[0] + '</span>'
+                    + '</p>'
+                    + '<p>'
+                    + '<span class="firstSpan">Role</span>'
+                    + '<span class="secondSpan">' + RESPONSE.ROLE[0] + '</span>'
+                    + '</p>'
+                    + '<p>'
+                    + '<span class="firstSpan">Phone</span>'
+                    + '<span class="secondSpan">' + RESPONSE.PHONE[0] + '</span>'
+                    + '</p>'
+                    + '<p>'
+                    + '<span class="firstSpan">Address</span>'
+                    + '<span class="secondSpan">' + RESPONSE.ADDRESS[0] + '</span>'
+                    + '</p>'
+                    + '<p>'
+                    + '<span class="firstSpan">Insurance co</span>'
+                    + '<span class="secondSpan">' + RESPONSE.INSURANCECO[0] + '</span>'
+                    + '</p>'
+                    + '<p>'
+                    + '<span class="firstSpan">Policy #</span>'
+                    + '<span class="secondSpan">' + RESPONSE.POLICY[0] + '</span>'
+                    + '</p>'
+                    + '<p>'
+                    + '<span class="firstSpan">Auto Yr/make/model</span>'
+                    + '<span class="secondSpan">' + RESPONSE.VEHICLEMODEL[0] + '</span>'
+                    + '</p>'
+                    + '<p>'
+                    + '<span class="firstSpan">Auto License plate state & Number</span>'
+                    + '<span class="secondSpan">' + RESPONSE.VEHICLENO[0] + '</span>'
+                    + '</p>'
+                    + '<p>'
+                    + '<span class="firstSpan">Drivers License State</span>'
+                    + '<span class="secondSpan">' + RESPONSE.DRIVINGLICENCESTATE[0] + '</span>'
+                    + '</p>'
+                    + '<p>'
+                    + '<span class="firstSpan">Drivers License Number</span>'
+                    + '<span class="secondSpan">' + RESPONSE.DRIVINGLICENCENUMBER[0] + '</span>'
+                    + '</p>'
+                    + '<p>'
+                    + '<span class="firstSpan">Injuries</span>'
+                    + '<span class="secondSpan">' + RESPONSE.INJURIES[0] + '</span>'
+                    + '</p>'
+                    + '<p>'
+                    + '<span class="firstSpan">Other info</span>'
+                    + '<span class="secondSpan">' + RESPONSE.OTHERINFORMATION[0] + '</span>'
+                    + '</p>'
+                    + '</div>';
+            var html = '<div class="o-sub-content p-relative">'
+                    + '<div>'
+                    + '<div id="thumbNailDocs">'
+                    + documentThumbNailViewHTML
+                    + '</div>'
+                    + '</div>'
+                    + sliderBar
+                    + '<div style="width: 80%;float:left;padding:10px 0px;height: 400px;position: fixed;left: 120px;top: 15px;background: #fff;">'
+                    + '<div style="border-bottom: 1px solid #b9b8b8;position: absolute;padding-bottom: 15px;left: 16px;width: 485px;" id="docinformation">'
+                    + docTextSavePrintHTML
+                    + '<img src="images/saveImage.png" style="width:20px;height:20px;position: absolute;right: 170px;"/>'
+                    + '<img src="images/printImage.png" style="width:20px;height:20px;position: absolute;right: 135px;"/>'
+                    + '</div>'
+                    + '<div id="originalDocDIV">'
+                    + originalDocumentHTML
+                    + '</div>'
+                    + '</div>';
+            return html;
+            /* var html = '<div class="o-sub-content p-relative" style = "background-color:none;">'
+             + '<div>'
+             + '<div style="float:left;" id="audioThumbNailView">'
+             + documentThumbNailViewHTML
+             + '</div>'
+             + sliderBar
+             + resultDocumentFile
+             + '</div>'
+             + '</div>';
+             return html; */
+        },
         /*Added by Naveen - End */
-        
-        //ADDED BY MANOJ FRIDAY 16 2015---->STARTS HERE
+
+        //ADDED BY MANOJ FRIDAY 17 2015---->STARTS HERE
 
         shareWithRepTemplate: function () {
             var html = ' <h2 class="t-left f-color-green opensans-regular" style="">Share with Representatives</h2>'
-                    + ' <div class="o-sub-content p-relative"> <div class="text-box-outer p-relative textBox-placeholder-italic"> <input type="search"'
-                    + 'class="opensans-regular"  id="id-overlaysharewithrep"   onkeyup="onKeyPressEventshareWithRep(\'id-overlaysharewithrep\')" placeholder="Search.." /> <div class="c-search-icon search-icon sprite-im  p-absolute"></div></div> <div class="range-box clr-fl"> <div class="opensans-regular'
+                    + ' <div class="o-sub-content p-relative"> <div class="success" style=" display:none; color: green;"></div><div class="error" style=" display:none; color: red;"></div><div class="text-box-outer p-relative textBox-placeholder-italic"> <input type="search"'
+                    + 'class="opensans-regular"  id="id-overlaysharewithrep"  placeholder="Search.." onkeyup="sharewithrepkeyup(event)"  onkeypress="sharewithrepkeypress(event)" /> <div id="id-sharewithrepsearchicon" class="c-search-icon search-icon sprite-im  p-absolute"></div></div> <div class="range-box clr-fl"> <div class="opensans-regular'
                     + 'f-sz-14 range-color left f-italic range-title">Select Range</div> <div class="text-box-outer p-relative textBox-placeholder-italic left range-sel1">'
                     + '<select id="timepicker" class="none-1 opensans-regular left" onchange="Sharewithrep_sortbyBox1()"> <option selected> None </option> <option>Alphabetical</option> <option>City,State</option> </select>  '
                     + '<div class="drop-down-icon-1 sprite-im drop-down-icon dropdown-icon p-absolute"></div> </div> <div class="text-box-outer '
@@ -451,7 +588,7 @@ var staticTemplate = {
         assignCustomersTemplate: function (e) {
             var html = ' <h2 class="t-left f-color-green opensans-regular" style="">Assign Customers</h2>'
                     + ' <div class="o-sub-content p-relative"> <div class="text-box-outer p-relative textBox-placeholder-italic"> <input type="search"'
-                    + 'class="opensans-regular"  id="id-overlayaiigncustomers"   onkeyup="onKeyPressEventAssignCustomers(\'id-overlayaiigncustomers\')" placeholder="Search.." /> <div class="c-search-icon search-icon sprite-im  p-absolute"></div></div> <div class="range-box clr-fl"> <div class="opensans-regular'
+                    + 'class="opensans-regular"  id="id-overlayaiigncustomers"   onkeyup="onKeyPressEventAssignCustomers(\'id-overlayaiigncustomers\')" placeholder="Search.." /> <div id="id-assignCustomersSearchIcon" class="c-search-icon search-icon sprite-im  p-absolute" ></div></div> <div class="range-box clr-fl"> <div class="opensans-regular'
                     + 'f-sz-14 range-color left f-italic range-title">Select Range</div> <div class="text-box-outer p-relative textBox-placeholder-italic left range-sel1">'
                     + '<select id="timepicker" class="none-1 opensans-regular left" onchange="sortbyBox1()"> <option selected> None </option> <option>Alphabetical</option> <option>City,State</option> </select>  '
                     + '<div class="drop-down-icon-1 sprite-im drop-down-icon dropdown-icon p-absolute"></div> </div> <div class="text-box-outer '
@@ -825,7 +962,7 @@ var staticTemplate = {
 
         },
         staticMyProfileViewTemplate: function () {
-            var html = '<div class="agenyparent-class bg-color-white"> <div class="p-relative"> <div class="agenyleft-profile inline-block v-align-mid p-relative"> <div class="agenyleft-image border-all"> <div class="overflow-hidden"> <div class="agenypic-info"> <img src="http://devilsworkshop.org/files/2013/01/enlarged-facebook-profile-picture.jpg" alt="" class="ageny-img-width"> </div> <div class="v-align-mid opensans-regular text-color-overlay f-sz-12 p-relative"> <div class="sprite-im calendar-icon inline-block">&nbsp;</div> <div class="t-upper inline-block">Change Image</div> </div> </div> </div> </div> <div class="agenyright-profile inline-block v-align-mid"> <div class="agenyparent-block"> <div class ="agenyinternal-block"> <div class="agenygroup-block border-bot opensans-regular"> <div class="agenychild-block"> <div class="agenytitle-block inline-block p-relative">Name</div> <div class="agenycontent-block inline-block p-relative">James Jeo</div> </div> </div> <div class="agenygroup-block border-bot opensans-regular"> <div class="agenychild-block"> <div class="agenytitle-block inline-block p-relative">Phone</div> <div class="agenycontent-block inline-block p-relative">(415) 994-0000</div> </div> </div> <div class="agenygroup-block border-bot opensans-regular"> <div class="agenychild-block"> <div class="agenytitle-block inline-block p-relative">Email</div> <div class="agenycontent-block inline-block p-relative">james.j@mail.com</div> </div> </div> </div> </div> </div> </div> </div>';
+            var html = '<div class="agenyparent-class bg-color-white"> <div class="p-relative"> <form> <div class="agenyleft-profile inline-block v-align-mid p-relative"> <div class="agenyleft-image"> <div class="overflow-hidden"> <div class="agenypic-info"> <img src="http://devilsworkshop.org/files/2013/01/enlarged-facebook-profile-picture.jpg" alt="" class="ageny-img-width"> </div><div class="v-align-mid opensans-regular text-color-overlay f-sz-12 p-relative" style="padding:0px 25px;"> <div class="sprite-im profcamera-icon inline-block"> &nbsp; </div><div class="t-upper inline-block"> Change Image </div><input type="file" name="agency-prof-img" id="agency-prof-img" onchange="readURL(this);"/> </div></div></div></div><div class="agenyright-profile inline-block v-align-mid"> <div class="agenyparent-block"> <div class="agenyinternal-block"> <div class="agenygroup-block border-bot opensans-regular"> <div class="agenychild-block"> <div class="agenytitle-block inline-block p-relative"> Name </div><div class="agenycontent-block inline-block p-relative"> <span class="profile-result-cls" id="nameview"> ' + localStorage.agencyName + ' </span> </div><input type="text" name="profileName" value="" class="agencyprofinput" id="namenew"> </div></div><div class="agenygroup-block border-bot opensans-regular"> <div class="agenychild-block"> <div class="agenytitle-block inline-block p-relative" > Phone </div><div class="agenycontent-block inline-block p-relative"> <span class="profile-result-cls" id="phoneview"> ' + localStorage.agencyPhone + ' </span> </div><input type="text" name="profileName" value="" class="agencyprofinput" id="phonenew"> </div></div><div class="agenygroup-block border-bot opensans-regular"> <div class="agenychild-block"> <div class="agenytitle-block inline-block p-relative"> Email </div><div class="agenycontent-block inline-block p-relative"> <span class="profile-result-cls" id="emailview"> ' + localStorage.agencyEmail + ' </span> </div><input type="text" name="profileName" value="" class="agencyprofinput" id="emailnew"> </div></div></div></div></div></form> </div></div>';
             return html;
         }
     },

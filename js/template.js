@@ -49,14 +49,22 @@ var template = {
     /*Naveen 16-2-2015 changes Start */
     feedsTemplateHTML: function () {
         //console.log("dynamic-feed",a)
-        var leftSideFeedHTML = "", rightSideFeedHTML = "", html = "";
+        var leftSideFeedHTML = "", rightSideFeedHTML = "", html = "", innereachCount = 0, outereachCount = 0;
+        var otherPartyRecords = 0, otherPartyAudioRecords = 0, otherPartyPicRecords = 0, totalHTML = "";
         var profilePicture = "http://www.deshow.net/d/file/animal/2009-05/animal-pictures-pet-photography-557-4.jpg";
-        console.log("RESPONSE.LEFTSIDEFEED", RESPONSE.LEFTSIDEFEED);
-        console.log("RESPONSE.RIGHTSIDEFEED", RESPONSE.RIGHTSIDEFEED);
+        //console.log("RESPONSE.LEFTSIDEFEED", RESPONSE.LEFTSIDEFEED);
+        //console.log("RESPONSE.RIGHTSIDEFEED", RESPONSE.RIGHTSIDEFEED);
+        $(".container").addClass("container");
+        $(".container").removeClass("container-maxwidth");
+        $(".content-holder").empty();
         $.each(RESPONSE.LEFTSIDEFEED, function (index, leftSideFeed) {
-            console.log("leftSideFeed", leftSideFeed);
-            var alertDate = leftSideFeed.alertDate;
+            //console.log("leftSideFeed", leftSideFeed);
+            outereachCount++;
+            console.log("outereachCount", outereachCount);
+            var alertDate = leftSideFeed.alertDetails.alertDate;
+            console.log("alertDate", alertDate);
             var alertTime = moment(Number(alertDate)).format('h:mmA');
+            console.log("alertTime", alertTime);
             var bDay = leftSideFeed.userDetails.birthDate;
             var bDate = moment(bDay).format('ll');
             var feedUserEmail = leftSideFeed.userDetails.emailId.email;
@@ -123,13 +131,15 @@ var template = {
                     + '</div>'
                     + '</div>'
                     + '</div>';
-            console.log("leftSideFeedHTML", leftSideFeedHTML);
+            //console.log("leftSideFeedHTML", leftSideFeedHTML);
             $.each(RESPONSE.RIGHTSIDEFEED, function (index, rightSideFeed) {
-                console.log("inner each");
-                var otherPartyRecords = 0, otherPartyAudioRecords = 0, otherPartyPicRecords = 0;
-                console.log("leftSideFeed.alertDetails.alertId", leftSideFeed.alertDetails.alertId);
-                console.log("rightSideFeed.alertId", rightSideFeed.alertId);
+                //console.log("inner each");
+                //console.log("leftSideFeed.alertDetails.alertId", leftSideFeed.alertDetails.alertId);
+                //console.log("rightSideFeed.alertId", rightSideFeed.alertId);
+                //console.log("rightSideFeed.alertId", leftSideFeed.alertDetails.type);
                 if ((leftSideFeed.alertDetails.alertId == rightSideFeed.alertId) && leftSideFeed.alertDetails.type !== "policyalert") {
+                    innereachCount++;
+                    console.log("innereachCount", innereachCount);
                     console.log("rightSideFeed.NoofOtherPartyRecord", rightSideFeed.NoofOtherPartyRecord);
                     console.log("rightSideFeed.NoofPictureRecord", rightSideFeed.NoofPictureRecord);
                     console.log("rightSideFeed.NoofAudioRecord", rightSideFeed.NoofAudioRecord);
@@ -149,6 +159,7 @@ var template = {
                     } else {
                         otherPartyAudioRecords = rightSideFeed.NoofAudioRecord;
                     }
+
                     rightSideFeedHTML = leftSideFeedHTML + '<div class="rg-block left p-relative">'
                             + '<div class="feed-det bg-color-dblue p-relative">'
                             + '<div class="feed-docs-pad p-relative docs-block t-center">'
@@ -182,16 +193,43 @@ var template = {
                             + '</div>'
                             + '</div>'
                             + '</div>';
-                    console.log("rightSideFeedHTML", rightSideFeedHTML);
-                } else {
-                    rightSideFeedHTML = leftSideFeedHTML + "";
+                    template.showHomePageInfo(rightSideFeedHTML);
+                    //console.log("rightSideFeedHTML", rightSideFeedHTML);
+                } else if ((leftSideFeed.alertDetails.alertId == rightSideFeed.alertId) && leftSideFeed.alertDetails.type == "policyalert") {
+                    console.log("else block");
+                    rightSideFeedHTML = leftSideFeedHTML + '<div class="rg-block left p-relative">'
+                            + '<div class="feed-det bg-color-dblue p-relative">'
+                            + '<div class="feed-docs-pad p-relative docs-block t-center">'
+                            + '<a href="/changecoverage" class="snap feed-addRemove-block inline-block v-align-mid f-sz-14 opensans-regular f-color-green changeCoverage p-relative" data-type="changeCoverage">'
+                            + '<div class="t-center">'
+                            + '<div class="sprite-im inline-block v-align-mid message-green-icon">&nbsp;</div>'
+                            + '<span class="feed-addRemove-text inline-block v-align-mid t-caps">' + leftSideFeed.alertDetails.policyChange + '</span>'
+                            + '</div>'
+                            + '</a>'
+                            + '</div>'
+                            + '</div>'
+                            + '</div>';
+                    template.showHomePageInfo(rightSideFeedHTML);
                 }
+                //totalHTML = totalHTML+rightSideFeedHTML;
             });
-
+            /* html = html+'<div class="feed-block clr-fl">'
+             +rightSideFeedHTML
+             + '</div>'
+             //console.log("html",html); */
         });
-        return html;
-
+        //return html;
+        protocall.displaySpinner(false);
+        protocall.displaySpinnerForAlerts(false);
     },
+    showHomePageInfo: function (rightSideFeedHTML) {
+        console.log("showHomePageInfo");
+        var html = '<div id="loadingAlerts" style="display:none;">Loading . . . </div><div class="feed-block clr-fl">'
+                + rightSideFeedHTML
+                + '</div>';
+        $(".content-holder").append($(html));
+    },
+    /*Naveen 16-2-2015 changes End */
     /*Naveen 16-2-2015 changes End */
     CarrierfeedsTemplateHTML: function (c) {
         // console.log(cus)
@@ -271,7 +309,8 @@ var template = {
         return html;
     },
     GetarchiveMenu: function () {
-        var html = '<div class="mb-submenu-in p-relative"><div class="tab-rb-submenu inline-block v-align-mid"><div class="p-relative "><a href="/myalerts" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light myalerts p-relative selected-tab" data-type="page" data-submenu="myalerts"><span class="submenu-title t-caps f-color-w">My Alerts</span><span class="cnt-blk">(<span class="cnt-no">24</span>)</span></a><a href="/incidents" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light incidents p-relative" data-type="page" data-submenu="incidents"><div class="submenu-title t-caps inline-block f-color-w v-align-mid">incidents</div></a><a href="/policies" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light policies p-relative" data-type="page" data-submenu="policies"><span class="submenu-title t-caps f-color-w">Policies</span></a><a href="/policies" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light policies p-relative" data-type="page" data-submenu="archives"><span class="submenu-title t-caps f-color-w">Archives</span></a><a href="/policies" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light policies p-relative" data-type="page" data-submenu="view_archives"><span class="submenu-title t-caps f-color-w">View Archived</span></a><div href="#" class="snap submenu-sort right f-sz-16 ptsans-light p-relative" data-type="page" data-submenu="sortby"><div class="sort-text f-italic">Sort by</div><div class="sprite-im drop-down-icon submenu-drop-icon">&nbsp;</div></div></div><div class="clear"></div></div></div>';
+        console.log("GetarchiveMenu", RESPONSE.LEFTSIDEFEED.length);
+        var html = '<div class="mb-submenu-in p-relative"><div class="tab-rb-submenu inline-block v-align-mid"><div class="p-relative "><a href="/myalerts" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light myalerts p-relative selected-tab" data-type="page" data-submenu="myalerts"><span class="submenu-title t-caps f-color-w">My Alerts</span><span class="cnt-blk">(<span class="cnt-no">' + RESPONSE.LEFTSIDEFEED.length + '</span>)</span></a><a href="/incidents" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light incidents p-relative" data-type="page" data-submenu="incidents"><div class="submenu-title t-caps inline-block f-color-w v-align-mid">incidents</div></a><a href="/policies" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light policies p-relative" data-type="page" data-submenu="policies"><span class="submenu-title t-caps f-color-w">Policies</span></a><a href="/policies" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light policies p-relative" data-type="page" data-submenu="archives"><span class="submenu-title t-caps f-color-w">Archives</span></a><a href="/policies" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light policies p-relative" data-type="page" data-submenu="view_archives"><span class="submenu-title t-caps f-color-w">View Archived</span></a><div href="#" class="snap submenu-sort right f-sz-16 ptsans-light p-relative" data-type="page" data-submenu="sortby"><div class="sort-text f-italic">Sort by</div><div class="sprite-im drop-down-icon submenu-drop-icon">&nbsp;</div></div></div><div class="clear"></div></div></div>';
         return html;
     }
 

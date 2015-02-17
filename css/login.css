@@ -1,7 +1,7 @@
 .login-logo{margin:auto;text-align:center;margin-top:100px;}
-.login-type-box1{display:inline-block;width:200px;height:350px;vertical-align:middle;}
-.login-type-box2{display:inline-block;width:400px;height:350px;vertical-align:middle;background:white;margin-left:-4px;}
-.ctrl-login-box{width: 50%;margin:auto;padding-top:40px;min-height:400px;}
+.login-type-box1{display:inline-block;width:25%;height:350px;vertical-align:middle;}
+.login-type-box2{display:inline-block;width:50%;height:350px;vertical-align:middle;background:white;margin-left:-4px;}
+.ctrl-login-box{width: 75%;margin:auto;padding-top:40px;min-height:400px;}
 .mylistbox{padding: 15px 0px;
 background: lightgray;margin-bottom:10px;text-align:center;color:white;cursor:pointer;}
 .login-head{color: #f34f4e;text-align: center;padding: 20px 0px;}
@@ -27,3 +27,5 @@ background: lightgray;margin-bottom:10px;text-align:center;color:white;cursor:po
 font-weight: bold;}
 
 .login-error{padding: 0px 20px;color: red;text-align: center;}
+
+.resetpassword-text{padding:15px 0px;}

@@ -1174,20 +1174,27 @@ input[type=checkbox]:checked + .feed-label:before {
     padding: 10px;
 }
 .agenyleft-profile{
-    width: 10%;
+    width: 15%;
     margin-right: 25px;
+    
 }
 .agenyleft-image{
     padding: 5px;
+    height: 100%;
+    width: 170px;
+    background: #c8d2d5;
+    min-height: 170px;
 }
+
 .agenyright-profile{
-    width: 85%;
+    width: 80%;
     position: relative;
 }
 .agenytitle-block{
     color: #989898;
     font-size: 16px;
     margin-right: 15px;
+    min-width:60px;
 }
 .agenycontent-block{
 
@@ -1199,9 +1206,9 @@ input[type=checkbox]:checked + .feed-label:before {
     border: none;
 }
 .agenypic-info{
-    width: 108px;
     position: relative;
     overflow: hidden;
+    padding: 10px;
 }
 .agency-img-width{
     width:100%;
@@ -1218,7 +1225,7 @@ input[type=checkbox]:checked + .feed-label:before {
 }
 .carrier-logo{
     width: 100%;
-    min-height: 176px;
+  min-height: 176px;
 }
 .carrier-info{
     width: 100%;
@@ -1252,7 +1259,7 @@ input[type=checkbox]:checked + .feed-label:before {
     position: relative;
     overflow: hidden;
     margin: auto;
-    padding: 5px 0px;
+	padding: 5px 0px;
 }
 .carrier-img-width{
     width:100%;
@@ -1298,11 +1305,11 @@ input[type=checkbox]:checked + .feed-label:before {
 }
 .carrier-logo{
     width: 100%;
-    min-height: 176px;
+   min-height: 176px;
 }
 .carrier-info{
     width: 100%;
-    min-height: 71px;
+   min-height: 71px;
 }
 .carrier-name{
     color: #989898;
@@ -1467,7 +1474,6 @@ input[type=checkbox]:checked + .feed-label:before {
     font-size: 16px;
     margin-right: 15px;
     color: black;
-    /* top: -1px; */
 }
 .carrier-left-content-textbox{
     width:45%;
@@ -1478,7 +1484,6 @@ input[type=checkbox]:checked + .feed-label:before {
     margin-left: 6%;
     /* margin-bottom: -40px; */
     border: 1px solid #CCC;
-    /* top: -7px; */
 }
 .carrier-view-rightblock{
     width:74%;
@@ -2565,7 +2570,19 @@ textarea::-webkit-input-placeholder {  color: #999;}
     margin-bottom: 70px;
 }
 
+.profcamera-icon{background-position: -73px -586px;
+width: 25px;
+height: 20px;}
 
+#agency-prof-img{
+position: absolute;
+opacity: 0;
+height: 100%;
+width: 100%;
+top: 0px;
+left: 0px;
+cursor: pointer;
+}
 
 .text-box-outer{
     height: 40px;
@@ -2627,11 +2644,11 @@ textarea::-webkit-input-placeholder {  color: #999;}
     margin-right: 15px;
 }
 .range-sel1 {
-    width: 175px;
+    width: 31%;
     margin: 0px 19px 0px 0px;
 }
 .range-sel2 {
-    width: 347px;
+    width: 49%;
     margin:0px 0px;
     margin-left: 2px;
 }
@@ -2779,14 +2796,14 @@ textarea::-webkit-input-placeholder {  color: #999;}
     border: 1px solid red;
 }
 
-#thumbNailImages ul li a{
-    width: 48px;
-    height: 48px;
-}
-
-#thumbNailImages ul li a img{
+#thumbNailImages img{
     max-width: 100%;
     max-height: 100%;
+}
+
+#thumbNailImages{
+    position: fixed;
+    top: 15px;
 }
 
 #viewingImage{
@@ -2801,8 +2818,54 @@ textarea::-webkit-input-placeholder {  color: #999;}
     max-width: 100%;
     max-height: 100%;
 }
+#thumbNailDocs{
+	float: left;
+	position: relative;
+	top: 15px;
+}
 
+#originalDocDIV{
+	width: 100%;
+	position: relative;
+	top: 50px;
+	left: 10px;
+	height: 100%;
+}
 
+.leftDiv p {
+	padding-bottom : 10px;
+}
+
+.leftDiv p span{
+	color: #585858;
+	font-family: 'OpenSansRegular';
+	font-size: 13px;
+}
+
+.firstSpan {
+	float: left;
+	width: 45%;
+	text-align: right;
+}
+
+.secondSpan{
+	position: relative;
+	left: 20px;
+}
+
+.modal {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     50%;
+    width:      50%;
+    background: rgba( 255, 255, 255, .8 ) 
+                url('http://i.stack.imgur.com/FhHRx.gif') 
+                50% 50% 
+                no-repeat;
+}
 
 /**************** Overlay Contents ***********************/
 
@@ -2885,4 +2948,11 @@ footer  .foot-in{
 .feed-user-det-b .bot-b .feed-date, .feed-user-det-b .bot-b .feed-location, .feed-user-det-b .bot-b .cust-phone, .feed-user-det-b .bot-b .cust-email{
     margin: 0px 12px;
 }
+
+
+
+
+.agencyprofinput{border: solid 1px lightgrey;color: black;width: 40%;display:none;}
+
+
 
