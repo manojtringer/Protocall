@@ -22,7 +22,7 @@ var CONSTANTS = {
         ASSIGN_TO_REPS: "assignrep", PHOTS_OVERLAY_DISPLAY: "photosDoc", THUMB_NAIL: "thumbNail", PREVIOUS: "previous", NEXT: "next", VIEW_CARRIER_FEEDVIEW: "viewcarrierfeedview", PUSHMESSAGE: "pushmessage", PRIVACY: "privacy", ARCHIVES: "archives", VIEW_ARCHIVES: "view_archives", SORTBY: "sortby", MY_PROFILE: "profile-link", VIEW_CUSTOMER_FEEDVIEW: "customerprofileviewfeed", SETTINGS_PAGE: "mysettings", PROFILE_PAGE: "myProfileView", SENDAPPLINK: "sendapplink", AUDIO_OVERLAY: "voiceDoc", AUDIO_PLAY: "playAudio", AGENCY_VIEW_LOAD: "agency-view-load", PREFERRED_VENDOE_VIEW_LOAD: "preferred vendors-view-load", AGENCY_EDIT_LOAD: "agency-edit-load", AGENCY_REMOVE_LOAD: "agency-remove-load", AGENCY_ADD_VENDOR_LOAD: "agency-addvendor-load", VENDOR_PROFILE_INFO: "vendor-profile-info",
         ASSIGN_TO_CUSTOMERS: "dt-assigncustomer", PROPERTY_POLICY: "dt-propertypolicy", HEALTH_POLICY: "dt-healthpolicy",
         VEHICLE_POLICY: "dt-vehiclepolicy", RESETPASSWORD: "dtresetpassword", SIGNUP: "dtsignup", OVERLAY_RESETPASSALERTBOX: "dtoverlayresetpassword",
-        EDITPASSWORDYES: "dtoverlayrestpassyes", EDITPASSWORDNO: "dtoverlayrestpassno"
+        EDITPASSWORDYES: "dtoverlayrestpassyes", EDITPASSWORDNO: "dtoverlayrestpassno", BUTTON_ASSIGNCUSTOMERS: "dt_overlaybtn_assigncustomers"
     },
     ERROR_MSG: {
         ajaxFailed: "Oops! This action could not be completed now! Please try again"
@@ -45,6 +45,36 @@ var ENDPOINT = {
     AGENCY_DASHBOARD_DESIGN: "agencydashboarddesign",
     GIVE_RECORDED_BY_USER: "giverecordedbyuser"
 };
+/*Naveen 16-2-2015 changes Start */
+var RESPONSE = {
+    RESULTOBJECT: {},
+    AUDIODETAILS: [],
+    MEDIAID: [],
+    PICTUREDETAILS: [],
+    IMAGEURLS: [],
+    IMGETEXT: [],
+    MEDIAIDFORPICTURE: [],
+    AUDIOTEXT: [],
+    TIMESTAMPAUDIO: [],
+    AUDIOURLS: [],
+    OTHERPARTYDETAILS: [],
+    NAMES: [],
+    ROLE: [],
+    PHONE: [],
+    ADDRESS: [],
+    INSURANCECO: [],
+    POLICY: [],
+    VEHICLENO: [],
+    VEHICLEMODEL: [],
+    DRIVINGLICENCESTATE: [],
+    DRIVINGLICENCENUMBER: [],
+    INJURIES: [],
+    OTHERINFORMATION: [],
+    OTHERPARTYIDS: [],
+    LEFTSIDEFEED: [],
+    RIGHTSIDEFEED: []
+};
+/*Naveen 16-2-2015 changes End */
 //API
 ProfileAPI = 'https://proto-call-test.appspot.com/file/'
 //PAGE NAMES
@@ -431,6 +461,7 @@ protocall.events = {
         var type = $el.data("type") ? $el.data("type") : null;
         var page = $el.data("page") ? $el.data("page") : null;
         var subMenu = $el.data("submenu") ? $el.data("submenu") : null;
+
         if (!type)
             return;
         switch (type) {
@@ -608,6 +639,9 @@ protocall.events = {
                 break;
             case CONSTANTS.LINK_TYPE.EDITPASSWORDNO:
                 protocall.closeOverlay();
+                break;
+            case CONSTANTS.LINK_TYPE.BUTTON_ASSIGNCUSTOMERS:
+                utils.server.submitAssignCustomersData();
                 break;
             default:
                 break;
@@ -886,11 +920,16 @@ protocall.view = {
                 + '<div class="prof-view-overlay">Help</div><div class="prof-view-overlay snap" data-type="logout-yes">Log out</div></div>';
         popUpContent.togglePopUpContent($el, html);
     },
-    shareToRep: function () {
-        var html = staticTemplate.home.shareWithRepTemplate();
-        overlay.displayOverlay(html);
-    },
     //ADDED BY MANOJ FRIDAY 13 2015---->STARTS HERE
+    shareToRep: function () {
+        protocall.displaySpinner(true);
+        var page = "pagesharewithrepoverlay";
+        var data = {};
+        var callback = utils.server.gotShareWithRepResponse;
+        var deepPath = "agencyrepresentativenamewithlocation";
+        utils.server.makeServerCall(page, data, callback, deepPath);
+
+    },
     assignToCustomers: function () {
         protocall.displaySpinner(true);
         var page = "pageassigncustomersoverlay";
@@ -1406,61 +1445,47 @@ protocall.home = {
         $(".c_resetpassword").fadeIn("slow");
         $(".c_resetpassword").fadeIn(3000);
     },
+    /*Naveen 16-2-2015 changes Start */
     loadHomePageData: function (data, page) {
+        console.log("data in home", data);
+        console.log("status", data.resultMap.TypeCode);
 
-        // console.log(data, page);
-        //console.log(data.result.resultObject.length);
-        var feedHTML = "";
-        //console.log("datalength",data.resultMap.userTab.length);
-        if (data.result.resultObject.length != null && data.result.resultObject.length != "") {
-            var result = data.result.resultObject;
-            //console.log(result)
-            for (var r = 0; r < result.length; r++) {
+        if (data.resultMap.TypeCode == "4011") {
+            var alertIDS = [];
+            if (data !== "undefined" && data.result !== "undefined" && data.result.resultObject !== "undefined") {
+                $.each(data.result.resultObject, function (index, resultObj) {
+                    console.log("resultObj", resultObj);
+                    RESPONSE.LEFTSIDEFEED.push(resultObj);
+                    alertIDS.push(resultObj.alertDetails.alertId);
 
-                var a = result[r];
-                //console.log(a)
-                if (a.userDetails.profilePicture == undefined)
-
-                {
-
-                    profilePicture = "http://www.deshow.net/d/file/animal/2009-05/animal-pictures-pet-photography-557-4.jpg";
-
-                } else {
-
-                    var profilePath = a.userDetails.profilePicture;
-                    profilePicture = ProfileAPI + profilePath;
-                    //console.log(pic)
-                    //profilePicture "pic/profilePicture";
-                    //console.log(profilePicture);
-                }
-                if (a.userDetails.emailId == undefined) {
-                    feedUserEmail = ' ';
-
-                } else {
-                    feedUserEmail = a.userDetails.emailId.email;
-
-                }
-
-                if (a.userDetails.lastName == undefined)
-                {
-                    lastName = ' ';
-
-                } else {
-                    lastName = a.userDetails.lastName;
-                }
-
-                bDay = a.userDetails.birthDate;
-                bDate = moment(bDay).format('ll');
-
-                feedHTML += template.feedsTemplateHTML(a);
+                });
+                console.log("RESPONSE.FEEDSDETAILS", RESPONSE.FEEDSDETAILS);
             }
-            $(".container").addClass("container");
-            $(".container").removeClass("container-maxwidth");
-            $(".content-holder").empty();
-            $(".content-holder").append($(feedHTML));
-            //console.log(feedHTML)
+            console.log("alertIDS length", alertIDS.length);
+            var deepPath = "giveRecordedByUser";
+            var reuestedDataForSideFeeds = {"alertList": alertIDS};
+            console.log("data", data);
+            var resp = utils.server.makeServerCall(page, reuestedDataForSideFeeds, protocall.home.userRecords, deepPath);
         }
     },
+    userRecords: function (data, page) {
+        var feedHTML = "", alertIDSinUserRecords = [];
+        console.log("userRecords", data);
+        if (data !== "undefined" && data.result !== "undefined" && data.result.resultObject !== "undefined") {
+            $.each(data.result.resultObject, function (index, resultObj) {
+                console.log("user records each");
+                RESPONSE.RIGHTSIDEFEED.push(resultObj);
+                alertIDSinUserRecords.push(resultObj.alertId);
+            });
+            console.log("alertIDSinUserRecords", alertIDSinUserRecords);
+        }
+        feedHTML = template.feedsTemplateHTML();
+        $(".container").addClass("container");
+        $(".container").removeClass("container-maxwidth");
+        $(".content-holder").empty();
+        $(".content-holder").append($(feedHTML));
+    },
+    /*Naveen 16-2-2015 changes End */
     buildScreen: function (data, template) {
 
 

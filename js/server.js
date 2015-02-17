@@ -116,19 +116,19 @@ utils.server = {
 
 
 
-        if (data.resultMap.TypeCode == '4002') {
+        if (data.resultMap.TypeCode === '4002') {
             var error = "Your password is wrong, check whether the caplock is enabled";
             protocall.displaySpinner(false);
             $('.login-error').html(error);
             return false
         }
-        else if (data.resultMap.TypeCode == '4005') {
+        else if (data.resultMap.TypeCode === '4005') {
             var error = "You are not a registered user";
             protocall.displaySpinner(false);
             $('.login-error').html(error);
             return false
         }
-        else if (data.resultMap.TypeCode == '4007') {
+        else if (data.resultMap.TypeCode === '4007') {
             var error = "Provide your agencyId";
             protocall.displaySpinner(false);
             $('.login-error').html(error);
@@ -138,7 +138,7 @@ utils.server = {
 
 
 
-        if (data.resultMap.TypeCode == '4001') {
+        if (data.resultMap.TypeCode === '4001') {
 
             $("#homecontent").css("display", "block");
             localStorage.loggedIn = "true";
@@ -166,12 +166,17 @@ utils.server = {
     //ADDED BY MANOJ FRIDAY 13 2015---->STARTS HERE
     gotAssignCustomersResponse: function (data, page) {
 
+//        TypeCode List:  4031 - Successfully assigned the List of Customers under the selected representative, 
+//                4032 - Please select atleast one customer for the given representative, 
+//                4033 - Authentication Error: Only admin or superadmin can assign customers to the representatives
+
         var feedHtml = staticTemplate.home.assignCustomersTemplate();
 
         for (index = 0; index < data.result.resultObject.length; index++) {
             var customerName = data.result.resultObject[index].name;
             var customerCity = data.result.resultObject[index].city;
             var customerState = data.result.resultObject[index].state;
+            var customerEmailId = data.result.resultObject[index].userId.email;
 
             if (customerState === null || customerState === "") {
                 customerState = "";
@@ -179,13 +184,34 @@ utils.server = {
                 customerState = "," + customerState;
             }
 
-            RESPONSE_ARRAY[index] = [customerName, customerCity, customerState];
-            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' id='name" + index + "' name='' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
+            RESPONSE_ARRAY[index] = [customerName, customerCity, customerState, customerEmailId];
+            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
             feedHtml = feedHtml + tempHtml;
             tempHtml = "";
-            console.log("Name" + customerName + "City,State" + customerCity + customerState);
+            console.log("Name" + customerName + "City,State" + customerCity + customerState + customerEmailId);
         }
-        var buttonHtml = " </form> </div> </div> <div class='o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w' data-type='overlaybtn'>Assign</div> </div> ";
+        var buttonHtml = " </form> </div> </div> <div class='o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w' data-type='dt_overlaybtn_assigncustomers'>Assign</div> </div> ";
+        var finalHtml = feedHtml + buttonHtml;
+        overlay.displayOverlay(finalHtml);
+    },
+    gotShareWithRepResponse: function (data, page) {
+
+
+        var feedHtml = staticTemplate.home.shareWithRepTemplate();
+
+        for (var index = 0; index < data.resultMap.RepresentativeDetails.length; index++) {
+            var customerName = data.resultMap.RepresentativeDetails[index].name;
+            var customerCity = data.resultMap.RepresentativeDetails[index].location;
+            var customerState = "";
+//            var customerEmailId = data.resultMap.RepresentativeDetails[index].agencyRepresentativeId[0].email;
+
+            RESPONSE_ARRAY[index] = [customerName, customerCity, customerState, "customerEmailId"];
+
+            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
+            feedHtml = feedHtml + tempHtml;
+            tempHtml = "";
+        }
+        var buttonHtml = " </form> </div> </div> <div class='o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w' data-type='dt_overlaybtn_assigncustomers'>Assign</div> </div> ";
         var finalHtml = feedHtml + buttonHtml;
         overlay.displayOverlay(finalHtml);
     },
@@ -247,6 +273,59 @@ utils.server = {
         });
         return false;
     },
+    //ADDED BY MANOJ FRIDAY 16 2015---->STARTS HERE
+    submitAssignCustomersData: function () {
+        var index = 0;
+        var customersEmailIds = [];
+        var Rep_Num = "agencyRepresentative@gmail.com";
+
+        $('.checkbox').each(function () {
+            str = this.checked ? "1" : "0";
+            if (str === "1") {
+                alert(RESPONSE_ARRAY[index][3]);
+                customersEmailIds.push(RESPONSE_ARRAY[index][3]);
+            }
+            index++;
+        });
+        protocall.displaySpinner(true);
+
+//          ********************** Doubts here ---------------------->
+
+        var root = {};
+        root[0] = customersEmailIds;
+
+        var page = "assignCustomersPage";
+        var data = {userList: root, representativeId: Rep_Num};
+        var callback = getCodeResponseAssignCustomers;
+        var deepPath = "assigncustomer";
+        makeServerCall(page, data, callback, deepPath);
+
+//     *************************    Doubts here ---------------------->
+
+    },
+    getCodeResponseAssignCustomers: function (data)
+    {
+        var message = "";
+        console.log(data);
+        if (data.resultMap.TypeCode === '4031') {
+            alert("Successfully");
+            message = "Successfully assigned the List of Customers under the selected representative";
+
+        }
+        if (data.resultMap.TypeCode === '4032') {
+            alert("atleast one customer");
+            message = "Please select atleast one customer for the given representative";
+
+        }
+        if (data.resultMap.TypeCode === '4033') {
+            alert("Authentication Erro");
+            message = "Authentication Error: Only admin or superadmin can assign customers to the representatives";
+
+        }
+
+        alert(message);
+    },
+    //---------------------------------------------------------------------------
     getCodeResponse: function (code) {
         var message = "Somthing Went wrong, please try again";
         if (code == "E4004") {
@@ -290,13 +369,13 @@ utils.server = {
     },
 };
 
-//ADDED BY MANOJ FRIDAY 13 2015---->STARTS HERE
-function onKeyPressEvent(tag) {
+//ADDED BY MANOJ FRIDAY 16 2015---->STARTS HERE
+function onKeyPressEventAssignCustomers(tag) {
     var edValue = document.getElementById(tag);
     var searchText = edValue.value;
     if (searchText !== "" && searchText !== null) {
         var finalHtml = "<form>";
-        for (index = 0; index < RESPONSE_ARRAY.length; index++) {
+        for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
 
             if (RESPONSE_ARRAY[index][0].indexOf(searchText) > -1) {
                 var customerName = RESPONSE_ARRAY[index][0];
@@ -305,11 +384,9 @@ function onKeyPressEvent(tag) {
 
                 if (customerState === null || customerState === "") {
                     customerState = "";
-                } else {
-                    customerState = "," + customerState;
                 }
 
-                var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' id='name" + index + "' name='' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
+                var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
                 finalHtml = finalHtml + tempHtml;
                 tempHtml = "";
             }
@@ -334,7 +411,45 @@ function onKeyPressEvent(tag) {
                 customerState = "," + customerState;
             }
 
-            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' id='name" + index + "' name='' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
+            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
+            finalHtml = finalHtml + tempHtml;
+            tempHtml = "";
+        }
+
+        $(".rep-content-blk").html(finalHtml + "</form>");
+    }
+
+
+}
+
+function onKeyPressEventshareWithRep(tag) {
+    var edValue = document.getElementById(tag);
+    var searchText = edValue.value;
+    if (searchText !== "" && searchText !== null) {
+        var finalHtml = "<form>";
+        for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
+
+            if (RESPONSE_ARRAY[index][0].indexOf(searchText) > -1) {
+                var customerName = RESPONSE_ARRAY[index][0];
+                var customerCity = RESPONSE_ARRAY[index][1];
+                var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + "</div> </div> </label> </div>";
+                finalHtml = finalHtml + tempHtml;
+                tempHtml = "";
+            }
+        }
+
+        if (finalHtml === "<form>") {
+            var tempHtml = "<div class='rep-grp-blk opensans-regular t-center border-bot text-color-overlay p-relative'> No Records Found </div>";
+            finalHtml = finalHtml + tempHtml;
+        }
+
+        $(".rep-content-blk").html(finalHtml + "</form>");
+    } else {
+        var finalHtml = "<form>";
+        for (index = 0; index < RESPONSE_ARRAY.length; index++) {
+            var customerName = RESPONSE_ARRAY[index][0];
+            var customerCity = RESPONSE_ARRAY[index][1];
+            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + "</div> </div> </label> </div>";
             finalHtml = finalHtml + tempHtml;
             tempHtml = "";
         }
@@ -359,14 +474,11 @@ function sortbyBox1() {
 
             if (customerState === null || customerState === "") {
                 customerState = "";
-            } else {
-                customerState = "," + customerState;
             }
 
-            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' id='name" + index + "' name='' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
+            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
             finalHtml = finalHtml + tempHtml;
             tempHtml = "";
-
         }
 
         if (finalHtml === "<form>") {
@@ -385,11 +497,9 @@ function sortbyBox1() {
 
             if (customerState === null || customerState === "") {
                 customerState = "";
-            } else {
-                customerState = "," + customerState;
             }
 
-            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' id='name" + index + "' name='' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
+            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
             finalHtml = finalHtml + tempHtml;
             tempHtml = "";
 
@@ -401,6 +511,82 @@ function sortbyBox1() {
         }
     }
     $(".rep-content-blk").html(finalHtml + "</form>");
+
+}
+
+function Sharewithrep_sortbyBox1() {
+
+    var selectedOption = document.getElementById("timepicker").value;
+    if (selectedOption === "Alphabetical") {
+        RESPONSE_ARRAY.sort();
+        var finalHtml = "<form>";
+        for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
+
+            var customerName = RESPONSE_ARRAY[index][0];
+            var customerCity = RESPONSE_ARRAY[index][1];
+
+
+            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + "</div> </div> </label> </div>";
+            finalHtml = finalHtml + tempHtml;
+            tempHtml = "";
+        }
+
+        if (finalHtml === "<form>") {
+            var tempHtml = "<div class='rep-grp-blk opensans-regular t-center border-bot text-color-overlay p-relative'> No Records Found </div>";
+            finalHtml = finalHtml + tempHtml;
+        }
+
+    } else {
+
+        var finalHtml = "<form>";
+        for (index = 0; index < RESPONSE_ARRAY.length; index++) {
+
+            var customerName = RESPONSE_ARRAY[index][0];
+            var customerCity = RESPONSE_ARRAY[index][1];
+
+            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + "</div> </div> </label> </div>";
+            finalHtml = finalHtml + tempHtml;
+            tempHtml = "";
+
+        }
+
+        if (finalHtml === "<form>") {
+            var tempHtml = "<div class='rep-grp-blk opensans-regular t-center border-bot text-color-overlay p-relative'> No Records Found </div>";
+            finalHtml = finalHtml + tempHtml;
+        }
+    }
+    $(".rep-content-blk").html(finalHtml + "</form>");
+
+}
+
+function assignCustomersSortbyBox2() {
+    var selectedOption = document.getElementById("timepicker2").value;
+
+    if (selectedOption === "Select All") {
+        $('.checkbox').each(function () {
+            this.checked = true;
+        });
+    } else {
+        $("input[name='" + selectedOption.charAt(8).toUpperCase() + "']").each(function () {
+            this.checked = true;
+        });
+    }
+
+}
+
+
+function sharewithRepSortbyBox2() {
+    var selectedOption = document.getElementById("timepicker2").value;
+
+    if (selectedOption === "Select All") {
+        $('.checkbox').each(function () {
+            this.checked = true;
+        });
+    } else {
+        $("input[name='" + selectedOption.charAt(8).toUpperCase() + "']").each(function () {
+            this.checked = true;
+        });
+    }
 
 }
 //-------------------------------------------------------------------------------

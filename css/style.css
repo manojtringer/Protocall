@@ -1218,7 +1218,7 @@ input[type=checkbox]:checked + .feed-label:before {
 }
 .carrier-logo{
     width: 100%;
-  min-height: 176px;
+    min-height: 176px;
 }
 .carrier-info{
     width: 100%;
@@ -1252,7 +1252,7 @@ input[type=checkbox]:checked + .feed-label:before {
     position: relative;
     overflow: hidden;
     margin: auto;
-	padding: 5px 0px;
+    padding: 5px 0px;
 }
 .carrier-img-width{
     width:100%;
@@ -1298,11 +1298,11 @@ input[type=checkbox]:checked + .feed-label:before {
 }
 .carrier-logo{
     width: 100%;
-   min-height: 176px;
+    min-height: 176px;
 }
 .carrier-info{
     width: 100%;
-   min-height: 71px;
+    min-height: 71px;
 }
 .carrier-name{
     color: #989898;
@@ -2627,11 +2627,11 @@ textarea::-webkit-input-placeholder {  color: #999;}
     margin-right: 15px;
 }
 .range-sel1 {
-    width: 31%;
+    width: 175px;
     margin: 0px 19px 0px 0px;
 }
 .range-sel2 {
-    width: 49%;
+    width: 347px;
     margin:0px 0px;
     margin-left: 2px;
 }
@@ -2885,11 +2885,4 @@ footer  .foot-in{
 .feed-user-det-b .bot-b .feed-date, .feed-user-det-b .bot-b .feed-location, .feed-user-det-b .bot-b .cust-phone, .feed-user-det-b .bot-b .cust-email{
     margin: 0px 12px;
 }
-
-
-
-
-
-
-
 
