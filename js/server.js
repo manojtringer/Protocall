@@ -1,5 +1,6 @@
 //ADDED BY MANOJ FRIDAY 13 2015---->STARTS HERE
 var RESPONSE_ARRAY = [];
+var ALERTID = "";
 //---------------------------------------------
 var utils = {
 };
@@ -138,17 +139,17 @@ utils.server = {
         if (data.resultMap.TypeCode == '4001') {
 
 
-        localStorage.loggedIn    = "true";
-        localStorage.imageURl    = "http://2-dot-proto-call-test.appspot.com/file/";
-        localStorage.profilePic  = localStorage.imageURl+data.resultMap.userDetails.profilePicture; 
-	localStorage.agencyEmail = data.resultMap.userDetails.agencyRepresentativeId.email;
-        localStorage.agencyLogo  = localStorage.imageURl+data.resultMap.agencyDetails.agencyLogo;
-        localStorage.agencyName  = data.resultMap.userDetails.firstName;
-        localStorage.agencyPhone = data.resultMap.agencyDetails.phone.number; 
-	localStorage.agencyId    = data.resultMap.agencyId;
-	protocall.setPageNavigation(HOME_PAGE);
+            localStorage.loggedIn = "true";
+            localStorage.imageURl = "http://2-dot-proto-call-test.appspot.com/file/";
+            localStorage.profilePic = localStorage.imageURl + data.resultMap.userDetails.profilePicture;
+            localStorage.agencyEmail = data.resultMap.userDetails.agencyRepresentativeId.email;
+            localStorage.agencyLogo = localStorage.imageURl + data.resultMap.agencyDetails.agencyLogo;
+            localStorage.agencyName = data.resultMap.userDetails.firstName;
+            localStorage.agencyPhone = data.resultMap.agencyDetails.phone.number;
+            localStorage.agencyId = data.resultMap.agencyId;
+            protocall.setPageNavigation(HOME_PAGE);
 
-            var header = '<div class="m-width"> <div class="ctrl-blk"> <header class="w-pad"> <div class="logo-info-blk clr-fl p-relative"> <div class="lf-block left clr-fl header-left-panel"> <div class="leftblk-spacing"> <div style="width:100%;"> <div class="logo-container left"> <div class="logo-holder"> <img src="images/Logo.png" alt="" class="logo"/> </div></div><div class="left search-blk"> <form name="globalSearch" method="GET" action="#search" class="" onsubmit="event.preventDefault();"> <div style="width:100%;"> <div class="searchbox-border"> <input class="search-ip opensans-regular" type="search" name="" placeholder="Search"> </div></div></form> </div><div class="clear"></div></div></div></div><div class="rg-block left p-relative"> <a href="/profile" id="profile" class="logged-user-info clr-fl snap" data-type="profile-link"> <div id="" class="left user-pic-box"> <img src="' + localStorage.imageURl + data.resultMap.userDetails.profilePicture + '" alt="Profile pic" class="setProfilePic"> </div><div class="left user-info"> <div class="opensans-regular text-ellipsis"> <span>Hi,</span> <span class="t-caps">'+localStorage.agencyName+'</span> </div></div><div class="left sprite-im drop-down-icon user-drop-icon">&nbsp;</div><div class="clear"></div></a> </div></div></header> <div class="m-block p-relative"> <div class="clr-fl"> <div class="lf-block left"> <div class="leftblk-spacing"> <div class="mb-menu bg-color-green clr-fl t-center t-upper"> <a href="/home" class="snap menu-box left f-sz-18 ptsans-light home p-relative f-color-w" data-type="page" data-page="home"> <div class="menu-center"> <div class="sprite-im home-icon menu-icon">&nbsp;</div><span class="menu-text t-caps">Home</span> </div></a> <a href="/carriers" class="snap menu-box left f-sz-18 ptsans-light carriers p-relative f-color-w" data-type="page" data-page="carriers"> <div class="menu-center"> <div class="sprite-im carriers-icon menu-icon">&nbsp;</div><span class="menu-text t-caps">Carriers</span> </div></a> <a href="/customers" class="snap menu-box left f-sz-18 ptsans-light customers p-relative f-color-w" data-type="page" data-page="customers"> <div class="menu-center"> <div class="sprite-im customers-icon menu-icon">&nbsp;</div><span class="menu-text t-caps">Customers</span> </div></a> <a href="/myreps" class="snap menu-box left f-sz-18 ptsans-light myreps p-relative f-color-w" data-type="page" data-page="myreps"> <div class="menu-center"> <div class="sprite-im myreps-icon menu-icon">&nbsp;</div><span class="menu-text t-caps">My Reps</span> </div></a> </div><div class="mb-submenu"> <div class="mb-submenu-in p-relative"> <div class="tab-rb-submenu inline-block v-align-mid"> <div class="p-relative "> <a href="/myalerts" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light myalerts p-relative selected-tab" data-type="page" data-submenu="myalerts"> <span class="submenu-title t-caps f-color-w">My Alerts</span> <span class="cnt-blk">(<span class="cnt-no">24</span>)</span> </a> <a href="/incidents" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light incidents p-relative" data-type="page" data-submenu="incidents"> <div class="submenu-title t-caps inline-block f-color-w v-align-mid">incidents</div></a> <a href="/policies" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light policies p-relative" data-type="page" data-submenu="policies"> <span class="submenu-title t-caps f-color-w">Policies</span> </a> <a href="/policies" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light policies p-relative" data-type="page" data-submenu="archives"> <span class="submenu-title t-caps f-color-w">Archives</span> </a> <a href="/policies" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light policies p-relative" data-type="page" data-submenu="view_archives"> <span class="submenu-title t-caps f-color-w">View Archived</span> </a> <div href="#" class="snap submenu-sort right f-sz-16 ptsans-light p-relative" data-type="page" data-submenu="sortby"> <div class="sort-text f-italic">Sort by</div><div class="sprite-im drop-down-icon submenu-drop-icon">&nbsp;</div></div></div><div class="clear"></div></div></div></div></div></div><div class="rg-block left p-relative"> <div class="agency-info p-relative clr-fl bg-color-dblue"> <a class="agency-details clr-fl snap" data-type="agency-link"> <div id="" class="left agency-pic-box p-relative"> <img src="' + localStorage.agencyLogo + '" alt="agency pic" class="setAgencyPic"> <div class="edit-cover-pic p-absolute anim-opacity">&nbsp;</div><div class="edit-agency-pic p-absolute anim bg-color-red f-color-w snap" data-type="editAgencyPic"> <div class="p-relative t-center"> <div class="sprite-im mobile-icon inline-block v-align-mid">&nbsp;</div><div class="inline-block f-sz-12 v-align-mid opensans-regular ">Edit</div></div></div></div><div class="left agency-name-details t-left anim"> <div class="opensans-regular text-ellipsis f-italic f-sz-17 agency-name t-caps">' + localStorage.agencyName + '</div><div class="opensans-regular text-ellipsis f-italic agency-email">' + localStorage.agencyEmail + '</div></div></a> </div></div></div></div>';
+            var header = '<div class="m-width"> <div class="ctrl-blk"> <header class="w-pad"> <div class="logo-info-blk clr-fl p-relative"> <div class="lf-block left clr-fl header-left-panel"> <div class="leftblk-spacing"> <div style="width:100%;"> <div class="logo-container left"> <div class="logo-holder"> <img src="images/Logo.png" alt="" class="logo"/> </div></div><div class="left search-blk"> <form name="globalSearch" method="GET" action="#search" class="" onsubmit="event.preventDefault();"> <div style="width:100%;"> <div class="searchbox-border"> <input class="search-ip opensans-regular" type="search" name="" placeholder="Search"> </div></div></form> </div><div class="clear"></div></div></div></div><div class="rg-block left p-relative"> <a href="/profile" id="profile" class="logged-user-info clr-fl snap" data-type="profile-link"> <div id="" class="left user-pic-box"> <img src="' + localStorage.imageURl + data.resultMap.userDetails.profilePicture + '" alt="Profile pic" class="setProfilePic"> </div><div class="left user-info"> <div class="opensans-regular text-ellipsis"> <span>Hi,</span> <span class="t-caps">' + localStorage.agencyName + '</span> </div></div><div class="left sprite-im drop-down-icon user-drop-icon">&nbsp;</div><div class="clear"></div></a> </div></div></header> <div class="m-block p-relative"> <div class="clr-fl"> <div class="lf-block left"> <div class="leftblk-spacing"> <div class="mb-menu bg-color-green clr-fl t-center t-upper"> <a href="/home" class="snap menu-box left f-sz-18 ptsans-light home p-relative f-color-w" data-type="page" data-page="home"> <div class="menu-center"> <div class="sprite-im home-icon menu-icon">&nbsp;</div><span class="menu-text t-caps">Home</span> </div></a> <a href="/carriers" class="snap menu-box left f-sz-18 ptsans-light carriers p-relative f-color-w" data-type="page" data-page="carriers"> <div class="menu-center"> <div class="sprite-im carriers-icon menu-icon">&nbsp;</div><span class="menu-text t-caps">Carriers</span> </div></a> <a href="/customers" class="snap menu-box left f-sz-18 ptsans-light customers p-relative f-color-w" data-type="page" data-page="customers"> <div class="menu-center"> <div class="sprite-im customers-icon menu-icon">&nbsp;</div><span class="menu-text t-caps">Customers</span> </div></a> <a href="/myreps" class="snap menu-box left f-sz-18 ptsans-light myreps p-relative f-color-w" data-type="page" data-page="myreps"> <div class="menu-center"> <div class="sprite-im myreps-icon menu-icon">&nbsp;</div><span class="menu-text t-caps">My Reps</span> </div></a> </div><div class="mb-submenu"> <div class="mb-submenu-in p-relative"> <div class="tab-rb-submenu inline-block v-align-mid"> <div class="p-relative "> <a href="/myalerts" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light myalerts p-relative selected-tab" data-type="page" data-submenu="myalerts"> <span class="submenu-title t-caps f-color-w">My Alerts</span> <span class="cnt-blk">(<span class="cnt-no">24</span>)</span> </a> <a href="/incidents" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light incidents p-relative" data-type="page" data-submenu="incidents"> <div class="submenu-title t-caps inline-block f-color-w v-align-mid">incidents</div></a> <a href="/policies" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light policies p-relative" data-type="page" data-submenu="policies"> <span class="submenu-title t-caps f-color-w">Policies</span> </a> <a href="/policies" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light policies p-relative" data-type="page" data-submenu="archives"> <span class="submenu-title t-caps f-color-w">Archives</span> </a> <a href="/policies" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light policies p-relative" data-type="page" data-submenu="view_archives"> <span class="submenu-title t-caps f-color-w">View Archived</span> </a> <div href="#" class="snap submenu-sort right f-sz-16 ptsans-light p-relative" data-type="page" data-submenu="sortby"> <div class="sort-text f-italic">Sort by</div><div class="sprite-im drop-down-icon submenu-drop-icon">&nbsp;</div></div></div><div class="clear"></div></div></div></div></div></div><div class="rg-block left p-relative"> <div class="agency-info p-relative clr-fl bg-color-dblue"> <a class="agency-details clr-fl snap" data-type="agency-link"> <div id="" class="left agency-pic-box p-relative"> <img src="' + localStorage.agencyLogo + '" alt="agency pic" class="setAgencyPic"> <div class="edit-cover-pic p-absolute anim-opacity">&nbsp;</div><div class="edit-agency-pic p-absolute anim bg-color-red f-color-w snap" data-type="editAgencyPic"> <div class="p-relative t-center"> <div class="sprite-im mobile-icon inline-block v-align-mid">&nbsp;</div><div class="inline-block f-sz-12 v-align-mid opensans-regular ">Edit</div></div></div></div><div class="left agency-name-details t-left anim"> <div class="opensans-regular text-ellipsis f-italic f-sz-17 agency-name t-caps">' + localStorage.agencyName + '</div><div class="opensans-regular text-ellipsis f-italic agency-email">' + localStorage.agencyEmail + '</div></div></a> </div></div></div></div>';
 
             var template = '<div style="text-align:center;padding:30px 0px;">Loading...</div>';
 
@@ -167,10 +168,6 @@ utils.server = {
     },
     //ADDED BY MANOJ FRIDAY 17 2015---->STARTS HERE
     gotAssignCustomersResponse: function (data, page) {
-
-//        TypeCode List:  4031 - Successfully assigned the List of Customers under the selected representative, 
-//                4032 - Please select atleast one customer for the given representative, 
-//                4033 - Authentication Error: Only admin or superadmin can assign customers to the representatives
 
         var feedHtml = staticTemplate.home.assignCustomersTemplate();
 
@@ -196,9 +193,19 @@ utils.server = {
         var finalHtml = feedHtml + buttonHtml;
         overlay.displayOverlay(finalHtml);
     },
+    shareToRep: function (alertid) {
+        ALERTID = alertid;
+        protocall.displaySpinner(true);
+        var page = "pagesharewithrepoverlay";
+        var data = {};
+        var callback = utils.server.gotShareWithRepResponse;
+        var deepPath = "agencyrepresentativenamewithlocation";
+        utils.server.makeServerCall(page, data, callback, deepPath);
+
+    },
     gotShareWithRepResponse: function (data, page) {
 
-
+        RESPONSE_ARRAY = [];
 
         var feedHtml = staticTemplate.home.shareWithRepTemplate();
 
@@ -219,15 +226,101 @@ utils.server = {
         var finalHtml = feedHtml + buttonHtml;
 
         overlay.displayOverlay(finalHtml);
-        sharewithRepSelectAllDropDown("true");
+        sharewithRepSelectAllDropDown("false");
 
 
     },
     //ADDED BY MANOJ FRIDAY 17 2015---->STARTS HERE
+    gotSendAppLinkResponse: function (data, page) {
+
+        RESPONSE_ARRAY = [];
+        var feedHtml = staticTemplate.home.sendAppLinkTemplate();
+
+        for (var index = 0; index < data.resultMap.RepresentativeDetails.length; index++) {
+            var customerName = data.resultMap.RepresentativeDetails[index].name;
+            var customerCity = data.resultMap.RepresentativeDetails[index].location;
+            var customerState = "";
+            var customerEmailId = data.resultMap.RepresentativeDetails[index].agencyRepresentativeId.email;
+//            alert(customerEmailId);
+
+            RESPONSE_ARRAY[index] = [customerName, customerCity, customerState, customerEmailId];
+
+            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
+            feedHtml = feedHtml + tempHtml;
+            tempHtml = "";
+        }
+        var buttonHtml = " </form> </div> </div> <div class='o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w' data-type='dt_overlaybtn_sendapplink'>Send</div> </div> ";
+        var finalHtml = feedHtml + buttonHtml;
+
+        overlay.displayOverlay(finalHtml);
+        sharewithRepSelectAllDropDown("true");
+
+
+    },
+    submitPrivacyData: function () {
+        var fromMailId = "agencyowner@gmail.com";
+        var representativeId = "";
+        var alertID = ALERTID;
+        var index = 0;
+        $('.checkbox').each(function () {
+            str = this.checked ? "1" : "0";
+            if (str == "1") {
+                representativeId = RESPONSE_ARRAY[index][3];
+                index++;
+            }
+
+        });
+        protocall.displaySpinner(true);
+
+        if (index == 0) {
+            $(".error").html("Please select atleat a name to share..!");
+            $(".error").css("display", "block");
+            $(".error").css("padding-top", "10px");
+            $(".error").css("padding-bottom", "10px");
+            return false;
+        }
+
+        var page = "shareWithRepPage";
+        var data = {fromUserId: fromMailId, alertId: alertID, toUserId: representativeId};
+        var callback = utils.server.getCodeResponseAssignCustomers;
+        var deepPath = "sharewithrepresentative";
+        utils.server.makeServerCall(page, data, callback, deepPath);
+
+    },
+    submitSendAppLinkData: function () {
+        var fromMailId = "agencyowner@gmail.com";
+        var representativeId = "";
+        var alertID = ALERTID;
+        var index = 0;
+        $('.checkbox').each(function () {
+            str = this.checked ? "1" : "0";
+            if (str == "1") {
+                representativeId = RESPONSE_ARRAY[index][3];
+                index++;
+            }
+
+        });
+        protocall.displaySpinner(true);
+
+        if (index == 0) {
+            $(".error").html("Please select atleat a name to share..!");
+            $(".error").css("display", "block");
+            $(".error").css("padding-top", "10px");
+            $(".error").css("padding-bottom", "10px");
+            return false;
+        }
+
+        var page = "shareWithRepPage";
+        var data = {fromUserId: fromMailId, alertId: alertID, toUserId: representativeId};
+        var callback = utils.server.getCodeResponseAssignCustomers;
+        var deepPath = "sharewithrepresentative";
+        utils.server.makeServerCall(page, data, callback, deepPath);
+
+    },
     submitAssignCustomersData: function () {
         var index = 0;
         var customersEmailIds = [];
-        var Rep_Num = "agencyRepresentative@gmail.com";
+        var Rep_Num = "agencyowner@gmail.com";
 
         $('.checkbox').each(function () {
             str = this.checked ? "1" : "0";
@@ -256,7 +349,7 @@ utils.server = {
 
         var fromMailId = "agencyowner@gmail.com";
         var representativeId = "";
-        var alertID = "330302";
+        var alertID = ALERTID;
         var index = 0;
         $('.checkbox').each(function () {
             str = this.checked ? "1" : "0";
@@ -283,7 +376,6 @@ utils.server = {
             return false;
         }
 
-
         var page = "shareWithRepPage";
         var data = {fromUserId: fromMailId, alertId: alertID, toUserId: representativeId};
         var callback = utils.server.getCodeResponseAssignCustomers;
@@ -291,35 +383,44 @@ utils.server = {
         utils.server.makeServerCall(page, data, callback, deepPath);
 
     },
+    displayError: function (message) {
+        $(".success").css("display", "none");
+        $(".error").css("display", "block");
+        $(".error").css("padding-top", "4px");
+    },
+    displayMessage: function (message) {
+        $(".success").html(message);
+        $(".error").css("display", "none");
+        $(".success").css("display", "block");
+        $(".success").css("padding-top", "4px");
+    },
     getCodeResponseAssignCustomers: function (data)
     {
         var message = "";
 
         if (data.resultMap.TypeCode == '4031') {
             message = "Successfully assigned the List of Customers under the selected representative";
+            utils.server.displayMessage(message);
 
         }
         if (data.resultMap.TypeCode == '4032') {
             alert("atleast one customer");
             message = "Please select atleast one customer for the given representative";
+            utils.server.errorMessage(message);
 
         }
         if (data.resultMap.TypeCode == '4033') {
             alert("Authentication Erro");
             message = "Authentication Error: Only admin or superadmin can assign customers to the representatives";
-
+            utils.server.errorMessage(message);
         }
         if (data.resultMap.TypeCode == '4034') {
-            message = "Shared data with representative successfully..!";
+            message = "Shared data  successfully..!";
+            utils.server.displayMessage(message);
         }
 
-        $(".success").html(message);
-        $(".success").css("display", "block");
-        $(".success").css("padding-top", "10px");
-        $(".success").css("padding-bottom", "10px");
-        $(".error").css("display", "none");
-        $(".error").css("padding-top", "1px");
-        $(".error").css("padding-bottom", "1px");
+
+
 
 
     },
@@ -425,22 +526,25 @@ utils.server = {
     },
 };
 
-//ADDED BY MANOJ FRIDAY 17 2015---->STARTS HERE
+//ADDED BY MANOJ FRIDAY 18 2015---->STARTS HERE
 
 function sharewithRepSelectAllDropDown(isNone) {
-    $('#timepicker2').empty();
+
     if (isNone == "true") {
+        $("#timepicker2").prop("disabled", false);
+        $('#timepicker2').empty();
+        $('#timepicker2').append('<option> None </option>');
+        $('#timepicker2').append('<option> Select All </option>');
+        var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+        $.each(alphabet, function (letter) {
+            $('#timepicker2').append($('<option> Section ' + alphabet[letter] + '</option>'));
+        });
+    } else {
+        $("#timepicker2").prop("disabled", true);
+        $('#timepicker2').empty();
         $('#timepicker2').append('<option> None </option>');
     }
-    $('#timepicker2').append('<option> Select All </option>');
-    var TEMP_ARRAY = [];
-    for (var i = 0; i < RESPONSE_ARRAY.length; i++) {
-        TEMP_ARRAY[i] = RESPONSE_ARRAY[i][0].charAt(0);
-    }
-    TEMP_ARRAY = unique(TEMP_ARRAY).sort();
-    for (var i = 0; i < TEMP_ARRAY.length; i++) {
-        $('#timepicker2').append($('<option> Section ' + TEMP_ARRAY[i] + '</option>'));
-    }
+
 }
 
 function onKeyPressEventAssignCustomers(tag) {
@@ -538,6 +642,44 @@ function onKeyPressEventshareWithRep(tag) {
 
 }
 
+
+function onKeyPressEventPrivacy(tag) {
+    var searchText = $(tag).val().toUpperCase();
+    if (searchText !== "" && searchText !== null) {
+        var finalHtml = "<form>";
+        for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
+
+            if (RESPONSE_ARRAY[index][0].toUpperCase().indexOf(searchText) > -1) {
+                var customerName = RESPONSE_ARRAY[index][0];
+                var customerCity = RESPONSE_ARRAY[index][1];
+                var tempHtml = "<div class=\"rep-grp-blk opensans-regular border-bot text-color-overlay p-relative\"> <input type=\"checkbox\" id=\"name" + index + "\" name=\"\" class=\"checkbox\"> <label for=\"name" + index + "\" class=\"rep-label\"> <div class=\"lbl-in-block p-relative\"> <div class=\"f-sz-14 text-color-overlay left rep-name\">" + customerName + "</div> <div class=\"nameRepId f-sz-14 text-color-overlay left\"><i>#5454547</i></div> <div class=\"t-caps f-sz-13 right t-right location-color rep-location\"> <div class=\"bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-on\"> <div id=\"id" + index + "-switch-container\" class=\"bootstrap-switch-container\"> <span id=\"id-switch-on\" class=\"bootstrap-switch-handle-on bootstrap-switch-primary\" onclick=\"moveani('id-switch-on', 'id" + index + "-switch-container')\"> ON</span> <span class=\"bootstrap-switch-label\">&nbsp;</span> <span id=\"id-switch-off\" class=\"bootstrap-switch-handle-off bootstrap-switch-default\" onclick=\"moveani('id-switch-off', 'id" + index + "-switch-container')\"> OFF</span> <input type=\"checkbox\" checked=\"\"></div></div> </div> </div> </label> </div>";
+                finalHtml = finalHtml + tempHtml;
+                tempHtml = "";
+            }
+        }
+
+        if (finalHtml == "<form>") {
+            var tempHtml = "<div class='rep-grp-blk opensans-regular t-center border-bot text-color-overlay p-relative'> No Records Found </div>";
+            finalHtml = finalHtml + tempHtml;
+        }
+
+        $(".rep-content-blk").html(finalHtml + "</form>");
+    } else {
+        var finalHtml = "<form>";
+        for (index = 0; index < RESPONSE_ARRAY.length; index++) {
+            var customerName = RESPONSE_ARRAY[index][0];
+            var customerCity = RESPONSE_ARRAY[index][1];
+            var tempHtml = "<div class=\"rep-grp-blk opensans-regular border-bot text-color-overlay p-relative\"> <input type=\"checkbox\" id=\"name" + index + "\" name=\"\" class=\"checkbox\"> <label for=\"name" + index + "\" class=\"rep-label\"> <div class=\"lbl-in-block p-relative\"> <div class=\"f-sz-14 text-color-overlay left rep-name\">" + customerName + "</div> <div class=\"nameRepId f-sz-14 text-color-overlay left\"><i>#5454547</i></div> <div class=\"t-caps f-sz-13 right t-right location-color rep-location\"> <div class=\"bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-on\"> <div id=\"id" + index + "-switch-container\" class=\"bootstrap-switch-container\"> <span id=\"id-switch-on\" class=\"bootstrap-switch-handle-on bootstrap-switch-primary\" onclick=\"moveani('id-switch-on', 'id" + index + "-switch-container')\"> ON</span> <span class=\"bootstrap-switch-label\">&nbsp;</span> <span id=\"id-switch-off\" class=\"bootstrap-switch-handle-off bootstrap-switch-default\" onclick=\"moveani('id-switch-off', 'id" + index + "-switch-container')\"> OFF</span> <input type=\"checkbox\" checked=\"\"></div></div> </div> </div> </label> </div>";
+            finalHtml = finalHtml + tempHtml;
+            tempHtml = "";
+        }
+
+        $(".rep-content-blk").html(finalHtml + "</form>");
+    }
+
+
+}
+
 function sortbyBox1() {
 
     var selectedOption = document.getElementById("timepicker").value;
@@ -612,12 +754,16 @@ var unique = function (origArr) {
     return newArr;
 }
 
-function Sharewithrep_sortbyBox1() {
+function Sharewithrep_sortbyBox1(idvalue) {
 
     var selectedOption = document.getElementById("timepicker").value;
     if (selectedOption == "Alphabetical") {
         RESPONSE_ARRAY.sort();
-        sharewithRepSelectAllDropDown("false");
+        if (idvalue == "sharewithrep") {
+            sharewithRepSelectAllDropDown("false");
+        } else {
+            sharewithRepSelectAllDropDown("true");
+        }
 
         var finalHtml = "<form>";
         for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
@@ -637,10 +783,10 @@ function Sharewithrep_sortbyBox1() {
         }
 
     } else if (selectedOption == "City,State") {
-//        sharewithRepSelectAllDropDown("false");
+//        //sharewithRepSelectAllDropDown("false");
         //--***************  Section Sortby Box 2
         $('#timepicker2').empty();
-
+        $("#timepicker2").prop("disabled", false);
         var TEMP_ARRAY = [];
         for (var i = 0; i < RESPONSE_ARRAY.length; i++) {
             TEMP_ARRAY[i] = RESPONSE_ARRAY[i][1];
@@ -668,7 +814,11 @@ function Sharewithrep_sortbyBox1() {
             finalHtml = finalHtml + tempHtml;
         }
     } else {
-        sharewithRepSelectAllDropDown("true");
+        if (idvalue == "sharewithrep") {
+            sharewithRepSelectAllDropDown("false");
+        } else {
+            sharewithRepSelectAllDropDown("true");
+        }
         var finalHtml = "<form>";
         for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
 
@@ -712,11 +862,7 @@ function sharewithRepSortbyBox2() {
 
     if (selectedOption == "Select All") {
         $('.checkbox').each(function () {
-            if (this.checked == true) {
-                this.checked = false;
-            } else {
-                this.checked = true;
-            }
+            this.checked = true;
         });
     } else if (selectedOption.indexOf("Section") > -1) {
         $("input[name='" + selectedOption.trim().charAt(8).toUpperCase() + "']").each(function () {
@@ -729,7 +875,8 @@ function sharewithRepSortbyBox2() {
 
         });
     } else {
-        sharewithRepSelectAllDropDown("false");
+        //sharewithRepSelectAllDropDown("false");
+
         var finalHtml = "<form>";
         for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
 
@@ -756,17 +903,46 @@ $(document).on('click', '#id-sharewithrepsearchicon', function () {
     onKeyPressEventshareWithRep("#id-overlaysharewithrep");
 });
 
+$(document).on('click', '#id-sendapplinksearchicon', function () {
+    onKeyPressEventshareWithRep("#id-overlaysendapplink");
+});
+$(document).on('click', '#id-privacysearchicon', function () {
+    onKeyPressEventPrivacy("#id-overlayprivacy");
+});
+
+
 function sharewithrepkeypress(e) {
     var Ucode = e.keyCode ? e.keyCode : e.charCode;
+
     if (Ucode == 13)
     {
         onKeyPressEventshareWithRep("#id-overlaysharewithrep");
     }
+
     onKeyPressEventshareWithRep("#id-overlaysharewithrep");
 }
 
 function sharewithrepkeyup(e) {
     onKeyPressEventshareWithRep("#id-overlaysharewithrep");
+}
+
+
+function sendAppLinkkeyup(e) {
+    onKeyPressEventshareWithRep("#id-overlaysendapplink");
+}
+
+function privacykeyup(e) {
+    onKeyPressEventPrivacy("#id-overlayprivacy");
+}
+
+function moveani(idValue, idcontainerValue) {
+
+    if (idValue === "id-switch-off") {
+        document.getElementById(idcontainerValue).style.marginLeft = "50px";
+    } else if (idValue === "id-switch-on") {
+        document.getElementById(idcontainerValue).style.marginLeft = "-8px";
+    }
+
 }
 
 //-------------------------------------------------------------------------------

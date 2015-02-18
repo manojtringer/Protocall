@@ -23,7 +23,8 @@ var CONSTANTS = {
         ASSIGN_TO_CUSTOMERS: "dt-assigncustomer", PROPERTY_POLICY: "dt-propertypolicy", HEALTH_POLICY: "dt-healthpolicy",
         VEHICLE_POLICY: "dt-vehiclepolicy", RESETPASSWORD: "dtresetpassword", SIGNUP: "dtsignup", OVERLAY_RESETPASSALERTBOX: "dtoverlayresetpassword",
         EDITPASSWORDYES: "dtoverlayrestpassyes", EDITPASSWORDNO: "dtoverlayrestpassno", BUTTON_ASSIGNCUSTOMERS: "dt_overlaybtn_assigncustomers",
-        BUTTON_SHAREWITHREP: "dt_overlaybtn_sharerepwithcustomers", DOCUMENTSOVERLAY: "textDoc",MYPROFEDIT : "edit"
+        BUTTON_SHAREWITHREP: "dt_overlaybtn_sharerepwithcustomers", DOCUMENTSOVERLAY: "textDoc", MYPROFEDIT: "edit", BUTTON_SENDAPPLINK: "dt_overlaybtn_sendapplink",
+        BUTTON_PRIVACYSEND: "overlaybtnPrivacySend", BUTTON_ADDVENDORSEND: "overlaybtn_addvendordetails"
     },
     ERROR_MSG: {
         ajaxFailed: "Oops! This action could not be completed now! Please try again"
@@ -46,34 +47,46 @@ var ENDPOINT = {
     AGENCY_DASHBOARD_DESIGN: "agencydashboarddesign",
     GIVE_RECORDED_BY_USER: "giverecordedbyuser"
 };
+/*Naveen Chnages 18-2-2015 start */
 var RESPONSE = {
-    RESULTOBJECT: {},
-    AUDIODETAILS: [],
-    MEDIAID: [],
-    PICTUREDETAILS: [],
-    IMAGEURLS: [],
-    IMGETEXT: [],
-    MEDIAIDFORPICTURE: [],
-    AUDIOTEXT: [],
-    TIMESTAMPAUDIO: [],
-    AUDIOURLS: [],
-    OTHERPARTYDETAILS: [],
-    NAMES: [],
-    ROLE: [],
-    PHONE: [],
-    ADDRESS: [],
-    INSURANCECO: [],
-    POLICY: [],
-    VEHICLENO: [],
-    VEHICLEMODEL: [],
-    DRIVINGLICENCESTATE: [],
-    DRIVINGLICENCENUMBER: [],
-    INJURIES: [],
-    OTHERINFORMATION: [],
-    OTHERPARTYIDS: [],
-    LEFTSIDEFEED: [],
-    RIGHTSIDEFEED: []
+	RESULTOBJECT : {},
+	AUDIODETAILS : [],
+	MEDIAID : [],
+	PICTUREDETAILS : [],
+	IMAGEURLS : [],
+	IMGETEXT : [],
+	MEDIAIDFORPICTURE : [],
+	AUDIOTEXT : [],
+	TIMESTAMPAUDIO : [],
+	AUDIOURLS : [],
+	OTHERPARTYDETAILS : [],
+	NAMES : [],
+	ROLE : [],
+	PHONE : [],
+	ADDRESS : [],
+	INSURANCECO : [],
+	POLICY : [],
+	VEHICLENO : [],
+	VEHICLEMODEL : [],
+	DRIVINGLICENCESTATE : [],
+	DRIVINGLICENCENUMBER : [],
+	INJURIES : [],
+	OTHERINFORMATION : [],
+	OTHERPARTYIDS : [],
+	LEFTSIDEFEED : [],
+	RIGHTSIDEFEED : []
 };
+
+var HOMEPAGERESPONSE = {
+	ALERTDETAILS : [],
+	ALERTDETAILSLENGTH : 0,
+	RECURRINGALERTDFEEDS : [],
+	INCIDENTALERTSCLICKED : false,
+	HOMEPAGEMYALERTSLOADED : false,
+	POLICYALERTCLICKED : false
+	
+}
+/*Naveen Chnages 18-2-2015 end */
 //API
 ProfileAPI = 'https://proto-call-test.appspot.com/file/'
 //PAGE NAMES
@@ -432,9 +445,12 @@ protocall = {
 };
 protocall.events = {
     createEvents: function () {
-        $(document).on("scroll", function (e) {
+       /*Naveen Chnages 18-2-2015 start */
+        $(".container").on("scroll", function (e) {
+			console.log("scroll");
             protocall.events.handleScroll();
         });
+		/*Naveen Chnages 18-2-2015 end */
         $(document).on("click", ".snap", function (e) {
             e.stopPropagation();
             protocall.events.handleClick(e);
@@ -476,20 +492,31 @@ protocall.events = {
             protocall.events.handleResize(e);
         });
     },
+   /*Naveen Chnages 18-2-2015 start */
     handleScroll: function (e) {
-        var container = $('.container');
-        console.log("scrollHeight", container[0].scrollHeight);
-        console.log("ScrollTop", container.scrollTop());
-        console.log("outerHeight", container.outerHeight());
-        if (container[0].scrollHeight - container.scrollTop() == container.outerHeight()) {
-            container.scrollTop(0);
-            console.log("calling the custom spinner");
-            protocall.displaySpinnerForAlerts(true);
-            //protocall.home.initHomePage();
-            //protocall.events.sampleTestFun();
-        }
-        //protocall.displaySpinner(false);
-    },
+		var container = $('.container'),pageNumber = 1;
+		console.log("CONSTANTS.HASNEXTPAGE",CONSTANTS.HASNEXTPAGE);
+		console.log("scrollHeight",container[0].scrollHeight);
+		console.log("ScrollTop",container.scrollTop());
+		console.log("outerHeight",container.outerHeight());
+		var scrollHeightValue = container[0].scrollHeight - container.scrollTop();
+		var containerOuterHeight = container.outerHeight();
+		if (scrollHeightValue == containerOuterHeight) {
+				if(CONSTANTS.HASNEXTPAGE){
+					if(HOMEPAGERESPONSE.INCIDENTALERTSCLICKED){
+						container.scrollTop(0);
+					} else if(HOMEPAGERESPONSE.POLICYALERTCLICKED){
+						container.scrollTop(0);
+					} else {
+						container.scrollTop();
+					}
+					$(".content-holder").addClass("spinner1");
+					protocall.home.alertFeeds(++CONSTANTS.PGNUMBER);
+				}
+		}
+		return false;
+	},
+	/*Naveen Chnages 18-2-2015 end */
     sampleTestFun: function () {
         protocall.displaySpinnerForAlerts(false);
     },
@@ -593,7 +620,11 @@ protocall.events = {
                 protocall.view.viewFeed(true);
                 break;
             case CONSTANTS.LINK_TYPE.SHARE_TO_REP:
-                protocall.view.shareToRep();
+                $('.inner-share-spacing').click(function () {
+                    utils.server.shareToRep($(this).attr("id"));
+                    return false;
+                });
+
                 break;
             case CONSTANTS.LINK_TYPE.ASSIGN_TO_CUSTOMERS:
                 protocall.view.assignToCustomers();
@@ -611,6 +642,7 @@ protocall.events = {
                 protocall.view.vehiclePolicy();
                 break;
             case CONSTANTS.LINK_TYPE.SENDAPPLINK:
+
                 protocall.view.sendAppLink();
                 break;
             case CONSTANTS.LINK_TYPE.PREFERRED_VENDOE_VIEW_LOAD:
@@ -694,8 +726,19 @@ protocall.events = {
             case CONSTANTS.LINK_TYPE.BUTTON_SHAREWITHREP:
                 utils.server.submitShareWithRepsData();
                 break;
+            case CONSTANTS.LINK_TYPE.BUTTON_SENDAPPLINK:
+                utils.server.submitSendAppLinkData();
+                break;
+            case CONSTANTS.LINK_TYPE.BUTTON_PRIVACYSEND:
+                utils.server.submitPrivacyData();
+                break;
+            case CONSTANTS.LINK_TYPE.BUTTON_ADDVENDORSEND:
+                utils.server.displayMessage("Vendor details saved succesfully..!");
+                break;
             default:
                 break;
+
+
         }
 
     },
@@ -1034,15 +1077,7 @@ protocall.view = {
         popUpContent.togglePopUpContent($el, html);
     },
     //ADDED BY MANOJ FRIDAY 13 2015---->STARTS HERE
-    shareToRep: function () {
-        protocall.displaySpinner(true);
-        var page = "pagesharewithrepoverlay";
-        var data = {};
-        var callback = utils.server.gotShareWithRepResponse;
-        var deepPath = "agencyrepresentativenamewithlocation";
-        utils.server.makeServerCall(page, data, callback, deepPath);
 
-    },
     assignToCustomers: function () {
         protocall.displaySpinner(true);
         var page = "pageassigncustomersoverlay";
@@ -1072,15 +1107,26 @@ protocall.view = {
         overlay.displayOverlay(html);
     },
     vehiclePolicy: function () {
+        dt_overlaybtn_sendapplink
         var html = staticTemplate.home.vehiclePolicyTemplate();
         overlay.displayOverlay(html);
     },
     sendAppLink: function () {
-        var html = staticTemplate.home.sendAppLinkTemplate();
-        overlay.displayOverlay(html);
+        protocall.displaySpinner(true);
+//        page = "sendapplinkpage";
+//        var data = {};
+//        callback = utils.server.gotSendAppLinkResponse;
+//        deepPath = "";
+        var page = "pagesharewithrepoverlay";
+        var data = {};
+        var callback = utils.server.gotSendAppLinkResponse;
+        var deepPath = "agencyrepresentativenamewithlocation";
+        utils.server.makeServerCall(page, data, callback, deepPath);
     },
     LoadAgencyInfo: function () {
 
+        $('.settings-agency-bar').css("background-color", "#f34f4e");
+        $('.settings-vendor-bar').css("background-color", "#ccc");
         if (IsVendorDataChanged === true) {
             editVendorSaveData();
             IsVendorDataChanged = false;
@@ -1111,6 +1157,8 @@ protocall.view = {
     },
     LoadPreferrredvendorInfo: function () {
 
+        $('.settings-vendor-bar').css("background-color", "#f34f4e");
+        $('.settings-agency-bar').css("background-color", "#ccc");
         if (IsAgencyDataChanged === true) {
             editAgencySaveData();
             IsAgencyDataChanged = false;
@@ -1703,21 +1751,75 @@ protocall.view = {
     }
 };
 protocall.home = {
-    initHomePage: function () {
-        $(".content-holder").empty();
+    /*Naveen Chnages 18-2-2015 start */
+   initHomePage:function(){
+	   CONSTANTS.PGNUMBER = 0;
+		$(".content-holder").empty();
         var page = "home";
-        var data = {agencyId: localStorage.agencyId, agencyRepresentativeId: localStorage.agencyEmail},
-        deepPath = "alertlist",
+		var pageNumber = ++CONSTANTS.PGNUMBER;
+		console.log("pageNumber");
+        //var data = {agencyId: localStorage.agencyId, agencyRepresentativeId: localStorage.agencyEmail},
+		var data = {"pageNumber" : pageNumber};
+        deepPath = "filterfeedbyalertdate",
                 page = "home",
                 callback = protocall.home.loadHomePageData,
                 authId = "",
                 spinnerMsg = "";
         var resp = utils.server.makeServerCall(page, data, callback, deepPath);
-        //protocall.view.buildHomeMenuBlk(page);
         $('.tab-rb-submenu a').each(function () {
             protocall.view.setSelectedLinkClasses($(this), false);
         });
-    },
+	},
+	alertFeeds : function(pageNumber){
+		console.log("pageNumber",pageNumber);
+		var data = {"pageNumber" : pageNumber};
+        deepPath = "filterfeedbyalertdate",
+                page = "home",
+                callback = protocall.home.loadingHomeFeeds,
+                authId = "",
+                spinnerMsg = "";
+        var resp = utils.server.makeServerCall(page, data, callback, deepPath);
+	},
+	loadingHomeFeeds : function(data){
+		var alertDetailsArray = [],feedHTML = "",alertValue ="";
+		if(data !== "undefined" && data.resultMap !== "undefined"){
+			if(data.resultMap.TypeCode !== "undefined" && data.resultMap.TypeCode == "4011"){
+				if(data.resultMap.isNextRecord){
+					CONSTANTS.HASNEXTPAGE = true;
+				} else {
+					CONSTANTS.HASNEXTPAGE = false;
+				}
+				if(data.resultMap.ArrayOfAlertDetails !== "undefined" && data.resultMap.ArrayOfAlertDetails.length !== "undefined" && data.resultMap.ArrayOfAlertDetails.length!== 0){
+					$.each(data.resultMap.ArrayOfAlertDetails,function(index,alertDetails){
+						alertValue = alertDetails; 
+						console.log("alertValue",$(this))
+						if(HOMEPAGERESPONSE.INCIDENTALERTSCLICKED){
+							console.log("HOMEPAGERESPONSE.INCIDENTALERTSCLICKED",HOMEPAGERESPONSE.INCIDENTALERTSCLICKED);
+						feedHTML+= template.incidentAlertFeeds(alertValue);
+						} else if(HOMEPAGERESPONSE.POLICYALERTCLICKED){
+							console.log("HOMEPAGERESPONSE.INCIDENTALERTSCLICKED",HOMEPAGERESPONSE.INCIDENTALERTSCLICKED);
+							feedHTML+= template.policyAlertFeeds(alertValue);
+						} else {
+							feedHTML+= template.feedsTemplateHTML(alertValue);
+						}
+						HOMEPAGERESPONSE.RECURRINGALERTDFEEDS.push(alertDetails);
+						console.log("in each alertDetails",alertDetails);
+					});
+					if(HOMEPAGERESPONSE.INCIDENTALERTSCLICKED){
+						
+					} else if(HOMEPAGERESPONSE.POLICYALERTCLICKED){
+						
+					} else {
+						$("#myAlertCount").html(HOMEPAGERESPONSE.RECURRINGALERTDFEEDS.length);
+					}
+				}
+			$(".content-holder").append($(feedHTML));
+			protocall.displaySpinner(false);
+			$(".content-holder").removeClass("spinner1");
+			}
+		}
+	},
+	/*Naveen Chnages 18-2-2015 end */
     initLoginPage: function () {
 
         var template = LoginTemplate.login.staticLoginTemplate();
@@ -1750,74 +1852,65 @@ protocall.home = {
         $(".c_resetpassword").fadeIn("slow");
         $(".c_resetpassword").fadeIn(3000);
     },
-    /*Naveen 16-2-2015 changes Start */
+   /*Naveen Chnages 18-2-2015 start */
     loadHomePageData: function (data, page) {
-        console.log("data in home", data);
+		console.log("HOMEPAGERESPONSE.INCIDENTALERTSCLICKED",HOMEPAGERESPONSE.INCIDENTALERTSCLICKED);
+		if(HOMEPAGERESPONSE.INCIDENTALERTSCLICKED){
+			HOMEPAGERESPONSE.RECURRINGALERTDFEEDS = [];
+		}
+		if(HOMEPAGERESPONSE.POLICYALERTCLICKED){
+			HOMEPAGERESPONSE.RECURRINGALERTDFEEDS = [];
+		} 
+		if(HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED){
+			HOMEPAGERESPONSE.RECURRINGALERTDFEEDS = [];
+		}
+        console.log("data in loadHomePageData", data);
         console.log("status", data.resultMap.TypeCode);
-        protocall.displaySpinner(true);
-        if (data.resultMap.TypeCode == "4011") {
-            var alertIDS = [];
-            if (data !== "undefined" && data.result !== "undefined" && data.result.resultObject !== "undefined") {
-                $.each(data.result.resultObject, function (index, resultObj) {
-                    console.log("resultObj", resultObj);
-                    RESPONSE.LEFTSIDEFEED.push(resultObj);
-                    alertIDS.push(resultObj.alertDetails.alertId);
-
-                });
-                console.log("RESPONSE.FEEDSDETAILS", RESPONSE.FEEDSDETAILS);
-            }
-            var leftSideFeedValueBeforeSort = RESPONSE.LEFTSIDEFEED, leftSideFeedValueAfterSort;
-            leftSideFeedValueAfterSortByName = leftSideFeedValueBeforeSort.sort(function (a, b) {
-                if (a.userDetails.firstName < b.userDetails.firstName) {
-                    return -1
-                }
-                ;
-                if (a.userDetails.firstName > b.userDetails.firstName) {
-                    return 1
-                }
-                ;
-                return 0;
-            });
-            console.log("leftSideFeedValueAfterSortByName", leftSideFeedValueAfterSortByName);
-            leftSideFeedValueAfterSortByTimeStamp = leftSideFeedValueBeforeSort.sort(function (a, b) {
-                if (a.alertDetails.lastModified < b.alertDetails.lastModified) {
-                    return -1
-                }
-                ;
-                if (a.alertDetails.lastModified > b.alertDetails.lastModified) {
-                    return 1
-                }
-                ;
-                return 0;
-            });
-            console.log("leftSideFeedValueAfterSortByTimeStamp", leftSideFeedValueAfterSortByTimeStamp);
-            console.log("alertIDS length", alertIDS.length);
-            var deepPath = "giveRecordedByUser";
-            var reuestedDataForSideFeeds = {"alertList": alertIDS};
-            console.log("data", data);
-            var resp = utils.server.makeServerCall(page, reuestedDataForSideFeeds, protocall.home.userRecords, deepPath);
-            protocall.view.buildHomeMenuBlk(page);
-        }
-
+		//protocall.displaySpinner(true);
+		var alertDetailsArray = [],feedHTML = "",alertValue ="";
+		if(data !== "undefined" && data.resultMap !== "undefined"){
+			if(data.resultMap.TypeCode !== "undefined" && data.resultMap.TypeCode == "4011"){
+				if(data.resultMap.isNextRecord){
+					CONSTANTS.HASNEXTPAGE = true;
+				} else {
+					CONSTANTS.HASNEXTPAGE = false;
+				}
+				if(data.resultMap.ArrayOfAlertDetails !== "undefined" && data.resultMap.ArrayOfAlertDetails.length !== "undefined" && data.resultMap.ArrayOfAlertDetails.length!== 0){
+					$.each(data.resultMap.ArrayOfAlertDetails,function(index,alertDetails){
+						alertValue = alertDetails; 
+						console.log("alertValue",$(this))
+						if(HOMEPAGERESPONSE.INCIDENTALERTSCLICKED){
+							console.log("HOMEPAGERESPONSE.INCIDENTALERTSCLICKED",HOMEPAGERESPONSE.INCIDENTALERTSCLICKED);
+						feedHTML+= template.incidentAlertFeeds(alertValue);
+						} else if(HOMEPAGERESPONSE.POLICYALERTCLICKED){
+							console.log("HOMEPAGERESPONSE.INCIDENTALERTSCLICKED",HOMEPAGERESPONSE.INCIDENTALERTSCLICKED);
+							feedHTML+= template.policyAlertFeeds(alertValue);
+						} else {
+							feedHTML+= template.feedsTemplateHTML(alertValue);
+						}
+						HOMEPAGERESPONSE.RECURRINGALERTDFEEDS.push(alertDetails);
+						console.log("in each alertDetails",alertDetails);
+					});
+					console.log("HOMEPAGERESPONSE.INCIDENTALERTSCLICKED 2",HOMEPAGERESPONSE.INCIDENTALERTSCLICKED);
+					if(HOMEPAGERESPONSE.INCIDENTALERTSCLICKED){
+						
+					} else if(HOMEPAGERESPONSE.POLICYALERTCLICKED){
+						
+					} else {
+						$("#myAlertCount").html(HOMEPAGERESPONSE.RECURRINGALERTDFEEDS.length);
+					}
+				}
+			$(".container").addClass("container");
+			$(".container").removeClass("container-maxwidth");
+			$(".content-holder").empty();
+			$(".content-holder").append($(feedHTML));
+			protocall.displaySpinner(false);
+			protocall.view.buildHomeMenuBlk(page);
+			}
+			
+		}
     },
-    userRecords: function (data, page) {
-        var feedHTML = "", alertIDSinUserRecords = [];
-        console.log("userRecords", data);
-        if (data !== "undefined" && data.result !== "undefined" && data.result.resultObject !== "undefined") {
-            $.each(data.result.resultObject, function (index, resultObj) {
-                console.log("user records each");
-                RESPONSE.RIGHTSIDEFEED.push(resultObj);
-                alertIDSinUserRecords.push(resultObj.alertId);
-            });
-            console.log("alertIDSinUserRecords", alertIDSinUserRecords);
-        }
-
-        template.feedsTemplateHTML();
-        /* $(".container").addClass("container");
-         $(".container").removeClass("container-maxwidth");
-         $(".content-holder").empty();
-         $(".content-holder").append($(feedHTML)); */
-    },
+/*Naveen Chnages 18-2-2015 end */
     buildScreen: function (data, template) {
 
 
@@ -1836,16 +1929,23 @@ protocall.home = {
         $(".rel-feeds-content").append($(totalHTML));
     },
     displayMyAlertsFeeds: function () {
-        $(".content-holder").empty();
-        var page = "myalerts";
-        var data = {agencyId: localStorage.agencyId, agencyRepresentativeId: localStorage.agencyEmail},
-        deepPath = "alertlist",
-                page = "myalerts",
+       HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED = true;
+		console.log("displayIncidentsFeeds");
+		CONSTANTS.PGNUMBER = 0;
+		HOMEPAGERESPONSE.INCIDENTALERTSCLICKED = false;
+		HOMEPAGERESPONSE.POLICYALERTCLICKED = false;
+		//$(".content-holder").empty();
+        var page = "home";
+		var pageNumber = ++CONSTANTS.PGNUMBER;
+		console.log("pageNumber");
+        //var data = {agencyId: localStorage.agencyId, agencyRepresentativeId: localStorage.agencyEmail},
+		var data = {"pageNumber" : pageNumber};
+        deepPath = "filterfeedbyalertdate",
+                page = "home",
                 callback = protocall.home.loadHomePageData,
                 authId = "",
                 spinnerMsg = "";
         var resp = utils.server.makeServerCall(page, data, callback, deepPath);
-        protocall.view.buildHomeMenuBlk(page);
         $('.tab-rb-submenu a').each(function () {
             protocall.view.setSelectedLinkClasses($(this), false);
         });
@@ -1870,35 +1970,52 @@ protocall.home = {
         $(".content-holder").empty();
         $(".content-holder").append($(totalHTML));
     },
+   /*Naveen Chnages 18-2-2015 start */
     displayIncidentsFeeds: function () {
-        $(".content-holder").empty();
-        var page = "myalerts";
-        var data = {alertType: "incidentalert"},
-        deepPath = "alertlist",
-                page = "myalerts",
+		HOMEPAGERESPONSE.POLICYALERTCLICKED = false;
+		console.log("displayIncidentsFeeds");
+		CONSTANTS.PGNUMBER = 0;
+		HOMEPAGERESPONSE.INCIDENTALERTSCLICKED = true;
+		HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED = false;
+		//$(".content-holder").empty();
+        var page = "home";
+		var pageNumber = ++CONSTANTS.PGNUMBER;
+		console.log("pageNumber");
+        //var data = {agencyId: localStorage.agencyId, agencyRepresentativeId: localStorage.agencyEmail},
+		var data = {"pageNumber" : pageNumber};
+        deepPath = "filterfeedbyalertdate",
+                page = "home",
                 callback = protocall.home.loadHomePageData,
                 authId = "",
                 spinnerMsg = "";
         var resp = utils.server.makeServerCall(page, data, callback, deepPath);
-        protocall.view.buildHomeMenuBlk(page);
         $('.tab-rb-submenu a').each(function () {
             protocall.view.setSelectedLinkClasses($(this), false);
         });
-        // var totalLen = 1, totalHTML = "";
-        // for (var h = 0; h < totalLen; h++) {
-        // var template = staticTemplate.home.staticFeedTemplate();
-        // totalHTML = totalHTML + template;
-        // }
-        // $(".content-holder").empty();
-        // $(".content-holder").append($(totalHTML));
     },
     displayPoliciesFeeds: function () {
-        var totalHTML = "";
-        var policyTemplate = staticTemplate.home.staticPoliciesFeedTemplate();
-        totalHTML = totalHTML + policyTemplate;
-        $(".content-holder").empty();
-        $(".content-holder").append($(totalHTML));
-    },
+		HOMEPAGERESPONSE.INCIDENTALERTSCLICKED =false;
+        console.log("displayPoliciesFeeds");
+		CONSTANTS.PGNUMBER = 0;
+		HOMEPAGERESPONSE.POLICYALERTCLICKED = true;
+		HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED = false;
+		//$(".content-holder").empty();
+        var page = "home";
+		var pageNumber = ++CONSTANTS.PGNUMBER;
+		console.log("pageNumber");
+        //var data = {agencyId: localStorage.agencyId, agencyRepresentativeId: localStorage.agencyEmail},
+		var data = {"pageNumber" : pageNumber};
+        deepPath = "filterfeedbyalertdate",
+                page = "home",
+                callback = protocall.home.loadHomePageData,
+                authId = "",
+                spinnerMsg = "";
+        var resp = utils.server.makeServerCall(page, data, callback, deepPath);
+        $('.tab-rb-submenu a').each(function () {
+            protocall.view.setSelectedLinkClasses($(this), false);
+        });
+    }
+	/*Naveen Chnages 18-2-2015 end */
 };
 protocall.carrier = {
     initCarrierPage: function () {
@@ -2152,13 +2269,16 @@ protocall.myRep = {
 protocall.myProfile = {
     loadFeedSetting: function ($el) {
 
+//min -9px -508px
+//add 
         var page = "settings";
-        var data = {agencyId:"49c03e36-f3f1-4132-8115-2f74c8a7bae3"};
+        var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"};
         var callback = protocall.myProfile.MysettingsResponse;
         var deepPath = "readagency";
 
         var response = utils.server.makeServerCall(page, data, callback, deepPath);
         this.setSelectedClassPopContent($el);
+
     },
     MysettingsResponse: function (data) {
         console.log(data);
@@ -2166,6 +2286,8 @@ protocall.myProfile = {
         var html = staticTemplate.customers.staticSettingsTemplate(data);
         $(".content-holder").empty();
         $(".content-holder").append($(html));
+        $('.settings-agency-bar').css("background-color", "#f34f4e");
+        $('.settings-vendor-bar').css("background-color", "#ccc");
 
     },
     loadMyProfileView: function ($el) {
@@ -2234,19 +2356,39 @@ function checkboxStatus(idValue) {
 }
 
 
-function moveani(idValue, idcontainerValue) {
 
-    if (idValue === "id-switch-off") {
-        document.getElementById(idcontainerValue).style.marginLeft = "50px";
-    } else if (idValue === "id-switch-on") {
-        document.getElementById(idcontainerValue).style.marginLeft = "-8px";
-    }
+function hideVendorTextboxes() {
+    $("#id-vendor-preferredvendorid").css("visibility", "hidden");
+    $("#id-vendor-type").css("visibility", "hidden");
+    $("#id-vendor-name").css("visibility", "hidden");
+    $("#id-vendor-phone").css("visibility", "hidden");
+    $("#id-vendor-address1").css("visibility", "hidden");
+    $("#id-vendor-address2").css("visibility", "hidden");
+    $("#id-vendor-city").css("visibility", "hidden");
+    $("#id-vendor-state").css("visibility", "hidden");
+    $("#id-vendor-zipcode").css("visibility", "hidden");
+}
 
+
+function hideAgencyTextboxes() {
+    $("#id-carrier-agencyid").css("visibility", "hidden");
+    $("#id-carrier-masteragencyid").css("visibility", "hidden");
+    $("#id-carrier-agencytype").css("visibility", "hidden");
+    $("#id-carrier-agencyname").css("visibility", "hidden");
+    $("#id-carrier-agencyaddress1").css("visibility", "hidden");
+    $("#id-carrier-agencyaddress2").css("visibility", "hidden");
+    $("#id-carrier-agencycity").css("visibility", "hidden");
+    $("#id-carrier-agencystate").css("visibility", "hidden");
+    $("#id-carrier-agencyzipcode").css("visibility", "hidden");
+    $("#id-carrier-agencyphone").css("visibility", "hidden");
+    $("#id-carrier-agencyemail").css("visibility", "hidden");
 }
 
 
 function editAgencySaveData() {
     addBottomBorder();
+
+    hideAgencyTextboxes();
     document.getElementById("id-carrier-edit").innerHTML = "edit";
     document.getElementById("id-c-agencyid").innerHTML = document.getElementById("id-carrier-agencyid").value;
     document.getElementById("id-c-masteragencyid").innerHTML = document.getElementById("id-carrier-masteragencyid").value;
@@ -2259,81 +2401,76 @@ function editAgencySaveData() {
     document.getElementById("id-c-agencyzip").innerHTML = document.getElementById("id-carrier-agencyzipcode").value;
     document.getElementById("id-c-agencyphone").innerHTML = document.getElementById("id-carrier-agencyphone").value;
     document.getElementById("id-c-agencyemail").innerHTML = document.getElementById("id-carrier-agencyemail").value;
-    document.getElementById("id-c-agencyid").style.visibility = "visible";
-    document.getElementById("id-c-masteragencyid").style.visibility = "visible";
-    document.getElementById("id-c-agencytype").style.visibility = "visible";
-    document.getElementById("id-c-agencyname").style.visibility = "visible";
-    document.getElementById("id-c-agencyaddress1").style.visibility = "visible";
-    document.getElementById("id-c-agencyaddress2").style.visibility = "visible";
-    document.getElementById("id-c-agencycity").style.visibility = "visible";
-    document.getElementById("id-c-agencystate").style.visibility = "visible";
-    document.getElementById("id-c-agencyzip").style.visibility = "visible";
-    document.getElementById("id-c-agencyphone").style.visibility = "visible";
-    document.getElementById("id-c-agencyemail").style.visibility = "visible";
-    document.getElementById("id-carrier-agencyid").style.visibility = "hidden";
-    document.getElementById("id-carrier-masteragencyid").style.visibility = "hidden";
-    document.getElementById("id-carrier-agencytype").style.visibility = "hidden";
-    document.getElementById("id-carrier-agencyname").style.visibility = "hidden";
-    document.getElementById("id-carrier-agencyaddress1").style.visibility = "hidden";
-    document.getElementById("id-carrier-agencyaddress2").style.visibility = "hidden";
-    document.getElementById("id-carrier-agencycity").style.visibility = "hidden";
-    document.getElementById("id-carrier-agencystate").style.visibility = "hidden";
-    document.getElementById("id-carrier-agencyzipcode").style.visibility = "hidden";
-    document.getElementById("id-carrier-agencyphone").style.visibility = "hidden";
-    document.getElementById("id-carrier-agencyemail").style.visibility = "hidden";
+    $("#id-c-agencyid").show();
+    $("#id-c-masteragencyid").show();
+    $("#id-c-agencytype").show();
+    $("#id-c-agencyname").show();
+    $("#id-c-agencyaddress1").show();
+    $("#id-c-agencyaddress2").show();
+    $("#id-c-agencycity").show();
+    $("#id-c-agencystate").show();
+    $("#id-c-agencyzip").show();
+    $("#id-c-agencyphone").show();
+    $("#id-c-agencyemail").show();
+
 }
 
 function editAgencyEditData() {
     removerBottomBorder();
     document.getElementById("id-carrier-edit").innerHTML = "Save";
-    document.getElementById("id-c-agencyid").style.visibility = "hidden";
-    document.getElementById("id-c-masteragencyid").style.visibility = "hidden";
-    document.getElementById("id-c-agencytype").style.visibility = "hidden";
-    document.getElementById("id-c-agencyname").style.visibility = "hidden";
-    document.getElementById("id-c-agencyaddress1").style.visibility = "hidden";
-    document.getElementById("id-c-agencyaddress2").style.visibility = "hidden";
-    document.getElementById("id-c-agencycity").style.visibility = "hidden";
-    document.getElementById("id-c-agencystate").style.visibility = "hidden";
-    document.getElementById("id-c-agencyzip").style.visibility = "hidden";
-    document.getElementById("id-c-agencyphone").style.visibility = "hidden";
-    document.getElementById("id-c-agencyemail").style.visibility = "hidden";
-    document.getElementById("id-carrier-agencyid").style.visibility = "visible";
-    document.getElementById("id-carrier-masteragencyid").style.visibility = "visible";
-    document.getElementById("id-carrier-agencytype").style.visibility = "visible";
-    document.getElementById("id-carrier-agencyname").style.visibility = "visible";
-    document.getElementById("id-carrier-agencyaddress1").style.visibility = "visible";
-    document.getElementById("id-carrier-agencyaddress2").style.visibility = "visible";
-    document.getElementById("id-carrier-agencycity").style.visibility = "visible";
-    document.getElementById("id-carrier-agencystate").style.visibility = "visible";
-    document.getElementById("id-carrier-agencyzipcode").style.visibility = "visible";
-    document.getElementById("id-carrier-agencyphone").style.visibility = "visible";
-    document.getElementById("id-carrier-agencyemail").style.visibility = "visible";
+    $("#id-c-agencyid").hide();
+    $("#id-c-masteragencyid").hide();
+    $("#id-c-agencytype").hide();
+    $("#id-c-agencyname").hide();
+    $("#id-c-agencyaddress1").hide();
+    $("#id-c-agencyaddress2").hide();
+    $("#id-c-agencycity").hide();
+    $("#id-c-agencystate").hide();
+    $("#id-c-agencyzip").hide();
+    $("#id-c-agencyphone").hide();
+    $("#id-c-agencyemail").hide();
+
+    $("#id-carrier-agencyid").css("visibility", "visible");
+    $("#id-carrier-masteragencyid").css("visibility", "visible");
+    $("#id-carrier-agencytype").css("visibility", "visible");
+    $("#id-carrier-agencyname").css("visibility", "visible");
+    $("#id-carrier-agencyaddress1").css("visibility", "visible");
+    $("#id-carrier-agencyaddress2").css("visibility", "visible");
+    $("#id-carrier-agencycity").css("visibility", "visible");
+    $("#id-carrier-agencystate").css("visibility", "visible");
+    $("#id-carrier-agencyzipcode").css("visibility", "visible");
+    $("#id-carrier-agencyphone").css("visibility", "visible");
+    $("#id-carrier-agencyemail").css("visibility", "visible");
+
+
+    document.getElementById("id-carrier-agencyid").value = document.getElementById("id-c-agencyid").innerHTML;
+    document.getElementById("id-carrier-masteragencyid").value = document.getElementById("id-c-masteragencyid").innerHTML;
+    document.getElementById("id-carrier-agencytype").value = document.getElementById("id-c-agencytype").innerHTML;
+    document.getElementById("id-carrier-agencyname").value = document.getElementById("id-c-agencyname").innerHTML;
+    document.getElementById("id-carrier-agencyaddress1").value = document.getElementById("id-c-agencyaddress1").innerHTML;
+    document.getElementById("id-carrier-agencyaddress2").value = document.getElementById("id-c-agencyaddress2").innerHTML;
+    document.getElementById("id-carrier-agencycity").value = document.getElementById("id-c-agencycity").innerHTML;
+    document.getElementById("id-carrier-agencystate").value = document.getElementById("id-c-agencystate").innerHTML;
+    document.getElementById("id-carrier-agencyzipcode").value = document.getElementById("id-c-agencyzip").innerHTML;
+    document.getElementById("id-carrier-agencyphone").value = document.getElementById("id-c-agencyphone").innerHTML;
+    document.getElementById("id-carrier-agencyemail").value = document.getElementById("id-c-agencyemail").innerHTML;
+
+
 }
 
 function editVendorSaveData() {
     addBottomBorder();
     document.getElementById("id-carrier-edit").innerHTML = "edit";
-
-    document.getElementById("id-v-preferredvendorid").style.visibility = "visible";
-    document.getElementById("id-v-vendortype").style.visibility = "visible";
-    document.getElementById("id-v-vendorname").style.visibility = "visible";
-    document.getElementById("id-v-vendorphone").style.visibility = "visible";
-    document.getElementById("id-v-address1").style.visibility = "visible";
-    document.getElementById("id-v-address2").style.visibility = "visible";
-    document.getElementById("id-v-city").style.visibility = "visible";
-    document.getElementById("id-v-state").style.visibility = "visible";
-    document.getElementById("id-v-zipcode").style.visibility = "visible";
-
-    document.getElementById("id-vendor-preferredvendorid").style.visibility = "hidden";
-    document.getElementById("id-vendor-type").style.visibility = "hidden";
-    document.getElementById("id-vendor-name").style.visibility = "hidden";
-    document.getElementById("id-vendor-phone").style.visibility = "hidden";
-    document.getElementById("id-vendor-address1").style.visibility = "hidden";
-    document.getElementById("id-vendor-address2").style.visibility = "hidden";
-    document.getElementById("id-vendor-city").style.visibility = "hidden";
-    document.getElementById("id-vendor-state").style.visibility = "hidden";
-    document.getElementById("id-vendor-zipcode").style.visibility = "hidden";
-
+    $("#id-v-preferredvendorid").show();
+    $("#id-v-vendortype").show();
+    $("#id-v-vendorname").show();
+    $("#id-v-vendorphone").show();
+    $("#id-v-address1").show();
+    $("#id-v-address2").show();
+    $("#id-v-city").show();
+    $("#id-v-state").show();
+    $("#id-v-zipcode").show();
+    hideVendorTextboxes();
     document.getElementById("id-v-preferredvendorid").innerHTML = document.getElementById("id-vendor-preferredvendorid").value;
     document.getElementById("id-v-vendortype").innerHTML = document.getElementById("id-vendor-type").value;
     document.getElementById("id-v-vendorname").innerHTML = document.getElementById("id-vendor-name").value;
@@ -2343,33 +2480,40 @@ function editVendorSaveData() {
     document.getElementById("id-v-city").innerHTML = document.getElementById("id-vendor-city").value;
     document.getElementById("id-v-state").innerHTML = document.getElementById("id-vendor-state").value;
     document.getElementById("id-v-zipcode").innerHTML = document.getElementById("id-vendor-zipcode").value;
-
-
 }
 
 function editVendorEditData() {
     removerBottomBorder();
     document.getElementById("id-carrier-edit").innerHTML = "Save";
-    document.getElementById("id-v-preferredvendorid").style.visibility = "hidden";
-    document.getElementById("id-v-vendortype").style.visibility = "hidden";
-    document.getElementById("id-v-vendorname").style.visibility = "hidden";
-    document.getElementById("id-v-vendorphone").style.visibility = "hidden";
-    document.getElementById("id-v-address1").style.visibility = "hidden";
-    document.getElementById("id-v-address2").style.visibility = "hidden";
-    document.getElementById("id-v-city").style.visibility = "hidden";
-    document.getElementById("id-v-state").style.visibility = "hidden";
-    document.getElementById("id-v-zipcode").style.visibility = "hidden";
 
-    document.getElementById("id-vendor-preferredvendorid").style.visibility = "visible";
-    document.getElementById("id-vendor-type").style.visibility = "visible";
-    document.getElementById("id-vendor-name").style.visibility = "visible";
-    document.getElementById("id-vendor-phone").style.visibility = "visible";
-    document.getElementById("id-vendor-address1").style.visibility = "visible";
-    document.getElementById("id-vendor-address2").style.visibility = "visible";
-    document.getElementById("id-vendor-city").style.visibility = "visible";
-    document.getElementById("id-vendor-state").style.visibility = "visible";
-    document.getElementById("id-vendor-zipcode").style.visibility = "visible";
+    $("#id-vendor-preferredvendorid").css("visibility", "visible");
+    $("#id-vendor-type").css("visibility", "visible");
+    $("#id-vendor-name").css("visibility", "visible");
+    $("#id-vendor-phone").css("visibility", "visible");
+    $("#id-vendor-address1").css("visibility", "visible");
+    $("#id-vendor-address2").css("visibility", "visible");
+    $("#id-vendor-city").css("visibility", "visible");
+    $("#id-vendor-state").css("visibility", "visible");
+    $("#id-vendor-zipcode").css("visibility", "visible");
 
+    document.getElementById("id-vendor-preferredvendorid").value = document.getElementById("id-v-preferredvendorid").innerHTML;
+    document.getElementById("id-vendor-type").value = document.getElementById("id-v-vendortype").innerHTML;
+    document.getElementById("id-vendor-name").value = document.getElementById("id-v-vendorname").innerHTML;
+    document.getElementById("id-vendor-phone").value = document.getElementById("id-v-vendorphone").innerHTML;
+    document.getElementById("id-vendor-address1").value = document.getElementById("id-v-address1").innerHTML;
+    document.getElementById("id-vendor-address2").value = document.getElementById("id-v-address2").innerHTML;
+    document.getElementById("id-vendor-city").value = document.getElementById("id-v-city").innerHTML;
+    document.getElementById("id-vendor-state").value = document.getElementById("id-v-state").innerHTML;
+    document.getElementById("id-vendor-zipcode").value = document.getElementById("id-v-zipcode").innerHTML;
+    $("#id-v-preferredvendorid").hide();
+    $("#id-v-vendortype").hide();
+    $("#id-v-vendorname").hide();
+    $("#id-v-vendorphone").hide();
+    $("#id-v-address1").hide();
+    $("#id-v-address2").hide();
+    $("#id-v-city").hide();
+    $("#id-v-state").hide();
+    $("#id-v-zipcode").hide();
 }
 
 function removerBottomBorder() {
@@ -2414,6 +2558,10 @@ function editDataInfo() {
         }
     }
 }
+
+
+
+
 //------------------------------------------------------------------------------
 
 
