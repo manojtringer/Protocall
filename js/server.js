@@ -1,7 +1,3 @@
-//ADDED BY MANOJ FRIDAY 13 2015---->STARTS HERE
-var RESPONSE_ARRAY = [];
-var ALERTID = "";
-//---------------------------------------------
 var utils = {
 };
 utils.server = {
@@ -10,7 +6,8 @@ utils.server = {
 
     },
     makeServerCall: function (page, data, callback, deepPath) {
-        console.log(page, data, callback, deepPath);
+        //console.log(page,data,callback,deepPath);
+        console.log("make server call");
         var self = utils.server;
         var response = this.getData(page, data, callback, deepPath);
         if (response != "undefined" || response != null || typeof response != undefined) {
@@ -114,6 +111,8 @@ utils.server = {
 //resultMap
         console.log("myvinoth", data);
 
+
+
         if (data.resultMap.TypeCode == '4002') {
             var error = "Your password is wrong, check whether the caplock is enabled";
             protocall.displaySpinner(false);
@@ -139,6 +138,7 @@ utils.server = {
         if (data.resultMap.TypeCode == '4001') {
 
 
+            $("#homecontent").css("display", "block");
             localStorage.loggedIn = "true";
             localStorage.imageURl = "http://2-dot-proto-call-test.appspot.com/file/";
             localStorage.profilePic = localStorage.imageURl + data.resultMap.userDetails.profilePicture;
@@ -149,23 +149,24 @@ utils.server = {
             localStorage.agencyId = data.resultMap.agencyId;
             protocall.setPageNavigation(HOME_PAGE);
 
-            var header = '<div class="m-width"> <div class="ctrl-blk"> <header class="w-pad"> <div class="logo-info-blk clr-fl p-relative"> <div class="lf-block left clr-fl header-left-panel"> <div class="leftblk-spacing"> <div style="width:100%;"> <div class="logo-container left"> <div class="logo-holder"> <img src="images/Logo.png" alt="" class="logo"/> </div></div><div class="left search-blk"> <form name="globalSearch" method="GET" action="#search" class="" onsubmit="event.preventDefault();"> <div style="width:100%;"> <div class="searchbox-border"> <input class="search-ip opensans-regular" type="search" name="" placeholder="Search"> </div></div></form> </div><div class="clear"></div></div></div></div><div class="rg-block left p-relative"> <a href="/profile" id="profile" class="logged-user-info clr-fl snap" data-type="profile-link"> <div id="" class="left user-pic-box"> <img src="' + localStorage.imageURl + data.resultMap.userDetails.profilePicture + '" alt="Profile pic" class="setProfilePic"> </div><div class="left user-info"> <div class="opensans-regular text-ellipsis"> <span>Hi,</span> <span class="t-caps">' + localStorage.agencyName + '</span> </div></div><div class="left sprite-im drop-down-icon user-drop-icon">&nbsp;</div><div class="clear"></div></a> </div></div></header> <div class="m-block p-relative"> <div class="clr-fl"> <div class="lf-block left"> <div class="leftblk-spacing"> <div class="mb-menu bg-color-green clr-fl t-center t-upper"> <a href="/home" class="snap menu-box left f-sz-18 ptsans-light home p-relative f-color-w" data-type="page" data-page="home"> <div class="menu-center"> <div class="sprite-im home-icon menu-icon">&nbsp;</div><span class="menu-text t-caps">Home</span> </div></a> <a href="/carriers" class="snap menu-box left f-sz-18 ptsans-light carriers p-relative f-color-w" data-type="page" data-page="carriers"> <div class="menu-center"> <div class="sprite-im carriers-icon menu-icon">&nbsp;</div><span class="menu-text t-caps">Carriers</span> </div></a> <a href="/customers" class="snap menu-box left f-sz-18 ptsans-light customers p-relative f-color-w" data-type="page" data-page="customers"> <div class="menu-center"> <div class="sprite-im customers-icon menu-icon">&nbsp;</div><span class="menu-text t-caps">Customers</span> </div></a> <a href="/myreps" class="snap menu-box left f-sz-18 ptsans-light myreps p-relative f-color-w" data-type="page" data-page="myreps"> <div class="menu-center"> <div class="sprite-im myreps-icon menu-icon">&nbsp;</div><span class="menu-text t-caps">My Reps</span> </div></a> </div><div class="mb-submenu"> <div class="mb-submenu-in p-relative"> <div class="tab-rb-submenu inline-block v-align-mid"> <div class="p-relative "> <a href="/myalerts" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light myalerts p-relative selected-tab" data-type="page" data-submenu="myalerts"> <span class="submenu-title t-caps f-color-w">My Alerts</span> <span class="cnt-blk">(<span class="cnt-no">24</span>)</span> </a> <a href="/incidents" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light incidents p-relative" data-type="page" data-submenu="incidents"> <div class="submenu-title t-caps inline-block f-color-w v-align-mid">incidents</div></a> <a href="/policies" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light policies p-relative" data-type="page" data-submenu="policies"> <span class="submenu-title t-caps f-color-w">Policies</span> </a> <a href="/policies" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light policies p-relative" data-type="page" data-submenu="archives"> <span class="submenu-title t-caps f-color-w">Archives</span> </a> <a href="/policies" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light policies p-relative" data-type="page" data-submenu="view_archives"> <span class="submenu-title t-caps f-color-w">View Archived</span> </a> <div href="#" class="snap submenu-sort right f-sz-16 ptsans-light p-relative" data-type="page" data-submenu="sortby"> <div class="sort-text f-italic">Sort by</div><div class="sprite-im drop-down-icon submenu-drop-icon">&nbsp;</div></div></div><div class="clear"></div></div></div></div></div></div><div class="rg-block left p-relative"> <div class="agency-info p-relative clr-fl bg-color-dblue"> <a class="agency-details clr-fl snap" data-type="agency-link"> <div id="" class="left agency-pic-box p-relative"> <img src="' + localStorage.agencyLogo + '" alt="agency pic" class="setAgencyPic"> <div class="edit-cover-pic p-absolute anim-opacity">&nbsp;</div><div class="edit-agency-pic p-absolute anim bg-color-red f-color-w snap" data-type="editAgencyPic"> <div class="p-relative t-center"> <div class="sprite-im mobile-icon inline-block v-align-mid">&nbsp;</div><div class="inline-block f-sz-12 v-align-mid opensans-regular ">Edit</div></div></div></div><div class="left agency-name-details t-left anim"> <div class="opensans-regular text-ellipsis f-italic f-sz-17 agency-name t-caps">' + localStorage.agencyName + '</div><div class="opensans-regular text-ellipsis f-italic agency-email">' + localStorage.agencyEmail + '</div></div></a> </div></div></div></div>';
-
-            var template = '<div style="text-align:center;padding:30px 0px;">Loading...</div>';
-
-            var content = '<div class="container"> <div class="content-holder">' + template + '</div></div></div></div>';
-
-            var footer = '<footer class="p-absolute bg-color-dblue"> <div class="p-relative foot-in clr-fl"> <div class="foot-lb left"> <span class="foot-web-addr opensans-regular f-sz-12">protocol.com</span> </div><div class="foot-rb right"> <div class="foot-nav opensans-regular f-sz-12"> <a href="/help" class="help snap footer-links" data-type="help">Help</a> <a href="/faq" class="faq snap footer-links" data-type="faq">FAQ</a> <a href="/privacy" class="privacy snap footer-links" data-type="privacy">Privacy</a> <a href="/tc" class="tc snap footer-links" data-type="tc">Terms &#38; Conditions</a> </div></div></div></footer>';
-
-            $("#page").empty();
-
-            totalHtml = header + content + footer;
-
-            $("#page").append(totalHtml);
-            protocall.displaySpinner(false);
+            /* var header   = HomedynamicTemplate.home.HomeDynamicHeaderTemplate();
+             
+             var template = staticTemplate.home.staticFeedTemplate();
+             
+             var content = '<div class="container"> <div class="content-holder">'+template+'</div></div></div></div>';
+             
+             var footer   = HomedynamicTemplate.home.HomeDynamicFooterTemplate()
+             
+             $("#page").empty();
+             
+             totalHtml = header+content+footer;
+             
+             $("#page").append(totalHtml); */
+            protocall.displaySpinner(true);
         }
 
     },
+    //ADDED BY MANOJ FRIDAY 17 2015---->STARTS HERE
     //ADDED BY MANOJ FRIDAY 17 2015---->STARTS HERE
     gotAssignCustomersResponse: function (data, page) {
 
@@ -234,17 +235,24 @@ utils.server = {
     gotSendAppLinkResponse: function (data, page) {
 
         RESPONSE_ARRAY = [];
-        var feedHtml = staticTemplate.home.sendAppLinkTemplate();
+        var feedHtml = staticTemplate.home.sendAppLinkTemplate($(".app-download-bar").html());
 
-        for (var index = 0; index < data.resultMap.RepresentativeDetails.length; index++) {
-            var customerName = data.resultMap.RepresentativeDetails[index].name;
-            var customerCity = data.resultMap.RepresentativeDetails[index].location;
-            var customerState = "";
-            var customerEmailId = data.resultMap.RepresentativeDetails[index].agencyRepresentativeId.email;
-//            alert(customerEmailId);
+        for (var index = 0; index < data.result.resultObject.length; index++) {
+            var customerName = data.result.resultObject[index].name;
+            var customerCity = data.result.resultObject[index].city;
+            var customerState = data.result.resultObject[index].state;
+            var customerEmailId = data.result.resultObject[index].userId.email;
+
+
+
+            if (customerState == null || customerState == "") {
+                customerState = "";
+            } else {
+                customerState = "," + customerState;
+            }
 
             RESPONSE_ARRAY[index] = [customerName, customerCity, customerState, customerEmailId];
-
+//
             var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
             feedHtml = feedHtml + tempHtml;
             tempHtml = "";
@@ -253,6 +261,29 @@ utils.server = {
         var finalHtml = feedHtml + buttonHtml;
 
         overlay.displayOverlay(finalHtml);
+//        
+//        for (index = 0; index < data.result.resultObject.length; index++) {
+//            var customerName = data.result.resultObject[index].name;
+//            var customerCity = data.result.resultObject[index].city;
+//            var customerState = data.result.resultObject[index].state;
+//            var customerEmailId = data.result.resultObject[index].userId.email;
+//
+//            if (customerState == null || customerState == "") {
+//                customerState = "";
+//            } else {
+//                customerState = "," + customerState;
+//            }
+//
+//            RESPONSE_ARRAY[index] = [customerName, customerCity, customerState, customerEmailId];
+//            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
+//            feedHtml = feedHtml + tempHtml;
+//            tempHtml = "";
+//            console.log("Name" + customerName + "City,State" + customerCity + customerState + customerEmailId);
+//        }
+//        var buttonHtml = " </form> </div> </div> <div class='o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w' data-type='dt_overlaybtn_sendapplink'>Send</div> </div> ";
+//        var finalHtml = feedHtml + buttonHtml;
+//        overlay.displayOverlay(finalHtml);
+
         sharewithRepSelectAllDropDown("true");
 
 
@@ -288,17 +319,14 @@ utils.server = {
 
     },
     submitSendAppLinkData: function () {
-        var fromMailId = "agencyowner@gmail.com";
-        var representativeId = "";
-        var alertID = ALERTID;
+        var representativeId = [];
         var index = 0;
         $('.checkbox').each(function () {
             str = this.checked ? "1" : "0";
             if (str == "1") {
-                representativeId = RESPONSE_ARRAY[index][3];
+                representativeId.push(RESPONSE_ARRAY[index][3]);
                 index++;
             }
-
         });
         protocall.displaySpinner(true);
 
@@ -310,12 +338,12 @@ utils.server = {
             return false;
         }
 
-        var page = "shareWithRepPage";
-        var data = {fromUserId: fromMailId, alertId: alertID, toUserId: representativeId};
-        var callback = utils.server.getCodeResponseAssignCustomers;
-        var deepPath = "sharewithrepresentative";
-        utils.server.makeServerCall(page, data, callback, deepPath);
 
+        var page = "sendapplinkpage";
+        var data = {applicationLink: $(".app-download-bar").html(), message: $(".textarea").val(), userIdList: representativeId};
+        utils.server.displayMessage("Send Successfully...!");
+        var deepPath = "sendsetuplink";
+        utils.server.makeServerCall(page, data, null, deepPath);
     },
     submitAssignCustomersData: function () {
         var index = 0;
@@ -343,6 +371,56 @@ utils.server = {
         utils.server.makeServerCall(page, data, callback, deepPath);
 
 //     *************************    Doubts here ---------------------->
+
+    },
+    MysettingsResponse: function (data) {
+
+        var html = staticTemplate.customers.staticSettingsTemplate(data);
+        TEMPSETTINGSPAGE = "";
+        TEMPSETTINGSPAGE = html;
+
+        $(".content-holder").empty();
+        $(".content-holder").append(TEMPSETTINGSPAGE + "</form>");
+        $('.settings-agency-bar').css("background-color", "#f34f4e");
+        $('#id-agency-view-load').css("color", "white");
+        $('.settings-vendor-bar').css("background-color", "#ccc");
+        $('#id-preferred-vendors-view-load').css("color", "black");
+
+
+
+
+
+    },
+    getResponseForPreferredVendor: function (idvalue) {
+        page = "settingspage";
+        var dataq = {serviceId: idvalue};
+        callback = utils.server.settingsPreffredVendor;
+        deepPath = "readservice";
+        utils.server.makeServerCall(page, dataq, callback, deepPath);
+    },
+    settingsPreffredVendor: function (data) {
+
+
+        var footer = '</div><div class="vendor-detail-block"> <div class="vendor-view-block inline-block v-align-mid p-relative "> '
+                + '<div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> '
+                + '<div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> '
+                + '<div  class="carrier-left-title t-right left">preferred vendor id</div> '
+                + '<div id="id-v-preferredvendorid" class="carrier-left-content t-left right " style="visibility: visible">' + data.serviceId + '</div> '
+                + '<input id="id-vendor-preferredvendorid" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> '
+                + '</div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> '
+                + '<div class="carrier-left-title t-right left">type</div> '
+                + '<div id="id-v-vendortype" class="carrier-left-content t-left right" style="visibility: visible">' + data.serviceType + '</div>'
+                + '<input id="id-vendor-type" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden">'
+                + '</div> </div> </div> </div><div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">name</div> <div id="id-v-vendorname" class="carrier-left-content t-left right " style="visibility: visible">' + data.serviceName + '</div> <input id="id-vendor-name" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">phone</div> <div id="id-v-vendorphone" class="carrier-left-content t-left right" style="visibility: visible">' + data.phone.number + '</div> <input id="id-vendor-phone" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">address</div> <div id="id-v-address1" class="carrier-left-content t-left right ">#20,xyx</div> <input id="id-vendor-address1" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">address</div> <div id="id-v-address2" class="carrier-left-content t-left right">#667,sample</div> <input id="id-vendor-address2" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view border-bot clr-fl"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">city</div> <div id="id-v-city" class="carrier-left-content t-left right ">' + data.latitude + '</div> <input id="id-vendor-city" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">state</div> <div id="id-v-state" class="carrier-left-content t-left right t-upper">' + data.latitude + '</div> <input id="id-vendor-state" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">zip</div> <div id="id-v-zipcode" class="carrier-left-content t-left right ">' + data.zipcode + '</div> <input id="id-vendor-zipcode" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left"></div> <div class="carrier-left-content t-left right t-upper"></div> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl"> <div class="vendor-view-right right t-caps opensans-regular"> </div> </div> </div> </div> <div class="vendor-back-button"> <div class="vendor-back-bar inline-block p-relative bg-color-green "> <div class="p-relative inline-block t-caps t-right v-align-mid opensans-regular f-color-w">back</div> </div> </div> </div></div> </form>';
+
+        $(".content-holder").empty();
+        $(".content-holder").append(TEMPSETTINGSPAGE + footer);
+
+        $('.settings-agency-bar').css("background-color", "#ccc");
+        $('#id-agency-view-load').css("color", "black");
+        $('.settings-vendor-bar').css("background-color", "#f34f4e");
+        $('#id-preferred-vendors-view-load').css("color", "white");
+        protocall.view.LoadVendorInfo();
 
     },
     submitShareWithRepsData: function () {
@@ -424,8 +502,6 @@ utils.server = {
 
 
     },
-    //---------------------------------------------------------------------------
-    //----------------------------------------------------------
     imagesToServer: function (form, callback, isFormData, ref, qs, pagespinner) {
         if (pagespinner) {
             t.ui.showPageSpinner()

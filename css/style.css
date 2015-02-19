@@ -67,8 +67,8 @@ a {
 .inline-block {display:inline-block;}
 .p-relative {position: relative;}
 .p-absolute {position:absolute;}
-.left {float: left;}
-.right {float: right;}
+.left {float:left;}
+.right {float:right;}
 .clr-fl{overflow:hidden;position:relative;}
 .t-center {text-align:center;}
 .t-left{text-align:left;}
@@ -262,6 +262,8 @@ input, select, textarea {
 .logged-user-info .user-pic-box  > img {
     height: 53px;
     vertical-align: top;
+    width:100%;
+    height:100%;
 }
 
 .logged-user-info .user-drop-icon{
@@ -615,6 +617,7 @@ input, select, textarea {
     right:0;
     margin:auto;
     width: 100%;
+    height:100%;
 }
 
 .agency-name-details {
@@ -643,7 +646,7 @@ input, select, textarea {
 }
 
 .mb-submenu .mb-submenu-in  >div:first-child{
-    width: 30%;
+    width:25%;
     line-height: 39px;
 }
 .mb-submenu .mb-submenu-in  >div:last-child{
@@ -694,7 +697,7 @@ input, select, textarea {
 .submenu-sort{
     padding: 0px 15px;
     border: 1px solid #b9b8b8;
-    width: 28%;
+    width: 27%;
     max-height: 37px;
     overflow: hidden;
     height: 37px;
@@ -1176,7 +1179,7 @@ input[type=checkbox]:checked + .feed-label:before {
 .agenyleft-profile{
     width: 15%;
     margin-right: 25px;
-
+    
 }
 .agenyleft-image{
     padding: 5px;
@@ -1378,16 +1381,14 @@ input[type=checkbox]:checked + .feed-label:before {
     width:100%;
 }
 .carrier-view-name{
-    color: black;
-    font-size: 16px;
-    margin-right: 15px;
-    /* float: left; */
-}
-.carrier-view-id{
     color: #989898;
     font-size: 16px;
     margin-right: 15px;
-    /* float: left; */
+}
+.carrier-view-id{
+    color: black;
+    font-size: 16px;
+    margin-right: 15px;
 }
 .carrier-view-parent{
     overflow: hidden;
@@ -1465,37 +1466,44 @@ input[type=checkbox]:checked + .feed-label:before {
     margin: auto;
 }
 .carrier-view-left{
-    width:50%;
+    width: 50%;
     height: 25px;
 }
 .carrier-view-right{
-    width:50%;
+    width: 48%;
+    overflow: s;
 }
 .carrier-left-width{
-    width:100%;
+    width: 100%;
     font-size: 16px;
     color: #989898;
     height: 25px;
 }
 .carrier-left-title{
-    width:45%;
+    width: 35%;
     color: #989898!important;
+    text-align: center;
 }
 .carrier-left-content{
-    width:45%;
+    width: 56%;
     font-size: 16px;
     margin-right: 15px;
     color: black;
+    overflow: auto;
+    overflow-y: auto;
+    height: 30px;
+    display: block;
 }
 .carrier-left-content-textbox{
-    width:45%;
+    width: 53%;
     font-size: 16px;
-    /* margin-right: 19px; */
+    margin-right: 19px;
     color: black;
     height: 24px;
-    /* margin-left: 6%; */
+    margin-left: 6%;
     float: left;
     /* top: -23px; */
+    overflow: auto;
     /* margin-top: 0px; */
     /* margin-bottom: -40px; */
     border: 1px solid #ccc;
@@ -1509,6 +1517,7 @@ input[type=checkbox]:checked + .feed-label:before {
 }
 .carrier-border-view{
     padding: 10px 0px;
+    /* height: 25px; */
 }
 
 /************ Associated Carrier view related feed ********/
@@ -1632,7 +1641,7 @@ input[type=checkbox]:checked + .feed-label:before {
 }
 .settings-view-auth {
     padding: 10px 18px;
-    width: 500px;
+    width: 425px;
 }
 .settingslogo-viewpic {
     position: relative;
@@ -1691,11 +1700,11 @@ input[type=checkbox]:checked + .feed-label:before {
     width: 100%;
 }
 .preffered-view-left {
-    width: 30%;
+    width: 40%;
     padding: 10px 10px 10px 10px;
 }
 .preffered-view-right {
-    width: 38%;
+    width: 52%;
     padding: 10px 0px;
 }
 .addvendor-bar{
@@ -1761,10 +1770,10 @@ input[type=checkbox]:checked + .vendor-label:before {
     padding: 15px 0px;
 }
 .vendor-view-left {
-    width: 33%;
+    width: 35%;
 }
 .vendor-view-right {
-    width: 66%;
+    width: 58%;
 }
 .vendor-back-button{
     width: 13%;
@@ -1815,10 +1824,10 @@ input[type=checkbox]:checked + .vendor-label:before {
     margin-bottom: 22px;
 }
 
-/*#id-switch-container,#id2-switch-container,#id3-switch-container,#id4-switch-container,#id5-switch-container,#id6-switch-container,#id7-switch-container,#id8-switch-container{
+#id-switch-container,#id2-switch-container,#id3-switch-container,#id4-switch-container,#id5-switch-container,#id6-switch-container,#id7-switch-container,#id8-switch-container{
     width: 150px;
     margin-left: -8px;
-}*/
+}
 #id-switch-on{
     width: 50px;
     margin-left: -50px;
@@ -2584,8 +2593,7 @@ textarea::-webkit-input-placeholder {  color: #999;}
 
 .alert-mess-text, .invite-reps-text, .text-color-overlay{
     color: #5c5c5c;
-    margin-bottom: 10px;
-    /* width: 17%; */
+    margin-bottom: 12px;
 }
 
 .alert-mess-text{
@@ -2594,17 +2602,17 @@ textarea::-webkit-input-placeholder {  color: #999;}
 }
 
 .profcamera-icon{background-position: -73px -586px;
-                 width: 25px;
-                 height: 20px;}
+width: 25px;
+height: 20px;}
 
 #agency-prof-img{
-    position: absolute;
-    opacity: 0;
-    height: 100%;
-    width: 100%;
-    top: 0px;
-    left: 0px;
-    cursor: pointer;
+position: absolute;
+opacity: 0;
+height: 100%;
+width: 100%;
+top: 0px;
+left: 0px;
+cursor: pointer;
 }
 
 .text-box-outer{
@@ -2699,7 +2707,7 @@ textarea::-webkit-input-placeholder {  color: #999;}
 
 .rep-label .lbl-in-block{
     display: inline-block;
-    width: 96%;
+    width: 93%;
     height: 18px;
     height: 16px;
 }
@@ -2830,11 +2838,11 @@ textarea::-webkit-input-placeholder {  color: #999;}
 }
 
 #viewingImage{
-    width: 250px;
-    height: 200px;
+    width: 300px;
+    height: 300px;
     position: absolute;
-    top: -20px;
     left: -20px;
+	top: -8px
 }
 
 #viewingImage img{
@@ -2842,41 +2850,39 @@ textarea::-webkit-input-placeholder {  color: #999;}
     max-height: 100%;
 }
 #thumbNailDocs{
-    float: left;
-    position: relative;
-    top: 15px;
+	float: left;
+	position: relative;
+	top: 15px;
 }
 
 #originalDocDIV{
-    width: 100%;
-    position: relative;
-    top: 50px;
-    left: 10px;
-    height: 100%;
+	width: 100%;
+	position: relative;
+	top: 50px;
+	left: 10px;
+	height: 100%;
 }
 
 .leftDiv p {
-    padding-bottom : 10px;
+	padding-bottom : 10px;
 }
 
 .leftDiv p span{
-    color: #585858;
-    font-family: 'OpenSansRegular';
-    font-size: 13px;
+	color: #585858;
+	font-family: 'OpenSansRegular';
+	font-size: 13px;
 }
 
 .firstSpan {
-    float: left;
-    width: 45%;
-    text-align: right;
+	float: left;
+	width: 45%;
+	text-align: right;
 }
 
 .secondSpan{
-    position: relative;
-    left: 20px;
+	position: relative;
+	left: 20px;
 }
-
-
 .noselect {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -2942,7 +2948,7 @@ animation: spinnerRotate .5s linear infinite;
     transform: rotate(360deg);
   }
 }
-/*Naveen 18-2-2015 changes End*/
+
 
 /**************** Overlay Contents ***********************/
 
@@ -3039,4 +3045,21 @@ footer  .foot-in{
 .agencyprofinput{border: solid 1px lightgrey;color: black;width: 40%;display:none;}
 
 
+#id-carrier-edit{
+    color: white;
+}
 
+#id-prefeeredvendorbox{
+    width: 45%;
+    text-align: center;
+    margin-left: 33px;
+}
+#id-vendortypebox{
+    width: 45%;
+    text-align: center;
+}
+
+#id-vendornamebox{
+    width: 52%;
+
+}

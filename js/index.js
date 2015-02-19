@@ -10,6 +10,7 @@ var browserPrefix = (/webkit/i).test(navigator.appVersion) ? 'webkit' :
 var REFERENCE_TYPE = "agency_info";
 var IsAgencyDataChanged = false;
 var IsVendorDataChanged = false;
+var SERVICEID = 0;
 //CONSTANTS
 var CONSTANTS = {
     MODAL_OPACITY: 1,
@@ -30,6 +31,8 @@ var CONSTANTS = {
         ajaxFailed: "Oops! This action could not be completed now! Please try again"
     },
     ISLOGGEDIN: false,
+    HASNEXTPAGE: false,
+    SCROLLTOPVALUE: 0
 };
 //regular expressions
 PHONE_REGEX = /((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,3})|(\(?\d{2,3}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}/;
@@ -47,48 +50,45 @@ var ENDPOINT = {
     AGENCY_DASHBOARD_DESIGN: "agencydashboarddesign",
     GIVE_RECORDED_BY_USER: "giverecordedbyuser"
 };
-/*Naveen Chnages 18-2-2015 start */
 var RESPONSE = {
-	RESULTOBJECT : {},
-	AUDIODETAILS : [],
-	MEDIAID : [],
-	PICTUREDETAILS : [],
-	IMAGEURLS : [],
-	IMGETEXT : [],
-	MEDIAIDFORPICTURE : [],
-	AUDIOTEXT : [],
-	TIMESTAMPAUDIO : [],
-	AUDIOURLS : [],
-	OTHERPARTYDETAILS : [],
-	NAMES : [],
-	ROLE : [],
-	PHONE : [],
-	ADDRESS : [],
-	INSURANCECO : [],
-	POLICY : [],
-	VEHICLENO : [],
-	VEHICLEMODEL : [],
-	DRIVINGLICENCESTATE : [],
-	DRIVINGLICENCENUMBER : [],
-	INJURIES : [],
-	OTHERINFORMATION : [],
-	OTHERPARTYIDS : [],
-	LEFTSIDEFEED : [],
-	RIGHTSIDEFEED : []
+    RESULTOBJECT: {},
+    AUDIODETAILS: [],
+    MEDIAID: [],
+    PICTUREDETAILS: [],
+    IMAGEURLS: [],
+    IMGETEXT: [],
+    MEDIAIDFORPICTURE: [],
+    AUDIOTEXT: [],
+    TIMESTAMPAUDIO: [],
+    AUDIOURLS: [],
+    OTHERPARTYDETAILS: [],
+    NAMES: [],
+    ROLE: [],
+    PHONE: [],
+    ADDRESS: [],
+    INSURANCECO: [],
+    POLICY: [],
+    VEHICLENO: [],
+    VEHICLEMODEL: [],
+    DRIVINGLICENCESTATE: [],
+    DRIVINGLICENCENUMBER: [],
+    INJURIES: [],
+    OTHERINFORMATION: [],
+    OTHERPARTYIDS: []
 };
-
+/*Naveen 19-2-2015 Chnage start*/
 var HOMEPAGERESPONSE = {
-	ALERTDETAILS : [],
-	ALERTDETAILSLENGTH : 0,
-	RECURRINGALERTDFEEDS : [],
-	INCIDENTALERTSCLICKED : false,
-	HOMEPAGEMYALERTSLOADED : false,
-	POLICYALERTCLICKED : false
-	
+    ALERTDETAILS: [],
+    ALERTDETAILSLENGTH: 0,
+    RECURRINGALERTDFEEDS: [],
+    INCIDENTALERTSCLICKED: false,
+    HOMEPAGEMYALERTSLOADED: false,
+    POLICYALERTCLICKED: false,
+    PROFILEAPI: "https://proto-call-test.appspot.com/file/"
 }
-/*Naveen Chnages 18-2-2015 end */
+/*Naveen 19-2-2015 Chnage end*/
 //API
-ProfileAPI = 'https://proto-call-test.appspot.com/file/'
+//ProfileAPI = 'https://proto-call-test.appspot.com/file/'
 //PAGE NAMES
 CURRENT_PAGE = "";
 LOGIN_PAGE = "login";
@@ -361,6 +361,14 @@ protocall = {
                 var $el = $('.policies')
                 this.view.loadPoliciesFeeds($el, false);
             }
+            else if (subMenuName == CONSTANTS.LINK_TYPE.ARCHIVES) {
+                var $el = $('.archives')
+                this.view.loadArchiveFeeds($el, false);
+            }
+            else if (subMenuName == CONSTANTS.LINK_TYPE.VIEW_ARCHIVES) {
+                var $el = $('.view_archives')
+                this.view.loadviewArchivedFeeds($el, false);
+            }
 
         }
     },
@@ -423,19 +431,6 @@ protocall = {
             $("#spinner").css("display", "none");
         }
     },
-    displaySpinnerForAlerts: function (show) {
-        console.log("displaySpinnerForAlerts", show);
-        if (show) {
-            $("#loadingAlerts").css("display", "block");
-        } else {
-            $("#loadingAlerts").css("display", "none");
-        }
-        /* if (show) {
-         $(".container").addClass("modal").fadeIn("slow");
-         } else {
-         $(".container").removeClass("modal").fadeOut("slow");
-         } */
-    },
     closeOverlay: function () {
         overlay.closeOverlay();
     },
@@ -445,12 +440,6 @@ protocall = {
 };
 protocall.events = {
     createEvents: function () {
-       /*Naveen Chnages 18-2-2015 start */
-        $(".container").on("scroll", function (e) {
-			console.log("scroll");
-            protocall.events.handleScroll();
-        });
-		/*Naveen Chnages 18-2-2015 end */
         $(document).on("click", ".snap", function (e) {
             e.stopPropagation();
             protocall.events.handleClick(e);
@@ -464,7 +453,7 @@ protocall.events = {
             var loginContent = LoginTemplate.login.MyloginContent();
             $(".box").empty();
             $(".box").append($(loginContent));
-            $(".box").fadeIn();
+            $(".box").fadeIn("slow");
 
         });
 
@@ -492,34 +481,42 @@ protocall.events = {
             protocall.events.handleResize(e);
         });
     },
-   /*Naveen Chnages 18-2-2015 start */
-    handleScroll: function (e) {
-		var container = $('.container'),pageNumber = 1;
-		console.log("CONSTANTS.HASNEXTPAGE",CONSTANTS.HASNEXTPAGE);
-		console.log("scrollHeight",container[0].scrollHeight);
-		console.log("ScrollTop",container.scrollTop());
-		console.log("outerHeight",container.outerHeight());
-		var scrollHeightValue = container[0].scrollHeight - container.scrollTop();
-		var containerOuterHeight = container.outerHeight();
-		if (scrollHeightValue == containerOuterHeight) {
-				if(CONSTANTS.HASNEXTPAGE){
-					if(HOMEPAGERESPONSE.INCIDENTALERTSCLICKED){
-						container.scrollTop(0);
-					} else if(HOMEPAGERESPONSE.POLICYALERTCLICKED){
-						container.scrollTop(0);
-					} else {
-						container.scrollTop();
-					}
-					$(".content-holder").addClass("spinner1");
-					protocall.home.alertFeeds(++CONSTANTS.PGNUMBER);
-				}
-		}
-		return false;
-	},
-	/*Naveen Chnages 18-2-2015 end */
-    sampleTestFun: function () {
-        protocall.displaySpinnerForAlerts(false);
+    /*Naveen Chnages 19-2-2015 start */
+    containerScrollEvent: function () {
+        console.log("function called");
+        $(".container").on("scroll", function (e) {
+            console.log("container scroll");
+            protocall.events.handleScroll();
+        });
     },
+    handleScroll: function (e) {
+        var container = $('.container'), pageNumber = 1, deepPath = "filterfeedbyalertdate", page = "";
+        var scrollHeightValue = container[0].scrollHeight - container.scrollTop();
+        var containerOuterHeight = container.outerHeight();
+        console.log("scrollHeightValue", scrollHeightValue);
+        console.log("containerOuterHeight", containerOuterHeight);
+        console.log("container.scrollTop()", container.scrollTop());
+        //var containerScrollTop = 0;
+        CONSTANTS.SCROLLTOPVALUE = CONSTANTS.SCROLLTOPVALUE + container.scrollTop();
+        console.log("HOMEPAGERESPONSE.INCIDENTALERTSCLICKED", HOMEPAGERESPONSE.INCIDENTALERTSCLICKED);
+        console.log("HOMEPAGERESPONSE.POLICYALERTCLICKED", HOMEPAGERESPONSE.POLICYALERTCLICKED);
+        if (scrollHeightValue == containerOuterHeight) {
+            if (CONSTANTS.HASNEXTPAGE) {
+                if (HOMEPAGERESPONSE.INCIDENTALERTSCLICKED) {
+                    container.scrollTop();
+                } else if (HOMEPAGERESPONSE.POLICYALERTCLICKED) {
+                    container.scrollTop();
+                } else {
+                    container.scrollTop();
+                    page = "home";
+                }
+                $(".content-holder").addClass("spinner1");
+                protocall.home.loadingAlertFeeds(++CONSTANTS.PGNUMBER, deepPath, page);
+            }
+        }
+        return false;
+    },
+    /*Naveen Chnages 19-2-2015 end */
     handleClick: function (e) {
         var $el = $(e.currentTarget);
         if ($el.prop("tagName") == "A") {
@@ -642,7 +639,6 @@ protocall.events = {
                 protocall.view.vehiclePolicy();
                 break;
             case CONSTANTS.LINK_TYPE.SENDAPPLINK:
-
                 protocall.view.sendAppLink();
                 break;
             case CONSTANTS.LINK_TYPE.PREFERRED_VENDOE_VIEW_LOAD:
@@ -661,24 +657,33 @@ protocall.events = {
                 protocall.view.LogoutAuthenticateYes();
                 break;
             case CONSTANTS.LINK_TYPE.AGENCY_REMOVE_LOAD:
-                var vendorCheck = document.getElementById('removevendor');
-                if (vendorCheck.checked) {
-                    console.log(00000000)
-                    //alert('vendor-remove');
-                    //$(".vendor-block-remove").remove()
-                    $(".vendor-block-remove").css({
-                        'display': 'none'
-                    });
-                } else {
-                    //alert('test');
-                    protocall.view.LoadAgencyRemove();
-                }
+
+                var index = 0;
+                $('.checkbox').each(function () {
+                    str = this.checked ? "1" : "0";
+                    if (str == "1") {
+                        var vendorCheck = document.getElementById('removevendor_' + index);
+                        if (vendorCheck.checked) {
+                            $("#item_" + index).css({
+                                'display': 'none'
+                            });
+                        } else {
+                            protocall.view.LoadAgencyRemove();
+                        }
+                    }
+                    index++;
+                });
+//               
                 break;
             case CONSTANTS.LINK_TYPE.AGENCY_ADD_VENDOR_LOAD:
                 protocall.view.LoadAddVendor();
                 break;
             case CONSTANTS.LINK_TYPE.VENDOR_PROFILE_INFO:
-                protocall.view.LoadVendorInfo();
+                $('.preferredvendor').mouseup(function () {
+                    SERVICEID = $(this).attr("id");
+                    utils.server.getResponseForPreferredVendor($(this).attr("id"));
+                    return false;
+                });
                 break;
             case CONSTANTS.LINK_TYPE.CLOSE_OVERLAY:
                 protocall.closeOverlay();
@@ -692,15 +697,17 @@ protocall.events = {
             case CONSTANTS.LINK_TYPE.MATCH_RELEASE_CLAIMS:
                 protocall.view.matchReleaseClaimAlert();
                 break;
+                /*Naveen Chnages 19-2-2015 start */
             case CONSTANTS.LINK_TYPE.PHOTS_OVERLAY_DISPLAY:
-                protocall.view.staticPhotOverlayDisplay();
+                protocall.view.staticPhotOverlayDisplay(e);
                 break;
             case CONSTANTS.LINK_TYPE.AUDIO_OVERLAY:
-                protocall.view.staticAudioOverlayDisplay();
+                protocall.view.staticAudioOverlayDisplay(e);
                 break;
             case CONSTANTS.LINK_TYPE.DOCUMENTSOVERLAY:
-                protocall.view.staticDocumentOverlayDisplay();
+                protocall.view.staticDocumentOverlayDisplay(e);
                 break;
+                /*Naveen Chnages 19-2-2015 start */
             case CONSTANTS.LINK_TYPE.SIGNUP:
                 protocall.view.loadSignupPage();
                 break;
@@ -737,11 +744,10 @@ protocall.events = {
                 break;
             default:
                 break;
-
-
         }
 
     },
+    /*Naveen Chnages 19-2-2015 start */
     handleClickForPhotosOverlay: function (e) {
         console.log("current target", $(e.currentTarget).attr("data-type"));
         var dataType = $(e.currentTarget).attr("data-type");
@@ -760,6 +766,7 @@ protocall.events = {
                 break;
         }
     },
+    /*Naveen Chnages 19-2-2015 end */
     handleClickForDocsOverlay: function (e) {
         console.log("current target", $(e.currentTarget).attr("data-type"));
         var currentTarget = $(e.currentTarget);
@@ -960,7 +967,7 @@ protocall.view = {
     },
     viewSettingsPage: function (isClickEvent, $el) {
 
-
+        popUpContent.closePopUpContent();
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.SETTINGS_PAGE);
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.SETTINGS_PAGE, CONSTANTS.LINK_TYPE.SETTINGS_PAGE, CONSTANTS.LINK_TYPE.SETTINGS_PAGE, "");
@@ -995,7 +1002,9 @@ protocall.view = {
         protocall.view.buildSubMenuBlk(CONSTANTS.LINK_TYPE.CARRIERS_PAGE, breadCrumbObj);
         protocall.displaySpinner(false);
     },
+    /*Naveen Chnages 19-2-2015 start */
     loadMyAlertsFeeds: function ($el, isClickEvent) {
+        $(".content-holder").addClass("spinner1");
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.MY_ALERTS);
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
         if (isClickEvent) {
@@ -1007,8 +1016,10 @@ protocall.view = {
         });
         protocall.view.setSelectedLinkClasses($el, true);
         protocall.displaySpinner(false);
+
     },
     loadIncidentsFeeds: function ($el, isClickEvent) {
+        $(".content-holder").addClass("spinner1");
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.INCIDENTS);
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
         if (isClickEvent) {
@@ -1019,9 +1030,9 @@ protocall.view = {
             protocall.view.setSelectedLinkClasses($(this), false);
         });
         protocall.view.setSelectedLinkClasses($el, true);
-        protocall.displaySpinner(false);
     },
     loadPoliciesFeeds: function ($el, isClickEvent) {
+        $(".content-holder").addClass("spinner1");
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.POLICIES);
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
         if (isClickEvent) {
@@ -1033,31 +1044,40 @@ protocall.view = {
         });
         protocall.view.setSelectedLinkClasses($el, true);
         protocall.displaySpinner(false);
+
     },
+    /*Naveen Chnages 19-2-2015 end */
+
     loadArchiveFeeds: function ($el, isClickEvent) {
+
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.ARCHIVES);
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.HOME_PAGE, CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.ARCHIVES, CONSTANTS.LINK_TYPE.ARCHIVES, "");
         }
-        protocall.home.displayArchiveFeeds();
         $('.tab-rb-submenu a').each(function () {
             protocall.view.setSelectedLinkClasses($(this), false);
         });
         protocall.view.setSelectedLinkClasses($el, true);
+        $(".content-holder").empty();
+        var template = HomedynamicTemplate.home.HomeDynamicArchiveFeedTemplate();
+        $(".content-holder").append(template);
         protocall.displaySpinner(false);
     },
     loadviewArchivedFeeds: function ($el, isClickEvent) {
+
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_ARCHIVES);
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.HOME_PAGE, CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_ARCHIVES, CONSTANTS.LINK_TYPE.VIEW_ARCHIVES, "");
         }
-        protocall.home.displayMyAlertsFeeds();
         $('.tab-rb-submenu a').each(function () {
             protocall.view.setSelectedLinkClasses($(this), false);
         });
         protocall.view.setSelectedLinkClasses($el, true);
+        $(".content-holder").empty();
+        var template = HomedynamicTemplate.home.HomeDynamicViewArchiveFeedTemplate();
+        $(".content-holder").append(template);
         protocall.displaySpinner(false);
     },
     setSelectedLinkClasses: function ($el, isSet) {
@@ -1076,8 +1096,10 @@ protocall.view = {
                 + '<div class="prof-view-overlay">Help</div><div class="prof-view-overlay snap" data-type="logout-yes">Log out</div></div>';
         popUpContent.togglePopUpContent($el, html);
     },
-    //ADDED BY MANOJ FRIDAY 13 2015---->STARTS HERE
-
+    shareToRep: function () {
+        var html = staticTemplate.home.shareWithRepTemplate();
+        overlay.displayOverlay(html);
+    },
     assignToCustomers: function () {
         protocall.displaySpinner(true);
         var page = "pageassigncustomersoverlay";
@@ -1107,7 +1129,6 @@ protocall.view = {
         overlay.displayOverlay(html);
     },
     vehiclePolicy: function () {
-        dt_overlaybtn_sendapplink
         var html = staticTemplate.home.vehiclePolicyTemplate();
         overlay.displayOverlay(html);
     },
@@ -1120,13 +1141,15 @@ protocall.view = {
         var page = "pagesharewithrepoverlay";
         var data = {};
         var callback = utils.server.gotSendAppLinkResponse;
-        var deepPath = "agencyrepresentativenamewithlocation";
+        var deepPath = "userlist";
         utils.server.makeServerCall(page, data, callback, deepPath);
     },
     LoadAgencyInfo: function () {
 
         $('.settings-agency-bar').css("background-color", "#f34f4e");
+        $('#id-agency-view-load').css("color", "white");
         $('.settings-vendor-bar').css("background-color", "#ccc");
+        $('#id-preferred-vendors-view-load').css("color", "black");
         if (IsVendorDataChanged === true) {
             editVendorSaveData();
             IsVendorDataChanged = false;
@@ -1158,7 +1181,9 @@ protocall.view = {
     LoadPreferrredvendorInfo: function () {
 
         $('.settings-vendor-bar').css("background-color", "#f34f4e");
+        $('#id-preferred-vendors-view-load').css("color", "white");
         $('.settings-agency-bar').css("background-color", "#ccc");
+        $('#id-agency-view-load').css("color", "black");
         if (IsAgencyDataChanged === true) {
             editAgencySaveData();
             IsAgencyDataChanged = false;
@@ -1256,64 +1281,49 @@ protocall.view = {
         overlay.displayOverlay(html);
     },
     /*Added by Naveen -- Start*/
-    staticPhotOverlayDisplay: function () {
-        $.ajax({
-            url: 'sampleJson.json',
-            type: 'GET',
-            success: function (data) {
-                console.log("in success", data.resultObject);
-                RESPONSE.RESULTOBJECT = data.resultObject;
-                var html = staticTemplate.home.showPhotsOverlayTemplate(RESPONSE.RESULTOBJECT);
-                overlay.displayOverlay(html);
-                console.log("in photo");
-                overlay.sliderControl();
-                $("#thumbNailImages div:nth-child(1)").addClass("activeAudio");
-                protocall.displaySpinner(false);
-            },
-            error: function (e) {
-                console.log("in error");
-            }
-        });
+    /*Naveen Chnages 19-2-2015 start */
+    staticPhotOverlayDisplay: function (e) {
+        var currentTarget = $(e.currentTarget);
+        var photoCountValue = currentTarget.find("span.doc-count.doc-count-placement").text();
+        if (photoCountValue == 0) {
+            e.stopPropagation();
+            //return true;
+        } else {
+            var clickedAlertID = currentTarget.attr("id");
+            console.log("clickedID", clickedAlertID);
+            var html = staticTemplate.home.showPhotsOverlayTemplate(clickedAlertID);
+            overlay.displayOverlay(html);
+            overlay.sliderControl();
+            $("#thumbNailViewForImages div:nth-child(1)").addClass("activeAudio");
+        }
     },
-    staticAudioOverlayDisplay: function () {
-        $.ajax({
-            url: 'sampleJson.json',
-            type: 'GET',
-            success: function (data) {
-                console.log("in success", data.resultObject);
-                RESPONSE.RESULTOBJECT = data.resultObject;
-                var html = staticTemplate.home.showAudioOverlayTemplate(data.resultObject);
-                overlay.displayOverlay(html);
-                console.log("in function");
-                overlay.audioInit(data.resultObject);
-                $("#audioThumbNailView div:nth-child(1)").addClass("activeAudio");
-                protocall.displaySpinner(false);
-            },
-            error: function (e) {
-                console.log("in error");
-            }
-        });
+    staticAudioOverlayDisplay: function (e) {
+        var currentTarget = $(e.currentTarget);
+        var audioCountValue = currentTarget.find("span.doc-count.doc-count-placement").text();
+        if (audioCountValue == 0) {
+            return true;
+        } else {
+            var clickedAlertID = currentTarget.attr("id");
+            console.log("clickedID", clickedAlertID);
+            var html = staticTemplate.home.showAudioOverlayTemplate(clickedAlertID);
+            overlay.displayOverlay(html);
+        }
     },
-    staticDocumentOverlayDisplay: function () {
-        $.ajax({
-            url: 'sampleJson.json',
-            type: 'GET',
-            success: function (data) {
-                console.log("in success", data.resultObject);
-                RESPONSE.RESULTOBJECT = data.resultObject;
-                var html = staticTemplate.home.showDocumentOverlayTemplate(data.resultObject);
-                overlay.displayOverlay(html);
-                console.log("in staticDocumentOverlayDisplay function");
-                overlay.documentInIt(data.resultObject);
-                $("#thumbNailDocs div:nth-child(1)").addClass("activeAudio");
-                //$("#audioThumbNailView div:nth-child(1)").addClass("activeAudio"); 
-                protocall.displaySpinner(false);
-            },
-            error: function (e) {
-                console.log("in error");
-            }
-        });
+    staticDocumentOverlayDisplay: function (e) {
+        console.log("staticDocumentOverlayDisplay currentTarget", $(e.currentTarget));
+        var currentTarget = $(e.currentTarget);
+        var docCountValue = currentTarget.find("span.doc-count.doc-count-placement").text();
+        console.log("docCountValue", docCountValue);
+        if (docCountValue == 0) {
+            return true;
+        } else {
+            var clickedAlertID = currentTarget.attr("id");
+            console.log("clickedID", clickedAlertID);
+            var html = staticTemplate.home.showDocumentOverlayTemplate(clickedAlertID);
+            overlay.displayOverlay(html);
+        }
     },
+    /*Naveen Chnages 19-2-2015 end */
     /*Added by Naveen -- End*/
     editAgencyPic: function () {
         var html = staticTemplate.home.editAgencyPicTemplate();
@@ -1447,20 +1457,22 @@ protocall.view = {
         }
 
     },
+    /*Naveen 19-2-2015 Chnage start*/
     displayOrignalImage: function (currentTarget) {
-        $("#thumbNailImages>div").removeClass("activeAudio");
+        $("#thumbNailViewForImages>div").removeClass("activeAudio");
         currentTarget.addClass("activeAudio");
         var currentMediaID = currentTarget.attr("name"), mainAudioHTML = "";
         $.each(RESPONSE.PICTUREDETAILS, function (i, element) {
             console.log("media id", element.mediaId);
             if (currentMediaID == element.mediaId) {
-                mainImageHTML = '<img src=' + element.imageSource + ' />';
+                mainImageHTML = '<img src=' + HOMEPAGERESPONSE.PROFILEAPI + element.file + ' />';
                 imageInformationHTML = element.imageText;
             }
         });
         $("#viewingImage").html(mainImageHTML);
-        $("#imageinformation span:first-child").html(imageInformationHTML);
+        $("#imageinformation").html(imageInformationHTML);
     },
+    /*Naveen 19-2-2015 Chnage end*/
     displayOrignalDoc: function (currentTarget) {
         $("#thumbNailDocs>div").removeClass("activeAudio");
         currentTarget.addClass("activeAudio");
@@ -1524,8 +1536,9 @@ protocall.view = {
         $("#docinformation span").html(currentDocName);
         $("#originalDocDIV").html(mainDocHTML);
     },
+    /*Naveen 19-2-2015 Chnage start*/
     displayPreviousImage: function () {
-        var $divElement = $("#thumbNailImages"), activeAudioClass = false;
+        var $divElement = $("#thumbNailViewForImages"), activeAudioClass = false;
         console.log("$liElement", $divElement);
         $.each($divElement, function (index, element) {
             console.log($(this).find("div").hasClass("activeAudio"));
@@ -1537,7 +1550,7 @@ protocall.view = {
         });
     },
     displayNextImage: function () {
-        var $divElement = $("#thumbNailImages"), activeAudioClass = false;
+        var $divElement = $("#thumbNailViewForImages"), activeAudioClass = false;
         console.log("$liElement", $divElement);
         $.each($divElement, function (index, element) {
             console.log($(this).find("div").hasClass("activeAudio"));
@@ -1549,27 +1562,28 @@ protocall.view = {
         });
     },
     loadingScrollNext: function (liEleme) {
-        var indexValue = $("#thumbNailImages div").index(liEleme) + 1, nextElementToBeloaded;
-        if (indexValue !== 0 && indexValue < $("#thumbNailImages div").length) {
-            nextElementToBeloaded = $("#thumbNailImages div:eq( " + indexValue + " )");
-            $("#thumbNailImages div").removeClass("activeAudio");
+        var indexValue = $("#thumbNailViewForImages div").index(liEleme) + 1, nextElementToBeloaded;
+        if (indexValue !== 0 && indexValue < $("#thumbNailViewForImages div").length) {
+            nextElementToBeloaded = $("#thumbNailViewForImages div:eq( " + indexValue + " )");
+            $("#thumbNailViewForImages div").removeClass("activeAudio");
             nextElementToBeloaded.addClass("activeAudio");
             imageSrcTobeLoadedBack = nextElementToBeloaded.find("img").attr("src");
             $("#viewingImage").html('<img src=' + imageSrcTobeLoadedBack + ' />');
         }
     },
     loadingScrollPrevious: function (liEleme) {
-        var indexValue = $("#thumbNailImages div").index(liEleme) - 1, nextElementToBeloaded;
+        var indexValue = $("#thumbNailViewForImages div").index(liEleme) - 1, nextElementToBeloaded;
         console.log("loadingScrollBack" + indexValue);
         if (indexValue !== -1) {
-            nextElementToBeloaded = $("#thumbNailImages div:eq( " + indexValue + " )");
-            $("#thumbNailImages div").removeClass("activeAudio");
+            nextElementToBeloaded = $("#thumbNailViewForImages div:eq( " + indexValue + " )");
+            $("#thumbNailViewForImages div").removeClass("activeAudio");
             nextElementToBeloaded.addClass("activeAudio");
             imageSrcTobeLoadedBack = nextElementToBeloaded.find("img").attr("src");
             console.log("imageSrcTobeLoaded" + imageSrcTobeLoadedBack);
-            $("#viewingImage").html('<img src=' + imageSrcTobeLoadedBack + ' />');
+            $("#viewImage").html('<img src=' + imageSrcTobeLoadedBack + ' />');
         }
     },
+    /*Naveen 19-2-2015 Chnage end*/
     /*Audio Click functions*/
     displayOrignalAudio: function (currentTarget) {
         $("#audioThumbNailView>div").removeClass("activeAudio");
@@ -1751,75 +1765,20 @@ protocall.view = {
     }
 };
 protocall.home = {
-    /*Naveen Chnages 18-2-2015 start */
-   initHomePage:function(){
-	   CONSTANTS.PGNUMBER = 0;
-		$(".content-holder").empty();
-        var page = "home";
-		var pageNumber = ++CONSTANTS.PGNUMBER;
-		console.log("pageNumber");
-        //var data = {agencyId: localStorage.agencyId, agencyRepresentativeId: localStorage.agencyEmail},
-		var data = {"pageNumber" : pageNumber};
+    /*Naveen 19-2-2015 Chnage start*/
+    initHomePage: function () {
+        protocall.displaySpinner(true);
+        CONSTANTS.PGNUMBER = 0;
+        var pageNumber = ++CONSTANTS.PGNUMBER;
+        var data = {"pageNumber": pageNumber},
         deepPath = "filterfeedbyalertdate",
                 page = "home",
                 callback = protocall.home.loadHomePageData,
                 authId = "",
                 spinnerMsg = "";
         var resp = utils.server.makeServerCall(page, data, callback, deepPath);
-        $('.tab-rb-submenu a').each(function () {
-            protocall.view.setSelectedLinkClasses($(this), false);
-        });
-	},
-	alertFeeds : function(pageNumber){
-		console.log("pageNumber",pageNumber);
-		var data = {"pageNumber" : pageNumber};
-        deepPath = "filterfeedbyalertdate",
-                page = "home",
-                callback = protocall.home.loadingHomeFeeds,
-                authId = "",
-                spinnerMsg = "";
-        var resp = utils.server.makeServerCall(page, data, callback, deepPath);
-	},
-	loadingHomeFeeds : function(data){
-		var alertDetailsArray = [],feedHTML = "",alertValue ="";
-		if(data !== "undefined" && data.resultMap !== "undefined"){
-			if(data.resultMap.TypeCode !== "undefined" && data.resultMap.TypeCode == "4011"){
-				if(data.resultMap.isNextRecord){
-					CONSTANTS.HASNEXTPAGE = true;
-				} else {
-					CONSTANTS.HASNEXTPAGE = false;
-				}
-				if(data.resultMap.ArrayOfAlertDetails !== "undefined" && data.resultMap.ArrayOfAlertDetails.length !== "undefined" && data.resultMap.ArrayOfAlertDetails.length!== 0){
-					$.each(data.resultMap.ArrayOfAlertDetails,function(index,alertDetails){
-						alertValue = alertDetails; 
-						console.log("alertValue",$(this))
-						if(HOMEPAGERESPONSE.INCIDENTALERTSCLICKED){
-							console.log("HOMEPAGERESPONSE.INCIDENTALERTSCLICKED",HOMEPAGERESPONSE.INCIDENTALERTSCLICKED);
-						feedHTML+= template.incidentAlertFeeds(alertValue);
-						} else if(HOMEPAGERESPONSE.POLICYALERTCLICKED){
-							console.log("HOMEPAGERESPONSE.INCIDENTALERTSCLICKED",HOMEPAGERESPONSE.INCIDENTALERTSCLICKED);
-							feedHTML+= template.policyAlertFeeds(alertValue);
-						} else {
-							feedHTML+= template.feedsTemplateHTML(alertValue);
-						}
-						HOMEPAGERESPONSE.RECURRINGALERTDFEEDS.push(alertDetails);
-						console.log("in each alertDetails",alertDetails);
-					});
-					if(HOMEPAGERESPONSE.INCIDENTALERTSCLICKED){
-						
-					} else if(HOMEPAGERESPONSE.POLICYALERTCLICKED){
-						
-					} else {
-						$("#myAlertCount").html(HOMEPAGERESPONSE.RECURRINGALERTDFEEDS.length);
-					}
-				}
-			$(".content-holder").append($(feedHTML));
-			protocall.displaySpinner(false);
-			$(".content-holder").removeClass("spinner1");
-			}
-		}
-	},
-	/*Naveen Chnages 18-2-2015 end */
+    },
+    /*Naveen 19-2-2015 Chnage end*/
     initLoginPage: function () {
 
         var template = LoginTemplate.login.staticLoginTemplate();
@@ -1852,198 +1811,130 @@ protocall.home = {
         $(".c_resetpassword").fadeIn("slow");
         $(".c_resetpassword").fadeIn(3000);
     },
-   /*Naveen Chnages 18-2-2015 start */
+    /*Naveen 19-2-2015 Chnage start*/
     loadHomePageData: function (data, page) {
-		console.log("HOMEPAGERESPONSE.INCIDENTALERTSCLICKED",HOMEPAGERESPONSE.INCIDENTALERTSCLICKED);
-		if(HOMEPAGERESPONSE.INCIDENTALERTSCLICKED){
-			HOMEPAGERESPONSE.RECURRINGALERTDFEEDS = [];
-		}
-		if(HOMEPAGERESPONSE.POLICYALERTCLICKED){
-			HOMEPAGERESPONSE.RECURRINGALERTDFEEDS = [];
-		} 
-		if(HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED){
-			HOMEPAGERESPONSE.RECURRINGALERTDFEEDS = [];
-		}
-        console.log("data in loadHomePageData", data);
-        console.log("status", data.resultMap.TypeCode);
-		//protocall.displaySpinner(true);
-		var alertDetailsArray = [],feedHTML = "",alertValue ="";
-		if(data !== "undefined" && data.resultMap !== "undefined"){
-			if(data.resultMap.TypeCode !== "undefined" && data.resultMap.TypeCode == "4011"){
-				if(data.resultMap.isNextRecord){
-					CONSTANTS.HASNEXTPAGE = true;
-				} else {
-					CONSTANTS.HASNEXTPAGE = false;
-				}
-				if(data.resultMap.ArrayOfAlertDetails !== "undefined" && data.resultMap.ArrayOfAlertDetails.length !== "undefined" && data.resultMap.ArrayOfAlertDetails.length!== 0){
-					$.each(data.resultMap.ArrayOfAlertDetails,function(index,alertDetails){
-						alertValue = alertDetails; 
-						console.log("alertValue",$(this))
-						if(HOMEPAGERESPONSE.INCIDENTALERTSCLICKED){
-							console.log("HOMEPAGERESPONSE.INCIDENTALERTSCLICKED",HOMEPAGERESPONSE.INCIDENTALERTSCLICKED);
-						feedHTML+= template.incidentAlertFeeds(alertValue);
-						} else if(HOMEPAGERESPONSE.POLICYALERTCLICKED){
-							console.log("HOMEPAGERESPONSE.INCIDENTALERTSCLICKED",HOMEPAGERESPONSE.INCIDENTALERTSCLICKED);
-							feedHTML+= template.policyAlertFeeds(alertValue);
-						} else {
-							feedHTML+= template.feedsTemplateHTML(alertValue);
-						}
-						HOMEPAGERESPONSE.RECURRINGALERTDFEEDS.push(alertDetails);
-						console.log("in each alertDetails",alertDetails);
-					});
-					console.log("HOMEPAGERESPONSE.INCIDENTALERTSCLICKED 2",HOMEPAGERESPONSE.INCIDENTALERTSCLICKED);
-					if(HOMEPAGERESPONSE.INCIDENTALERTSCLICKED){
-						
-					} else if(HOMEPAGERESPONSE.POLICYALERTCLICKED){
-						
-					} else {
-						$("#myAlertCount").html(HOMEPAGERESPONSE.RECURRINGALERTDFEEDS.length);
-					}
-				}
-			$(".container").addClass("container");
-			$(".container").removeClass("container-maxwidth");
-			$(".content-holder").empty();
-			$(".content-holder").append($(feedHTML));
-			protocall.displaySpinner(false);
-			protocall.view.buildHomeMenuBlk(page);
-			}
-			
-		}
+        console.log("data", data);
+        if (HOMEPAGERESPONSE.INCIDENTALERTSCLICKED || HOMEPAGERESPONSE.POLICYALERTCLICKED || HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED) {
+            HOMEPAGERESPONSE.RECURRINGALERTDFEEDS = [];
+        }
+        protocall.util.viewingHomePageData(data);
     },
-/*Naveen Chnages 18-2-2015 end */
-    buildScreen: function (data, template) {
-
-
+    loadingAlertFeeds: function (pageNumber, deepPath, page) {
+        var data = {"pageNumber": pageNumber};
+        callback = protocall.home.loadingHomePageFeeds;
+        var resp = utils.server.makeServerCall(page, data, callback, deepPath);
+    },
+    loadingHomePageFeeds: function (data, page) {
+        protocall.util.viewingHomePageData(data);
     },
     loadFeed: function () {
-        var html = staticTemplate.home.staticFeedViewTemplate();
-        $(".content-holder").empty();
-        $(".content-holder").append($(html));
-        var totalHTML = "";
-        var totalLen = 1;
-        for (var h = 0; h < totalLen; h++) {
-            var template = staticTemplate.home.staticFeedTemplate();
-            totalHTML = totalHTML + template;
-        }
-        $(".rel-feeds-content").empty();
-        $(".rel-feeds-content").append($(totalHTML));
+        /* var html = staticTemplate.home.staticFeedViewTemplate();
+         $(".content-holder").empty();
+         $(".content-holder").append($(html));
+         var totalHTML = "";
+         var totalLen = 1;
+         for (var h = 0; h < totalLen; h++) {
+         var template = staticTemplate.home.staticFeedTemplate();
+         totalHTML = totalHTML + template;
+         }
+         $(".rel-feeds-content").empty();
+         $(".rel-feeds-content").append($(totalHTML)); */
     },
     displayMyAlertsFeeds: function () {
-       HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED = true;
-		console.log("displayIncidentsFeeds");
-		CONSTANTS.PGNUMBER = 0;
-		HOMEPAGERESPONSE.INCIDENTALERTSCLICKED = false;
-		HOMEPAGERESPONSE.POLICYALERTCLICKED = false;
-		//$(".content-holder").empty();
-        var page = "home";
-		var pageNumber = ++CONSTANTS.PGNUMBER;
-		console.log("pageNumber");
-        //var data = {agencyId: localStorage.agencyId, agencyRepresentativeId: localStorage.agencyEmail},
-		var data = {"pageNumber" : pageNumber};
+        HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED = true;
+        HOMEPAGERESPONSE.POLICYALERTCLICKED = false;
+        HOMEPAGERESPONSE.INCIDENTALERTSCLICKED = false;
+        CONSTANTS.PGNUMBER = 0;
+        var page = "home",
+                pageNumber = ++CONSTANTS.PGNUMBER,
+                data = {"pageNumber": pageNumber},
         deepPath = "filterfeedbyalertdate",
-                page = "home",
-                callback = protocall.home.loadHomePageData,
-                authId = "",
-                spinnerMsg = "";
+                callback = protocall.home.loadHomePageData;
         var resp = utils.server.makeServerCall(page, data, callback, deepPath);
-        $('.tab-rb-submenu a').each(function () {
-            protocall.view.setSelectedLinkClasses($(this), false);
-        });
-        // var totalLen = 1, totalHTML = "";
-        // for (var h = 0; h < totalLen; h++) {
-        // var template = staticTemplate.home.staticFeedTemplate();
-        // totalHTML = totalHTML + template;
-        // }
-        // var policyTemplate = staticTemplate.home.staticPoliciesFeedTemplate();
-        // totalHTML = totalHTML + policyTemplate;
-        // $(".content-holder").empty();
-        // $(".content-holder").append($(totalHTML));
+
     },
     displayArchiveFeeds: function () {
         var totalLen = 1, totalHTML = "";
-        /*for(var h = 0; h < totalLen; h++){
-         var template = staticTemplate.home.staticFeedTemplate();
-         totalHTML = totalHTML + template;
-         }*/
+
         var archiveTemplate = staticTemplate.home.staticArchiveFeedTemplate();
         totalHTML = archiveTemplate;
         $(".content-holder").empty();
         $(".content-holder").append($(totalHTML));
     },
-   /*Naveen Chnages 18-2-2015 start */
     displayIncidentsFeeds: function () {
-		HOMEPAGERESPONSE.POLICYALERTCLICKED = false;
-		console.log("displayIncidentsFeeds");
-		CONSTANTS.PGNUMBER = 0;
-		HOMEPAGERESPONSE.INCIDENTALERTSCLICKED = true;
-		HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED = false;
-		//$(".content-holder").empty();
-        var page = "home";
-		var pageNumber = ++CONSTANTS.PGNUMBER;
-		console.log("pageNumber");
-        //var data = {agencyId: localStorage.agencyId, agencyRepresentativeId: localStorage.agencyEmail},
-		var data = {"pageNumber" : pageNumber};
+        HOMEPAGERESPONSE.INCIDENTALERTSCLICKED = true;
+        HOMEPAGERESPONSE.POLICYALERTCLICKED = false;
+        HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED = false;
+        CONSTANTS.PGNUMBER = 0;
+        var page = "home",
+                pageNumber = ++CONSTANTS.PGNUMBER,
+                data = {"pageNumber": pageNumber},
         deepPath = "filterfeedbyalertdate",
-                page = "home",
-                callback = protocall.home.loadHomePageData,
-                authId = "",
-                spinnerMsg = "";
+                callback = protocall.home.loadHomePageData;
         var resp = utils.server.makeServerCall(page, data, callback, deepPath);
-        $('.tab-rb-submenu a').each(function () {
-            protocall.view.setSelectedLinkClasses($(this), false);
-        });
     },
     displayPoliciesFeeds: function () {
-		HOMEPAGERESPONSE.INCIDENTALERTSCLICKED =false;
-        console.log("displayPoliciesFeeds");
-		CONSTANTS.PGNUMBER = 0;
-		HOMEPAGERESPONSE.POLICYALERTCLICKED = true;
-		HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED = false;
-		//$(".content-holder").empty();
-        var page = "home";
-		var pageNumber = ++CONSTANTS.PGNUMBER;
-		console.log("pageNumber");
-        //var data = {agencyId: localStorage.agencyId, agencyRepresentativeId: localStorage.agencyEmail},
-		var data = {"pageNumber" : pageNumber};
+        HOMEPAGERESPONSE.POLICYALERTCLICKED = true;
+        HOMEPAGERESPONSE.INCIDENTALERTSCLICKED = false;
+        HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED = false;
+        CONSTANTS.PGNUMBER = 0;
+        var page = "home",
+                pageNumber = ++CONSTANTS.PGNUMBER,
+                data = {"pageNumber": pageNumber},
         deepPath = "filterfeedbyalertdate",
-                page = "home",
-                callback = protocall.home.loadHomePageData,
-                authId = "",
-                spinnerMsg = "";
+                callback = protocall.home.loadHomePageData;
         var resp = utils.server.makeServerCall(page, data, callback, deepPath);
-        $('.tab-rb-submenu a').each(function () {
-            protocall.view.setSelectedLinkClasses($(this), false);
-        });
     }
-	/*Naveen Chnages 18-2-2015 end */
+    /*Naveen 19-2-2015 Chnage end*/
 };
 protocall.carrier = {
     initCarrierPage: function () {
-        $(".content-holder").empty();
+
+
         var page = "carriers";
         var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
         deepPath = "agencydashboarddesign",
                 page = "home",
-                callback = protocall.carrier.loadHomePageData,
+                callback = protocall.carrier.loadvinothcontent,
                 authId = "",
                 spinnerMsg = "";
-        var resp = utils.server.makeServerCall(page, data, callback, deepPath);
-        protocall.view.buildSubMenuBlk(page);
-        //var template = staticTemplate.carriers.staticCarrierTemplate();
-        // $(".container").addClass("container-maxwidth");
-        // $(".container").removeClass("container");
-        // $(".content-holder").empty();
-        // $(".content-holder").append($(template));
+        utils.server.makeServerCall(page, data, callback, deepPath);
+
+
+
+
+
+    },
+    loadvinothcontent: function (data, page) {
+
+        if (data.resultMap != null && data.resultMap != "") {
+            var resultCarrier = data.resultMap.carrierTab;
+            var template = '';
+            for (var rc = 0; rc < resultCarrier.length; rc++) {
+                template += CarrierdynamicTemplate.carrier.CarrierDynamicList();
+            }
+            var header = CarrierdynamicTemplate.carrier.CarrierDynamicHeaderTemplate();
+
+            var content = '<div class="container"> <div class="content-holder">' + template + '</div></div></div></div>';
+            var footer = HomedynamicTemplate.home.HomeDynamicFooterTemplate();
+
+            $("#page").empty();
+            totalHtml = header + content + footer;
+            $("#page").append(totalHtml);
+            protocall.displaySpinner(false);
+        }
+
+
+
     },
     loadHomePageData: function (data, page) {
         protocall.displaySpinner(false);
-        //console.log(data, page);
         feedHTML1 = '<div class="carrier-home-parent p-relative">';
         var feedHTML = "";
-        //console.log("datalength",data.resultMap.userTab.length);
+
         if (data.resultMap != null && data.resultMap != "") {
             var resultCarrier = data.resultMap.carrierTab;
-            //console.log(resultCarrier.length)
+
 
             for (var rc = 0; rc < resultCarrier.length; rc++) {
                 var c = resultCarrier[rc];
@@ -2099,16 +1990,16 @@ protocall.carrier = {
 };
 protocall.customer = {
     initCustomerPage: function () {
-        $(".content-holder").empty();
-        var page = "customers";
-        var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
-        deepPath = "agencydashboarddesign",
-                page = "home",
-                callback = protocall.customer.loadHomePageData,
-                authId = "",
-                spinnerMsg = "";
-        var resp = utils.server.makeServerCall(page, data, callback, deepPath);
-        protocall.view.buildSubMenuBlk(page);
+
+        var header = CustomerdynamicTemplate.carrier.CustomerDynamicHeaderTemplate();
+        var template = "<div>My test customer content</div>";
+        var content = '<div class="container"> <div class="content-holder">' + template + '</div></div></div></div>';
+        var footer = HomedynamicTemplate.home.HomeDynamicFooterTemplate();
+
+        $("#page").empty();
+        totalHtml = header + content + footer;
+        $("#page").append(totalHtml);
+        protocall.displaySpinner(false);
     },
     loadHomePageData: function (data, page) {
         //console.log(data, page);
@@ -2200,21 +2091,17 @@ protocall.customer = {
 
 protocall.myRep = {
     initMyRepsPage: function () {
-        $(".content-holder").empty();
-        var page = "myreps"
-        var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
-        deepPath = "agencydashboarddesign",
-                page = "myreps",
-                callback = protocall.myRep.loadHomePageData,
-                authId = "",
-                spinnerMsg = "";
-        var resp = utils.server.makeServerCall(page, data, callback, deepPath);
-        protocall.view.buildSubMenuBlk(page);
-        // var template = staticTemplate.myreps.staticRepsTemplate();
-        // $(".content-holder").empty();
-        // $(".content-holder").append($(template));
-        // $(".container").addClass("container-maxwidth");
-        // $(".container").removeClass("container");
+
+        var header = MyrepsdynamicTemplate.myreps.MyrepsDynamicHeaderTemplate();
+        var template = MyrepsdynamicTemplate.myreps.MyrepsDynamicList();
+        var content = '<div class="container"> <div class="content-holder">' + template + '</div></div></div></div>';
+        var footer = HomedynamicTemplate.home.HomeDynamicFooterTemplate();
+
+        $("#page").empty();
+        totalHtml = header + content + footer;
+        $("#page").append(totalHtml);
+        protocall.displaySpinner(false);
+
     },
     loadHomePageData: function (data, page) {
         //console.log(data, page);
@@ -2268,27 +2155,13 @@ protocall.myRep = {
 
 protocall.myProfile = {
     loadFeedSetting: function ($el) {
+//        this.setSelectedClassPopContent($el);
 
-//min -9px -508px
-//add 
         var page = "settings";
         var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"};
-        var callback = protocall.myProfile.MysettingsResponse;
-        var deepPath = "readagency";
-
-        var response = utils.server.makeServerCall(page, data, callback, deepPath);
-        this.setSelectedClassPopContent($el);
-
-    },
-    MysettingsResponse: function (data) {
-        console.log(data);
-        popUpContent.closePopUpContent();
-        var html = staticTemplate.customers.staticSettingsTemplate(data);
-        $(".content-holder").empty();
-        $(".content-holder").append($(html));
-        $('.settings-agency-bar').css("background-color", "#f34f4e");
-        $('.settings-vendor-bar').css("background-color", "#ccc");
-
+        var callback = utils.server.MysettingsResponse;
+        var deepPath = "settingsinagencydesign";
+        utils.server.makeServerCall(page, data, callback, deepPath);
     },
     loadMyProfileView: function ($el) {
         popUpContent.closePopUpContent();
@@ -2309,7 +2182,56 @@ protocall.myProfile = {
     }
 
 }
-
+/*Naveen 19-2-2015 Chnage start*/
+protocall.util = {
+    viewingHomePageData: function (data) {
+        var header = "",
+                content = "",
+                totalHtml = "",
+                feedHTML = ""
+        footer = "";
+        if (data !== "undefined" && data.resultMap !== "undefined") {
+            if (data.resultMap.TypeCode !== "undefined" && data.resultMap.TypeCode == "4011") {
+                if (data.resultMap.isNextRecord) {
+                    CONSTANTS.HASNEXTPAGE = true;
+                } else {
+                    CONSTANTS.HASNEXTPAGE = false;
+                }
+                if (data.resultMap.ArrayOfAlertDetails !== "undefined" && data.resultMap.ArrayOfAlertDetails.length !== "undefined" && data.resultMap.ArrayOfAlertDetails.length !== 0) {
+                    $.each(data.resultMap.ArrayOfAlertDetails, function (index, alertDetails) {
+                        var alertType = alertDetails.alertDetails.type;
+                        if (HOMEPAGERESPONSE.INCIDENTALERTSCLICKED) {
+                            console.log("HOMEPAGERESPONSE.INCIDENTALERTSCLICKED", HOMEPAGERESPONSE.INCIDENTALERTSCLICKED);
+                            feedHTML += template.incidentAlertFeedHMLT(alertDetails, alertType);
+                        } else if (HOMEPAGERESPONSE.POLICYALERTCLICKED) {
+                            console.log("HOMEPAGERESPONSE.POLICYALERTCLICKED", HOMEPAGERESPONSE.POLICYALERTCLICKED);
+                            feedHTML += template.policyAlertFeedHMLT(alertDetails, alertType);
+                        } else {
+                            feedHTML += template.feedsTemplateHTML(alertDetails);
+                        }
+                        HOMEPAGERESPONSE.RECURRINGALERTDFEEDS.push(alertDetails);
+                        console.log("in each alertDetails", alertDetails);
+                    });
+                    console.log("HOMEPAGERESPONSE.INCIDENTALERTSCLICKED 2", HOMEPAGERESPONSE.INCIDENTALERTSCLICKED);
+                }
+            }
+        }
+        if (CONSTANTS.PGNUMBER == 1) {
+            $("#page").empty();
+            header = HomedynamicTemplate.home.HomeDynamicHeaderTemplate();
+            content = '<div class="container"> <div class="content-holder">' + feedHTML + '</div></div></div></div>';
+            footer = HomedynamicTemplate.home.HomeDynamicFooterTemplate();
+            totalHtml = header + content + footer;
+            $("#page").append(totalHtml);
+        } else {
+            $(".content-holder").append($(feedHTML));
+        }
+        protocall.displaySpinner(false);
+        protocall.events.containerScrollEvent();
+        $(".content-holder").removeClass("spinner1");
+    }
+}
+/*Naveen 19-2-2015 Chnage end*/
 
 //--------------------------- Agency Logo Added By Manoj -----------------------------------
 function readURL(input) {
@@ -2369,6 +2291,11 @@ function hideVendorTextboxes() {
     $("#id-vendor-zipcode").css("visibility", "hidden");
 }
 
+if (idValue === "id-switch-off") {
+    document.getElementById(idcontainerValue).style.marginLeft = "50px";
+} else if (idValue === "id-switch-on") {
+    document.getElementById(idcontainerValue).style.marginLeft = "-8px";
+}
 
 function hideAgencyTextboxes() {
     $("#id-carrier-agencyid").css("visibility", "hidden");
@@ -2412,6 +2339,26 @@ function editAgencySaveData() {
     $("#id-c-agencyzip").show();
     $("#id-c-agencyphone").show();
     $("#id-c-agencyemail").show();
+
+    var agencyid = document.getElementById("id-carrier-agencyid").value;
+    var masteragencyid = document.getElementById("id-carrier-masteragencyid").value;
+    var agencytype = document.getElementById("id-carrier-agencytype").value;
+    var agencyname = document.getElementById("id-carrier-agencyname").value;
+    var agencyaddress1 = document.getElementById("id-carrier-agencyaddress1").value;
+    var agencyaddress2 = document.getElementById("id-carrier-agencyaddress2").value;
+    var agencycity = document.getElementById("id-carrier-agencycity").value;
+    var agencystate = document.getElementById("id-carrier-agencystate").value;
+    var agencyzipcode = document.getElementById("id-carrier-agencyzipcode").value;
+    var agencyphone = document.getElementById("id-carrier-agencyphone").value;
+    var agencyemail = document.getElementById("id-carrier-agencyemail").value;
+
+    page = "agencysavepage";
+    var data = {agencyId: masteragencyid, agencyName: agencyname, address: agencyaddress1, address2: agencyaddress2, agencyOwner: "agencyowner", agencyType: agencytype, carrierAgencyId: agencyid
+        , city: agencycity, state: agencystate, zipcode: agencyzipcode, phone: agencyphone, emailId: agencyemail};
+    utils.server.displayMessage("Successfully Saved..!");
+    deepPath = "editagency";
+    utils.server.makeServerCall(page, data, null, deepPath);
+
 
 }
 
@@ -2461,15 +2408,26 @@ function editAgencyEditData() {
 function editVendorSaveData() {
     addBottomBorder();
     document.getElementById("id-carrier-edit").innerHTML = "edit";
-    $("#id-v-preferredvendorid").show();
-    $("#id-v-vendortype").show();
-    $("#id-v-vendorname").show();
-    $("#id-v-vendorphone").show();
-    $("#id-v-address1").show();
-    $("#id-v-address2").show();
-    $("#id-v-city").show();
-    $("#id-v-state").show();
-    $("#id-v-zipcode").show();
+    $("#id-v-preferredvendorid").css("visibility", "visible");
+    $("#id-v-vendortype").css("visibility", "visible");
+    $("#id-v-vendorname").css("visibility", "visible");
+    $("#id-v-vendorphone").css("visibility", "visible");
+    $("#id-v-address1").css("visibility", "visible");
+    $("#id-v-address2").css("visibility", "visible");
+    $("#id-v-city").css("visibility", "visible");
+    $("#id-v-state").css("visibility", "visible");
+    $("#id-v-zipcode").css("visibility", "visible");
+
+    $("#id-v-preferredvendorid").css("display", "block");
+    $("#id-v-vendortype").css("display", "block");
+    $("#id-v-vendorname").css("display", "block");
+    $("#id-v-vendorphone").css("display", "block");
+    $("#id-v-address1").css("display", "block");
+    $("#id-v-address2").css("display", "block");
+    $("#id-v-city").css("display", "block");
+    $("#id-v-state").css("display", "block");
+    $("#id-v-zipcode").css("display", "block");
+
     hideVendorTextboxes();
     document.getElementById("id-v-preferredvendorid").innerHTML = document.getElementById("id-vendor-preferredvendorid").value;
     document.getElementById("id-v-vendortype").innerHTML = document.getElementById("id-vendor-type").value;
@@ -2480,11 +2438,41 @@ function editVendorSaveData() {
     document.getElementById("id-v-city").innerHTML = document.getElementById("id-vendor-city").value;
     document.getElementById("id-v-state").innerHTML = document.getElementById("id-vendor-state").value;
     document.getElementById("id-v-zipcode").innerHTML = document.getElementById("id-vendor-zipcode").value;
+
+
+    var preferredvendorid = document.getElementById("id-vendor-preferredvendorid").value;
+    var type = document.getElementById("id-vendor-type").value;
+    var name = document.getElementById("id-vendor-name").value;
+    var phone = document.getElementById("id-vendor-phone").value;
+    var address1 = document.getElementById("id-vendor-address1").value;
+    var address2 = document.getElementById("id-vendor-address2").value;
+    var city = document.getElementById("id-vendor-city").value;
+    var state = document.getElementById("id-vendor-state").value;
+    var zipcode = document.getElementById("id-vendor-zipcode").value;
+
+//    alert(SERVICEID + "" + name + " " + type + "" + zipcode + "" + phone);
+    page = "vendorsavepage";
+    var data = {serviceId: SERVICEID, serviceName: name, serviceType: type, zipcode: zipcode, phone: phone
+    };
+    utils.server.displayMessage("Successfully Saved..!");
+    deepPath = "editservice";
+    utils.server.makeServerCall(page, data, null, deepPath);
+
+
 }
 
 function editVendorEditData() {
     removerBottomBorder();
     document.getElementById("id-carrier-edit").innerHTML = "Save";
+    document.getElementById("id-v-preferredvendorid").style.visibility = "hidden";
+    document.getElementById("id-v-vendortype").style.visibility = "hidden";
+    document.getElementById("id-v-vendorname").style.visibility = "hidden";
+    document.getElementById("id-v-vendorphone").style.visibility = "hidden";
+    document.getElementById("id-v-address1").style.visibility = "hidden";
+    document.getElementById("id-v-address2").style.visibility = "hidden";
+    document.getElementById("id-v-city").style.visibility = "hidden";
+    document.getElementById("id-v-state").style.visibility = "hidden";
+    document.getElementById("id-v-zipcode").style.visibility = "hidden";
 
     $("#id-vendor-preferredvendorid").css("visibility", "visible");
     $("#id-vendor-type").css("visibility", "visible");
@@ -2558,10 +2546,6 @@ function editDataInfo() {
         }
     }
 }
-
-
-
-
 //------------------------------------------------------------------------------
 
 
