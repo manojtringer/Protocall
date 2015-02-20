@@ -450,19 +450,19 @@ utils.server = {
     },
     MysettingsResponse: function (data) {
 
-        alert("dd1");
+       
         var html = staticTemplate.customers.staticSettingsTemplate(data);
         TEMPSETTINGSPAGE = "";
         TEMPSETTINGSPAGE = html;
 
-        alert("4");
+       
         $(".content-holder").empty();
         $(".content-holder").append(TEMPSETTINGSPAGE + "</form>");
         $('.settings-agency-bar').css("background-color", "#f34f4e");
         $('#id-agency-view-load').css("color", "white");
         $('.settings-vendor-bar').css("background-color", "#ccc");
         $('#id-preferred-vendors-view-load').css("color", "black");
-        alert("5");
+       
 
     },
     getResponseForPreferredVendor: function (idvalue) {
