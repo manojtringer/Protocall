@@ -139,14 +139,14 @@ utils.server = {
 
 
             $("#homecontent").css("display", "block");
-            localStorage.loggedIn = "true";
-            localStorage.imageURl = "http://2-dot-proto-call-test.appspot.com/file/";
-            localStorage.profilePic = localStorage.imageURl + data.resultMap.userDetails.profilePicture;
-            localStorage.agencyEmail = data.resultMap.userDetails.agencyRepresentativeId.email;
-            localStorage.agencyLogo = localStorage.imageURl + data.resultMap.agencyDetails.agencyLogo;
-            localStorage.agencyName = data.resultMap.userDetails.firstName;
-            localStorage.agencyPhone = data.resultMap.agencyDetails.phone.number;
-            localStorage.agencyId = data.resultMap.agencyId;
+            sessionStorage.loggedIn = "true";
+            sessionStorage.imageURl = "http://2-dot-proto-call-test.appspot.com/file/";
+            sessionStorage.profilePic = sessionStorage.imageURl + data.resultMap.userDetails.profilePicture;
+            sessionStorage.agencyEmail = data.resultMap.userDetails.agencyRepresentativeId.email;
+            sessionStorage.agencyLogo = sessionStorage.imageURl + data.resultMap.agencyDetails.agencyLogo;
+            sessionStorage.agencyName = data.resultMap.userDetails.firstName;
+            sessionStorage.agencyPhone = data.resultMap.agencyDetails.phone.number;
+            sessionStorage.agencyId = data.resultMap.agencyId;
             protocall.setPageNavigation(HOME_PAGE);
 
             /* var header   = HomedynamicTemplate.home.HomeDynamicHeaderTemplate();
@@ -231,6 +231,34 @@ utils.server = {
 
 
     },
+    gotPrivacyResponse: function (data, page) {
+
+        RESPONSE_ARRAY = [];
+
+        var feedHtml = staticTemplate.home.privacyTemplate();
+
+        for (var index = 0; index < data.resultMap.RepresentativeDetails.length; index++) {
+            var customerName = data.resultMap.RepresentativeDetails[index].name;
+            var customerCity = data.resultMap.RepresentativeDetails[index].location;
+            var customerState = "";
+            var customerEmailId = data.resultMap.RepresentativeDetails[index].agencyRepresentativeId.email;
+//            alert(customerEmailId);
+
+            RESPONSE_ARRAY[index] = [customerName, customerCity, customerState, customerEmailId];
+
+            var tempHtml = "<div class=\"rep-grp-blk opensans-regular border-bot text-color-overlay p-relative\"> <input type=\"checkbox\" id='name" + index + "'  class=\"checkbox\" /> <label for='name" + index + "' class=\"rep-label\"> <div class=\"lbl-in-block p-relative\"> <div class=\"f-sz-14 text-color-overlay left rep-name\">" + customerName + "</div> <div class=\"nameRepId f-sz-14 text-color-overlay left\"><i>#5454547</i></div> <div class=\"t-caps f-sz-13 right t-right location-color rep-location\"> <div class=\"bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-on\"> <div id=\"id" + index + "-switch-container\" class=\"bootstrap-switch-container\"> <span id=\"id-switch-on\" class=\"bootstrap-switch-handle-on bootstrap-switch-primary\" onclick=\"moveani(\'id-switch-on\', \'id" + index + "-switch-container\')\"> ON</span> <span class=\"bootstrap-switch-label\">&nbsp;</span> <span id=\"id-switch-off\" class=\"bootstrap-switch-handle-off bootstrap-switch-default\" onclick=\"moveani(\'id-switch-off\', \'id" + index + "-switch-container\')\"> OFF</span> <input type=\"checkbox\" checked=\"\"></div></div> </div> </div> </label>  ";
+            feedHtml = feedHtml + tempHtml;
+            tempHtml = "";
+        }
+
+        var buttonHtml = " </form> </div> </div> <div class='o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w' data-type='dt_overlaybtn_sharerepwithcustomers'>Share</div> </div> ";
+        var finalHtml = feedHtml + buttonHtml;
+
+        overlay.displayOverlay(finalHtml);
+        //sharewithRepSelectAllDropDown("false");
+
+
+    },
     //ADDED BY MANOJ FRIDAY 17 2015---->STARTS HERE
     gotSendAppLinkResponse: function (data, page) {
 
@@ -286,6 +314,31 @@ utils.server = {
 
         sharewithRepSelectAllDropDown("true");
 
+
+    },
+    submitAddVendorDetails: function () {
+        var page = "addvendorpage";
+        var data = {serviceName: $("#id-vendorname").val(), serviceType: $("#id-vendortype").val(), state: $("#id-vendorstate").val(), zipcode: $("#id-vendorzip").val(),
+            phone: $("#id-vendorphone").val(), address1: $("#id-vendoraddress1").val(), address2: $("#id-vendoraddress2").val(), city: $("#id-vendorcity").val()};
+        utils.server.displayMessage("Successfully Saved..!");
+        var deepPath = "createservice";
+        utils.server.makeServerCall(page, data, null, deepPath);
+
+        utils.server.loadPrefferedvendorsdetails();
+
+
+
+    },
+    loadPrefferedvendorsdetails: function () {
+
+        var delay = 2000;
+        setTimeout(function () {
+            var page = "settings";
+            var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"};
+            var callback = utils.server.settingsResponse;
+            var deepPath = "settingsinagencydesign";
+            utils.server.makeServerCall(page, data, callback, deepPath);
+        }, delay);
 
     },
     submitPrivacyData: function () {
@@ -373,7 +426,8 @@ utils.server = {
 //     *************************    Doubts here ---------------------->
 
     },
-    MysettingsResponse: function (data) {
+    settingsResponse: function (data) {
+
 
         var html = staticTemplate.customers.staticSettingsTemplate(data);
         TEMPSETTINGSPAGE = "";
@@ -385,10 +439,30 @@ utils.server = {
         $('#id-agency-view-load').css("color", "white");
         $('.settings-vendor-bar').css("background-color", "#ccc");
         $('#id-preferred-vendors-view-load').css("color", "black");
+        $("#id-preferred-vendors-view-load").click();
 
 
 
 
+
+
+
+    },
+    MysettingsResponse: function (data) {
+
+        alert("dd1");
+        var html = staticTemplate.customers.staticSettingsTemplate(data);
+        TEMPSETTINGSPAGE = "";
+        TEMPSETTINGSPAGE = html;
+
+        alert("4");
+        $(".content-holder").empty();
+        $(".content-holder").append(TEMPSETTINGSPAGE + "</form>");
+        $('.settings-agency-bar').css("background-color", "#f34f4e");
+        $('#id-agency-view-load').css("color", "white");
+        $('.settings-vendor-bar').css("background-color", "#ccc");
+        $('#id-preferred-vendors-view-load').css("color", "black");
+        alert("5");
 
     },
     getResponseForPreferredVendor: function (idvalue) {
@@ -411,7 +485,7 @@ utils.server = {
                 + '<div class="carrier-left-title t-right left">type</div> '
                 + '<div id="id-v-vendortype" class="carrier-left-content t-left right" style="visibility: visible">' + data.serviceType + '</div>'
                 + '<input id="id-vendor-type" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden">'
-                + '</div> </div> </div> </div><div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">name</div> <div id="id-v-vendorname" class="carrier-left-content t-left right " style="visibility: visible">' + data.serviceName + '</div> <input id="id-vendor-name" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">phone</div> <div id="id-v-vendorphone" class="carrier-left-content t-left right" style="visibility: visible">' + data.phone.number + '</div> <input id="id-vendor-phone" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">address</div> <div id="id-v-address1" class="carrier-left-content t-left right ">#20,xyx</div> <input id="id-vendor-address1" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">address</div> <div id="id-v-address2" class="carrier-left-content t-left right">#667,sample</div> <input id="id-vendor-address2" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view border-bot clr-fl"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">city</div> <div id="id-v-city" class="carrier-left-content t-left right ">' + data.latitude + '</div> <input id="id-vendor-city" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">state</div> <div id="id-v-state" class="carrier-left-content t-left right t-upper">' + data.latitude + '</div> <input id="id-vendor-state" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">zip</div> <div id="id-v-zipcode" class="carrier-left-content t-left right ">' + data.zipcode + '</div> <input id="id-vendor-zipcode" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left"></div> <div class="carrier-left-content t-left right t-upper"></div> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl"> <div class="vendor-view-right right t-caps opensans-regular"> </div> </div> </div> </div> <div class="vendor-back-button"> <div class="vendor-back-bar inline-block p-relative bg-color-green "> <div class="p-relative inline-block t-caps t-right v-align-mid opensans-regular f-color-w">back</div> </div> </div> </div></div> </form>';
+                + '</div> </div> </div> </div><div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">name</div> <div id="id-v-vendorname" class="carrier-left-content t-left right " style="visibility: visible">' + data.serviceName + '</div> <input id="id-vendor-name" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">phone</div> <div id="id-v-vendorphone" class="carrier-left-content t-left right" style="visibility: visible">' + data.phone.number + '</div> <input id="id-vendor-phone" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">address</div> <div id="id-v-address1" class="carrier-left-content t-left right ">' + data.address1 + '</div> <input id="id-vendor-address1" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">address</div> <div id="id-v-address2" class="carrier-left-content t-left right">' + data.address2 + '</div> <input id="id-vendor-address2" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view border-bot clr-fl"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">city</div> <div id="id-v-city" class="carrier-left-content t-left right ">' + data.city + '</div> <input id="id-vendor-city" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">state</div> <div id="id-v-state" class="carrier-left-content t-left right t-upper">' + data.state + '</div> <input id="id-vendor-state" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">zip</div> <div id="id-v-zipcode" class="carrier-left-content t-left right ">' + data.zipcode + '</div> <input id="id-vendor-zipcode" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left"></div> <div class="carrier-left-content t-left right t-upper"></div> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl"> <div class="vendor-view-right right t-caps opensans-regular"> </div> </div> </div> </div> <div class="vendor-back-button"> <div class="vendor-back-bar inline-block p-relative bg-color-green "> <div class="p-relative inline-block t-caps t-right v-align-mid opensans-regular f-color-w">back</div> </div> </div> </div></div> </form>';
 
         $(".content-holder").empty();
         $(".content-holder").append(TEMPSETTINGSPAGE + footer);
@@ -465,12 +539,15 @@ utils.server = {
         $(".success").css("display", "none");
         $(".error").css("display", "block");
         $(".error").css("padding-top", "4px");
+        $(".error").css("padding-bottom", "10px");
     },
     displayMessage: function (message) {
         $(".success").html(message);
         $(".error").css("display", "none");
         $(".success").css("display", "block");
         $(".success").css("padding-top", "4px");
+        $(".success").css("padding-bottom", "10px");
+
     },
     getCodeResponseAssignCustomers: function (data)
     {
@@ -720,6 +797,7 @@ function onKeyPressEventshareWithRep(tag) {
 
 
 function onKeyPressEventPrivacy(tag) {
+
     var searchText = $(tag).val().toUpperCase();
     if (searchText !== "" && searchText !== null) {
         var finalHtml = "<form>";
@@ -739,7 +817,8 @@ function onKeyPressEventPrivacy(tag) {
             finalHtml = finalHtml + tempHtml;
         }
 
-        $(".rep-content-blk").html(finalHtml + "</form>");
+        var buttonHtml = "</div> </div> <div class=\"o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w\" data-type=\"overlaybtn\">Send</div> </div> </div> ";
+        $(".rep-content-blk").html(finalHtml + "</form>" + buttonHtml);
     } else {
         var finalHtml = "<form>";
         for (index = 0; index < RESPONSE_ARRAY.length; index++) {
@@ -750,7 +829,8 @@ function onKeyPressEventPrivacy(tag) {
             tempHtml = "";
         }
 
-        $(".rep-content-blk").html(finalHtml + "</form>");
+        var buttonHtml = "</div> </div> <div class=\"o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w\" data-type=\"overlaybtn\">Send</div> </div> </div> ";
+        $(".rep-content-blk").html(finalHtml + "</form>" + buttonHtml);
     }
 
 

@@ -31,8 +31,8 @@ var CONSTANTS = {
         ajaxFailed: "Oops! This action could not be completed now! Please try again"
     },
     ISLOGGEDIN: false,
-    HASNEXTPAGE: false,
-    SCROLLTOPVALUE: 0
+	HASNEXTPAGE : false,
+	SCROLLTOPVALUE : 0
 };
 //regular expressions
 PHONE_REGEX = /((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,3})|(\(?\d{2,3}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}/;
@@ -51,40 +51,42 @@ var ENDPOINT = {
     GIVE_RECORDED_BY_USER: "giverecordedbyuser"
 };
 var RESPONSE = {
-    RESULTOBJECT: {},
-    AUDIODETAILS: [],
-    MEDIAID: [],
-    PICTUREDETAILS: [],
-    IMAGEURLS: [],
-    IMGETEXT: [],
-    MEDIAIDFORPICTURE: [],
-    AUDIOTEXT: [],
-    TIMESTAMPAUDIO: [],
-    AUDIOURLS: [],
-    OTHERPARTYDETAILS: [],
-    NAMES: [],
-    ROLE: [],
-    PHONE: [],
-    ADDRESS: [],
-    INSURANCECO: [],
-    POLICY: [],
-    VEHICLENO: [],
-    VEHICLEMODEL: [],
-    DRIVINGLICENCESTATE: [],
-    DRIVINGLICENCENUMBER: [],
-    INJURIES: [],
-    OTHERINFORMATION: [],
-    OTHERPARTYIDS: []
+	RESULTOBJECT : {},
+	AUDIODETAILS : [],
+	MEDIAID : [],
+	PICTUREDETAILS : [],
+	IMAGEURLS : [],
+	IMGETEXT : [],
+	MEDIAIDFORPICTURE : [],
+	AUDIOTEXT : [],
+	TIMESTAMPAUDIO : [],
+	AUDIOURLS : [],
+	OTHERPARTYDETAILS : [],
+	NAMES : [],
+	ROLE : [],
+	PHONE : [],
+	ADDRESS : [],
+	INSURANCECO : [],
+	POLICY : [],
+	VEHICLENO : [],
+	VEHICLEMODEL : [],
+	DRIVINGLICENCESTATE : [],
+	DRIVINGLICENCENUMBER : [],
+	INJURIES : [],
+	OTHERINFORMATION : [],
+	OTHERPARTYIDS : []
 };
 /*Naveen 19-2-2015 Chnage start*/
 var HOMEPAGERESPONSE = {
-    ALERTDETAILS: [],
-    ALERTDETAILSLENGTH: 0,
-    RECURRINGALERTDFEEDS: [],
-    INCIDENTALERTSCLICKED: false,
-    HOMEPAGEMYALERTSLOADED: false,
-    POLICYALERTCLICKED: false,
-    PROFILEAPI: "https://proto-call-test.appspot.com/file/"
+	ALERTDETAILS : [],
+	ALERTDETAILSLENGTH : 0,
+	RECURRINGALERTDFEEDS : [],
+	INCIDENTALERTSCLICKED : false,
+	HOMEPAGEMYALERTSLOADED : false,
+	POLICYALERTCLICKED : false,
+	PROFILEAPI : "https://proto-call-test.appspot.com/file/",
+	SORYBYRECENTVIEW : false,
+	SORYBYALPHABETICALVIEW : false
 }
 /*Naveen 19-2-2015 Chnage end*/
 //API
@@ -283,7 +285,7 @@ protocall = {
                     this.setPageNavigation(pageNameFromURL);
                 }
             } else {
-                this.setPageNavigation(localStorage.currentPage);
+                this.setPageNavigation(sessionStorage.currentPage);
             }
         }
         else {
@@ -361,14 +363,14 @@ protocall = {
                 var $el = $('.policies')
                 this.view.loadPoliciesFeeds($el, false);
             }
-            else if (subMenuName == CONSTANTS.LINK_TYPE.ARCHIVES) {
+	     else if (subMenuName == CONSTANTS.LINK_TYPE.ARCHIVES) {
                 var $el = $('.archives')
                 this.view.loadArchiveFeeds($el, false);
             }
-            else if (subMenuName == CONSTANTS.LINK_TYPE.VIEW_ARCHIVES) {
+             else if (subMenuName == CONSTANTS.LINK_TYPE.VIEW_ARCHIVES) {
                 var $el = $('.view_archives')
                 this.view.loadviewArchivedFeeds($el, false);
-            }
+            }	
 
         }
     },
@@ -388,7 +390,7 @@ protocall = {
         this.setPage(CURRENT_PAGE, CURRENT_PAGE, CURRENT_PAGE, "");
     },
     setLocalStorage: function (page) {
-        localStorage.setItem('currentPage', page);
+        sessionStorage.setItem('currentPage', page);
     },
     //Navigate Pages on Window back and forward buttons
     stateNavigation: function (page) {
@@ -402,8 +404,8 @@ protocall = {
     },
     isLoggedIn: function () {
         //Check for user logged in.
-        if (localStorage) {
-            return localStorage.loggedIn ? true : false;
+        if (sessionStorage) {
+            return sessionStorage.loggedIn ? true : false;
         } else {
             if (CONSTANTS.ISLOGGEDIN) {
                 return true;
@@ -443,19 +445,19 @@ protocall.events = {
         $(document).on("click", ".snap", function (e) {
             e.stopPropagation();
             protocall.events.handleClick(e);
-
+	    	
         });
 
 
-        $(document).on("click", ".mysnap", function (e) {
-            $(".mysnap").css("background", "lightgrey");
-            $(this).css("background", "#f34f4e");
-            var loginContent = LoginTemplate.login.MyloginContent();
-            $(".box").empty();
-            $(".box").append($(loginContent));
-            $(".box").fadeIn("slow");
+	$(document).on("click", ".mysnap", function (e) {
+	$(".mysnap").css("background", "lightgrey");
+    	$(this).css("background", "#f34f4e");
+	var loginContent = LoginTemplate.login.MyloginContent();
+        $(".box").empty();
+        $(".box").append($(loginContent)); 
+        $(".box").fadeIn("slow");      
 
-        });
+	}); 
 
         $(document).on("click", ".overalyPhots", function (e) {
             e.stopPropagation();
@@ -463,60 +465,60 @@ protocall.events = {
             protocall.events.handleClickForPhotosOverlay(e);
         });
         /* $(document).on("click", ".audioOverlay", function (e) {
-         e.stopPropagation();
-         console.log(".o-content");
-         protocall.events.handleClickForAudioOverlay(e);
-         }); */
-        $(document).on("click", ".overlayDocs", function (e) {
+            e.stopPropagation();
+            console.log(".o-content");
+            protocall.events.handleClickForAudioOverlay(e);
+        }); */
+		$(document).on("click", ".overlayDocs", function (e) {
             e.stopPropagation();
             console.log(".o-content");
             protocall.events.handleClickForDocsOverlay(e);
-        });
-        $(document).on("click", ".audioOverlay", function (e) {
+        }); 
+		$(document).on("click", ".audioOverlay", function (e) {
             e.stopPropagation();
             console.log(".o-content");
-            protocall.events.handleClickForAudioThumbNail(e);
+			protocall.events.handleClickForAudioThumbNail(e);
         });
         $(window).on("resize", function (e) {
             protocall.events.handleResize(e);
         });
     },
-    /*Naveen Chnages 19-2-2015 start */
-    containerScrollEvent: function () {
-        console.log("function called");
-        $(".container").on("scroll", function (e) {
-            console.log("container scroll");
+	/*Naveen Chnages 19-2-2015 start */
+	containerScrollEvent : function (){
+		console.log("function called");
+		$(".container").on("scroll", function (e) {
+			console.log("container scroll");
             protocall.events.handleScroll();
         });
-    },
+	},
     handleScroll: function (e) {
-        var container = $('.container'), pageNumber = 1, deepPath = "filterfeedbyalertdate", page = "";
-        var scrollHeightValue = container[0].scrollHeight - container.scrollTop();
-        var containerOuterHeight = container.outerHeight();
-        console.log("scrollHeightValue", scrollHeightValue);
-        console.log("containerOuterHeight", containerOuterHeight);
-        console.log("container.scrollTop()", container.scrollTop());
-        //var containerScrollTop = 0;
-        CONSTANTS.SCROLLTOPVALUE = CONSTANTS.SCROLLTOPVALUE + container.scrollTop();
-        console.log("HOMEPAGERESPONSE.INCIDENTALERTSCLICKED", HOMEPAGERESPONSE.INCIDENTALERTSCLICKED);
-        console.log("HOMEPAGERESPONSE.POLICYALERTCLICKED", HOMEPAGERESPONSE.POLICYALERTCLICKED);
-        if (scrollHeightValue == containerOuterHeight) {
-            if (CONSTANTS.HASNEXTPAGE) {
-                if (HOMEPAGERESPONSE.INCIDENTALERTSCLICKED) {
-                    container.scrollTop();
-                } else if (HOMEPAGERESPONSE.POLICYALERTCLICKED) {
-                    container.scrollTop();
-                } else {
-                    container.scrollTop();
-                    page = "home";
-                }
-                $(".content-holder").addClass("spinner1");
-                protocall.home.loadingAlertFeeds(++CONSTANTS.PGNUMBER, deepPath, page);
-            }
-        }
-        return false;
-    },
-    /*Naveen Chnages 19-2-2015 end */
+		var container = $('.container'),pageNumber = 1,deepPath = "filterfeedbyalertdate",page = "";
+		var scrollHeightValue = container[0].scrollHeight - container.scrollTop();
+		var containerOuterHeight = container.outerHeight();
+		console.log("scrollHeightValue",scrollHeightValue);
+		console.log("containerOuterHeight",containerOuterHeight);
+		console.log("container.scrollTop()",container.scrollTop());
+		//var containerScrollTop = 0;
+		CONSTANTS.SCROLLTOPVALUE = CONSTANTS.SCROLLTOPVALUE+container.scrollTop();
+		console.log("HOMEPAGERESPONSE.INCIDENTALERTSCLICKED",HOMEPAGERESPONSE.INCIDENTALERTSCLICKED);
+		console.log("HOMEPAGERESPONSE.POLICYALERTCLICKED",HOMEPAGERESPONSE.POLICYALERTCLICKED);
+		if (scrollHeightValue == containerOuterHeight) {
+				if(CONSTANTS.HASNEXTPAGE){
+					if(HOMEPAGERESPONSE.INCIDENTALERTSCLICKED){
+						container.scrollTop();
+					} else if(HOMEPAGERESPONSE.POLICYALERTCLICKED){
+						container.scrollTop();
+					} else {
+						container.scrollTop();
+						page = "home";
+					}
+					$(".content-holder").addClass("spinner1");
+					protocall.home.loadingAlertFeeds(++CONSTANTS.PGNUMBER,deepPath,page);
+				}
+		}
+		return false;
+	},
+	/*Naveen Chnages 19-2-2015 end */
     handleClick: function (e) {
         var $el = $(e.currentTarget);
         if ($el.prop("tagName") == "A") {
@@ -525,7 +527,7 @@ protocall.events = {
         var type = $el.data("type") ? $el.data("type") : null;
         var page = $el.data("page") ? $el.data("page") : null;
         var subMenu = $el.data("submenu") ? $el.data("submenu") : null;
-
+		console.log();
 
         if (!type)
             return;
@@ -584,16 +586,16 @@ protocall.events = {
                     case CONSTANTS.LINK_TYPE.SORTBY:
                         protocall.view.loadSortBy($el, true);
                         break;
-                    case CONSTANTS.LINK_TYPE.PUSHMESSAGE:
+					case CONSTANTS.LINK_TYPE.PUSHMESSAGE:
                         protocall.view.pushMessage($el, true);
                         break;
                     case CONSTANTS.LINK_TYPE.PRIVACY:
                         protocall.view.privacy($el, true);
                         break;
-                    case CONSTANTS.LINK_TYPE.MYPROFEDIT:
-                        protocall.view.MyprofEdit();
-                        break;
-
+		    case CONSTANTS.LINK_TYPE.MYPROFEDIT:
+	                protocall.view.MyprofEdit();
+	                break;
+	
                     default:
                         break;
                 }
@@ -617,11 +619,16 @@ protocall.events = {
                 protocall.view.viewFeed(true);
                 break;
             case CONSTANTS.LINK_TYPE.SHARE_TO_REP:
-                $('.inner-share-spacing').click(function () {
-                    utils.server.shareToRep($(this).attr("id"));
-                    return false;
+                $(function () {
+                    $("body").on("click", ".inner-share-spacing", function () {
+                        utils.server.shareToRep($(this).attr("id"));
+                    });
                 });
-
+//                $('.inner-share-spacing').click(function () {
+//                    utils.server.shareToRep($(this).attr("id"));
+//                    return false;
+//                });
+                return false;
                 break;
             case CONSTANTS.LINK_TYPE.ASSIGN_TO_CUSTOMERS:
                 protocall.view.assignToCustomers();
@@ -659,6 +666,8 @@ protocall.events = {
             case CONSTANTS.LINK_TYPE.AGENCY_REMOVE_LOAD:
 
                 var index = 0;
+                var subIndex = 0;
+                var DELETELIST = [];
                 $('.checkbox').each(function () {
                     str = this.checked ? "1" : "0";
                     if (str == "1") {
@@ -667,23 +676,35 @@ protocall.events = {
                             $("#item_" + index).css({
                                 'display': 'none'
                             });
+
+                            DELETELIST[subIndex] = $(this).val();
+                            subIndex++;
                         } else {
                             protocall.view.LoadAgencyRemove();
                         }
                     }
                     index++;
                 });
+
+                page = "deletevendorpage";
+                var dataq = {alertList: DELETELIST};
+                callback = utils.server.getCodeResponseAssignCustomers;
+                deepPath = "deleteservice";
+                utils.server.makeServerCall(page, dataq, callback, deepPath);
+
 //               
                 break;
             case CONSTANTS.LINK_TYPE.AGENCY_ADD_VENDOR_LOAD:
                 protocall.view.LoadAddVendor();
                 break;
             case CONSTANTS.LINK_TYPE.VENDOR_PROFILE_INFO:
-                $('.preferredvendor').mouseup(function () {
-                    SERVICEID = $(this).attr("id");
-                    utils.server.getResponseForPreferredVendor($(this).attr("id"));
-                    return false;
+                $(function () {
+                    $("body").on("click", ".preferredvendor", function () {
+                        SERVICEID = $(this).attr("id");
+                        utils.server.getResponseForPreferredVendor($(this).attr("id"));
+                    });
                 });
+
                 break;
             case CONSTANTS.LINK_TYPE.CLOSE_OVERLAY:
                 protocall.closeOverlay();
@@ -697,17 +718,23 @@ protocall.events = {
             case CONSTANTS.LINK_TYPE.MATCH_RELEASE_CLAIMS:
                 protocall.view.matchReleaseClaimAlert();
                 break;
-                /*Naveen Chnages 19-2-2015 start */
+			/*Naveen Chnages 19-2-2015 start */
             case CONSTANTS.LINK_TYPE.PHOTS_OVERLAY_DISPLAY:
                 protocall.view.staticPhotOverlayDisplay(e);
                 break;
             case CONSTANTS.LINK_TYPE.AUDIO_OVERLAY:
                 protocall.view.staticAudioOverlayDisplay(e);
                 break;
-            case CONSTANTS.LINK_TYPE.DOCUMENTSOVERLAY:
+			case CONSTANTS.LINK_TYPE.DOCUMENTSOVERLAY:
                 protocall.view.staticDocumentOverlayDisplay(e);
                 break;
-                /*Naveen Chnages 19-2-2015 start */
+			case CONSTANTS.LINK_TYPE.SORYBYRECENT:
+				protocall.view.loadSortByRecent($el, true);
+				break;
+			case CONSTANTS.LINK_TYPE.SORTBYALPHABETICAL:
+				protocall.view.loadSortByAlphabetical($el, true);
+				break;
+			/*Naveen Chnages 19-2-2015 start */
             case CONSTANTS.LINK_TYPE.SIGNUP:
                 protocall.view.loadSignupPage();
                 break;
@@ -740,14 +767,14 @@ protocall.events = {
                 utils.server.submitPrivacyData();
                 break;
             case CONSTANTS.LINK_TYPE.BUTTON_ADDVENDORSEND:
-                utils.server.displayMessage("Vendor details saved succesfully..!");
+                utils.server.submitAddVendorDetails();
                 break;
             default:
                 break;
         }
 
     },
-    /*Naveen Chnages 19-2-2015 start */
+	/*Naveen Chnages 19-2-2015 start */
     handleClickForPhotosOverlay: function (e) {
         console.log("current target", $(e.currentTarget).attr("data-type"));
         var dataType = $(e.currentTarget).attr("data-type");
@@ -766,19 +793,19 @@ protocall.events = {
                 break;
         }
     },
-    /*Naveen Chnages 19-2-2015 end */
-    handleClickForDocsOverlay: function (e) {
-        console.log("current target", $(e.currentTarget).attr("data-type"));
-        var currentTarget = $(e.currentTarget);
+	/*Naveen Chnages 19-2-2015 end */
+	handleClickForDocsOverlay : function(e){
+		console.log("current target", $(e.currentTarget).attr("data-type"));
+		var currentTarget = $(e.currentTarget);
         var dataType = $(e.currentTarget).attr("data-type");
-        switch (dataType) {
+		switch (dataType) {
             case CONSTANTS.LINK_TYPE.THUMB_NAIL:
                 protocall.view.displayOrignalDoc(currentTarget);
                 break;
-            default:
+			default:
                 break;
-        }
-    },
+		}
+	},
     handleClickForAudioOverlay: function (e) {
         var $el = $(e.currentTarget);
         console.log("valuers" + $el.data("type"));
@@ -799,9 +826,9 @@ protocall.events = {
         }
     },
     handleClickForAudioThumbNail: function (e) {
-        var dataType = $(e.currentTarget).attr("data-type");
+		var dataType = $(e.currentTarget).attr("data-type");
         var currentTarget = $(e.currentTarget);
-        switch (dataType) {
+		switch (dataType) {
             case CONSTANTS.LINK_TYPE.THUMB_NAIL:
                 protocall.view.displayOrignalAudio(currentTarget);
                 break;
@@ -842,42 +869,44 @@ protocall.view = {
         }
         protocall.displaySpinner(false);
     },
-    MyprofEdit: function (isClickEvent) {
 
+    MyprofEdit: function (isClickEvent){
+       
 
-        var mytxtval = $.trim($('.submenu-title').text());
-        if (mytxtval == 'edit' | mytxtval == 'Edit') {
+       var mytxtval = $.trim($('.submenu-title').text());
+       if(mytxtval == 'edit' | mytxtval == 'Edit'){
 
-            var name = $("#nameview").text();
-            var phone = $("#phoneview").text();
-            var email = $("#emailview").text();
+       var name  = $("#nameview").text();
+       var phone = $("#phoneview").text();
+       var email = $("#emailview").text();
 
-            $('.submenu-title').empty();
-            $('.submenu-title').append("Save");
-            $(".profile-result-cls").css("display", "none");
-            $(".agencyprofinput").css("display", "inline-block");
-            $('#namenew').val(name);
-            $('#phonenew').val(phone);
-            $('#emailnew').val(email);
-        } else {
-
-            var name = $("#namenew").val();
-            var phone = $("#phonenew").val();
-            var email = $("#emailnew").val();
-            $('.submenu-title').val("Edit");
-            $('.submenu-title').empty();
-            $('.submenu-title').append("Edit");
-            $(".profile-result-cls").css("display", "block");
-            $(".agencyprofinput").css("display", "none");
-            $('#nameview').html(name);
-            $('#phoneview').html(phone);
-            $('#emailview').html(email);
+       $('.submenu-title').empty();
+       $('.submenu-title').append("Save");
+       $(".profile-result-cls").css("display","none");	
+       $(".agencyprofinput").css("display","inline-block");
+       $('#namenew').val(name);
+       $('#phonenew').val(phone);
+       $('#emailnew').val(email);
+       }else{
+   
+       var name  = $("#namenew").val();
+       var phone = $("#phonenew").val();
+       var email = $("#emailnew").val();
+       $('.submenu-title').val("Edit");
+       $('.submenu-title').empty();
+       $('.submenu-title').append("Edit");
+       $(".profile-result-cls").css("display","block");	
+       $(".agencyprofinput").css("display","none");
+       $('#nameview').html(name);
+       $('#phoneview').html(phone);
+       $('#emailview').html(email);
 //Make call here
 
-        }
-
-
+       }
+	
+       	
     },
+
     loadLoginPage: function (isClickEvent) {
         console.log("Load login Page");
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.LOGIN_PAGE);
@@ -890,7 +919,11 @@ protocall.view = {
     },
     loadHomePage: function (isClickEvent) {
         console.log("Load Home Page");
-        protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE);
+		$(".content-holder").addClass("spinner1");
+		HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED = true;
+		HOMEPAGERESPONSE.POLICYALERTCLICKED = false;
+		HOMEPAGERESPONSE.INCIDENTALERTSCLICKED = false;
+		protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE);
         protocall.home.initHomePage();
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
         if (isClickEvent) {
@@ -1002,51 +1035,57 @@ protocall.view = {
         protocall.view.buildSubMenuBlk(CONSTANTS.LINK_TYPE.CARRIERS_PAGE, breadCrumbObj);
         protocall.displaySpinner(false);
     },
-    /*Naveen Chnages 19-2-2015 start */
-    loadMyAlertsFeeds: function ($el, isClickEvent) {
+
+/*Naveen Chnages 19-2-2015 start */
+        loadMyAlertsFeeds: function ($el, isClickEvent) {
         $(".content-holder").addClass("spinner1");
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.MY_ALERTS);
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.HOME_PAGE, CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.MY_ALERTS, CONSTANTS.LINK_TYPE.MY_ALERTS, "");
         }
-        protocall.home.displayMyAlertsFeeds();
+		protocall.home.displayMyAlertsFeeds();
         $('.tab-rb-submenu a').each(function () {
             protocall.view.setSelectedLinkClasses($(this), false);
         });
-        protocall.view.setSelectedLinkClasses($el, true);
-        protocall.displaySpinner(false);
+        protocall.view.setSelectedLinkClasses($el, true);  
+	protocall.displaySpinner(false);
+          
+        },
 
-    },
+
     loadIncidentsFeeds: function ($el, isClickEvent) {
-        $(".content-holder").addClass("spinner1");
-        protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.INCIDENTS);
+    $(".content-holder").addClass("spinner1");
+	protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.INCIDENTS);
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.HOME_PAGE, CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.INCIDENTS, CONSTANTS.LINK_TYPE.INCIDENTS, "");
         }
-        protocall.home.displayIncidentsFeeds();
+		protocall.home.displayIncidentsFeeds();
         $('.tab-rb-submenu a').each(function () {
             protocall.view.setSelectedLinkClasses($(this), false);
         });
         protocall.view.setSelectedLinkClasses($el, true);
     },
+
+
     loadPoliciesFeeds: function ($el, isClickEvent) {
-        $(".content-holder").addClass("spinner1");
-        protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.POLICIES);
+    $(".content-holder").addClass("spinner1");   
+	protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.POLICIES);
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.HOME_PAGE, CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.POLICIES, CONSTANTS.LINK_TYPE.POLICIES, "");
         }
-        protocall.home.displayPoliciesFeeds();
+		protocall.home.displayPoliciesFeeds();
         $('.tab-rb-submenu a').each(function () {
             protocall.view.setSelectedLinkClasses($(this), false);
         });
         protocall.view.setSelectedLinkClasses($el, true);
-        protocall.displaySpinner(false);
-
+		protocall.displaySpinner(false);
+     
     },
-    /*Naveen Chnages 19-2-2015 end */
+
+/*Naveen Chnages 19-2-2015 end */
 
     loadArchiveFeeds: function ($el, isClickEvent) {
 
@@ -1060,13 +1099,16 @@ protocall.view = {
         });
         protocall.view.setSelectedLinkClasses($el, true);
         $(".content-holder").empty();
-        var template = HomedynamicTemplate.home.HomeDynamicArchiveFeedTemplate();
-        $(".content-holder").append(template);
+	var template = HomedynamicTemplate.home.HomeDynamicArchiveFeedTemplate();
+	$(".content-holder").append(template);
         protocall.displaySpinner(false);
     },
-    loadviewArchivedFeeds: function ($el, isClickEvent) {
 
-        protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_ARCHIVES);
+
+
+    loadviewArchivedFeeds: function ($el, isClickEvent) {
+        
+	protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_ARCHIVES);
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.HOME_PAGE, CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_ARCHIVES, CONSTANTS.LINK_TYPE.VIEW_ARCHIVES, "");
@@ -1075,11 +1117,13 @@ protocall.view = {
             protocall.view.setSelectedLinkClasses($(this), false);
         });
         protocall.view.setSelectedLinkClasses($el, true);
-        $(".content-holder").empty();
-        var template = HomedynamicTemplate.home.HomeDynamicViewArchiveFeedTemplate();
-        $(".content-holder").append(template);
+	$(".content-holder").empty();
+	var template = HomedynamicTemplate.home.HomeDynamicViewArchiveFeedTemplate();
+	$(".content-holder").append(template);
         protocall.displaySpinner(false);
     },
+
+
     setSelectedLinkClasses: function ($el, isSet) {
         if (isSet) {
             $el.addClass("selected-tab");
@@ -1088,9 +1132,30 @@ protocall.view = {
         }
     },
     loadSortBy: function ($el) {
-        var html = '<div><div class="prof-view-overlay-sort">Recent</div><div class="prof-view-overlay-sort">Alphabetical</div></div>';
+		console.log("$e1");
+        var html = '<div><div class="snap prof-view-overlay-sort" data-type="recent">Recent</div><div class="snap prof-view-overlay-sort" data-type="alphabetical">Alphabetical</div></div>';
         popUpContent.togglePopUpContent($el, html);
     },
+	loadSortByRecent: function ($el) {
+       protocall.view.sortyByRecnetView();
+    },
+	loadSortByAlphabetical: function ($el) {
+        protocall.view.sortyByAlphabeticalView();
+    },
+	sortyByRecnetView : function (){
+		$("div.submenu-sort div:nth-child(1)").text("Recent"); 
+		popUpContent.closePopUpContent();
+		HOMEPAGERESPONSE.SORYBYRECENTVIEW = true;
+		HOMEPAGERESPONSE.SORYBYALPHABETICALVIEW = false;
+		protocall.home.initHomePage();
+	},
+	sortyByAlphabeticalView : function (){
+		$("div.submenu-sort div:nth-child(1)").text("Alphabetical"); 
+		popUpContent.closePopUpContent();
+		HOMEPAGERESPONSE.SORYBYRECENTVIEW = false;
+		HOMEPAGERESPONSE.SORYBYALPHABETICALVIEW = true;
+		protocall.home.initHomePage();
+	},
     loadProfile: function ($el) {
         var html = '<div><div class="prof-view-overlay snap myProfileView" data-type="myProfileView">My Profile</div><div class="prof-view-overlay snap mysettings" data-type="mysettings">Settings</div>'
                 + '<div class="prof-view-overlay">Help</div><div class="prof-view-overlay snap" data-type="logout-yes">Log out</div></div>';
@@ -1150,6 +1215,8 @@ protocall.view = {
         $('#id-agency-view-load').css("color", "white");
         $('.settings-vendor-bar').css("background-color", "#ccc");
         $('#id-preferred-vendors-view-load').css("color", "black");
+        $('.success').css("visibility", "hidden");
+        $('.error').css("visibility", "hidden");
         if (IsVendorDataChanged === true) {
             editVendorSaveData();
             IsVendorDataChanged = false;
@@ -1184,6 +1251,9 @@ protocall.view = {
         $('#id-preferred-vendors-view-load').css("color", "white");
         $('.settings-agency-bar').css("background-color", "#ccc");
         $('#id-agency-view-load').css("color", "black");
+        $('.success').css("visibility", "hidden");
+        $('.error').css("visibility", "hidden");
+
         if (IsAgencyDataChanged === true) {
             editAgencySaveData();
             IsAgencyDataChanged = false;
@@ -1263,11 +1333,11 @@ protocall.view = {
         utils.server.makeServerCall(page, data, callback, deepPath);
     },
     LogoutAuthenticateYes: function () {
-        popUpContent.closePopUpContent();
+       popUpContent.closePopUpContent();
         protocall.displaySpinner(true);
-        localStorage.loggedIn = "";
-        localStorage.agencyEmail = "";
-        localStorage.agencyId = "";
+        sessionStorage.loggedIn = "";
+        sessionStorage.agencyEmail = "";
+        sessionStorage.agencyId = "";
         protocall.setPageNavigation(LOGIN_PAGE);
 
     },
@@ -1277,53 +1347,59 @@ protocall.view = {
         overlay.displayOverlay(html);
     },
     privacy: function () {
-        var html = staticTemplate.home.privacyTemplate();
-        overlay.displayOverlay(html);
+
+        page = "privacyoverlay";
+        var data = {};
+        callback = utils.server.gotPrivacyResponse;
+        deepPath = "agencyrepresentativenamewithlocation";
+        utils.server.makeServerCall(page, data, callback, deepPath);
+//        var html = staticTemplate.home.privacyTemplate();
+//        overlay.displayOverlay(html);
     },
     /*Added by Naveen -- Start*/
-    /*Naveen Chnages 19-2-2015 start */
+	/*Naveen Chnages 19-2-2015 start */
     staticPhotOverlayDisplay: function (e) {
         var currentTarget = $(e.currentTarget);
-        var photoCountValue = currentTarget.find("span.doc-count.doc-count-placement").text();
-        if (photoCountValue == 0) {
-            e.stopPropagation();
-            //return true;
-        } else {
-            var clickedAlertID = currentTarget.attr("id");
-            console.log("clickedID", clickedAlertID);
-            var html = staticTemplate.home.showPhotsOverlayTemplate(clickedAlertID);
-            overlay.displayOverlay(html);
-            overlay.sliderControl();
-            $("#thumbNailViewForImages div:nth-child(1)").addClass("activeAudio");
-        }
+		var photoCountValue = currentTarget.find("span.doc-count.doc-count-placement").text();
+		if(photoCountValue == 0){
+			e.stopPropagation();
+			//return true;
+		} else{
+			var clickedAlertID = currentTarget.attr("id");
+			console.log("clickedID",clickedAlertID);
+			var html = staticTemplate.home.showPhotsOverlayTemplate(clickedAlertID);
+			overlay.displayOverlay(html);
+			overlay.sliderControl();
+			$("#thumbNailViewForImages div:nth-child(1)").addClass("activeAudio");
+		}
     },
-    staticAudioOverlayDisplay: function (e) {
-        var currentTarget = $(e.currentTarget);
-        var audioCountValue = currentTarget.find("span.doc-count.doc-count-placement").text();
-        if (audioCountValue == 0) {
-            return true;
-        } else {
-            var clickedAlertID = currentTarget.attr("id");
-            console.log("clickedID", clickedAlertID);
-            var html = staticTemplate.home.showAudioOverlayTemplate(clickedAlertID);
-            overlay.displayOverlay(html);
-        }
+	staticAudioOverlayDisplay: function (e) {
+       var currentTarget = $(e.currentTarget);
+		var audioCountValue = currentTarget.find("span.doc-count.doc-count-placement").text();
+		if(audioCountValue == 0){
+			return true;
+		} else{
+			var clickedAlertID = currentTarget.attr("id");
+			console.log("clickedID",clickedAlertID);
+			var html = staticTemplate.home.showAudioOverlayTemplate(clickedAlertID);
+			overlay.displayOverlay(html);
+		} 
     },
-    staticDocumentOverlayDisplay: function (e) {
-        console.log("staticDocumentOverlayDisplay currentTarget", $(e.currentTarget));
-        var currentTarget = $(e.currentTarget);
-        var docCountValue = currentTarget.find("span.doc-count.doc-count-placement").text();
-        console.log("docCountValue", docCountValue);
-        if (docCountValue == 0) {
-            return true;
-        } else {
-            var clickedAlertID = currentTarget.attr("id");
-            console.log("clickedID", clickedAlertID);
-            var html = staticTemplate.home.showDocumentOverlayTemplate(clickedAlertID);
-            overlay.displayOverlay(html);
-        }
-    },
-    /*Naveen Chnages 19-2-2015 end */
+	staticDocumentOverlayDisplay : function(e){
+		console.log("staticDocumentOverlayDisplay currentTarget",$(e.currentTarget));
+		var currentTarget = $(e.currentTarget);
+		var docCountValue = currentTarget.find("span.doc-count.doc-count-placement").text();
+		console.log("docCountValue",docCountValue);
+		if(docCountValue == 0){
+			return true;
+		} else{
+			var clickedAlertID = currentTarget.attr("id");
+			console.log("clickedID",clickedAlertID);
+			var html = staticTemplate.home.showDocumentOverlayTemplate(clickedAlertID);
+			overlay.displayOverlay(html);
+		}
+	},
+	/*Naveen Chnages 19-2-2015 end */
     /*Added by Naveen -- End*/
     editAgencyPic: function () {
         var html = staticTemplate.home.editAgencyPicTemplate();
@@ -1457,7 +1533,7 @@ protocall.view = {
         }
 
     },
-    /*Naveen 19-2-2015 Chnage start*/
+	/*Naveen 19-2-2015 Chnage start*/
     displayOrignalImage: function (currentTarget) {
         $("#thumbNailViewForImages>div").removeClass("activeAudio");
         currentTarget.addClass("activeAudio");
@@ -1465,90 +1541,90 @@ protocall.view = {
         $.each(RESPONSE.PICTUREDETAILS, function (i, element) {
             console.log("media id", element.mediaId);
             if (currentMediaID == element.mediaId) {
-                mainImageHTML = '<img src=' + HOMEPAGERESPONSE.PROFILEAPI + element.file + ' />';
+                mainImageHTML = '<img src='+ HOMEPAGERESPONSE.PROFILEAPI+element.file +' style="max-width:100%;" />';
                 imageInformationHTML = element.imageText;
             }
         });
-        $("#viewingImage").html(mainImageHTML);
+        $("#viewImage").html(mainImageHTML);
         $("#imageinformation").html(imageInformationHTML);
     },
-    /*Naveen 19-2-2015 Chnage end*/
+	/*Naveen 19-2-2015 Chnage end*/
     displayOrignalDoc: function (currentTarget) {
         $("#thumbNailDocs>div").removeClass("activeAudio");
         currentTarget.addClass("activeAudio");
         var currentDocName = currentTarget.find("p").text(), mainAudioHTML = "";
-        console.log("currentDocName");
+		console.log("currentDocName");
         $.each(RESPONSE.OTHERPARTYDETAILS, function (i, element) {
             console.log("media id", element.fileName);
             if (currentDocName == element.fileName) {
                 mainDocHTML = '<div class="leftDiv">'
-                        + '<p>'
-                        + '<span class="firstSpan">Name</span>'
-                        + '<span class="secondSpan">' + element.fileName + '</span>'
-                        + '</p>'
-                        + '<p>'
-                        + '<span class="firstSpan">Role</span>'
-                        + '<span class="secondSpan">' + element.role + '</span>'
-                        + '</p>'
-                        + '<p>'
-                        + '<span class="firstSpan">Phone</span>'
-                        + '<span class="secondSpan">' + element.phone.number + '</span>'
-                        + '</p>'
-                        + '<p>'
-                        + '<span class="firstSpan">Address</span>'
-                        + '<span class="secondSpan">' + element.address.address + '</span>'
-                        + '</p>'
-                        + '<p>'
-                        + '<span class="firstSpan">Insurance co</span>'
-                        + '<span class="secondSpan">' + element.carrier + '</span>'
-                        + '</p>'
-                        + '<p>'
-                        + '<span class="firstSpan">Policy #</span>'
-                        + '<span class="secondSpan">' + element.policyNumber + '</span>'
-                        + '</p>'
-                        + '<p>'
-                        + '<span class="firstSpan">Auto Yr/make/model</span>'
-                        + '<span class="secondSpan">' + element.model + '</span>'
-                        + '</p>'
-                        + '<p>'
-                        + '<span class="firstSpan">Auto License plate state & Number</span>'
-                        + '<span class="secondSpan">' + element.vehicleIdentificationNumber + '</span>'
-                        + '</p>'
-                        + '<p>'
-                        + '<span class="firstSpan">Drivers License State</span>'
-                        + '<span class="secondSpan">' + element.driverLicenseState + '</span>'
-                        + '</p>'
-                        + '<p>'
-                        + '<span class="firstSpan">Drivers License Number</span>'
-                        + '<span class="secondSpan">' + element.driverLicenseNumber + '</span>'
-                        + '</p>'
-                        + '<p>'
-                        + '<span class="firstSpan">Injuries</span>'
-                        + '<span class="secondSpan">' + element.injuries + '</span>'
-                        + '</p>'
-                        + '<p>'
-                        + '<span class="firstSpan">Other info</span>'
-                        + '<span class="secondSpan">' + element.otherInformation + '</span>'
-                        + '</p>'
-                        + '</div>';
+									+'<p>'
+										+'<span class="firstSpan">Name</span>'
+										+'<span class="secondSpan">'+element.fileName+'</span>'
+									+'</p>'
+									+'<p>'
+										+'<span class="firstSpan">Role</span>'
+										+'<span class="secondSpan">'+element.role+'</span>'
+									+'</p>'
+									+'<p>'
+										+'<span class="firstSpan">Phone</span>'
+										+'<span class="secondSpan">'+element.phone.number+'</span>'
+									+'</p>'
+									+'<p>'
+										+'<span class="firstSpan">Address</span>'
+										+'<span class="secondSpan">'+element.address.address+'</span>'
+									+'</p>'
+									+'<p>'
+										+'<span class="firstSpan">Insurance co</span>'
+										+'<span class="secondSpan">'+element.carrier+'</span>'
+									+'</p>'
+									+'<p>'
+										+'<span class="firstSpan">Policy #</span>'
+										+'<span class="secondSpan">'+element.policyNumber+'</span>'
+									+'</p>'
+									+'<p>'
+										+'<span class="firstSpan">Auto Yr/make/model</span>'
+										+'<span class="secondSpan">'+element.model+'</span>'
+									+'</p>'
+									+'<p>'
+										+'<span class="firstSpan">Auto License plate state & Number</span>'
+										+'<span class="secondSpan">'+element.vehicleIdentificationNumber+'</span>'
+									+'</p>'
+									+'<p>'
+										+'<span class="firstSpan">Drivers License State</span>'
+										+'<span class="secondSpan">'+element.driverLicenseState+'</span>'
+									+'</p>'
+									+'<p>'
+										+'<span class="firstSpan">Drivers License Number</span>'
+										+'<span class="secondSpan">'+element.driverLicenseNumber+'</span>'
+									+'</p>'
+									+'<p>'
+										+'<span class="firstSpan">Injuries</span>'
+										+'<span class="secondSpan">'+element.injuries+'</span>'
+									+'</p>'
+									+'<p>'
+										+'<span class="firstSpan">Other info</span>'
+										+'<span class="secondSpan">'+element.otherInformation+'</span>'
+									+'</p>'
+									+'</div>';
             }
         });
         $("#docinformation span").html(currentDocName);
         $("#originalDocDIV").html(mainDocHTML);
     },
-    /*Naveen 19-2-2015 Chnage start*/
-    displayPreviousImage: function () {
-        var $divElement = $("#thumbNailViewForImages"), activeAudioClass = false;
-        console.log("$liElement", $divElement);
-        $.each($divElement, function (index, element) {
-            console.log($(this).find("div").hasClass("activeAudio"));
-            activeAudioClass = $(this).find("div").hasClass("activeAudio")
-            if (activeAudioClass) {
-                protocall.view.loadingScrollPrevious($(this).find("div.activeAudio"));
-                return false;
-            }
-        });
-    },
+	/*Naveen 19-2-2015 Chnage start*/
+	displayPreviousImage: function () {
+		var $divElement = $("#thumbNailViewForImages"), activeAudioClass = false;
+		console.log("$liElement", $divElement);
+		$.each($divElement, function (index, element) {
+			console.log($(this).find("div").hasClass("activeAudio"));
+			activeAudioClass = $(this).find("div").hasClass("activeAudio")
+			if (activeAudioClass) {
+				protocall.view.loadingScrollPrevious($(this).find("div.activeAudio"));
+				return false;
+			}
+		});
+	},
     displayNextImage: function () {
         var $divElement = $("#thumbNailViewForImages"), activeAudioClass = false;
         console.log("$liElement", $divElement);
@@ -1568,7 +1644,7 @@ protocall.view = {
             $("#thumbNailViewForImages div").removeClass("activeAudio");
             nextElementToBeloaded.addClass("activeAudio");
             imageSrcTobeLoadedBack = nextElementToBeloaded.find("img").attr("src");
-            $("#viewingImage").html('<img src=' + imageSrcTobeLoadedBack + ' />');
+            $("#viewImage").html('<img src='+imageSrcTobeLoadedBack+' style="max-width:100%;"/>');
         }
     },
     loadingScrollPrevious: function (liEleme) {
@@ -1580,13 +1656,13 @@ protocall.view = {
             nextElementToBeloaded.addClass("activeAudio");
             imageSrcTobeLoadedBack = nextElementToBeloaded.find("img").attr("src");
             console.log("imageSrcTobeLoaded" + imageSrcTobeLoadedBack);
-            $("#viewImage").html('<img src=' + imageSrcTobeLoadedBack + ' />');
+            $("#viewImage").html('<img src='+imageSrcTobeLoadedBack+' style="max-width:100%;"/>');
         }
     },
-    /*Naveen 19-2-2015 Chnage end*/
-    /*Audio Click functions*/
-    displayOrignalAudio: function (currentTarget) {
-        $("#audioThumbNailView>div").removeClass("activeAudio");
+	/*Naveen 19-2-2015 Chnage end*/
+	/*Audio Click functions*/
+	displayOrignalAudio : function(currentTarget){
+		$("#audioThumbNailView>div").removeClass("activeAudio");
         currentTarget.addClass("activeAudio");
         var currentMediaID = currentTarget.find("p#mediaID").text(), mainAudioHTML = "";
         console.log("RESPONSE.AUDIODETAILS", RESPONSE.AUDIODETAILS);
@@ -1601,28 +1677,28 @@ protocall.view = {
                         + '<source src=' + element.audioSourceURL + '>'
                         + '<source src=' + element.audioSourceURL + '>'
                         + '</audio>';
-                /*+ '<div class="voice-ctrler">'
-                 + '<div class="audioOverlay" data-type="previousAudio" style="cursor:pointer;">prev</div><div><button id="pButton2" class="play audioOverlay" data-type="playAudio"></button></div><div class="audioOverlay" data-type="nextAudio" style="cursor:pointer;">next</div>'
-                 + '</div>'; */
+                        /*+ '<div class="voice-ctrler">'
+                         + '<div class="audioOverlay" data-type="previousAudio" style="cursor:pointer;">prev</div><div><button id="pButton2" class="play audioOverlay" data-type="playAudio"></button></div><div class="audioOverlay" data-type="nextAudio" style="cursor:pointer;">next</div>'
+                        + '</div>'; */
             }
         });
         $("#originalAudio").html(mainAudioHTML);
-    },
-    displayPreviousAudio: function () {
-        var $divElement = $("#audioThumbNailView"), activeAudioClass = false;
-        console.log("$liElement", $divElement);
-        $.each($divElement, function (index, element) {
-            console.log($(this).find("div").hasClass("activeAudio"));
-            activeAudioClass = $(this).find("div").hasClass("activeAudio")
-            if (activeAudioClass) {
-                protocall.view.loadingPreviousAudio($(this).find("div.activeAudio"));
-                return false;
-            }
-        });
-    },
-    loadingPreviousAudio: function (divEleme) {
-        console.log("loadingPreviousAudio");
-        var indexValue = $("#audioThumbNailView div").index(divEleme) - 1, nextElementToBeloaded, nextAudioElement;
+	},
+	displayPreviousAudio : function(){
+		var $divElement = $("#audioThumbNailView"), activeAudioClass = false;
+		console.log("$liElement", $divElement);
+		$.each($divElement, function (index, element) {
+			console.log($(this).find("div").hasClass("activeAudio"));
+			activeAudioClass = $(this).find("div").hasClass("activeAudio")
+			if (activeAudioClass) {
+				protocall.view.loadingPreviousAudio($(this).find("div.activeAudio"));
+				return false;
+			}
+		});
+	},
+	loadingPreviousAudio : function(divEleme){
+		console.log("loadingPreviousAudio");
+		var indexValue = $("#audioThumbNailView div").index(divEleme) - 1, nextElementToBeloaded,nextAudioElement;
         console.log("loadingScrollBack" + indexValue);
         if (indexValue !== -1) {
             nextElementToBeloaded = $("#audioThumbNailView div:eq( " + indexValue + " )");
@@ -1630,24 +1706,24 @@ protocall.view = {
             nextElementToBeloaded.addClass("activeAudio");
             nextAudioElement = nextElementToBeloaded.find("p#mediaID").attr("name");
             console.log("imageSrcTobeLoaded" + nextAudioElement);
-            $("#music").find("source").attr("src", nextAudioElement);
+            $("#music").find("source").attr("src",nextAudioElement);
         }
-    },
-    displayNextAudio: function () {
-        var $divElement = $("#audioThumbNailView"), activeAudioClass = false;
-        console.log("$liElement", $divElement);
-        $.each($divElement, function (index, element) {
-            console.log($(this).find("div").hasClass("activeAudio"));
-            activeAudioClass = $(this).find("div").hasClass("activeAudio")
-            if (activeAudioClass) {
-                protocall.view.loadingNextAudio($(this).find("div.activeAudio"));
-                return false;
-            }
-        });
-    },
-    loadingNextAudio: function (divEleme) {
-        console.log("loadingPreviousAudio");
-        var indexValue = $("#audioThumbNailView div").index(divEleme) + 1, nextElementToBeloaded, nextAudioElement;
+	},
+	displayNextAudio : function(){
+		var $divElement = $("#audioThumbNailView"), activeAudioClass = false;
+		console.log("$liElement", $divElement);
+		$.each($divElement, function (index, element) {
+			console.log($(this).find("div").hasClass("activeAudio"));
+			activeAudioClass = $(this).find("div").hasClass("activeAudio")
+			if (activeAudioClass) {
+				protocall.view.loadingNextAudio($(this).find("div.activeAudio"));
+				return false;
+			}
+		});
+	},
+	loadingNextAudio : function(divEleme){
+		console.log("loadingPreviousAudio");
+		var indexValue = $("#audioThumbNailView div").index(divEleme) +1, nextElementToBeloaded,nextAudioElement;
         console.log("loadingScrollBack" + indexValue);
         if (indexValue !== 0 && indexValue < $("#audioThumbNailView div").length) {
             nextElementToBeloaded = $("#audioThumbNailView div:eq( " + indexValue + " )");
@@ -1655,9 +1731,9 @@ protocall.view = {
             nextElementToBeloaded.addClass("activeAudio");
             nextAudioElement = nextElementToBeloaded.find("p#mediaID").attr("name");
             console.log("imageSrcTobeLoaded" + nextAudioElement);
-            $("#music").find("source").attr("src", nextAudioElement);
+            $("#music").find("source").attr("src",nextAudioElement);
         }
-    },
+	},
     playAudioFile: function ($e1) {
         console.log("playAudioFile");
         console.log("$e1" + $e1.parent());
@@ -1765,20 +1841,29 @@ protocall.view = {
     }
 };
 protocall.home = {
-    /*Naveen 19-2-2015 Chnage start*/
-    initHomePage: function () {
-        protocall.displaySpinner(true);
-        CONSTANTS.PGNUMBER = 0;
-        var pageNumber = ++CONSTANTS.PGNUMBER;
-        var data = {"pageNumber": pageNumber},
-        deepPath = "filterfeedbyalertdate",
+	/*Naveen 19-2-2015 Chnage start*/
+    initHomePage:function(){
+		if(HOMEPAGERESPONSE.SORYBYALPHABETICALVIEW || HOMEPAGERESPONSE.SORYBYRECENTVIEW){
+			$(".content-holder").addClass("spinner1");
+		} else {
+			protocall.displaySpinner(true);
+		}
+		CONSTANTS.PGNUMBER = 0;
+		var pageNumber = ++CONSTANTS.PGNUMBER;
+		var data = {"pageNumber" : pageNumber},
+				deepPath = "",
                 page = "home",
                 callback = protocall.home.loadHomePageData,
                 authId = "",
                 spinnerMsg = "";
-        var resp = utils.server.makeServerCall(page, data, callback, deepPath);
-    },
-    /*Naveen 19-2-2015 Chnage end*/
+		if(HOMEPAGERESPONSE.SORYBYALPHABETICALVIEW){
+			deepPath = "filterfeedbyalphabetical";
+		} else {
+			deepPath = "filterfeedbyalertdate";
+		}
+		var resp = utils.server.makeServerCall(page, data, callback, deepPath);
+   },
+   /*Naveen 19-2-2015 Chnage end*/
     initLoginPage: function () {
 
         var template = LoginTemplate.login.staticLoginTemplate();
@@ -1791,6 +1876,7 @@ protocall.home = {
         $("#id_loginfadeinout").fadeIn(3000);
 
     },
+
     initSignUpPage: function () {
         var template = LoginTemplate.login.staticSignUpTemplate();
         $(".container").addClass("container");
@@ -1811,165 +1897,170 @@ protocall.home = {
         $(".c_resetpassword").fadeIn("slow");
         $(".c_resetpassword").fadeIn(3000);
     },
-    /*Naveen 19-2-2015 Chnage start*/
-    loadHomePageData: function (data, page) {
-        console.log("data", data);
-        if (HOMEPAGERESPONSE.INCIDENTALERTSCLICKED || HOMEPAGERESPONSE.POLICYALERTCLICKED || HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED) {
-            HOMEPAGERESPONSE.RECURRINGALERTDFEEDS = [];
-        }
-        protocall.util.viewingHomePageData(data);
-    },
-    loadingAlertFeeds: function (pageNumber, deepPath, page) {
-        var data = {"pageNumber": pageNumber};
+	 
+	/*Naveen 19-2-2015 Chnage start*/
+	loadHomePageData: function (data, page) {
+		console.log("data",data);
+		if(HOMEPAGERESPONSE.INCIDENTALERTSCLICKED || HOMEPAGERESPONSE.POLICYALERTCLICKED || HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED){
+			HOMEPAGERESPONSE.RECURRINGALERTDFEEDS = [];
+		}
+		protocall.util.viewingHomePageData(data);
+	},
+	loadingAlertFeeds : function (pageNumber,deepPath,page){
+	   var data = {"pageNumber" : pageNumber};
         callback = protocall.home.loadingHomePageFeeds;
         var resp = utils.server.makeServerCall(page, data, callback, deepPath);
-    },
-    loadingHomePageFeeds: function (data, page) {
-        protocall.util.viewingHomePageData(data);
-    },
-    loadFeed: function () {
+   },
+   loadingHomePageFeeds : function (data,page){
+	protocall.util.viewingHomePageData(data);
+   },
+	loadFeed: function () {
         /* var html = staticTemplate.home.staticFeedViewTemplate();
-         $(".content-holder").empty();
-         $(".content-holder").append($(html));
-         var totalHTML = "";
-         var totalLen = 1;
-         for (var h = 0; h < totalLen; h++) {
-         var template = staticTemplate.home.staticFeedTemplate();
-         totalHTML = totalHTML + template;
-         }
-         $(".rel-feeds-content").empty();
-         $(".rel-feeds-content").append($(totalHTML)); */
+        $(".content-holder").empty();
+        $(".content-holder").append($(html));
+        var totalHTML = "";
+        var totalLen = 1;
+        for (var h = 0; h < totalLen; h++) {
+            var template = staticTemplate.home.staticFeedTemplate();
+            totalHTML = totalHTML + template;
+        }
+        $(".rel-feeds-content").empty();
+        $(".rel-feeds-content").append($(totalHTML)); */
     },
+
     displayMyAlertsFeeds: function () {
-        HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED = true;
-        HOMEPAGERESPONSE.POLICYALERTCLICKED = false;
-        HOMEPAGERESPONSE.INCIDENTALERTSCLICKED = false;
-        CONSTANTS.PGNUMBER = 0;
-        var page = "home",
-                pageNumber = ++CONSTANTS.PGNUMBER,
-                data = {"pageNumber": pageNumber},
-        deepPath = "filterfeedbyalertdate",
-                callback = protocall.home.loadHomePageData;
-        var resp = utils.server.makeServerCall(page, data, callback, deepPath);
-
+		HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED = true;
+		HOMEPAGERESPONSE.POLICYALERTCLICKED = false;
+		HOMEPAGERESPONSE.INCIDENTALERTSCLICKED = false;
+		CONSTANTS.PGNUMBER = 0;
+		var page = "home",
+			pageNumber = ++CONSTANTS.PGNUMBER,
+			data = {"pageNumber" : pageNumber},
+			deepPath = "filterfeedbyalertdate",
+            callback = protocall.home.loadHomePageData;
+       var resp = utils.server.makeServerCall(page, data, callback, deepPath);
+        
     },
-    displayArchiveFeeds: function () {
+	displayArchiveFeeds: function () {
         var totalLen = 1, totalHTML = "";
-
+        
         var archiveTemplate = staticTemplate.home.staticArchiveFeedTemplate();
         totalHTML = archiveTemplate;
         $(".content-holder").empty();
         $(".content-holder").append($(totalHTML));
     },
     displayIncidentsFeeds: function () {
-        HOMEPAGERESPONSE.INCIDENTALERTSCLICKED = true;
-        HOMEPAGERESPONSE.POLICYALERTCLICKED = false;
-        HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED = false;
-        CONSTANTS.PGNUMBER = 0;
-        var page = "home",
-                pageNumber = ++CONSTANTS.PGNUMBER,
-                data = {"pageNumber": pageNumber},
-        deepPath = "filterfeedbyalertdate",
-                callback = protocall.home.loadHomePageData;
-        var resp = utils.server.makeServerCall(page, data, callback, deepPath);
+		HOMEPAGERESPONSE.INCIDENTALERTSCLICKED = true;
+		HOMEPAGERESPONSE.POLICYALERTCLICKED = false;
+		HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED = false;
+		CONSTANTS.PGNUMBER = 0;
+		var page = "home",
+			pageNumber = ++CONSTANTS.PGNUMBER,
+			data = {"pageNumber" : pageNumber},
+			deepPath = "filterfeedbyalertdate",
+            callback = protocall.home.loadHomePageData;
+       var resp = utils.server.makeServerCall(page, data, callback, deepPath);
     },
     displayPoliciesFeeds: function () {
         HOMEPAGERESPONSE.POLICYALERTCLICKED = true;
-        HOMEPAGERESPONSE.INCIDENTALERTSCLICKED = false;
-        HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED = false;
-        CONSTANTS.PGNUMBER = 0;
-        var page = "home",
-                pageNumber = ++CONSTANTS.PGNUMBER,
-                data = {"pageNumber": pageNumber},
-        deepPath = "filterfeedbyalertdate",
-                callback = protocall.home.loadHomePageData;
-        var resp = utils.server.makeServerCall(page, data, callback, deepPath);
+		HOMEPAGERESPONSE.INCIDENTALERTSCLICKED = false;
+		HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED = false;
+		CONSTANTS.PGNUMBER = 0;
+		var page = "home",
+			pageNumber = ++CONSTANTS.PGNUMBER,
+			data = {"pageNumber" : pageNumber},
+			deepPath = "filterfeedbyalertdate",
+            callback = protocall.home.loadHomePageData;
+       var resp = utils.server.makeServerCall(page, data, callback, deepPath);
     }
-    /*Naveen 19-2-2015 Chnage end*/
+/*Naveen 19-2-2015 Chnage end*/
 };
 protocall.carrier = {
-    initCarrierPage: function () {
+	    
+	    initCarrierPage: function () {
+
+		
+		var page = "carriers";
+		var data = {agencyId:"49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
+			deepPath = "agencydashboarddesign",
+			page = "home",
+			callback = protocall.carrier.loadvinothcontent,
+			authId = "",
+			spinnerMsg = "";
+		        utils.server.makeServerCall(page,data,callback,deepPath);
+
+               
+
+		
+		
+	    },
+
+ loadvinothcontent: function (data,page) {
+
+if (data.resultMap!= null && data.resultMap!= "") {
+var resultCarrier = data.resultMap.carrierTab;
+var template = '';
+ for (var rc = 0; rc < resultCarrier.length; rc++) {
+ template += CarrierdynamicTemplate.carrier.CarrierDynamicList();
+}
+                var header   = CarrierdynamicTemplate.carrier.CarrierDynamicHeaderTemplate();
+		
+          	var content  = '<div class="container"> <div class="content-holder">'+template+'</div></div></div></div>';
+		var footer   = HomedynamicTemplate.home.HomeDynamicFooterTemplate();
+
+		$("#page").empty();
+		totalHtml = header+content+footer;
+		$("#page").append(totalHtml);
+		protocall.displaySpinner(false);
+}
 
 
-        var page = "carriers";
-        var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
-        deepPath = "agencydashboarddesign",
-                page = "home",
-                callback = protocall.carrier.loadvinothcontent,
-                authId = "",
-                spinnerMsg = "";
-        utils.server.makeServerCall(page, data, callback, deepPath);
 
+},
 
-
-
-
-    },
-    loadvinothcontent: function (data, page) {
-
-        if (data.resultMap != null && data.resultMap != "") {
+	    loadHomePageData: function (data, page) {
+		protocall.displaySpinner(false);
+                feedHTML1 = '<div class="carrier-home-parent p-relative">';
+		var feedHTML ="";
+		
+        if (data.resultMap!= null && data.resultMap!= "") {
             var resultCarrier = data.resultMap.carrierTab;
-            var template = '';
+			
+		
             for (var rc = 0; rc < resultCarrier.length; rc++) {
-                template += CarrierdynamicTemplate.carrier.CarrierDynamicList();
-            }
-            var header = CarrierdynamicTemplate.carrier.CarrierDynamicHeaderTemplate();
+				var c = resultCarrier[rc];
+				//emailId = c.emailId.email;
+				//cEmailId = (c.emailId.email).toString();
+				
+				if(c.emailId == undefined){
+					cEmail =' ';
+					console.log(cEmail);
+				}else{
+						cEmail = c.emailId.email;
+						console.log(cEmail);
+				}
+				if(c.carrierLogo == undefined)
+						
+						{
+							
+							profilePicture = "http://devilsworkshop.org/files/2013/01/enlarged-facebook-profile-picture.jpg";
+								
+						}else{
+							
+							var profilePath = c.carrierLogo;
+							profilePicture = ProfileAPI+profilePath;
+						}
+				
+				feedHTML+= template.CarrierfeedsTemplateHTML(c);
+			}
+			
 
-            var content = '<div class="container"> <div class="content-holder">' + template + '</div></div></div></div>';
-            var footer = HomedynamicTemplate.home.HomeDynamicFooterTemplate();
-
-            $("#page").empty();
-            totalHtml = header + content + footer;
-            $("#page").append(totalHtml);
-            protocall.displaySpinner(false);
-        }
-
-
-
-    },
-    loadHomePageData: function (data, page) {
-        protocall.displaySpinner(false);
-        feedHTML1 = '<div class="carrier-home-parent p-relative">';
-        var feedHTML = "";
-
-        if (data.resultMap != null && data.resultMap != "") {
-            var resultCarrier = data.resultMap.carrierTab;
-
-
-            for (var rc = 0; rc < resultCarrier.length; rc++) {
-                var c = resultCarrier[rc];
-                //emailId = c.emailId.email;
-                //cEmailId = (c.emailId.email).toString();
-
-                if (c.emailId == undefined) {
-                    cEmail = ' ';
-                    console.log(cEmail);
-                } else {
-                    cEmail = c.emailId.email;
-                    console.log(cEmail);
-                }
-                if (c.carrierLogo == undefined)
-
-                {
-
-                    profilePicture = "http://devilsworkshop.org/files/2013/01/enlarged-facebook-profile-picture.jpg";
-
-                } else {
-
-                    var profilePath = c.carrierLogo;
-                    profilePicture = ProfileAPI + profilePath;
-                }
-
-                feedHTML += template.CarrierfeedsTemplateHTML(c);
-            }
-
-
-            var feedHTML2 = '</div>';
-            $(".container").addClass("container");
-            $(".container").removeClass("container-maxwidth");
-            $(".content-holder").empty();
-            $(".content-holder").append($(feedHTML1 + feedHTML + feedHTML2));
-            //console.log(feedHTML)
+			var feedHTML2 ='</div>';
+			$(".container").addClass("container");
+			$(".container").removeClass("container-maxwidth");
+			$(".content-holder").empty();
+			$(".content-holder").append($(feedHTML1+feedHTML+feedHTML2));
+		//console.log(feedHTML)
         }
     },
     loadFeed: function () {
@@ -1989,72 +2080,74 @@ protocall.carrier = {
     },
 };
 protocall.customer = {
+
     initCustomerPage: function () {
+	
+	var header   = CustomerdynamicTemplate.carrier.CustomerDynamicHeaderTemplate();
+	var template = "<div>My test customer content</div>";
+	var content  = '<div class="container"> <div class="content-holder">'+template+'</div></div></div></div>';
+	var footer   = HomedynamicTemplate.home.HomeDynamicFooterTemplate();
 
-        var header = CustomerdynamicTemplate.carrier.CustomerDynamicHeaderTemplate();
-        var template = "<div>My test customer content</div>";
-        var content = '<div class="container"> <div class="content-holder">' + template + '</div></div></div></div>';
-        var footer = HomedynamicTemplate.home.HomeDynamicFooterTemplate();
-
-        $("#page").empty();
-        totalHtml = header + content + footer;
-        $("#page").append(totalHtml);
-        protocall.displaySpinner(false);
+	$("#page").empty();
+	totalHtml = header+content+footer;
+	$("#page").append(totalHtml);
+	protocall.displaySpinner(false);        
     },
-    loadHomePageData: function (data, page) {
+
+     loadHomePageData: function (data, page) {
         //console.log(data, page);
         feedHTML1 = '<div class="carrier-home-parent p-relative">';
-        var feedHTML = "";
-        //console.log("datalength",data.resultMap.userTab.length);
-        if (data.resultMap != null && data.resultMap != "") {
+		var feedHTML ="";
+		//console.log("datalength",data.resultMap.userTab.length);
+        if (data.resultMap!= null && data.resultMap!= "") {
             var resultCustomer = data.resultMap.userTab;
-            //console.log(resultCarrier.length)
-
+			//console.log(resultCarrier.length)
+		
             for (var c = 0; c < resultCustomer.length; c++) {
-                console.log(cus)
-                var cus = resultCustomer[c];
-                //emailId = c.emailId.email;
-                //cEmailId = (c.emailId.email).toString();
+				console.log(cus)
+				var cus = resultCustomer[c];
+				//emailId = c.emailId.email;
+				//cEmailId = (c.emailId.email).toString();
+				
+				if(cus.emailId == undefined){
+					cusEmail =' ';
+					
+				}else{
+						cusEmail = cus.emailId.email;
+						
+				}
+				 if(cus.lastName == undefined)
+						{
+							lastName =' ';
+								
+						}else {
+						 lastName = cus.lastName;
+						}
+						
+				if(cus.profilePicture == undefined)
+						
+						{
+							
+							profilePicture = "http://www.deshow.net/d/file/animal/2009-05/animal-pictures-pet-photography-557-4.jpg";
+								
+						}else{
+							
+							var profilePath = cus.profilePicture;
+							profilePicture = ProfileAPI+profilePath;
+							//console.log(pic)
+						 //profilePicture "pic/profilePicture";
+						 //console.log(profilePicture);
+						}
 
-                if (cus.emailId == undefined) {
-                    cusEmail = ' ';
 
-                } else {
-                    cusEmail = cus.emailId.email;
-
-                }
-                if (cus.lastName == undefined)
-                {
-                    lastName = ' ';
-
-                } else {
-                    lastName = cus.lastName;
-                }
-
-                if (cus.profilePicture == undefined)
-
-                {
-
-                    profilePicture = "http://www.deshow.net/d/file/animal/2009-05/animal-pictures-pet-photography-557-4.jpg";
-
-                } else {
-
-                    var profilePath = cus.profilePicture;
-                    profilePicture = ProfileAPI + profilePath;
-                    //console.log(pic)
-                    //profilePicture "pic/profilePicture";
-                    //console.log(profilePicture);
-                }
-
-
-                feedHTML += template.CustomerfeedsTemplateHTML(cus);
-            }
-            var feedHTML2 = '</div>';
-            $(".container").addClass("container");
-            $(".container").removeClass("container-maxwidth");
-            $(".content-holder").empty();
-            $(".content-holder").append($(feedHTML1 + feedHTML + feedHTML2));
-            //console.log(feedHTML)
+				feedHTML+= template.CustomerfeedsTemplateHTML(cus);
+			}
+			var feedHTML2 ='</div>';
+			$(".container").addClass("container");
+			$(".container").removeClass("container-maxwidth");
+			$(".content-holder").empty();
+			$(".content-holder").append($(feedHTML1+feedHTML+feedHTML2));
+		//console.log(feedHTML)
         }
     },
     loadFeedSetting: function () {
@@ -2091,71 +2184,76 @@ protocall.customer = {
 
 protocall.myRep = {
     initMyRepsPage: function () {
+        
+        var header   = MyrepsdynamicTemplate.myreps.MyrepsDynamicHeaderTemplate();
+	var template = MyrepsdynamicTemplate.myreps.MyrepsDynamicList();
+	var content  = '<div class="container"> <div class="content-holder">'+template+'</div></div></div></div>';
+	var footer   = HomedynamicTemplate.home.HomeDynamicFooterTemplate();
 
-        var header = MyrepsdynamicTemplate.myreps.MyrepsDynamicHeaderTemplate();
-        var template = MyrepsdynamicTemplate.myreps.MyrepsDynamicList();
-        var content = '<div class="container"> <div class="content-holder">' + template + '</div></div></div></div>';
-        var footer = HomedynamicTemplate.home.HomeDynamicFooterTemplate();
-
-        $("#page").empty();
-        totalHtml = header + content + footer;
-        $("#page").append(totalHtml);
-        protocall.displaySpinner(false);
+	$("#page").empty();
+	totalHtml = header+content+footer;
+	$("#page").append(totalHtml);
+	protocall.displaySpinner(false);      
 
     },
-    loadHomePageData: function (data, page) {
+	
+ loadHomePageData: function (data, page) {
         //console.log(data, page);
         feedHTML1 = '<div class="customer-home-parent clr-fl p-relative">';
-        var feedHTML = "";
-        //console.log("datalength",data.resultMap.userTab.length);
-        if (data.resultMap != null && data.resultMap != "") {
+		var feedHTML ="";
+		//console.log("datalength",data.resultMap.userTab.length);
+        if (data.resultMap!= null && data.resultMap!= "") {
             var resultReps = data.resultMap.repTab;
-            //console.log(resultCarrier.length)
-
+			//console.log(resultCarrier.length)
+		
             for (var mp = 0; mp < resultReps.length; mp++) {
+				
+				var rep = resultReps[mp];
+				console.log(rep)
+				
+				if(rep.agencyRepresentativeId == undefined){
+					repEmail =' ';
+					
+				}else{
+						repEmail = rep.agencyRepresentativeId.email;
+						
+				}
+				if(rep.profilePicture == undefined)
+						
+						{
+							
+							profilePicture = "http://johnjournal.bravesites.com/files/images/Profile_Score_Photo.jpg";
+								
+						}else{
+							
+							var profilePath = rep.profilePicture;
+							profilePicture = ProfileAPI+profilePath;
+							//console.log(pic)
+						 //profilePicture "pic/profilePicture";
+						 //console.log(profilePicture);
+						}
 
-                var rep = resultReps[mp];
-                console.log(rep)
 
-                if (rep.agencyRepresentativeId == undefined) {
-                    repEmail = ' ';
-
-                } else {
-                    repEmail = rep.agencyRepresentativeId.email;
-
-                }
-                if (rep.profilePicture == undefined)
-
-                {
-
-                    profilePicture = "http://johnjournal.bravesites.com/files/images/Profile_Score_Photo.jpg";
-
-                } else {
-
-                    var profilePath = rep.profilePicture;
-                    profilePicture = ProfileAPI + profilePath;
-                    //console.log(pic)
-                    //profilePicture "pic/profilePicture";
-                    //console.log(profilePicture);
-                }
-
-
-                feedHTML += template.RepsfeedsTemplateHTML(rep);
-            }
-            var feedHTML2 = '</div>';
-            $(".container").addClass("container");
-            $(".container").removeClass("container-maxwidth");
-            $(".content-holder").empty();
-            $(".content-holder").append($(feedHTML1 + feedHTML + feedHTML2));
-            //console.log(feedHTML)
+				feedHTML+= template.RepsfeedsTemplateHTML(rep);
+			}
+			var feedHTML2 ='</div>';
+			$(".container").addClass("container");
+			$(".container").removeClass("container-maxwidth");
+			$(".content-holder").empty();
+			$(".content-holder").append($(feedHTML1+feedHTML+feedHTML2));
+		//console.log(feedHTML)
         }
     },
+
 }
 
 
 protocall.myProfile = {
+    
+	
     loadFeedSetting: function ($el) {
-//        this.setSelectedClassPopContent($el);
+       // this.setSelectedClassPopContent($el);
+
 
         var page = "settings";
         var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"};
@@ -2163,6 +2261,10 @@ protocall.myProfile = {
         var deepPath = "settingsinagencydesign";
         utils.server.makeServerCall(page, data, callback, deepPath);
     },
+
+   
+
+
     loadMyProfileView: function ($el) {
         popUpContent.closePopUpContent();
         var html = staticTemplate.customers.staticMyProfileViewTemplate();
@@ -2184,52 +2286,52 @@ protocall.myProfile = {
 }
 /*Naveen 19-2-2015 Chnage start*/
 protocall.util = {
-    viewingHomePageData: function (data) {
-        var header = "",
-                content = "",
-                totalHtml = "",
-                feedHTML = ""
-        footer = "";
-        if (data !== "undefined" && data.resultMap !== "undefined") {
-            if (data.resultMap.TypeCode !== "undefined" && data.resultMap.TypeCode == "4011") {
-                if (data.resultMap.isNextRecord) {
-                    CONSTANTS.HASNEXTPAGE = true;
-                } else {
-                    CONSTANTS.HASNEXTPAGE = false;
-                }
-                if (data.resultMap.ArrayOfAlertDetails !== "undefined" && data.resultMap.ArrayOfAlertDetails.length !== "undefined" && data.resultMap.ArrayOfAlertDetails.length !== 0) {
-                    $.each(data.resultMap.ArrayOfAlertDetails, function (index, alertDetails) {
-                        var alertType = alertDetails.alertDetails.type;
-                        if (HOMEPAGERESPONSE.INCIDENTALERTSCLICKED) {
-                            console.log("HOMEPAGERESPONSE.INCIDENTALERTSCLICKED", HOMEPAGERESPONSE.INCIDENTALERTSCLICKED);
-                            feedHTML += template.incidentAlertFeedHMLT(alertDetails, alertType);
-                        } else if (HOMEPAGERESPONSE.POLICYALERTCLICKED) {
-                            console.log("HOMEPAGERESPONSE.POLICYALERTCLICKED", HOMEPAGERESPONSE.POLICYALERTCLICKED);
-                            feedHTML += template.policyAlertFeedHMLT(alertDetails, alertType);
-                        } else {
-                            feedHTML += template.feedsTemplateHTML(alertDetails);
-                        }
-                        HOMEPAGERESPONSE.RECURRINGALERTDFEEDS.push(alertDetails);
-                        console.log("in each alertDetails", alertDetails);
-                    });
-                    console.log("HOMEPAGERESPONSE.INCIDENTALERTSCLICKED 2", HOMEPAGERESPONSE.INCIDENTALERTSCLICKED);
-                }
-            }
-        }
-        if (CONSTANTS.PGNUMBER == 1) {
-            $("#page").empty();
-            header = HomedynamicTemplate.home.HomeDynamicHeaderTemplate();
-            content = '<div class="container"> <div class="content-holder">' + feedHTML + '</div></div></div></div>';
-            footer = HomedynamicTemplate.home.HomeDynamicFooterTemplate();
-            totalHtml = header + content + footer;
-            $("#page").append(totalHtml);
-        } else {
-            $(".content-holder").append($(feedHTML));
-        }
-        protocall.displaySpinner(false);
-        protocall.events.containerScrollEvent();
-        $(".content-holder").removeClass("spinner1");
-    }
+	viewingHomePageData : function (data){
+		var header = "",
+			content = "",
+			totalHtml = "",
+			feedHTML = ""
+			footer = "";
+		if(data !== "undefined" && data.resultMap !== "undefined"){
+			if(data.resultMap.TypeCode !== "undefined" && data.resultMap.TypeCode == "4011"){
+				if(data.resultMap.isNextRecord){
+					CONSTANTS.HASNEXTPAGE = true;
+				} else {
+					CONSTANTS.HASNEXTPAGE = false;
+				}
+				if(data.resultMap.ArrayOfAlertDetails !== "undefined" && data.resultMap.ArrayOfAlertDetails.length !== "undefined" && data.resultMap.ArrayOfAlertDetails.length!== 0){
+					$.each(data.resultMap.ArrayOfAlertDetails,function(index,alertDetails){
+						var alertType = alertDetails.alertDetails.type;
+						if(HOMEPAGERESPONSE.INCIDENTALERTSCLICKED){
+							console.log("HOMEPAGERESPONSE.INCIDENTALERTSCLICKED",HOMEPAGERESPONSE.INCIDENTALERTSCLICKED);
+							feedHTML+= template.incidentAlertFeedHMLT(alertDetails,alertType);
+						} else if(HOMEPAGERESPONSE.POLICYALERTCLICKED){
+							console.log("HOMEPAGERESPONSE.POLICYALERTCLICKED",HOMEPAGERESPONSE.POLICYALERTCLICKED);
+							feedHTML+= template.policyAlertFeedHMLT(alertDetails,alertType);
+						} else {
+							feedHTML+= template.feedsTemplateHTML(alertDetails);
+						}
+						HOMEPAGERESPONSE.RECURRINGALERTDFEEDS.push(alertDetails);
+						console.log("in each alertDetails",alertDetails);
+					});
+					console.log("HOMEPAGERESPONSE.INCIDENTALERTSCLICKED 2",HOMEPAGERESPONSE.INCIDENTALERTSCLICKED);
+				}
+			}
+		}
+		if(CONSTANTS.PGNUMBER == 1){
+			$("#page").empty();
+			header   = HomedynamicTemplate.home.HomeDynamicHeaderTemplate();
+			content  = '<div class="container"> <div class="content-holder">'+feedHTML+'</div></div></div></div>';
+			footer   = HomedynamicTemplate.home.HomeDynamicFooterTemplate();
+			totalHtml = header+content+footer;
+			$("#page").append(totalHtml);
+		} else {
+			$(".content-holder").append($(feedHTML));
+		}
+		protocall.displaySpinner(false);
+		protocall.events.containerScrollEvent();
+		$(".content-holder").removeClass("spinner1");
+	}
 }
 /*Naveen 19-2-2015 Chnage end*/
 
@@ -2276,7 +2378,6 @@ function checkboxStatus(idValue) {
         document.getElementById("radio-button-custom").checked = true;
     }
 }
-
 
 
 function hideVendorTextboxes() {
@@ -2458,6 +2559,8 @@ function editVendorSaveData() {
     deepPath = "editservice";
     utils.server.makeServerCall(page, data, null, deepPath);
 
+    utils.server.loadPrefferedvendorsdetails();
+
 
 }
 
@@ -2550,15 +2653,15 @@ function editDataInfo() {
 
 
 function readURL(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            $('.ageny-img-width').attr('src', e.target.result);
-            $('.setProfilePic').attr('src', e.target.result);
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();            
+            reader.onload = function (e) {
+                $('.ageny-img-width').attr('src', e.target.result);
+		$('.setProfilePic').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
         }
-        reader.readAsDataURL(input.files[0]);
     }
-}
 
 
 

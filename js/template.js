@@ -27,7 +27,7 @@ var template = {
 	
 	subMenuSortHTML:function(){
 		var html= '<div href="#" class="snap submenu-sort right f-sz-16 ptsans-light p-relative" data-type="page" data-submenu="sortby">'
-						+'<div class="sort-text f-italic">Sort by</div>'
+						+'<div class="sort-text f-italic" id="sortByHome">Sort by</div>'
 						+'<div class="sprite-im drop-down-icon submenu-drop-icon">&nbsp;</div>'
 				+'</div>';
 				

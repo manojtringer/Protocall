@@ -697,7 +697,7 @@ input, select, textarea {
 .submenu-sort{
     padding: 0px 15px;
     border: 1px solid #b9b8b8;
-    width: 27%;
+    width: 110px;
     max-height: 37px;
     overflow: hidden;
     height: 37px;
@@ -1228,7 +1228,7 @@ input[type=checkbox]:checked + .feed-label:before {
 }
 .carrier-logo{
     width: 100%;
-    min-height: 176px;
+  min-height: 176px;
 }
 .carrier-info{
     width: 100%;
@@ -1262,7 +1262,7 @@ input[type=checkbox]:checked + .feed-label:before {
     position: relative;
     overflow: hidden;
     margin: auto;
-    padding: 5px 0px;
+	padding: 5px 0px;
 }
 .carrier-img-width{
     width:100%;
@@ -1547,8 +1547,6 @@ input[type=checkbox]:checked + .feed-label:before {
 }
 .associated-cus-info{
     padding: 0px 5px;
-    float: ri;
-    /* text-align: left; */
 }
 /******* customer profile view *****/
 .customer-view-feed{
@@ -1641,7 +1639,7 @@ input[type=checkbox]:checked + .feed-label:before {
 }
 .settings-view-auth {
     padding: 10px 18px;
-    width: 425px;
+    width: 450px;
 }
 .settingslogo-viewpic {
     position: relative;
@@ -3058,7 +3056,6 @@ footer  .foot-in{
     width: 45%;
     text-align: center;
 }
-
 #id-vendornamebox{
     width: 52%;
 
