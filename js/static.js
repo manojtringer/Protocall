@@ -293,18 +293,17 @@ var staticTemplate = {
                     + '</div>';
             return html;
         },
-        sendAppLinkTemplate: function (data) {
-            var html = ' <h2 class="t-left f-color-green opensans-regular" style="">Send app link to the customers</h2> <div class="o-sub-content-top border-bot p-relative"> <div class="link-content p-relative"> <div class="link opensans-regular f-sz-18">Link</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input type="text" class="opensans-regular" placeholder=' + data + ' /> </div> </div> <div class="link-content p-relative"> <div class="message opensans-regular f-sz-18">Message</div> <div class="message-box textBox-placeholder-italic border-all"> <textarea draggable="false" class="textarea opensans-regular" placeholder="Type message" maxlength="170"></textarea> </div> </div> </div> '
-                    + ' <div class="o-sub-content p-relative"> <div class="success" style=" display:none; color: green;"></div><div class="error" style=" display:none; color: red;"></div><div class="text-box-outer p-relative textBox-placeholder-italic"> <input type="search"'
-                    + 'class="opensans-regular" id="id-overlaysendapplink"  placeholder="Search.." onkeyup="sendAppLinkkeyup(event)"  onkeypress="sendAppLinkkeyup(event)" /> <div  id="id-sendapplinksearchicon" class="c-search-icon search-icon sprite-im  p-absolute"></div></div> <div class="range-box clr-fl"> <div class="opensans-regular'
+        sendAppLinkTemplate: function () {
+            var html = ' <h2 class="t-left f-color-green opensans-regular" style="">Send app link to the customers</h2> <div class="o-sub-content-top border-bot p-relative"> <div class="link-content p-relative"> <div class="link opensans-regular f-sz-18">Link</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input type="text" class="opensans-regular" placeholder="Url" /> </div> </div> <div class="link-content p-relative"> <div class="message opensans-regular f-sz-18">Message</div> <div class="message-box textBox-placeholder-italic border-all"> <textarea draggable="false" class="textarea opensans-regular" placeholder="Type message" maxlength="170"></textarea> </div> </div> </div> '
+                    + ' <div class="o-sub-content p-relative"> <div class="text-box-outer p-relative textBox-placeholder-italic"> <input type="search"'
+                    + 'class="opensans-regular" placeholder="Search.." /> <div class="c-search-icon search-icon sprite-im  p-absolute"></div></div> <div class="range-box clr-fl"> <div class="opensans-regular'
                     + 'f-sz-14 range-color left f-italic range-title">Select Range</div> <div class="text-box-outer p-relative textBox-placeholder-italic left range-sel1">'
-                    + '<select id="timepicker" class="none-1 opensans-regular left" onchange="Sharewithrep_sortbyBox1()"> <option selected> None </option> <option>Alphabetical</option> <option>City,State</option> </select>  '
+                    + '<input type="text" class="opensans-regular p-relative" placeholder="None" /> '
                     + '<div class="drop-down-icon-1 sprite-im drop-down-icon dropdown-icon p-absolute"></div> </div> <div class="text-box-outer '
-                    + 'textBox-placeholder-italic p-relative left range-sel2"> <select id="timepicker2" class="none-1 opensans-regular left" onchange="sharewithRepSortbyBox2()"> <option selected> None </option> <option>Select All</option> <option>Section A</option> <option>Section B</option><option>Section C</option><option>Section D</option><option>Section E</option></select>  '
+                    + 'textBox-placeholder-italic p-relative left range-sel2"> <input type="text" class="opensans-regular p-relative" placeholder="None" /> '
                     + '<div class="drop-down-icon-2 sprite-im drop-down-icon dropdown-icon p-absolute"></div> </div> </div> <div class="rep-block">'
                     + '<div class="rep-title-blk clr-fl"> <div class="name-title opensans-regular t-upper left text-color-overlay bold">NAMES</div>'
-                    + '<div class="name-title opensans-regular t-upper right text-color-overlay bold">CITY,STATE</div> </div>'
-                    + '<div class="rep-content-blk"> <form>';
+                    + '<div class="name-title opensans-regular t-upper right text-color-overlay bold">CITY,STATE</div> </div> <div class="rep-content-blk"> <form> <div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative"> <input type="checkbox" id="name1" name="" class="checkbox" /> <label for="name1" class=" rep-label"> <div class="lbl-in-block p-relative"> <div class="f-sz-14 text-color-overlay left rep-name">Anderson</div> <div class="t-caps f-sz-13 right f-italic t-right location-color rep-location">NewYork, CA</div> </div> </label> </div> <div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative"> <input type="checkbox" id="name2" name="" class="checkbox" /> <label for="name2" class=" rep-label"> <div class="lbl-in-block p-relative"> <div class="f-sz-14 text-color-overlay left rep-name">Anderson</div> <div class="t-caps f-sz-13 right f-italic t-right location-color rep-location">NewYork, CA</div> </div> </label> </div> <div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative"> <input type="checkbox" id="name3" name="" class="checkbox" /> <label for="name3" class=" rep-label"> <div class="lbl-in-block p-relative"> <div class="f-sz-14 text-color-overlay left rep-name">Anderson</div> <div class="t-caps f-sz-13 right f-italic t-right location-color rep-location">NewYork, CA</div> </div> </label> </div> <div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative"> <input type="checkbox" id="name4" name="" class="checkbox" /> <label for="name4" class=" rep-label"> <div class="lbl-in-block p-relative"> <div class="f-sz-14 text-color-overlay left rep-name">Anderson</div> <div class="t-caps f-sz-13 right f-italic t-right location-color rep-location">NewYork, CA</div> </div> </label> </div> <div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative"> <input type="checkbox" id="name5" name="" class="checkbox" /> <label for="name5" class=" rep-label"> <div class="lbl-in-block p-relative"> <div class="f-sz-14 text-color-overlay left rep-name">Anderson</div> <div class="t-caps f-sz-13 right f-italic t-right location-color rep-location">NewYork, CA</div> </div> </label> </div> <div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative"> <input type="checkbox" id="name6" name="" class="checkbox" /> <label for="name6" class=" rep-label"> <div class="lbl-in-block p-relative"> <div class="f-sz-14 text-color-overlay left rep-name">Anderson</div> <div class="t-caps f-sz-13 right f-italic t-right location-color rep-location">NewYork, CA</div> </div> </label> </div> </form> </div> </div> <div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="overlaybtn">Assign</div> </div> ';
             return html;
         },
         editAgencyPicTemplate: function () {
@@ -334,31 +333,23 @@ var staticTemplate = {
             return html;
         },
         privacyTemplate: function () {
-            var html = '  <h2 class="t-center f-color-green opensans-regular" style="">Privacy</h2> <div class="o-sub-content p-relative"> <h3 class="enable-text t-center f-sz-18 opensans-regular "><b>Enable / disable privacy option for your agency</b></h3> <h3 class="enable-text-1 t-left f-sz-14 opensans-regular "> <input id="radio-button-public" class="left" type="radio" value="now" checked="true" onclick="checkboxStatus(\'radio-button-public\')">Make all profile public <div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-on"> <div id="id-switch-container" class="bootstrap-switch-container"> <span id="id-switch-on" class="bootstrap-switch-handle-on bootstrap-switch-primary" onclick="moveani(\'id-switch-on\', \'id-switch-container\')"> ON</span> <span class="bootstrap-switch-label">&nbsp;</span> <span id="id-switch-off" class="bootstrap-switch-handle-off bootstrap-switch-default" onclick="moveani(\'id-switch-off\', \'id-switch-container\')"> OFF</span> <input type="checkbox" checked=""></div></div> </h3> <h3 class="enable-text-1 t-left f-sz-14 opensans-regular "> <input id="radio-button-private" class="left" type="radio" value="now" onclick="checkboxStatus(\'radio-button-private\')"> Make all profile private <div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-on"> <div id="id2-switch-container" class="bootstrap-switch-container"> <span id="id-switch-on" class="bootstrap-switch-handle-on bootstrap-switch-primary" onclick="moveani(\'id-switch-on\', \'id-switch-container\')"> ON</span> <span class="bootstrap-switch-label">&nbsp;</span> <span id="id-switch-off" class="bootstrap-switch-handle-off bootstrap-switch-default" onclick="moveani(\'id-switch-off\', \'id-switch-container\')"> OFF</span> <input type="checkbox" checked=""></div></div> </h3> <h3 class="enable-text-1 t-left f-sz-14 opensans-regular "> <input id="radio-button-custom" class="left" type="radio" value="now" onclick="checkboxStatus(\'radio-button-custom\')">Custom <div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-on"> <div id="id-switch-container" class="bootstrap-switch-container"> <span id="id-switch-on" class="bootstrap-switch-handle-on bootstrap-switch-primary" onclick="moveani(\'id-switch-on\', \'id-switch-container\')"> ON</span> <span class="bootstrap-switch-label">&nbsp;</span> <span id="id-switch-off" class="bootstrap-switch-handle-off bootstrap-switch-default" onclick="moveani(\'id-switch-off\', \'id-switch-container\')"> OFF</span> <input type="checkbox" checked=""></div></div> </h3> <div class="text-box-outer textBox-placeholder-italic border-all"> <input id="id-overlayprivacy" type="search" class="opensans-regular" placeholder="Search.." /> <div id="id-privacysearchicon" class="c-privacysearch-icon search-icon sprite-im p-absolute"></div></div> <div class="rep-block"> <div class="rep-title-blk clr-fl"> <div class="name-title opensans-regular t-upper left text-color-overlay bold">Member Names</div> <div class="nameRepId opensans-regular t-upper left text-color-overlay bold">Rep ID</div> <div class="name-title opensans-regular t-upper right text-color-overlay bold">Private / Public</div> </div> <div class="rep-content-blk"> <form> '
-
-                    ;
+            var html = '  <h2 class="t-center f-color-green opensans-regular" style="">Privacy</h2> <div class="o-sub-content p-relative"> <h3 class="enable-text t-center f-sz-18 opensans-regular "><b>Enable / disable privacy option for your agency</b></h3> <h3 class="enable-text-1 t-left f-sz-14 opensans-regular "> <input id="radio-button-public" class="left" type="radio" value="now" checked="true" onclick="checkboxStatus(\'radio-button-public\')">Make all profile public <div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-on"> <div id="id-switch-container" class="bootstrap-switch-container"> <span id="id-switch-on" class="bootstrap-switch-handle-on bootstrap-switch-primary" onclick="moveani(\'id-switch-on\', \'id-switch-container\')"> ON</span> <span class="bootstrap-switch-label">&nbsp;</span> <span id="id-switch-off" class="bootstrap-switch-handle-off bootstrap-switch-default" onclick="moveani(\'id-switch-off\', \'id-switch-container\')"> OFF</span> <input type="checkbox" checked=""></div></div> </h3> <h3 class="enable-text-1 t-left f-sz-14 opensans-regular "> <input id="radio-button-private" class="left" type="radio" value="now" onclick="checkboxStatus(\'radio-button-private\')"> Make all profile private <div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-on"> <div id="id2-switch-container" class="bootstrap-switch-container"> <span id="id-switch-on" class="bootstrap-switch-handle-on bootstrap-switch-primary" onclick="moveani(\'id-switch-on\', \'id2-switch-container\')"> ON</span> <span class="bootstrap-switch-label">&nbsp;</span> <span id="id-switch-off" class="bootstrap-switch-handle-off bootstrap-switch-default" onclick="moveani(\'id-switch-off\', \'id2-switch-container\')"> OFF</span> <input type="checkbox" checked=""></div></div> </h3> <h3 class="enable-text-1 t-left f-sz-14 opensans-regular "> <input id="radio-button-custom" class="left" type="radio" value="now" onclick="checkboxStatus(\'radio-button-custom\')">Custom <div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-on"> <div id="id3-switch-container" class="bootstrap-switch-container"> <span id="id-switch-on" class="bootstrap-switch-handle-on bootstrap-switch-primary" onclick="moveani(\'id-switch-on\', \'id3-switch-container\')"> ON</span> <span class="bootstrap-switch-label">&nbsp;</span> <span id="id-switch-off" class="bootstrap-switch-handle-off bootstrap-switch-default" onclick="moveani(\'id-switch-off\', \'id3-switch-container\')"> OFF</span> <input type="checkbox" checked=""></div></div> </h3> <div class="text-box-outer textBox-placeholder-italic border-all"> <input type="search" class="opensans-regular" placeholder="Search.." /> <div class="c-privacysearch-icon search-icon sprite-im p-absolute"></div></div> <div class="rep-block"> <div class="rep-title-blk clr-fl"> <div class="name-title opensans-regular t-upper left text-color-overlay bold">Member Names</div> <div class="nameRepId opensans-regular t-upper left text-color-overlay bold">Rep ID</div> <div class="name-title opensans-regular t-upper right text-color-overlay bold">Private / Public</div> </div> <div class="rep-content-blk"> <form> <div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative"> <input type="checkbox" id="name1" name="" class="checkbox" /> <label for="name1" class="rep-label"> <div class="lbl-in-block p-relative"> <div class="f-sz-14 text-color-overlay left rep-name">Anderson</div> <div class="nameRepId f-sz-14 text-color-overlay left"><i>#5454547</i></div> <div class="t-caps f-sz-13 right t-right location-color rep-location"> <div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-on"> <div id="id4-switch-container" class="bootstrap-switch-container"> <span id="id-switch-on" class="bootstrap-switch-handle-on bootstrap-switch-primary" onclick="moveani(\'id-switch-on\', \'id4-switch-container\')"> ON</span> <span class="bootstrap-switch-label">&nbsp;</span> <span id="id-switch-off" class="bootstrap-switch-handle-off bootstrap-switch-default" onclick="moveani(\'id-switch-off\', \'id4-switch-container\')"> OFF</span> <input type="checkbox" checked=""></div></div> </div> </div> </label> </div> <div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative"> <input type="checkbox" id="name2" name="" class="checkbox" /> <label for="name2" class="rep-label"> <div class="lbl-in-block p-relative"> <div class="f-sz-14 text-color-overlay left rep-name">Anderson</div> <div class="nameRepId f-sz-14 text-color-overlay left"><i>#5454547</i></div> <div class="t-caps f-sz-13 right t-right location-color rep-location"> <div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-on"> <div id="id5-switch-container" class="bootstrap-switch-container"> <span id="id-switch-on" class="bootstrap-switch-handle-on bootstrap-switch-primary" onclick="moveani(\'id-switch-on\', \'id5-switch-container\')"> ON</span> <span class="bootstrap-switch-label">&nbsp;</span> <span id="id-switch-off" class="bootstrap-switch-handle-off bootstrap-switch-default" onclick="moveani(\'id-switch-off\', \'id5-switch-container\')"> OFF</span> <input type="checkbox" checked=""></div></div></div> </div> </label> </div> <div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative"> <input type="checkbox" id="name3" name="" class="checkbox" /> <label for="name3" class="rep-label"> <div class="lbl-in-block p-relative"> <div class="f-sz-14 text-color-overlay left rep-name">Anderson</div> <div class="nameRepId f-sz-14 text-color-overlay left"><i>#5454547</i></div> <div class="t-caps f-sz-13 right t-right location-color rep-location"> <div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-on"> <div id="id6-switch-container" class="bootstrap-switch-container"> <span id="id-switch-on" class="bootstrap-switch-handle-on bootstrap-switch-primary" onclick="moveani(\'id-switch-on\', \'id6-switch-container\')"> ON</span> <span class="bootstrap-switch-label">&nbsp;</span> <span id="id-switch-off" class="bootstrap-switch-handle-off bootstrap-switch-default" onclick="moveani(\'id-switch-off\', \'id6-switch-container\')"> OFF</span> <input type="checkbox" checked=""></div></div> </div> </div> </label> </div> <div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative"> <input type="checkbox" id="name4" name="" class="checkbox" /> <label for="name4" class="rep-label"> <div class="lbl-in-block p-relative"> <div class="f-sz-14 text-color-overlay left rep-name">Anderson</div> <div class="nameRepId f-sz-14 text-color-overlay left"><i>#5454547</i></div> <div class="t-caps f-sz-13 right t-right location-color rep-location"> <div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-on"> <div id="id7-switch-container" class="bootstrap-switch-container"> <span id="id-switch-on" class="bootstrap-switch-handle-on bootstrap-switch-primary" onclick="moveani(\'id-switch-on\', \'id7-switch-container\')"> ON</span> <span class="bootstrap-switch-label">&nbsp;</span> <span id="id-switch-off" class="bootstrap-switch-handle-off bootstrap-switch-default" onclick="moveani(\'id-switch-off\', \'id7-switch-container\')"> OFF</span> <input type="checkbox" checked=""></div></div></div> </div> </label> </div> <div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative"> <input type="checkbox" id="name5" name="" class="checkbox" /> <label for="name5" class="rep-label"> <div class="lbl-in-block p-relative"> <div class="f-sz-14 text-color-overlay left rep-name">Anderson</div> <div class="nameRepId f-sz-14 text-color-overlay left"><i>#5454547</i></div> <div class="f-sz-13 right t-right location-color rep-location"> <div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-on"> <div id="id8-switch-container" class="bootstrap-switch-container"> <span id="id-switch-on" class="bootstrap-switch-handle-on bootstrap-switch-primary" onclick="moveani(\'id-switch-on\', \'id8-switch-container\')"> ON</span> <span class="bootstrap-switch-label">&nbsp;</span> <span id="id-switch-off" class="bootstrap-switch-handle-off bootstrap-switch-default" onclick="moveani(\'id-switch-off\', \'id8-switch-container\')"> OFF</span> <input type="checkbox" checked=""></div></div> </div> </div> </label> </div> </form> </div> </div> <div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="overlaybtn">Send</div> </div> </div> ';
             return html;
         },
         /*Added by Naveen - Start */
-        /*Naveen 19-2-2015 Chnage start*/
+		/*Naveen 23-2-2015 Chnage start*/
         showPhotsOverlayTemplate: function (alertID) {
-            var numberOfPictures = 0, pictureThumbNailViewHTML = "", imageTextSavePrintHTML = "", originalImageHTML = "", sliderBar = "";
-            console.log("HOMEPAGERESPONSE.RECURRINGALERTDFEEDS", HOMEPAGERESPONSE.RECURRINGALERTDFEEDS);
+			var numberOfPictures = 0,pictureThumbNailViewHTML = "",imageTextSavePrintHTML = "",originalImageHTML = "",sliderBar="";
+            console.log("HOMEPAGERESPONSE.RECURRINGALERTDFEEDS showPhotsOverlayTemplate",HOMEPAGERESPONSE.RECURRINGALERTDFEEDS);
             $.each(HOMEPAGERESPONSE.RECURRINGALERTDFEEDS, function (index, alertDetailsValue) {
-                var alerIDValue = alertDetailsValue.alertDetails.alertId;
-                if (alertID == alertDetailsValue.alertDetails.alertId) {
-                    console.log("condition satisfied alertDetailsValue", alertDetailsValue);
-                    numberOfPictures = alertDetailsValue.NoofPictureRecord;
-                    RESPONSE.PICTUREDETAILS = alertDetailsValue.PictureDetails;
-                    //var pictureDetails = alertDetailsValue.Picture Details;
-                    console.log("noOfPictureRecords", numberOfPictures);
-                }
-                /* console.log("in static method", element);
-                 console.log("in static method", element.NoofPictureRecord);
-                 console.log("Audio Details", element.PictureDetails);
-                 numberOfPictures = element.NoofPictureRecord;
-                 RESPONSE.PICTUREDETAILS = element.PictureDetails; */
-            });
+				var alerIDValue = alertDetailsValue.alertDetails.alertId;
+				if(alertID == alertDetailsValue.alertDetails.alertId){
+					console.log("condition satisfied alertDetailsValue",alertDetailsValue);
+					numberOfPictures = alertDetailsValue.NoofPictureRecord;
+					RESPONSE.PICTUREDETAILS = alertDetailsValue.PictureDetails;
+					console.log("noOfPictureRecords",numberOfPictures);
+				}
+		    });
             console.log("RESPONSE.PICTUREDETAILS", RESPONSE.PICTUREDETAILS);
             console.log("numberOfPictures", numberOfPictures);
             $.each(RESPONSE.PICTUREDETAILS, function (i, element) {
@@ -367,140 +358,158 @@ var staticTemplate = {
                 RESPONSE.IMAGEURLS.push(element.file);
                 RESPONSE.IMGETEXT.push(element.imageText);
             });
-            if (numberOfPictures > 5) {
+            /* if (numberOfPictures > 5) {
                 sliderBar = '<div id="slider-vertical" style="float:left;position: absolute;height: 332px;left: 96px;top: 10px;">'
                         + '</div>';
-            }
+            } */
             for (var i = 1, j = 0; i <= numberOfPictures; i++, j++) {
                 console.log("in for loop");
-                var pictureValue = HOMEPAGERESPONSE.PROFILEAPI + RESPONSE.IMAGEURLS[j];
-                console.log("pictureValue", pictureValue);
-                pictureThumbNailViewHTML = pictureThumbNailViewHTML
+				var pictureValue = HOMEPAGERESPONSE.PROFILEAPI+RESPONSE.IMAGEURLS[j];
+				pictureThumbNailViewHTML = pictureThumbNailViewHTML
                         + '<div style="margin-bottom: 10px;cursor:pointer;" class="overalyPhots" data-type="thumbNail" name=' + RESPONSE.MEDIAIDFORPICTURE[j] + '><img src=' + pictureValue + ' style="max-width:100%;" /></div>';
             }
             /* imageTextSavePrintHTML = imageTextSavePrintHTML
-             + '<span class="spanCLassElement t-left f-color-green opensans-regular" style="margin:0px">' + RESPONSE.IMGETEXT[0] + '</span><span class="spanCLassElement f-italic" style="margin:0px;color:#939393;font-size:11px">,New jersy</span>'; */
+                    + '<span class="spanCLassElement t-left f-color-green opensans-regular" style="margin:0px">' + RESPONSE.IMGETEXT[0] + '</span><span class="spanCLassElement f-italic" style="margin:0px;color:#939393;font-size:11px">,New jersy</span>'; */
             //originalImageHTML = originalImageHTML + '<div id="viewingImage"><img src=' + HOMEPAGERESPONSE.PROFILEAPI+RESPONSE.IMAGEURLS[0] + ' /></div>';
-            console.log("originalImageHTML", originalImageHTML);
+            /* console.log("originalImageHTML", originalImageHTML); */
 
             console.log("showPhotsOverlayTemplate");
             var html = '<div class="o-sub-content p-relative">'
-                    + '<div style="position:relative;width:100%;min-height:400px;">'
-                    /*Thumbnail Image */
-                    + '<div style="display:inline-block;vertical-align: top;min-width:20%;width:20%;">'
-                    + '<div style="width:80%;margin:auto;" id="thumbNailViewForImages">'
-                    + pictureThumbNailViewHTML
-                    + '</div>'
-                    + '</div>'
-                    /*Thumbnail Image */
-                    + '<div style="display:inline-block;vertical-align: top;width:80%;background:white;">'
-                    + '<div style="width:100%">'
-                    + '<div style="width:95%;position:relative;left:10px;">'
-                    + '<div style="height:70px;margin-bottom:20px;position:relative;color:#585858">'
-                    + '<div style="width:50%;float:left;margin-top:25px;margin-left:25px;">'
-                    + '<span id="imageinformation">' + RESPONSE.IMGETEXT[0] + '</span><span>,New jersy</span>'
-                    + '</div>'
-                    + '<div style="float:left;margin-left:20px;margin-top:20px;">'
-                    + '<img src="images/saveImage.png" style="margin-right:10px;"/>'
-                    + '<img src="images/printImage.png" />'
-                    + '</div>'
-                    + '</div>'
-                    + '</div>'
-                    + '<div style="position:relative;height:100%;width:100%;min-height:370px;">'
-                    + '<div style="width:80%;margin:20px auto;position:relative;">'
-                    + '<div style="width:100%;z-index:101;">'
-                    + '<div style="width:80%;margin:20px auto;" id="viewImage">'
-                    + '<img src=' + HOMEPAGERESPONSE.PROFILEAPI + RESPONSE.IMAGEURLS[0] + ' style="max-width:100%;"/>'
-                    + '</div>'
-                    + '</div>'
-                    + '<div style="position:relative;z-index;100;top:-280px;">'
-                    + '<div style="float:left;">'
-                    + '<a href="javascript:void(0)" class="overalyPhots previous" data-type="previous"><img src="images/backwardArrow.png" /></a>'
-                    + '</div>'
-                    + '<div style="float:right;">'
-                    + '<a href="javascript:void(0)" class="overalyPhots next" data-type="next"><img src="images/frontArrow.png" /></a>'
-                    + '</div>'
-                    + '</div>'
-                    + '</div>'
-                    + '</div>'
-                    + '</div>'
-                    + '</div>'
-                    + '</div>'
-                    + '</div>';
+							+'<div style="position:relative;width:100%;">'
+								/*Thumbnail Image */
+								+'<div style="min-width: 17%;width: 17%;overflow: auto;position: absolute;left: 10px;height: 476px;">'
+									+'<div style="width:80%;margin:auto;max-height: 431px;" id="thumbNailViewForImages">'
+										+pictureThumbNailViewHTML
+									+'</div>'
+								+'</div>'
+								/*Thumbnail Image */
+								+'<div style="width:80%;background:white;position: absolute;left: 131px;min-height:476px;">'
+											+'<div style="height:70px;color:#585858;position: absolute;;width: 100%;background:white;">'
+												+'<div style="width:50%;float:left;margin-top:25px;margin-left:25px;color:#939393" class"opensans-regular">'
+													+ '<span id="imageinformation" style="color:rgb(47,156,161);">'+RESPONSE.IMGETEXT[0]+'</span><span>,New jersy</span>'
+												+'</div>'
+												+'<div style="float:left;margin-left:20px;margin-top:20px;">'
+													+ '<img src="images/saveImage.png" style="margin-right:10px;"/>'
+													+ '<img src="images/printImage.png" />'
+												+'</div>'
+											+'</div>'
+										+'<hr>'
+										+'<div style="width:100%;position: absolute;top: 69px;background:white;border-top:2px solid #939393">'
+											+'<div style="width:80%;position: absolute;  margin: auto;  top: 65px;  left: 72px;">'
+												+'<div style="margin: auto;position: absolute;top: 31px;left: 113px;">'
+													+'<div style="max-height: 220px;  max-width: 300px;  margin-left: auto;  margin-right: auto;" id="viewImage">'
+														+'<img src=' + HOMEPAGERESPONSE.PROFILEAPI+RESPONSE.IMAGEURLS[0] + ' style="max-height: 220px;max-width: 300px;"/>'
+													+'</div>'
+													+'<div style="position: absolute;top: 77px;">'
+														+'<div style="position: absolute;left: -139px;">'
+															+ '<a href="javascript:void(0)" class="overalyPhots previous" data-type="previous"><img src="images/backwardArrow.png" /></a>'
+														+'</div>'
+														+'<div style="position: absolute;right: -289px;top:10px;">'
+															+ '<a href="javascript:void(0)" class="overalyPhots next" data-type="next"><img src="images/frontArrow.png" /></a>'
+														+'</div>'
+													+'</div>' 
+												+'</div>'
+											+'</div>'
+										+'</div>'
+								+'</div>'
+							+'</div>'
+				    + '</div>';
             return html;
         },
-        /*Naveen 19-2-2015 Chnage end*/
-        showAudioOverlayTemplate: function (resultObject) {
-            console.log("in audio");
-            var numberOfAudio = 0, thumbNailViewHTML = "", resultThumbNail = "", originalAudioFileHTML = "", resultOriginaAudioFile = "", sliderBar = "";
-            $.each(resultObject, function (i, element) {
-                console.log("in static method", element);
-                console.log("in static method", element.NoofAudioRecord);
-                console.log("Audio Details", element.AudioDetails);
-                numberOfAudio = element.NoofAudioRecord;
-                RESPONSE.AUDIODETAILS = element.AudioDetails;
-                //audioDetailsArray.push(element.AudioDetails);
-            });
+		/*Naveen 23-2-2015 Chnage end*/
+        showAudioOverlayTemplate: function (alertID) {
+			console.log("in audio");
+            var numberOfAudio = 0, voiceThumbNailViewHTML = "", resultThumbNail = "", originalAudioFileHTML = "", resultOriginaAudioFile = "", sliderBar = "";
+			$.each(HOMEPAGERESPONSE.RECURRINGALERTDFEEDS, function (index, alertDetailsValue) {
+				var alerIDValue = alertDetailsValue.alertDetails.alertId;
+				if(alertID == alertDetailsValue.alertDetails.alertId){
+					console.log("condition satisfied alertDetailsValue",alertDetailsValue);
+					numberOfAudio = alertDetailsValue.NoofAudioRecord;
+					RESPONSE.AUDIODETAILS = alertDetailsValue.AudioDetails;
+					//console.log("noOfPictureRecords",numberOfPictures);
+				}
+		    });
             console.log("audioDetailsArray", RESPONSE.AUDIODETAILS.length);
             $.each(RESPONSE.AUDIODETAILS, function (i, element) {
+				audioTimeStamp = element.lastModified;
+				audioTime = moment(Number(audioTimeStamp)).format('h:mmA');
                 console.log("media id", element.mediaId);
                 RESPONSE.MEDIAID.push(element.mediaId);
                 RESPONSE.AUDIOTEXT.push(element.fileName);
-                RESPONSE.TIMESTAMPAUDIO.push(element.timeStamp);
-                RESPONSE.AUDIOURLS.push(element.audioSourceURL);
+                RESPONSE.TIMESTAMPAUDIO.push(audioTime);
+                RESPONSE.AUDIOURLS.push(element.file);
             });
             console.log("RESPONSE.MEDIAID", RESPONSE.MEDIAID);
-            if (numberOfAudio > 5) {
+            /* if (numberOfAudio > 5) {
                 sliderBar = '<div id="slider-vertical" style="float:left;position: absolute;height: 332px;left: 96px;top: 10px;">'
                         + '</div>';
-            }
-            //numberOfAudio = 2;
+            } */
             for (var i = 1, j = 0; i <= numberOfAudio; i++, j++) {
-                console.log("in for loop");
-                thumbNailViewHTML = thumbNailViewHTML + '<div style="height: 75px;width: 85px;margin-top: 10px;background: #fff;cursor:pointer;" class="audioOverlay" data-type="thumbNail">'
-                        + '<img src="images/voiceRecording.png" style="max-width:30px;position: relative;left: 25px;"/>'
-                        + '<p style="color:#939393;font-size:11px;position: relative;left: 13px;" id="mediaID" name=' + RESPONSE.AUDIOURLS[j] + '>' + RESPONSE.MEDIAID[j] + '</p>'
-                        + '<p style="color:#939393;font-size:11px;position: relative;  left: 13px;">' + RESPONSE.TIMESTAMPAUDIO[j] + '</p>'
-                        + '</div>';
+				var audioValue = HOMEPAGERESPONSE.PROFILEAPI+RESPONSE.AUDIOURLS[j];
+				console.log();
+				voiceThumbNailViewHTML = voiceThumbNailViewHTML
+                        + '<div style="text-align:center;color:#939393;" class"opensans-regular" data-type="thumbNail" name=' + RESPONSE.MEDIAIDFORPICTURE[j] + '>'
+							+ '<img src="images/voiceRecording.png" style="max-width:30px;"/>'
+							+ '<p id="mediaID" name='+audioValue+'>' + RESPONSE.MEDIAID[j] + '</p>'
+							+ '<p style="">' + RESPONSE.TIMESTAMPAUDIO[j] + '</p>'
+						+'</div>';
             }
-            originalAudioFileHTML = originalAudioFileHTML + '<div style="width: 479px;float: right;padding-top: 12px;padding-bottom: 10px;padding-right: 70px;padding-left: 15px;height: 310px;background: #fff;position: fixed;left: 108px;top: 9px;" id="originalAudio">'
-                    + '<div>'
-                    + '<p class="spanCLassElement t-left f-color-green opensans-regular" style="margin:0px">' + RESPONSE.AUDIOTEXT[0] + '<span  style="font-size:11px">,New jersy</span></p>'
-                    + '<p style="color:#939393;font-size:12px">' + RESPONSE.TIMESTAMPAUDIO[0] + '</p>'
-                    + '</div>'
-                    + '<div style="padding:30px;border-top: 1px solid #b9b8b8;margin-top: 10px;width: 476px;">'
-                    + '<audio id="music" preload="none" controls style="position: relative;left: 75px;top: 25px;">'
-                    + '<source src=' + RESPONSE.AUDIOURLS[0] + '>'
-                    + '<source src=' + RESPONSE.AUDIOURLS[0] + '>'
-                    + '</audio>'
-                    + '</div>'
-                    + '</div>';
-            resultThumbNail = thumbNailViewHTML;
-            resultOriginaAudioFile = originalAudioFileHTML;
-            console.log("resultThumbNail", resultThumbNail);
-            var html = '<div class="o-sub-content p-relative" style = "background-color:none;">'
-                    + '<div>'
-                    + '<div style="float:left;" id="audioThumbNailView">'
-                    + resultThumbNail
-                    + '</div>'
-                    + sliderBar
-                    + resultOriginaAudioFile
-                    + '</div>'
-                    + '</div>';
+			console.log("voiceThumbNailViewHTML",voiceThumbNailViewHTML);
+            var html = '<div class="o-sub-content p-relative">'
+							+'<div style="position:relative;width:100%;">'
+								/*Thumbnail voice */
+								+'<div style="min-width: 17%;width: 17%;overflow: auto;position: absolute;left: 10px;height: 476px;">'
+									+'<div style="width:80%;margin:auto;max-height: 431px;background:white;" id="thumbNailViewForVoice">'
+										+voiceThumbNailViewHTML
+									+'</div>'
+								+'</div>'
+								/*Thumbnail voice */
+								+'<div style="width:80%;background:white;position: absolute;left: 131px;min-height:476x;">'
+										+'<div style="height:70px;color:#585858;position: absolute;;width: 100%;background:white;>'
+											+'<div style="height:70px;height:70px;color:#585858;position: absolute;;width: 100%;background:white;">'
+												+'<div style="width:50%;float:left;margin-top:25px;margin-left:25px;color:#939393" class"opensans-regular">'
+													+ '<span id="voiceinformation" style="color:rgb(47,156,161);">'+RESPONSE.AUDIOTEXT[0]+'</span><span>,New jersy</span>'
+												+'</div>'
+												+'<div style="float:left;margin-left:20px;margin-top:20px;">'
+													+ '<img src="images/saveImage.png" style="margin-right:10px;"/>'
+													+ '<img src="images/printImage.png" />'
+												+'</div>'
+											+'</div>'
+										
+										+'<div style="width:100%;position: absolute;top: 69px;background:white;border-top:2px solid #939393;min-height:406px;">'
+											
+												
+													+'<div style="width:80%;position: absolute;  margin: auto;  top: 160px;  left: 120px;" id="viewVoice">'
+														+ '<audio id="music" preload="none" controls style="">'
+														+ '<source src=' +HOMEPAGERESPONSE.PROFILEAPI+RESPONSE.AUDIOURLS[0] + '>'
+														+ '<source src=' +HOMEPAGERESPONSE.PROFILEAPI+RESPONSE.AUDIOURLS[0] + '>'
+														+ '</audio>'
+													+'</div>'
+												
+											
+										
+										+'</div>'
+								+'</div>'
+							+'</div>'
+				    + '</div>';
             return html;
         },
-        showDocumentOverlayTemplate: function (resultObject) {
-            var resultThumbNail = "", noofDocuments = 0, sliderBar = "", resultDocumentFile = "", documentThumbNailViewHTML = "", originalImageHTML = "", imageTextSavePrintHTML = "";
-            $.each(resultObject, function (i, element) {
-                console.log("in static method", element);
-                console.log("Audio Details", element.OtherPartyDetails);
-                noofDocuments = element.NoofOtherPartyRecord;
-                console.log("noofDocuments", noofDocuments);
-                RESPONSE.OTHERPARTYDETAILS = element.OtherPartyDetails;
+		/*Naveen 23-2-2015 Changes Start */
+		showDocumentOverlayTemplate : function(alertID){
+			var resultThumbNail = "",noofDocuments = 0,sliderBar="",resultDocumentFile="",documentThumbNailViewHTML = "",originalImageHTML = "",imageTextSavePrintHTML = "";
+			$.each(HOMEPAGERESPONSE.RECURRINGALERTDFEEDS, function (i, element) {
+				var alerIDValue = alertDetailsValue.alertDetails.alertId;
+				if(alertID == alertDetailsValue.alertDetails.alertId){
+					console.log("in static method", element);
+					console.log("Audio Details", element.OtherPartyDetails);
+					noofDocuments = element.NoofOtherPartyRecord;
+					console.log("noofDocuments",noofDocuments);
+					RESPONSE.OTHERPARTYDETAILS = element.OtherPartyDetails;
+				}
                 //audioDetailsArray.push(element.AudioDetails);
             });
-            console.log("RESPONSE.OTHERPARTYDETAILS", RESPONSE.OTHERPARTYDETAILS.length);
-            $.each(RESPONSE.OTHERPARTYDETAILS, function (i, element) {
+			console.log("RESPONSE.OTHERPARTYDETAILS",RESPONSE.OTHERPARTYDETAILS.length);
+			$.each(RESPONSE.OTHERPARTYDETAILS, function (i, element) {
                 console.log("media id", element.fileName);
                 RESPONSE.OTHERPARTYIDS.push(element.otherPartyId);
                 RESPONSE.NAMES.push(element.fileName);
@@ -516,73 +525,73 @@ var staticTemplate = {
                 RESPONSE.INJURIES.push(element.injuries);
                 RESPONSE.OTHERINFORMATION.push(element.otherInformation);
             });
-            if (noofDocuments > 5) {
+			if (noofDocuments > 5) {
                 sliderBar = '<div id="slider-vertical" style="float:left;position: absolute;height: 332px;left: 96px;top: 10px;">'
                         + '</div>';
             }
-            for (var i = 1, j = 0; i <= noofDocuments; i++, j++) {
+			for (var i = 1, j = 0; i <= noofDocuments; i++, j++) {
                 console.log("in for loop");
                 documentThumbNailViewHTML = documentThumbNailViewHTML
-                        + '<div style="padding: 0px;margin: 0px;width: 99px;height: 100px;margin-bottom: 10px;background: #fff;cursor:pointer;" class="overlayDocs" data-type="thumbNail"><p style="text-align: center;padding-top: 33px;">' + RESPONSE.NAMES[j] + '</p></div>';
+                        + '<div style="padding: 0px;margin: 0px;width: 99px;height: 100px;margin-bottom: 10px;background: #fff;cursor:pointer;" class="overlayDocs" data-type="thumbNail"><p style="text-align: center;padding-top: 33px;">'+ RESPONSE.NAMES[j]+'</p></div>';
             }
-            docTextSavePrintHTML = '<span class="spanCLassElement t-left f-color-green opensans-regular" style="margin:0px">' + RESPONSE.NAMES[0] + '</span>';
-            originalDocumentHTML = '<div class="leftDiv">'
-                    + '<p>'
-                    + '<span class="firstSpan">Name</span>'
-                    + '<span class="secondSpan">' + RESPONSE.NAMES[0] + '</span>'
-                    + '</p>'
-                    + '<p>'
-                    + '<span class="firstSpan">Role</span>'
-                    + '<span class="secondSpan">' + RESPONSE.ROLE[0] + '</span>'
-                    + '</p>'
-                    + '<p>'
-                    + '<span class="firstSpan">Phone</span>'
-                    + '<span class="secondSpan">' + RESPONSE.PHONE[0] + '</span>'
-                    + '</p>'
-                    + '<p>'
-                    + '<span class="firstSpan">Address</span>'
-                    + '<span class="secondSpan">' + RESPONSE.ADDRESS[0] + '</span>'
-                    + '</p>'
-                    + '<p>'
-                    + '<span class="firstSpan">Insurance co</span>'
-                    + '<span class="secondSpan">' + RESPONSE.INSURANCECO[0] + '</span>'
-                    + '</p>'
-                    + '<p>'
-                    + '<span class="firstSpan">Policy #</span>'
-                    + '<span class="secondSpan">' + RESPONSE.POLICY[0] + '</span>'
-                    + '</p>'
-                    + '<p>'
-                    + '<span class="firstSpan">Auto Yr/make/model</span>'
-                    + '<span class="secondSpan">' + RESPONSE.VEHICLEMODEL[0] + '</span>'
-                    + '</p>'
-                    + '<p>'
-                    + '<span class="firstSpan">Auto License plate state & Number</span>'
-                    + '<span class="secondSpan">' + RESPONSE.VEHICLENO[0] + '</span>'
-                    + '</p>'
-                    + '<p>'
-                    + '<span class="firstSpan">Drivers License State</span>'
-                    + '<span class="secondSpan">' + RESPONSE.DRIVINGLICENCESTATE[0] + '</span>'
-                    + '</p>'
-                    + '<p>'
-                    + '<span class="firstSpan">Drivers License Number</span>'
-                    + '<span class="secondSpan">' + RESPONSE.DRIVINGLICENCENUMBER[0] + '</span>'
-                    + '</p>'
-                    + '<p>'
-                    + '<span class="firstSpan">Injuries</span>'
-                    + '<span class="secondSpan">' + RESPONSE.INJURIES[0] + '</span>'
-                    + '</p>'
-                    + '<p>'
-                    + '<span class="firstSpan">Other info</span>'
-                    + '<span class="secondSpan">' + RESPONSE.OTHERINFORMATION[0] + '</span>'
-                    + '</p>'
-                    + '</div>';
-            var html = '<div class="o-sub-content p-relative">'
+			docTextSavePrintHTML = '<span class="spanCLassElement t-left f-color-green opensans-regular" style="margin:0px">' + RESPONSE.NAMES[0] + '</span>';
+			originalDocumentHTML = '<div class="leftDiv">'
+									+'<p>'
+										+'<span class="firstSpan">Name</span>'
+										+'<span class="secondSpan">'+RESPONSE.NAMES[0]+'</span>'
+									+'</p>'
+									+'<p>'
+										+'<span class="firstSpan">Role</span>'
+										+'<span class="secondSpan">'+RESPONSE.ROLE[0]+'</span>'
+									+'</p>'
+									+'<p>'
+										+'<span class="firstSpan">Phone</span>'
+										+'<span class="secondSpan">'+RESPONSE.PHONE[0]+'</span>'
+									+'</p>'
+									+'<p>'
+										+'<span class="firstSpan">Address</span>'
+										+'<span class="secondSpan">'+RESPONSE.ADDRESS[0]+'</span>'
+									+'</p>'
+									+'<p>'
+										+'<span class="firstSpan">Insurance co</span>'
+										+'<span class="secondSpan">'+RESPONSE.INSURANCECO[0]+'</span>'
+									+'</p>'
+									+'<p>'
+										+'<span class="firstSpan">Policy #</span>'
+										+'<span class="secondSpan">'+RESPONSE.POLICY[0]+'</span>'
+									+'</p>'
+									+'<p>'
+										+'<span class="firstSpan">Auto Yr/make/model</span>'
+										+'<span class="secondSpan">'+RESPONSE.VEHICLEMODEL[0]+'</span>'
+									+'</p>'
+									+'<p>'
+										+'<span class="firstSpan">Auto License plate state & Number</span>'
+										+'<span class="secondSpan">'+RESPONSE.VEHICLENO[0]+'</span>'
+									+'</p>'
+									+'<p>'
+										+'<span class="firstSpan">Drivers License State</span>'
+										+'<span class="secondSpan">'+RESPONSE.DRIVINGLICENCESTATE[0]+'</span>'
+									+'</p>'
+									+'<p>'
+										+'<span class="firstSpan">Drivers License Number</span>'
+										+'<span class="secondSpan">'+RESPONSE.DRIVINGLICENCENUMBER[0]+'</span>'
+									+'</p>'
+									+'<p>'
+										+'<span class="firstSpan">Injuries</span>'
+										+'<span class="secondSpan">'+RESPONSE.INJURIES[0]+'</span>'
+									+'</p>'
+									+'<p>'
+										+'<span class="firstSpan">Other info</span>'
+										+'<span class="secondSpan">'+RESPONSE.OTHERINFORMATION[0]+'</span>'
+									+'</p>'
+									+'</div>';
+			var html = '<div class="o-sub-content p-relative">'
                     + '<div>'
                     + '<div id="thumbNailDocs">'
                     + documentThumbNailViewHTML
                     + '</div>'
                     + '</div>'
-                    + sliderBar
+                     + sliderBar
                     + '<div style="width: 80%;float:left;padding:10px 0px;height: 400px;position: fixed;left: 120px;top: 15px;background: #fff;">'
                     + '<div style="border-bottom: 1px solid #b9b8b8;position: absolute;padding-bottom: 15px;left: 16px;width: 485px;" id="docinformation">'
                     + docTextSavePrintHTML
@@ -594,45 +603,44 @@ var staticTemplate = {
                     + '</div>'
                     + '</div>';
             return html;
-            /* var html = '<div class="o-sub-content p-relative" style = "background-color:none;">'
-             + '<div>'
-             + '<div style="float:left;" id="audioThumbNailView">'
-             + documentThumbNailViewHTML
-             + '</div>'
-             + sliderBar
-             + resultDocumentFile
-             + '</div>'
-             + '</div>';
-             return html; */
-        },
+			  /* var html = '<div class="o-sub-content p-relative" style = "background-color:none;">'
+                    + '<div>'
+                    + '<div style="float:left;" id="audioThumbNailView">'
+                    + documentThumbNailViewHTML
+                    + '</div>'
+                    + sliderBar
+                    + resultDocumentFile
+                    + '</div>'
+                    + '</div>';
+            return html; */
+		},
+		/*Naveen 23-2-2015 Changes End */
         /*Added by Naveen - End */
 
         shareWithRepTemplate: function () {
             var html = ' <h2 class="t-left f-color-green opensans-regular" style="">Share with Representatives</h2>'
-                    + ' <div class="o-sub-content p-relative"> <div class="success" style=" display:none; color: green;"></div><div class="error" style=" display:none; color: red;"></div><div class="text-box-outer p-relative textBox-placeholder-italic"> <input type="search"'
-                    + 'class="opensans-regular"  id="id-overlaysharewithrep"  placeholder="Search.." onkeyup="sharewithrepkeyup(event)"  onkeypress="sharewithrepkeypress(event)" /> <div id="id-sharewithrepsearchicon" class="c-search-icon search-icon sprite-im  p-absolute"></div></div> <div class="range-box clr-fl"> <div class="opensans-regular'
+                    + ' <div class="o-sub-content p-relative"> <div class="text-box-outer p-relative textBox-placeholder-italic"> <input type="search"'
+                    + 'class="opensans-regular" placeholder="Search.." /> <div class="c-search-icon search-icon sprite-im  p-absolute"></div></div> <div class="range-box clr-fl"> <div class="opensans-regular'
                     + 'f-sz-14 range-color left f-italic range-title">Select Range</div> <div class="text-box-outer p-relative textBox-placeholder-italic left range-sel1">'
-                    + '<select id="timepicker" class="none-1 opensans-regular left" onchange="Sharewithrep_sortbyBox1(\'sharewithrep\')"> <option selected> None </option> <option>Alphabetical</option> <option>City,State</option> </select>  '
+                    + '<input type="text" class="opensans-regular p-relative" placeholder="None" /> '
                     + '<div class="drop-down-icon-1 sprite-im drop-down-icon dropdown-icon p-absolute"></div> </div> <div class="text-box-outer '
                     + 'textBox-placeholder-italic p-relative left range-sel2"> <input type="text" class="opensans-regular p-relative" placeholder="None" /> '
                     + '<div class="drop-down-icon-2 sprite-im drop-down-icon dropdown-icon p-absolute"></div> </div> </div> <div class="rep-block">'
                     + '<div class="rep-title-blk clr-fl"> <div class="name-title opensans-regular t-upper left text-color-overlay bold">NAMES</div>'
-                    + '<div class="name-title opensans-regular t-upper right text-color-overlay bold">CITY,STATE</div> </div>'
-                    + '<div class="rep-content-blk"> <form>';
+                    + '<div class="name-title opensans-regular t-upper right text-color-overlay bold">CITY,STATE</div> </div> <div class="rep-content-blk"> <form> <div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative"> <input type="checkbox" id="name1" name="" class="checkbox" /> <label for="name1" class=" rep-label"> <div class="lbl-in-block p-relative"> <div class="f-sz-14 text-color-overlay left rep-name">Anderson</div> <div class="t-caps f-sz-13 right f-italic t-right location-color rep-location">NewYork, CA</div> </div> </label> </div> <div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative"> <input type="checkbox" id="name2" name="" class="checkbox" /> <label for="name2" class=" rep-label"> <div class="lbl-in-block p-relative"> <div class="f-sz-14 text-color-overlay left rep-name">Anderson</div> <div class="t-caps f-sz-13 right f-italic t-right location-color rep-location">NewYork, CA</div> </div> </label> </div> <div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative"> <input type="checkbox" id="name3" name="" class="checkbox" /> <label for="name3" class=" rep-label"> <div class="lbl-in-block p-relative"> <div class="f-sz-14 text-color-overlay left rep-name">Anderson</div> <div class="t-caps f-sz-13 right f-italic t-right location-color rep-location">NewYork, CA</div> </div> </label> </div> <div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative"> <input type="checkbox" id="name4" name="" class="checkbox" /> <label for="name4" class=" rep-label"> <div class="lbl-in-block p-relative"> <div class="f-sz-14 text-color-overlay left rep-name">Anderson</div> <div class="t-caps f-sz-13 right f-italic t-right location-color rep-location">NewYork, CA</div> </div> </label> </div> <div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative"> <input type="checkbox" id="name5" name="" class="checkbox" /> <label for="name5" class=" rep-label"> <div class="lbl-in-block p-relative"> <div class="f-sz-14 text-color-overlay left rep-name">Anderson</div> <div class="t-caps f-sz-13 right f-italic t-right location-color rep-location">NewYork, CA</div> </div> </label> </div> <div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative"> <input type="checkbox" id="name6" name="" class="checkbox" /> <label for="name6" class=" rep-label"> <div class="lbl-in-block p-relative"> <div class="f-sz-14 text-color-overlay left rep-name">Anderson</div> <div class="t-caps f-sz-13 right f-italic t-right location-color rep-location">NewYork, CA</div> </div> </label> </div> </form> </div> </div> <div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="overlaybtn">Assign</div> </div> ';
             return html;
         },
-        assignCustomersTemplate: function (e) {
+        assignCustomersTemplate: function () {
             var html = ' <h2 class="t-left f-color-green opensans-regular" style="">Assign Customers</h2>'
                     + ' <div class="o-sub-content p-relative"> <div class="text-box-outer p-relative textBox-placeholder-italic"> <input type="search"'
-                    + 'class="opensans-regular"  id="id-overlayaiigncustomers"   onkeyup="onKeyPressEventAssignCustomers(\'id-overlayaiigncustomers\')" placeholder="Search.." /> <div id="id-assignCustomersSearchIcon" class="c-search-icon search-icon sprite-im  p-absolute" ></div></div> <div class="range-box clr-fl"> <div class="opensans-regular'
+                    + 'class="opensans-regular" placeholder="Search.." /> <div class="c-search-icon search-icon sprite-im  p-absolute"></div></div> <div class="range-box clr-fl"> <div class="opensans-regular'
                     + 'f-sz-14 range-color left f-italic range-title">Select Range</div> <div class="text-box-outer p-relative textBox-placeholder-italic left range-sel1">'
-                    + '<select id="timepicker" class="none-1 opensans-regular left" onchange="sortbyBox1()"> <option selected> None </option> <option>Alphabetical</option> <option>City,State</option> </select>  '
+                    + '<select id="timepicker" class="none-1 opensans-regular left"> <option selected> None </option> <option>Alphabetical</option> <option>City,State</option> </select>  '
                     + '<div class="drop-down-icon-1 sprite-im drop-down-icon dropdown-icon p-absolute"></div> </div> <div class="text-box-outer '
-                    + 'textBox-placeholder-italic p-relative left range-sel2"> <select id="timepicker2" class="none-1 opensans-regular left" onchange="assignCustomersSortbyBox2()"> <option selected> None </option> <option>Select All</option> <option>Section A</option> <option>Section B</option><option>Section C</option><option>Section D</option><option>Section E</option></select>  '
+                    + 'textBox-placeholder-italic p-relative left range-sel2"> <select id="timepicker" class="none-1 opensans-regular left"> <option selected> None </option> <option>Select All</option> <option>Section A</option> <option>Section B</option><option>Section C</option><option>Section D</option></select>  '
                     + '<div class="drop-down-icon-2 sprite-im drop-down-icon dropdown-icon p-absolute"></div> </div> </div> <div class="rep-block">'
                     + '<div class="rep-title-blk clr-fl"> <div class="name-title opensans-regular t-upper left text-color-overlay bold">NAMES</div>'
-                    + '<div class="name-title opensans-regular t-upper right text-color-overlay bold">CITY,STATE</div> </div>'
-                    + '<div class="rep-content-blk"> <form>';
+                    + '<div class="name-title opensans-regular t-upper right text-color-overlay bold">CITY,STATE</div> </div> <div class="rep-content-blk"> <form> <div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative"> <input type="checkbox" id="name1" name="" class="checkbox" /> <label for="name1" class=" rep-label"> <div class="lbl-in-block p-relative"> <div class="f-sz-14 text-color-overlay left rep-name">Anderson</div> <div class="t-caps f-sz-13 right f-italic t-right location-color rep-location">NewYork, CA</div> </div> </label> </div> <div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative"> <input type="checkbox" id="name2" name="" class="checkbox" /> <label for="name2" class=" rep-label"> <div class="lbl-in-block p-relative"> <div class="f-sz-14 text-color-overlay left rep-name">Anderson</div> <div class="t-caps f-sz-13 right f-italic t-right location-color rep-location">NewYork, CA</div> </div> </label> </div> <div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative"> <input type="checkbox" id="name3" name="" class="checkbox" /> <label for="name3" class=" rep-label"> <div class="lbl-in-block p-relative"> <div class="f-sz-14 text-color-overlay left rep-name">Anderson</div> <div class="t-caps f-sz-13 right f-italic t-right location-color rep-location">NewYork, CA</div> </div> </label> </div> <div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative"> <input type="checkbox" id="name4" name="" class="checkbox" /> <label for="name4" class=" rep-label"> <div class="lbl-in-block p-relative"> <div class="f-sz-14 text-color-overlay left rep-name">Anderson</div> <div class="t-caps f-sz-13 right f-italic t-right location-color rep-location">NewYork, CA</div> </div> </label> </div> <div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative"> <input type="checkbox" id="name5" name="" class="checkbox" /> <label for="name5" class=" rep-label"> <div class="lbl-in-block p-relative"> <div class="f-sz-14 text-color-overlay left rep-name">Anderson</div> <div class="t-caps f-sz-13 right f-italic t-right location-color rep-location">NewYork, CA</div> </div> </label> </div> <div class="rep-grp-blk opensans-regular border-bot text-color-overlay p-relative"> <input type="checkbox" id="name6" name="" class="checkbox" /> <label for="name6" class=" rep-label"> <div class="lbl-in-block p-relative"> <div class="f-sz-14 text-color-overlay left rep-name">Anderson</div> <div class="t-caps f-sz-13 right f-italic t-right location-color rep-location">NewYork, CA</div> </div> </label> </div> </form> </div> </div> <div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="overlaybtn">Assign</div> </div> ';
             return html;
         },
         assignToRepTemplate: function () {
@@ -661,13 +669,13 @@ var staticTemplate = {
             return html;
         },
         addVendorDetailsTemplate: function () {
-            var html = ' <h2 class="t-left f-color-green opensans-regular" style="">Add Vendor details</h2> <div class="o-sub-content p-relative"> <div class="success" style=" display:none; color: green;"></div><div class="error" style=" display:none; color: red;"></div><div class="left-sub-content left p-relative"> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Type</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input id="id-vendortype" type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Address 1</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input id="id-vendoraddress1" type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Phone</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input id="id-vendorphone" type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">State</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input id="id-vendorstate" type="text" class="opensans-regular" placeholder="" /> </div> </div> </div> <div class="right-sub-content right p-relative"> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Name</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input id="id-vendorname" type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Address 2</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input id="id-vendoraddress2" type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">City</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input id="id-vendorcity" type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Zip</div> <div class="url-box right text-box-outer textBox-placeholder-italic border-all"> <input id="id-vendorzip" type="text" class="opensans-regular" placeholder="" /> </div> </div> </div> </div> <div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="overlaybtn_addvendordetails">Save</div> ';
+            var html = ' <h2 class="t-left f-color-green opensans-regular" style="">Add Vendor details</h2> <div class="o-sub-content p-relative"> <div class="left-sub-content left p-relative"> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Type</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Address 1</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Phone</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">State</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input type="text" class="opensans-regular" placeholder="" /> </div> </div> </div> <div class="right-sub-content right p-relative"> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Name</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Address 2</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">City</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Zip</div> <div class="url-box right text-box-outer textBox-placeholder-italic border-all"> <input type="text" class="opensans-regular" placeholder="" /> </div> </div> </div> </div> <div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="overlaybtn">Save</div> ';
             return html;
         },
-//        editVendorDetailsTemplate: function () {
-//            var html = ' <h2 class="t-left f-color-green opensans-regular" style="">Edit Vendor details</h2> <div class="o-sub-content p-relative"> <div class="left-sub-content left p-relative"> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Type</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Address 1</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Phone</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">State</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input type="text" class="opensans-regular" placeholder="" /> </div> </div> </div> <div class="right-sub-content right p-relative"> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Name</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Address 2</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">City</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Zip</div> <div class="url-box right text-box-outer textBox-placeholder-italic border-all"> <input type="text" class="opensans-regular" placeholder="" /> </div> </div> </div> </div> <div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="overlaybtn">Save</div> ';
-//            return html;
-//        },
+        editVendorDetailsTemplate: function () {
+            var html = ' <h2 class="t-left f-color-green opensans-regular" style="">Edit Vendor details</h2> <div class="o-sub-content p-relative"> <div class="left-sub-content left p-relative"> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Type</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Address 1</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Phone</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">State</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input type="text" class="opensans-regular" placeholder="" /> </div> </div> </div> <div class="right-sub-content right p-relative"> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Name</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Address 2</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">City</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Zip</div> <div class="url-box right text-box-outer textBox-placeholder-italic border-all"> <input type="text" class="opensans-regular" placeholder="" /> </div> </div> </div> </div> <div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="overlaybtn">Save</div> ';
+            return html;
+        },
         staticFeedViewTemplate: function () {
             var html = '<div class="view-feed-block">'
                     + '<div class="view-in-blocks inline-block v-align-mid bg-color-dblue p-relative">'
@@ -991,45 +999,13 @@ var staticTemplate = {
             var html = '<div class="carrier-view-parent bg-color-white p-relative"> <div class="customer-view-feed inline-block v-align-mid p-relative"> <div class="customer-logo-view p-relative"> <div class="customerlogo-viewpic"> <img src="http://devilsworkshop.org/files/2013/01/enlarged-facebook-profile-picture.jpg" alt="" class="carrier-img-width"> </div> </div> <div class="customer-view-name opensans-regular t-caps t-center p-relative">richardson</div> </div> <div class="carrier-view-rightblock inline-block v-align-mid p-relative "> <div class="customer-view-block p-relative "> <div class="customer-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">first name</div> <div class="carrier-left-content t-left right ">richardson</div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">last name</div> <div class="carrier-left-content t-left right">john</div> <div class="customer-view-mbapp p-relative inline-block v-align-top right"> <div class="sprite-im carrier-mobile-icon">&nbsp;</div> </div> </div> </div> </div> </div> <div class="customer-view-block p-relative "> <div class="customer-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">gender</div> <div class="carrier-left-content t-left right ">male</div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">occupation</div> <div class="carrier-left-content t-left right">doctor</div> </div> </div> </div> </div> <div class="customer-view-block p-relative "> <div class="customer-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">year of birth</div> <div class="carrier-left-content t-left right ">12-11-1986</div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">residential city</div> <div class="carrier-left-content t-left right">california</div> </div> </div> </div> </div> <div class="customer-view-block p-relative "> <div class="customer-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">residential state</div> <div class="carrier-left-content t-left right t-upper ">us</div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">residential zipcode</div> <div class="carrier-left-content t-left right">9401</div> </div> </div> </div> </div> <div class="customer-view-block p-relative "> <div class="customer-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width opensans-regular clr-fl"> <div class="carrier-left-title t-right t-caps left">email</div> <div class="carrier-left-content t-left right">richardson@mail.com</div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">phone</div> <div class="carrier-left-content t-left right">(415)914-00000</div> </div> </div> </div> </div> <div class="customer-view-button p-relative"> <div class="customer-view-policy inline-block t-caps t-center opensans-regular">policies</div> <div class="customer-policy-button p-relative inline-block bg-color-red t-caps t-center opensans-regular f-color-w snap" data-type="dt-propertypolicy">property policy</div> <div class="customer-policy-button p-relative inline-block bg-color-green t-caps t-center opensans-regular f-color-w snap" data-type="dt-healthpolicy">health policy</div> <div class="customer-policy-button p-relative inline-block bg-color-green t-caps t-center opensans-regular f-color-w snap" data-type="dt-vehiclepolicy">vehicle policy</div> </div> </div> </div> <div class="associated-carrierview p-relative"> <div class="p-relative "> <div class="associated-carrier-sort t-upper p-relative opensans-regular inline-block">associated reps</div> <div class="p-relative inline-block"> <div class="sprite-im drop-down-icon">&nbsp;</div> </div> </div> <div class="associated-carrier-feed p-relative border-bot"> <div class="carrier-feed-associated-view left p-relative"> <div class="border-all p-relative"> <div class="p-relative"> <div class="associated-carrier-pic inline-block "> <img src="http://johnjournal.bravesites.com/files/images/Profile_Score_Photo.jpg" alt="" class="carrier-img-width"> </div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> <div class="carrier-name t-caps t-center">james jeo</div> <div class="carrier-location t-caps t-center">location</div> <div class="carrier-location t-center">mail@mail.com</div> </div> </div> </div> </div> <div class="carrier-feed-associated-view left p-relative"> <div class="border-all p-relative"> <div class="p-relative"> <div class="associated-carrier-pic inline-block "> <img src="http://johnjournal.bravesites.com/files/images/Profile_Score_Photo.jpg" alt="" class="carrier-img-width"> </div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> <div class="carrier-name t-caps t-center">robert</div> <div class="carrier-location t-caps t-center">location</div> <div class="carrier-location t-center">mail@mail.com</div> </div> </div> </div> </div></div>';
             return html;
         },
-        staticSettingsTemplate: function (data) {
-
-            console.log(data);
-
-            var html = ' <form id="carrier-form"> <div class="carrier-view-parent p-relative"> <div class="app-link t-upper opensans-regular p-relative">app download link</div> <div class="app-parent p-relative"> '
-                    + '<div class="app-download-bar inline-block p-relative bg-color-white">' + data.resultMap.appDownloadLink + '</div> <div class="send-app-bar inline-block p-relative border-all bg-color-green t-caps t-center opensans-regular f-color-w"><a class="snap f-color-w" href="javascript:void(0)" data-type="sendapplink" >send app link</a></div> </div> <div class="settings-click-button clr-fl"><div class="success" style=" display:none; color: green;"></div><div class="error" style=" display:none; color: red;"></div> <div class="settings-agency-bar inline-block p-relative bg-color-gray t-caps t-center opensans-regular f-color-w snap"><a class="snap" href="javascript:void(0)" id="id-agency-view-load" data-type="agency-view-load" >agency</a></div> <div class="settings-vendor-bar inline-block p-relative bg-color-gray t-caps t-center opensans-regular f-color-w snap"><a class="snap" href="javascript:void(0)" id="id-preferred-vendors-view-load" data-type="preferred vendors-view-load" >preferred vendors</a></div> <div class="settings-edit-bar right inline-block p-relative bg-color-green "><div class="p-relative inline-block"> <div class="edit-icon sprite-im">&nbsp;</div> </div> <div class="p-relative inline-block t-caps t-right opensans-regular f-color-w"> <a id="id-carrier-edit" class="snap f-color-w" href="javascript:void(0)" data-type="agency-edit-load">edit</a></div> </div><div class="removevendor-bar right inline-block p-relative bg-color-green "> <div class="p-relative inline-block"> <div class="remove-icon sprite-im">&nbsp;</div> </div> <div class="p-relative inline-block t-caps t-right opensans-regular f-color-w"><a class="snap f-color-w" href="javascript:void(0)" data-type="agency-remove-load" >remove</a></div> </div> <div class="addvendor-bar right inline-block p-relative bg-color-green "> <div class="p-relative inline-block"> <div class="add-icon sprite-im">&nbsp;</div> </div> <div class="p-relative inline-block t-caps t-right opensans-regular f-color-w"><a class="snap f-color-w" href="javascript:void(0)" data-type="agency-addvendor-load" >add vendor</a></div></div></div> <div class="bg-color-white"><div class="success" style=" display:none; color: green;"></div><div class="error" style=" display:none; color: red;"></div><div class="agency-view-block"><div class="settings-view-leftblock inline-block v-align-mid p-relative"> <div class="settings-view-auth opensans-regular p-relative"> <div class="carrier-view-name inline-block t-upper">agency id</div> '
-                    + '<div class="carrier-view-id inline-block">' + data.resultMap.agencyDetails.agencyId + '</div> </div> <div class="settings-logo-view p-relative"> '
-                    + '<div class="settingslogo-viewpic"> <img src=http://2-dot-proto-call-test.appspot.com/file/' + data.resultMap.agencyDetails.agencyLogo + ' alt="" class="carrier-img-width"> </div> </div> <div class="settings-view-social p-relative clr-fr"> <div class="settings-view-website p-relative left bg-color-green"> <div class="p-relative inline-block v-align-top"> <div class="sprite-im pop-out">&nbsp;</div> </div> '
-                    + '<div class="carrier-website-name inline-block t-caps opensans-regular f-color-w t-center"><a href="' + data.resultMap.agencyDetails.website.value + '">website</a></div> </div> <div class="settings-view-facebook p-relative left bg-color-green"> <div class="p-relative inline-block v-align-top"> <div class="sprite-im pop-out">&nbsp;</div> </div> <div class="carrier-facebook-name inline-block t-caps opensans-regular f-color-w t-center">facebook</div> </div> </div> </div> <div class="settings-view-rightblock inline-block v-align-mid p-relative "> <div class="carrier-view-block p-relative "> <div id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">carrier agency id</div> '
-                    + '<div id="id-c-agencyid" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.agencyDetails.carrierAgencyId + '</div> <input id="id-carrier-agencyid" class="carrier-left-content-textbox t-left right p-absoalute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">master agency id</div> '
-                    + '<div class="carrier-left-content t-left right" id="id-c-masteragencyid" style="visibility: visible">' + data.resultMap.agencyDetails.agencyId + '</div> <input id="id-carrier-masteragencyid" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">agency type</div> '
-                    + '<div id="id-c-agencytype" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.agencyDetails.agencyType + '</div> <input id="id-carrier-agencytype" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">name</div> '
-                    + '<div id="id-c-agencyname" class="carrier-left-content t-left right" style="visibility: visible">' + data.resultMap.agencyDetails.agencyType.agencyName + '</div> <input id="id-carrier-agencyname" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">address</div> '
-                    + '<div id="id-c-agencyaddress1" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.agencyDetails.address + '</div> <input id="id-carrier-agencyaddress1" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">address</div> '
-                    + '<div id="id-c-agencyaddress2" class="carrier-left-content t-left right" style="visibility: visible">' + data.resultMap.agencyDetails.address2 + '</div> <input id="id-carrier-agencyaddress2" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view border-bot clr-fl"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">city</div> '
-                    + '<div id="id-c-agencycity" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.agencyDetails.city + '</div> <input id="id-carrier-agencycity" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">state</div> '
-                    + '<div id="id-c-agencystate" class="carrier-left-content t-left right t-upper" style="visibility: visible">' + data.resultMap.agencyDetails.state + '</div> <input id="id-carrier-agencystate" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view border-bot clr-fl"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">zip</div> '
-                    + '<div id="id-c-agencyzip" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.agencyDetails.zipcode + '</div> <input id="id-carrier-agencyzipcode" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">phone</div> '
-                    + '<div id="id-c-agencyphone" class="carrier-left-content t-left right t-upper" style="visibility: visible">' + data.resultMap.agencyDetails.phone.number + '</div> <input id="id-carrier-agencyphone" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width opensans-regular clr-fl"> <div class="carrier-left-title t-right left t-caps">email</div>'
-                    + '<div id="id-c-agencyemail" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.agencyDetails.emailId.email + '</div> <input id="id-carrier-agencyemail" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left"></div> <div class="carrier-left-content t-left right t-upper"></div> </div> </div> </div> </div> </div></div> <div class="preferred-vendor-block inline-block v-align-mid p-relative clr-fl"> <div class="preffered-border-view clr-fl border-bot left clr-fl"> <div class="preffered-view-left p-relative left"> <div class="carrier-left-width t-upper opensans-regular "> <div id ="id-vendornamebox" class="carrier-left-title t-upper t-left inline-block ">name</div> '
-                    + '<div id ="id-vendortypebox" class="carrier-left-title t-right inline-block">type</div> </div> </div> <div class="preffered-view-right right p-relative right "> <div class="carrier-left-width t-upper opensans-regular"> <div class="carrier-left-title t-left inline-block">phone</div> <div class="carrier-left-title t-right inline-block">state,city</div> </div> </div> </div>';
-
-            for (var index = 0; index < data.resultMap.listOfPreferredVendor.length; index++) {
-
-                html += '<div id="item_' + index + '" class="preffered-border-view clr-fl border-bot left clr-fl"> <div class="preffered-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular ">'
-                        + '<input type="checkbox" id="removevendor_' + index + '" value=' + data.resultMap.listOfPreferredVendor[index].serviceId + ' class="checkbox remove-vendor"> <label for="removevendor_' + index + '" class="vendor-label"></label>'
-                        + '<div id="id-prefeeredvendorbox" class="carrier-left-title t-left inline-block ">'
-                        + '<a id=' + data.resultMap.listOfPreferredVendor[index].serviceId + ' class="preferredvendor snap name-color" href="javascript:void(0)" data-type="vendor-profile-info" >' + data.resultMap.listOfPreferredVendor[index].serviceName + '</a></div> '
-                        + '<div id="id-vendortypebox" class="carrier-left-title t-right inline-block">' + data.resultMap.listOfPreferredVendor[index].serviceType + '</div> </div> </div> <div class="preffered-view-right right p-relative right "> <div class="carrier-left-width t-caps opensans-regular"> '
-                        + '<div class="carrier-left-title t-left inline-block">' + data.resultMap.listOfPreferredVendor[index].city + '</div> '
-                        + '<div class="carrier-left-title t-right inline-block">' + data.resultMap.listOfPreferredVendor[index].city + "," + data.resultMap.listOfPreferredVendor[index].state + '</div> </div> </div> </div> ';
-            }
-
-
+       staticSettingsTemplate: function (data) {
+            var html = ' <form id="carrier-form"> <div class="carrier-view-parent p-relative"> <div class="app-link t-upper opensans-regular p-relative">app download link</div> <div class="app-parent p-relative"> <div class="app-download-bar inline-block p-relative bg-color-white">https://protocall.com/app.store/detail?</div> <div class="send-app-bar inline-block p-relative border-all bg-color-green t-caps t-center opensans-regular f-color-w"><a class="snap" href="javascript:void(0)" data-type="sendapplink" >send app link</a></div> </div> <div class="settings-click-button clr-fl"> <div class="settings-agency-bar inline-block p-relative bg-color-gray t-caps t-center opensans-regular f-color-w snap"><a class="snap" href="javascript:void(0)" data-type="agency-view-load" >agency</a></div> <div class="settings-vendor-bar inline-block p-relative bg-color-gray t-caps t-center opensans-regular f-color-w snap"><a class="snap" href="javascript:void(0)" data-type="preferred vendors-view-load" >preferred vendors</a></div> <div class="settings-edit-bar right inline-block p-relative bg-color-green "><div class="p-relative inline-block"> <div class="edit-icon sprite-im">&nbsp;</div> </div> <div class="p-relative inline-block t-caps t-right opensans-regular f-color-w"> <a id="id-carrier-edit" class="snap" href="javascript:void(0)" data-type="agency-edit-load">edit</a></div> </div><div class="removevendor-bar right inline-block p-relative bg-color-green "> <div class="p-relative inline-block"> <div class="remove-icon sprite-im">&nbsp;</div> </div> <div class="p-relative inline-block t-caps t-right opensans-regular f-color-w"><a class="snap" href="javascript:void(0)" data-type="agency-remove-load" >remove</a></div> </div> <div class="addvendor-bar right inline-block p-relative bg-color-green "> <div class="p-relative inline-block"> <div class="add-icon sprite-im">&nbsp;</div> </div> <div class="p-relative inline-block t-caps t-right opensans-regular f-color-w"><a class="snap" href="javascript:void(0)" data-type="agency-addvendor-load" >add vendor</a>r</div></div></div> <div class="bg-color-white"><div class="agency-view-block"><div class="settings-view-leftblock inline-block v-align-mid p-relative"> <div class="settings-view-auth opensans-regular p-relative"> <div class="carrier-view-name inline-block t-caps">agency id</div> <div class="carrier-view-id inline-block">'+data.agencyId+'</div> </div> <div class="settings-logo-view p-relative"> <div class="settingslogo-viewpic"> <img src="http://2-dot-proto-call-test.appspot.com/file/AMIfv97MlBFkvIl9CA5XX_zC1zN01dFtkewx0sYvxI7lv4Qb5-dklazbb8jk3xD81OakfKUw-7pr2a6XDd6VGoZy_RK56DqYFmwz3_XHhW2oivquQz_mLLTWbvNwIhUbu1uYKGAsY71mU4u8_EBGzhH19oFVPfmT428qiNmLkDJaVBYrE7PlAmx941B01w87YybOcgwD62aq" alt="" class="carrier-img-width"> </div> </div> <div class="settings-view-social p-relative clr-fr"> <div class="settings-view-website p-relative left bg-color-green"> <div class="p-relative inline-block v-align-top"> <div class="sprite-im pop-out">&nbsp;</div> </div> <div class="carrier-website-name inline-block t-caps opensans-regular f-color-w t-center"><a href="'+data.website.value+'">website</a></div> </div> <div class="settings-view-facebook p-relative left bg-color-green"> <div class="p-relative inline-block v-align-top"> <div class="sprite-im pop-out">&nbsp;</div> </div> <div class="carrier-facebook-name inline-block t-caps opensans-regular f-color-w t-center">facebook</div> </div> </div> </div> <div class="settings-view-rightblock inline-block v-align-mid p-relative "> <div class="carrier-view-block p-relative "> <div id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">carrier agency id</div> <div id="id-c-agencyid" class="carrier-left-content t-left right " style="visibility: visible">'+data.carrierAgencyId+'</div> <input id="id-carrier-agencyid" class="carrier-left-content-textbox t-left right p-absoalute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">master agency id</div> <div class="carrier-left-content t-left right" id="id-c-masteragencyid" style="visibility: visible">'+data.agencyId+'</div> <input id="id-carrier-masteragencyid" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">agency type</div> <div id="id-c-agencytype" class="carrier-left-content t-left right " style="visibility: visible">master type</div> <input id="id-carrier-agencytype" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">name</div> <div id="id-c-agencyname" class="carrier-left-content t-left right" style="visibility: visible">'+data.agencyName+'</div> <input id="id-carrier-agencyname" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">address</div> <div id="id-c-agencyaddress1" class="carrier-left-content t-left right " style="visibility: visible">'+data.address+'</div> <input id="id-carrier-agencyaddress1" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">address</div> <div id="id-c-agencyaddress2" class="carrier-left-content t-left right" style="visibility: visible">478 western gateway</div> <input id="id-carrier-agencyaddress2" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view border-bot clr-fl"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">city</div> <div id="id-c-agencycity" class="carrier-left-content t-left right " style="visibility: visible">'+data.city+'</div> <input id="id-carrier-agencycity" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">state</div> <div id="id-c-agencystate" class="carrier-left-content t-left right t-upper" style="visibility: visible">'+data.result.state+'</div> <input id="id-carrier-agencystate" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view border-bot clr-fl"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">zip</div> <div id="id-c-agencyzip" class="carrier-left-content t-left right " style="visibility: visible">'+data.result.zipcode+'</div> <input id="id-carrier-agencyzipcode" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">phone</div> <div id="id-c-agencyphone" class="carrier-left-content t-left right t-upper" style="visibility: visible">'+data.result.phone.number+'</div> <input id="id-carrier-agencyphone" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width opensans-regular clr-fl"> <div class="carrier-left-title t-right left t-caps">email</div> <div id="id-c-agencyemail" class="carrier-left-content t-left right " style="visibility: visible">'+localStorage.agencyEmail+'</div> <input id="id-carrier-agencyemail" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left"></div> <div class="carrier-left-content t-left right t-upper"></div> </div> </div> </div> </div> </div></div><div class="preferred-vendor-block inline-block v-align-mid p-relative clr-fl"> <div class="preffered-border-view clr-fl border-bot left clr-fl"> <div class="preffered-view-left p-relative left"> <div class="carrier-left-width t-upper opensans-regular "> <div class="carrier-left-title t-upper t-left inline-block ">name</div> <div class="carrier-left-title t-right inline-block">type</div> </div> </div> <div class="preffered-view-right right p-relative right "> <div class="carrier-left-width t-upper opensans-regular"> <div class="carrier-left-title t-left inline-block">phone</div> <div class="carrier-left-title t-right inline-block">state,city</div> </div> </div> </div> <div class="preffered-border-view clr-fl border-bot left clr-fl"> <div class="preffered-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular "><div class="carrier-left-title t-left inline-block "><a class="snap name-color" href="javascript:void(0)" data-type="vendor-profile-info" >anderson</a></div> <div class="carrier-left-title t-right inline-block">service</div> </div> </div> <div class="preffered-view-right right p-relative right "> <div class="carrier-left-width t-caps opensans-regular"> <div class="carrier-left-title t-left inline-block">(440)914-00000</div> <div class="carrier-left-title t-right inline-block">california</div> </div> </div> </div> <div class="preffered-border-view clr-fl border-bot left clr-fl"> <div class="preffered-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular "> <div class="carrier-left-title t-left inline-block ">Robert</div> <div class="carrier-left-title t-right inline-block">contrator</div> </div> </div> <div class="preffered-view-right right p-relative right "> <div class="carrier-left-width t-caps opensans-regular"> <div class="carrier-left-title t-left inline-block">(440)914-00000</div> <div class="carrier-left-title t-right inline-block">newyork</div> </div> </div> </div> <div class="preffered-border-view clr-fl border-bot left clr-fl"> <div class="preffered-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular "> <div class="carrier-left-title t-left inline-block ">sandra</div> <div class="carrier-left-title t-right inline-block">contrator</div> </div> </div> <div class="preffered-view-right right p-relative right "> <div class="carrier-left-width t-caps opensans-regular"> <div class="carrier-left-title t-left inline-block">(440)914-00000</div> <div class="carrier-left-title t-right inline-block">newyork</div> </div> </div> </div> </div><div class="preferred-vendor-remove-block inline-block v-align-mid p-relative clr-fl"> <div class="preffered-border-view clr-fl border-bot left clr-fl"> <div class="preffered-view-left p-relative left"> <div class="carrier-left-width t-upper opensans-regular "> <div class="carrier-left-title t-upper t-left inline-block ">name</div> <div class="carrier-left-title t-right inline-block">type</div> </div> </div> <div class="preffered-view-right right p-relative right "> <div class="carrier-left-width t-upper opensans-regular"> <div class="carrier-left-title t-left inline-block">phone</div> <div class="carrier-left-title t-right inline-block">state,city</div> </div> </div> </div> <div class="vendor-block-remove"><div class="preffered-border-view clr-fl border-bot left clr-fl"> <div class="preffered-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular"> <input type="checkbox" id="removevendor" name="" class="checkbox remove-vendor"> <label for="removevendor" class="vendor-label"></label> <div class="carrier-left-title vendor-remove-margin t-left inline-block ">anderson</div> <div class="carrier-left-title t-right inline-block">service</div> </div> </div> <div class="preffered-view-right right p-relative right "> <div class="carrier-left-width t-caps opensans-regular"> <div class="carrier-left-title t-left inline-block">(440)914-00000</div> <div class="carrier-left-title t-right inline-block">california</div> </div> </div> </div> </div><div class="preffered-border-view clr-fl border-bot left clr-fl"> <div class="preffered-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular "> <input type="checkbox" id="removevendor-1" name="" class="checkbox"> <label for="removevendor-1" class="vendor-label"></label> <div class="carrier-left-title t vendor-remove-margin -left inline-block ">Robert</div> <div class="carrier-left-title t-right inline-block">contrator</div> </div> </div> <div class="preffered-view-right right p-relative right "> <div class="carrier-left-width t-caps opensans-regular"> <div class="carrier-left-title t-left inline-block">(440)914-00000</div> <div class="carrier-left-title t-right inline-block">newyork</div> </div> </div> </div> <div class="preffered-border-view clr-fl border-bot left clr-fl"> <div class="preffered-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular "> <input type="checkbox" id="removevendor-2" name="" class="checkbox"> <label for="removevendor-2" class="vendor-label"></label> <div class="carrier-left-title vendor-remove-margin t-left inline-block ">sandra</div> <div class="carrier-left-title t-right inline-block">contrator</div> </div> </div> <div class="preffered-view-right right p-relative right "> <div class="carrier-left-width t-caps opensans-regular"> <div class="carrier-left-title t-left inline-block">(440)914-00000</div> <div class="carrier-left-title t-right inline-block">newyork</div> </div> </div> </div> </div><div class="vendor-detail-block"> <div class="vendor-view-block inline-block v-align-mid p-relative "> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div  class="carrier-left-title t-right left">preferred vendor id</div> <div id="id-v-preferredvendorid" class="carrier-left-content t-left right " style="visibility: visible">#55475546</div> <input id="id-vendor-preferredvendorid" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">type</div> <div id="id-v-vendortype" class="carrier-left-content t-left right" style="visibility: visible">#55475546</div> <input id="id-vendor-type" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">name</div> <div id="id-v-vendorname" class="carrier-left-content t-left right " style="visibility: visible">anderson</div> <input id="id-vendor-name" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">phone</div> <div id="id-v-vendorphone" class="carrier-left-content t-left right" style="visibility: visible">(455)994-00000</div> <input id="id-vendor-phone" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">address</div> <div id="id-v-address1" class="carrier-left-content t-left right ">3951 westere parkway</div> <input id="id-vendor-address1" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">address</div> <div id="id-v-address2" class="carrier-left-content t-left right">478 western gateway</div> <input id="id-vendor-address2" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view border-bot clr-fl"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">city</div> <div id="id-v-city" class="carrier-left-content t-left right ">california</div> <input id="id-vendor-city" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">state</div> <div id="id-v-state" class="carrier-left-content t-left right t-upper">us</div> <input id="id-vendor-state" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">zip</div> <div id="id-v-zipcode" class="carrier-left-content t-left right ">9401</div> <input id="id-vendor-zipcode" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left"></div> <div class="carrier-left-content t-left right t-upper"></div> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl"> <div class="vendor-view-right right t-caps opensans-regular"> </div> </div> </div> </div> <div class="vendor-back-button"> <div class="vendor-back-bar inline-block p-relative bg-color-green "> <div class="p-relative inline-block t-caps t-right v-align-mid opensans-regular f-color-w">back</div> </div> </div> </div></div> </form>';
             return html;
-
-        },
+        
+    },
         staticMyProfileViewTemplate: function () {
-            var html = '<div class="agenyparent-class bg-color-white"> <div class="p-relative"> <form> <div class="agenyleft-profile inline-block v-align-mid p-relative"> <div class="agenyleft-image"> <div class="overflow-hidden"> <div class="agenypic-info"> <img src="http://devilsworkshop.org/files/2013/01/enlarged-facebook-profile-picture.jpg" alt="" class="ageny-img-width"> </div><div class="v-align-mid opensans-regular text-color-overlay f-sz-12 p-relative" style="padding:0px 25px;"> <div class="sprite-im profcamera-icon inline-block"> &nbsp; </div><div class="t-upper inline-block"> Change Image </div><input type="file" name="agency-prof-img" id="agency-prof-img" onchange="readURL(this);"/> </div></div></div></div><div class="agenyright-profile inline-block v-align-mid"> <div class="agenyparent-block"> <div class="agenyinternal-block"> <div class="agenygroup-block border-bot opensans-regular"> <div class="agenychild-block"> <div class="agenytitle-block inline-block p-relative"> Name </div><div class="agenycontent-block inline-block p-relative"> <span class="profile-result-cls" id="nameview"> ' + sessionStorage.agencyName + ' </span> </div><input type="text" name="profileName" value="" class="agencyprofinput" id="namenew"> </div></div><div class="agenygroup-block border-bot opensans-regular"> <div class="agenychild-block"> <div class="agenytitle-block inline-block p-relative" > Phone </div><div class="agenycontent-block inline-block p-relative"> <span class="profile-result-cls" id="phoneview"> ' + sessionStorage.agencyPhone + ' </span> </div><input type="text" name="profileName" value="" class="agencyprofinput" id="phonenew"> </div></div><div class="agenygroup-block border-bot opensans-regular"> <div class="agenychild-block"> <div class="agenytitle-block inline-block p-relative"> Email </div><div class="agenycontent-block inline-block p-relative"> <span class="profile-result-cls" id="emailview"> ' + sessionStorage.agencyEmail + ' </span> </div><input type="text" name="profileName" value="" class="agencyprofinput" id="emailnew"> </div></div></div></div></div></form> </div></div>';
+            var html = '<div class="agenyparent-class bg-color-white"> <div class="p-relative"> <form> <div class="agenyleft-profile inline-block v-align-mid p-relative"> <div class="agenyleft-image"> <div class="overflow-hidden"> <div class="agenypic-info"> <img src="http://devilsworkshop.org/files/2013/01/enlarged-facebook-profile-picture.jpg" alt="" class="ageny-img-width"> </div><div class="v-align-mid opensans-regular text-color-overlay f-sz-12 p-relative" style="padding:0px 25px;"> <div class="sprite-im profcamera-icon inline-block"> &nbsp; </div><div class="t-upper inline-block"> Change Image </div><input type="file" name="agency-prof-img" id="agency-prof-img" onchange="readURL(this);"/> </div></div></div></div><div class="agenyright-profile inline-block v-align-mid"> <div class="agenyparent-block"> <div class="agenyinternal-block"> <div class="agenygroup-block border-bot opensans-regular"> <div class="agenychild-block"> <div class="agenytitle-block inline-block p-relative"> Name </div><div class="agenycontent-block inline-block p-relative"> <span class="profile-result-cls" id="nameview"> '+localStorage.agencyName+' </span> </div><input type="text" name="profileName" value="" class="agencyprofinput" id="namenew"> </div></div><div class="agenygroup-block border-bot opensans-regular"> <div class="agenychild-block"> <div class="agenytitle-block inline-block p-relative" > Phone </div><div class="agenycontent-block inline-block p-relative"> <span class="profile-result-cls" id="phoneview"> '+localStorage.agencyPhone+' </span> </div><input type="text" name="profileName" value="" class="agencyprofinput" id="phonenew"> </div></div><div class="agenygroup-block border-bot opensans-regular"> <div class="agenychild-block"> <div class="agenytitle-block inline-block p-relative"> Email </div><div class="agenycontent-block inline-block p-relative"> <span class="profile-result-cls" id="emailview"> '+localStorage.agencyEmail+' </span> </div><input type="text" name="profileName" value="" class="agencyprofinput" id="emailnew"> </div></div></div></div></div></form> </div></div>';
             return html;
         }
     },

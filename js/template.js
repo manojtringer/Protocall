@@ -66,14 +66,26 @@ var template = {
             return html;
 
 	},
+	/*Naveen 23-2-2015 Changes Start */
 	incidentAlertFeedHMLT : function(alertDetailsValue,alertType){
 		var noOfOtherPartyRecordsCount = alertDetailsValue.NoofOtherPartyRecord,noOfAudioRecordCount = alertDetailsValue.NoofAudioRecord,noOfPictureRecord = alertDetailsValue.NoofPictureRecord,html = "",alertFeedHtml = "";
+		console.log("alertDetailsValue.length",alertDetailsValue.alertDetails);
 		if(alertType == "incidentalert"){
 			if(noOfOtherPartyRecordsCount === undefined && noOfPictureRecord === undefined && noOfAudioRecordCount === undefined){
 				console.log("condition satisfied");
 				noOfOtherPartyRecordsCount = 0;
 				noOfPictureRecord = 0;
 				noOfAudioRecordCount = 0;
+			} 
+			if(alertDetailsValue.OtherPartyDetails){
+				console.log("condition satisfied in if");
+				$.each(alertDetailsValue.OtherPartyDetails,function(index,element){
+					console.log("condition satisfied in each element.carrier",element.carrier);
+					if(element.carrier == undefined){
+						console.log("condition satisfied in each");
+						noOfOtherPartyRecordsCount = 0;
+					}
+				});
 			} 
 			var incidentrightSideFeed = template.rightSideFeed(alertDetailsValue,alertType);
 			alertFeedHtml = '<div class="rg-block left p-relative">'
@@ -109,16 +121,22 @@ var template = {
 											+ '</div>'
 										+ '</div>'
 								+ '</div>';
-	html = '<div class="feed-block clr-fl">'
-		+incidentrightSideFeed
-		+ alertFeedHtml
-		+ '</div>';
-           
+			if(HOMEPAGERESPONSE.INCIDENTALERTSCLICKED){
+				html = '<div class="feed-block clr-fl">'
+					+incidentrightSideFeed
+					+ alertFeedHtml
+					+ '</div>';
+			} else {
+				console.log("incident else");
+				html =incidentrightSideFeed+alertFeedHtml;
+			}
 		}
 		 return html; 
 	},
+
 	policyAlertFeedHMLT : function(alertDetailsValue,alertType){
 		var html = "",alertFeedHtml = "";
+		console.log("alertDetailsValue in policyAlertFeedHMLT",alertDetailsValue.length)
 		if(alertType == "policyalert"){
 			var policyrightSideFeed = template.rightSideFeed(alertDetailsValue,alertType);
 			alertFeedHtml = '<div class="rg-block left p-relative">'
@@ -133,18 +151,24 @@ var template = {
                             + '</div>'
                             + '</div>'
                             + '</div>';
-			html = '<div class="feed-block clr-fl">'
+			if(HOMEPAGERESPONSE.POLICYALERTCLICKED){
+				html = '<div class="feed-block clr-fl">'
                     +policyrightSideFeed
                     + alertFeedHtml
                     + '</div>';
-			console.log("html",html);
+			} else {
+				console.log("in policyalerts else");
+				html = policyrightSideFeed+alertFeedHtml;
+            }
 		}
 		 
             return html;
 	},
+	/*Naveen 23-2-2015 Changes End */
+	/*Naveen 23-2-2015 Changes Start */
    rightSideFeed : function (alertDetailsValue,alertType) {
 		 console.log("alertDetails in feedsTemplateHTML",alertDetailsValue);
-		var html = "",firstName = "",lastName = "",alertDate ="",alertTime ="",bDay ="",bDate ="",residentialCity = "",phoneNumber="",feedUserEmail ="",alertFeedHtml ="",profilePicture = "",rightSideAlerFeedHTML = "";
+		var html = "",firstName = "",lastName = "",alertDate ="",alertTime ="",bDay ="",bDate ="",residentialCity = "",phoneNumber="",feedUserEmail ="",alertFeedHtml ="",profilePicture = "",rightSideAlerFeedHTML = "",viewArchiveFeedHTML = "";
 		if(alertDetailsValue.userDetails.firstName !=="undefined"){
 			firstName = alertDetailsValue.userDetails.firstName;
 		} 
@@ -172,12 +196,19 @@ var template = {
 		 if(alertDetailsValue.userDetails.profilePicture !== "undefined"){
 			profilePicture = HOMEPAGERESPONSE.PROFILEAPI+alertDetailsValue.userDetails.profilePicture; 
 		 }
+		 if(HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED) {
+			  var viewArchiveFeedHTML = '<input type="checkbox" class = "snap" data-type="archiveCheckBox" id='+alertDetailsValue.alertDetails.alertId+' name="" class="checkbox"><label for='+alertDetailsValue.alertDetails.alertId+' class="feed-label"></label>';
+		 } else {
+			 viewArchiveFeedHTML = "";
+		 }
+		
 		rightSideAlerFeedHTML = '<div class="lf-block left">'
                     + '<div class="leftblk-spacing">'
                     + '<div class="feed-det bg-color-dblue p-relative">'
                     + '<div class="feed-det-pad p-relative">'
                     + '<div class="feed-pic-b inline-block v-align-mid">'
                     + '<div id="" class="feed-user-pic-box">'
+					+viewArchiveFeedHTML
                     + '<img src="'+profilePicture+'" alt="" class="feeduserpic">'
                     + '</div>'
                     + '</div>'
@@ -222,7 +253,7 @@ var template = {
                     + '<div class="inner-view-spacing snap" data-type="view">'
                     + '<div class="t-center mid-align">'
                     + '<div class="sprite-im inline-block v-align-mid view-icon">&nbsp;</div>'
-                    + '<span class="feed-menu-text inline-block v-align-mid f-color-w">View</span>'
+                    + '<span class="feed-menu-text inline-block v-align-mid f-color-w" id='+alertDetailsValue.alertDetails.alertId+'>View</span>'
                     + '</div>'
                     + '</div>'
                     + '</div>'
@@ -233,6 +264,7 @@ var template = {
                     + '</div>';
 		return rightSideAlerFeedHTML;
 	 },
+	 /*Naveen 23-2-2015 Changes End */
 	  /*Naveen Chnages 19-2-2015 end */
 	 CarrierfeedsTemplateHTML:function(c){
 		// console.log(cus)

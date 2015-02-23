@@ -289,14 +289,14 @@ input, select, textarea {
     background-position:-10px -587px;
     width: 15px;
     height: 15px;
-    margin-left: 10px;
 }
 .add-icon{
-    background-position: -69px -506px;
-    width: 21px;
-    height: 19px;}
+    background-position:-9px -508px;
+    width: 16px;
+    height: 16px
+}
 .remove-icon{
-    background-position: -9px -508px;
+    background-position:-69px -506px;
     width: 18px;
     height: 18px;
 }
@@ -1301,32 +1301,28 @@ input[type=checkbox]:checked + .feed-label:before {
     padding: 10px;
 }
 .carrier-profile-screen{
-    width: 23%;
-    height: 200px;
+    width:23%;
+    /*height: 200px;*/
     margin-right:10px;
     min-height: 300px;
-    margin-top: 10px;
 }
 .carrier-logo{
     width: 100%;
-    /* height: 176px; */
-    min-height: 176px;
+   min-height: 176px;
 }
 .carrier-info{
     width: 100%;
-    min-height: 71px;
+   min-height: 71px;
 }
 .carrier-name{
-    color: black;
+    color: #989898;
     font-size: 16px;
-    margin-bottom: 10px;
-    text-align: center;
+    /*margin-right: 15px;*/
 }
 .carrier-location{
-    color: black;
+    color: #989898;
     font-size: 16px;
-    /* margin-right: 15px; */
-    text-align: center;
+    /*margin-right: 15px;*/
 }
 .carrier-email{
     color: #989898;
@@ -1342,17 +1338,13 @@ input[type=checkbox]:checked + .feed-label:before {
     padding:14px 0px;
 }
 .carrierlogo-pic{
-    width: 100%;
+    width: 160px;
     position: relative;
     overflow: hidden;
     margin: auto;
-    height: 176px;
-    /* min-height: 170px; */
 }
 .carrier-img-width{
     width:100%;
-    height: 100%;
-    /* overflow: hidden; */
 }
 .customer-home-parent {
     padding: 10px;
@@ -1386,7 +1378,7 @@ input[type=checkbox]:checked + .feed-label:before {
     margin-right: 15px;
 }
 .carrier-view-id{
-    color: black;
+    color: #989898;
     font-size: 16px;
     margin-right: 15px;
 }
@@ -1406,7 +1398,7 @@ input[type=checkbox]:checked + .feed-label:before {
     position: relative;
     overflow: hidden;
     margin: auto;
-    width: 88%;
+    width:175px;
     padding: 19px 15px 15px 15px;
 }
 .carrier-view-social{
@@ -1466,47 +1458,35 @@ input[type=checkbox]:checked + .feed-label:before {
     margin: auto;
 }
 .carrier-view-left{
-    width: 50%;
-    height: 25px;
+    width:50%;
 }
 .carrier-view-right{
-    width: 48%;
-    overflow: s;
+    width:50%;
 }
 .carrier-left-width{
-    width: 100%;
+    width:100%;
     font-size: 16px;
     color: #989898;
-    height: 25px;
+    height: 24px;
 }
 .carrier-left-title{
-    width: 35%;
-    color: #989898!important;
-    text-align: center;
+    width:45%;
 }
 .carrier-left-content{
-    width: 56%;
+    width:45%;
     font-size: 16px;
     margin-right: 15px;
     color: black;
-    overflow: auto;
-    overflow-y: auto;
-    height: 30px;
-    display: block;
 }
 .carrier-left-content-textbox{
-    width: 53%;
+    width:45%;
     font-size: 16px;
     margin-right: 19px;
     color: black;
     height: 24px;
     margin-left: 6%;
-    float: left;
-    /* top: -23px; */
-    overflow: auto;
-    /* margin-top: 0px; */
     /* margin-bottom: -40px; */
-    border: 1px solid #ccc;
+    border: 1px solid #CCC;
 }
 .carrier-view-rightblock{
     width:74%;
@@ -1517,7 +1497,6 @@ input[type=checkbox]:checked + .feed-label:before {
 }
 .carrier-border-view{
     padding: 10px 0px;
-    /* height: 25px; */
 }
 
 /************ Associated Carrier view related feed ********/
@@ -1528,9 +1507,7 @@ input[type=checkbox]:checked + .feed-label:before {
 .associated-carrier-sort{
     font-size: 16px;
     margin-right: 15px;
-    /* color: #E3EBEC; */
-    width: 19%;
-    background: #E3EBEC;
+    color: #989898;
 }
 .associated-carrier-feed{
     padding:10px 0px;
@@ -1639,7 +1616,6 @@ input[type=checkbox]:checked + .feed-label:before {
 }
 .settings-view-auth {
     padding: 10px 18px;
-    width: 450px;
 }
 .settingslogo-viewpic {
     position: relative;
@@ -1698,11 +1674,11 @@ input[type=checkbox]:checked + .feed-label:before {
     width: 100%;
 }
 .preffered-view-left {
-    width: 40%;
+    width: 30%;
     padding: 10px 10px 10px 10px;
 }
 .preffered-view-right {
-    width: 52%;
+    width: 38%;
     padding: 10px 0px;
 }
 .addvendor-bar{
@@ -1768,10 +1744,10 @@ input[type=checkbox]:checked + .vendor-label:before {
     padding: 15px 0px;
 }
 .vendor-view-left {
-    width: 35%;
+    width: 33%;
 }
 .vendor-view-right {
-    width: 58%;
+    width: 66%;
 }
 .vendor-back-button{
     width: 13%;
@@ -1877,7 +1853,7 @@ textarea::-webkit-input-placeholder {  color: #999;}
 .textarea{
     height: 100%;
     background-color: #ffffff;
-    color: black;
+    color: #999;
 }
 
 .txt-now{
@@ -2196,10 +2172,10 @@ textarea::-webkit-input-placeholder {  color: #999;}
 
 .o-btn {
     width: 20%;
-    height: 42px;
+    height:42px;
     line-height:40px;
     position:relative;
-    margin: 40px auto;
+    margin: 20px auto;
     text-align: center;
 }
 
@@ -2212,7 +2188,6 @@ textarea::-webkit-input-placeholder {  color: #999;}
 }
 
 .rep-location{
-    margin-top: -10px;
 
 }
 .dropdown-icon{
@@ -2293,8 +2268,7 @@ textarea::-webkit-input-placeholder {  color: #999;}
 }
 
 .rep-block .rep-content-blk .rep-grp-blk .rep-name{
-    margin-left: 17px;
-    width: 15%;
+    margin-left:15px;
 }
 
 .rep-label .lbl-in-block{
@@ -2359,7 +2333,7 @@ textarea::-webkit-input-placeholder {  color: #999;}
 }
 .message-box{
     width: 79%;
-    height: 90px;
+    height: 68px;
     float: right;
     margin-top: 10px;
 }
@@ -2745,12 +2719,12 @@ cursor: pointer;
     /* top: 4px; */
     /* margin-top: -20px; */
 }
-/*.rep-grp-blk input[type=checkbox]:checked + .rep-label:before {
+.rep-grp-blk input[type=checkbox]:checked + .rep-label:before {
     content: "\2713";
     text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
     font-size: 15px;
     line-height: 15px;
-}*/
+}
 
 .spanCLassElement{
     margin: 15px 20px;
@@ -3030,33 +3004,10 @@ footer  .foot-in{
     margin: 0px 12px;
 }
 
-#id-associatedblock{
-    background-color: #C7D2D5;
-}
 
-.c-associatedropdownicon{
-    left: -42px;
 
-    top: 5px;
-}
 
 .agencyprofinput{border: solid 1px lightgrey;color: black;width: 40%;display:none;}
 
 
-#id-carrier-edit{
-    color: white;
-}
 
-#id-prefeeredvendorbox{
-    width: 45%;
-    text-align: center;
-    margin-left: 33px;
-}
-#id-vendortypebox{
-    width: 45%;
-    text-align: center;
-}
-#id-vendornamebox{
-    width: 52%;
-
-}
