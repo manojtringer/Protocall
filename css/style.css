@@ -289,14 +289,14 @@ input, select, textarea {
     background-position:-10px -587px;
     width: 15px;
     height: 15px;
+    margin-left: 10px;
 }
 .add-icon{
-    background-position:-9px -508px;
-    width: 16px;
-    height: 16px
-}
+    background-position: -69px -506px;
+    width: 21px;
+    height: 19px;}
 .remove-icon{
-    background-position:-69px -506px;
+    background-position: -9px -508px;
     width: 18px;
     height: 18px;
 }
@@ -634,7 +634,7 @@ input, select, textarea {
 .prof-view-overlay:hover{color: #379ba2;opacity:1;transition:all 0.4s;background:		#FCFCFC}
 .prof-view-overlay-sort{padding:5px;border-bottom:solid 1px lightgray;font-family: 'PTSansLight';cursor:pointer;}
 .prof-view-overlay-sort:last-child{border-bottom:none;}
-.prof-view-overlay-sort:first-child{color: #379ba2;background-color:lightgray;}
+.mysortselected{color: #379ba2;background-color:lightgray;}
 
 
 /*********** Agency Info ***********************/
@@ -1277,25 +1277,25 @@ input[type=checkbox]:checked +.customer-feed-label:before {
 .mycarrierlogo-pic{
 
 
-width: 50%;
-position: relative;
-overflow: hidden;
-margin: auto;
-height: 165px;
-position: relative;
-margin-left: auto;
-margin-right: auto;
-overflow: hidden;
+    width: 50%;
+    position: relative;
+    overflow: hidden;
+    margin: auto;
+    height: 165px;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
 
 }
 .mycarrier-img-width{
     width: 100%;
-position: absolute;
-margin: auto;
-top: 0;
-left: 0;
-right: 0;
-bottom: 0;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 
 .customer-home-parent {
@@ -1379,28 +1379,28 @@ bottom: 0;
     /* left: 0px; */
 }
 .carrierlogo-pic{
-width: 50%;
-position: relative;
-overflow: hidden;
-margin: auto;
-height: 165px;
-position: relative;
-margin-left: auto;
-margin-right: auto;
-overflow: hidden;
+    width: 50%;
+    position: relative;
+    overflow: hidden;
+    margin: auto;
+    height: 165px;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
 }
 .carrier-img-width{
     width:100%;
     height: 100%;
 }
 .mycarrier-img-width{
-width: 100%;
-position: absolute;
-margin: auto;
-top: 0;
-left: 0;
-right: 0;
-bottom: 0;
+    width: 100%;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 .customer-home-parent {
     padding: 10px;
@@ -1429,7 +1429,7 @@ bottom: 0;
     width:100%;
 }
 .carrier-view-name{
-    color: #989898;
+    color: black;
     font-size: 16px;
     margin-right: 15px;
 }
@@ -1520,32 +1520,38 @@ bottom: 0;
     width:50%;
 }
 .carrier-left-width{
-    width:100%;
+    width: 100%;
     font-size: 16px;
     color: #989898;
     height: 24px;
+    /* margin-left: 10px; */
 }
 .carrier-left-title{
-    width:45%;
+    width: 31%;
+    margin-left: 35px;
 }
 .carrier-left-content{
-    width:45%;
+    width: 55%;
     font-size: 16px;
-    margin-right: 15px;
+    /* margin-right: 30px; */
     color: black;
+    overflow-y: auto;
+    height: 30px;
+    /* float: left; */
 }
 .carrier-left-content-textbox{
-    width:45%;
+    width: 49%;
     font-size: 16px;
-    margin-right: 19px;
+    margin-right: 30px;
     color: black;
     height: 24px;
     margin-left: 6%;
     /* margin-bottom: -40px; */
+    /* top: -7px; */
     border: 1px solid #CCC;
 }
 .carrier-view-rightblock{
-    width:74%;
+    width: 73%;
     /*padding:26px 0px 0px 0px;*/
 }
 .carrier-view-leftbloack{
@@ -1557,13 +1563,15 @@ bottom: 0;
 
 /************ Associated Carrier view related feed ********/
 .associated-carrierview{
-    width:100%;
+    width: 98%;
     padding: 20px 0px;
 }
 .associated-carrier-sort{
     font-size: 16px;
     margin-right: 15px;
     color: #989898;
+    width: 20%;
+    background: #E9EFF0;
 }
 .associated-carrier-feed{
     padding:10px 0px;
@@ -1672,6 +1680,7 @@ bottom: 0;
 }
 .settings-view-auth {
     padding: 10px 18px;
+    width: 430px;
 }
 .settingslogo-viewpic {
     position: relative;
@@ -1730,7 +1739,7 @@ bottom: 0;
     width: 100%;
 }
 .preffered-view-left {
-    width: 30%;
+    width: 40%;
     padding: 10px 10px 10px 10px;
 }
 .preffered-view-right {
@@ -1771,6 +1780,7 @@ bottom: 0;
     position: absolute;
     z-index: 9999;
     top: 15px;
+    /* margin-right: 25px; */
 }
 .policy-det-blk input[type=checkbox]:checked + .policy-label:before {
     content: "\2713";
@@ -1857,7 +1867,7 @@ input[type=checkbox]:checked + .vendor-label:before {
 }
 
 #id-switch-container,#id2-switch-container,#id3-switch-container,#id4-switch-container,#id5-switch-container,#id6-switch-container,#id7-switch-container,#id8-switch-container{
-    width: 150px;
+    width: 170px;
     margin-left: -8px;
 }
 #id-switch-on{
@@ -1911,7 +1921,7 @@ textarea::-webkit-input-placeholder {  color: #999;}
 .textarea{
     height: 100%;
     background-color: #ffffff;
-    color: #999;
+    color: black;
 }
 
 .txt-now{
@@ -2230,7 +2240,7 @@ textarea::-webkit-input-placeholder {  color: #999;}
 
 .o-btn {
     width: 20%;
-    height:42px;
+    height: 42px;
     line-height:40px;
     position:relative;
     margin: 20px auto;
@@ -2285,7 +2295,7 @@ textarea::-webkit-input-placeholder {  color: #999;}
     margin: 0px 0px 0px 15px;
 }
 .push-select-dropdown{
-    width: 56%;
+    width: 60%;
 
 }
 .time-dropdown-2{
@@ -2423,8 +2433,8 @@ textarea::-webkit-input-placeholder {  color: #999;}
 
 .delivery-box{
     margin-top: 15px;
-    margin-bottom: 15px;
-    border-bottom: 1px solid #c8d2d5;
+    /* margin-bottom: 15px; */
+    /* border-bottom: 1px solid #c8d2d5; */
 }
 .select-date-content{
     width: 51%;
@@ -2445,9 +2455,10 @@ textarea::-webkit-input-placeholder {  color: #999;}
     line-height: 39px;
 }
 .later-box{
-    margin-top: -10px;
+    margin-top: -40px;
     margin-bottom: 15px;
     padding: 14px;
+    border-top: 1px solid #CCC;
 }
 
 .time-content .time-dropdown{
@@ -2623,7 +2634,7 @@ textarea::-webkit-input-placeholder {  color: #999;}
 
 .alert-mess-text, .invite-reps-text, .text-color-overlay{
     color: #5c5c5c;
-    margin-bottom: 12px;
+    margin-bottom: 15px;
 }
 
 .alert-mess-text{
@@ -2979,6 +2990,11 @@ textarea::-webkit-input-placeholder {  color: #999;}
     }
 }
 
+@media print
+{
+    .noprint {display:none;}
+}
+
 
 /**************** Overlay Contents ***********************/
 
@@ -3123,7 +3139,7 @@ footer  .foot-in{
     vertical-align: top;
     margin-right: 10px;
     position: absolute;
-    z-index: 9999;
+    z-index: 1;
     top: 8px;
     right: 0px;
 }
@@ -3139,4 +3155,8 @@ footer  .foot-in{
     text-align: left;
 }
 .reps-profile-info-root{
+}
+#associatedownarrow{
+    left: -56px;
+    top: 5px;
 }

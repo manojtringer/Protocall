@@ -10,6 +10,7 @@ var browserPrefix = (/webkit/i).test(navigator.appVersion) ? 'webkit' :
 var REFERENCE_TYPE = "agency_info";
 var IsAgencyDataChanged = false;
 var IsVendorDataChanged = false;
+var SERVICEID = 0;
 //CONSTANTS
 var CONSTANTS = {
     MODAL_OPACITY: 1,
@@ -19,12 +20,15 @@ var CONSTANTS = {
         PAGE: "page", HOME_PAGE: "home", CARRIERS_PAGE: "carriers", CUSTOMERS_PAGE: "customers", MY_REP_PAGE: "myreps", LOGIN_PAGE: "login", LOGIN_YES: "login-yes", LOGOUT_YES: "logout-yes",
         VIEW_FEED: "view", FEEDS: "feeds", SHARE_TO_REP: "share", CLOSE_OVERLAY: "closeOverlay", CLOSE_POPUP: "closePopUp", EDIT_AGENCY_PIC: "editAgencyPic",
         MY_ALERTS: "myalerts", INCIDENTS: "incidents", POLICIES: "policies", MATCH_RELEASE_CLAIMS: "matchReleaseClaim", INVITE_REPS: "invitereps",
-        ASSIGN_TO_REPS: "assignrep", PHOTS_OVERLAY_DISPLAY: "photosDoc", THUMB_NAIL: "thumbNail", PREVIOUS: "previous", NEXT: "next", VIEW_CARRIER_FEEDVIEW: "viewcarrierfeedview", PUSHMESSAGE: "pushmessage", PRIVACY: "privacy", ARCHIVES: "archives", VIEW_ARCHIVES: "view_archives", SORTBY: "sortby", MY_PROFILE: "profile-link", VIEW_CUSTOMER_FEEDVIEW: "customerprofileviewfeed", SETTINGS_PAGE: "mysettings", PROFILE_PAGE: "myProfileView", SENDAPPLINK: "sendapplink", AUDIO_OVERLAY: "voiceDoc", AUDIO_PLAY: "playAudio", AGENCY_VIEW_LOAD: "agency-view-load", PREFERRED_VENDOE_VIEW_LOAD: "preferred vendors-view-load", AGENCY_EDIT_LOAD: "agency-edit-load", AGENCY_REMOVE_LOAD: "agency-remove-load", AGENCY_ADD_VENDOR_LOAD: "agency-addvendor-load", VENDOR_PROFILE_INFO: "vendor-profile-info",
+        ASSIGN_TO_REPS: "assignrep", PHOTS_OVERLAY_DISPLAY: "photosDoc", THUMB_NAIL: "thumbNail", PREVIOUS: "previous", NEXT: "next", VIEW_CARRIER_FEEDVIEW: "viewcarrierfeedview", PUSHMESSAGE: "pushmessage", PRIVACY: "privacy", ARCHIVES: "archives", VIEW_ARCHIVES: "view_archives", SORTBY: "sortby",SORTBYCARRIER:"sortbycarrier",SORTBYCUSTOMER:"sortbycustomer",SORTBYREPS:"sortbyreps", MY_PROFILE: "profile-link", VIEW_CUSTOMER_FEEDVIEW: "customerprofileviewfeed", SETTINGS_PAGE: "mysettings", PROFILE_PAGE: "myProfileView", SENDAPPLINK: "sendapplink", AUDIO_OVERLAY: "voiceDoc", AUDIO_PLAY: "playAudio", AGENCY_VIEW_LOAD: "agency-view-load", PREFERRED_VENDOE_VIEW_LOAD: "preferred vendors-view-load", AGENCY_EDIT_LOAD: "agency-edit-load", AGENCY_REMOVE_LOAD: "agency-remove-load", AGENCY_ADD_VENDOR_LOAD: "agency-addvendor-load", VENDOR_PROFILE_INFO: "vendor-profile-info",
         ASSIGN_TO_CUSTOMERS: "dt-assigncustomer", PROPERTY_POLICY: "dt-propertypolicy", HEALTH_POLICY: "dt-healthpolicy",
         VEHICLE_POLICY: "dt-vehiclepolicy", RESETPASSWORD: "dtresetpassword", SIGNUP: "dtsignup", OVERLAY_RESETPASSALERTBOX: "dtoverlayresetpassword",
         EDITPASSWORDYES: "dtoverlayrestpassyes", EDITPASSWORDNO: "dtoverlayrestpassno",
         PREVIOUS_AUDIO: "previousAudio", NEXT_AUDIO: "nextAudio", DOCUMENTSOVERLAY: "textDoc", MYPROFEDIT: "edit",
-        SORYBYRECENT: "recent", SORTBYALPHABETICAL: "alphabetical", VIEWARCHIVECHECKBOX: "archiveCheckBox", VIEWCUSTOMERFEED: "viewcustomerfeedview"
+        SORYBYRECENT: "recent", SORTBYALPHABETICAL: "alphabetical",CARRIERSORYBYRECENT: "carrier-recent",CARRIERSORTBYALPHABETICAL: "carrier-alphabetical",REPSSORYBYRECENT: "reps-recent",REPSSORTBYALPHABETICAL: "reps-alpha", CUSTOMERSORYBYRECENT: "customer-recent",CUSTOMERSORTBYALPHABETICAL: "customer-alphabetical", VIEWARCHIVECHECKBOX: "archiveCheckBox", VIEWCUSTOMERFEED: "viewcustomerfeedview",
+        BUTTON_SENDAPPLINK: "dt_overlaybtn_sendapplink",
+        BUTTON_PRIVACYSEND: "overlaybtnPrivacySend", BUTTON_ADDVENDORSEND: "overlaybtn_addvendordetails", BUTTON_SHAREWITHREP: "dt_overlaybtn_sharerepwithcustomers",
+        BUTTON_PUSHMESSAGESEND: "overlaybtn-pushmessage"
     },
     ERROR_MSG: {
         ajaxFailed: "Oops! This action could not be completed now! Please try again"
@@ -454,8 +458,11 @@ protocall.events = {
             protocall.events.handleClick(e);
 
         });
+        $(document).on("click", ".printPageClass", function (e) {
+            e.stopPropagation();
+            protocall.events.handleClick(e);
 
-
+        });
         $(document).on("click", ".mysnap", function (e) {
             $(".mysnap").css("background", "lightgrey");
             $(this).css("background", "#f34f4e");
@@ -483,6 +490,23 @@ protocall.events = {
 
 //*******************************************************************************
 
+//******************Share with Rep Click Event***********************************
+
+        $(document).on("click", ".inner-share-spacing", function () {
+            utils.server.shareToRep($(this).attr("id"));
+        });
+
+//*******************************************************************************
+
+//******************Share with Rep Click Event***********************************
+
+        $(document).on("click", ".preferredvendor", function () {
+            SERVICEID = $(this).attr("id");
+            utils.server.getResponseForPreferredVendor($(this).attr("id"));
+        });
+
+
+//*******************************************************************************
         $(document).on("click", ".overalyPhots", function (e) {
             e.stopPropagation();
             console.log(".o-content");
@@ -616,6 +640,15 @@ protocall.events = {
                     case CONSTANTS.LINK_TYPE.SORTBY:
                         protocall.view.loadSortBy($el, true);
                         break;
+		    case CONSTANTS.LINK_TYPE.SORTBYCARRIER:
+                        protocall.view.loadSortByCarrier($el, true);
+                        break;
+		    case CONSTANTS.LINK_TYPE.SORTBYCUSTOMER:
+                        protocall.view.loadSortByCustomer($el, true);
+                        break;
+		    case CONSTANTS.LINK_TYPE.SORTBYREPS:
+                        protocall.view.loadSortByReps($el, true);
+                        break;	
                     case CONSTANTS.LINK_TYPE.PUSHMESSAGE:
                         protocall.view.pushMessage($el, true);
                         break;
@@ -640,7 +673,7 @@ protocall.events = {
                 protocall.view.viewCustomerViewFeed(true);
                 break;
             case CONSTANTS.LINK_TYPE.VIEW_CARRIER_FEEDVIEW:
-                protocall.view.viewCarrierViewFeed(true,Carrieremail);
+                protocall.view.viewCarrierViewFeed(true, Carrieremail);
                 break;
             case CONSTANTS.LINK_TYPE.MY_PROFILE:
                 protocall.view.loadProfile($el);
@@ -649,7 +682,8 @@ protocall.events = {
                 protocall.view.viewFeed(true);
                 break;
             case CONSTANTS.LINK_TYPE.SHARE_TO_REP:
-                protocall.view.shareToRep();
+
+                //protocall.view.shareToRep();
                 break;
             case CONSTANTS.LINK_TYPE.ASSIGN_TO_CUSTOMERS:
 //                protocall.view.assignToCustomers();
@@ -685,24 +719,42 @@ protocall.events = {
                 protocall.view.LogoutAuthenticateYes();
                 break;
             case CONSTANTS.LINK_TYPE.AGENCY_REMOVE_LOAD:
-                var vendorCheck = document.getElementById('removevendor');
-                if (vendorCheck.checked) {
-                    console.log(00000000)
-                    //alert('vendor-remove');
-                    //$(".vendor-block-remove").remove()
-                    $(".vendor-block-remove").css({
-                        'display': 'none'
-                    });
-                } else {
-                    //alert('test');
-                    protocall.view.LoadAgencyRemove();
-                }
+
+                var index = 0;
+                var subIndex = 0;
+                var DELETELIST = [];
+                $('.checkbox').each(function () {
+                    str = this.checked ? "1" : "0";
+                    if (str == "1") {
+                        var vendorCheck = document.getElementById('removevendor_' + index);
+                        if (vendorCheck.checked) {
+                            $("#item_" + index).css({
+                                'display': 'none'
+                            });
+
+                            DELETELIST[subIndex] = $(this).val();
+                            subIndex++;
+                        } else {
+                            protocall.view.LoadAgencyRemove();
+                        }
+                    }
+                    index++;
+                });
+
+                page = "deletevendorpage";
+                var dataq = {alertList: DELETELIST};
+                callback = utils.server.getCodeResponseAssignCustomers;
+                deepPath = "deleteservice";
+                utils.server.makeServerCall(page, dataq, callback, deepPath);
+
+//               
                 break;
             case CONSTANTS.LINK_TYPE.AGENCY_ADD_VENDOR_LOAD:
                 protocall.view.LoadAddVendor();
                 break;
             case CONSTANTS.LINK_TYPE.VENDOR_PROFILE_INFO:
-                protocall.view.LoadVendorInfo();
+
+
                 break;
             case CONSTANTS.LINK_TYPE.CLOSE_OVERLAY:
                 protocall.closeOverlay();
@@ -732,8 +784,30 @@ protocall.events = {
             case CONSTANTS.LINK_TYPE.SORTBYALPHABETICAL:
                 protocall.view.loadSortByAlphabetical($el, true);
                 break;
+	    case CONSTANTS.LINK_TYPE.CARRIERSORYBYRECENT:
+                protocall.view.loadSortByRecentCarrier($el, true);
+                break;
+            case CONSTANTS.LINK_TYPE.CARRIERSORTBYALPHABETICAL:
+                protocall.view.loadSortByAlphabeticalCarrier($el, true);
+                break;
+	    case CONSTANTS.LINK_TYPE.CUSTOMERSORYBYRECENT:
+                protocall.view.loadSortByRecentCustomers($el, true);
+                break;
+            case CONSTANTS.LINK_TYPE.CUSTOMERSORTBYALPHABETICAL:
+                protocall.view.loadSortByAlphabeticalCustomer($el, true);
+                break;
+	    case CONSTANTS.LINK_TYPE.REPSSORYBYRECENT:
+                protocall.view.loadSortByRecentReps($el, true);
+                break;
+            case CONSTANTS.LINK_TYPE.REPSSORTBYALPHABETICAL:
+                protocall.view.loadSortByAlphabeticalReps($el, true);
+                break;
+
             case CONSTANTS.LINK_TYPE.VIEWARCHIVECHECKBOX:
                 protocall.view.archiveFeeds($el, true);
+                break;
+            case CONSTANTS.LINK_TYPE.PRINTPAGE:
+                protocall.view.printOverlayPage($el, true);
                 break;
                 /*Naveen Chnages 19-2-2015 start */
             case CONSTANTS.LINK_TYPE.SIGNUP:
@@ -754,6 +828,24 @@ protocall.events = {
                 break;
             case CONSTANTS.LINK_TYPE.EDITPASSWORDNO:
                 protocall.closeOverlay();
+                break;
+            case CONSTANTS.LINK_TYPE.BUTTON_ASSIGNCUSTOMERS:
+                utils.server.submitAssignCustomersData();
+                break;
+            case CONSTANTS.LINK_TYPE.BUTTON_SHAREWITHREP:
+                utils.server.submitShareWithRepsData();
+                break;
+            case CONSTANTS.LINK_TYPE.BUTTON_SENDAPPLINK:
+                utils.server.submitSendAppLinkData();
+                break;
+            case CONSTANTS.LINK_TYPE.BUTTON_PRIVACYSEND:
+                utils.server.submitPrivacyData();
+                break;
+            case CONSTANTS.LINK_TYPE.BUTTON_ADDVENDORSEND:
+                utils.server.submitAddVendorDetails();
+                break;
+            case CONSTANTS.LINK_TYPE.BUTTON_PUSHMESSAGESEND:
+                utils.server.submitPushMessage();
                 break;
 
 
@@ -1010,7 +1102,7 @@ protocall.view = {
         protocall.view.buildSubMenuBlk(CONSTANTS.LINK_TYPE.PROFILE_PAGE);
         protocall.displaySpinner(false);
     },
-    viewCarrierViewFeed: function (isClickEvent,Carrieremail) {
+    viewCarrierViewFeed: function (isClickEvent, Carrieremail) {
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.CARRIERS_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_CARRIER_FEEDVIEW);
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CARRIERS_PAGE);
         if (isClickEvent) {
@@ -1018,7 +1110,7 @@ protocall.view = {
         }
 
         protocall.carrier.loadFeed(Carrieremail);
-       
+
         protocall.displaySpinner(false);
     },
     viewCustomerFeed: function (isClickEvent, emailId) {
@@ -1030,11 +1122,11 @@ protocall.view = {
         protocall.customer.loadCustomersViewFeed(emailId);
         //Call the below dynamically
         /*var breadCrumbObj = {};
-        breadCrumbObj.customerName = "Way to Safe";
-        $('.tab-rb-submenu a').each(function () {
-            protocall.view.setSelectedLinkClasses($(this), false);
-        });
-        protocall.view.buildSubMenuBlk(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE, breadCrumbObj);*/
+         breadCrumbObj.customerName = "Way to Safe";
+         $('.tab-rb-submenu a').each(function () {
+         protocall.view.setSelectedLinkClasses($(this), false);
+         });
+         protocall.view.buildSubMenuBlk(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE, breadCrumbObj);*/
         protocall.displaySpinner(false);
     },
     /*Naveen Chnages 19-2-2015 start */
@@ -1151,16 +1243,81 @@ protocall.view = {
         }
     },
     loadSortBy: function ($el) {
-        console.log("$e1");
+      
         var html = '<div><div class="snap prof-view-overlay-sort" data-type="recent">Recent</div><div class="snap prof-view-overlay-sort" data-type="alphabetical">Alphabetical</div></div>';
         popUpContent.togglePopUpContent($el, html);
     },
+    loadSortByCustomer: function ($el) {
+       	
+        var html = '<div><div class="snap '+localStorage.myvalue1+' prof-view-overlay-sort" id="Myrecent" data-type="customer-recent">Recent</div><div class="snap '+localStorage.myvalue2+' prof-view-overlay-sort" data-type="customer-alphabetical" id="Myalphabet">Alphabetical</div></div>';
+        popUpContent.togglePopUpContent($el, html);
+    },
+    
+    loadSortByCarrier: function ($el) {
+       	
+        var html = '<div><div class="snap '+localStorage.mycarvalue1+' prof-view-overlay-sort" id="Myrecent" data-type="carrier-recent">Recent</div><div class="snap '+localStorage.mycarvalue2+' prof-view-overlay-sort" data-type="carrier-alphabetical" id="Myalphabet">Alphabetical</div></div>';
+        popUpContent.togglePopUpContent($el, html);
+    },	
+    
+    loadSortByReps: function ($el) {   	
+        var html = '<div><div class="snap '+localStorage.myrepvalue1+' prof-view-overlay-sort" id="Myrecent" data-type="reps-recent">Recent</div><div class="snap '+localStorage.myrepvalue2+' prof-view-overlay-sort" data-type="reps-alpha" id="Myalphabet">Alphabetical</div></div>';
+        popUpContent.togglePopUpContent($el, html);
+    },
+	
     loadSortByRecent: function ($el) {
         protocall.view.sortyByRecnetView();
     },
     loadSortByAlphabetical: function ($el) {
         protocall.view.sortyByAlphabeticalView();
     },
+
+    loadSortByRecentCarrier: function ($el) {
+	localStorage.mycarvalue1 = 'mysortselected';
+	localStorage.mycarvalue2 = '';
+        protocall.view.sortyByCarrierRecnetView();
+    },
+    loadSortByAlphabeticalCarrier: function ($el) {
+        localStorage.mycarvalue1 = '';
+        localStorage.mycarvalue2 = 'mysortselected';
+        protocall.view.sortyByCarrierAlphabeticalView();
+    },
+	
+    loadSortByRecentCustomers: function ($el) {
+	localStorage.myvalue1 = 'mysortselected';
+	localStorage.myvalue2 = '';
+        protocall.view.sortyByCustomerRecnetView();
+    },
+    loadSortByAlphabeticalCustomer: function ($el) {
+        localStorage.myvalue1 = '';
+        localStorage.myvalue2 = 'mysortselected';
+        protocall.view.sortyByCustomerAlphabeticalView();
+    },
+
+    loadSortByRecentReps: function ($el) {
+	localStorage.myrepvalue1 = 'mysortselected';
+	localStorage.myrepvalue2 = '';
+        protocall.view.sortyByRepsRecnetView();
+    },
+    loadSortByAlphabeticalReps: function ($el) {
+        localStorage.myrepvalue1 = '';
+        localStorage.myrepvalue2 = 'mysortselected';
+        protocall.view.sortyByRepsAlphabeticalView();
+    },
+
+    sortyByRepsRecnetView: function () {
+	
+        popUpContent.closePopUpContent();
+        protocall.myRep.initMyRepsPage();
+        return false;
+    },
+    sortyByRepsAlphabeticalView: function () {
+	
+	popUpContent.closePopUpContent();
+	protocall.myRep.initMyRepsPageSort();
+        return false;
+        
+    },		
+		
     sortyByRecnetView: function () {
         $("div.submenu-sort div:nth-child(1)").text("Recent");
         popUpContent.closePopUpContent();
@@ -1175,6 +1332,34 @@ protocall.view = {
         HOMEPAGERESPONSE.SORTBYALPHABETICALVIEW = true;
         protocall.home.initHomePage();
     },
+    
+    sortyByCarrierRecnetView: function () {
+	
+        popUpContent.closePopUpContent();
+        protocall.carrier.initCarrierPage();
+        return false;
+    },
+    sortyByCarrierAlphabeticalView: function () {
+	
+	popUpContent.closePopUpContent();
+	protocall.carrier.initCarrierPageSort();
+        return false;
+        
+    },
+	
+    sortyByCustomerRecnetView: function () {
+	
+        popUpContent.closePopUpContent();
+        protocall.customer.initCustomerPage();
+        return false;
+    },
+    sortyByCustomerAlphabeticalView: function () {
+	
+	popUpContent.closePopUpContent();
+	protocall.customer.initCustomerPageSort();
+        return false;
+        
+    },
     loadProfile: function ($el) {
         var html = '<div><div class="prof-view-overlay snap myProfileView" data-type="myProfileView">My Profile</div><div class="prof-view-overlay snap mysettings" data-type="mysettings">Settings</div>'
                 + '<div class="prof-view-overlay">Help</div><div class="prof-view-overlay snap" data-type="logout-yes">Log out</div></div>';
@@ -1184,9 +1369,13 @@ protocall.view = {
         var html = staticTemplate.home.shareWithRepTemplate();
         overlay.displayOverlay(html);
     },
-    assignToCustomers: function (repemailidvalue) {
-        var html = staticTemplate.home.assignCustomersTemplate(repemailidvalue);
-        overlay.displayOverlay(html);
+    assignToCustomers: function () {
+        protocall.displaySpinner(true);
+        var page = "pageassigncustomersoverlay";
+        var data = {};
+        var callback = utils.server.gotAssignCustomersResponse;
+        var deepPath = "userlist";
+        utils.server.makeServerCall(page, data, callback, deepPath);
     },
     properityPolicy: function () {
         var html = staticTemplate.home.properyPolicyTemplate();
@@ -1213,16 +1402,31 @@ protocall.view = {
         overlay.displayOverlay(html);
     },
     sendAppLink: function () {
-        var html = staticTemplate.home.sendAppLinkTemplate();
-        overlay.displayOverlay(html);
+        protocall.displaySpinner(true);
+//        page = "sendapplinkpage";
+//        var data = {};
+//        callback = utils.server.gotSendAppLinkResponse;
+//        deepPath = "";
+        var page = "pagesharewithrepoverlay";
+        var data = {};
+        var callback = utils.server.gotSendAppLinkResponse;
+        var deepPath = "userlist";
+        utils.server.makeServerCall(page, data, callback, deepPath);
     },
     LoadAgencyInfo: function () {
 
+        $('.settings-agency-bar').css("background-color", "#f34f4e");
+        $('#id-agency-view-load').css("color", "white");
+        $('.settings-vendor-bar').css("background-color", "#ccc");
+        $('#id-preferred-vendors-view-load').css("color", "black");
+        $('.success').css("visibility", "hidden");
+        $('.error').css("visibility", "hidden");
         if (IsVendorDataChanged === true) {
             editVendorSaveData();
             IsVendorDataChanged = false;
         }
         REFERENCE_TYPE = "agency_info";
+
 
         $(".agency-view-block").css({
             'display': 'block'
@@ -1248,10 +1452,14 @@ protocall.view = {
     },
     LoadPreferrredvendorInfo: function () {
 
-        if (IsAgencyDataChanged === true) {
-            editAgencySaveData();
-            IsAgencyDataChanged = false;
-        }
+        $('.settings-vendor-bar').css("background-color", "#f34f4e");
+        $('#id-preferred-vendors-view-load').css("color", "white");
+        $('.settings-agency-bar').css("background-color", "#ccc");
+        $('#id-agency-view-load').css("color", "black");
+        $('.success').css("visibility", "hidden");
+        $('.error').css("visibility", "hidden");
+
+
 
         REFERENCE_TYPE = "vendor_info";
         $(".agency-view-block").css({
@@ -1275,6 +1483,11 @@ protocall.view = {
         $(".addvendor-bar").css({
             'display': 'block'
         });
+
+        if (IsAgencyDataChanged === true) {
+            editAgencySaveData();
+            IsAgencyDataChanged = false;
+        }
     },
     LoadAgencyRemove: function () {
         $(".agency-view-block").css({
@@ -1341,8 +1554,14 @@ protocall.view = {
         overlay.displayOverlay(html);
     },
     privacy: function () {
-        var html = staticTemplate.home.privacyTemplate();
-        overlay.displayOverlay(html);
+
+        page = "privacyoverlay";
+        var data = {};
+        callback = utils.server.gotPrivacyResponse;
+        deepPath = "agencyrepresentativenamewithlocation";
+        utils.server.makeServerCall(page, data, callback, deepPath);
+//        var html = staticTemplate.home.privacyTemplate();
+//        overlay.displayOverlay(html);
     },
     /*Added by Naveen -- Start*/
     /*Naveen Chnages 19-2-2015 start */
@@ -1357,6 +1576,13 @@ protocall.view = {
             console.log("clickedID", clickedAlertID);
             var html = staticTemplate.home.showPhotsOverlayTemplate(clickedAlertID);
             overlay.displayOverlay(html);
+            $("#printImageICON").addClass("printPageClass");
+            if (RESPONSE.PICTUREDETAILS.length == 1) {
+                $("#previousICON").css("display", "none");
+                $("#nextICON").css("display", "none");
+            } else {
+                $("#nextICON").css("display", "block");
+            }
             overlay.sliderControl();
             $("#thumbNailViewForImages div:nth-child(1)").addClass("activeAudio");
         }
@@ -1372,6 +1598,7 @@ protocall.view = {
             var html = staticTemplate.home.showAudioOverlayTemplate(clickedAlertID);
             overlay.displayOverlay(html);
             overlay.audioInit();
+            $("#thumbNailViewForVoice div:nth-child(1)").addClass("activeAudio");
         }
     },
     /*Naveen 23-2-2015 Changes Start */
@@ -1389,6 +1616,12 @@ protocall.view = {
             overlay.documentInIt();
             $("#thumbNailDocs div:nth-child(1)").addClass("activeAudio");
         }
+    },
+    printOverlayPage: function () {
+        console.log("printOverlayPage");
+        $("#page").addClass("noprint");
+        $("footer").addClass("noprint");
+        window.print();
     },
     /*Naveen 23-2-2015 Changes End */
     /*Added by Naveen -- End*/
@@ -1530,9 +1763,11 @@ protocall.view = {
         $("#thumbNailViewForImages>div").removeClass("activeAudio");
         currentTarget.addClass("activeAudio");
         var currentMediaID = currentTarget.attr("name"), mainAudioHTML = "";
+        console.log("currentMediaID", currentMediaID);
         $.each(RESPONSE.PICTUREDETAILS, function (i, element) {
             console.log("media id", element.mediaId);
             if (currentMediaID == element.mediaId) {
+                $("#downloadImageLink").attr("href", HOMEPAGERESPONSE.PROFILEAPI + element.file);
                 mainImageHTML = '<img src=' + HOMEPAGERESPONSE.PROFILEAPI + element.file + ' style="max-height: 220px;max-width: 300px;" />';
                 imageInformationHTML = element.imageText;
             }
@@ -1630,6 +1865,7 @@ protocall.view = {
         });
     },
     loadingScrollNext: function (liEleme) {
+        $("#previousICON").css("display", "block");
         var indexValue = $("#thumbNailViewForImages div").index(liEleme) + 1, nextElementToBeloaded;
         if (indexValue !== 0 && indexValue < $("#thumbNailViewForImages div").length) {
             nextElementToBeloaded = $("#thumbNailViewForImages div:eq( " + indexValue + " )");
@@ -1637,9 +1873,13 @@ protocall.view = {
             nextElementToBeloaded.addClass("activeAudio");
             imageSrcTobeLoadedBack = nextElementToBeloaded.find("img").attr("src");
             $("#viewImage").html('<img src=' + imageSrcTobeLoadedBack + ' style="max-height: 220px;max-width: 300px;"/>');
+        } else {
+            $("#nextICON").css("display", "none");
+            $("#previousICON").css("display", "block");
         }
     },
     loadingScrollPrevious: function (liEleme) {
+        $("#nextICON").css("display", "block");
         var indexValue = $("#thumbNailViewForImages div").index(liEleme) - 1, nextElementToBeloaded;
         console.log("loadingScrollBack" + indexValue);
         if (indexValue !== -1) {
@@ -1649,6 +1889,9 @@ protocall.view = {
             imageSrcTobeLoadedBack = nextElementToBeloaded.find("img").attr("src");
             console.log("imageSrcTobeLoaded" + imageSrcTobeLoadedBack);
             $("#viewImage").html('<img src=' + imageSrcTobeLoadedBack + ' style="max-height: 220px;max-width: 300px;"/>');
+        } else {
+            $("#previousICON").css("display", "none");
+            $("#nextICON").css("display", "block");
         }
     },
     /*Naveen 19-2-2015 Chnage end*/
@@ -1662,19 +1905,15 @@ protocall.view = {
             console.log("media id", element.mediaId);
             if (currentMediaID == element.mediaId) {
                 console.log("condition satisfied");
-                mainAudioHTML = '<p class="spanCLassElement t-left f-color-green opensans-regular" style="margin:0px">' + element.fileName + '<span  style="font-size:11px">,New jersy</span></p>'
-                        + '<p style="color:#939393;font-size:12px">' + element.timeStamp + '</p>'
-                        + '<div style="padding:30px;border-top: 1px solid #b9b8b8;margin-top: 10px;width: 476px;">'
-                        + '<audio id="music" preload="none" controls style="position: relative;left: 75px;top: 25px;">'
-                        + '<source src=' + element.audioSourceURL + '>'
-                        + '<source src=' + element.audioSourceURL + '>'
-                        + '</audio>';
+                $("#downloadAudioLink").attr("href", HOMEPAGERESPONSE.PROFILEAPI + element.file);
+                mainAudioHTML = '<source src=' + HOMEPAGERESPONSE.PROFILEAPI + element.file + '>'
+                        + '<source src=' + HOMEPAGERESPONSE.PROFILEAPI + element.file + '>';
                 /*+ '<div class="voice-ctrler">'
                  + '<div class="audioOverlay" data-type="previousAudio" style="cursor:pointer;">prev</div><div><button id="pButton2" class="play audioOverlay" data-type="playAudio"></button></div><div class="audioOverlay" data-type="nextAudio" style="cursor:pointer;">next</div>'
                  + '</div>'; */
             }
         });
-        $("#originalAudio").html(mainAudioHTML);
+        $("#music").html(mainAudioHTML);
     },
     displayPreviousAudio: function () {
         var $divElement = $("#audioThumbNailView"), activeAudioClass = false;
@@ -1965,8 +2204,7 @@ protocall.home = {
     /*Naveen 19-2-2015 Chnage end*/
 };
 protocall.carrier = {
-    
-
+   
     initCarrierPage: function () {
 
 
@@ -1980,11 +2218,24 @@ protocall.carrier = {
         utils.server.makeServerCall(page, data, callback, deepPath);
 
     },
+	
+    initCarrierPageSort: function () {
 
-    
+
+        var page = "carriers";
+        var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
+        deepPath = "carrierlistsortedbyname",
+                page = "home",
+                callback = CarrierdynamicTemplate.carrier.loadcarriercontentSort,
+                authId = "",
+                spinnerMsg = "";
+        utils.server.makeServerCall(page, data, callback, deepPath);
+
+    },
+
     loadFeed: function (Carrieremail) {
 
-         var html = staticTemplate.carriers.staticCarrierFeedViewTemplate(Carrieremail);
+        var html = staticTemplate.carriers.staticCarrierFeedViewTemplate(Carrieremail);
         $(".content-holder").empty();
         $(".content-holder").append($(html));
         var totalHTML = "";
@@ -1999,59 +2250,61 @@ protocall.carrier = {
         $(".rel-feeds-content").append($(totalHTML));
     }
 
-    
+
 };
 protocall.customer = {
-    initCustomerPage: function () {
-        var page = "customers";
-        var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
-        deepPath = "agencydashboarddesign",
-                page = "customers",
-                callback = CustomerdynamicTemplate.customer.loadcustomercontent,
-                authId = "",
-                spinnerMsg = "";
-        utils.server.makeServerCall(page, data, callback, deepPath);
 
-//        var header = CustomerdynamicTemplate.carrier.CustomerDynamicHeaderTemplate();
-//        var template = "<div>My test customer content</div>";
-//        var content = '<div class="container"> <div class="content-holder">' + template + '</div></div></div></div>';
-//        var footer = HomedynamicTemplate.home.HomeDynamicFooterTemplate();
-//
-//        $("#page").empty();
-//        totalHtml = header + content + footer;
-//        $("#page").append(totalHtml);
-//        protocall.displaySpinner(false);
-0
+	initCustomerPage: function () {
+        
+		var page = "customers";
+		var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
+		deepPath = "agencydashboarddesign",
+		        page = "customers",
+		        callback = CustomerdynamicTemplate.customer.loadcustomercontent,
+		        authId = "",
+		        spinnerMsg = "";
+		utils.server.makeServerCall(page, data, callback, deepPath);
+	},
 
-    },
-
-loadCustomersViewFeed: function (emailID) {
-        var data = JSON.parse(localStorage.getItem("customers_data"));
-        console.log(data);
-
-        var html = "";
-        var status = 0;
-        for (var index = 0; index < data.length; index++) {
-            var element = data[index];
-
-            if (element.emailId.email == emailID) {
-                html = staticTemplate.customers.staticCustomerViewTemplate(element);
-                status = 1;
-            }
-        }
-
-        if (status == 0) {
-            html = "<div> No Records </div>";
-        }
-
-        $(".content-holder").empty();
-        $(".content-holder").append($(html));
-        $(".container").addClass("container-maxwidth");
-        $(".container").removeClass("container");
-        $(".rel-feeds-content").empty();
-        $(".rel-feeds-content").append(html);
+        initCustomerPageSort: function () {
+		
+		var page = "customers";
+		var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
+		deepPath = "userlistsortedbyname",
+		        page = "customers",
+		        callback = CustomerdynamicTemplate.customer.loadcustomercontentSortedbyName,
+		        authId = "",
+		        spinnerMsg = "";
+		utils.server.makeServerCall(page, data, callback, deepPath);
+	},
     
+	loadCustomersViewFeed: function (emailID) {
+		var data = JSON.parse(localStorage.getItem("customers_data"));
+		
+		var html = "";
+		var status = 0;
+		for (var index = 0; index < data.length; index++) {
+		    var element = data[index];
+
+		    if (element.emailId.email == emailID) {
+		        html = staticTemplate.customers.staticCustomerViewTemplate(element);
+		        status = 1;
+		    }
+		}
+
+		if (status == 0) {
+		    html = "<div> No Records </div>";
+		}
+
+		$(".content-holder").empty();
+		$(".content-holder").append($(html));
+		$(".container").addClass("container-maxwidth");
+		$(".container").removeClass("container");
+		$(".rel-feeds-content").empty();
+		$(".rel-feeds-content").append(html);
+
     },
+
     loadFeedSetting: function () {
         var html = staticTemplate.customers.staticSettingViewTemplate();
         $(".content-holder").empty();
@@ -2085,7 +2338,9 @@ loadCustomersViewFeed: function (emailID) {
 }
 
 protocall.myRep = {
-    initMyRepsPage: function () {
+    
+
+   initMyRepsPage: function () {
         var page = "myrepspage";
         var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
         deepPath = "agencydashboarddesign",
@@ -2095,17 +2350,24 @@ protocall.myRep = {
                 spinnerMsg = "";
         utils.server.makeServerCall(page, data, callback, deepPath);
 
-//        var header = MyrepsdynamicTemplate.myreps.MyrepsDynamicHeaderTemplate();
-//        var template = MyrepsdynamicTemplate.myreps.MyrepsDynamicList();
-//        var content = '<div class="container"> <div class="content-holder">' + template + '</div></div></div></div>';
-//        var footer = HomedynamicTemplate.home.HomeDynamicFooterTemplate();
-//
-//        $("#page").empty();
-//        totalHtml = header + content + footer;
-//        $("#page").append(totalHtml);
-//        protocall.displaySpinner(false);
+
 
     },
+
+    initMyRepsPageSort: function () {
+        var page = "myrepspage";
+        var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
+        deepPath = "agencyrepresentativelistsortedbyname",
+                page = "myrepspage",
+                callback = MyrepsdynamicTemplate.myreps.MyrepsDynamicListSort,
+                authId = "",
+                spinnerMsg = "";
+        utils.server.makeServerCall(page, data, callback, deepPath);
+
+
+
+    },	
+
     loadHomePageData: function (data, page) {
         //console.log(data, page);
         feedHTML1 = '<div class="customer-home-parent clr-fl p-relative">';
@@ -2161,18 +2423,9 @@ protocall.myProfile = {
 
         var page = "settings";
         var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"};
-        var callback = protocall.myProfile.MysettingsResponse;
-        var deepPath = "readagency";
-        console.log(data);
-        var response = utils.server.makeServerCall(page, data, callback, deepPath);
-        this.setSelectedClassPopContent($el);
-    },
-    MysettingsResponse: function (data) {
-        console.log(data);
-        var html = staticTemplate.customers.staticSettingsTemplate(data);
-        $(".content-holder").empty();
-        $(".content-holder").append($(html));
-
+        var callback = utils.server.MysettingsResponse;
+        var deepPath = "settingsinagencydesign";
+        utils.server.makeServerCall(page, data, callback, deepPath);
     },
     loadMyProfileView: function ($el) {
         popUpContent.closePopUpContent();
@@ -2288,14 +2541,32 @@ function readURL(input) {
     }
 }
 
+function minTwoDigits(n) {
+    return (n < 10 ? '0' : '') + n;
+}
+function loadtimePicker() {
+
+
+    for (var hour = 1; hour <= 12; hour++) {
+        for (var min = 5; min < 60; min = min + 5) {
+            $("#pushmessagetimepicker").append('<option> ' + minTwoDigits(hour) + " : " + minTwoDigits(min) + '</option>');
+        }
+    }
+
+}
+
 function checkboxStatus(idValue) {
+
 
     if (idValue === "radio-button-now") {
         document.getElementById("radio-button-now").checked = true;
         document.getElementById("radio-button-later").checked = false;
+        $(".later-box").css("display", "none");
     } else if (idValue === "radio-button-later") {
         document.getElementById("radio-button-now").checked = false;
         document.getElementById("radio-button-later").checked = true;
+        $(".later-box").css("display", "block");
+        loadtimePicker();
     } else if (idValue === "radio-button-public") {
         document.getElementById("radio-button-public").checked = true;
         document.getElementById("radio-button-private").checked = false;
@@ -2312,19 +2583,43 @@ function checkboxStatus(idValue) {
 }
 
 
-function moveani(idValue, idcontainerValue) {
+function hideVendorTextboxes() {
+    $("#id-vendor-preferredvendorid").css("visibility", "hidden");
+    $("#id-vendor-type").css("visibility", "hidden");
+    $("#id-vendor-name").css("visibility", "hidden");
+    $("#id-vendor-phone").css("visibility", "hidden");
+    $("#id-vendor-address1").css("visibility", "hidden");
+    $("#id-vendor-address2").css("visibility", "hidden");
+    $("#id-vendor-city").css("visibility", "hidden");
+    $("#id-vendor-state").css("visibility", "hidden");
+    $("#id-vendor-zipcode").css("visibility", "hidden");
+}
 
-    if (idValue === "id-switch-off") {
-        document.getElementById(idcontainerValue).style.marginLeft = "50px";
-    } else if (idValue === "id-switch-on") {
-        document.getElementById(idcontainerValue).style.marginLeft = "-8px";
-    }
+if (idValue === "id-switch-off") {
+    document.getElementById(idcontainerValue).style.marginLeft = "50px";
+} else if (idValue === "id-switch-on") {
+    document.getElementById(idcontainerValue).style.marginLeft = "-8px";
+}
 
+function hideAgencyTextboxes() {
+    $("#id-carrier-agencyid").css("visibility", "hidden");
+    $("#id-carrier-masteragencyid").css("visibility", "hidden");
+    $("#id-carrier-agencytype").css("visibility", "hidden");
+    $("#id-carrier-agencyname").css("visibility", "hidden");
+    $("#id-carrier-agencyaddress1").css("visibility", "hidden");
+    $("#id-carrier-agencyaddress2").css("visibility", "hidden");
+    $("#id-carrier-agencycity").css("visibility", "hidden");
+    $("#id-carrier-agencystate").css("visibility", "hidden");
+    $("#id-carrier-agencyzipcode").css("visibility", "hidden");
+    $("#id-carrier-agencyphone").css("visibility", "hidden");
+    $("#id-carrier-agencyemail").css("visibility", "hidden");
 }
 
 
 function editAgencySaveData() {
     addBottomBorder();
+
+    hideAgencyTextboxes();
     document.getElementById("id-carrier-edit").innerHTML = "edit";
     document.getElementById("id-c-agencyid").innerHTML = document.getElementById("id-carrier-agencyid").value;
     document.getElementById("id-c-masteragencyid").innerHTML = document.getElementById("id-carrier-masteragencyid").value;
@@ -2337,81 +2632,107 @@ function editAgencySaveData() {
     document.getElementById("id-c-agencyzip").innerHTML = document.getElementById("id-carrier-agencyzipcode").value;
     document.getElementById("id-c-agencyphone").innerHTML = document.getElementById("id-carrier-agencyphone").value;
     document.getElementById("id-c-agencyemail").innerHTML = document.getElementById("id-carrier-agencyemail").value;
-    document.getElementById("id-c-agencyid").style.visibility = "visible";
-    document.getElementById("id-c-masteragencyid").style.visibility = "visible";
-    document.getElementById("id-c-agencytype").style.visibility = "visible";
-    document.getElementById("id-c-agencyname").style.visibility = "visible";
-    document.getElementById("id-c-agencyaddress1").style.visibility = "visible";
-    document.getElementById("id-c-agencyaddress2").style.visibility = "visible";
-    document.getElementById("id-c-agencycity").style.visibility = "visible";
-    document.getElementById("id-c-agencystate").style.visibility = "visible";
-    document.getElementById("id-c-agencyzip").style.visibility = "visible";
-    document.getElementById("id-c-agencyphone").style.visibility = "visible";
-    document.getElementById("id-c-agencyemail").style.visibility = "visible";
-    document.getElementById("id-carrier-agencyid").style.visibility = "hidden";
-    document.getElementById("id-carrier-masteragencyid").style.visibility = "hidden";
-    document.getElementById("id-carrier-agencytype").style.visibility = "hidden";
-    document.getElementById("id-carrier-agencyname").style.visibility = "hidden";
-    document.getElementById("id-carrier-agencyaddress1").style.visibility = "hidden";
-    document.getElementById("id-carrier-agencyaddress2").style.visibility = "hidden";
-    document.getElementById("id-carrier-agencycity").style.visibility = "hidden";
-    document.getElementById("id-carrier-agencystate").style.visibility = "hidden";
-    document.getElementById("id-carrier-agencyzipcode").style.visibility = "hidden";
-    document.getElementById("id-carrier-agencyphone").style.visibility = "hidden";
-    document.getElementById("id-carrier-agencyemail").style.visibility = "hidden";
+    $("#id-c-agencyid").show();
+    $("#id-c-masteragencyid").show();
+    $("#id-c-agencytype").show();
+    $("#id-c-agencyname").show();
+    $("#id-c-agencyaddress1").show();
+    $("#id-c-agencyaddress2").show();
+    $("#id-c-agencycity").show();
+    $("#id-c-agencystate").show();
+    $("#id-c-agencyzip").show();
+    $("#id-c-agencyphone").show();
+    $("#id-c-agencyemail").show();
+
+    var agencyid = document.getElementById("id-carrier-agencyid").value;
+    var masteragencyid = document.getElementById("id-carrier-masteragencyid").value;
+    var agencytype = document.getElementById("id-carrier-agencytype").value;
+    var agencyname = document.getElementById("id-carrier-agencyname").value;
+    var agencyaddress1 = document.getElementById("id-carrier-agencyaddress1").value;
+    var agencyaddress2 = document.getElementById("id-carrier-agencyaddress2").value;
+    var agencycity = document.getElementById("id-carrier-agencycity").value;
+    var agencystate = document.getElementById("id-carrier-agencystate").value;
+    var agencyzipcode = document.getElementById("id-carrier-agencyzipcode").value;
+    var agencyphone = document.getElementById("id-carrier-agencyphone").value;
+    var agencyemail = document.getElementById("id-carrier-agencyemail").value;
+
+    page = "agencysavepage";
+    var data = {agencyId: masteragencyid, agencyName: agencyname, address: agencyaddress1, address2: agencyaddress2, agencyOwner: "agencyowner", agencyType: agencytype, carrierAgencyId: agencyid
+        , city: agencycity, state: agencystate, zipcode: agencyzipcode, phone: agencyphone, emailId: agencyemail};
+    utils.server.displayMessage("Successfully Saved..!");
+    deepPath = "editagency";
+    utils.server.makeServerCall(page, data, null, deepPath);
+
+
 }
 
 function editAgencyEditData() {
     removerBottomBorder();
     document.getElementById("id-carrier-edit").innerHTML = "Save";
-    document.getElementById("id-c-agencyid").style.visibility = "hidden";
-    document.getElementById("id-c-masteragencyid").style.visibility = "hidden";
-    document.getElementById("id-c-agencytype").style.visibility = "hidden";
-    document.getElementById("id-c-agencyname").style.visibility = "hidden";
-    document.getElementById("id-c-agencyaddress1").style.visibility = "hidden";
-    document.getElementById("id-c-agencyaddress2").style.visibility = "hidden";
-    document.getElementById("id-c-agencycity").style.visibility = "hidden";
-    document.getElementById("id-c-agencystate").style.visibility = "hidden";
-    document.getElementById("id-c-agencyzip").style.visibility = "hidden";
-    document.getElementById("id-c-agencyphone").style.visibility = "hidden";
-    document.getElementById("id-c-agencyemail").style.visibility = "hidden";
-    document.getElementById("id-carrier-agencyid").style.visibility = "visible";
-    document.getElementById("id-carrier-masteragencyid").style.visibility = "visible";
-    document.getElementById("id-carrier-agencytype").style.visibility = "visible";
-    document.getElementById("id-carrier-agencyname").style.visibility = "visible";
-    document.getElementById("id-carrier-agencyaddress1").style.visibility = "visible";
-    document.getElementById("id-carrier-agencyaddress2").style.visibility = "visible";
-    document.getElementById("id-carrier-agencycity").style.visibility = "visible";
-    document.getElementById("id-carrier-agencystate").style.visibility = "visible";
-    document.getElementById("id-carrier-agencyzipcode").style.visibility = "visible";
-    document.getElementById("id-carrier-agencyphone").style.visibility = "visible";
-    document.getElementById("id-carrier-agencyemail").style.visibility = "visible";
+    $("#id-c-agencyid").hide();
+    $("#id-c-masteragencyid").hide();
+    $("#id-c-agencytype").hide();
+    $("#id-c-agencyname").hide();
+    $("#id-c-agencyaddress1").hide();
+    $("#id-c-agencyaddress2").hide();
+    $("#id-c-agencycity").hide();
+    $("#id-c-agencystate").hide();
+    $("#id-c-agencyzip").hide();
+    $("#id-c-agencyphone").hide();
+    $("#id-c-agencyemail").hide();
+
+    $("#id-carrier-agencyid").css("visibility", "visible");
+    $("#id-carrier-masteragencyid").css("visibility", "visible");
+    $("#id-carrier-agencytype").css("visibility", "visible");
+    $("#id-carrier-agencyname").css("visibility", "visible");
+    $("#id-carrier-agencyaddress1").css("visibility", "visible");
+    $("#id-carrier-agencyaddress2").css("visibility", "visible");
+    $("#id-carrier-agencycity").css("visibility", "visible");
+    $("#id-carrier-agencystate").css("visibility", "visible");
+    $("#id-carrier-agencyzipcode").css("visibility", "visible");
+    $("#id-carrier-agencyphone").css("visibility", "visible");
+    $("#id-carrier-agencyemail").css("visibility", "visible");
+
+
+    document.getElementById("id-carrier-agencyid").value = document.getElementById("id-c-agencyid").innerHTML;
+    document.getElementById("id-carrier-masteragencyid").value = document.getElementById("id-c-masteragencyid").innerHTML;
+    document.getElementById("id-carrier-agencytype").value = document.getElementById("id-c-agencytype").innerHTML;
+    document.getElementById("id-carrier-agencyname").value = document.getElementById("id-c-agencyname").innerHTML;
+    document.getElementById("id-carrier-agencyaddress1").value = document.getElementById("id-c-agencyaddress1").innerHTML;
+    document.getElementById("id-carrier-agencyaddress2").value = document.getElementById("id-c-agencyaddress2").innerHTML;
+    document.getElementById("id-carrier-agencycity").value = document.getElementById("id-c-agencycity").innerHTML;
+    document.getElementById("id-carrier-agencystate").value = document.getElementById("id-c-agencystate").innerHTML;
+    document.getElementById("id-carrier-agencyzipcode").value = document.getElementById("id-c-agencyzip").innerHTML;
+    document.getElementById("id-carrier-agencyphone").value = document.getElementById("id-c-agencyphone").innerHTML;
+    document.getElementById("id-carrier-agencyemail").value = document.getElementById("id-c-agencyemail").innerHTML;
+
+
 }
 
 function editVendorSaveData() {
     addBottomBorder();
     document.getElementById("id-carrier-edit").innerHTML = "edit";
+    $("#id-v-preferredvendorid").css("visibility", "visible");
+    $("#id-v-vendortype").css("visibility", "visible");
+    $("#id-v-vendorname").css("visibility", "visible");
+    $("#id-v-vendorphone").css("visibility", "visible");
+    $("#id-v-address1").css("visibility", "visible");
+    $("#id-v-address2").css("visibility", "visible");
+    $("#id-v-city").css("visibility", "visible");
+    $("#id-v-state").css("visibility", "visible");
+    $("#id-v-zipcode").css("visibility", "visible");
 
-    document.getElementById("id-v-preferredvendorid").style.visibility = "visible";
-    document.getElementById("id-v-vendortype").style.visibility = "visible";
-    document.getElementById("id-v-vendorname").style.visibility = "visible";
-    document.getElementById("id-v-vendorphone").style.visibility = "visible";
-    document.getElementById("id-v-address1").style.visibility = "visible";
-    document.getElementById("id-v-address2").style.visibility = "visible";
-    document.getElementById("id-v-city").style.visibility = "visible";
-    document.getElementById("id-v-state").style.visibility = "visible";
-    document.getElementById("id-v-zipcode").style.visibility = "visible";
+    $("#id-v-preferredvendorid").css("display", "block");
+    $("#id-v-vendortype").css("display", "block");
+    $("#id-v-vendorname").css("display", "block");
+    $("#id-v-vendorphone").css("display", "block");
+    $("#id-v-address1").css("display", "block");
+    $("#id-v-address2").css("display", "block");
+    $("#id-v-city").css("display", "block");
+    $("#id-v-state").css("display", "block");
+    $("#id-v-zipcode").css("display", "block");
 
-    document.getElementById("id-vendor-preferredvendorid").style.visibility = "hidden";
-    document.getElementById("id-vendor-type").style.visibility = "hidden";
-    document.getElementById("id-vendor-name").style.visibility = "hidden";
-    document.getElementById("id-vendor-phone").style.visibility = "hidden";
-    document.getElementById("id-vendor-address1").style.visibility = "hidden";
-    document.getElementById("id-vendor-address2").style.visibility = "hidden";
-    document.getElementById("id-vendor-city").style.visibility = "hidden";
-    document.getElementById("id-vendor-state").style.visibility = "hidden";
-    document.getElementById("id-vendor-zipcode").style.visibility = "hidden";
-
+    hideVendorTextboxes();
     document.getElementById("id-v-preferredvendorid").innerHTML = document.getElementById("id-vendor-preferredvendorid").value;
     document.getElementById("id-v-vendortype").innerHTML = document.getElementById("id-vendor-type").value;
     document.getElementById("id-v-vendorname").innerHTML = document.getElementById("id-vendor-name").value;
@@ -2421,6 +2742,30 @@ function editVendorSaveData() {
     document.getElementById("id-v-city").innerHTML = document.getElementById("id-vendor-city").value;
     document.getElementById("id-v-state").innerHTML = document.getElementById("id-vendor-state").value;
     document.getElementById("id-v-zipcode").innerHTML = document.getElementById("id-vendor-zipcode").value;
+
+    var preferredvendorid = document.getElementById("id-vendor-preferredvendorid").value;
+    var type = document.getElementById("id-vendor-type").value;
+    var name = document.getElementById("id-vendor-name").value;
+    var phone = document.getElementById("id-vendor-phone").value;
+    var address1 = document.getElementById("id-vendor-address1").value;
+    var address2 = document.getElementById("id-vendor-address2").value;
+    var city = document.getElementById("id-vendor-city").value;
+    var state = document.getElementById("id-vendor-state").value;
+    var zipcode = document.getElementById("id-vendor-zipcode").value;
+
+//    alert(SERVICEID + "" + name + " " + type + "" + zipcode + "" + phone);
+
+    if (preferredvendorid != "") {
+        page = "vendorsavepage";
+        var data = {serviceId: SERVICEID, serviceName: name, serviceType: type, zipcode: zipcode, phone: phone,
+            address1: address1, address2: address2, city: city, state: state
+        };
+        utils.server.displayMessage("Successfully Saved..!");
+        deepPath = "editservice";
+        utils.server.makeServerCall(page, data, null, deepPath);
+
+        utils.server.loadPrefferedvendorsdetails();
+    }
 
 
 }
@@ -2438,16 +2783,34 @@ function editVendorEditData() {
     document.getElementById("id-v-state").style.visibility = "hidden";
     document.getElementById("id-v-zipcode").style.visibility = "hidden";
 
-    document.getElementById("id-vendor-preferredvendorid").style.visibility = "visible";
-    document.getElementById("id-vendor-type").style.visibility = "visible";
-    document.getElementById("id-vendor-name").style.visibility = "visible";
-    document.getElementById("id-vendor-phone").style.visibility = "visible";
-    document.getElementById("id-vendor-address1").style.visibility = "visible";
-    document.getElementById("id-vendor-address2").style.visibility = "visible";
-    document.getElementById("id-vendor-city").style.visibility = "visible";
-    document.getElementById("id-vendor-state").style.visibility = "visible";
-    document.getElementById("id-vendor-zipcode").style.visibility = "visible";
+    $("#id-vendor-preferredvendorid").css("visibility", "visible");
+    $("#id-vendor-type").css("visibility", "visible");
+    $("#id-vendor-name").css("visibility", "visible");
+    $("#id-vendor-phone").css("visibility", "visible");
+    $("#id-vendor-address1").css("visibility", "visible");
+    $("#id-vendor-address2").css("visibility", "visible");
+    $("#id-vendor-city").css("visibility", "visible");
+    $("#id-vendor-state").css("visibility", "visible");
+    $("#id-vendor-zipcode").css("visibility", "visible");
 
+    document.getElementById("id-vendor-preferredvendorid").value = document.getElementById("id-v-preferredvendorid").innerHTML;
+    document.getElementById("id-vendor-type").value = document.getElementById("id-v-vendortype").innerHTML;
+    document.getElementById("id-vendor-name").value = document.getElementById("id-v-vendorname").innerHTML;
+    document.getElementById("id-vendor-phone").value = document.getElementById("id-v-vendorphone").innerHTML;
+    document.getElementById("id-vendor-address1").value = document.getElementById("id-v-address1").innerHTML;
+    document.getElementById("id-vendor-address2").value = document.getElementById("id-v-address2").innerHTML;
+    document.getElementById("id-vendor-city").value = document.getElementById("id-v-city").innerHTML;
+    document.getElementById("id-vendor-state").value = document.getElementById("id-v-state").innerHTML;
+    document.getElementById("id-vendor-zipcode").value = document.getElementById("id-v-zipcode").innerHTML;
+    $("#id-v-preferredvendorid").hide();
+    $("#id-v-vendortype").hide();
+    $("#id-v-vendorname").hide();
+    $("#id-v-vendorphone").hide();
+    $("#id-v-address1").hide();
+    $("#id-v-address2").hide();
+    $("#id-v-city").hide();
+    $("#id-v-state").hide();
+    $("#id-v-zipcode").hide();
 }
 
 function removerBottomBorder() {
