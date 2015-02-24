@@ -23,15 +23,15 @@ var CONSTANTS = {
         ASSIGN_TO_CUSTOMERS: "dt-assigncustomer", PROPERTY_POLICY: "dt-propertypolicy", HEALTH_POLICY: "dt-healthpolicy",
         VEHICLE_POLICY: "dt-vehiclepolicy", RESETPASSWORD: "dtresetpassword", SIGNUP: "dtsignup", OVERLAY_RESETPASSALERTBOX: "dtoverlayresetpassword",
         EDITPASSWORDYES: "dtoverlayrestpassyes", EDITPASSWORDNO: "dtoverlayrestpassno",
-		PREVIOUS_AUDIO : "previousAudio", NEXT_AUDIO : "nextAudio", DOCUMENTSOVERLAY : "textDoc",MYPROFEDIT : "edit",
-		SORYBYRECENT : "recent",SORTBYALPHABETICAL : "alphabetical", VIEWARCHIVECHECKBOX : "archiveCheckBox"
+        PREVIOUS_AUDIO: "previousAudio", NEXT_AUDIO: "nextAudio", DOCUMENTSOVERLAY: "textDoc", MYPROFEDIT: "edit",
+        SORYBYRECENT: "recent", SORTBYALPHABETICAL: "alphabetical", VIEWARCHIVECHECKBOX: "archiveCheckBox", VIEWCUSTOMERFEED: "viewcustomerfeedview"
     },
     ERROR_MSG: {
         ajaxFailed: "Oops! This action could not be completed now! Please try again"
     },
     ISLOGGEDIN: false,
-	HASNEXTPAGE : false,
-	SCROLLTOPVALUE : 0
+    HASNEXTPAGE: false,
+    SCROLLTOPVALUE: 0
 };
 //regular expressions
 PHONE_REGEX = /((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,3})|(\(?\d{2,3}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}/;
@@ -50,48 +50,48 @@ var ENDPOINT = {
     GIVE_RECORDED_BY_USER: "giverecordedbyuser"
 };
 var RESPONSE = {
-	RESULTOBJECT : {},
-	AUDIODETAILS : [],
-	MEDIAID : [],
-	PICTUREDETAILS : [],
-	IMAGEURLS : [],
-	IMGETEXT : [],
-	MEDIAIDFORPICTURE : [],
-	AUDIOTEXT : [],
-	TIMESTAMPAUDIO : [],
-	AUDIOURLS : [],
-	OTHERPARTYDETAILS : [],
-	NAMES : [],
-	ROLE : [],
-	PHONE : [],
-	ADDRESS : [],
-	INSURANCECO : [],
-	POLICY : [],
-	VEHICLENO : [],
-	VEHICLEMODEL : [],
-	DRIVINGLICENCESTATE : [],
-	DRIVINGLICENCENUMBER : [],
-	INJURIES : [],
-	OTHERINFORMATION : [],
-	OTHERPARTYIDS : []
+    RESULTOBJECT: {},
+    AUDIODETAILS: [],
+    MEDIAID: [],
+    PICTUREDETAILS: [],
+    IMAGEURLS: [],
+    IMGETEXT: [],
+    MEDIAIDFORPICTURE: [],
+    AUDIOTEXT: [],
+    TIMESTAMPAUDIO: [],
+    AUDIOURLS: [],
+    OTHERPARTYDETAILS: [],
+    NAMES: [],
+    ROLE: [],
+    PHONE: [],
+    ADDRESS: [],
+    INSURANCECO: [],
+    POLICY: [],
+    VEHICLENO: [],
+    VEHICLEMODEL: [],
+    DRIVINGLICENCESTATE: [],
+    DRIVINGLICENCENUMBER: [],
+    INJURIES: [],
+    OTHERINFORMATION: [],
+    OTHERPARTYIDS: []
 };
 /*Naveen 19-2-2015 Chnage start*/
 var HOMEPAGERESPONSE = {
-	ALERTDETAILS : [],
-	ALERTDETAILSLENGTH : 0,
-	RECURRINGALERTDFEEDS : [],
-	INCIDENTALERTSCLICKED : false,
-	HOMEPAGEMYALERTSLOADED : true,
-	POLICYALERTCLICKED : false,
-	PROFILEAPI : "https://proto-call-test.appspot.com/file/",
-	SORYBYRECENTVIEW : false,
-	SORTBYALPHABETICALVIEW : false,
-	ISVIEWARCHIVECLICKED : false,
-	/*Naveen 23-2-2015 Changes Start */
-	UNREADFEEDCOUNT :0,
-	INCIDENTALERTFEED : [],
-	POLICYALERTSFEED : []
-	/*Naveen 23-2-2015 Changes End */
+    ALERTDETAILS: [],
+    ALERTDETAILSLENGTH: 0,
+    RECURRINGALERTDFEEDS: [],
+    INCIDENTALERTSCLICKED: false,
+    HOMEPAGEMYALERTSLOADED: true,
+    POLICYALERTCLICKED: false,
+    PROFILEAPI: "https://proto-call-test.appspot.com/file/",
+    SORYBYRECENTVIEW: false,
+    SORTBYALPHABETICALVIEW: false,
+    ISVIEWARCHIVECLICKED: false,
+    /*Naveen 23-2-2015 Changes Start */
+    UNREADFEEDCOUNT: 0,
+    INCIDENTALERTFEED: [],
+    POLICYALERTSFEED: []
+            /*Naveen 23-2-2015 Changes End */
 }
 /*Naveen 19-2-2015 Chnage end*/
 //API
@@ -354,6 +354,8 @@ protocall = {
             }
             else if (subMenuName == CONSTANTS.LINK_TYPE.VIEW_CARRIER_FEEDVIEW) {
                 this.view.viewCarrierViewFeed(false);
+            } else if (subMenuName == CONSTANTS.LINK_TYPE.VIEWCUSTOMERFEED) {
+                this.view.viewCustomerFeed(false);
             }
             else if (subMenuName == CONSTANTS.LINK_TYPE.VIEW_CUSTOMER_FEEDVIEW) {
                 this.view.viewCustomerViewFeed(false);
@@ -368,14 +370,14 @@ protocall = {
                 var $el = $('.policies')
                 this.view.loadPoliciesFeeds($el, false);
             }
-	     else if (subMenuName == CONSTANTS.LINK_TYPE.ARCHIVES) {
+            else if (subMenuName == CONSTANTS.LINK_TYPE.ARCHIVES) {
                 var $el = $('.archives')
                 this.view.loadArchiveFeeds($el, false);
             }
-             else if (subMenuName == CONSTANTS.LINK_TYPE.VIEW_ARCHIVES) {
+            else if (subMenuName == CONSTANTS.LINK_TYPE.VIEW_ARCHIVES) {
                 var $el = $('.view_archives')
                 this.view.loadviewArchivedFeeds($el, false);
-            }	
+            }
 
         }
     },
@@ -410,7 +412,7 @@ protocall = {
     isLoggedIn: function () {
         //Check for user logged in.
         if (localStorage) {
-            return localStorage.loggedIn ? true : false;
+            return sessionStorage.loggedIn ? true : false;
         } else {
             if (CONSTANTS.ISLOGGEDIN) {
                 return true;
@@ -450,19 +452,36 @@ protocall.events = {
         $(document).on("click", ".snap", function (e) {
             e.stopPropagation();
             protocall.events.handleClick(e);
-	    	
+
         });
 
 
-	$(document).on("click", ".mysnap", function (e) {
-	$(".mysnap").css("background", "lightgrey");
-    	$(this).css("background", "#f34f4e");
-	var loginContent = LoginTemplate.login.MyloginContent();
-        $(".box").empty();
-        $(".box").append($(loginContent)); 
-        $(".box").fadeIn("slow");      
+        $(document).on("click", ".mysnap", function (e) {
+            $(".mysnap").css("background", "lightgrey");
+            $(this).css("background", "#f34f4e");
+            var loginContent = LoginTemplate.login.MyloginContent();
+            $(".box").empty();
+            $(".box").append($(loginContent));
+            $(".box").fadeIn("slow");
 
-	}); 
+        });
+
+
+//******************Customers View Click Event***********************************
+
+        $(document).on("click", ".mycustomerView", function () {
+            protocall.view.viewCustomerFeed(true, $(this).attr("id"));
+        });
+
+//*******************************************************************************
+
+//******************MyReps Tab View Click Event***********************************
+
+        $(document).on("click", ".reps-feed-view", function () {
+            protocall.view.assignToCustomers($(this).attr("id"));
+        });
+
+//*******************************************************************************
 
         $(document).on("click", ".overalyPhots", function (e) {
             e.stopPropagation();
@@ -470,65 +489,65 @@ protocall.events = {
             protocall.events.handleClickForPhotosOverlay(e);
         });
         /* $(document).on("click", ".audioOverlay", function (e) {
-            e.stopPropagation();
-            console.log(".o-content");
-            protocall.events.handleClickForAudioOverlay(e);
-        }); */
-		$(document).on("click", ".overlayDocs", function (e) {
+         e.stopPropagation();
+         console.log(".o-content");
+         protocall.events.handleClickForAudioOverlay(e);
+         }); */
+        $(document).on("click", ".overlayDocs", function (e) {
             e.stopPropagation();
             console.log(".o-content");
             protocall.events.handleClickForDocsOverlay(e);
-        }); 
-		$(document).on("click", ".audioOverlay", function (e) {
+        });
+        $(document).on("click", ".audioOverlay", function (e) {
             e.stopPropagation();
             console.log(".o-content");
-			protocall.events.handleClickForAudioThumbNail(e);
+            protocall.events.handleClickForAudioThumbNail(e);
         });
         $(window).on("resize", function (e) {
             protocall.events.handleResize(e);
         });
     },
-	/*Naveen Chnages 19-2-2015 start */
-	containerScrollEvent : function (){
-		console.log("function called");
-		$(".container").on("scroll", function (e) {
-			console.log("container scroll");
+    /*Naveen Chnages 19-2-2015 start */
+    containerScrollEvent: function () {
+        console.log("function called");
+        $(".container").on("scroll", function (e) {
+            console.log("container scroll");
             protocall.events.handleScroll();
         });
-	},
+    },
     handleScroll: function (e) {
-		var container = $('.container'),pageNumber = 1,deepPath = "",page = "";
-		var scrollHeightValue = container[0].scrollHeight - container.scrollTop();
-		var containerOuterHeight = container.outerHeight();
-		console.log("scrollHeightValue",scrollHeightValue);
-		console.log("containerOuterHeight",containerOuterHeight);
-		console.log("container.scrollTop()",container.scrollTop());
-		//var containerScrollTop = 0;
-		CONSTANTS.SCROLLTOPVALUE = CONSTANTS.SCROLLTOPVALUE+container.scrollTop();
-		console.log("HOMEPAGERESPONSE.INCIDENTALERTSCLICKED",HOMEPAGERESPONSE.INCIDENTALERTSCLICKED);
-		console.log("HOMEPAGERESPONSE.POLICYALERTCLICKED",HOMEPAGERESPONSE.POLICYALERTCLICKED);
-		if(HOMEPAGERESPONSE.SORTBYALPHABETICALVIEW){
-			deepPath = "filterfeedbyalphabetical";
-		} else {
-			deepPath = "filterfeedbyalertdate";
-		}
-		if (scrollHeightValue == containerOuterHeight) {
-				if(CONSTANTS.HASNEXTPAGE){
-					if(HOMEPAGERESPONSE.INCIDENTALERTSCLICKED){
-						container.scrollTop();
-					} else if(HOMEPAGERESPONSE.POLICYALERTCLICKED){
-						container.scrollTop();
-					} else {
-						container.scrollTop();
-						page = "home";
-					}
-					$(".content-holder").addClass("spinner1");
-					protocall.home.loadingAlertFeeds(++CONSTANTS.PGNUMBER,deepPath,page);
-				}
-		}
-		return false;
-	},
-	/*Naveen Chnages 19-2-2015 end */
+        var container = $('.container'), pageNumber = 1, deepPath = "", page = "";
+        var scrollHeightValue = container[0].scrollHeight - container.scrollTop();
+        var containerOuterHeight = container.outerHeight();
+        console.log("scrollHeightValue", scrollHeightValue);
+        console.log("containerOuterHeight", containerOuterHeight);
+        console.log("container.scrollTop()", container.scrollTop());
+        //var containerScrollTop = 0;
+        CONSTANTS.SCROLLTOPVALUE = CONSTANTS.SCROLLTOPVALUE + container.scrollTop();
+        console.log("HOMEPAGERESPONSE.INCIDENTALERTSCLICKED", HOMEPAGERESPONSE.INCIDENTALERTSCLICKED);
+        console.log("HOMEPAGERESPONSE.POLICYALERTCLICKED", HOMEPAGERESPONSE.POLICYALERTCLICKED);
+        if (HOMEPAGERESPONSE.SORTBYALPHABETICALVIEW) {
+            deepPath = "filterfeedbyalphabetical";
+        } else {
+            deepPath = "filterfeedbyalertdate";
+        }
+        if (scrollHeightValue == containerOuterHeight) {
+            if (CONSTANTS.HASNEXTPAGE) {
+                if (HOMEPAGERESPONSE.INCIDENTALERTSCLICKED) {
+                    container.scrollTop();
+                } else if (HOMEPAGERESPONSE.POLICYALERTCLICKED) {
+                    container.scrollTop();
+                } else {
+                    container.scrollTop();
+                    page = "home";
+                }
+                $(".content-holder").addClass("spinner1");
+                protocall.home.loadingAlertFeeds(++CONSTANTS.PGNUMBER, deepPath, page);
+            }
+        }
+        return false;
+    },
+    /*Naveen Chnages 19-2-2015 end */
     handleClick: function (e) {
         var $el = $(e.currentTarget);
         if ($el.prop("tagName") == "A") {
@@ -537,7 +556,8 @@ protocall.events = {
         var type = $el.data("type") ? $el.data("type") : null;
         var page = $el.data("page") ? $el.data("page") : null;
         var subMenu = $el.data("submenu") ? $el.data("submenu") : null;
-		console.log();
+        var id = $el.data("id") ? $el.data("id") : null;
+        var Carrieremail = id;
 
         if (!type)
             return;
@@ -596,16 +616,16 @@ protocall.events = {
                     case CONSTANTS.LINK_TYPE.SORTBY:
                         protocall.view.loadSortBy($el, true);
                         break;
-					case CONSTANTS.LINK_TYPE.PUSHMESSAGE:
+                    case CONSTANTS.LINK_TYPE.PUSHMESSAGE:
                         protocall.view.pushMessage($el, true);
                         break;
                     case CONSTANTS.LINK_TYPE.PRIVACY:
                         protocall.view.privacy($el, true);
                         break;
-		    case CONSTANTS.LINK_TYPE.MYPROFEDIT:
-	                protocall.view.MyprofEdit();
-	                break;
-	
+                    case CONSTANTS.LINK_TYPE.MYPROFEDIT:
+                        protocall.view.MyprofEdit();
+                        break;
+
                     default:
                         break;
                 }
@@ -620,7 +640,7 @@ protocall.events = {
                 protocall.view.viewCustomerViewFeed(true);
                 break;
             case CONSTANTS.LINK_TYPE.VIEW_CARRIER_FEEDVIEW:
-                protocall.view.viewCarrierViewFeed(true);
+                protocall.view.viewCarrierViewFeed(true,Carrieremail);
                 break;
             case CONSTANTS.LINK_TYPE.MY_PROFILE:
                 protocall.view.loadProfile($el);
@@ -632,7 +652,7 @@ protocall.events = {
                 protocall.view.shareToRep();
                 break;
             case CONSTANTS.LINK_TYPE.ASSIGN_TO_CUSTOMERS:
-                protocall.view.assignToCustomers();
+//                protocall.view.assignToCustomers();
                 break;
             case CONSTANTS.LINK_TYPE.PROPERTY_POLICY:
                 protocall.view.properityPolicy();
@@ -696,26 +716,26 @@ protocall.events = {
             case CONSTANTS.LINK_TYPE.MATCH_RELEASE_CLAIMS:
                 protocall.view.matchReleaseClaimAlert();
                 break;
-			/*Naveen Chnages 19-2-2015 start */
+                /*Naveen Chnages 19-2-2015 start */
             case CONSTANTS.LINK_TYPE.PHOTS_OVERLAY_DISPLAY:
                 protocall.view.staticPhotOverlayDisplay(e);
                 break;
             case CONSTANTS.LINK_TYPE.AUDIO_OVERLAY:
                 protocall.view.staticAudioOverlayDisplay(e);
                 break;
-			case CONSTANTS.LINK_TYPE.DOCUMENTSOVERLAY:
+            case CONSTANTS.LINK_TYPE.DOCUMENTSOVERLAY:
                 protocall.view.staticDocumentOverlayDisplay(e);
                 break;
-			case CONSTANTS.LINK_TYPE.SORYBYRECENT:
-				protocall.view.loadSortByRecent($el, true);
-				break;
-			case CONSTANTS.LINK_TYPE.SORTBYALPHABETICAL:
-				protocall.view.loadSortByAlphabetical($el, true);
-				break;
-			case CONSTANTS.LINK_TYPE.VIEWARCHIVECHECKBOX:
-				protocall.view.archiveFeeds($el, true);
-				break;
-			/*Naveen Chnages 19-2-2015 start */
+            case CONSTANTS.LINK_TYPE.SORYBYRECENT:
+                protocall.view.loadSortByRecent($el, true);
+                break;
+            case CONSTANTS.LINK_TYPE.SORTBYALPHABETICAL:
+                protocall.view.loadSortByAlphabetical($el, true);
+                break;
+            case CONSTANTS.LINK_TYPE.VIEWARCHIVECHECKBOX:
+                protocall.view.archiveFeeds($el, true);
+                break;
+                /*Naveen Chnages 19-2-2015 start */
             case CONSTANTS.LINK_TYPE.SIGNUP:
                 protocall.view.loadSignupPage();
                 break;
@@ -735,14 +755,14 @@ protocall.events = {
             case CONSTANTS.LINK_TYPE.EDITPASSWORDNO:
                 protocall.closeOverlay();
                 break;
-	    
+
 
             default:
                 break;
         }
 
     },
-	/*Naveen Chnages 19-2-2015 start */
+    /*Naveen Chnages 19-2-2015 start */
     handleClickForPhotosOverlay: function (e) {
         console.log("current target", $(e.currentTarget).attr("data-type"));
         var dataType = $(e.currentTarget).attr("data-type");
@@ -761,19 +781,19 @@ protocall.events = {
                 break;
         }
     },
-	/*Naveen Chnages 19-2-2015 end */
-	handleClickForDocsOverlay : function(e){
-		console.log("current target", $(e.currentTarget).attr("data-type"));
-		var currentTarget = $(e.currentTarget);
+    /*Naveen Chnages 19-2-2015 end */
+    handleClickForDocsOverlay: function (e) {
+        console.log("current target", $(e.currentTarget).attr("data-type"));
+        var currentTarget = $(e.currentTarget);
         var dataType = $(e.currentTarget).attr("data-type");
-		switch (dataType) {
+        switch (dataType) {
             case CONSTANTS.LINK_TYPE.THUMB_NAIL:
                 protocall.view.displayOrignalDoc(currentTarget);
                 break;
-			default:
+            default:
                 break;
-		}
-	},
+        }
+    },
     handleClickForAudioOverlay: function (e) {
         var $el = $(e.currentTarget);
         console.log("valuers" + $el.data("type"));
@@ -794,9 +814,9 @@ protocall.events = {
         }
     },
     handleClickForAudioThumbNail: function (e) {
-		var dataType = $(e.currentTarget).attr("data-type");
+        var dataType = $(e.currentTarget).attr("data-type");
         var currentTarget = $(e.currentTarget);
-		switch (dataType) {
+        switch (dataType) {
             case CONSTANTS.LINK_TYPE.THUMB_NAIL:
                 protocall.view.displayOrignalAudio(currentTarget);
                 break;
@@ -837,44 +857,42 @@ protocall.view = {
         }
         protocall.displaySpinner(false);
     },
+    MyprofEdit: function (isClickEvent) {
 
-    MyprofEdit: function (isClickEvent){
-       
 
-       var mytxtval = $.trim($('.submenu-title').text());
-       if(mytxtval == 'edit' | mytxtval == 'Edit'){
+        var mytxtval = $.trim($('.submenu-title').text());
+        if (mytxtval == 'edit' | mytxtval == 'Edit') {
 
-       var name  = $("#nameview").text();
-       var phone = $("#phoneview").text();
-       var email = $("#emailview").text();
+            var name = $("#nameview").text();
+            var phone = $("#phoneview").text();
+            var email = $("#emailview").text();
 
-       $('.submenu-title').empty();
-       $('.submenu-title').append("Save");
-       $(".profile-result-cls").css("display","none");	
-       $(".agencyprofinput").css("display","inline-block");
-       $('#namenew').val(name);
-       $('#phonenew').val(phone);
-       $('#emailnew').val(email);
-       }else{
-   
-       var name  = $("#namenew").val();
-       var phone = $("#phonenew").val();
-       var email = $("#emailnew").val();
-       $('.submenu-title').val("Edit");
-       $('.submenu-title').empty();
-       $('.submenu-title').append("Edit");
-       $(".profile-result-cls").css("display","block");	
-       $(".agencyprofinput").css("display","none");
-       $('#nameview').html(name);
-       $('#phoneview').html(phone);
-       $('#emailview').html(email);
+            $('.submenu-title').empty();
+            $('.submenu-title').append("Save");
+            $(".profile-result-cls").css("display", "none");
+            $(".agencyprofinput").css("display", "inline-block");
+            $('#namenew').val(name);
+            $('#phonenew').val(phone);
+            $('#emailnew').val(email);
+        } else {
+
+            var name = $("#namenew").val();
+            var phone = $("#phonenew").val();
+            var email = $("#emailnew").val();
+            $('.submenu-title').val("Edit");
+            $('.submenu-title').empty();
+            $('.submenu-title').append("Edit");
+            $(".profile-result-cls").css("display", "block");
+            $(".agencyprofinput").css("display", "none");
+            $('#nameview').html(name);
+            $('#phoneview').html(phone);
+            $('#emailview').html(email);
 //Make call here
 
-       }
-	
-       	
-    },
+        }
 
+
+    },
     loadLoginPage: function (isClickEvent) {
         console.log("Load login Page");
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.LOGIN_PAGE);
@@ -887,11 +905,11 @@ protocall.view = {
     },
     loadHomePage: function (isClickEvent) {
         console.log("Load Home Page");
-		$(".content-holder").addClass("spinner1");
-		HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED = true;
-		HOMEPAGERESPONSE.POLICYALERTCLICKED = false;
-		HOMEPAGERESPONSE.INCIDENTALERTSCLICKED = false;
-		protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE);
+        $(".content-holder").addClass("spinner1");
+        HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED = true;
+        HOMEPAGERESPONSE.POLICYALERTCLICKED = false;
+        HOMEPAGERESPONSE.INCIDENTALERTSCLICKED = false;
+        protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE);
         protocall.home.initHomePage();
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
         if (isClickEvent) {
@@ -903,6 +921,7 @@ protocall.view = {
     },
     loadCarrierPage: function (isClickEvent) {
         console.log("Load Carrier Page");
+        $(".content-holder").addClass("spinner1");
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.CARRIERS_PAGE);
         //Call the below in carrier.js
         protocall.carrier.initCarrierPage();
@@ -913,22 +932,26 @@ protocall.view = {
         protocall.displaySpinner(false);
     },
     loadCustomerPage: function (isClickEvent) {
-        console.log("Load Customer Page");
+        $(".content-holder").addClass("spinner1");
+        protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
+        //  console.log("Load Customer Page");
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
         //Call the below in customer.js
         protocall.customer.initCustomerPage();
-        protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
+
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE, CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE, CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE, "");
         }
         protocall.displaySpinner(false);
+
     },
     loadMyRepsPage: function (isClickEvent) {
         console.log("Load My Reps Page");
+        $(".content-holder").addClass("spinner1");
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.MY_REP_PAGE);
         //Call the below in myreps.js
         protocall.myRep.initMyRepsPage();
-        protocall.setMenuSelection(CONSTANTS.LINK_TYPE.MY_REP_PAGE);
+        // protocall.setMenuSelection(CONSTANTS.LINK_TYPE.MY_REP_PAGE);
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.MY_REP_PAGE, CONSTANTS.LINK_TYPE.MY_REP_PAGE, CONSTANTS.LINK_TYPE.MY_REP_PAGE, "");
         }
@@ -987,100 +1010,106 @@ protocall.view = {
         protocall.view.buildSubMenuBlk(CONSTANTS.LINK_TYPE.PROFILE_PAGE);
         protocall.displaySpinner(false);
     },
-    viewCarrierViewFeed: function (isClickEvent) {
+    viewCarrierViewFeed: function (isClickEvent,Carrieremail) {
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.CARRIERS_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_CARRIER_FEEDVIEW);
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CARRIERS_PAGE);
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.CARRIERS_PAGE, CONSTANTS.LINK_TYPE.CARRIERS_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_CARRIER_FEEDVIEW, CONSTANTS.LINK_TYPE.VIEW_CARRIER_FEEDVIEW, "");
         }
-        protocall.carrier.loadFeed();
+
+        protocall.carrier.loadFeed(Carrieremail);
+       
+        protocall.displaySpinner(false);
+    },
+    viewCustomerFeed: function (isClickEvent, emailId) {
+        protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEWCUSTOMERFEED);
+        protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
+        if (isClickEvent) {
+            protocall.setPage(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE, CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEWCUSTOMERFEED, CONSTANTS.LINK_TYPE.VIEWCUSTOMERFEED, "");
+        }
+        protocall.customer.loadCustomersViewFeed(emailId);
         //Call the below dynamically
-        var breadCrumbObj = {};
+        /*var breadCrumbObj = {};
         breadCrumbObj.customerName = "Way to Safe";
         $('.tab-rb-submenu a').each(function () {
             protocall.view.setSelectedLinkClasses($(this), false);
         });
-        protocall.view.buildSubMenuBlk(CONSTANTS.LINK_TYPE.CARRIERS_PAGE, breadCrumbObj);
+        protocall.view.buildSubMenuBlk(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE, breadCrumbObj);*/
         protocall.displaySpinner(false);
     },
-
-/*Naveen Chnages 19-2-2015 start */
-        loadMyAlertsFeeds: function ($el, isClickEvent) {
+    /*Naveen Chnages 19-2-2015 start */
+    loadMyAlertsFeeds: function ($el, isClickEvent) {
         $(".content-holder").addClass("spinner1");
-		HOMEPAGERESPONSE.UNREADFEEDCOUNT = 0;
-		HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED = false;
+        HOMEPAGERESPONSE.UNREADFEEDCOUNT = 0;
+        HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED = false;
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.MY_ALERTS);
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.HOME_PAGE, CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.MY_ALERTS, CONSTANTS.LINK_TYPE.MY_ALERTS, "");
         }
-		protocall.home.displayMyAlertsFeeds();
+        protocall.home.displayMyAlertsFeeds();
         $('.tab-rb-submenu a').each(function () {
             protocall.view.setSelectedLinkClasses($(this), false);
         });
-        protocall.view.setSelectedLinkClasses($el, true);  
-	protocall.displaySpinner(false);
-          
-        },
+        protocall.view.setSelectedLinkClasses($el, true);
+        protocall.displaySpinner(false);
 
-
+    },
     loadIncidentsFeeds: function ($el, isClickEvent) {
-    $(".content-holder").addClass("spinner1");
-	HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED = false;
-	protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.INCIDENTS);
+        $(".content-holder").addClass("spinner1");
+        HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED = false;
+        protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.INCIDENTS);
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.HOME_PAGE, CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.INCIDENTS, CONSTANTS.LINK_TYPE.INCIDENTS, "");
         }
-		protocall.home.displayIncidentsFeeds();
+        protocall.home.displayIncidentsFeeds();
         $('.tab-rb-submenu a').each(function () {
             protocall.view.setSelectedLinkClasses($(this), false);
         });
         protocall.view.setSelectedLinkClasses($el, true);
     },
-
-
     loadPoliciesFeeds: function ($el, isClickEvent) {
-    $(".content-holder").addClass("spinner1");   
-	HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED = false;
-	protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.POLICIES);
+        $(".content-holder").addClass("spinner1");
+        HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED = false;
+        protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.POLICIES);
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.HOME_PAGE, CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.POLICIES, CONSTANTS.LINK_TYPE.POLICIES, "");
         }
-		protocall.home.displayPoliciesFeeds();
+        protocall.home.displayPoliciesFeeds();
         $('.tab-rb-submenu a').each(function () {
             protocall.view.setSelectedLinkClasses($(this), false);
         });
         protocall.view.setSelectedLinkClasses($el, true);
-		protocall.displaySpinner(false);
-     
-    },
-	/* Naveen 23-2-2015 Changes Start */
-	subMenuSelectedTab : function() {
-		$(".mb-submenu").find("a").removeClass("selected-tab"); 
-			if(HOMEPAGERESPONSE.INCIDENTALERTSCLICKED) {
-				$(".mb-submenu").find("a.incidents").addClass("selected-tab");
-			} else if(HOMEPAGERESPONSE.POLICYALERTCLICKED) {
-				$(".mb-submenu").find("a.policies").addClass("selected-tab");
-			} else if(HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED) {
-				$(".mb-submenu").find("a.archives").addClass("selected-tab");
-			} else if(HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED) {
-				$(".mb-submenu").find("a.view_archives").addClass("selected-tab");
-			} else {
-				$(".mb-submenu").find("a.myalerts").addClass("selected-tab");
-			}
-	},
-	/* Naveen 23-2-2015 Changes End */
+        protocall.displaySpinner(false);
 
-/*Naveen Chnages 19-2-2015 end */
+    },
+    /* Naveen 23-2-2015 Changes Start */
+    subMenuSelectedTab: function () {
+        $(".mb-submenu").find("a").removeClass("selected-tab");
+        if (HOMEPAGERESPONSE.INCIDENTALERTSCLICKED) {
+            $(".mb-submenu").find("a.incidents").addClass("selected-tab");
+        } else if (HOMEPAGERESPONSE.POLICYALERTCLICKED) {
+            $(".mb-submenu").find("a.policies").addClass("selected-tab");
+        } else if (HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED) {
+            $(".mb-submenu").find("a.archives").addClass("selected-tab");
+        } else if (HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED) {
+            $(".mb-submenu").find("a.view_archives").addClass("selected-tab");
+        } else {
+            $(".mb-submenu").find("a.myalerts").addClass("selected-tab");
+        }
+    },
+    /* Naveen 23-2-2015 Changes End */
+
+    /*Naveen Chnages 19-2-2015 end */
 
     loadArchiveFeeds: function ($el, isClickEvent) {
-		HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED = true;
-		HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED = false;
-		HOMEPAGERESPONSE.POLICYALERTCLICKED = false;
-		HOMEPAGERESPONSE.INCIDENTALERTSCLICKED = false;
-		protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.ARCHIVES);
+        HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED = true;
+        HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED = false;
+        HOMEPAGERESPONSE.POLICYALERTCLICKED = false;
+        HOMEPAGERESPONSE.INCIDENTALERTSCLICKED = false;
+        protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.ARCHIVES);
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.HOME_PAGE, CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.ARCHIVES, CONSTANTS.LINK_TYPE.ARCHIVES, "");
@@ -1089,17 +1118,14 @@ protocall.view = {
             protocall.view.setSelectedLinkClasses($(this), false);
         });
         protocall.view.setSelectedLinkClasses($el, true);
-       protocall.home.initHomePage();
-	/* var template = HomedynamicTemplate.home.HomeDynamicArchiveFeedTemplate();
-	$(".content-holder").append(template);
-        protocall.displaySpinner(false); */
+        protocall.home.initHomePage();
+        /* var template = HomedynamicTemplate.home.HomeDynamicArchiveFeedTemplate();
+         $(".content-holder").append(template);
+         protocall.displaySpinner(false); */
     },
-	
-
-
     loadviewArchivedFeeds: function ($el, isClickEvent) {
-        
-	protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_ARCHIVES);
+
+        protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_ARCHIVES);
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.HOME_PAGE, CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_ARCHIVES, CONSTANTS.LINK_TYPE.VIEW_ARCHIVES, "");
@@ -1108,15 +1134,15 @@ protocall.view = {
             protocall.view.setSelectedLinkClasses($(this), false);
         });
         protocall.view.setSelectedLinkClasses($el, true);
-	$(".content-holder").empty();
-	var template = HomedynamicTemplate.home.HomeDynamicViewArchiveFeedTemplate();
-	$(".content-holder").append(template);
+        $(".content-holder").empty();
+        var template = HomedynamicTemplate.home.HomeDynamicViewArchiveFeedTemplate();
+        $(".content-holder").append(template);
         protocall.displaySpinner(false);
     },
-	archiveFeeds : function ($e1){
-		var alertIDValue = $e1.attr("id");
-		console.log("alertIDValue",$e1.attr("id"));
-	},
+    archiveFeeds: function ($e1) {
+        var alertIDValue = $e1.attr("id");
+        console.log("alertIDValue", $e1.attr("id"));
+    },
     setSelectedLinkClasses: function ($el, isSet) {
         if (isSet) {
             $el.addClass("selected-tab");
@@ -1125,30 +1151,30 @@ protocall.view = {
         }
     },
     loadSortBy: function ($el) {
-		console.log("$e1");
+        console.log("$e1");
         var html = '<div><div class="snap prof-view-overlay-sort" data-type="recent">Recent</div><div class="snap prof-view-overlay-sort" data-type="alphabetical">Alphabetical</div></div>';
         popUpContent.togglePopUpContent($el, html);
     },
-	loadSortByRecent: function ($el) {
-       protocall.view.sortyByRecnetView();
+    loadSortByRecent: function ($el) {
+        protocall.view.sortyByRecnetView();
     },
-	loadSortByAlphabetical: function ($el) {
+    loadSortByAlphabetical: function ($el) {
         protocall.view.sortyByAlphabeticalView();
     },
-	sortyByRecnetView : function (){
-		$("div.submenu-sort div:nth-child(1)").text("Recent"); 
-		popUpContent.closePopUpContent();
-		HOMEPAGERESPONSE.SORYBYRECENTVIEW = true;
-		HOMEPAGERESPONSE.SORTBYALPHABETICALVIEW = false;
-		protocall.home.initHomePage();
-	},
-	sortyByAlphabeticalView : function (){
-		$("div.submenu-sort div:nth-child(1)").text("Alphabetical"); 
-		popUpContent.closePopUpContent();
-		HOMEPAGERESPONSE.SORYBYRECENTVIEW = false;
-		HOMEPAGERESPONSE.SORTBYALPHABETICALVIEW = true;
-		protocall.home.initHomePage();
-	},
+    sortyByRecnetView: function () {
+        $("div.submenu-sort div:nth-child(1)").text("Recent");
+        popUpContent.closePopUpContent();
+        HOMEPAGERESPONSE.SORYBYRECENTVIEW = true;
+        HOMEPAGERESPONSE.SORTBYALPHABETICALVIEW = false;
+        protocall.home.initHomePage();
+    },
+    sortyByAlphabeticalView: function () {
+        $("div.submenu-sort div:nth-child(1)").text("Alphabetical");
+        popUpContent.closePopUpContent();
+        HOMEPAGERESPONSE.SORYBYRECENTVIEW = false;
+        HOMEPAGERESPONSE.SORTBYALPHABETICALVIEW = true;
+        protocall.home.initHomePage();
+    },
     loadProfile: function ($el) {
         var html = '<div><div class="prof-view-overlay snap myProfileView" data-type="myProfileView">My Profile</div><div class="prof-view-overlay snap mysettings" data-type="mysettings">Settings</div>'
                 + '<div class="prof-view-overlay">Help</div><div class="prof-view-overlay snap" data-type="logout-yes">Log out</div></div>';
@@ -1158,8 +1184,8 @@ protocall.view = {
         var html = staticTemplate.home.shareWithRepTemplate();
         overlay.displayOverlay(html);
     },
-    assignToCustomers: function () {
-        var html = staticTemplate.home.assignCustomersTemplate();
+    assignToCustomers: function (repemailidvalue) {
+        var html = staticTemplate.home.assignCustomersTemplate(repemailidvalue);
         overlay.displayOverlay(html);
     },
     properityPolicy: function () {
@@ -1301,11 +1327,11 @@ protocall.view = {
         utils.server.makeServerCall(page, data, callback, deepPath);
     },
     LogoutAuthenticateYes: function () {
-       popUpContent.closePopUpContent();
+        popUpContent.closePopUpContent();
         protocall.displaySpinner(true);
-        localStorage.loggedIn = "";
-        localStorage.agencyEmail = "";
-        localStorage.agencyId = "";
+        sessionStorage.loggedIn = "";
+        sessionStorage.agencyEmail = "";
+        sessionStorage.agencyId = "";
         protocall.setPageNavigation(LOGIN_PAGE);
 
     },
@@ -1319,52 +1345,52 @@ protocall.view = {
         overlay.displayOverlay(html);
     },
     /*Added by Naveen -- Start*/
-	/*Naveen Chnages 19-2-2015 start */
+    /*Naveen Chnages 19-2-2015 start */
     staticPhotOverlayDisplay: function (e) {
         var currentTarget = $(e.currentTarget);
-		var photoCountValue = currentTarget.find("span.doc-count.doc-count-placement").text();
-		if(photoCountValue == 0){
-			e.stopPropagation();
-			//return true;
-		} else{
-			var clickedAlertID = currentTarget.attr("id");
-			console.log("clickedID",clickedAlertID);
-			var html = staticTemplate.home.showPhotsOverlayTemplate(clickedAlertID);
-			overlay.displayOverlay(html);
-			overlay.sliderControl();
-			$("#thumbNailViewForImages div:nth-child(1)").addClass("activeAudio");
-		}
+        var photoCountValue = currentTarget.find("span.doc-count.doc-count-placement").text();
+        if (photoCountValue == 0) {
+            e.stopPropagation();
+            //return true;
+        } else {
+            var clickedAlertID = currentTarget.attr("id");
+            console.log("clickedID", clickedAlertID);
+            var html = staticTemplate.home.showPhotsOverlayTemplate(clickedAlertID);
+            overlay.displayOverlay(html);
+            overlay.sliderControl();
+            $("#thumbNailViewForImages div:nth-child(1)").addClass("activeAudio");
+        }
     },
-	staticAudioOverlayDisplay: function (e) {
-       var currentTarget = $(e.currentTarget);
-		var audioCountValue = currentTarget.find("span.doc-count.doc-count-placement").text();
-		if(audioCountValue == 0){
-			return true;
-		} else{
-			var clickedAlertID = currentTarget.attr("id");
-			console.log("clickedID",clickedAlertID);
-			var html = staticTemplate.home.showAudioOverlayTemplate(clickedAlertID);
-			overlay.displayOverlay(html);
-			overlay.audioInit();
-		} 
+    staticAudioOverlayDisplay: function (e) {
+        var currentTarget = $(e.currentTarget);
+        var audioCountValue = currentTarget.find("span.doc-count.doc-count-placement").text();
+        if (audioCountValue == 0) {
+            return true;
+        } else {
+            var clickedAlertID = currentTarget.attr("id");
+            console.log("clickedID", clickedAlertID);
+            var html = staticTemplate.home.showAudioOverlayTemplate(clickedAlertID);
+            overlay.displayOverlay(html);
+            overlay.audioInit();
+        }
     },
-	/*Naveen 23-2-2015 Changes Start */
-	staticDocumentOverlayDisplay : function(e){
-		console.log("staticDocumentOverlayDisplay currentTarget",$(e.currentTarget));
-		var currentTarget = $(e.currentTarget);
-		var docCountValue = currentTarget.find("span.doc-count.doc-count-placement").text();
-		console.log("docCountValue",docCountValue);
-		if(docCountValue == 0){
-			return true;
-		} else{
-			var clickedAlertID = currentTarget.attr("id");
-			 var html = staticTemplate.home.showDocumentOverlayTemplate(clickedAlertID);
-             overlay.displayOverlay(html);
-			 overlay.documentInIt();
-			 $("#thumbNailDocs div:nth-child(1)").addClass("activeAudio");
-		}
-	},
-	/*Naveen 23-2-2015 Changes End */
+    /*Naveen 23-2-2015 Changes Start */
+    staticDocumentOverlayDisplay: function (e) {
+        console.log("staticDocumentOverlayDisplay currentTarget", $(e.currentTarget));
+        var currentTarget = $(e.currentTarget);
+        var docCountValue = currentTarget.find("span.doc-count.doc-count-placement").text();
+        console.log("docCountValue", docCountValue);
+        if (docCountValue == 0) {
+            return true;
+        } else {
+            var clickedAlertID = currentTarget.attr("id");
+            var html = staticTemplate.home.showDocumentOverlayTemplate(clickedAlertID);
+            overlay.displayOverlay(html);
+            overlay.documentInIt();
+            $("#thumbNailDocs div:nth-child(1)").addClass("activeAudio");
+        }
+    },
+    /*Naveen 23-2-2015 Changes End */
     /*Added by Naveen -- End*/
     editAgencyPic: function () {
         var html = staticTemplate.home.editAgencyPicTemplate();
@@ -1498,99 +1524,99 @@ protocall.view = {
         }
 
     },
-	/*Naveen 19-2-2015 Chnage start*/
+    /*Naveen 19-2-2015 Chnage start*/
     displayOrignalImage: function (currentTarget) {
-	var mainImageHTML = "";
+        var mainImageHTML = "";
         $("#thumbNailViewForImages>div").removeClass("activeAudio");
         currentTarget.addClass("activeAudio");
         var currentMediaID = currentTarget.attr("name"), mainAudioHTML = "";
         $.each(RESPONSE.PICTUREDETAILS, function (i, element) {
             console.log("media id", element.mediaId);
             if (currentMediaID == element.mediaId) {
-                mainImageHTML = '<img src='+ HOMEPAGERESPONSE.PROFILEAPI+element.file +' style="max-height: 220px;max-width: 300px;" />';
+                mainImageHTML = '<img src=' + HOMEPAGERESPONSE.PROFILEAPI + element.file + ' style="max-height: 220px;max-width: 300px;" />';
                 imageInformationHTML = element.imageText;
             }
         });
         $("#viewImage").html(mainImageHTML);
         $("#imageinformation").html(imageInformationHTML);
     },
-	/*Naveen 19-2-2015 Chnage end*/
+    /*Naveen 19-2-2015 Chnage end*/
     displayOrignalDoc: function (currentTarget) {
         $("#thumbNailDocs>div").removeClass("activeAudio");
         currentTarget.addClass("activeAudio");
         var currentDocName = currentTarget.find("p").text(), mainAudioHTML = "";
-		console.log("currentDocName");
+        console.log("currentDocName");
         $.each(RESPONSE.OTHERPARTYDETAILS, function (i, element) {
             console.log("media id", element.fileName);
             if (currentDocName == element.fileName) {
                 mainDocHTML = '<div class="leftDiv">'
-									+'<p>'
-										+'<span class="firstSpan">Name</span>'
-										+'<span class="secondSpan">'+element.fileName+'</span>'
-									+'</p>'
-									+'<p>'
-										+'<span class="firstSpan">Role</span>'
-										+'<span class="secondSpan">'+element.role+'</span>'
-									+'</p>'
-									+'<p>'
-										+'<span class="firstSpan">Phone</span>'
-										+'<span class="secondSpan">'+element.phone.number+'</span>'
-									+'</p>'
-									+'<p>'
-										+'<span class="firstSpan">Address</span>'
-										+'<span class="secondSpan">'+element.address.address+'</span>'
-									+'</p>'
-									+'<p>'
-										+'<span class="firstSpan">Insurance co</span>'
-										+'<span class="secondSpan">'+element.carrier+'</span>'
-									+'</p>'
-									+'<p>'
-										+'<span class="firstSpan">Policy #</span>'
-										+'<span class="secondSpan">'+element.policyNumber+'</span>'
-									+'</p>'
-									+'<p>'
-										+'<span class="firstSpan">Auto Yr/make/model</span>'
-										+'<span class="secondSpan">'+element.model+'</span>'
-									+'</p>'
-									+'<p>'
-										+'<span class="firstSpan">Auto License plate state & Number</span>'
-										+'<span class="secondSpan">'+element.vehicleIdentificationNumber+'</span>'
-									+'</p>'
-									+'<p>'
-										+'<span class="firstSpan">Drivers License State</span>'
-										+'<span class="secondSpan">'+element.driverLicenseState+'</span>'
-									+'</p>'
-									+'<p>'
-										+'<span class="firstSpan">Drivers License Number</span>'
-										+'<span class="secondSpan">'+element.driverLicenseNumber+'</span>'
-									+'</p>'
-									+'<p>'
-										+'<span class="firstSpan">Injuries</span>'
-										+'<span class="secondSpan">'+element.injuries+'</span>'
-									+'</p>'
-									+'<p>'
-										+'<span class="firstSpan">Other info</span>'
-										+'<span class="secondSpan">'+element.otherInformation+'</span>'
-									+'</p>'
-									+'</div>';
+                        + '<p>'
+                        + '<span class="firstSpan">Name</span>'
+                        + '<span class="secondSpan">' + element.fileName + '</span>'
+                        + '</p>'
+                        + '<p>'
+                        + '<span class="firstSpan">Role</span>'
+                        + '<span class="secondSpan">' + element.role + '</span>'
+                        + '</p>'
+                        + '<p>'
+                        + '<span class="firstSpan">Phone</span>'
+                        + '<span class="secondSpan">' + element.phone.number + '</span>'
+                        + '</p>'
+                        + '<p>'
+                        + '<span class="firstSpan">Address</span>'
+                        + '<span class="secondSpan">' + element.address.address + '</span>'
+                        + '</p>'
+                        + '<p>'
+                        + '<span class="firstSpan">Insurance co</span>'
+                        + '<span class="secondSpan">' + element.carrier + '</span>'
+                        + '</p>'
+                        + '<p>'
+                        + '<span class="firstSpan">Policy #</span>'
+                        + '<span class="secondSpan">' + element.policyNumber + '</span>'
+                        + '</p>'
+                        + '<p>'
+                        + '<span class="firstSpan">Auto Yr/make/model</span>'
+                        + '<span class="secondSpan">' + element.model + '</span>'
+                        + '</p>'
+                        + '<p>'
+                        + '<span class="firstSpan">Auto License plate state & Number</span>'
+                        + '<span class="secondSpan">' + element.vehicleIdentificationNumber + '</span>'
+                        + '</p>'
+                        + '<p>'
+                        + '<span class="firstSpan">Drivers License State</span>'
+                        + '<span class="secondSpan">' + element.driverLicenseState + '</span>'
+                        + '</p>'
+                        + '<p>'
+                        + '<span class="firstSpan">Drivers License Number</span>'
+                        + '<span class="secondSpan">' + element.driverLicenseNumber + '</span>'
+                        + '</p>'
+                        + '<p>'
+                        + '<span class="firstSpan">Injuries</span>'
+                        + '<span class="secondSpan">' + element.injuries + '</span>'
+                        + '</p>'
+                        + '<p>'
+                        + '<span class="firstSpan">Other info</span>'
+                        + '<span class="secondSpan">' + element.otherInformation + '</span>'
+                        + '</p>'
+                        + '</div>';
             }
         });
         $("#docinformation span").html(currentDocName);
         $("#originalDocDIV").html(mainDocHTML);
     },
-	/*Naveen 19-2-2015 Chnage start*/
-	displayPreviousImage: function () {
-		var $divElement = $("#thumbNailViewForImages"), activeAudioClass = false;
-		console.log("$liElement", $divElement);
-		$.each($divElement, function (index, element) {
-			console.log($(this).find("div").hasClass("activeAudio"));
-			activeAudioClass = $(this).find("div").hasClass("activeAudio")
-			if (activeAudioClass) {
-				protocall.view.loadingScrollPrevious($(this).find("div.activeAudio"));
-				return false;
-			}
-		});
-	},
+    /*Naveen 19-2-2015 Chnage start*/
+    displayPreviousImage: function () {
+        var $divElement = $("#thumbNailViewForImages"), activeAudioClass = false;
+        console.log("$liElement", $divElement);
+        $.each($divElement, function (index, element) {
+            console.log($(this).find("div").hasClass("activeAudio"));
+            activeAudioClass = $(this).find("div").hasClass("activeAudio")
+            if (activeAudioClass) {
+                protocall.view.loadingScrollPrevious($(this).find("div.activeAudio"));
+                return false;
+            }
+        });
+    },
     displayNextImage: function () {
         var $divElement = $("#thumbNailViewForImages"), activeAudioClass = false;
         console.log("$liElement", $divElement);
@@ -1610,7 +1636,7 @@ protocall.view = {
             $("#thumbNailViewForImages div").removeClass("activeAudio");
             nextElementToBeloaded.addClass("activeAudio");
             imageSrcTobeLoadedBack = nextElementToBeloaded.find("img").attr("src");
-            $("#viewImage").html('<img src='+imageSrcTobeLoadedBack+' style="max-height: 220px;max-width: 300px;"/>');
+            $("#viewImage").html('<img src=' + imageSrcTobeLoadedBack + ' style="max-height: 220px;max-width: 300px;"/>');
         }
     },
     loadingScrollPrevious: function (liEleme) {
@@ -1622,13 +1648,13 @@ protocall.view = {
             nextElementToBeloaded.addClass("activeAudio");
             imageSrcTobeLoadedBack = nextElementToBeloaded.find("img").attr("src");
             console.log("imageSrcTobeLoaded" + imageSrcTobeLoadedBack);
-            $("#viewImage").html('<img src='+imageSrcTobeLoadedBack+' style="max-height: 220px;max-width: 300px;"/>');
+            $("#viewImage").html('<img src=' + imageSrcTobeLoadedBack + ' style="max-height: 220px;max-width: 300px;"/>');
         }
     },
-	/*Naveen 19-2-2015 Chnage end*/
-	/*Audio Click functions*/
-	displayOrignalAudio : function(currentTarget){
-		$("#audioThumbNailView>div").removeClass("activeAudio");
+    /*Naveen 19-2-2015 Chnage end*/
+    /*Audio Click functions*/
+    displayOrignalAudio: function (currentTarget) {
+        $("#audioThumbNailView>div").removeClass("activeAudio");
         currentTarget.addClass("activeAudio");
         var currentMediaID = currentTarget.find("p#mediaID").text(), mainAudioHTML = "";
         console.log("RESPONSE.AUDIODETAILS", RESPONSE.AUDIODETAILS);
@@ -1643,28 +1669,28 @@ protocall.view = {
                         + '<source src=' + element.audioSourceURL + '>'
                         + '<source src=' + element.audioSourceURL + '>'
                         + '</audio>';
-                        /*+ '<div class="voice-ctrler">'
-                         + '<div class="audioOverlay" data-type="previousAudio" style="cursor:pointer;">prev</div><div><button id="pButton2" class="play audioOverlay" data-type="playAudio"></button></div><div class="audioOverlay" data-type="nextAudio" style="cursor:pointer;">next</div>'
-                        + '</div>'; */
+                /*+ '<div class="voice-ctrler">'
+                 + '<div class="audioOverlay" data-type="previousAudio" style="cursor:pointer;">prev</div><div><button id="pButton2" class="play audioOverlay" data-type="playAudio"></button></div><div class="audioOverlay" data-type="nextAudio" style="cursor:pointer;">next</div>'
+                 + '</div>'; */
             }
         });
         $("#originalAudio").html(mainAudioHTML);
-	},
-	displayPreviousAudio : function(){
-		var $divElement = $("#audioThumbNailView"), activeAudioClass = false;
-		console.log("$liElement", $divElement);
-		$.each($divElement, function (index, element) {
-			console.log($(this).find("div").hasClass("activeAudio"));
-			activeAudioClass = $(this).find("div").hasClass("activeAudio")
-			if (activeAudioClass) {
-				protocall.view.loadingPreviousAudio($(this).find("div.activeAudio"));
-				return false;
-			}
-		});
-	},
-	loadingPreviousAudio : function(divEleme){
-		console.log("loadingPreviousAudio");
-		var indexValue = $("#audioThumbNailView div").index(divEleme) - 1, nextElementToBeloaded,nextAudioElement;
+    },
+    displayPreviousAudio: function () {
+        var $divElement = $("#audioThumbNailView"), activeAudioClass = false;
+        console.log("$liElement", $divElement);
+        $.each($divElement, function (index, element) {
+            console.log($(this).find("div").hasClass("activeAudio"));
+            activeAudioClass = $(this).find("div").hasClass("activeAudio")
+            if (activeAudioClass) {
+                protocall.view.loadingPreviousAudio($(this).find("div.activeAudio"));
+                return false;
+            }
+        });
+    },
+    loadingPreviousAudio: function (divEleme) {
+        console.log("loadingPreviousAudio");
+        var indexValue = $("#audioThumbNailView div").index(divEleme) - 1, nextElementToBeloaded, nextAudioElement;
         console.log("loadingScrollBack" + indexValue);
         if (indexValue !== -1) {
             nextElementToBeloaded = $("#audioThumbNailView div:eq( " + indexValue + " )");
@@ -1672,24 +1698,24 @@ protocall.view = {
             nextElementToBeloaded.addClass("activeAudio");
             nextAudioElement = nextElementToBeloaded.find("p#mediaID").attr("name");
             console.log("imageSrcTobeLoaded" + nextAudioElement);
-            $("#music").find("source").attr("src",nextAudioElement);
+            $("#music").find("source").attr("src", nextAudioElement);
         }
-	},
-	displayNextAudio : function(){
-		var $divElement = $("#audioThumbNailView"), activeAudioClass = false;
-		console.log("$liElement", $divElement);
-		$.each($divElement, function (index, element) {
-			console.log($(this).find("div").hasClass("activeAudio"));
-			activeAudioClass = $(this).find("div").hasClass("activeAudio")
-			if (activeAudioClass) {
-				protocall.view.loadingNextAudio($(this).find("div.activeAudio"));
-				return false;
-			}
-		});
-	},
-	loadingNextAudio : function(divEleme){
-		console.log("loadingPreviousAudio");
-		var indexValue = $("#audioThumbNailView div").index(divEleme) +1, nextElementToBeloaded,nextAudioElement;
+    },
+    displayNextAudio: function () {
+        var $divElement = $("#audioThumbNailView"), activeAudioClass = false;
+        console.log("$liElement", $divElement);
+        $.each($divElement, function (index, element) {
+            console.log($(this).find("div").hasClass("activeAudio"));
+            activeAudioClass = $(this).find("div").hasClass("activeAudio")
+            if (activeAudioClass) {
+                protocall.view.loadingNextAudio($(this).find("div.activeAudio"));
+                return false;
+            }
+        });
+    },
+    loadingNextAudio: function (divEleme) {
+        console.log("loadingPreviousAudio");
+        var indexValue = $("#audioThumbNailView div").index(divEleme) + 1, nextElementToBeloaded, nextAudioElement;
         console.log("loadingScrollBack" + indexValue);
         if (indexValue !== 0 && indexValue < $("#audioThumbNailView div").length) {
             nextElementToBeloaded = $("#audioThumbNailView div:eq( " + indexValue + " )");
@@ -1697,9 +1723,9 @@ protocall.view = {
             nextElementToBeloaded.addClass("activeAudio");
             nextAudioElement = nextElementToBeloaded.find("p#mediaID").attr("name");
             console.log("imageSrcTobeLoaded" + nextAudioElement);
-            $("#music").find("source").attr("src",nextAudioElement);
+            $("#music").find("source").attr("src", nextAudioElement);
         }
-	},
+    },
     playAudioFile: function ($e1) {
         console.log("playAudioFile");
         console.log("$e1" + $e1.parent());
@@ -1807,29 +1833,29 @@ protocall.view = {
     }
 };
 protocall.home = {
-	/*Naveen 19-2-2015 Chnage start*/
-    initHomePage:function(){
-		if(HOMEPAGERESPONSE.SORTBYALPHABETICALVIEW || HOMEPAGERESPONSE.SORYBYRECENTVIEW || HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED){
-			$(".content-holder").addClass("spinner1");
-		} else {
-			protocall.displaySpinner(true);
-		}
-		CONSTANTS.PGNUMBER = 0;
-		var pageNumber = ++CONSTANTS.PGNUMBER;
-		var data = {"pageNumber" : pageNumber},
-				deepPath = "",
+    /*Naveen 19-2-2015 Chnage start*/
+    initHomePage: function () {
+        if (HOMEPAGERESPONSE.SORTBYALPHABETICALVIEW || HOMEPAGERESPONSE.SORYBYRECENTVIEW || HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED) {
+            $(".content-holder").addClass("spinner1");
+        } else {
+            protocall.displaySpinner(true);
+        }
+        CONSTANTS.PGNUMBER = 0;
+        var pageNumber = ++CONSTANTS.PGNUMBER;
+        var data = {"pageNumber": pageNumber},
+        deepPath = "",
                 page = "home",
                 callback = protocall.home.loadHomePageData,
                 authId = "",
                 spinnerMsg = "";
-		if(HOMEPAGERESPONSE.SORTBYALPHABETICALVIEW){
-			deepPath = "filterfeedbyalphabetical";
-		} else {
-			deepPath = "filterfeedbyalertdate";
-		}
-		var resp = utils.server.makeServerCall(page, data, callback, deepPath);
-   },
-   /*Naveen 19-2-2015 Chnage end*/
+        if (HOMEPAGERESPONSE.SORTBYALPHABETICALVIEW) {
+            deepPath = "filterfeedbyalphabetical";
+        } else {
+            deepPath = "filterfeedbyalertdate";
+        }
+        var resp = utils.server.makeServerCall(page, data, callback, deepPath);
+    },
+    /*Naveen 19-2-2015 Chnage end*/
     initLoginPage: function () {
 
         var template = LoginTemplate.login.staticLoginTemplate();
@@ -1842,7 +1868,6 @@ protocall.home = {
         $("#id_loginfadeinout").fadeIn(3000);
 
     },
-
     initSignUpPage: function () {
         var template = LoginTemplate.login.staticSignUpTemplate();
         $(".container").addClass("container");
@@ -1863,24 +1888,23 @@ protocall.home = {
         $(".c_resetpassword").fadeIn("slow");
         $(".c_resetpassword").fadeIn(3000);
     },
-	 
-	/*Naveen 19-2-2015 Chnage start*/
-	loadHomePageData: function (data, page) {
-		console.log("data",data);
-		if(HOMEPAGERESPONSE.INCIDENTALERTSCLICKED || HOMEPAGERESPONSE.POLICYALERTCLICKED || HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED || HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED){
-			HOMEPAGERESPONSE.RECURRINGALERTDFEEDS = [];
-		}
-		protocall.util.viewingHomePageData(data);
-	},
-	loadingAlertFeeds : function (pageNumber,deepPath,page){
-	   var data = {"pageNumber" : pageNumber};
+    /*Naveen 19-2-2015 Chnage start*/
+    loadHomePageData: function (data, page) {
+        console.log("data", data);
+        if (HOMEPAGERESPONSE.INCIDENTALERTSCLICKED || HOMEPAGERESPONSE.POLICYALERTCLICKED || HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED || HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED) {
+            HOMEPAGERESPONSE.RECURRINGALERTDFEEDS = [];
+        }
+        protocall.util.viewingHomePageData(data);
+    },
+    loadingAlertFeeds: function (pageNumber, deepPath, page) {
+        var data = {"pageNumber": pageNumber};
         callback = protocall.home.loadingHomePageFeeds;
         var resp = utils.server.makeServerCall(page, data, callback, deepPath);
-   },
-   loadingHomePageFeeds : function (data,page){
-	protocall.util.viewingHomePageData(data);
-   },
-	loadFeed: function () {
+    },
+    loadingHomePageFeeds: function (data, page) {
+        protocall.util.viewingHomePageData(data);
+    },
+    loadFeed: function () {
         var html = staticTemplate.home.staticFeedViewTemplate();
         $(".content-holder").empty();
         $(".content-holder").append($(html));
@@ -1891,230 +1915,142 @@ protocall.home = {
             totalHTML = totalHTML + template;
         }
         $(".rel-feeds-content").empty();
-        $(".rel-feeds-content").append($(totalHTML)); 
+        $(".rel-feeds-content").append($(totalHTML));
     },
-
     displayMyAlertsFeeds: function () {
-		HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED = true;
-		HOMEPAGERESPONSE.POLICYALERTCLICKED = false;
-		HOMEPAGERESPONSE.INCIDENTALERTSCLICKED = false;
-		CONSTANTS.PGNUMBER = 0;
-		var page = "home",
-			pageNumber = ++CONSTANTS.PGNUMBER,
-			data = {"pageNumber" : pageNumber},
-			deepPath = "filterfeedbyalertdate",
-            callback = protocall.home.loadHomePageData;
-       var resp = utils.server.makeServerCall(page, data, callback, deepPath);
-        
+        HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED = true;
+        HOMEPAGERESPONSE.POLICYALERTCLICKED = false;
+        HOMEPAGERESPONSE.INCIDENTALERTSCLICKED = false;
+        CONSTANTS.PGNUMBER = 0;
+        var page = "home",
+                pageNumber = ++CONSTANTS.PGNUMBER,
+                data = {"pageNumber": pageNumber},
+        deepPath = "filterfeedbyalertdate",
+                callback = protocall.home.loadHomePageData;
+        var resp = utils.server.makeServerCall(page, data, callback, deepPath);
+
     },
-	displayArchiveFeeds: function () {
+    displayArchiveFeeds: function () {
         var totalLen = 1, totalHTML = "";
-        
+
         var archiveTemplate = staticTemplate.home.staticArchiveFeedTemplate();
         totalHTML = archiveTemplate;
         $(".content-holder").empty();
         $(".content-holder").append($(totalHTML));
     },
     displayIncidentsFeeds: function () {
-		HOMEPAGERESPONSE.INCIDENTALERTSCLICKED = true;
-		HOMEPAGERESPONSE.POLICYALERTCLICKED = false;
-		HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED = false;
-		CONSTANTS.PGNUMBER = 0;
-		var page = "home",
-			pageNumber = ++CONSTANTS.PGNUMBER,
-			data = {"pageNumber" : pageNumber},
-			deepPath = "filterfeedbyalertdate",
-            callback = protocall.home.loadHomePageData;
-       var resp = utils.server.makeServerCall(page, data, callback, deepPath);
+        HOMEPAGERESPONSE.INCIDENTALERTSCLICKED = true;
+        HOMEPAGERESPONSE.POLICYALERTCLICKED = false;
+        HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED = false;
+        CONSTANTS.PGNUMBER = 0;
+        var page = "home",
+                pageNumber = ++CONSTANTS.PGNUMBER,
+                data = {"pageNumber": pageNumber},
+        deepPath = "filterfeedbyalertdate",
+                callback = protocall.home.loadHomePageData;
+        var resp = utils.server.makeServerCall(page, data, callback, deepPath);
     },
     displayPoliciesFeeds: function () {
         HOMEPAGERESPONSE.POLICYALERTCLICKED = true;
-		HOMEPAGERESPONSE.INCIDENTALERTSCLICKED = false;
-		HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED = false;
-		CONSTANTS.PGNUMBER = 0;
-		var page = "home",
-			pageNumber = ++CONSTANTS.PGNUMBER,
-			data = {"pageNumber" : pageNumber},
-			deepPath = "filterfeedbyalertdate",
-            callback = protocall.home.loadHomePageData;
-       var resp = utils.server.makeServerCall(page, data, callback, deepPath);
+        HOMEPAGERESPONSE.INCIDENTALERTSCLICKED = false;
+        HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED = false;
+        CONSTANTS.PGNUMBER = 0;
+        var page = "home",
+                pageNumber = ++CONSTANTS.PGNUMBER,
+                data = {"pageNumber": pageNumber},
+        deepPath = "filterfeedbyalertdate",
+                callback = protocall.home.loadHomePageData;
+        var resp = utils.server.makeServerCall(page, data, callback, deepPath);
     }
-/*Naveen 19-2-2015 Chnage end*/
+    /*Naveen 19-2-2015 Chnage end*/
 };
 protocall.carrier = {
-	    
-	    initCarrierPage: function () {
+    
 
-		
-		var page = "carriers";
-		var data = {agencyId:"49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
-			deepPath = "agencydashboarddesign",
-			page = "home",
-			callback = protocall.carrier.loadvinothcontent,
-			authId = "",
-			spinnerMsg = "";
-		        utils.server.makeServerCall(page,data,callback,deepPath);
-
-               
-
-		
-		
-	    },
-
- loadvinothcontent: function (data,page) {
-
-if (data.resultMap!= null && data.resultMap!= "") {
-var resultCarrier = data.resultMap.carrierTab;
-var template = '';
- for (var rc = 0; rc < resultCarrier.length; rc++) {
- template += CarrierdynamicTemplate.carrier.CarrierDynamicList();
-}
-                var header   = CarrierdynamicTemplate.carrier.CarrierDynamicHeaderTemplate();
-		
-          	var content  = '<div class="container"> <div class="content-holder">'+template+'</div></div></div></div>';
-		var footer   = HomedynamicTemplate.home.HomeDynamicFooterTemplate();
-
-		$("#page").empty();
-		totalHtml = header+content+footer;
-		$("#page").append(totalHtml);
-		protocall.displaySpinner(false);
-}
+    initCarrierPage: function () {
 
 
+        var page = "carriers";
+        var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
+        deepPath = "agencydashboarddesign",
+                page = "home",
+                callback = CarrierdynamicTemplate.carrier.loadcarriercontent,
+                authId = "",
+                spinnerMsg = "";
+        utils.server.makeServerCall(page, data, callback, deepPath);
 
-},
-
-	    loadHomePageData: function (data, page) {
-		protocall.displaySpinner(false);
-                feedHTML1 = '<div class="carrier-home-parent p-relative">';
-		var feedHTML ="";
-		
-        if (data.resultMap!= null && data.resultMap!= "") {
-            var resultCarrier = data.resultMap.carrierTab;
-			
-		
-            for (var rc = 0; rc < resultCarrier.length; rc++) {
-				var c = resultCarrier[rc];
-				//emailId = c.emailId.email;
-				//cEmailId = (c.emailId.email).toString();
-				
-				if(c.emailId == undefined){
-					cEmail =' ';
-					console.log(cEmail);
-				}else{
-						cEmail = c.emailId.email;
-						console.log(cEmail);
-				}
-				if(c.carrierLogo == undefined)
-						
-						{
-							
-							profilePicture = "http://devilsworkshop.org/files/2013/01/enlarged-facebook-profile-picture.jpg";
-								
-						}else{
-							
-							var profilePath = c.carrierLogo;
-							profilePicture = ProfileAPI+profilePath;
-						}
-				
-				feedHTML+= template.CarrierfeedsTemplateHTML(c);
-			}
-			
-
-			var feedHTML2 ='</div>';
-			$(".container").addClass("container");
-			$(".container").removeClass("container-maxwidth");
-			$(".content-holder").empty();
-			$(".content-holder").append($(feedHTML1+feedHTML+feedHTML2));
-		//console.log(feedHTML)
-        }
     },
-    loadFeed: function () {
-        var html = staticTemplate.carriers.staticCarrierFeedViewTemplate();
+
+    
+    loadFeed: function (Carrieremail) {
+
+         var html = staticTemplate.carriers.staticCarrierFeedViewTemplate(Carrieremail);
         $(".content-holder").empty();
         $(".content-holder").append($(html));
         var totalHTML = "";
         var totalLen = 1;
         for (var h = 0; h < totalLen; h++) {
-            var template = staticTemplate.carriers.staticCarrierFeedViewTemplate();
+            var template = staticTemplate.carriers.staticCarrierFeedViewTemplate(Carrieremail);
             totalHTML = totalHTML + template;
         }
         $(".container").addClass("container-maxwidth");
         $(".container").removeClass("container");
         $(".rel-feeds-content").empty();
         $(".rel-feeds-content").append($(totalHTML));
-    },
+    }
+
+    
 };
 protocall.customer = {
-
     initCustomerPage: function () {
-	
-	var header   = CustomerdynamicTemplate.carrier.CustomerDynamicHeaderTemplate();
-	var template = "<div>My test customer content</div>";
-	var content  = '<div class="container"> <div class="content-holder">'+template+'</div></div></div></div>';
-	var footer   = HomedynamicTemplate.home.HomeDynamicFooterTemplate();
+        var page = "customers";
+        var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
+        deepPath = "agencydashboarddesign",
+                page = "customers",
+                callback = CustomerdynamicTemplate.customer.loadcustomercontent,
+                authId = "",
+                spinnerMsg = "";
+        utils.server.makeServerCall(page, data, callback, deepPath);
 
-	$("#page").empty();
-	totalHtml = header+content+footer;
-	$("#page").append(totalHtml);
-	protocall.displaySpinner(false);        
+//        var header = CustomerdynamicTemplate.carrier.CustomerDynamicHeaderTemplate();
+//        var template = "<div>My test customer content</div>";
+//        var content = '<div class="container"> <div class="content-holder">' + template + '</div></div></div></div>';
+//        var footer = HomedynamicTemplate.home.HomeDynamicFooterTemplate();
+//
+//        $("#page").empty();
+//        totalHtml = header + content + footer;
+//        $("#page").append(totalHtml);
+//        protocall.displaySpinner(false);
+0
+
     },
 
-     loadHomePageData: function (data, page) {
-        //console.log(data, page);
-        feedHTML1 = '<div class="carrier-home-parent p-relative">';
-		var feedHTML ="";
-		//console.log("datalength",data.resultMap.userTab.length);
-        if (data.resultMap!= null && data.resultMap!= "") {
-            var resultCustomer = data.resultMap.userTab;
-			//console.log(resultCarrier.length)
-		
-            for (var c = 0; c < resultCustomer.length; c++) {
-				console.log(cus)
-				var cus = resultCustomer[c];
-				//emailId = c.emailId.email;
-				//cEmailId = (c.emailId.email).toString();
-				
-				if(cus.emailId == undefined){
-					cusEmail =' ';
-					
-				}else{
-						cusEmail = cus.emailId.email;
-						
-				}
-				 if(cus.lastName == undefined)
-						{
-							lastName =' ';
-								
-						}else {
-						 lastName = cus.lastName;
-						}
-						
-				if(cus.profilePicture == undefined)
-						
-						{
-							
-							profilePicture = "http://www.deshow.net/d/file/animal/2009-05/animal-pictures-pet-photography-557-4.jpg";
-								
-						}else{
-							
-							var profilePath = cus.profilePicture;
-							profilePicture = ProfileAPI+profilePath;
-							//console.log(pic)
-						 //profilePicture "pic/profilePicture";
-						 //console.log(profilePicture);
-						}
+loadCustomersViewFeed: function (emailID) {
+        var data = JSON.parse(localStorage.getItem("customers_data"));
+        console.log(data);
 
+        var html = "";
+        var status = 0;
+        for (var index = 0; index < data.length; index++) {
+            var element = data[index];
 
-				feedHTML+= template.CustomerfeedsTemplateHTML(cus);
-			}
-			var feedHTML2 ='</div>';
-			$(".container").addClass("container");
-			$(".container").removeClass("container-maxwidth");
-			$(".content-holder").empty();
-			$(".content-holder").append($(feedHTML1+feedHTML+feedHTML2));
-		//console.log(feedHTML)
+            if (element.emailId.email == emailID) {
+                html = staticTemplate.customers.staticCustomerViewTemplate(element);
+                status = 1;
+            }
         }
+
+        if (status == 0) {
+            html = "<div> No Records </div>";
+        }
+
+        $(".content-holder").empty();
+        $(".content-holder").append($(html));
+        $(".container").addClass("container-maxwidth");
+        $(".container").removeClass("container");
+        $(".rel-feeds-content").empty();
+        $(".rel-feeds-content").append(html);
+    
     },
     loadFeedSetting: function () {
         var html = staticTemplate.customers.staticSettingViewTemplate();
@@ -2150,93 +2086,94 @@ protocall.customer = {
 
 protocall.myRep = {
     initMyRepsPage: function () {
-        
-        var header   = MyrepsdynamicTemplate.myreps.MyrepsDynamicHeaderTemplate();
-	var template = MyrepsdynamicTemplate.myreps.MyrepsDynamicList();
-	var content  = '<div class="container"> <div class="content-holder">'+template+'</div></div></div></div>';
-	var footer   = HomedynamicTemplate.home.HomeDynamicFooterTemplate();
+        var page = "myrepspage";
+        var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
+        deepPath = "agencydashboarddesign",
+                page = "myrepspage",
+                callback = MyrepsdynamicTemplate.myreps.MyrepsDynamicList,
+                authId = "",
+                spinnerMsg = "";
+        utils.server.makeServerCall(page, data, callback, deepPath);
 
-	$("#page").empty();
-	totalHtml = header+content+footer;
-	$("#page").append(totalHtml);
-	protocall.displaySpinner(false);      
+//        var header = MyrepsdynamicTemplate.myreps.MyrepsDynamicHeaderTemplate();
+//        var template = MyrepsdynamicTemplate.myreps.MyrepsDynamicList();
+//        var content = '<div class="container"> <div class="content-holder">' + template + '</div></div></div></div>';
+//        var footer = HomedynamicTemplate.home.HomeDynamicFooterTemplate();
+//
+//        $("#page").empty();
+//        totalHtml = header + content + footer;
+//        $("#page").append(totalHtml);
+//        protocall.displaySpinner(false);
 
     },
-	
- loadHomePageData: function (data, page) {
+    loadHomePageData: function (data, page) {
         //console.log(data, page);
         feedHTML1 = '<div class="customer-home-parent clr-fl p-relative">';
-		var feedHTML ="";
-		//console.log("datalength",data.resultMap.userTab.length);
-        if (data.resultMap!= null && data.resultMap!= "") {
+        var feedHTML = "";
+        //console.log("datalength",data.resultMap.userTab.length);
+        if (data.resultMap != null && data.resultMap != "") {
             var resultReps = data.resultMap.repTab;
-			//console.log(resultCarrier.length)
-		
+            //console.log(resultCarrier.length)
+
             for (var mp = 0; mp < resultReps.length; mp++) {
-				
-				var rep = resultReps[mp];
-				console.log(rep)
-				
-				if(rep.agencyRepresentativeId == undefined){
-					repEmail =' ';
-					
-				}else{
-						repEmail = rep.agencyRepresentativeId.email;
-						
-				}
-				if(rep.profilePicture == undefined)
-						
-						{
-							
-							profilePicture = "http://johnjournal.bravesites.com/files/images/Profile_Score_Photo.jpg";
-								
-						}else{
-							
-							var profilePath = rep.profilePicture;
-							profilePicture = ProfileAPI+profilePath;
-							//console.log(pic)
-						 //profilePicture "pic/profilePicture";
-						 //console.log(profilePicture);
-						}
+
+                var rep = resultReps[mp];
+                console.log(rep)
+
+                if (rep.agencyRepresentativeId == undefined) {
+                    repEmail = ' ';
+
+                } else {
+                    repEmail = rep.agencyRepresentativeId.email;
+
+                }
+                if (rep.profilePicture == undefined)
+
+                {
+
+                    profilePicture = "http://johnjournal.bravesites.com/files/images/Profile_Score_Photo.jpg";
+
+                } else {
+
+                    var profilePath = rep.profilePicture;
+                    profilePicture = ProfileAPI + profilePath;
+                    //console.log(pic)
+                    //profilePicture "pic/profilePicture";
+                    //console.log(profilePicture);
+                }
 
 
-				feedHTML+= template.RepsfeedsTemplateHTML(rep);
-			}
-			var feedHTML2 ='</div>';
-			$(".container").addClass("container");
-			$(".container").removeClass("container-maxwidth");
-			$(".content-holder").empty();
-			$(".content-holder").append($(feedHTML1+feedHTML+feedHTML2));
-		//console.log(feedHTML)
+                feedHTML += template.RepsfeedsTemplateHTML(rep);
+            }
+            var feedHTML2 = '</div>';
+            $(".container").addClass("container");
+            $(".container").removeClass("container-maxwidth");
+            $(".content-holder").empty();
+            $(".content-holder").append($(feedHTML1 + feedHTML + feedHTML2));
+            //console.log(feedHTML)
         }
     },
-
 }
 
 
 protocall.myProfile = {
-    
-	
     loadFeedSetting: function ($el) {
 
-	var page     = "settings";
-	var data = {agencyId:"49c03e36-f3f1-4132-8115-2f74c8a7bae3"};
-	var callback = protocall.myProfile.MysettingsResponse;
-	var deepPath = "readagency";
-console.log(data);
-	var response  = utils.server.makeServerCall(page,data,callback,deepPath);
-	this.setSelectedClassPopContent($el);	
+        var page = "settings";
+        var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"};
+        var callback = protocall.myProfile.MysettingsResponse;
+        var deepPath = "readagency";
+        console.log(data);
+        var response = utils.server.makeServerCall(page, data, callback, deepPath);
+        this.setSelectedClassPopContent($el);
     },
-
-    MysettingsResponse : function (data) {
-	console.log(data);
-	var html  = staticTemplate.customers.staticSettingsTemplate(data);
+    MysettingsResponse: function (data) {
+        console.log(data);
+        var html = staticTemplate.customers.staticSettingsTemplate(data);
         $(".content-holder").empty();
         $(".content-holder").append($(html));
-        
+
     },
-
-
     loadMyProfileView: function ($el) {
         popUpContent.closePopUpContent();
         var html = staticTemplate.customers.staticMyProfileViewTemplate();
@@ -2258,75 +2195,75 @@ console.log(data);
 }
 /*Naveen 23-2-2015 Chnage start*/
 protocall.util = {
-	viewingHomePageData : function (dataValue){
-		console.log("data in viewing home page data",dataValue);
-		var header = "",
-			content = "",
-			totalHtml = "",
-			feedHTML = ""
-			footer = "";
-		console.log("data in viewingHomePageData",dataValue);
-		if(dataValue !== "undefined" && dataValue.resultMap !== "undefined"){
-			if(dataValue.resultMap.TypeCode !== "undefined" && dataValue.resultMap.TypeCode == "4011"){
-				if(dataValue.resultMap.isNextPage){
-					CONSTANTS.HASNEXTPAGE = true;
-				} else {
-					CONSTANTS.HASNEXTPAGE = false;
-				}
-				console.log("resultMap.ArrayOfAlertDetails.length",dataValue.resultMap.ArrayOfAlertDetails.length);
-				if(dataValue.resultMap.ArrayOfAlertDetails !== "undefined" && dataValue.resultMap.ArrayOfAlertDetails.length !== "undefined" && dataValue.resultMap.ArrayOfAlertDetails.length!== 0){
-					$.each(dataValue.resultMap.ArrayOfAlertDetails,function(index,alertDetailsValue){
-						console.log("alertDetailsValue.alertDetails index",alertDetailsValue.alertDetails.length);
-						var alertType = alertDetailsValue.alertDetails.type;
-						if(HOMEPAGERESPONSE.INCIDENTALERTSCLICKED){
-							console.log("HOMEPAGERESPONSE.INCIDENTALERTSCLICKED",HOMEPAGERESPONSE.INCIDENTALERTSCLICKED);
-							console.log("alertDetailsValue.alertDetails INCIDENTALERTSCLICKED",alertDetailsValue.alertDetails.length);
-							feedHTML+= template.incidentAlertFeedHMLT(alertDetailsValue,alertType);
-						} else if(HOMEPAGERESPONSE.POLICYALERTCLICKED){
-							console.log("HOMEPAGERESPONSE.POLICYALERTCLICKED",HOMEPAGERESPONSE.POLICYALERTCLICKED);
-							console.log("alertDetailsValue.alertDetails POLICYALERTCLICKED",alertDetailsValue.alertDetails.length);
-							feedHTML+= template.policyAlertFeedHMLT(alertDetailsValue,alertType);
-						} else {
-							feedHTML+= template.feedsTemplateHTML(alertDetailsValue);
-							if(HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED){
-								if(alertDetailsValue.alertStatusDetails.status == undefined){
-									HOMEPAGERESPONSE.UNREADFEEDCOUNT = HOMEPAGERESPONSE.UNREADFEEDCOUNT+1;
-								}
-							}
-						}
-						HOMEPAGERESPONSE.RECURRINGALERTDFEEDS.push(alertDetailsValue);
-					});
-					/*Naveen 23-2-2015 Changes Start */
-					if(feedHTML == "" && HOMEPAGERESPONSE.POLICYALERTCLICKED){
-						feedHTML = '<div class="feed-block clr-fl">There are No Policy Feeds Available for the User</div>';
-					} 
-					if(feedHTML == "" && HOMEPAGERESPONSE.INCIDENTALERTSCLICKED){
-						feedHTML = '<div class="feed-block clr-fl">There are No Incident Feeds Available for the User</div>';
-					}
-					if(feedHTML == "" && HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED){
-						feedHTML = '<div class="feed-block clr-fl">There are No My Alert Feeds Available for the User</div>';
-					}
-					/*Naveen 23-2-2015 Changes End */
-					console.log("HOMEPAGERESPONSE.INCIDENTALERTSCLICKED 2",HOMEPAGERESPONSE.INCIDENTALERTSCLICKED);
-				} 
-			}
-		}
-		if(CONSTANTS.PGNUMBER == 1){
-			$("#page").empty();
-			header   = HomedynamicTemplate.home.HomeDynamicHeaderTemplate();
-			content  = '<div class="container"> <div class="content-holder">'+feedHTML+'</div></div></div></div>';
-			footer   = HomedynamicTemplate.home.HomeDynamicFooterTemplate();
-			totalHtml = header+content+footer;
-			$("#page").append(totalHtml);
-		} else {
-			$(".content-holder").append($(feedHTML));
-		} 
-		$(".mb-submenu").find("a.myalerts span.cnt-no").text(HOMEPAGERESPONSE.UNREADFEEDCOUNT);
-		protocall.displaySpinner(false);
-		protocall.events.containerScrollEvent();
-		protocall.view.subMenuSelectedTab();
-		$(".content-holder").removeClass("spinner1");
-	}
+    viewingHomePageData: function (dataValue) {
+        console.log("data in viewing home page data", dataValue);
+        var header = "",
+                content = "",
+                totalHtml = "",
+                feedHTML = ""
+        footer = "";
+        console.log("data in viewingHomePageData", dataValue);
+        if (dataValue !== "undefined" && dataValue.resultMap !== "undefined") {
+            if (dataValue.resultMap.TypeCode !== "undefined" && dataValue.resultMap.TypeCode == "4011") {
+                if (dataValue.resultMap.isNextPage) {
+                    CONSTANTS.HASNEXTPAGE = true;
+                } else {
+                    CONSTANTS.HASNEXTPAGE = false;
+                }
+                console.log("resultMap.ArrayOfAlertDetails.length", dataValue.resultMap.ArrayOfAlertDetails.length);
+                if (dataValue.resultMap.ArrayOfAlertDetails !== "undefined" && dataValue.resultMap.ArrayOfAlertDetails.length !== "undefined" && dataValue.resultMap.ArrayOfAlertDetails.length !== 0) {
+                    $.each(dataValue.resultMap.ArrayOfAlertDetails, function (index, alertDetailsValue) {
+                        console.log("alertDetailsValue.alertDetails index", alertDetailsValue.alertDetails.length);
+                        var alertType = alertDetailsValue.alertDetails.type;
+                        if (HOMEPAGERESPONSE.INCIDENTALERTSCLICKED) {
+                            console.log("HOMEPAGERESPONSE.INCIDENTALERTSCLICKED", HOMEPAGERESPONSE.INCIDENTALERTSCLICKED);
+                            console.log("alertDetailsValue.alertDetails INCIDENTALERTSCLICKED", alertDetailsValue.alertDetails.length);
+                            feedHTML += template.incidentAlertFeedHMLT(alertDetailsValue, alertType);
+                        } else if (HOMEPAGERESPONSE.POLICYALERTCLICKED) {
+                            console.log("HOMEPAGERESPONSE.POLICYALERTCLICKED", HOMEPAGERESPONSE.POLICYALERTCLICKED);
+                            console.log("alertDetailsValue.alertDetails POLICYALERTCLICKED", alertDetailsValue.alertDetails.length);
+                            feedHTML += template.policyAlertFeedHMLT(alertDetailsValue, alertType);
+                        } else {
+                            feedHTML += template.feedsTemplateHTML(alertDetailsValue);
+                            if (HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED) {
+                                if (alertDetailsValue.alertStatusDetails.status == undefined) {
+                                    HOMEPAGERESPONSE.UNREADFEEDCOUNT = HOMEPAGERESPONSE.UNREADFEEDCOUNT + 1;
+                                }
+                            }
+                        }
+                        HOMEPAGERESPONSE.RECURRINGALERTDFEEDS.push(alertDetailsValue);
+                    });
+                    /*Naveen 23-2-2015 Changes Start */
+                    if (feedHTML == "" && HOMEPAGERESPONSE.POLICYALERTCLICKED) {
+                        feedHTML = '<div class="feed-block clr-fl">There are No Policy Feeds Available for the User</div>';
+                    }
+                    if (feedHTML == "" && HOMEPAGERESPONSE.INCIDENTALERTSCLICKED) {
+                        feedHTML = '<div class="feed-block clr-fl">There are No Incident Feeds Available for the User</div>';
+                    }
+                    if (feedHTML == "" && HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED) {
+                        feedHTML = '<div class="feed-block clr-fl">There are No My Alert Feeds Available for the User</div>';
+                    }
+                    /*Naveen 23-2-2015 Changes End */
+                    console.log("HOMEPAGERESPONSE.INCIDENTALERTSCLICKED 2", HOMEPAGERESPONSE.INCIDENTALERTSCLICKED);
+                }
+            }
+        }
+        if (CONSTANTS.PGNUMBER == 1) {
+            $("#page").empty();
+            header = HomedynamicTemplate.home.HomeDynamicHeaderTemplate();
+            content = '<div class="container"> <div class="content-holder">' + feedHTML + '</div></div></div></div>';
+            footer = HomedynamicTemplate.home.HomeDynamicFooterTemplate();
+            totalHtml = header + content + footer;
+            $("#page").append(totalHtml);
+        } else {
+            $(".content-holder").append($(feedHTML));
+        }
+        $(".mb-submenu").find("a.myalerts span.cnt-no").text(HOMEPAGERESPONSE.UNREADFEEDCOUNT);
+        protocall.displaySpinner(false);
+        protocall.events.containerScrollEvent();
+        protocall.view.subMenuSelectedTab();
+        $(".content-holder").removeClass("spinner1");
+    }
 }
 /*Naveen 23-2-2015 Chnage end*/
 
@@ -2559,15 +2496,15 @@ function editDataInfo() {
 
 
 function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();            
-            reader.onload = function (e) {
-                $('.ageny-img-width').attr('src', e.target.result);
-		$('.setProfilePic').attr('src', e.target.result);
-            }
-            reader.readAsDataURL(input.files[0]);
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('.ageny-img-width').attr('src', e.target.result);
+            $('.setProfilePic').attr('src', e.target.result);
         }
+        reader.readAsDataURL(input.files[0]);
     }
+}
 
 
 

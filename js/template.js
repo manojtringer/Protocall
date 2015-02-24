@@ -85,6 +85,22 @@ var template = {
 						console.log("condition satisfied in each");
 						noOfOtherPartyRecordsCount = 0;
 					}
+					if(element.name == undefined){
+						console.log("condition satisfied in each");
+						noOfOtherPartyRecordsCount = 0;
+					}
+					if(element.phone == undefined){
+						console.log("condition satisfied in each");
+						noOfOtherPartyRecordsCount = 0;
+					}
+if(element.address == undefined){
+						console.log("condition satisfied in each");
+						noOfOtherPartyRecordsCount = 0;
+					}
+					if(element.vehicalNo == undefined){
+						console.log("condition satisfied in each");
+						noOfOtherPartyRecordsCount = 0;
+					}
 				});
 			} 
 			var incidentrightSideFeed = template.rightSideFeed(alertDetailsValue,alertType);

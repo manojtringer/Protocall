@@ -141,14 +141,14 @@ console.log("myvinoth",data);
 
 
 			$("#homecontent").css("display", "block");
-			localStorage.loggedIn    = "true";
+			sessionStorage.loggedIn    = "true";
                         localStorage.imageURl    = "http://2-dot-proto-call-test.appspot.com/file/";
-                        localStorage.profilePic  = localStorage.imageURl+data.resultMap.userDetails.profilePicture; 
-			localStorage.agencyEmail = data.resultMap.userDetails.agencyRepresentativeId.email;
-                        localStorage.agencyLogo  = localStorage.imageURl+data.resultMap.agencyDetails.agencyLogo;
-                        localStorage.agencyName  = data.resultMap.userDetails.firstName;
-                        localStorage.agencyPhone = data.resultMap.agencyDetails.phone.number; 
-			localStorage.agencyId    = data.resultMap.agencyId;
+                        sessionStorage.profilePic  = localStorage.imageURl+data.resultMap.userDetails.profilePicture; 
+			sessionStorage.agencyEmail = data.resultMap.userDetails.agencyRepresentativeId.email;
+                        sessionStorage.agencyLogo  = localStorage.imageURl+data.resultMap.agencyDetails.agencyLogo;
+                        sessionStorage.agencyName  = data.resultMap.userDetails.firstName;
+                        sessionStorage.agencyPhone = data.resultMap.agencyDetails.phone.number; 
+			sessionStorage.agencyId    = data.resultMap.agencyId;
 			protocall.setPageNavigation(HOME_PAGE);
 
 				/* var header   = HomedynamicTemplate.home.HomeDynamicHeaderTemplate();
