@@ -1,6 +1,6 @@
 .bootstrap-switch {
     width: 102px;
-    /* height: 31px; */
+    height: 31px;
     position:relative;
     display: inline-block;
     direction: ltr;
@@ -11,7 +11,7 @@
     position: relative;
     text-align: left;
     overflow: hidden;
-    /* line-height: 35px; */
+    /* line-height: 16px; */
     z-index: 0;
     -webkit-user-select: none;
     float: right;

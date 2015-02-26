@@ -81,7 +81,7 @@ var template = {
 				console.log("condition satisfied in if");
 				$.each(alertDetailsValue.OtherPartyDetails,function(index,element){
 					console.log("condition satisfied in each element.carrier",element.carrier);
-					if(element.carrier == undefined){
+					/* if(element.carrier == undefined){
 						console.log("condition satisfied in each");
 						noOfOtherPartyRecordsCount = 0;
 					}
@@ -100,7 +100,7 @@ if(element.address == undefined){
 					if(element.vehicalNo == undefined){
 						console.log("condition satisfied in each");
 						noOfOtherPartyRecordsCount = 0;
-					}
+					} */
 				});
 			} 
 			var incidentrightSideFeed = template.rightSideFeed(alertDetailsValue,alertType);
@@ -212,11 +212,11 @@ if(element.address == undefined){
 		 if(alertDetailsValue.userDetails.profilePicture !== "undefined"){
 			profilePicture = HOMEPAGERESPONSE.PROFILEAPI+alertDetailsValue.userDetails.profilePicture; 
 		 }
-		 if(HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED) {
-			  var viewArchiveFeedHTML = '<input type="checkbox" class = "snap" data-type="archiveCheckBox" id='+alertDetailsValue.alertDetails.alertId+' name="" class="checkbox"><label for='+alertDetailsValue.alertDetails.alertId+' class="feed-label"></label>';
-		 } else {
-			 viewArchiveFeedHTML = "";
-		 }
+		 if(HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED) {
+			   viewArchiveFeedHTML = ""; 
+		  } else {
+			 viewArchiveFeedHTML = '<input id='+alertDetailsValue.alertDetails.alertId+' type="checkbox" class="checkbox snap" data-type="archiveCheckBox"><label class="feed-label" for='+alertDetailsValue.alertDetails.alertId+'></label>'; 
+		 } 
 		
 		rightSideAlerFeedHTML = '<div class="lf-block left">'
                     + '<div class="leftblk-spacing">'
@@ -269,7 +269,7 @@ if(element.address == undefined){
                     + '<div class="inner-view-spacing snap" data-type="view">'
                     + '<div class="t-center mid-align">'
                     + '<div class="sprite-im inline-block v-align-mid view-icon">&nbsp;</div>'
-                    + '<span class="feed-menu-text inline-block v-align-mid f-color-w" id='+alertDetailsValue.alertDetails.alertId+'>View</span>'
+                    + '<span class="feed-menu-text inline-block v-align-mid f-color-w" name='+alertDetailsValue.alertDetails.alertId+' id='+alertDetailsValue.userDetails.emailId.email+'>View</span>'
                     + '</div>'
                     + '</div>'
                     + '</div>'

@@ -20,22 +20,23 @@ var CONSTANTS = {
         PAGE: "page", HOME_PAGE: "home", CARRIERS_PAGE: "carriers", CUSTOMERS_PAGE: "customers", MY_REP_PAGE: "myreps", LOGIN_PAGE: "login", LOGIN_YES: "login-yes", LOGOUT_YES: "logout-yes",
         VIEW_FEED: "view", FEEDS: "feeds", SHARE_TO_REP: "share", CLOSE_OVERLAY: "closeOverlay", CLOSE_POPUP: "closePopUp", EDIT_AGENCY_PIC: "editAgencyPic",
         MY_ALERTS: "myalerts", INCIDENTS: "incidents", POLICIES: "policies", MATCH_RELEASE_CLAIMS: "matchReleaseClaim", INVITE_REPS: "invitereps",
-        ASSIGN_TO_REPS: "assignrep", PHOTS_OVERLAY_DISPLAY: "photosDoc", THUMB_NAIL: "thumbNail", PREVIOUS: "previous", NEXT: "next", VIEW_CARRIER_FEEDVIEW: "viewcarrierfeedview", PUSHMESSAGE: "pushmessage", PRIVACY: "privacy", ARCHIVES: "archives", VIEW_ARCHIVES: "view_archives", SORTBY: "sortby",SORTBYCARRIER:"sortbycarrier",SORTBYCUSTOMER:"sortbycustomer",SORTBYREPS:"sortbyreps", MY_PROFILE: "profile-link", VIEW_CUSTOMER_FEEDVIEW: "customerprofileviewfeed", SETTINGS_PAGE: "mysettings", PROFILE_PAGE: "myProfileView", SENDAPPLINK: "sendapplink", AUDIO_OVERLAY: "voiceDoc", AUDIO_PLAY: "playAudio", AGENCY_VIEW_LOAD: "agency-view-load", PREFERRED_VENDOE_VIEW_LOAD: "preferred vendors-view-load", AGENCY_EDIT_LOAD: "agency-edit-load", AGENCY_REMOVE_LOAD: "agency-remove-load", AGENCY_ADD_VENDOR_LOAD: "agency-addvendor-load", VENDOR_PROFILE_INFO: "vendor-profile-info",
+        ASSIGN_TO_REPS: "assignrep", PHOTS_OVERLAY_DISPLAY: "photosDoc", THUMB_NAIL: "thumbNail", PREVIOUS: "previous", NEXT: "next", VIEW_CARRIER_FEEDVIEW: "viewcarrierfeedview", PUSHMESSAGE: "pushmessage", PRIVACY: "privacy", ARCHIVES: "archives", VIEW_ARCHIVES: "view_archives", SORTBY: "sortby", SORTBYCARRIER: "sortbycarrier", SORTBYCUSTOMER: "sortbycustomer", SORTBYREPS: "sortbyreps", MY_PROFILE: "profile-link", VIEW_CUSTOMER_FEEDVIEW: "customerprofileviewfeed", SETTINGS_PAGE: "mysettings", PROFILE_PAGE: "myProfileView", SENDAPPLINK: "sendapplink", AUDIO_OVERLAY: "voiceDoc", AUDIO_PLAY: "playAudio", AGENCY_VIEW_LOAD: "agency-view-load", PREFERRED_VENDOE_VIEW_LOAD: "preferred vendors-view-load", AGENCY_EDIT_LOAD: "agency-edit-load", AGENCY_REMOVE_LOAD: "agency-remove-load", AGENCY_ADD_VENDOR_LOAD: "agency-addvendor-load", VENDOR_PROFILE_INFO: "vendor-profile-info",
         ASSIGN_TO_CUSTOMERS: "dt-assigncustomer", PROPERTY_POLICY: "dt-propertypolicy", HEALTH_POLICY: "dt-healthpolicy",
         VEHICLE_POLICY: "dt-vehiclepolicy", RESETPASSWORD: "dtresetpassword", SIGNUP: "dtsignup", OVERLAY_RESETPASSALERTBOX: "dtoverlayresetpassword",
         EDITPASSWORDYES: "dtoverlayrestpassyes", EDITPASSWORDNO: "dtoverlayrestpassno",
         PREVIOUS_AUDIO: "previousAudio", NEXT_AUDIO: "nextAudio", DOCUMENTSOVERLAY: "textDoc", MYPROFEDIT: "edit",
-        SORYBYRECENT: "recent", SORTBYALPHABETICAL: "alphabetical",CARRIERSORYBYRECENT: "carrier-recent",CARRIERSORTBYALPHABETICAL: "carrier-alphabetical",REPSSORYBYRECENT: "reps-recent",REPSSORTBYALPHABETICAL: "reps-alpha", CUSTOMERSORYBYRECENT: "customer-recent",CUSTOMERSORTBYALPHABETICAL: "customer-alphabetical", VIEWARCHIVECHECKBOX: "archiveCheckBox", VIEWCUSTOMERFEED: "viewcustomerfeedview",
+        SORYBYRECENT: "recent", SORTBYALPHABETICAL: "alphabetical", CARRIERSORYBYRECENT: "carrier-recent", CARRIERSORTBYALPHABETICAL: "carrier-alphabetical", REPSSORYBYRECENT: "reps-recent", REPSSORTBYALPHABETICAL: "reps-alpha", CUSTOMERSORYBYRECENT: "customer-recent", CUSTOMERSORTBYALPHABETICAL: "customer-alphabetical", VIEWARCHIVECHECKBOX: "archiveCheckBox", VIEWCUSTOMERFEED: "viewcustomerfeedview",
         BUTTON_SENDAPPLINK: "dt_overlaybtn_sendapplink",
         BUTTON_PRIVACYSEND: "overlaybtnPrivacySend", BUTTON_ADDVENDORSEND: "overlaybtn_addvendordetails", BUTTON_SHAREWITHREP: "dt_overlaybtn_sharerepwithcustomers",
-        BUTTON_PUSHMESSAGESEND: "overlaybtn-pushmessage"
+        BUTTON_PUSHMESSAGESEND: "overlaybtn-pushmessage", PRINTPAGE: "printPage", BUTTON_ASSIGNTOREPS: "dt_overlaybtn_assignToReps", BUTTON_ASSIGNTOCUSTOMERS: "dt_overlaybtn_assigncustomers"
     },
     ERROR_MSG: {
         ajaxFailed: "Oops! This action could not be completed now! Please try again"
     },
     ISLOGGEDIN: false,
     HASNEXTPAGE: false,
-    SCROLLTOPVALUE: 0
+    SCROLLTOPVALUE: 0,
+    PRIVACY_TOGGLE_BUTTON: ""
 };
 //regular expressions
 PHONE_REGEX = /((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,3})|(\(?\d{2,3}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}/;
@@ -77,7 +78,8 @@ var RESPONSE = {
     DRIVINGLICENCENUMBER: [],
     INJURIES: [],
     OTHERINFORMATION: [],
-    OTHERPARTYIDS: []
+    OTHERPARTYIDS: [],
+    INCIDENTID: []
 };
 /*Naveen 19-2-2015 Chnage start*/
 var HOMEPAGERESPONSE = {
@@ -94,7 +96,10 @@ var HOMEPAGERESPONSE = {
     /*Naveen 23-2-2015 Changes Start */
     UNREADFEEDCOUNT: 0,
     INCIDENTALERTFEED: [],
-    POLICYALERTSFEED: []
+    POLICYALERTSFEED: [],
+    HOMEPAGESTUBBEDDATA: {},
+    LISTOFALERTIDSFORARCHIVE: [],
+    HOMEPAGEMYALERTSLOADEDCOUNT: 0
             /*Naveen 23-2-2015 Changes End */
 }
 /*Naveen 19-2-2015 Chnage end*/
@@ -477,15 +482,19 @@ protocall.events = {
 //******************Customers View Click Event***********************************
 
         $(document).on("click", ".mycustomerView", function () {
-            protocall.view.viewCustomerFeed(true, $(this).attr("id"));
+            protocall.view.viewCustomerFeed(true, $(this).attr("id"), $(this).attr("value"));
         });
 
 //*******************************************************************************
 
 //******************MyReps Tab View Click Event***********************************
-
+//carrier-feed-associated-view
         $(document).on("click", ".reps-feed-view", function () {
-            protocall.view.assignToCustomers($(this).attr("id"));
+            utils.server.assignToCustomers($(this).attr("id"));
+        });
+
+        $(document).on("click", ".carrier-feed-assigntocustomeroverlay-view", function () {
+            utils.server.assignToCustomers($(this).attr("id"));
         });
 
 //*******************************************************************************
@@ -507,16 +516,76 @@ protocall.events = {
 
 
 //*******************************************************************************
+
+//******************associatedropdown  Click Event***********************************
+        $(document).on("change", "#id-associatedropdown", function () {
+            var optionSelected = $("option:selected", this);
+            var selOption = optionSelected.val();
+
+            if (selOption == "ASSOCIATED REPS") {
+                protocall.carrier.loadAssociatedReps();
+            } else {
+                protocall.carrier.loadAssociatedCustomers();
+            }
+        });
+
+//*******************************************************************************
+
+//****************************Date click Function ***************************************************
+
+        $(document).on("change", "#datepicker", function () {
+            var inputDate = new Date(this.value);
+            var twoDigitMonth1 = ((inputDate.getMonth().length + 1) === 1) ? (inputDate.getMonth() + 1) : '0' + (inputDate.getMonth() + 1);
+            var currentDate = inputDate.getFullYear() + "-" + twoDigitMonth1 + "-" + inputDate.getDate();
+
+            var fullDate = new Date();
+            var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : '0' + (fullDate.getMonth() + 1);
+            var selectedDate = fullDate.getFullYear() + "-" + twoDigitMonth + "-" + fullDate.getDate();
+
+            if (currentDate == selectedDate) {
+                var currentTime = new Date();
+                var hours = currentTime.getHours();
+                var minutes = currentTime.getMinutes();
+                var ampm = (hours >= 12) ? "PM" : "AM";
+                if (hours > 12) {
+                    hours = hours % 12;
+                }
+                //pushmessagetimepicker
+                //ampmtimepicker
+
+                $("#pushmessagetimepicker").empty();
+                for (var hour = hours; hour <= 12; hour++) {
+                    for (var min = minutes; min < 60; min++) {
+                        $("#pushmessagetimepicker").append('<option>' + minTwoDigits(hour) + ":" + minTwoDigits(min) + '</option>');
+                    }
+                    minutes = 0;
+                }
+
+                $("#ampmtimepicker").prop("selectedIndex", 1);
+
+
+            }
+
+        });
+
+//*******************************************************************************
+
+//***********************Drop Down click Events*******************************
+//drop-down-icon-1
+//        $(document).on("click", ".drop-down-icon-1", function () {
+//            alert("dd");
+//            $("#timepicker").trigger('click');
+//        });
+
+        //*******************************************************************************     
+
+
+
         $(document).on("click", ".overalyPhots", function (e) {
             e.stopPropagation();
             console.log(".o-content");
             protocall.events.handleClickForPhotosOverlay(e);
         });
-        /* $(document).on("click", ".audioOverlay", function (e) {
-         e.stopPropagation();
-         console.log(".o-content");
-         protocall.events.handleClickForAudioOverlay(e);
-         }); */
         $(document).on("click", ".overlayDocs", function (e) {
             e.stopPropagation();
             console.log(".o-content");
@@ -635,20 +704,20 @@ protocall.events = {
                         protocall.view.loadInviteReps($el, true);
                         break;
                     case CONSTANTS.LINK_TYPE.ASSIGN_TO_REPS:
-                        protocall.view.loadAssignToReps($el, true);
+                        utils.server.assignToRep();
                         break;
                     case CONSTANTS.LINK_TYPE.SORTBY:
                         protocall.view.loadSortBy($el, true);
                         break;
-		    case CONSTANTS.LINK_TYPE.SORTBYCARRIER:
+                    case CONSTANTS.LINK_TYPE.SORTBYCARRIER:
                         protocall.view.loadSortByCarrier($el, true);
                         break;
-		    case CONSTANTS.LINK_TYPE.SORTBYCUSTOMER:
+                    case CONSTANTS.LINK_TYPE.SORTBYCUSTOMER:
                         protocall.view.loadSortByCustomer($el, true);
                         break;
-		    case CONSTANTS.LINK_TYPE.SORTBYREPS:
+                    case CONSTANTS.LINK_TYPE.SORTBYREPS:
                         protocall.view.loadSortByReps($el, true);
-                        break;	
+                        break;
                     case CONSTANTS.LINK_TYPE.PUSHMESSAGE:
                         protocall.view.pushMessage($el, true);
                         break;
@@ -679,7 +748,7 @@ protocall.events = {
                 protocall.view.loadProfile($el);
                 break;
             case CONSTANTS.LINK_TYPE.VIEW_FEED:
-                protocall.view.viewFeed(true);
+                protocall.view.viewFeed(true, $el);
                 break;
             case CONSTANTS.LINK_TYPE.SHARE_TO_REP:
 
@@ -784,19 +853,19 @@ protocall.events = {
             case CONSTANTS.LINK_TYPE.SORTBYALPHABETICAL:
                 protocall.view.loadSortByAlphabetical($el, true);
                 break;
-	    case CONSTANTS.LINK_TYPE.CARRIERSORYBYRECENT:
+            case CONSTANTS.LINK_TYPE.CARRIERSORYBYRECENT:
                 protocall.view.loadSortByRecentCarrier($el, true);
                 break;
             case CONSTANTS.LINK_TYPE.CARRIERSORTBYALPHABETICAL:
                 protocall.view.loadSortByAlphabeticalCarrier($el, true);
                 break;
-	    case CONSTANTS.LINK_TYPE.CUSTOMERSORYBYRECENT:
+            case CONSTANTS.LINK_TYPE.CUSTOMERSORYBYRECENT:
                 protocall.view.loadSortByRecentCustomers($el, true);
                 break;
             case CONSTANTS.LINK_TYPE.CUSTOMERSORTBYALPHABETICAL:
                 protocall.view.loadSortByAlphabeticalCustomer($el, true);
                 break;
-	    case CONSTANTS.LINK_TYPE.REPSSORYBYRECENT:
+            case CONSTANTS.LINK_TYPE.REPSSORYBYRECENT:
                 protocall.view.loadSortByRecentReps($el, true);
                 break;
             case CONSTANTS.LINK_TYPE.REPSSORTBYALPHABETICAL:
@@ -834,6 +903,12 @@ protocall.events = {
                 break;
             case CONSTANTS.LINK_TYPE.BUTTON_SHAREWITHREP:
                 utils.server.submitShareWithRepsData();
+                break;
+            case CONSTANTS.LINK_TYPE.BUTTON_ASSIGNTOREPS:
+                utils.server.submitAssignToRepsData();
+                break;
+            case CONSTANTS.LINK_TYPE.BUTTON_ASSIGNTOCUSTOMERS:
+                utils.server.submitAssignToCustomers();
                 break;
             case CONSTANTS.LINK_TYPE.BUTTON_SENDAPPLINK:
                 utils.server.submitSendAppLinkData();
@@ -999,6 +1074,7 @@ protocall.view = {
         console.log("Load Home Page");
         $(".content-holder").addClass("spinner1");
         HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED = true;
+        HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADEDCOUNT++;
         HOMEPAGERESPONSE.POLICYALERTCLICKED = false;
         HOMEPAGERESPONSE.INCIDENTALERTSCLICKED = false;
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE);
@@ -1049,16 +1125,24 @@ protocall.view = {
         }
         protocall.displaySpinner(false);
     },
-    viewFeed: function (isClickEvent) {
+    viewFeed: function (isClickEvent, currentTarget) {
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_FEED);
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.HOME_PAGE, CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_FEED, CONSTANTS.LINK_TYPE.VIEW_FEED, "");
         }
-        protocall.home.loadFeed();
+        protocall.home.loadFeed(currentTarget);
         //Call the below dynamically
+        var userEmail = currentTarget.find("div span").attr("id");
+        $.each(HOMEPAGERESPONSE.RECURRINGALERTDFEEDS, function (index, viewAlertFeed) {
+            if (userEmail == viewAlertFeed.userDetails.emailId.email) {
+                firstName = viewAlertFeed.userDetails.firstName;
+                lastName = viewAlertFeed.userDetails.lastName;
+                userName = firstName + '&nbsp' + lastName;
+            }
+        });
         var breadCrumbObj = {};
-        breadCrumbObj.customerName = "Hugh Jackman";
+        breadCrumbObj.customerName = userName;
         $('.tab-rb-submenu a').each(function () {
             protocall.view.setSelectedLinkClasses($(this), false);
         });
@@ -1113,13 +1197,13 @@ protocall.view = {
 
         protocall.displaySpinner(false);
     },
-    viewCustomerFeed: function (isClickEvent, emailId) {
+    viewCustomerFeed: function (isClickEvent, emailId, carrierId) {
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEWCUSTOMERFEED);
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE, CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEWCUSTOMERFEED, CONSTANTS.LINK_TYPE.VIEWCUSTOMERFEED, "");
         }
-        protocall.customer.loadCustomersViewFeed(emailId);
+        protocall.customer.loadCustomersViewFeed(emailId, carrierId);
         //Call the below dynamically
         /*var breadCrumbObj = {};
          breadCrumbObj.customerName = "Way to Safe";
@@ -1134,6 +1218,7 @@ protocall.view = {
         $(".content-holder").addClass("spinner1");
         HOMEPAGERESPONSE.UNREADFEEDCOUNT = 0;
         HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED = false;
+        HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED = false;
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.MY_ALERTS);
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
         if (isClickEvent) {
@@ -1150,6 +1235,7 @@ protocall.view = {
     loadIncidentsFeeds: function ($el, isClickEvent) {
         $(".content-holder").addClass("spinner1");
         HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED = false;
+        HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED = false;
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.INCIDENTS);
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
         if (isClickEvent) {
@@ -1164,6 +1250,7 @@ protocall.view = {
     loadPoliciesFeeds: function ($el, isClickEvent) {
         $(".content-holder").addClass("spinner1");
         HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED = false;
+        HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED = false;
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.POLICIES);
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
         if (isClickEvent) {
@@ -1186,7 +1273,7 @@ protocall.view = {
             $(".mb-submenu").find("a.policies").addClass("selected-tab");
         } else if (HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED) {
             $(".mb-submenu").find("a.archives").addClass("selected-tab");
-        } else if (HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED) {
+        } else if (HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED) {
             $(".mb-submenu").find("a.view_archives").addClass("selected-tab");
         } else {
             $(".mb-submenu").find("a.myalerts").addClass("selected-tab");
@@ -1197,26 +1284,50 @@ protocall.view = {
     /*Naveen Chnages 19-2-2015 end */
 
     loadArchiveFeeds: function ($el, isClickEvent) {
-        HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED = true;
-        HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED = false;
-        HOMEPAGERESPONSE.POLICYALERTCLICKED = false;
-        HOMEPAGERESPONSE.INCIDENTALERTSCLICKED = false;
-        protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.ARCHIVES);
-        protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
-        if (isClickEvent) {
-            protocall.setPage(CONSTANTS.LINK_TYPE.HOME_PAGE, CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.ARCHIVES, CONSTANTS.LINK_TYPE.ARCHIVES, "");
+        /* protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.ARCHIVES);
+         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
+         if (isClickEvent) {
+         protocall.setPage(CONSTANTS.LINK_TYPE.HOME_PAGE, CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.ARCHIVES, CONSTANTS.LINK_TYPE.ARCHIVES, "");
+         } */
+        if (HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE.length !== 0) {
+            $(".content-holder").addClass("spinner1");
+            var data = {"alertList": HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE},
+            deepPath = "archieve",
+                    page = "home",
+                    callback = protocall.home.loadViewArchivedFeedsResponse,
+                    authId = "",
+                    spinnerMsg = "";
+            var resp = utils.server.makeServerCall(page, data, callback, deepPath);
+            /* $('.tab-rb-submenu a').each(function () {
+             protocall.view.setSelectedLinkClasses($(this), false);
+             }); */
+        } else {
+            return;
         }
-        $('.tab-rb-submenu a').each(function () {
-            protocall.view.setSelectedLinkClasses($(this), false);
-        });
-        protocall.view.setSelectedLinkClasses($el, true);
-        protocall.home.initHomePage();
+        /* HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED = true;
+         HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED = false;
+         HOMEPAGERESPONSE.POLICYALERTCLICKED = false;
+         HOMEPAGERESPONSE.INCIDENTALERTSCLICKED = false;
+         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.ARCHIVES);
+         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
+         if (isClickEvent) {
+         protocall.setPage(CONSTANTS.LINK_TYPE.HOME_PAGE, CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.ARCHIVES, CONSTANTS.LINK_TYPE.ARCHIVES, "");
+         }
+         $('.tab-rb-submenu a').each(function () {
+         protocall.view.setSelectedLinkClasses($(this), false);
+         });
+         protocall.view.setSelectedLinkClasses($el, true);
+         protocall.home.initHomePage(); */
         /* var template = HomedynamicTemplate.home.HomeDynamicArchiveFeedTemplate();
          $(".content-holder").append(template);
          protocall.displaySpinner(false); */
     },
     loadviewArchivedFeeds: function ($el, isClickEvent) {
-
+        HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED = true;
+        HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED = false;
+        HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED = false;
+        HOMEPAGERESPONSE.POLICYALERTCLICKED = false;
+        HOMEPAGERESPONSE.INCIDENTALERTSCLICKED = false;
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_ARCHIVES);
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
         if (isClickEvent) {
@@ -1225,14 +1336,27 @@ protocall.view = {
         $('.tab-rb-submenu a').each(function () {
             protocall.view.setSelectedLinkClasses($(this), false);
         });
-        protocall.view.setSelectedLinkClasses($el, true);
-        $(".content-holder").empty();
-        var template = HomedynamicTemplate.home.HomeDynamicViewArchiveFeedTemplate();
-        $(".content-holder").append(template);
-        protocall.displaySpinner(false);
+        //protocall.view.setSelectedLinkClasses($el, true);
+        //$(".content-holder").empty();
+        CONSTANTS.PGNUMBER = 0;
+        var pageNumber = ++CONSTANTS.PGNUMBER;
+        var data = {"pageNumber": pageNumber},
+        deepPath = "viewedarchieved",
+                page = "home",
+                callback = protocall.home.loadHomePageData;
+        var resp = utils.server.makeServerCall(page, data, callback, deepPath);
+        /* var template = HomedynamicTemplate.home.HomeDynamicViewArchiveFeedTemplate();
+         $(".content-holder").append(template); */
+        protocall.view.subMenuSelectedTab();
     },
     archiveFeeds: function ($e1) {
         var alertIDValue = $e1.attr("id");
+        console.log("$e1", $e1);
+        if ($e1.prop("checked") == true) {
+            HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE.push(alertIDValue);
+        } else {
+            HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE.pop(alertIDValue);
+        }
         console.log("alertIDValue", $e1.attr("id"));
     },
     setSelectedLinkClasses: function ($el, isSet) {
@@ -1243,37 +1367,33 @@ protocall.view = {
         }
     },
     loadSortBy: function ($el) {
-      
+
         var html = '<div><div class="snap prof-view-overlay-sort" data-type="recent">Recent</div><div class="snap prof-view-overlay-sort" data-type="alphabetical">Alphabetical</div></div>';
         popUpContent.togglePopUpContent($el, html);
     },
     loadSortByCustomer: function ($el) {
-       	
-        var html = '<div><div class="snap '+localStorage.myvalue1+' prof-view-overlay-sort" id="Myrecent" data-type="customer-recent">Recent</div><div class="snap '+localStorage.myvalue2+' prof-view-overlay-sort" data-type="customer-alphabetical" id="Myalphabet">Alphabetical</div></div>';
+
+        var html = '<div><div class="snap ' + localStorage.myvalue1 + ' prof-view-overlay-sort" id="Myrecent" data-type="customer-recent">Recent</div><div class="snap ' + localStorage.myvalue2 + ' prof-view-overlay-sort" data-type="customer-alphabetical" id="Myalphabet">Alphabetical</div></div>';
         popUpContent.togglePopUpContent($el, html);
     },
-    
     loadSortByCarrier: function ($el) {
-       	
-        var html = '<div><div class="snap '+localStorage.mycarvalue1+' prof-view-overlay-sort" id="Myrecent" data-type="carrier-recent">Recent</div><div class="snap '+localStorage.mycarvalue2+' prof-view-overlay-sort" data-type="carrier-alphabetical" id="Myalphabet">Alphabetical</div></div>';
-        popUpContent.togglePopUpContent($el, html);
-    },	
-    
-    loadSortByReps: function ($el) {   	
-        var html = '<div><div class="snap '+localStorage.myrepvalue1+' prof-view-overlay-sort" id="Myrecent" data-type="reps-recent">Recent</div><div class="snap '+localStorage.myrepvalue2+' prof-view-overlay-sort" data-type="reps-alpha" id="Myalphabet">Alphabetical</div></div>';
+
+        var html = '<div><div class="snap ' + localStorage.mycarvalue1 + ' prof-view-overlay-sort" id="Myrecent" data-type="carrier-recent">Recent</div><div class="snap ' + localStorage.mycarvalue2 + ' prof-view-overlay-sort" data-type="carrier-alphabetical" id="Myalphabet">Alphabetical</div></div>';
         popUpContent.togglePopUpContent($el, html);
     },
-	
+    loadSortByReps: function ($el) {
+        var html = '<div><div class="snap ' + localStorage.myrepvalue1 + ' prof-view-overlay-sort" id="Myrecent" data-type="reps-recent">Recent</div><div class="snap ' + localStorage.myrepvalue2 + ' prof-view-overlay-sort" data-type="reps-alpha" id="Myalphabet">Alphabetical</div></div>';
+        popUpContent.togglePopUpContent($el, html);
+    },
     loadSortByRecent: function ($el) {
         protocall.view.sortyByRecnetView();
     },
     loadSortByAlphabetical: function ($el) {
         protocall.view.sortyByAlphabeticalView();
     },
-
     loadSortByRecentCarrier: function ($el) {
-	localStorage.mycarvalue1 = 'mysortselected';
-	localStorage.mycarvalue2 = '';
+        localStorage.mycarvalue1 = 'mysortselected';
+        localStorage.mycarvalue2 = '';
         protocall.view.sortyByCarrierRecnetView();
     },
     loadSortByAlphabeticalCarrier: function ($el) {
@@ -1281,10 +1401,9 @@ protocall.view = {
         localStorage.mycarvalue2 = 'mysortselected';
         protocall.view.sortyByCarrierAlphabeticalView();
     },
-	
     loadSortByRecentCustomers: function ($el) {
-	localStorage.myvalue1 = 'mysortselected';
-	localStorage.myvalue2 = '';
+        localStorage.myvalue1 = 'mysortselected';
+        localStorage.myvalue2 = '';
         protocall.view.sortyByCustomerRecnetView();
     },
     loadSortByAlphabeticalCustomer: function ($el) {
@@ -1292,10 +1411,9 @@ protocall.view = {
         localStorage.myvalue2 = 'mysortselected';
         protocall.view.sortyByCustomerAlphabeticalView();
     },
-
     loadSortByRecentReps: function ($el) {
-	localStorage.myrepvalue1 = 'mysortselected';
-	localStorage.myrepvalue2 = '';
+        localStorage.myrepvalue1 = 'mysortselected';
+        localStorage.myrepvalue2 = '';
         protocall.view.sortyByRepsRecnetView();
     },
     loadSortByAlphabeticalReps: function ($el) {
@@ -1303,21 +1421,19 @@ protocall.view = {
         localStorage.myrepvalue2 = 'mysortselected';
         protocall.view.sortyByRepsAlphabeticalView();
     },
-
     sortyByRepsRecnetView: function () {
-	
+
         popUpContent.closePopUpContent();
         protocall.myRep.initMyRepsPage();
         return false;
     },
     sortyByRepsAlphabeticalView: function () {
-	
-	popUpContent.closePopUpContent();
-	protocall.myRep.initMyRepsPageSort();
+
+        popUpContent.closePopUpContent();
+        protocall.myRep.initMyRepsPageSort();
         return false;
-        
-    },		
-		
+
+    },
     sortyByRecnetView: function () {
         $("div.submenu-sort div:nth-child(1)").text("Recent");
         popUpContent.closePopUpContent();
@@ -1332,33 +1448,31 @@ protocall.view = {
         HOMEPAGERESPONSE.SORTBYALPHABETICALVIEW = true;
         protocall.home.initHomePage();
     },
-    
     sortyByCarrierRecnetView: function () {
-	
+
         popUpContent.closePopUpContent();
         protocall.carrier.initCarrierPage();
         return false;
     },
     sortyByCarrierAlphabeticalView: function () {
-	
-	popUpContent.closePopUpContent();
-	protocall.carrier.initCarrierPageSort();
+
+        popUpContent.closePopUpContent();
+        protocall.carrier.initCarrierPageSort();
         return false;
-        
+
     },
-	
     sortyByCustomerRecnetView: function () {
-	
+
         popUpContent.closePopUpContent();
         protocall.customer.initCustomerPage();
         return false;
     },
     sortyByCustomerAlphabeticalView: function () {
-	
-	popUpContent.closePopUpContent();
-	protocall.customer.initCustomerPageSort();
+
+        popUpContent.closePopUpContent();
+        protocall.customer.initCustomerPageSort();
         return false;
-        
+
     },
     loadProfile: function ($el) {
         var html = '<div><div class="prof-view-overlay snap myProfileView" data-type="myProfileView">My Profile</div><div class="prof-view-overlay snap mysettings" data-type="mysettings">Settings</div>'
@@ -1552,6 +1666,11 @@ protocall.view = {
     pushMessage: function () {
         var html = staticTemplate.home.pushMessageTemplate();
         overlay.displayOverlay(html);
+        var nows = new Date();
+        $('#datepicker').prop('min', nows.toISOString().substring(0, 10));
+        $("#datepicker").keypress(function (event) {
+            event.preventDefault();
+        });
     },
     privacy: function () {
 
@@ -1614,7 +1733,8 @@ protocall.view = {
             var html = staticTemplate.home.showDocumentOverlayTemplate(clickedAlertID);
             overlay.displayOverlay(html);
             overlay.documentInIt();
-            $("#thumbNailDocs div:nth-child(1)").addClass("activeAudio");
+            $("#printTextOverlay").addClass("printPageClass");
+            $("#thumbNailViewForText div:nth-child(1)").addClass("activeAudio");
         }
     },
     printOverlayPage: function () {
@@ -1777,13 +1897,55 @@ protocall.view = {
     },
     /*Naveen 19-2-2015 Chnage end*/
     displayOrignalDoc: function (currentTarget) {
-        $("#thumbNailDocs>div").removeClass("activeAudio");
+        $("#thumbNailViewForText>div").removeClass("activeAudio");
         currentTarget.addClass("activeAudio");
-        var currentDocName = currentTarget.find("p").text(), mainAudioHTML = "";
-        console.log("currentDocName");
+        var currentDocName = "", phoneNumber = "", addressValue = "";
+        var currentOtherPartyID = currentTarget.find("p").attr("id"), mainAudioHTML = "";
+        console.log("currentOtherPartyID");
         $.each(RESPONSE.OTHERPARTYDETAILS, function (i, element) {
             console.log("media id", element.fileName);
-            if (currentDocName == element.fileName) {
+            if (currentOtherPartyID == element.otherPartyId) {
+                currentDocName = element.fileName;
+                if (element.fileName == undefined) {
+                    element.fileName = "Nil";
+                }
+                if (element.role == undefined) {
+                    element.role = "Nil";
+                }
+                if (element.phone == undefined) {
+                    phoneNumber = "Nil";
+                } else {
+                    phoneNumber = element.phone.number;
+                }
+                if (element.address == undefined) {
+                    addressValue = "Nil";
+                } else {
+                    addressValue = element.address.address;
+                }
+                if (element.carrier == undefined) {
+                    element.carrier = "Nil";
+                }
+                if (element.policyNumber == undefined) {
+                    element.policyNumber = "Nil";
+                }
+                if (element.vehicleIdentificationNumber == undefined) {
+                    element.vehicleIdentificationNumber = "Nil";
+                }
+                if (element.model == undefined) {
+                    element.model = "Nil";
+                }
+                if (element.driverLicenseState == undefined) {
+                    element.driverLicenseState = "Nil";
+                }
+                if (element.driverLicenseNumber == undefined) {
+                    element.driverLicenseNumber = "Nil";
+                }
+                if (element.injuries == undefined) {
+                    element.injuries = "Nil";
+                }
+                if (element.otherInformation == undefined) {
+                    element.otherInformation = "Nil";
+                }
                 mainDocHTML = '<div class="leftDiv">'
                         + '<p>'
                         + '<span class="firstSpan">Name</span>'
@@ -1795,11 +1957,11 @@ protocall.view = {
                         + '</p>'
                         + '<p>'
                         + '<span class="firstSpan">Phone</span>'
-                        + '<span class="secondSpan">' + element.phone.number + '</span>'
+                        + '<span class="secondSpan">' + phoneNumber + '</span>'
                         + '</p>'
                         + '<p>'
                         + '<span class="firstSpan">Address</span>'
-                        + '<span class="secondSpan">' + element.address.address + '</span>'
+                        + '<span class="secondSpan">' + addressValue + '</span>'
                         + '</p>'
                         + '<p>'
                         + '<span class="firstSpan">Insurance co</span>'
@@ -1836,8 +1998,8 @@ protocall.view = {
                         + '</div>';
             }
         });
-        $("#docinformation span").html(currentDocName);
-        $("#originalDocDIV").html(mainDocHTML);
+        $("#textinformation").html(currentDocName);
+        $("#viewText").html(mainDocHTML);
     },
     /*Naveen 19-2-2015 Chnage start*/
     displayPreviousImage: function () {
@@ -1897,7 +2059,7 @@ protocall.view = {
     /*Naveen 19-2-2015 Chnage end*/
     /*Audio Click functions*/
     displayOrignalAudio: function (currentTarget) {
-        $("#audioThumbNailView>div").removeClass("activeAudio");
+        $("#thumbNailViewForVoice>div").removeClass("activeAudio");
         currentTarget.addClass("activeAudio");
         var currentMediaID = currentTarget.find("p#mediaID").text(), mainAudioHTML = "";
         console.log("RESPONSE.AUDIODETAILS", RESPONSE.AUDIODETAILS);
@@ -2074,11 +2236,13 @@ protocall.view = {
 protocall.home = {
     /*Naveen 19-2-2015 Chnage start*/
     initHomePage: function () {
-        if (HOMEPAGERESPONSE.SORTBYALPHABETICALVIEW || HOMEPAGERESPONSE.SORYBYRECENTVIEW || HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED) {
+
+        if (HOMEPAGERESPONSE.SORTBYALPHABETICALVIEW || HOMEPAGERESPONSE.SORYBYRECENTVIEW || HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED || HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED) {
             $(".content-holder").addClass("spinner1");
         } else {
             protocall.displaySpinner(true);
         }
+        console.log("HOMEPAGERESPONSE.HOMEPAGESTUBBEDDATA", HOMEPAGERESPONSE.HOMEPAGESTUBBEDDATA);
         CONSTANTS.PGNUMBER = 0;
         var pageNumber = ++CONSTANTS.PGNUMBER;
         var data = {"pageNumber": pageNumber},
@@ -2093,6 +2257,26 @@ protocall.home = {
             deepPath = "filterfeedbyalertdate";
         }
         var resp = utils.server.makeServerCall(page, data, callback, deepPath);
+    },
+    loadViewArchivedFeedsResponse: function (dataValue) {
+        console.log("loadViewArchivedFeedsResponse", dataValue);
+        if (dataValue !== "undefined" && dataValue.resultMap !== "undefined") {
+            if (dataValue.resultMap.TypeCode !== "undefined" && dataValue.resultMap.TypeCode == "4051") {
+                console.log("archived successfully");
+                console.log("HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE", HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE);
+                var feedBlockValues = $(".feed-block");
+                $.each(HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE, function (index, element) {
+                    console.log("element", element);
+                    $.each(feedBlockValues, function (index, alertFeeds) {
+                        if (element == ($(alertFeeds).find(".inner-share-spacing").attr("id"))) {
+                            $(this).remove();
+                        }
+                    });
+                });
+                HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE = [];
+            }
+            $(".content-holder").removeClass("spinner1");
+        }
     },
     /*Naveen 19-2-2015 Chnage end*/
     initLoginPage: function () {
@@ -2130,7 +2314,8 @@ protocall.home = {
     /*Naveen 19-2-2015 Chnage start*/
     loadHomePageData: function (data, page) {
         console.log("data", data);
-        if (HOMEPAGERESPONSE.INCIDENTALERTSCLICKED || HOMEPAGERESPONSE.POLICYALERTCLICKED || HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED || HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED) {
+        HOMEPAGERESPONSE.HOMEPAGESTUBBEDDATA = data;
+        if (HOMEPAGERESPONSE.INCIDENTALERTSCLICKED || HOMEPAGERESPONSE.POLICYALERTCLICKED || HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED || HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED || HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED) {
             HOMEPAGERESPONSE.RECURRINGALERTDFEEDS = [];
         }
         protocall.util.viewingHomePageData(data);
@@ -2143,16 +2328,18 @@ protocall.home = {
     loadingHomePageFeeds: function (data, page) {
         protocall.util.viewingHomePageData(data);
     },
-    loadFeed: function () {
-        var html = staticTemplate.home.staticFeedViewTemplate();
+    loadFeed: function (currentTarget) {
+        var html = staticTemplate.home.staticFeedViewTemplate(HOMEPAGERESPONSE.RECURRINGALERTDFEEDS, currentTarget);
         $(".content-holder").empty();
         $(".content-holder").append($(html));
         var totalHTML = "";
         var totalLen = 1;
-        for (var h = 0; h < totalLen; h++) {
-            var template = staticTemplate.home.staticFeedTemplate();
-            totalHTML = totalHTML + template;
-        }
+        /* for (var h = 0; h < totalLen; h++) {
+         var template = staticTemplate.home.staticFeedTemplate(HOMEPAGERESPONSE.RECURRINGALERTDFEEDS);
+         totalHTML = totalHTML + template;
+         } */
+        /* var template = staticTemplate.home.staticFeedTemplate(HOMEPAGERESPONSE.RECURRINGALERTDFEEDS,currentTarget);
+         totalHTML = totalHTML + template; */
         $(".rel-feeds-content").empty();
         $(".rel-feeds-content").append($(totalHTML));
     },
@@ -2204,7 +2391,6 @@ protocall.home = {
     /*Naveen 19-2-2015 Chnage end*/
 };
 protocall.carrier = {
-   
     initCarrierPage: function () {
 
 
@@ -2218,7 +2404,6 @@ protocall.carrier = {
         utils.server.makeServerCall(page, data, callback, deepPath);
 
     },
-	
     initCarrierPageSort: function () {
 
 
@@ -2232,79 +2417,210 @@ protocall.carrier = {
         utils.server.makeServerCall(page, data, callback, deepPath);
 
     },
+    loadAssociatedReps: function () {
+        var totalHTML = "";
+        var resp = JSON.parse(localStorage.getItem("ASSOCIATEFEED"));
+        console.log(resp);
 
-    loadFeed: function (Carrieremail) {
+        for (var index = 0; index < resp.resultMap.AssociatedRepresentatives.length; index++) {
+            var name = resp.resultMap.AssociatedRepresentatives[index].name;
+            var location = resp.resultMap.AssociatedRepresentatives[index].location;
+            var email = resp.resultMap.AssociatedRepresentatives[index].carrierRepresentativeId.email;
+            var carrierid = resp.resultMap.AssociatedRepresentatives[index].carrierId;
+            // var image = resp.resultMap.AssociatedRepresentatives[index].email;
 
-        var html = staticTemplate.carriers.staticCarrierFeedViewTemplate(Carrieremail);
-        $(".content-holder").empty();
-        $(".content-holder").append($(html));
+            // alert(name);
+            if (name == undefined) {
+                name = "";
+            }
+            if (location == undefined) {
+                location = "";
+            }
+            if (email == undefined) {
+                email = "";
+            }
+
+            var image = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+//                    if (image == undefined) {
+//                        image = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+//                    } else {
+//                        image = "https://proto-call-test.appspot.com/file/" + image;
+//
+//                    }
+//rep id
+
+            var associateBlock = '<div id=' + carrierid + '  class="carrier-feed-associated-view  carrier-feed-assigntocustomeroverlay-view left p-relative" data-type="dt-assigncustomer"> <div class="border-all p-relative"> <div class="associated-background p-relative">'
+                    + '<div class="associated-carrier-pic inline-block "> <img src=' + image + ' '
+                    + 'alt="" class="carrier-img-width"> '
+                    + '</div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> '
+                    + '<div class="carrier-name t-caps t-left">' + name + '</div> '
+                    + '<div class="carrier-location t-caps t-left">' + location + '</div> '
+                    + '<div class="carrier-location t-caps t-left">' + email + '</div></div> </div> </div> </div> ';
+
+            totalHTML += associateBlock;
+        }
+
+        $("#id-carrierassociatedblock").html('');
+        $("#id-carrierassociatedblock").append(totalHTML);
+//            }
+//        });
+    },
+    loadAssociatedCustomers: function () {
+        var totalHTML = "";
+        var resp = JSON.parse(localStorage.getItem("ASSOCIATEFEED"));
+        for (var index = 0; index < resp.resultMap.AssociatedCustomers.length; index++) {
+            var name = resp.resultMap.AssociatedCustomers[index].firstName;
+            var location = resp.resultMap.AssociatedCustomers[index].residentialCity;
+            var email = resp.resultMap.AssociatedCustomers[index].emailId.email;
+            var carrierid = resp.resultMap.AssociatedCustomers[index].carrierId;
+            // var image = resp.resultMap.AssociatedCustomers[index].email;
+
+            //  alert(name);
+            if (name == undefined) {
+                name = "";
+            }
+            if (location == undefined) {
+                location = "";
+            }
+            if (email == undefined) {
+                email = "";
+            }
+
+            var image = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+//                    if (image == undefined) {
+//                        image = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+//                    } else {
+//                        image = "https://proto-call-test.appspot.com/file/" + image;
+//
+//                    }
+
+            var associateBlock = '<div id=' + email + '  class="carrier-feed-associated-view mycustomerView left p-relative" data-type="viewcustomerfeedview"> <div class="border-all p-relative"> <div class="associated-background p-relative">'
+                    + '<div class="associated-carrier-pic inline-block "> <img src=' + image + ' '
+                    + 'alt="" class="carrier-img-width"> '
+                    + '</div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> <div class="carrier-name t-caps t-left">' + name + '</div> '
+                    + '<div class="carrier-location t-caps t-left">' + location + '</div> '
+                    + '<div class="carrier-location t-caps t-left">' + email + '</div></div> </div> </div> </div> ';
+            totalHTML += associateBlock;
+        }
+
+        $("#id-carrierassociatedblock").html('');
+        $("#id-carrierassociatedblock").append(totalHTML);
+
+    },
+    loadFeed: function (Carrierid) {
+
+        var html = staticTemplate.carriers.staticCarrierFeedViewTemplate(Carrierid);
+
         var totalHTML = "";
         var totalLen = 1;
         for (var h = 0; h < totalLen; h++) {
-            var template = staticTemplate.carriers.staticCarrierFeedViewTemplate(Carrieremail);
+            var template = staticTemplate.carriers.staticCarrierFeedViewTemplate(Carrierid);
             totalHTML = totalHTML + template;
         }
+
+        var dropDownContent = '<div class="associated-carrierview p-relative"> <div class="p-relative ">'
+                + '<select id="id-associatedropdown" class="associated-carrier-sort t-upper p-relative opensans-regular inline-block"><option>ASSOCIATED REPS</option><option>ASSOCIATED CUTOMERS</option></select> '
+                + '<div id="associatedownarrow" class="p-relative inline-block"> <div id="associatedownarrow" class="sprite-im drop-down-icon">&nbsp;</div> </div> </div> '
+                + '<div id="id-carrierassociatedblock" class="associated-carrier-feed p-relative border-bot">';
+
+        totalHTML = totalHTML + dropDownContent;
+
         $(".container").addClass("container-maxwidth");
         $(".container").removeClass("container");
         $(".rel-feeds-content").empty();
+
+        totalHTML = totalHTML + "</div>";
         $(".rel-feeds-content").append($(totalHTML));
+        $(".content-holder").empty();
+        $(".content-holder").append($(totalHTML));
+
+        if (localStorage.getItem("ASSOCIATEFEED") == null) {
+            var data = {carrierId: Carrierid};
+            var totalHTML = "";
+            var path = utils.server.getServerPath("associatedcustomerandrepresentative");
+            var request = path(data).execute(function (resp) {
+                if (resp.error) {
+                    t.server.handleError(resp);
+                } else {
+                    localStorage.setItem("ASSOCIATEFEED", JSON.stringify(resp));
+                }
+            });
+        }
+        protocall.carrier.loadAssociatedReps();
+
+
+
     }
 
 
 };
 protocall.customer = {
+    initCustomerPage: function () {
 
-	initCustomerPage: function () {
-        
-		var page = "customers";
-		var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
-		deepPath = "agencydashboarddesign",
-		        page = "customers",
-		        callback = CustomerdynamicTemplate.customer.loadcustomercontent,
-		        authId = "",
-		        spinnerMsg = "";
-		utils.server.makeServerCall(page, data, callback, deepPath);
-	},
+        var page = "customers";
+        var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
+        deepPath = "agencydashboarddesign",
+                page = "customers",
+                callback = CustomerdynamicTemplate.customer.loadcustomercontent,
+                authId = "",
+                spinnerMsg = "";
+        utils.server.makeServerCall(page, data, callback, deepPath);
+    },
+    initCustomerPageSort: function () {
 
-        initCustomerPageSort: function () {
-		
-		var page = "customers";
-		var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
-		deepPath = "userlistsortedbyname",
-		        page = "customers",
-		        callback = CustomerdynamicTemplate.customer.loadcustomercontentSortedbyName,
-		        authId = "",
-		        spinnerMsg = "";
-		utils.server.makeServerCall(page, data, callback, deepPath);
-	},
-    
-	loadCustomersViewFeed: function (emailID) {
-		var data = JSON.parse(localStorage.getItem("customers_data"));
-		
-		var html = "";
-		var status = 0;
-		for (var index = 0; index < data.length; index++) {
-		    var element = data[index];
+        var page = "customers";
+        var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
+        deepPath = "userlistsortedbyname",
+                page = "customers",
+                callback = CustomerdynamicTemplate.customer.loadcustomercontentSortedbyName,
+                authId = "",
+                spinnerMsg = "";
+        utils.server.makeServerCall(page, data, callback, deepPath);
+    },
+    loadCustomersViewFeed: function (emailID, carrierId) {
+        var data = JSON.parse(localStorage.getItem("customers_data"));
 
-		    if (element.emailId.email == emailID) {
-		        html = staticTemplate.customers.staticCustomerViewTemplate(element);
-		        status = 1;
-		    }
-		}
+        var html = "";
+        var status = 0;
+        for (var index = 0; index < data.length; index++) {
+            var element = data[index];
 
-		if (status == 0) {
-		    html = "<div> No Records </div>";
-		}
+            if (element.emailId.email == emailID) {
+                html = staticTemplate.customers.staticCustomerViewTemplate(element);
+                status = 1;
+            }
+        }
 
-		$(".content-holder").empty();
-		$(".content-holder").append($(html));
-		$(".container").addClass("container-maxwidth");
-		$(".container").removeClass("container");
-		$(".rel-feeds-content").empty();
-		$(".rel-feeds-content").append(html);
+        if (status == 0) {
+            html = "<div> No Records </div>";
+        } else {
+            html + "</div>";
+        }
+
+
+        // var totalHTML = html;
+        $(".content-holder").empty();
+        $(".content-holder").append($(html));
+        $(".container").addClass("container-maxwidth");
+        $(".container").removeClass("container");
+        $(".rel-feeds-content").empty();
+        $(".rel-feeds-content").append(html);
+
+        if (localStorage.getItem("ASSOCIATEFEED") == null) {
+            var data = {carrierId: carrierId};
+            var path = utils.server.getServerPath("associatedcustomerandrepresentative");
+            var request = path(data).execute(function (resp) {
+                if (resp.error) {
+                    t.server.handleError(resp);
+                } else {
+
+                    localStorage.setItem("ASSOCIATEFEED", JSON.stringify(resp));
+                }
+            });
+        }
+        protocall.carrier.loadAssociatedReps();
 
     },
-
     loadFeedSetting: function () {
         var html = staticTemplate.customers.staticSettingViewTemplate();
         $(".content-holder").empty();
@@ -2338,9 +2654,7 @@ protocall.customer = {
 }
 
 protocall.myRep = {
-    
-
-   initMyRepsPage: function () {
+    initMyRepsPage: function () {
         var page = "myrepspage";
         var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
         deepPath = "agencydashboarddesign",
@@ -2353,7 +2667,6 @@ protocall.myRep = {
 
 
     },
-
     initMyRepsPageSort: function () {
         var page = "myrepspage";
         var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
@@ -2366,8 +2679,7 @@ protocall.myRep = {
 
 
 
-    },	
-
+    },
     loadHomePageData: function (data, page) {
         //console.log(data, page);
         feedHTML1 = '<div class="customer-home-parent clr-fl p-relative">';
@@ -2456,6 +2768,7 @@ protocall.util = {
                 feedHTML = ""
         footer = "";
         console.log("data in viewingHomePageData", dataValue);
+
         if (dataValue !== "undefined" && dataValue.resultMap !== "undefined") {
             if (dataValue.resultMap.TypeCode !== "undefined" && dataValue.resultMap.TypeCode == "4011") {
                 if (dataValue.resultMap.isNextPage) {
@@ -2463,7 +2776,7 @@ protocall.util = {
                 } else {
                     CONSTANTS.HASNEXTPAGE = false;
                 }
-                console.log("resultMap.ArrayOfAlertDetails.length", dataValue.resultMap.ArrayOfAlertDetails.length);
+                //console.log("resultMap.ArrayOfAlertDetails.length", dataValue.resultMap.ArrayOfAlertDetails.length);
                 if (dataValue.resultMap.ArrayOfAlertDetails !== "undefined" && dataValue.resultMap.ArrayOfAlertDetails.length !== "undefined" && dataValue.resultMap.ArrayOfAlertDetails.length !== 0) {
                     $.each(dataValue.resultMap.ArrayOfAlertDetails, function (index, alertDetailsValue) {
                         console.log("alertDetailsValue.alertDetails index", alertDetailsValue.alertDetails.length);
@@ -2478,7 +2791,7 @@ protocall.util = {
                             feedHTML += template.policyAlertFeedHMLT(alertDetailsValue, alertType);
                         } else {
                             feedHTML += template.feedsTemplateHTML(alertDetailsValue);
-                            if (HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED) {
+                            if (HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED && HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADEDCOUNT < 1) {
                                 if (alertDetailsValue.alertStatusDetails.status == undefined) {
                                     HOMEPAGERESPONSE.UNREADFEEDCOUNT = HOMEPAGERESPONSE.UNREADFEEDCOUNT + 1;
                                 }
@@ -2501,6 +2814,9 @@ protocall.util = {
                 }
             }
         }
+        if (dataValue.resultMap.TypeCode == "4012") {
+            feedHTML = '<div class="feed-block clr-fl">' + dataValue.resultMap.AlertMessage + '</div>';
+        }
         if (CONSTANTS.PGNUMBER == 1) {
             $("#page").empty();
             header = HomedynamicTemplate.home.HomeDynamicHeaderTemplate();
@@ -2511,7 +2827,12 @@ protocall.util = {
         } else {
             $(".content-holder").append($(feedHTML));
         }
-        $(".mb-submenu").find("a.myalerts span.cnt-no").text(HOMEPAGERESPONSE.UNREADFEEDCOUNT);
+        if (HOMEPAGERESPONSE.UNREADFEEDCOUNT !== 0) {
+            $(".mb-submenu").find("a.myalerts span.cnt-no").text(HOMEPAGERESPONSE.UNREADFEEDCOUNT);
+        } else {
+            $(".mb-submenu").find("a.myalerts span.cnt-blk").text("");
+        }
+
         protocall.displaySpinner(false);
         protocall.events.containerScrollEvent();
         protocall.view.subMenuSelectedTab();
@@ -2548,8 +2869,8 @@ function loadtimePicker() {
 
 
     for (var hour = 1; hour <= 12; hour++) {
-        for (var min = 5; min < 60; min = min + 5) {
-            $("#pushmessagetimepicker").append('<option> ' + minTwoDigits(hour) + " : " + minTwoDigits(min) + '</option>');
+        for (var min = 0; min < 60; min++) {
+            $("#pushmessagetimepicker").append('<option>' + minTwoDigits(hour) + ":" + minTwoDigits(min) + '</option>');
         }
     }
 
@@ -2582,7 +2903,6 @@ function checkboxStatus(idValue) {
     }
 }
 
-
 function hideVendorTextboxes() {
     $("#id-vendor-preferredvendorid").css("visibility", "hidden");
     $("#id-vendor-type").css("visibility", "hidden");
@@ -2595,11 +2915,6 @@ function hideVendorTextboxes() {
     $("#id-vendor-zipcode").css("visibility", "hidden");
 }
 
-if (idValue === "id-switch-off") {
-    document.getElementById(idcontainerValue).style.marginLeft = "50px";
-} else if (idValue === "id-switch-on") {
-    document.getElementById(idcontainerValue).style.marginLeft = "-8px";
-}
 
 function hideAgencyTextboxes() {
     $("#id-carrier-agencyid").css("visibility", "hidden");
@@ -2753,13 +3068,12 @@ function editVendorSaveData() {
     var state = document.getElementById("id-vendor-state").value;
     var zipcode = document.getElementById("id-vendor-zipcode").value;
 
-//    alert(SERVICEID + "" + name + " " + type + "" + zipcode + "" + phone);
+    //    alert(SERVICEID + "" + name + " " + type + "" + zipcode + "" + phone);
 
     if (preferredvendorid != "") {
         page = "vendorsavepage";
         var data = {serviceId: SERVICEID, serviceName: name, serviceType: type, zipcode: zipcode, phone: phone,
-            address1: address1, address2: address2, city: city, state: state
-        };
+            address1: address1, address2: address2, city: city, state: state};
         utils.server.displayMessage("Successfully Saved..!");
         deepPath = "editservice";
         utils.server.makeServerCall(page, data, null, deepPath);

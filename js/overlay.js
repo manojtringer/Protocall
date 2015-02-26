@@ -34,6 +34,7 @@ var overlay = {
     },
     displayOverlay: function (content) {
         this.initOverlay();
+		$("#overlay").css("overflow-y","auto");
         var $contentSec = $('.o-content');
         $('#overlay').fadeIn(400);
         $('.o-box').addClass("o-box-load");

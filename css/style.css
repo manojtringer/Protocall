@@ -1082,7 +1082,7 @@ footer  .foot-in{
     font-family: 'OpenSansRegular';
 }
 
-input[type=checkbox]:checked + .feed-label:before +.customer-feed-label:before {
+input[type=checkbox]:checked + .feed-label:before {
     content: "\2713";
     text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
     font-size: 15px;
@@ -1346,13 +1346,13 @@ input[type=checkbox]:checked +.customer-feed-label:before {
     min-height: 71px;
 }
 .carrier-name{
-    color: #989898;
+    color: black;
     font-size: 15px;
     /*margin-right: 15px;*/
     /* text-align: left; */
 }
 .carrier-location{
-    color: #989898;
+    color: black;
     font-size: 15px;
     /*margin-right: 15px;*/
     /* text-align: left; */
@@ -1569,7 +1569,7 @@ input[type=checkbox]:checked +.customer-feed-label:before {
 .associated-carrier-sort{
     font-size: 16px;
     margin-right: 15px;
-    color: #989898;
+    color: black;
     width: 20%;
     background: #E9EFF0;
 }
@@ -1585,9 +1585,12 @@ input[type=checkbox]:checked +.customer-feed-label:before {
 .carrier-feed-associated-view{
     padding: 25px 0px;
     margin-right: 15px;
+    cursor: pointer;
 }
 .associated-cus-info{
     padding: 0px 5px;
+    /* color: black; */
+    /* text-align: left; */
 }
 /******* customer profile view *****/
 .customer-view-feed{
@@ -1871,8 +1874,8 @@ input[type=checkbox]:checked + .vendor-label:before {
     margin-left: -8px;
 }
 #id-switch-on{
-    width: 50px;
-    margin-left: -50px;
+    width: 60px;
+    margin-left: -53px;
 }
 
 .c-datepicker{
@@ -2240,7 +2243,7 @@ textarea::-webkit-input-placeholder {  color: #999;}
 
 .o-btn {
     width: 20%;
-    height: 42px;
+    height: 40px;
     line-height:40px;
     position:relative;
     margin: 20px auto;
@@ -2427,7 +2430,7 @@ textarea::-webkit-input-placeholder {  color: #999;}
     /* line-height: 20px; */
 }
 .nameRepId{
-    margin-left: 20%;
+    margin-left: 25%;
     text-align: center;
 }
 
@@ -2735,7 +2738,7 @@ textarea::-webkit-input-placeholder {  color: #999;}
 
 .rep-block .rep-content-blk{
     overflow:auto;
-    max-height:200px;
+    max-height: 135px;
 }
 
 .rep-block .rep-content-blk .rep-grp-blk{
@@ -2916,7 +2919,7 @@ textarea::-webkit-input-placeholder {  color: #999;}
 
 .firstSpan {
     float: left;
-    width: 45%;
+    width: 50%;
     text-align: right;
 }
 
@@ -3157,6 +3160,9 @@ footer  .foot-in{
 .reps-profile-info-root{
 }
 #associatedownarrow{
-    left: -56px;
+    left: -64px;
     top: 5px;
+}
+.associated-background{
+    background: #D2DADD;
 }

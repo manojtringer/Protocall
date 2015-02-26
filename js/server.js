@@ -1,6 +1,7 @@
 var utils = {
 };
 var RESPONSE_ARRAY = [];
+var ASSIGNTOCUSOVERLAY_REPEMAILID = "";
 utils.server = {
     authendicate: function () {
 
@@ -168,17 +169,25 @@ utils.server = {
     },
     //ADDED BY MANOJ FRIDAY 17 2015---->STARTS HERE
     //ADDED BY MANOJ FRIDAY 17 2015---->STARTS HERE
+    assignToCustomers: function (repEmailId) {
+        ASSIGNTOCUSOVERLAY_REPEMAILID = "";
+        ASSIGNTOCUSOVERLAY_REPEMAILID = repEmailId;
+        protocall.displaySpinner(true);
+        var page = "pageassigncustomersoverlay";
+        var data = {};
+        var callback = utils.server.gotAssignCustomersResponse;
+        var deepPath = "userlist";
+        utils.server.makeServerCall(page, data, callback, deepPath);
+    },
     gotAssignCustomersResponse: function (data, page) {
 
         RESPONSE_ARRAY = [];
         var feedHtml = staticTemplate.home.assignCustomersTemplate();
-
         for (index = 0; index < data.result.resultObject.length; index++) {
             var customerName = data.result.resultObject[index].name;
             var customerCity = data.result.resultObject[index].city;
             var customerState = data.result.resultObject[index].state;
             var customerEmailId = data.result.resultObject[index].userId.email;
-
             if (customerState == null || customerState == "") {
                 customerState = "";
             } else {
@@ -186,7 +195,7 @@ utils.server = {
             }
 
             RESPONSE_ARRAY[index] = [customerName, customerCity, customerState, customerEmailId];
-            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
+            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox'  value=" + customerEmailId + "  id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
             feedHtml = feedHtml + tempHtml;
             tempHtml = "";
             console.log("Name" + customerName + "City,State" + customerCity + customerState + customerEmailId);
@@ -194,6 +203,7 @@ utils.server = {
         var buttonHtml = " </form> </div> </div> <div class='o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w' data-type='dt_overlaybtn_assigncustomers'>Assign</div> </div> ";
         var finalHtml = feedHtml + buttonHtml;
         overlay.displayOverlay(finalHtml);
+        sharewithRepSelectAllDropDown("true");
     },
     shareToRep: function (alertid) {
         ALERTID = alertid;
@@ -203,14 +213,21 @@ utils.server = {
         var callback = utils.server.gotShareWithRepResponse;
         var deepPath = "agencyrepresentativenamewithlocation";
         utils.server.makeServerCall(page, data, callback, deepPath);
-
+    },
+    assignToRep: function () {
+        // CUSTOMERS_LIST = customersEmailIds;
+        protocall.displaySpinner(true);
+        var page = "assignToRepsPage";
+        var data = {};
+        var callback = utils.server.gotAssignToRepResponse;
+        var deepPath = "agencyrepresentativenamewithlocation";
+        utils.server.makeServerCall(page, data, callback, deepPath);
     },
     gotShareWithRepResponse: function (data, page) {
 
+
         RESPONSE_ARRAY = [];
-
         var feedHtml = staticTemplate.home.shareWithRepTemplate();
-
         for (var index = 0; index < data.resultMap.RepresentativeDetails.length; index++) {
             var customerName = data.resultMap.RepresentativeDetails[index].name;
             var customerCity = data.resultMap.RepresentativeDetails[index].location;
@@ -219,56 +236,78 @@ utils.server = {
 //            alert(customerEmailId);
 
             RESPONSE_ARRAY[index] = [customerName, customerCity, customerState, customerEmailId];
-
 //<input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'>
-            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
+            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + " id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
             feedHtml = feedHtml + tempHtml;
             tempHtml = "";
         }
         var buttonHtml = " </form> </div> </div> <div class='o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w' data-type='dt_overlaybtn_sharerepwithcustomers'>Share</div> </div> ";
         var finalHtml = feedHtml + buttonHtml;
-
         overlay.displayOverlay(finalHtml);
         sharewithRepSelectAllDropDown("false");
+    },
+    gotAssignToRepResponse: function (data, page) {
 
 
+        RESPONSE_ARRAY = [];
+        var feedHtml = staticTemplate.home.assignToRepTemplate();
+        for (var index = 0; index < data.resultMap.RepresentativeDetails.length; index++) {
+            var customerName = data.resultMap.RepresentativeDetails[index].name;
+            var customerCity = data.resultMap.RepresentativeDetails[index].location;
+            var customerState = "";
+            var customerEmailId = data.resultMap.RepresentativeDetails[index].agencyRepresentativeId.email;
+//            alert(customerEmailId);
+
+            RESPONSE_ARRAY[index] = [customerName, customerCity, customerState, customerEmailId];
+//<input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'>
+            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + "  id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
+            feedHtml = feedHtml + tempHtml;
+            tempHtml = "";
+        }
+        var buttonHtml = " </form> </div> </div> <div class='o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w' data-type='dt_overlaybtn_assignToReps'>Assign</div> </div> ";
+        var finalHtml = feedHtml + buttonHtml;
+        overlay.displayOverlay(finalHtml);
+        sharewithRepSelectAllDropDown("false");
     },
     gotPrivacyResponse: function (data, page) {
 
         RESPONSE_ARRAY = [];
-
         var feedHtml = staticTemplate.home.privacyTemplate();
-
         for (var index = 0; index < data.resultMap.RepresentativeDetails.length; index++) {
             var customerName = data.resultMap.RepresentativeDetails[index].name;
             var customerCity = data.resultMap.RepresentativeDetails[index].location;
             var customerState = "";
             var customerEmailId = data.resultMap.RepresentativeDetails[index].agencyRepresentativeId.email;
             var privacy = data.resultMap.RepresentativeDetails[index].privacy;
-
-            RESPONSE_ARRAY[index] = [customerName, customerCity, customerState, customerEmailId, privacy];
-
-            var toggleStyleOn = "";
-            var toggleStyleOff = "";
-
-            if (privacy == "on") {
-                toggleStyleOn = "margin-left:8px";
-                toggleStyleOff = "margin-left:-9px";
-
+            // alert(privacy);
+            if (privacy == "undefined") {
+                privacy = customerEmailId + "#off";
             } else {
-                toggleStyleOff = "margin-left:-1px";
-                toggleStyleOn = "margin-left:-53px";
+                privacy = customerEmailId + "#" + privacy;
             }
 
-            var toggleclass = "togglevalue" + index;
-            var tempHtml = "<div class=\"rep-grp-blk opensans-regular border-bot text-color-overlay p-relative\"> <input type=\"checkbox\" id='name" + index + "'  class=\"checkbox\" /> <label for='name" + index + "' class=\"rep-label\"> <div class=\"lbl-in-block p-relative\"> <div class=\"f-sz-14 text-color-overlay left rep-name\">" + customerName + "</div> <div class=\"nameRepId f-sz-14 text-color-overlay left\"><i>#5454547</i></div> <div class=\"t-caps f-sz-13 right t-right location-color rep-location\"> <div class=\"bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-on\"> <div id=\"id" + index + "-switch-container\" class=\"bootstrap-switch-container\"> <span id=\"id-switch-on\" class=\"bootstrap-switch-handle-on bootstrap-switch-primary\" style=" + toggleStyleOn + " onclick=\"moveani(\'id-switch-on\', \'id" + index + "-switch-container\')\"><div  class=" + toggleclass + " style=\"display:none;\">" + privacy + "</div> ON</span> <span class=\"bootstrap-switch-label\">&nbsp;</span> <span id=\"id-switch-off\" class=\"bootstrap-switch-handle-off bootstrap-switch-default\" style=" + toggleStyleOff + " onclick=\"moveani(\'id-switch-off\', \'id" + index + "-switch-container\')\"> OFF</span> <input type=\"checkbox\" checked=\"\"></div></div> </div> </div> </div> ";
+            RESPONSE_ARRAY[index] = [customerName, customerCity, customerState, customerEmailId, privacy];
+            var toggleStyleOn = "";
+            var toggleStyleOff = "";
+            if (privacy == "on") {
+                toggleStyle = "margin-left:50px";
+                //toggleStyleOff = "margin-left:-9px";
+
+            } else {
+
+                toggleStyle = "margin-left:-10px";
+                //toggleStyleOn = "margin-left:-px";
+            }
+
+            //alert(privacy);
+            var tempHtml = "<div class=\"rep-grp-blk opensans-regular border-bot text-color-overlay p-relative\"> <input type=\"checkbox\" id='name" + index + "'  class=\"checkbox\" /> <label for='name" + index + "' class=\"rep-label\"> <div class=\"lbl-in-block p-relative\"> <div class=\"f-sz-14 text-color-overlay left rep-name\" style=\"width:20%;\">" + customerName + "</div> <div class=\"nameRepId f-sz-14 text-color-overlay left\"><i>#5454547</i></div> <div class=\"t-caps f-sz-13 right t-right location-color rep-location\"> <div class=\"bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-on\"> <div id=\"id" + index + "-switch-container\" class=\"bootstrap-switch-container\" style=" + toggleStyle + "> "
+                    + "<span id=\"id-switch-on\" class=\"bootstrap-switch-handle-on bootstrap-switch-primary\"  onclick=\"moveani(" + index + ",\'id-switch-on\', \'id" + index + "-switch-container\')\"><div  class=\"togglevalue" + index + "\" style=\"display:none;\">" + privacy + "</div> ON</span> <span class=\"bootstrap-switch-label\">&nbsp;</span> <span id=\"id-switch-off\" class=\"bootstrap-switch-handle-off bootstrap-switch-default\"  onclick=\"moveani(" + index + ",\'id-switch-off\', \'id" + index + "-switch-container\')\"> OFF</span> <input type=\"checkbox\" checked=\"\"></div></div> </div> </div> </div> ";
             feedHtml = feedHtml + tempHtml;
             tempHtml = "";
         }
 
         var buttonHtml = " </form> </div> </div> <div class='o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w' data-type='overlaybtnPrivacySend'>Save</div> </div> ";
         var finalHtml = feedHtml + buttonHtml;
-
         overlay.displayOverlay(finalHtml);
         //sharewithRepSelectAllDropDown("false");
 
@@ -279,15 +318,11 @@ utils.server = {
 
         RESPONSE_ARRAY = [];
         var feedHtml = staticTemplate.home.sendAppLinkTemplate($(".app-download-bar").html());
-
         for (var index = 0; index < data.result.resultObject.length; index++) {
             var customerName = data.result.resultObject[index].name;
             var customerCity = data.result.resultObject[index].city;
             var customerState = data.result.resultObject[index].state;
             var customerEmailId = data.result.resultObject[index].userId.email;
-
-
-
             if (customerState == null || customerState == "") {
                 customerState = "";
             } else {
@@ -296,13 +331,12 @@ utils.server = {
 
             RESPONSE_ARRAY[index] = [customerName, customerCity, customerState, customerEmailId];
 //
-            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
+            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + "   id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
             feedHtml = feedHtml + tempHtml;
             tempHtml = "";
         }
         var buttonHtml = " </form> </div> </div> <div class='o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w' data-type='dt_overlaybtn_sendapplink'>Send</div> </div> ";
         var finalHtml = feedHtml + buttonHtml;
-
         overlay.displayOverlay(finalHtml);
 //        
 //        for (index = 0; index < data.result.resultObject.length; index++) {
@@ -328,13 +362,24 @@ utils.server = {
 //        overlay.displayOverlay(finalHtml);
 
         sharewithRepSelectAllDropDown("true");
-
-
     },
     submitPushMessage: function () {
-        var page = "pushmessagepage";
 
-        var data = {message: $("#idpushmessage-textarea").val()};
+        var scheduledDate = "";
+        var dateofschedule = "";
+
+
+        if ($('#radio-button-now').is(':checked')) {
+            var date = new Date();
+            scheduledDate = date.getMilliseconds();
+        } else if ($('#radio-button-later').is(':checked')) {
+            dateofschedule = $("#datepicker").val() + " " + $("#pushmessagetimepicker").val() + " " + $("#ampmtimepicker").val();
+            var date = Date.parse(dateofschedule);
+            scheduledDate = date;
+        }
+
+        var page = "pushmessagepage";
+        var data = {targetString: $("#idpushmessage-textarea").val(), agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3", scheduledDate: scheduledDate};
         var callback = utils.server.getCodeResponseAssignCustomers;
         var deepPath = "sendpushmessage";
         utils.server.makeServerCall(page, data, callback, deepPath);
@@ -346,11 +391,7 @@ utils.server = {
         utils.server.displayMessage("Successfully Saved..!");
         var deepPath = "createservice";
         utils.server.makeServerCall(page, data, null, deepPath);
-
         utils.server.loadPrefferedvendorsdetails();
-
-
-
     },
     loadPrefferedvendorsdetails: function () {
 
@@ -362,48 +403,48 @@ utils.server = {
             var deepPath = "settingsinagencydesign";
             utils.server.makeServerCall(page, data, callback, deepPath);
         }, delay);
-
     },
     submitPrivacyData: function () {
+
+        var representativeId = [];
+        var index = 0;
+        var subindex = 0;
+        $('.checkbox').each(function () {
+            str = this.checked ? "1" : "0";
+            if (str == "1") {
+                //  alert(RESPONSE_ARRAY[index][3] + "#" + $('.togglevalue' + index).html());
+                representativeId[subindex] = $('.togglevalue' + index).html();
+                subindex++;
+            }
+            index++;
+        });
+        protocall.displaySpinner(true);
+        if (subindex == 0) {
+
+            if ($('#radio-button-public').is(':checked')) {
+                for (var i = 0; i < RESPONSE_ARRAY.length; i++) {
+                    RESPONSE_ARRAY[i][4] = RESPONSE_ARRAY[i][4].replace("on", "off");
+                }
+            }
+            if ($('#radio-button-private').is(':checked')) {
+                for (var i = 0; i < RESPONSE_ARRAY.length; i++) {
+                    RESPONSE_ARRAY[i][4] = RESPONSE_ARRAY[i][4].replace("off", "on");
+                }
+            }
+
+            representativeId = RESPONSE_ARRAY[index][4];
+        }
 
         $(".success1").html("Sucessfully Saved..!");
         $(".error1").css("display", "none");
         $(".success1").css("display", "block");
         $(".success1").css("padding-top", "4px");
         $(".success1").css("padding-bottom", "10px");
-
-
-
-        var representativeId = [];
-        var index = 0;
-        var subindex = 0;
-        var globalObject = new Object();
-        var innerobject = new Object();
-
-        $('.checkbox').each(function () {
-            str = this.checked ? "1" : "0";
-            if (str == "1") {
-                representativeId[subindex] = RESPONSE_ARRAY[index][3];
-                //  alert($('.togglevalue' + index).html());
-                subindex++;
-
-//                alert(RESPONSE_ARRAY[index][3]);
-                innerobject.email += RESPONSE_ARRAY[index][3];
-                innerobject.privacy += $('.togglevalue' + index).html();
-
-            }
-            index++;
-
-        });
-
-        protocall.displaySpinner(true);
-
         var page = "submitprivacydata";
-        var data = {representativeList: globalObject.innerobject};
+        var data = {alertList: representativeId};
         var callback = utils.server.getCodeResponseAssignCustomers;
         var deepPath = "editprivacy";
         utils.server.makeServerCall(page, data, callback, deepPath);
-
     },
     submitSendAppLinkData: function () {
         var representativeId = [];
@@ -411,12 +452,11 @@ utils.server = {
         $('.checkbox').each(function () {
             str = this.checked ? "1" : "0";
             if (str == "1") {
-                representativeId.push(RESPONSE_ARRAY[index][3]);
+                representativeId.push($(this).val());
                 index++;
             }
         });
         protocall.displaySpinner(true);
-
         if (index == 0) {
             $(".error").html("Please select atleat a name to share..!");
             $(".error").css("display", "block");
@@ -436,27 +476,23 @@ utils.server = {
         var index = 0;
         var customersEmailIds = [];
         var Rep_Num = "agencyowner@gmail.com";
-
         $('.checkbox').each(function () {
             str = this.checked ? "1" : "0";
             if (str == "1") {
-                alert(RESPONSE_ARRAY[index][3]);
-                customersEmailIds.push(RESPONSE_ARRAY[index][3]);
+                //alert(RESPONSE_ARRAY[index][3]);
+                customersEmailIds.push($(this).val());
             }
             index++;
         });
         protocall.displaySpinner(true);
-
 //          ********************** Doubts here ---------------------->
 
         console.log(customersEmailIds);
-
         var page = "assignCustomersPage";
         var data = {userList: customersEmailIds, representativeId: Rep_Num};
         var callback = utils.server.getCodeResponseAssignCustomers;
         var deepPath = "assigncustomer";
         utils.server.makeServerCall(page, data, callback, deepPath);
-
 //     *************************    Doubts here ---------------------->
 
     },
@@ -466,7 +502,6 @@ utils.server = {
         var html = staticTemplate.customers.staticSettingsTemplate(data);
         TEMPSETTINGSPAGE = "";
         TEMPSETTINGSPAGE = html;
-
         $(".content-holder").empty();
         $(".content-holder").append(TEMPSETTINGSPAGE + "</form>");
         $('.settings-agency-bar').css("background-color", "#f34f4e");
@@ -474,13 +509,6 @@ utils.server = {
         $('.settings-vendor-bar').css("background-color", "#ccc");
         $('#id-preferred-vendors-view-load').css("color", "black");
         $("#id-preferred-vendors-view-load").click();
-
-
-
-
-
-
-
     },
     MysettingsResponse: function (data) {
 
@@ -488,16 +516,12 @@ utils.server = {
         var html = staticTemplate.customers.staticSettingsTemplate(data);
         TEMPSETTINGSPAGE = "";
         TEMPSETTINGSPAGE = html;
-
-
         $(".content-holder").empty();
         $(".content-holder").append(TEMPSETTINGSPAGE + "</form>");
         $('.settings-agency-bar').css("background-color", "#f34f4e");
         $('#id-agency-view-load').css("color", "white");
         $('.settings-vendor-bar').css("background-color", "#ccc");
         $('#id-preferred-vendors-view-load').css("color", "black");
-
-
     },
     getResponseForPreferredVendor: function (idvalue) {
         page = "settingspage";
@@ -520,16 +544,13 @@ utils.server = {
                 + '<div id="id-v-vendortype" class="carrier-left-content t-left right" style="visibility: visible">' + data.serviceType + '</div>'
                 + '<input id="id-vendor-type" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden">'
                 + '</div> </div> </div> </div><div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">name</div> <div id="id-v-vendorname" class="carrier-left-content t-left right " style="visibility: visible">' + data.serviceName + '</div> <input id="id-vendor-name" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">phone</div> <div id="id-v-vendorphone" class="carrier-left-content t-left right" style="visibility: visible">' + data.phone.number + '</div> <input id="id-vendor-phone" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">address</div> <div id="id-v-address1" class="carrier-left-content t-left right ">' + data.address1 + '</div> <input id="id-vendor-address1" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">address</div> <div id="id-v-address2" class="carrier-left-content t-left right">' + data.address2 + '</div> <input id="id-vendor-address2" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view border-bot clr-fl"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">city</div> <div id="id-v-city" class="carrier-left-content t-left right ">' + data.city + '</div> <input id="id-vendor-city" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">state</div> <div id="id-v-state" class="carrier-left-content t-left right t-upper">' + data.state + '</div> <input id="id-vendor-state" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">zip</div> <div id="id-v-zipcode" class="carrier-left-content t-left right ">' + data.zipcode + '</div> <input id="id-vendor-zipcode" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left"></div> <div class="carrier-left-content t-left right t-upper"></div> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl"> <div class="vendor-view-right right t-caps opensans-regular"> </div> </div> </div> </div> <div class="vendor-back-button"> <div class="vendor-back-bar inline-block p-relative bg-color-green "> <div class="p-relative inline-block t-caps t-right v-align-mid opensans-regular f-color-w">back</div> </div> </div> </div></div> </form>';
-
         $(".content-holder").empty();
         $(".content-holder").append(TEMPSETTINGSPAGE + footer);
-
         $('.settings-agency-bar').css("background-color", "#ccc");
         $('#id-agency-view-load').css("color", "black");
         $('.settings-vendor-bar').css("background-color", "#f34f4e");
         $('#id-preferred-vendors-view-load').css("color", "white");
         protocall.view.LoadVendorInfo();
-
     },
     submitShareWithRepsData: function () {
 
@@ -540,13 +561,12 @@ utils.server = {
         $('.checkbox').each(function () {
             str = this.checked ? "1" : "0";
             if (str == "1") {
-                representativeId = RESPONSE_ARRAY[index][3];
+                representativeId = $(this).val();
                 index++;
             }
 
         });
         protocall.displaySpinner(true);
-
         if (index == 0) {
             $(".error").html("Please select atleat a representative to share..!");
             $(".error").css("display", "block");
@@ -567,7 +587,83 @@ utils.server = {
         var callback = utils.server.getCodeResponseAssignCustomers;
         var deepPath = "sharewithrepresentative";
         utils.server.makeServerCall(page, data, callback, deepPath);
+    },
+    submitAssignToCustomers: function () {
+        var representativeId = ASSIGNTOCUSOVERLAY_REPEMAILID;
+        var subIndex = 0;
+        CUSTOMERS_LIST = [];
 
+        $('.checkbox').each(function () {
+            str = this.checked ? "1" : "0";
+            if (str == "1") {
+                //  alert($(this).val());
+                CUSTOMERS_LIST[subIndex] = $(this).val();
+                subIndex++;
+            }
+
+
+        });
+        protocall.displaySpinner(true);
+        if (index == 0) {
+            $(".error").html("Please select atleat a customers to Assign..!");
+            $(".error").css("display", "block");
+            $(".error").css("padding-top", "10px");
+            $(".error").css("padding-bottom", "10px");
+            return false;
+        }
+
+        var page = "assignToCustomersOverlay";
+        var data = {representativeId: representativeId, userList: CUSTOMERS_LIST};
+        var callback = utils.server.getCodeResponseAssignCustomers;
+        var deepPath = "assigncustomer";
+        utils.server.makeServerCall(page, data, callback, deepPath);
+
+
+    },
+    submitAssignToRepsData: function () {
+
+        var representativeId = "";
+        var index = 0;
+        CUSTOMERS_LIST = [];
+        var cusIndex = 0;
+        var cusSubIndex = 0;
+        $('.getSelectedCustomers').each(function () {
+            str = this.checked ? "1" : "0";
+            if (str == "1") {
+                CUSTOMERS_LIST[cusSubIndex] = $(this).val();
+                cusSubIndex++;
+            }
+            cusIndex++;
+        });
+        $('.checkbox').each(function () {
+            str = this.checked ? "1" : "0";
+            if (str == "1") {
+                representativeId = $(this).val();
+                index++;
+            }
+
+        });
+        protocall.displaySpinner(true);
+        if (index == 0) {
+            $(".error").html("Please select atleat a representative to share..!");
+            $(".error").css("display", "block");
+            $(".error").css("padding-top", "10px");
+            $(".error").css("padding-bottom", "10px");
+            return false;
+        }
+        if (index > 1) {
+            $(".error").html("You can select only one representative at a time..!");
+            $(".error").css("display", "block");
+            $(".error").css("padding-top", "10px");
+            $(".error").css("padding-bottom", "10px");
+            return false;
+        }
+
+        var page = "assignToRepsPage";
+        var data = {representativeId: representativeId, userList: CUSTOMERS_LIST};
+        var callback = utils.server.getCodeResponseAssignCustomers;
+        var deepPath = "assigncustomer";
+        utils.server.makeServerCall(page, data, callback, deepPath);
     },
     displayError: function (message) {
         $(".success").css("display", "none");
@@ -582,22 +678,18 @@ utils.server = {
         $(".success").css("display", "block");
         $(".success").css("padding-top", "4px");
         $(".success").css("padding-bottom", "10px");
-
     },
     getCodeResponseAssignCustomers: function (data)
     {
         var message = "";
-
         if (data.resultMap.TypeCode == '4031') {
             message = "Successfully assigned the List of Customers under the selected representative";
             utils.server.displayMessage(message);
-
         }
         if (data.resultMap.TypeCode == '4032') {
             alert("atleast one customer");
             message = "Please select atleast one customer for the given representative";
             utils.server.errorMessage(message);
-
         }
         if (data.resultMap.TypeCode == '4033') {
             alert("Authentication Erro");
@@ -740,63 +832,6 @@ function sharewithRepSelectAllDropDown(isNone) {
 
 function onKeyPressEventAssignCustomers(tag) {
 
-    $('#id-overlayaiigncustomers').live("keypress", function (e) {
-        if (e.keyCode == 13) {
-            var edValue = document.getElementById(tag);
-            var searchText = edValue.value;
-            if (searchText !== "" && searchText !== null) {
-                var finalHtml = "<form>";
-                for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
-
-                    if (RESPONSE_ARRAY[index][0].indexOf(searchText) > -1) {
-                        var customerName = RESPONSE_ARRAY[index][0];
-                        var customerCity = RESPONSE_ARRAY[index][1];
-                        var customerState = RESPONSE_ARRAY[index][2];
-
-                        if (customerState == null || customerState == "") {
-                            customerState = "";
-                        }
-
-                        var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
-                        finalHtml = finalHtml + tempHtml;
-                        tempHtml = "";
-                    }
-                }
-
-                if (finalHtml == "<form>") {
-                    var tempHtml = "<div class='rep-grp-blk opensans-regular t-center border-bot text-color-overlay p-relative'> No Records Found </div>";
-                    finalHtml = finalHtml + tempHtml;
-                }
-
-                $(".rep-content-blk").html(finalHtml + "</form>");
-            } else {
-                var finalHtml = "<form>";
-                for (index = 0; index < RESPONSE_ARRAY.length; index++) {
-                    var customerName = RESPONSE_ARRAY[index][0];
-                    var customerCity = RESPONSE_ARRAY[index][1];
-                    var customerState = RESPONSE_ARRAY[index][2];
-
-                    if (customerState == null || customerState == "") {
-                        customerState = "";
-                    } else {
-                        customerState = "," + customerState;
-                    }
-
-                    var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
-                    finalHtml = finalHtml + tempHtml;
-                    tempHtml = "";
-                }
-
-                $(".rep-content-blk").html(finalHtml + "</form>");
-            }
-
-        }
-    });
-
-
-}
-
-function onKeyPressEventshareWithRep(tag) {
     var searchText = $(tag).val().toUpperCase();
     if (searchText !== "" && searchText !== null) {
         var finalHtml = "<form>";
@@ -805,7 +840,10 @@ function onKeyPressEventshareWithRep(tag) {
             if (RESPONSE_ARRAY[index][0].toUpperCase().indexOf(searchText) > -1) {
                 var customerName = RESPONSE_ARRAY[index][0];
                 var customerCity = RESPONSE_ARRAY[index][1];
-                var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + "</div> </div> </label> </div>";
+                var customerState = RESPONSE_ARRAY[index][2];
+                var customerEmailId = RESPONSE_ARRAY[index][3];
+
+                var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox'  value=" + customerEmailId + "  id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
                 finalHtml = finalHtml + tempHtml;
                 tempHtml = "";
             }
@@ -822,7 +860,47 @@ function onKeyPressEventshareWithRep(tag) {
         for (index = 0; index < RESPONSE_ARRAY.length; index++) {
             var customerName = RESPONSE_ARRAY[index][0];
             var customerCity = RESPONSE_ARRAY[index][1];
-            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + "</div> </div> </label> </div>";
+            var customerState = RESPONSE_ARRAY[index][2];
+            var customerEmailId = RESPONSE_ARRAY[index][3];
+
+            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox'  value=" + customerEmailId + "  id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
+            finalHtml = finalHtml + tempHtml;
+            tempHtml = "";
+        }
+        $(".rep-content-blk").html(finalHtml + "</form>");
+    }
+}
+
+function onKeyPressEventshareWithRep(tag) {
+    var searchText = $(tag).val().toUpperCase();
+    if (searchText !== "" && searchText !== null) {
+        var finalHtml = "<form>";
+        for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
+
+            if (RESPONSE_ARRAY[index][0].toUpperCase().indexOf(searchText) > -1) {
+                var customerName = RESPONSE_ARRAY[index][0];
+                var customerCity = RESPONSE_ARRAY[index][1];
+                var customerState = RESPONSE_ARRAY[index][2];
+                var customerEmailId = RESPONSE_ARRAY[index][3];
+                var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + "  id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + "</div> </div> </label> </div>";
+                finalHtml = finalHtml + tempHtml;
+                tempHtml = "";
+            }
+        }
+
+        if (finalHtml == "<form>") {
+            var tempHtml = "<div class='rep-grp-blk opensans-regular t-center border-bot text-color-overlay p-relative'> No Records Found </div>";
+            finalHtml = finalHtml + tempHtml;
+        }
+
+        $(".rep-content-blk").html(finalHtml + "</form>");
+    } else {
+        var finalHtml = "<form>";
+        for (index = 0; index < RESPONSE_ARRAY.length; index++) {
+            var customerName = RESPONSE_ARRAY[index][0];
+            var customerCity = RESPONSE_ARRAY[index][1];
+            var customerState = RESPONSE_ARRAY[index][2];
+            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + " id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + "</div> </div> </label> </div>";
             finalHtml = finalHtml + tempHtml;
             tempHtml = "";
         }
@@ -847,23 +925,21 @@ function onKeyPressEventPrivacy(tag) {
                 var customerState = "";
                 var customerEmailId = RESPONSE_ARRAY[index][3];
                 var privacy = RESPONSE_ARRAY[index][4];
-
                 var toggleStyleOn = "";
                 var toggleStyleOff = "";
-
                 if (privacy == "on") {
-                    toggleStyleOn = "margin-left:8px";
-                    toggleStyleOff = "margin-left:-1px";
+                    toggleStyle = "margin-left:50px";
+                    //toggleStyleOff = "margin-left:-9px";
 
                 } else {
-                    toggleStyleOff = "margin-left:-1px";
-                    toggleStyleOn = "margin-left:-53px";
-                }
 
-                var tempHtml = "<div class=\"rep-grp-blk opensans-regular border-bot text-color-overlay p-relative\"> <input type=\"checkbox\" id='name" + index + "'  class=\"checkbox\" /> <label for='name" + index + "' class=\"rep-label\"> <div class=\"lbl-in-block p-relative\"> <div class=\"f-sz-14 text-color-overlay left rep-name\">" + customerName + "</div> <div class=\"nameRepId f-sz-14 text-color-overlay left\"><i>#5454547</i></div> <div class=\"t-caps f-sz-13 right t-right location-color rep-location\"> <div class=\"bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-on\"> <div id=\"id" + index + "-switch-container\" class=\"bootstrap-switch-container\"> <span id=\"id-switch-on\" class=\"bootstrap-switch-handle-on bootstrap-switch-primary\" style=" + toggleStyleOn + " onclick=\"moveani(\'id-switch-on\', \'id" + index + "-switch-container\')\"><div  class=\"togglevalue\" style=\"display:none;\">" + privacy + "</div> ON</span> <span class=\"bootstrap-switch-label\">&nbsp;</span> <span id=\"id-switch-off\" class=\"bootstrap-switch-handle-off bootstrap-switch-default\" style=" + toggleStyleOff + " onclick=\"moveani(\'id-switch-off\', \'id" + index + "-switch-container\')\"> OFF</span> <input type=\"checkbox\" checked=\"\"></div></div> </div> </div> </div> ";
+                    toggleStyle = "margin-left:-10px";
+                    //toggleStyleOn = "margin-left:-px";
+                }
+                var tempHtml = "<div class=\"rep-grp-blk opensans-regular border-bot text-color-overlay p-relative\"> <input type=\"checkbox\" value=" + customerEmailId + " id='name" + index + "'  class=\"checkbox\" /> <label for='name" + index + "' class=\"rep-label\"> <div class=\"lbl-in-block p-relative\"> <div class=\"f-sz-14 text-color-overlay left rep-name\">" + customerName + "</div> <div class=\"nameRepId f-sz-14 text-color-overlay left\"><i>#5454547</i></div> <div class=\"t-caps f-sz-13 right t-right location-color rep-location\"> <div class=\"bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-on\"> <div id=\"id" + index + "-switch-container\" class=\"bootstrap-switch-container\" style=" + toggleStyle + "> "
+                        + "<span id=\"id-switch-on\" class=\"bootstrap-switch-handle-on bootstrap-switch-primary\"  onclick=\"moveani(" + index + ",\'id-switch-on\', \'id" + index + "-switch-container\')\"><div  class=\"togglevalue" + index + "\" style=\"display:none;\">" + privacy + "</div> ON</span> <span class=\"bootstrap-switch-label\">&nbsp;</span> <span id=\"id-switch-off\" class=\"bootstrap-switch-handle-off bootstrap-switch-default\"  onclick=\"moveani(" + index + ",\'id-switch-off\', \'id" + index + "-switch-container\')\"> OFF</span> <input type=\"checkbox\" checked=\"\"></div></div> </div> </div> </div> ";
                 finalHtml = finalHtml + tempHtml;
                 tempHtml = "";
-
             }
         }
 
@@ -872,7 +948,7 @@ function onKeyPressEventPrivacy(tag) {
             finalHtml = finalHtml + tempHtml;
         }
 
-        //var buttonHtml = "</div> </div> <div class=\"o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w\" data-type=\"overlaybtn\">Send</div> </div> </div> ";
+//var buttonHtml = "</div> </div> <div class=\"o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w\" data-type=\"overlaybtn\">Send</div> </div> </div> ";
         $(".rep-content-blk").html(finalHtml + "</form>");
     } else {
         var finalHtml = "<form>";
@@ -882,27 +958,24 @@ function onKeyPressEventPrivacy(tag) {
             var customerState = "";
             var customerEmailId = RESPONSE_ARRAY[index][3];
             var privacy = RESPONSE_ARRAY[index][4];
-
-            var toggleStyleOn = "";
-            var toggleStyleOff = "";
-
+            var toggleStyle = "";
             if (privacy == "on") {
-                toggleStyleOn = "margin-left:8px";
-                toggleStyleOff = "margin-left:-9px";
+                toggleStyle = "margin-left:50px";
+                //toggleStyleOff = "margin-left:-9px";
 
             } else {
-                toggleStyleOff = "margin-left:-1px";
-                toggleStyleOn = "margin-left:-53px";
+
+                toggleStyle = "margin-left:-10px";
+                //toggleStyleOn = "margin-left:-px";
             }
 
-            var tempHtml = "<div class=\"rep-grp-blk opensans-regular border-bot text-color-overlay p-relative\"> <input type=\"checkbox\" id='name" + index + "'  class=\"checkbox\" /> <label for='name" + index + "' class=\"rep-label\"> <div class=\"lbl-in-block p-relative\"> <div class=\"f-sz-14 text-color-overlay left rep-name\">" + customerName + "</div> <div class=\"nameRepId f-sz-14 text-color-overlay left\"><i>#5454547</i></div> <div class=\"t-caps f-sz-13 right t-right location-color rep-location\"> <div class=\"bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-on\"> <div id=\"id" + index + "-switch-container\" class=\"bootstrap-switch-container\"> <span id=\"id-switch-on\" class=\"bootstrap-switch-handle-on bootstrap-switch-primary\" style=" + toggleStyleOn + " onclick=\"moveani(\'id-switch-on\', \'id" + index + "-switch-container\')\"><div  class=\"togglevalue\" style=\"display:none;\">" + privacy + "</div> ON</span> <span class=\"bootstrap-switch-label\">&nbsp;</span> <span id=\"id-switch-off\" class=\"bootstrap-switch-handle-off bootstrap-switch-default\" style=" + toggleStyleOff + " onclick=\"moveani(\'id-switch-off\', \'id" + index + "-switch-container\')\"> OFF</span> <input type=\"checkbox\" checked=\"\"></div></div> </div> </div> </div> ";
+            var tempHtml = "<div class=\"rep-grp-blk opensans-regular border-bot text-color-overlay p-relative\"> <input type=\"checkbox\" value=" + customerEmailId + " id='name" + index + "'  class=\"checkbox\" /> <label for='name" + index + "' class=\"rep-label\"> <div class=\"lbl-in-block p-relative\"> <div class=\"f-sz-14 text-color-overlay left rep-name\">" + customerName + "</div> <div class=\"nameRepId f-sz-14 text-color-overlay left\"><i>#5454547</i></div> <div class=\"t-caps f-sz-13 right t-right location-color rep-location\"> <div class=\"bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-on\"> <div id=\"id" + index + "-switch-container\" class=\"bootstrap-switch-container\" style=" + toggleStyle + "> "
+                    + "<span id=\"id-switch-on\" class=\"bootstrap-switch-handle-on bootstrap-switch-primary\"  onclick=\"moveani(" + index + ",\'id-switch-on\', \'id" + index + "-switch-container\')\"><div  class=\"togglevalue" + index + "\" style=\"display:none;\">" + privacy + "</div> ON</span> <span class=\"bootstrap-switch-label\">&nbsp;</span> <span id=\"id-switch-off\" class=\"bootstrap-switch-handle-off bootstrap-switch-default\"  onclick=\"moveani(" + index + ",\'id-switch-off\', \'id" + index + "-switch-container\')\"> OFF</span> <input type=\"checkbox\" checked=\"\"></div></div> </div> </div> </div> ";
             finalHtml = finalHtml + tempHtml;
             tempHtml = "";
-
-
         }
 
-        // var buttonHtml = "</div> </div> <div class=\"o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w\" data-type=\"overlaybtn\">Send</div> </div> </div> ";
+// var buttonHtml = "</div> </div> <div class=\"o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w\" data-type=\"overlaybtn\">Send</div> </div> </div> ";
         $(".rep-content-blk").html(finalHtml + "</form>");
     }
 
@@ -914,18 +987,17 @@ function sortbyBox1() {
     var selectedOption = document.getElementById("timepicker").value;
     if (selectedOption == "Alphabetical") {
         RESPONSE_ARRAY.sort();
+        $('#timepicker2').empty();
+        sharewithRepSelectAllDropDown("true");
         var finalHtml = "<form>";
-        for (index = 0; index < RESPONSE_ARRAY.length; index++) {
+        for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
 
             var customerName = RESPONSE_ARRAY[index][0];
             var customerCity = RESPONSE_ARRAY[index][1];
             var customerState = RESPONSE_ARRAY[index][2];
+            var customerEmailId = RESPONSE_ARRAY[index][3];
 
-            if (customerState == null || customerState == "") {
-                customerState = "";
-            }
-
-            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
+            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox'  value=" + customerEmailId + "  id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
             finalHtml = finalHtml + tempHtml;
             tempHtml = "";
         }
@@ -937,37 +1009,63 @@ function sortbyBox1() {
 
     } else if (selectedOption == "City,State") {
 
-        var finalHtml = "<form>";
-        for (index = 0; index < RESPONSE_ARRAY.length; index++) {
+        $('#timepicker2').empty();
+        var TEMP_ARRAY = [];
+        for (var i = 0; i < RESPONSE_ARRAY.length; i++) {
+            TEMP_ARRAY[i] = RESPONSE_ARRAY[i][1];
+        }
+        TEMP_ARRAY = unique(TEMP_ARRAY);
+        for (var i = 0; i < TEMP_ARRAY.length; i++) {
+            $('#timepicker2').append($('<option> ' + TEMP_ARRAY[i] + '</option>'));
+        }
 
+//--***************  Section Sortby Box 2
+        var finalHtml = "<form>";
+        for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
             var customerName = RESPONSE_ARRAY[index][0];
             var customerCity = RESPONSE_ARRAY[index][1];
             var customerState = RESPONSE_ARRAY[index][2];
+            var customerEmailId = RESPONSE_ARRAY[index][3];
 
-            if (customerState == null || customerState == "") {
-                customerState = "";
-            }
-
-            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
+            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox'  value=" + customerEmailId + "  id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
             finalHtml = finalHtml + tempHtml;
             tempHtml = "";
-
         }
 
         if (finalHtml == "<form>") {
             var tempHtml = "<div class='rep-grp-blk opensans-regular t-center border-bot text-color-overlay p-relative'> No Records Found </div>";
             finalHtml = finalHtml + tempHtml;
         }
-    }
-    $(".rep-content-blk").html(finalHtml + "</form>");
+    } else {
+        $('#timepicker2').empty();
+        sharewithRepSelectAllDropDown("true");
+        var finalHtml = "<form>";
+        for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
 
+            var customerName = RESPONSE_ARRAY[index][0];
+            var customerCity = RESPONSE_ARRAY[index][1];
+            var customerState = RESPONSE_ARRAY[index][2];
+            var customerEmailId = RESPONSE_ARRAY[index][3];
+
+            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox'  value=" + customerEmailId + "  id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
+            finalHtml = finalHtml + tempHtml;
+            tempHtml = "";
+        }
+
+        if (finalHtml == "<form>") {
+            var tempHtml = "<div class='rep-grp-blk opensans-regular t-center border-bot text-color-overlay p-relative'> No Records Found </div>";
+            finalHtml = finalHtml + tempHtml;
+        }
+
+    }
+
+    $(".rep-content-blk").html(finalHtml + "</form>");
 }
 
 var unique = function (origArr) {
     var newArr = [],
             origLen = origArr.length,
             found, x, y;
-
     for (x = 0; x < origLen; x++) {
         found = undefined;
         for (y = 0; y < newArr.length; y++) {
@@ -999,9 +1097,9 @@ function Sharewithrep_sortbyBox1(idvalue) {
 
             var customerName = RESPONSE_ARRAY[index][0];
             var customerCity = RESPONSE_ARRAY[index][1];
+            var customerEmailId = RESPONSE_ARRAY[index][3];
 
-
-            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + "</div> </div> </label> </div>";
+            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + " id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + "</div> </div> </label> </div>";
             finalHtml = finalHtml + tempHtml;
             tempHtml = "";
         }
@@ -1013,7 +1111,7 @@ function Sharewithrep_sortbyBox1(idvalue) {
 
     } else if (selectedOption == "City,State") {
 //        //sharewithRepSelectAllDropDown("false");
-        //--***************  Section Sortby Box 2
+//--***************  Section Sortby Box 2
         $('#timepicker2').empty();
         $("#timepicker2").prop("disabled", false);
         var TEMP_ARRAY = [];
@@ -1025,15 +1123,14 @@ function Sharewithrep_sortbyBox1(idvalue) {
             $('#timepicker2').append($('<option> ' + TEMP_ARRAY[i] + '</option>'));
         }
 
-        //--***************  Section Sortby Box 2
+//--***************  Section Sortby Box 2
         var finalHtml = "<form>";
         for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
 
             var customerName = RESPONSE_ARRAY[index][0];
             var customerCity = RESPONSE_ARRAY[index][1];
-
-
-            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + "</div> </div> </label> </div>";
+            var customerEmailId = RESPONSE_ARRAY[index][3];
+            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + " id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + "</div> </div> </label> </div>";
             finalHtml = finalHtml + tempHtml;
             tempHtml = "";
         }
@@ -1053,27 +1150,22 @@ function Sharewithrep_sortbyBox1(idvalue) {
 
             var customerName = RESPONSE_ARRAY[index][0];
             var customerCity = RESPONSE_ARRAY[index][1];
-            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + "</div> </div> </label> </div>";
+            var customerEmailId = RESPONSE_ARRAY[index][3];
+            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + " id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + "</div> </div> </label> </div>";
             finalHtml = finalHtml + tempHtml;
             tempHtml = "";
-
         }
-
         if (finalHtml == "<form>") {
             var tempHtml = "<div class='rep-grp-blk opensans-regular t-center border-bot text-color-overlay p-relative'> No Records Found </div>";
             finalHtml = finalHtml + tempHtml;
         }
-
     }
 
-
     $(".rep-content-blk").html(finalHtml + "</form>");
-
 }
 
 function assignCustomersSortbyBox2() {
     var selectedOption = document.getElementById("timepicker2").value;
-
     if (selectedOption == "Select All") {
         $('.checkbox').each(function () {
             this.checked = true;
@@ -1088,7 +1180,6 @@ function assignCustomersSortbyBox2() {
 
 function sharewithRepSortbyBox2() {
     var selectedOption = document.getElementById("timepicker2").value;
-
     if (selectedOption == "Select All") {
         $('.checkbox').each(function () {
             this.checked = true;
@@ -1101,10 +1192,9 @@ function sharewithRepSortbyBox2() {
             } else {
                 this.checked = true;
             }
-
         });
     } else {
-        //sharewithRepSelectAllDropDown("false");
+//sharewithRepSelectAllDropDown("false");
 
         var finalHtml = "<form>";
         for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
@@ -1112,7 +1202,8 @@ function sharewithRepSortbyBox2() {
             if (RESPONSE_ARRAY[index][1].indexOf(selectedOption) > -1) {
                 var customerName = RESPONSE_ARRAY[index][0];
                 var customerCity = RESPONSE_ARRAY[index][1];
-                var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + "</div> </div> </label> </div>";
+                var customerEmailId = RESPONSE_ARRAY[index][3];
+                var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox'  value=" + customerEmailId + " id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + "</div> </div> </label> </div>";
                 finalHtml = finalHtml + tempHtml;
                 tempHtml = "";
             }
@@ -1128,21 +1219,59 @@ function sharewithRepSortbyBox2() {
 
 }
 
+function sortbyBox2() {
+    var selectedOption = document.getElementById("timepicker2").value;
+    if (selectedOption == "Select All") {
+        $('.checkbox').each(function () {
+            this.checked = true;
+        });
+    } else if (selectedOption.indexOf("Section") > -1) {
+        $("input[name='" + selectedOption.trim().charAt(8).toUpperCase() + "']").each(function () {
+
+            if (this.checked == true) {
+                this.checked = false;
+            } else {
+                this.checked = true;
+            }
+        });
+    } else {
+//sharewithRepSelectAllDropDown("false");
+
+        var finalHtml = "<form>";
+        for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
+
+            if (RESPONSE_ARRAY[index][1].indexOf(selectedOption) > -1) {
+                var customerName = RESPONSE_ARRAY[index][0];
+                var customerCity = RESPONSE_ARRAY[index][1];
+                var customerState = RESPONSE_ARRAY[index][2];
+                var customerEmailId = RESPONSE_ARRAY[index][3];
+
+                var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox'  value=" + customerEmailId + "  id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
+                finalHtml = finalHtml + tempHtml;
+                tempHtml = "";
+            }
+        }
+
+        if (finalHtml == "<form>") {
+            var tempHtml = "<div class='rep-grp-blk opensans-regular t-center border-bot text-color-overlay p-relative'> No Records Found </div>";
+            finalHtml = finalHtml + tempHtml;
+        }
+
+        $(".rep-content-blk").html(finalHtml + "</form>");
+    }
+}
+
 $(document).on('click', '#id-sharewithrepsearchicon', function () {
     onKeyPressEventshareWithRep("#id-overlaysharewithrep");
 });
-
 $(document).on('click', '#id-sendapplinksearchicon', function () {
     onKeyPressEventshareWithRep("#id-overlaysendapplink");
 });
 $(document).on('click', '#id-privacysearchicon', function () {
     onKeyPressEventPrivacy("#id-overlayprivacy");
 });
-
-
 function sharewithrepkeypress(e) {
     var Ucode = e.keyCode ? e.keyCode : e.charCode;
-
     if (Ucode == 13)
     {
         onKeyPressEventshareWithRep("#id-overlaysharewithrep");
@@ -1155,6 +1284,19 @@ function sharewithrepkeyup(e) {
     onKeyPressEventshareWithRep("#id-overlaysharewithrep");
 }
 
+function assignToCustomerkeypress(e) {
+    var Ucode = e.keyCode ? e.keyCode : e.charCode;
+    if (Ucode == 13)
+    {
+        onKeyPressEventAssignCustomers("#id-overlayaiigncustomers");
+    }
+
+    onKeyPressEventAssignCustomers("#id-overlayaiigncustomers");
+}
+
+function assignToCustomerkeyup(e) {
+    onKeyPressEventAssignCustomers("#id-overlayaiigncustomers");
+}
 
 function sendAppLinkkeyup(e) {
     onKeyPressEventshareWithRep("#id-overlaysendapplink");
@@ -1164,23 +1306,21 @@ function privacykeyup(e) {
     onKeyPressEventPrivacy("#id-overlayprivacy");
 }
 
-//$("#id-switch-on").click(function () {
-//    document.getElementById(idcontainerValue).style.marginLeft = "-8px";
-//});
-
-function moveani(idValue, idcontainerValue) {
+function moveani(index, idValue, idcontainerValue) {
 
     if (idValue === "id-switch-off") {
-        //  alert("off");
-        //$(idcontainerValue).css("margin-left", "-50px");
-        //$(".togglevalue").html("off");
-        document.getElementById(idcontainerValue).style.marginLeft = "-8px";
+        document.getElementById(idcontainerValue).style.marginLeft = "50px";
+        if (index > 0) {
+            $('.togglevalue' + index).text("on");
+        }
     } else if (idValue === "id-switch-on") {
-        // alert("on");
-        // $(".togglevalue").html("on");
-        document.getElementById(idcontainerValue).style.marginLeft = "-65px";
+        if (index > 0) {
+            $('.togglevalue' + index).text("off");
+        }
+        document.getElementById(idcontainerValue).style.marginLeft = "-10px";
     }
 
 }
+
 
 //-------------------------------------------------------------------------------
