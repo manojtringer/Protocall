@@ -119,6 +119,7 @@ var MyrepsdynamicTemplate = {
             } else {
                 agencyRepresentativeId = "";
             }
+
             if (rep.carrierAgencyRepresentativeId != undefined) {
                 carrierAgencyRepresentativeId = rep.carrierAgencyRepresentativeId;
             } else {
@@ -130,7 +131,8 @@ var MyrepsdynamicTemplate = {
                     + '<img src=' + profilePicture + ' alt="" class="carrier-img-width"></div>'
                     + '<div class="reps-profile-info-root">'
                     + '<div class="reps-profile-info t-left left opensans-regular f-color-w p-relative"><div class="carrier-name t-caps">' + name + '</div>'
-                    + '<div class="carrier-location t-caps">' + location + '</div><div class="carrier-email">' + agencyRepresentativeId + '</div>'
+                    + '<div class="carrier-location t-caps">' + location + '</div><div class="carrier-email">'
+                    + '<a href="mailto:' + agencyRepresentativeId + '">' + agencyRepresentativeId + '</a></div>'
                     + '<div class="carrier-location t-caps">' + carrierAgencyRepresentativeId + '</div></div></div></div>'
                     + '<div id=' + agencyRepresentativeId + '  class="reps-feed-view p-relative bg-color-green t-caps t-center opensans-regular f-color-w snap" data-type="dt-assigncustomer">assign customer</div></div>';
 

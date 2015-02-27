@@ -212,19 +212,18 @@ if(element.address == undefined){
 		 if(alertDetailsValue.userDetails.profilePicture !== "undefined"){
 			profilePicture = HOMEPAGERESPONSE.PROFILEAPI+alertDetailsValue.userDetails.profilePicture; 
 		 }
-		 if(HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED) {
+		  /* if(HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED) {
 			   viewArchiveFeedHTML = ""; 
 		  } else {
 			 viewArchiveFeedHTML = '<input id='+alertDetailsValue.alertDetails.alertId+' type="checkbox" class="checkbox snap" data-type="archiveCheckBox"><label class="feed-label" for='+alertDetailsValue.alertDetails.alertId+'></label>'; 
-		 } 
-		
+		 } */ 
 		rightSideAlerFeedHTML = '<div class="lf-block left">'
                     + '<div class="leftblk-spacing">'
                     + '<div class="feed-det bg-color-dblue p-relative">'
                     + '<div class="feed-det-pad p-relative">'
                     + '<div class="feed-pic-b inline-block v-align-mid">'
                     + '<div id="" class="feed-user-pic-box">'
-					+viewArchiveFeedHTML
+					+'<input style="z-index:10;" id='+alertDetailsValue.alertDetails.alertId+' type="checkbox" class="checkbox snap" data-type="archiveCheckBox"><label for='+alertDetailsValue.alertDetails.alertId+'></label>'
                     + '<img src="'+profilePicture+'" alt="" class="feeduserpic">'
                     + '</div>'
                     + '</div>'

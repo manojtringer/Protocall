@@ -596,6 +596,11 @@ protocall.events = {
             console.log(".o-content");
             protocall.events.handleClickForAudioThumbNail(e);
         });
+		/* $(document).on("scroll",  function (e) {
+			console.log("scroll invoked");
+			$("#pop-up-content").hide();
+			e.preventDefault();
+	   }); */
         $(window).on("resize", function (e) {
             protocall.events.handleResize(e);
         });
@@ -608,6 +613,25 @@ protocall.events = {
             protocall.events.handleScroll();
         });
     },
+	mouseOverCheckbox : function(){
+		var userFeedbox = $(".feed-user-pic-box");
+		$.each(userFeedbox,function(index,element){
+			$(this).hover(
+				 function () {
+				   console.log("mouse enter");
+				   $(this).find("label").addClass("feed-label");
+				 }, 
+				 function () {
+					console.log("mouse leave");
+					if($(this).find("input").prop("checked")){
+						$(this).find("label").addClass("feed-label");
+					} else {
+						$(this).find("label").removeClass("feed-label");
+					} 
+				 }
+			 );
+		});
+	},
     handleScroll: function (e) {
         var container = $('.container'), pageNumber = 1, deepPath = "", page = "";
         var scrollHeightValue = container[0].scrollHeight - container.scrollTop();
@@ -623,12 +647,14 @@ protocall.events = {
             deepPath = "filterfeedbyalphabetical";
         } else {
             deepPath = "filterfeedbyalertdate";
-        }
+        } if(HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED){
+			deepPath = "viewedarchieved";
+		}
         if (scrollHeightValue == containerOuterHeight) {
             if (CONSTANTS.HASNEXTPAGE) {
                 if (HOMEPAGERESPONSE.INCIDENTALERTSCLICKED) {
                     container.scrollTop();
-                } else if (HOMEPAGERESPONSE.POLICYALERTCLICKED) {
+                } else if (HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED) {
                     container.scrollTop();
                 } else {
                     container.scrollTop();
@@ -1215,6 +1241,7 @@ protocall.view = {
     },
     /*Naveen Chnages 19-2-2015 start */
     loadMyAlertsFeeds: function ($el, isClickEvent) {
+		$(".content-holder").empty();
         $(".content-holder").addClass("spinner1");
         HOMEPAGERESPONSE.UNREADFEEDCOUNT = 0;
         HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED = false;
@@ -1233,6 +1260,7 @@ protocall.view = {
 
     },
     loadIncidentsFeeds: function ($el, isClickEvent) {
+		$(".content-holder").empty();
         $(".content-holder").addClass("spinner1");
         HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED = false;
         HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED = false;
@@ -1248,6 +1276,7 @@ protocall.view = {
         protocall.view.setSelectedLinkClasses($el, true);
     },
     loadPoliciesFeeds: function ($el, isClickEvent) {
+		$(".content-holder").empty();
         $(".content-holder").addClass("spinner1");
         HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED = false;
         HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED = false;
@@ -1290,6 +1319,7 @@ protocall.view = {
          protocall.setPage(CONSTANTS.LINK_TYPE.HOME_PAGE, CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.ARCHIVES, CONSTANTS.LINK_TYPE.ARCHIVES, "");
          } */
         if (HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE.length !== 0) {
+			$(".content-holder").empty();
             $(".content-holder").addClass("spinner1");
             var data = {"alertList": HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE},
             deepPath = "archieve",
@@ -1323,6 +1353,7 @@ protocall.view = {
          protocall.displaySpinner(false); */
     },
     loadviewArchivedFeeds: function ($el, isClickEvent) {
+		$(".content-holder").empty();
         HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED = true;
         HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED = false;
         HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED = false;
@@ -1353,9 +1384,15 @@ protocall.view = {
         var alertIDValue = $e1.attr("id");
         console.log("$e1", $e1);
         if ($e1.prop("checked") == true) {
-            HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE.push(alertIDValue);
+			HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE.push(alertIDValue);
+			$("a.archives").css("display","block");
         } else {
-            HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE.pop(alertIDValue);
+			HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE.pop(alertIDValue);
+			if(HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE.length == 0){
+				$("a.archives").css("display","none");
+			} else {
+				$("a.archives").css("display","block");
+			}
         }
         console.log("alertIDValue", $e1.attr("id"));
     },
@@ -2236,8 +2273,8 @@ protocall.view = {
 protocall.home = {
     /*Naveen 19-2-2015 Chnage start*/
     initHomePage: function () {
-
-        if (HOMEPAGERESPONSE.SORTBYALPHABETICALVIEW || HOMEPAGERESPONSE.SORYBYRECENTVIEW || HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED || HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED) {
+		console.log("HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE.length",HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE.length);
+		if (HOMEPAGERESPONSE.SORTBYALPHABETICALVIEW || HOMEPAGERESPONSE.SORYBYRECENTVIEW || HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED || HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED) {
             $(".content-holder").addClass("spinner1");
         } else {
             protocall.displaySpinner(true);
@@ -2824,15 +2861,20 @@ protocall.util = {
             footer = HomedynamicTemplate.home.HomeDynamicFooterTemplate();
             totalHtml = header + content + footer;
             $("#page").append(totalHtml);
-        } else {
+		} else {
             $(".content-holder").append($(feedHTML));
         }
-        if (HOMEPAGERESPONSE.UNREADFEEDCOUNT !== 0) {
+		if(HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE.length == 0){
+			$("a.archives").css("display","none");
+		} else {
+			$("a.archives").css("display","block");
+		}
+		if (HOMEPAGERESPONSE.UNREADFEEDCOUNT !== 0) {
             $(".mb-submenu").find("a.myalerts span.cnt-no").text(HOMEPAGERESPONSE.UNREADFEEDCOUNT);
         } else {
             $(".mb-submenu").find("a.myalerts span.cnt-blk").text("");
         }
-
+		protocall.events.mouseOverCheckbox();
         protocall.displaySpinner(false);
         protocall.events.containerScrollEvent();
         protocall.view.subMenuSelectedTab();

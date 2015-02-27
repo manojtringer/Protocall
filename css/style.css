@@ -646,7 +646,7 @@ input, select, textarea {
 }
 
 .mb-submenu .mb-submenu-in  >div:first-child{
-    width:25%;
+    width: 30%;
     line-height: 39px;
 }
 .mb-submenu .mb-submenu-in  >div:last-child{
@@ -749,9 +749,9 @@ footer  .foot-in{
 /********** Content Section **************************/
 .container{
     margin-bottom:20px;
-    min-height:500px;
+    min-height: 60px;
     margin-top: 15px;
-    max-height: 250px;
+    max-height: 365px;
     overflow: auto;
 }
 
@@ -1437,6 +1437,8 @@ input[type=checkbox]:checked +.customer-feed-label:before {
     color: #989898;
     font-size: 16px;
     margin-right: 15px;
+    overflow-x: auto;
+    /* width: 300px; */
 }
 .carrier-view-parent{
     overflow: hidden;
@@ -1444,6 +1446,8 @@ input[type=checkbox]:checked +.customer-feed-label:before {
 
 .carrier-view-auth{
     padding: 15px 15px;
+    width: 1000px;
+    /* overflow-x: auto; */
 }
 .carrier-logo-view{
     width: 94%;
@@ -3165,4 +3169,20 @@ footer  .foot-in{
 }
 .associated-background{
     background: #D2DADD;
+}
+.headerBox{
+    height: 10%;
+}
+.container{
+    height: 90%;
+}
+
+.m-width{
+    height: 90%;
+}
+
+.footerbox{
+    position: fixed;
+    height: 10%;
+    margin-bottom: 2px;
 }
