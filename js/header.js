@@ -74,6 +74,8 @@ var HeaderTemplate = {
 
                 var subMenuContent = localStorage.getItem("SUBMENU");
 
+                //  alert(subMenuContent);
+
                 if (subMenuContent == "HOME_PAGE") {
                     //<div class="bcrum-lb-submenu clr-fl inline-block v-align-mid">
                     //<a href="#" class="snap left f-sz-16 ptsans-light home t-upper p-relative f-color-green" data-type="page" data-submenu="home"><div class="">
@@ -97,8 +99,12 @@ var HeaderTemplate = {
                 if (subMenuContent == "CARRIER_REPS_PAGE") {
                     subMenu = '<div class="bcrum-lb-submenu clr-fl inline-block v-align-mid"><a href="#" class="snap left f-sz-16 ptsans-light carrierreps t-upper p-relative f-color-green" data-type="page" data-submenu="carrierreps"><div class=""><div class="sprite-im myreps-icon inline-block v-align-mid mr-space-10 ">&nbsp;</div><span class="sub-menu-text inline-block v-align-mid"> my reps</span></div></a><div class="bcrum-icon-blk left f-color-green f-sz-16 ptsans-light" style="display:none;">&gt;</div><a href="#" class="snap left f-sz-16 ptsans-light feeds-customer t-caps p-relative f-color-green" data-type="page" data-submenu="myreps-customer" style="display:none;"></a></div><div class="tab-rb-submenu inline-block v-align-mid" style="width:70%;"><div class="tab-rb-submenu-in-block p-relative"><div href="#" class="snap submenu-sort right f-sz-16 ptsans-light p-relative" data-type="page" data-submenu="sortbyreps"><div class="sort-text f-italic">Sort by</div><div class="sprite-im drop-down-icon submenu-drop-icon">&nbsp;</div></div><a href="/invitereps" class="snap submenu-tab bg-color-green right f-sz-16 ptsans-light invitereps p-relative" data-type="page" data-submenu="invitereps"><div class="sprite-im invite-reps-icon inline-block tab-icon v-align-mid" style="display:block;">&nbsp;</div><div class="submenu-title t-caps inline-block f-color-w v-align-mid"> invite reps</div><div class="cnt-blk inline-block v-align-mid" style="display:none;">(<span class="cnt-no"></span>)</div></a></div></div>';
                 }
-                
-                
+
+                if (subMenuContent == "PROFILE_PAGE") {
+                   // alert("dd");
+                    subMenu = '<div class="bcrum-lb-submenu clr-fl inline-block v-align-mid"><a href="#" class="snap left f-sz-16 ptsans-light myprofile t-upper p-relative f-color-green" data-type="page" data-submenu="myprofile"><div class=""><div class="sprite-im inline-block v-align-mid mr-space-10 ">&nbsp;</div><span class="sub-menu-text inline-block v-align-mid"> my profile</span></div></a><div class="bcrum-icon-blk left f-color-green f-sz-16 ptsans-light" style="display:none;">&gt;</div><a href="#" class="snap left f-sz-16 ptsans-light feeds-customer t-caps p-relative f-color-green" data-type="page" data-submenu="myprofile-customer" style="display:none;"></a></div><div class="tab-rb-submenu inline-block v-align-mid" style="width:70%;"><div class="tab-rb-submenu-in-block p-relative">'
+                            +'<a href="/edit" class="snap submenu-tab bg-color-green right f-sz-16 ptsans-light edit p-relative" data-type="page" data-submenu="edit"><div class="sprite-im inline-block edit-icon v-align-mid" style=\"display:inline-block;margin-left:0px;margin-right: 5px;\">&nbsp;</div><div class="submenu-title t-caps inline-block f-color-w v-align-mid "> edit</div><div class="cnt-blk inline-block v-align-mid" style="display:none;  float: left;  margin-right: 10px;  margin-top: 10px">(<span class="cnt-no"></span>)</div></a></div></div>';
+                }
 
 
             } else if (sessionStorage.loginType == 'CarrierRepresentative') {
@@ -128,7 +134,8 @@ var HeaderTemplate = {
                 }
 
                 if (subMenuContent == "PROFILE_PAGE") {
-                    subMenu = '<div class="bcrum-lb-submenu clr-fl inline-block v-align-mid"><a href="#" class="snap left f-sz-16 ptsans-light myprofile t-upper p-relative f-color-green" data-type="page" data-submenu="myprofile"><div class=""><div class="sprite-im inline-block v-align-mid mr-space-10 ">&nbsp;</div><span class="sub-menu-text inline-block v-align-mid"> my profile</span></div></a><div class="bcrum-icon-blk left f-color-green f-sz-16 ptsans-light" style="display:none;">&gt;</div><a href="#" class="snap left f-sz-16 ptsans-light feeds-customer t-caps p-relative f-color-green" data-type="page" data-submenu="myprofile-customer" style="display:none;"></a></div><div class="tab-rb-submenu inline-block v-align-mid" style="width:70%;"><div class="tab-rb-submenu-in-block p-relative"><a href="/edit" class="snap submenu-tab bg-color-green right f-sz-16 ptsans-light edit p-relative" data-type="page" data-submenu="edit"><div class="sprite-im inline-block tab-icon v-align-mid" style="display:none;">&nbsp;</div><div class="submenu-title t-caps inline-block f-color-w v-align-mid "> edit</div><div class="cnt-blk inline-block v-align-mid" style="display:none;">(<span class="cnt-no"></span>)</div></a></div></div>';
+                  
+                    subMenu = '<div class="bcrum-lb-submenu clr-fl inline-block v-align-mid"><a href="#" class="snap left f-sz-16 ptsans-light myprofile t-upper p-relative f-color-green" data-type="page" data-submenu="myprofile"><div class=""><div class="sprite-im inline-block v-align-mid mr-space-10 ">&nbsp;</div><span class="sub-menu-text inline-block v-align-mid"> my profile</span></div></a><div class="bcrum-icon-blk left f-color-green f-sz-16 ptsans-light" style="display:none;">&gt;</div><a href="#" class="snap left f-sz-16 ptsans-light feeds-customer t-caps p-relative f-color-green" data-type="page" data-submenu="myprofile-customer" style="display:none;"></a></div><div class="tab-rb-submenu inline-block v-align-mid" style="width:70%;"><div class="tab-rb-submenu-in-block p-relative"><a href="/edit" class="snap submenu-tab bg-color-green right f-sz-16 ptsans-light edit p-relative" data-type="page" data-submenu="edit"><div class="sprite-im inline-block edit-icon v-align-mid" style=\"display:inline-block;margin-left:0px;margin-right: 5px;\">&nbsp;</div><div class="submenu-title t-caps inline-block f-color-w v-align-mid "> edit</div></a></div></div>';
                 }
             }
 

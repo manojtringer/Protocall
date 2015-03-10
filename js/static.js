@@ -1537,8 +1537,8 @@ var staticTemplate = {
             if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
                 if (localStorage.LoginType == 'Admin') {
                     html = ' <form id="carrier-form"> <div class="settings-click-button clr-fl"><div class="success" style=" display:none; color: green;"></div><div class="error" style=" display:none; color: red;"></div> <div class="settings-agency-bar inline-block p-relative bg-color-gray t-caps t-center opensans-regular f-color-w snap"><a class="snap" href="javascript:void(0)" id="id-agency-view-load" data-type="agency-view-load" >AGENCY</a></div> <div class="settings-vendor-bar inline-block p-relative bg-color-gray t-caps t-center opensans-regular f-color-w snap"><a class="snap" href="javascript:void(0)" id="id-preferred-vendors-view-load" data-type="preferred vendors-view-load" >PREFERRED VENDORS</a></div> '
-                            + '<div class="settings-edit-bar right inline-block p-relative bg-color-green snap" data-type="agency-edit-load"><div class="p-relative inline-block"> <div class="edit-icon sprite-im">&nbsp;</div> </div> <div class="p-relative inline-block t-caps t-right opensans-regular f-color-w"> <a id="id-carrier-edit" class="f-color-w" href="javascript:void(0)" >edit</a></div>'
-                            + '</div><div class="removevendor-bar right inline-block p-relative bg-color-green snap" data-type="agency-remove-load"> <div class="p-relative inline-block"> <div class="remove-icon sprite-im">&nbsp;</div> </div> <div class="p-relative inline-block t-caps t-right opensans-regular f-color-w"><a class="f-color-w" href="javascript:void(0)"  >remove</a></div> </div> <div class="addvendor-bar right inline-block p-relative bg-color-green snap" data-type="agency-addvendor-load"> <div class="p-relative inline-block"> <div class="add-icon sprite-im">&nbsp;</div> </div> <div class="p-relative inline-block t-caps t-right opensans-regular f-color-w"><a class="f-color-w" href="javascript:void(0)"  >add vendor</a></div></div></div> <div class="bg-color-white"><div class="agency-view-block"><div class="settings-view-leftblock inline-block v-align-mid p-relative"> <div class="settings-view-auth opensans-regular p-relative"> <div class="carrier-view-name inline-block t-upper">Carrier id</div> '
+                            + '<div class="settings-edit-bar right inline-block p-relative bg-color-green snap" data-type="agency-edit-load" style="display:none;"><div class="p-relative inline-block"> <div class="edit-icon sprite-im">&nbsp;</div> </div> <div class="p-relative inline-block t-caps t-right opensans-regular f-color-w"> <a id="id-carrier-edit" class="f-color-w" href="javascript:void(0)" >edit</a></div>'
+                            + '</div><div class="removevendor-bar right inline-block p-relative bg-color-green snap" data-type="agency-remove-load" style="display:none"> <div class="p-relative inline-block"> <div class="remove-icon sprite-im">&nbsp;</div> </div> <div class="p-relative inline-block t-caps t-right opensans-regular f-color-w"><a class="f-color-w" href="javascript:void(0)"  >remove</a></div> </div> <div class="addvendor-bar right inline-block p-relative bg-color-green snap" data-type="agency-addvendor-load" style="display:none"> <div class="p-relative inline-block"> <div class="add-icon sprite-im">&nbsp;</div> </div> <div class="p-relative inline-block t-caps t-right opensans-regular f-color-w"><a class="f-color-w" href="javascript:void(0)"  >add vendor</a></div></div></div> <div class="bg-color-white"><div class="agency-view-block"><div class="settings-view-leftblock inline-block v-align-mid p-relative"> <div class="settings-view-auth opensans-regular p-relative"> <div class="carrier-view-name inline-block t-upper">Carrier id</div> '
                             + '<div class="carrier-view-id inline-block">' + data.resultMap.carrierDetails.carrierId + '</div> </div> <div class="settings-logo-view p-relative"> '
                             + '<div class="settingslogo-viewpic"> <img src=http://2-dot-proto-call-test.appspot.com/file/' + data.resultMap.carrierDetails.carrierLogo + ' alt="" class="carrier-img-width"> </div> </div> <div class="settings-view-social p-relative clr-fr"> <div class="settings-view-website p-relative left bg-color-green"> <div class="p-relative inline-block v-align-top"> <div class="sprite-im pop-out">&nbsp;</div> </div> '
                             + '<div class="carrier-website-name inline-block t-caps opensans-regular f-color-w t-center"><a href="' + data.resultMap.carrierDetails.website.value + '" class="f-color-w">WEBSITE</a></div> </div> <div class="settings-view-facebook p-relative left bg-color-green"> <div class="p-relative inline-block v-align-top"> <div class="sprite-im pop-out">&nbsp;</div> </div> <div class="carrier-facebook-name inline-block t-caps opensans-regular f-color-w t-center">FACEBOOK</div> </div> </div> </div> <div class="settings-view-rightblock inline-block v-align-mid p-relative "> <div class="carrier-view-block p-relative "> <div id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">carrier  id</div> '
@@ -1650,6 +1650,12 @@ var staticTemplate = {
                             + '<span class="profile-result-cls" id="nameview"> ' + name + ' </span> </div><input type="text" name="profileName" value="" class="agencyprofinput" id="namenew"> </div></div><div class="agenygroup-block border-bot opensans-regular"> <div class="agenychild-block"> <div class="agenytitle-block inline-block p-relative" > Phone </div><div class="agenycontent-block inline-block p-relative"> '
                             + '<span class="profile-result-cls" id="phoneview"> ' + phone + ' </span> </div><input type="text" name="profileName" value="" class="agencyprofinput" id="phonenew"> </div></div><div class="agenygroup-block border-bot opensans-regular"> <div class="agenychild-block"> <div class="agenytitle-block inline-block p-relative"> Email </div><div class="agenycontent-block inline-block p-relative">'
                             + '<span class="profile-result-cls" id="emailview"> ' + email + ' </span> </div><input type="text" name="profileName" value="" class="agencyprofinput" id="emailnew"> </div></div></div></div></div></form> </div></div>';
+
+                    var dropdownHtml = '<div id="id-customers-dropdown" class="associated-carrier-sort t-upper p-relative opensans-regular inline-block">ASSOCIATED CUSTOMERS</div>'
+                            + '<div id="associatedcustomersdropdownarrow" class="p-relative inline-block" style="display:none;"> <div  class="associatedownarrow-customer sprite-im drop-down-icon">&nbsp;</div> </div> </div> '
+                            + '<div id="id-carrierassociatedblock" class="associated-carrier-feed p-relative border-bot"> ';
+
+                    html = html + dropdownHtml;
                     break;
                 }
 
@@ -1665,14 +1671,45 @@ var staticTemplate = {
     },
     myreps: {
         inviteRepsTemplate: function () {
-            var html = '<h2 class="t-left f-color-green opensans-regular" style="">Invite Reps</h2>'
-                    + '<div class="o-sub-content p-relative">'
-                    + '<div class="f-sz-14 t-left opensans-regular invite-reps-text">User will have access to all the features of Dashboard</div>'
-                    + '<div class="text-box-outer">'
-                    + '<input type="text" class="opensans-regular" id="inviterepemail" placeholder="Mail Address" />'
-                    + '</div>'
-                    + '<div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="InvitemyRep">Done</div>'
-                    + '</div>';
+            var html = "";
+            if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
+                if (localStorage.LoginType == 'Admin') {
+
+                    html = '<h2 class="t-left f-color-green opensans-regular" style="">Invite Reps</h2>'
+                            + ' <div class="o-sub-content p-relative">'
+                            + '  <div class="text-box-big">'
+                            + '  <textarea id="txtbox-sendinvite" placeholder="Custom message"></textarea>'
+                            + '</div>'
+                            + '<div class="checkbox-box">'
+                            + '<div class="checkbox-box1"> <input type="radio" class="sendinvite_agency" value="" id="radio-button-agency" checked onclick="checkboxStatus(\'radio-button-agency\')" />Agency</div>'
+                            + ' <div class="checkbox-box2"> <input type="radio" class="sendinvite_rep" value="" id="radio-button-rep" onclick="checkboxStatus(\'radio-button-rep\')" />Representative</div>'
+                            + '</div>'
+                            + '<div class="checkbox-form">'
+                            + '<div id="delete_item0" class="checkbox-box">'
+                            + ' <div class="checkbox-box-t1"> <input type="text" class="sendinvite_firstname" value="" id="txt_sendinvite_firstname0" placeholder="FirstName"/></div>'
+                            + '<div class="checkbox-box-t1"> <input type="text" class="sendinvite_LastName" value="" id="txt_sendinvite_LastName0"  placeholder="LastName"/></div>'
+                            + '<div class="checkbox-box-t1"> <input type="text" class="sendinvite_EmailId" value="" id="txt_sendinvite_EmailId0"  placeholder="EmailId"/>  '
+                            + '<div id="0" class="sprite-im rep-icon rep-icon-pos deleteitem" style="float: right;  position: relative;  /* top: 52%; */  right: -9%;  margin-top: -26px;">&nbsp;</div></div>'
+                            + '</div>'
+                            + '</div>'
+                            + '<div class="addmore snap" data-type="addmoredata">'
+                            + '<div><div class="sprite-im rep-icon rep-icon-pos" style="float: left;  position: relative;  margin-left: 87%;  margin-top: 3px;">&nbsp;</div>Add More</div></div>'
+                            + '</div>'
+                            + ' <div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="sendInvite">Send Invite</div>'
+                            + '</div>';
+                }
+            } else {
+                html = '<h2 class="t-left f-color-green opensans-regular" style="">Invite Reps</h2>'
+                        + '<div class="o-sub-content p-relative">'
+                        + '<div class="f-sz-14 t-left opensans-regular invite-reps-text">User will have access to all the features of Dashboard</div>'
+                        + '<div class="text-box-outer">'
+                        + '<input type="text" class="opensans-regular" id="inviterepemail" placeholder="Mail Address" />'
+                        + '</div>'
+                        + '<div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="InvitemyRep">Done</div>'
+                        + '</div>';
+            }
+
+
             return html;
         },
         staticRepsTemplate: function () {

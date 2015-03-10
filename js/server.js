@@ -655,6 +655,37 @@ utils.server = {
         $('#id-preferred-vendors-view-load').css("color", "black");
         $("#id-preferred-vendors-view-load").click();
     },
+    carrierOwnerMyProfileSubmenu: function () {
+        $(".mb-submenu").empty();
+        $(".mb-submenu").append("<div class=\"bcrum-lb-submenu clr-fl inline-block v-align-mid\"><a href=\"#\" class=\"snap left f-sz-16 ptsans-light myprofile t-upper p-relative f-color-green\" data-type=\"page\" data-submenu=\"myprofile\"><div class=\"\"><div class=\"sprite-im inline-block v-align-mid mr-space-10 \">&nbsp;</div><span class=\"sub-menu-text inline-block v-align-mid\"> my profile</span></div></a><div class=\"bcrum-icon-blk left f-color-green f-sz-16 ptsans-light\" style=\"display:none;\">&gt;</div><a href=\"#\" class=\"snap left f-sz-16 ptsans-light feeds-customer t-caps p-relative f-color-green\" data-type=\"page\" data-submenu=\"myprofile-customer\" style=\"display:none;\"></a></div><div class=\"tab-rb-submenu inline-block v-align-mid\" style=\"width:70%;\"><div class=\"tab-rb-submenu-in-block p-relative\"><a href=\"/edit\" class=\"snap submenu-tab bg-color-green right f-sz-16 ptsans-light edit p-relative\" data-type=\"page\" data-submenu=\"edit\"><div class=\"sprite-im inline-block edit-icon v-align-mid\" style=\"display:inline-block;margin-left:0px;margin-right: 5px;\">&nbsp;</div><div class=\"submenu-title t-caps inline-block f-color-w v-align-mid \"> edit</div><div class=\"cnt-blk inline-block v-align-mid\" style=\"display:none;  float: left;  margin-right: 10px;  margin-top: 10px\">(<span class=\"cnt-no\"></span>)</div></a></div></div>");
+         $(".mb-menu a.selected-tab").removeClass("selected-tab");
+    },
+    carrierOwnerSettingSubmenu: function () {
+        $(".mb-submenu").empty();
+        $(".mb-submenu").append("<div class=\"mb-submenu-in p-relative\"><div class=\"bcrum-lb-submenu clr-fl inline-block v-align-mid\">"
+                + "<a href=\"#\" class=\"snap left f-sz-16 ptsans-light settings t-upper p-relative f-color-green\" data-type=\"page\" data-submenu=\"settings\">"
+                + "<div class=\"\"><div class=\"sprite-im inline-block v-align-mid mr-space-10 \">&nbsp;</div><span class=\"sub-menu-text inline-block v-align-mid\"> settings</span></div></a>"
+                + "<div class=\"bcrum-icon-blk left f-color-green f-sz-16 ptsans-light\" style=\"display:none;\">&gt;</div>"
+                + "<a href=\"#\" class=\"snap left f-sz-16 ptsans-light feeds-customer t-caps p-relative f-color-green\" data-type=\"page\" data-submenu=\"settings-customer\" style=\"display:none;\">"
+                + "</a></div><div class=\"tab-rb-submenu inline-block v-align-mid\" style=\"width:70%;\"><div class=\"tab-rb-submenu-in-block p-relative\">"
+                + "<a href=\"/privacy\" class=\"snap submenu-tab bg-color-green right f-sz-16 ptsans-light privacy p-relative\" data-type=\"page\" data-submenu=\"privacy\">"
+                + "<div class=\"sprite-im inline-block tab-icon v-align-mid\" style=\"display:none;display:block;float: left; margin-top: 10px;\">&nbsp;</div><div class=\"submenu-title t-caps inline-block f-color-w v-align-mid \"> privacy</div>"
+                + "<div class=\"cnt-blk inline-block v-align-mid\" style=\"display:none;\">(<span class=\"cnt-no\"></span>)</div></a>"
+                + "<a id=\"id-base_edit_box\" href=\"#\" class=\"snap submenu-tab bg-color-green right f-sz-16 ptsans-light  p-relative\" data-type=\"agency-edit-load\" data-submenu=\"agency-edit-load\">"
+                + "<div class=\"sprite-im inline-block edit-icon v-align-mid\" style=\"display:block;float: left; margin-top: 10px;\">&nbsp;</div>"
+                + "<div id='id-carrier-edit' class=\"submenu-title t-caps inline-block f-color-w v-align-mid \"> Edit </div>"
+
+                + "<a id=\"id-base_preferred_edit_box\" href=\"#\" class=\"snap submenu-tab bg-color-green right f-sz-16 ptsans-light  p-relative\" style=\"display: none;\" data-type=\"agency-remove-load\" data-submenu=\"agency-remove-load\">"
+                + "<div class=\"sprite-im inline-block edit-icon v-align-mid\" style=\"display:block;float: left; margin-top: 10px;\">&nbsp;</div>"
+                + "<div id='id-carrier-edit' class=\"submenu-title t-caps inline-block f-color-w v-align-mid \"> Edit </div>"
+
+
+                + "<a id='id-viewaddvendor' href=\"#\" class=\"snap submenu-tab bg-color-green right f-sz-16 ptsans-light  p-relative\" data-type=\"agency-addvendor-load\" data-submenu=\"agency-addvendor-load\" style=\"display:none;\">"
+                + "<div class=\"sprite-im inline-block add-icon v-align-mid\" style=\"display:block;float: left; margin-top: 10px;\">&nbsp;</div>"
+                + "<div class=\"submenu-title t-caps inline-block f-color-w v-align-mid \" > Add Vendor </div>"
+                + "<div class=\"cnt-blk inline-block v-align-mid\" style=\"display:none;\">(<span class=\"cnt-no\"></span>)</div></a></div></div></div>");
+         $(".mb-menu a.selected-tab").removeClass("selected-tab");
+    },
     MysettingsResponse: function (data) {
         if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
             if (localStorage.LoginType == 'Admin') {
@@ -667,6 +698,9 @@ utils.server = {
                 $('#id-agency-view-load').css("color", "white");
                 $('.settings-vendor-bar').css("background-color", "#ccc");
                 $('#id-preferred-vendors-view-load').css("color", "black");
+                utils.server.carrierOwnerSettingSubmenu();
+                
+
             }
         } else {
 
@@ -681,22 +715,7 @@ utils.server = {
             $('#id-preferred-vendors-view-load').css("color", "black");
         }
 
-        $(".mb-submenu-in").empty();
-        $(".mb-submenu-in").append("<div class=\"mb-submenu-in p-relative\"><div class=\"bcrum-lb-submenu clr-fl inline-block v-align-mid\">"
-                + "<a href=\"#\" class=\"snap left f-sz-16 ptsans-light settings t-upper p-relative f-color-green\" data-type=\"page\" data-submenu=\"settings\">"
-                + "<div class=\"\"><div class=\"sprite-im inline-block v-align-mid mr-space-10 \">&nbsp;</div><span class=\"sub-menu-text inline-block v-align-mid\"> settings</span></div></a>"
-                + "<div class=\"bcrum-icon-blk left f-color-green f-sz-16 ptsans-light\" style=\"display:none;\">&gt;</div>"
-                + "<a href=\"#\" class=\"snap left f-sz-16 ptsans-light feeds-customer t-caps p-relative f-color-green\" data-type=\"page\" data-submenu=\"settings-customer\" style=\"display:none;\">"
-                + "</a></div><div class=\"tab-rb-submenu inline-block v-align-mid\" style=\"width:70%;\"><div class=\"tab-rb-submenu-in-block p-relative\">"
-                + "<a href=\"/privacy\" class=\"snap submenu-tab bg-color-green right f-sz-16 ptsans-light privacy p-relative\" data-type=\"page\" data-submenu=\"privacy\">"
-                + "<div class=\"sprite-im inline-block tab-icon v-align-mid\" style=\"display:none;\">&nbsp;</div><div class=\"submenu-title t-caps inline-block f-color-w v-align-mid \"> privacy</div>"
-                + "<div class=\"cnt-blk inline-block v-align-mid\" style=\"display:none;\">(<span class=\"cnt-no\"></span>)</div></a>"
-                + "<a href=\"#\" class=\"snap submenu-tab bg-color-green right f-sz-16 ptsans-light save p-relative\" data-type=\"page\" data-submenu=\"save\">"
-                + "<div class=\"sprite-im inline-block edit-icon v-align-mid\" style=\"display:none;\">&nbsp;</div>"
-                + "<a href=\"#\" class=\"snap submenu-tab bg-color-green right f-sz-16 ptsans-light save p-relative\" data-type=\"page\" data-submenu=\"save\">"
-                + "<div class=\"sprite-im inline-block edit-icon v-align-mid\" style=\"display:none;\">&nbsp;</div>"
-                + "<div class=\"submenu-title t-caps inline-block f-color-w v-align-mid \"> Edit </div>"
-                + "<div class=\"cnt-blk inline-block v-align-mid\" style=\"display:none;\">(<span class=\"cnt-no\"></span>)</div></a></div></div></div>");
+
 
     },
     getResponseForPreferredVendor: function (idvalue) {

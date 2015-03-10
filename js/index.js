@@ -30,7 +30,7 @@ var CONSTANTS = {
         ASSIGN_TO_CUSTOMERS: "dt-assigncustomer", PROPERTY_POLICY: "dt-propertypolicy", HEALTH_POLICY: "dt-healthpolicy",
         VEHICLE_POLICY: "dt-vehiclepolicy", RESETPASSWORD: "dtresetpassword", SIGNUP: "dtsignup", OVERLAY_RESETPASSALERTBOX: "dtoverlayresetpassword",
         EDITPASSWORDYES: "dtoverlayrestpassyes", EDITPASSWORDNO: "dtoverlayrestpassno",
-        PREVIOUS_AUDIO: "previousAudio", NEXT_AUDIO: "nextAudio", DOCUMENTSOVERLAY: "textDoc", MYPROFEDIT: "edit",
+        PREVIOUS_AUDIO: "previousAudio", NEXT_AUDIO: "nextAudio", DOCUMENTSOVERLAY: "textDoc", MYPROFEDIT: "edit", MYPROFEDITMYREPS: "carrierownerrepedit",
         SORYBYRECENT: "recent", SORTBYALPHABETICAL: "alphabetical", CARRIERSORYBYRECENT: "carrier-recent", CARRIERSORTBYALPHABETICAL: "carrier-alphabetical",
         REPSSORYBYRECENT: "reps-recent", REPSSORTBYALPHABETICAL: "reps-alpha", CUSTOMERSORYBYRECENT: "customer-recent", CUSTOMERSORTBYALPHABETICAL: "customer-alphabetical",
         VIEWARCHIVECHECKBOX: "archiveCheckBox",
@@ -39,7 +39,7 @@ var CONSTANTS = {
         BUTTON_PRIVACYSEND: "overlaybtnPrivacySend", BUTTON_ADDVENDORSEND: "overlaybtn_addvendordetails", BUTTON_SHAREWITHREP: "dt_overlaybtn_sharerepwithcustomers",
         BUTTON_PUSHMESSAGESEND: "overlaybtn-pushmessage", PRINTPAGE: "printPage", BUTTON_ASSIGNTOREPS: "dt_overlaybtn_assignToReps",
         BUTTON_ASSIGNTOCUSTOMERS: "dt_overlaybtn_assigncustomers", SELECTED_SEARCH_ITEM: "selectedSearchItem", CARRIERAGENCY: "carrieragency", CARRIERCUSTOMERS: "carriercustomers", CARRIER_REPS_PAGE: "carrierreps",
-        VIEW_CARRIER_REPS_DETAILS: "viewCarrierRep", VIEW_CARIER_REP_PROFILE_PAGE: "ViewCarrierRep"
+        VIEW_CARRIER_REPS_DETAILS: "viewCarrierRep", VIEW_CARIER_REP_PROFILE_PAGE: "ViewCarrierRep", EDITCARRIEROWNER_AGENCYDETAILS: "editcarrierowner_agencydetails", ADDMORE: "addmoredata"
     },
     ERROR_MSG: {
         ajaxFailed: "Oops! This action could not be completed now! Please try again"
@@ -548,7 +548,12 @@ protocall.events = {
 
 
 //******************Customers View Click Event***********************************
+//deleteitem
+        $(document).on("click", ".deleteitem", function () {
+            //  alert("#delete_item" + $(this).attr("id"));
+            $("#delete_item" + $(this).attr("id")).empty();
 
+        });
         $(document).on("click", ".mycustomerView", function () {
             //alert("data" + $(this).attr("id") + "" + $(this).attr("value"));
             protocall.view.viewCustomerFeed(true, $(this).attr("id"), $(this).attr("value"));
@@ -795,7 +800,6 @@ protocall.events = {
 					var widthOfSearchTextBox = $(".searchbox-border").width()+"px";
 					var searchBorderLeftPosition = $(".searchbox-border").offset().left+"px";
 					var searchBorderTopPosition = $(".searchbox-border").offset().top+54+"px";
-					debugger;
 					$("#searchBarDiv").css({"width":widthOfSearchTextBox,"left":searchBorderLeftPosition,"position":"absolute","top":searchBorderTopPosition});
 					protocall.view.searchUserDetails(searchTextValue);
 				}
@@ -1009,6 +1013,9 @@ protocall.events = {
                     case CONSTANTS.LINK_TYPE.MYPROFEDIT:
                         protocall.view.MyprofEdit();
                         break;
+                    case CONSTANTS.LINK_TYPE.MYPROFEDITMYREPS:
+                        protocall.view.MyprofEditCarrierOwner();
+                        break;
                     case CONSTANTS.LINK_TYPE.CARRIER_REPS_PAGE:
                         protocall.view.loadCarrierRepsPage(true);
                         break;
@@ -1110,7 +1117,10 @@ protocall.events = {
                             DELETELIST[subIndex] = $(this).val();
                             subIndex++;
                         } else {
-                            protocall.view.LoadAgencyRemove();
+                            if (localStorage.getItem("LOGIN_LABEL") != "Carriers") {
+                                protocall.view.LoadAgencyRemove();
+                            }
+
                         }
                     }
                     index++;
@@ -1238,8 +1248,20 @@ protocall.events = {
             case CONSTANTS.LINK_TYPE.BUTTON_PUSHMESSAGESEND:
                 utils.server.submitPushMessage();
                 break;
-
-
+            case CONSTANTS.LINK_TYPE.EDITCARRIEROWNER_AGENCYDETAILS:
+                protocall.view.loadResetPasswordPage();
+                break;
+            case CONSTANTS.LINK_TYPE.ADDMORE:
+                if (localStorage.getItem("SendInviteBoxCount") == undefined) {
+                    localStorage.setItem("SendInviteBoxCount", "1");
+                }
+                var countIndex = localStorage.getItem("SendInviteBoxCount");
+                // alert(countIndex);
+                var addContent = "<div id=\"delete_item" + countIndex + "\" class=\"checkbox-box\"> <div class=\"checkbox-box-t1\"> <input type=\"text\" class=\"sendinvite_firstname\" value=\"\" id=\"txt_sendinvite_firstname" + countIndex + "\" placeholder=\"FirstName\"></div><div class=\"checkbox-box-t1\"> <input type=\"text\" class=\"sendinvite_LastName\" value=\"\" id=\"txt_sendinvite_LastName" + countIndex + "\" placeholder=\"LastName\"></div><div class=\"checkbox-box-t1\"> <input type=\"text\" class=\"sendinvite_EmailId\" value=\"\" id=\"txt_sendinvite_EmailId" + countIndex + "\" placeholder=\"EmailId\"><div id=" + countIndex + " class=\"sprite-im rep-icon rep-icon-pos deleteitem\" style=\"float: right;  position: relative;  /* top: 52%; */  right: -9%;  margin-top: -26px;\">&nbsp;</div></div></div></div>";
+                countIndex++;
+                localStorage.setItem("SendInviteBoxCount", countIndex);
+                $(".checkbox-form").append(addContent);
+                break;
             default:
                 break;
         }
@@ -1458,6 +1480,67 @@ protocall.view = {
             $('.submenu-title').empty();
             $('.submenu-title').append("Edit");
             $(".profile-result-cls").css("display", "block");
+            $(".agencyprofinput").css("display", "none");
+            $('#nameview').html(name);
+            $('#phoneview').html(phone);
+            $('#emailview').html(email);
+//Make call here
+            var page = "myprofile";
+            var data = {firstName: name, emailId: "agencyowner@gmail.com", phone: phone};
+            var callback = utils.server.gotprofileEditresponse;
+            var deepPath = "edituser";
+            utils.server.makeServerCall(page, data, callback, deepPath);
+
+            //Make image server call
+
+            var formdata = new FormData();
+
+            if ($('#agency-prof-img')[0].files.length > 0) {
+                var file = $('#agency-prof-img')[0].files[0];
+                formdata.append("profilePicture", file);
+            }
+
+            step1 = "profilePicture";
+            var resultObject = step1;
+
+            var dataString = JSON.stringify(resultObject);
+            formdata.append("type", dataString);
+
+            var callback = utils.server.profilePicResponse;
+            var isFormData = true;
+            var ref = "profilePic";
+            var qs = "agencyowner@gmail.com";
+            var pagespinner = true;
+            utils.server.imagesToServer(formdata, callback, isFormData, ref, qs, pagespinner);
+        }
+
+
+    },
+    MyprofEditCarrierOwner: function (isClickEvent) {
+
+        var mytxtval = $.trim($('#idcarrierownerrepedit').text());
+
+        if (mytxtval == 'edit()' | mytxtval == 'Edit()' | mytxtval == 'Edit' | mytxtval == 'edit') {
+
+            var name = $("#nameview").text();
+            var phone = $("#phoneview").text();
+            var email = $("#emailview").text();
+
+            // $('#idcarrierownerrepedit').empty();
+            $('#id_carrierrep_editsave').text("Save");
+            $(".profile-result-cls").css("display", "none");
+            $(".agencyprofinput").css("display", "inline-block");
+            $('#namenew').val(name);
+            $('#phonenew').val(phone);
+            $('#emailnew').val(email);
+        } else {
+
+            var name = $("#namenew").val();
+            var phone = $("#phonenew").val();
+            var email = $("#emailnew").val();
+
+            $('#id_carrierrep_editsave').text("Edit");
+            $(".profile-result-cls").css("display", "inline-block");
             $(".agencyprofinput").css("display", "none");
             $('#nameview').html(name);
             $('#phoneview').html(phone);
@@ -1751,24 +1834,26 @@ protocall.view = {
             protocall.setPage(CONSTANTS.LINK_TYPE.SETTINGS_PAGE, CONSTANTS.LINK_TYPE.SETTINGS_PAGE, CONSTANTS.LINK_TYPE.SETTINGS_PAGE, "");
         }
         protocall.myProfile.loadFeedSetting($el);
-        protocall.view.buildSubMenuBlk(CONSTANTS.LINK_TYPE.SETTINGS_PAGE);
+        // protocall.view.buildSubMenuBlk(CONSTANTS.LINK_TYPE.SETTINGS_PAGE);
         protocall.displaySpinner(false);
     },
     viewProfileViewPage: function (isClickEvent, $el) {
-
-		if(PAGEREFRESH.ISPAGEREFRESHEDFORMYPROFILE){
-			//HeaderTemplate.Menu.DynamicHeaderTemplate();
-			var header = HeaderTemplate.Menu.DynamicHeaderTemplate();
-                    var content = '<div class="container"> <div class="content-holder"></div></div></div></div>';
-                    var footer = footerDynamicTemplate.footer.DynamicFooterTemplate();
-
-                    $("#page").empty();
-                    totalHtml = header+content+footer;
-                    $("#page").append(totalHtml);
-                    //protocall.displaySpinner(false);
-                    //protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
-		}
         localStorage.setItem("SUBMENU", "PROFILE_PAGE");
+        //alert("1");
+        if (PAGEREFRESH.ISPAGEREFRESHEDFORMYPROFILE) {
+            //  alert("2");
+            //HeaderTemplate.Menu.DynamicHeaderTemplate();
+            var header = HeaderTemplate.Menu.DynamicHeaderTemplate();
+            var content = '<div class="container"> <div class="content-holder"></div></div></div></div>';
+            var footer = footerDynamicTemplate.footer.DynamicFooterTemplate();
+
+            $("#page").empty();
+            totalHtml = header + content + footer;
+            $("#page").append(totalHtml);
+            //protocall.displaySpinner(false);
+            //protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
+        }
+
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.PROFILE_PAGE);
         //	protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
         if (isClickEvent) {
@@ -2193,45 +2278,93 @@ protocall.view = {
     },
     LoadAgencyInfo: function () {
 
-        $('.settings-agency-bar').css("background-color", "#f34f4e");
-        $('#id-agency-view-load').css("color", "white");
-        $('.settings-vendor-bar').css("background-color", "#ccc");
-        $('#id-preferred-vendors-view-load').css("color", "black");
-        $('.success').css("display", "none");
-        $('.error').css("display", "none");
-        REFERENCE_TYPE = "agency_info";
+        if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
+            if (localStorage.LoginType == 'Admin') {
+//                /data-submenu
+                $("#id-base_edit_box").css("display", "block");
+                $("#id-base_preferred_edit_box").css("display", "none");
+                $("#id-viewaddvendor").css("display", "none");
+                $('.settings-agency-bar').css("background-color", "#f34f4e");
+                $('#id-agency-view-load').css("color", "white");
+                $('.settings-vendor-bar').css("background-color", "#ccc");
+                $('#id-preferred-vendors-view-load').css("color", "black");
+                //  $('.success').css("display", "none");
+                //  $('.error').css("display", "none");
+                REFERENCE_TYPE = "agency_info";
+                $(".agency-view-block").css({
+                    'display': 'block'
+                });
+                $(".preferred-vendor-block").css({
+                    'display': 'none'
+                });
+            }
+
+        } else {
+
+
+
+            $('.settings-agency-bar').css("background-color", "#f34f4e");
+            $('#id-agency-view-load').css("color", "white");
+            $('.settings-vendor-bar').css("background-color", "#ccc");
+            $('#id-preferred-vendors-view-load').css("color", "black");
+            $('.success').css("display", "none");
+            $('.error').css("display", "none");
+            REFERENCE_TYPE = "agency_info";
 
 
 
 
-        $(".agency-view-block").css({
-            'display': 'block'
-        });
-        $(".preferred-vendor-block").css({
-            'display': 'none'
-        });
-        $(".preferred-vendor-remove-block").css({
-            'display': 'none'
-        });
-        $(".vendor-detail-block").css({
-            'display': 'none'
-        });
-        $(".settings-edit-bar").css({
-            'display': 'block'
-        });
-        $(".removevendor-bar").css({
-            'display': 'none'
-        });
-        $(".addvendor-bar").css({
-            'display': 'none'
-        });
-
+            $(".agency-view-block").css({
+                'display': 'block'
+            });
+            $(".preferred-vendor-block").css({
+                'display': 'none'
+            });
+            $(".preferred-vendor-remove-block").css({
+                'display': 'none'
+            });
+            $(".vendor-detail-block").css({
+                'display': 'none'
+            });
+            $(".settings-edit-bar").css({
+                'display': 'block'
+            });
+            $(".removevendor-bar").css({
+                'display': 'none'
+            });
+            $(".addvendor-bar").css({
+                'display': 'none'
+            });
+        }
         if (IsVendorDataChanged === true) {
             editVendorSaveData();
             IsVendorDataChanged = false;
         }
     },
     LoadPreferrredvendorInfo: function () {
+
+        if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
+            if (localStorage.LoginType == 'Admin') {
+                //agency-remove-load
+                //  $("#id-base_edit_box").attr("data-submenu", "agency-remove-load");
+                $("#id-base_edit_box").css("display", "none");
+                $("#id-base_preferred_edit_box").css("display", "block");
+                $("#id-viewaddvendor").css("display", "block");
+                $('.settings-vendor-bar').css("background-color", "#f34f4e");
+                $('#id-preferred-vendors-view-load').css("color", "white");
+                $('.settings-agency-bar').css("background-color", "#ccc");
+                $('#id-agency-view-load').css("color", "black");
+                // $('.success').css("visibility", "hidden");
+                // $('.error').css("visibility", "hidden");
+                REFERENCE_TYPE = "vendor_info";
+                $(".agency-view-block").css({
+                    'display': 'none'
+                });
+                $(".preferred-vendor-block").css({
+                    'display': 'block'
+                });
+            }
+        } else {
 
         $('.settings-vendor-bar').css("background-color", "#f34f4e");
         $('#id-preferred-vendors-view-load').css("color", "white");
@@ -2242,29 +2375,29 @@ protocall.view = {
 
 
 
-        REFERENCE_TYPE = "vendor_info";
-        $(".agency-view-block").css({
-            'display': 'none'
-        });
-        $(".preferred-vendor-block").css({
-            'display': 'block'
-        });
-        $(".preferred-vendor-remove-block").css({
-            'display': 'none'
-        });
-        $(".vendor-detail-block").css({
-            'display': 'none'
-        });
-        $(".settings-edit-bar").css({
-            'display': 'none'
-        });
-        $(".removevendor-bar").css({
-            'display': 'block'
-        });
-        $(".addvendor-bar").css({
-            'display': 'block'
-        });
-
+            REFERENCE_TYPE = "vendor_info";
+            $(".agency-view-block").css({
+                'display': 'none'
+            });
+            $(".preferred-vendor-block").css({
+                'display': 'block'
+            });
+            $(".preferred-vendor-remove-block").css({
+                'display': 'none'
+            });
+            $(".vendor-detail-block").css({
+                'display': 'none'
+            });
+            $(".settings-edit-bar").css({
+                'display': 'none'
+            });
+            $(".removevendor-bar").css({
+                'display': 'block'
+            });
+            $(".addvendor-bar").css({
+                'display': 'block'
+            });
+        }
         if (IsAgencyDataChanged === true) {
             editAgencySaveData();
             IsAgencyDataChanged = false;
@@ -3788,6 +3921,59 @@ protocall.carrier = {
         $("#id-carrierassociatedblock").append(totalHTML);
 
     },
+    loadCarrierOwner_MyRepsAssociatedCustomers: function (contentHtml) {
+        var totalHTML = "<div>No Records</div>";
+        var resp = JSON.parse(localStorage.getItem("ASSOCIATEFEED"));
+
+        try {
+            if (resp.resultMap.AssociatedCustomers.length > 1) {
+                totalHTML = "";
+            }
+
+            for (var index = 0; index < resp.resultMap.AssociatedCustomers.length; index++) {
+                var name = resp.resultMap.AssociatedCustomers[index].firstName;
+                var location = resp.resultMap.AssociatedCustomers[index].residentialCity;
+                var email = resp.resultMap.AssociatedCustomers[index].emailId.email;
+                var carrierid = resp.resultMap.AssociatedCustomers[index].carrierId;
+                // var image = resp.resultMap.AssociatedCustomers[index].email;
+
+                //  alert(name);
+                if (name == undefined) {
+                    name = "";
+                }
+                if (location == undefined) {
+                    location = "";
+                }
+                if (email == undefined) {
+                    email = "";
+                }
+
+                var image = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+//                    if (image == undefined) {
+//                        image = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+//                    } else {
+//                        image = "https://proto-call-test.appspot.com/file/" + image;
+//
+                //                    }
+
+                var associateBlock = '<div id=' + email + '  value=' + carrierid + ' class="carrier-feed-associated-view mycustomerView left p-relative" data-type="viewcustomerfeedview"> <div class="border-all p-relative"> <div class="associated-background p-relative">'
+                        + '<div class="associated-carrier-pic inline-block "> <img src=' + image + ' '
+                        + 'alt="" class="carrier-img-width"> '
+                        + '</div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> <div class="carrier-name t-caps t-left">' + name + '</div> '
+                        + '<div class="carrier-location t-caps t-left">' + location + '</div> '
+                        + '<div class="carrier-location t-caps t-left"><a href="mailto:' + email + '">' + email + '</a></div></div> </div>  ';
+                totalHTML += associateBlock;
+            }
+
+        } catch (err) {
+            totalHTML = "<div>No Records</div>";
+        }
+
+        $(".content-holder").empty();
+        $(".content-holder").append(contentHtml + totalHTML);
+
+
+    },
     openSelect: function (selector) {
         var element = $(selector)[0], worked = false;
         if (document.createEvent) { // all browsers
@@ -4103,9 +4289,9 @@ protocall.customer = {
                 $(".mb-submenu-in").empty();
 
                 $(".mb-submenu-in").append("<div class=\"bcrum-lb-submenu clr-fl inline-block v-align-mid\"><a href=\"#\" class=\"carrier-headerbox  left f-sz-16 ptsans-light snap CarrierAgencies t-upper p-relative f-color-green\" data-type=\"page\" data-submenu=\"carrieragency\"><div class=\"\"><div class=\"sprite-im carriers-icon inline-block v-align-mid mr-space-10 \"> </div>"
-                        + "<span class=\"sub-menu-text inline-block v-align-mid\"> AGENCIES </span><span id=\"id-carrierpage-headertext\">" + Omega + "   " + localStorage.getItem("id-customers-headername") + "</span></div></a><div class=\"bcrum-icon-blk left f-color-green f-sz-16 ptsans-light\" style=\"display:none;\">&gt;</div><a href=\"#\" class=\"snap left f-sz-16 ptsans-light feeds-customer t-caps p-relative f-color-green\" data-type=\"page\" data-submenu=\"carriers-customer\" style=\"display:none;\"></a></div><div class=\"tab-rb-submenu inline-block v-align-mid\" style=\"width:70%;\"><div class=\"tab-rb-submenu-in-block p-relative\"><div href=\"#\" class=\"snap submenu-sort right f-sz-16 ptsans-light p-relative\" data-type=\"page\" data-submenu=\"sortbycustomer\"><div class=\"sort-text f-italic\">Sort by</div><div class=\"sprite-im drop-down-icon submenu-drop-icon\">&nbsp;</div></div><a href=\"/pushmessage\" class=\"snap submenu-tab bg-color-green right f-sz-16 ptsans-light pushmessage p-relative\" data-type=\"page\" data-submenu=\"\">"
-                        + "<div class=\"sprite-im edit-icon inline-block tab-icon v-align-mid\" style=\"display:block;margin-top:10px;margin-left:0px;margin-right: 5px;\">&nbsp;</div><div class=\"submenu-title t-caps inline-block f-color-w v-align-mid\"> Edit </div><div class=\"cnt-blk inline-block v-align-mid\" style=\"display:none;\">(<span class=\"cnt-no\"></span>)</div></a></div></div>");
-
+                        + "<span class=\"sub-menu-text inline-block v-align-mid\"> AGENCIES </span><span id=\"id-carrierpage-headertext\">" + Omega + "   " + localStorage.getItem("id-customers-headername") + "</span></div></a><div class=\"bcrum-icon-blk left f-color-green f-sz-16 ptsans-light\" style=\"display:none;\">&gt;</div><a href=\"#\" class=\"snap left f-sz-16 ptsans-light feeds-customer t-caps p-relative f-color-green\" data-type=\"page\" data-submenu=\"carriers-customer\" style=\"display:none;\"></a></div><div class=\"tab-rb-submenu inline-block v-align-mid\" style=\"width:70%;\"><div class=\"tab-rb-submenu-in-block p-relative\"><div href=\"#\" class=\"snap submenu-sort right f-sz-16 ptsans-light p-relative\" data-type=\"page\" data-submenu=\"sortbycustomer\"><div class=\"sort-text f-italic\">Sort by</div><div class=\"sprite-im drop-down-icon submenu-drop-icon\">&nbsp;</div></div>"
+                        + "<a href=\"#\" class=\"snap submenu-tab bg-color-green right f-sz-16 ptsans-light  p-relative\" data-type=\"page\" data-submenu=\"editcarrierowner_agencydetails\">"
+                        + "<div class=\"sprite-im edit-icon inline-block tab-icon v-align-mid\" style=\"display:inline-block;margin-left:0px;margin-right: 5px;\">&nbsp;</div><div class=\"submenu-title t-caps inline-block f-color-w v-align-mid\"> Edit </div><div class=\"cnt-blk inline-block v-align-mid\" style=\"display:none;\">(<span class=\"cnt-no\"></span>)</div></a></div></div>");
 
             }
         } else if (localStorage.getItem("ASSOCIATEFEED") == "null") {
@@ -4406,7 +4592,7 @@ protocall.InviteRep = {sendemailinvite: function ($el) {
 protocall.myProfile = {loadFeedSetting: function ($el) {
         if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
             if (localStorage.LoginType == 'Admin') {
-
+                utils.server.carrierOwnerSettingSubmenu();
                 var page = "settings";
                 var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"};
                 var callback = utils.server.MysettingsResponse;
@@ -4429,9 +4615,8 @@ protocall.myProfile = {loadFeedSetting: function ($el) {
         $(".mb-submenu-in").append($(submenu));
 
         var html = staticTemplate.customers.dynamicMyProfileViewTemplate();
-        $(".content-holder").empty();
-        $(".content-holder").append($(html));
-        this.setSelectedClassPopContent($el);
+        protocall.carrier.loadCarrierOwner_MyRepsAssociatedCustomers(html);
+
     },
     loadMyProfileView: function ($el) {
         popUpContent.closePopUpContent();
@@ -4630,21 +4815,27 @@ function checkboxStatus(idValue) {
         document.getElementById("radio-button-later").checked = true;
         $(".later-box").css("display", "block");
         loadtimePicker();
-    } else if (idValue === "radio-button-public") {
+    } else if (idValue == "radio-button-agency") {
+        document.getElementById("radio-button-agency").checked = true;
+        document.getElementById("radio-button-rep").checked = false;
+    } else if (idValue == "radio-button-rep") {
+        document.getElementById("radio-button-rep").checked = true;
+        document.getElementById("radio-button-agency").checked = false;
+    } else if (idValue == "radio-button-public") {
         document.getElementById("radio-button-public").checked = true;
         document.getElementById("radio-button-private").checked = false;
         document.getElementById("radio-button-custom").checked = false;
         $(".rep-content-blk").css("opacity", "0.5");
         $(".rep-content-blk").find("input", "div").attr('disabled', 'disabled');
         $(".switchsample").css("pointer-events", "none");
-    } else if (idValue === "radio-button-private") {
+    } else if (idValue == "radio-button-private") {
         document.getElementById("radio-button-public").checked = false;
         document.getElementById("radio-button-private").checked = true;
         document.getElementById("radio-button-custom").checked = false;
         $(".rep-content-blk").css("opacity", "0.5");
         $(".rep-content-blk").find("input", "div").attr('disabled', 'disabled');
         $(".switchsample").css("pointer-events", "none");
-    } else if (idValue === "radio-button-custom") {
+    } else if (idValue == "radio-button-custom") {
         $(".rep-content-blk").find("input", "div").attr('disabled', false);
         // $('#id-switch-on').removeAttr("onclick");
         $(".switchsample").css("pointer-events", "auto");

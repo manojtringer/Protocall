@@ -406,10 +406,14 @@ var CustomerdynamicTemplate = {
             }
         },
         agenciesDynamicList: function (cus) {
-            if (cus.emailId.email == undefined) {
+            try {
+                if (cus.emailId.email == undefined) {
+                    cusEmail = ' ';
+                } else {
+                    cusEmail = cus.emailId.email;
+                }
+            } catch (err) {
                 cusEmail = ' ';
-            } else {
-                cusEmail = cus.emailId.email;
             }
 
 
