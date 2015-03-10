@@ -49,7 +49,7 @@
 }
 
 
-@media all and (max-width: 1350px) {
+@media all and (max-width: 1250px) {
     .m-width{
         width:100%;
         margin:auto;

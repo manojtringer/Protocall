@@ -7,7 +7,7 @@ html,body {
 }
 body{
     position:relative;
-    z-index:1;
+    z-index:1;overflow:hidden !important;
 }
 body{
     font-size:15px;
@@ -153,7 +153,7 @@ input, select, textarea {
 .logo-container{width:25%;}
 
 .m-width{
-    max-width:1300px;
+    max-width:1250px;
     margin: auto;
 }
 .w-pad{
@@ -289,7 +289,11 @@ input, select, textarea {
     background-position:-10px -587px;
     width: 15px;
     height: 15px;
-    margin-left: 10px;
+    margin-left: 7px;
+    float: left;
+    margin-top: 12px;
+    margin-right: 4px;
+    /* vertical-align: middle; */
 }
 .add-icon{
     background-position: -69px -506px;
@@ -356,6 +360,12 @@ input, select, textarea {
     background-position: -83px -80px;
     width: 8px;
     height: 18px;
+}
+
+.Edit-icon{
+    background-position: -2px -586px;
+    width: 25px;
+    height: 20px;
 }
 
 .map-icon{
@@ -430,9 +440,9 @@ input, select, textarea {
     height: 24px;
 }
 .customers-icon{
-    background-position:-45px -41px;
-    width: 24px;
-    height: 24px;
+    background-position: -41px -41px; 
+    width: 34px;
+    height: 27px;
 }
 .myreps-icon{
     background-position:-80px -5px;
@@ -643,6 +653,7 @@ input, select, textarea {
 /************* Sub Menu **************************/
 .sub-menu-text {
     line-height: 25px;
+    display: inline-block;
 }
 
 .mb-submenu .mb-submenu-in  >div:first-child{
@@ -667,6 +678,8 @@ input, select, textarea {
 
 .mr-space-10{
     margin-right:10px;
+    vertical-align: middle;
+    display: inline-block;
 }
 .mt-space-ic{
     /* margin-top: 7px; */
@@ -677,6 +690,7 @@ input, select, textarea {
 
 .tab-rb-submenu > div .submenu-tab{
     margin-right:2px;
+    margin-left: 2px;
     height:39px;
     display: block;
     padding:0px 20px;
@@ -697,7 +711,7 @@ input, select, textarea {
 .submenu-sort{
     padding: 0px 15px;
     border: 1px solid #b9b8b8;
-    width: 110px;
+    width: 150px;
     max-height: 37px;
     overflow: hidden;
     height: 37px;
@@ -718,10 +732,12 @@ input, select, textarea {
 
 /****************** Footer *********************/
 footer{
-    width:100%;
-    height:42px;
+    width: 101%;
+    /* height:42px; */
     max-height:42px;
-    bottom: 0px;
+    /* bottom: 0px; */
+    /* margin-left: -10%; */
+    /* margin: auto; */
 }
 footer  .foot-in{
     line-height:42px;
@@ -1058,6 +1074,41 @@ footer  .foot-in{
     margin-right: 10px;
 }
 
+
+input[type=checkbox]:checked + .feed-label:before {
+    content: "\2713";
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+    font-size: 15px;
+    line-height: 20px;
+    font-weight: bold;
+    font-family: 'OpenSansRegular';
+}
+
+input[type=checkbox]:checked + .customer-feed-label:before {
+    content: "\2713";
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+    font-size: 15px;
+    line-height: 20px;
+    font-weight: bold;
+    font-family: 'OpenSansRegular';
+}
+
+.customer-feed-label:before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: #eeeeee;
+    color: #f34f4e;
+    text-align: center;
+    border: 1px solid #b9b8b8;
+    vertical-align: top;
+    margin-right: 10px;
+    position: absolute;
+    z-index: 1;
+    top: 8px;
+    right: 2px;
+}
 .feed-label:before {
     content: "";
     display: inline-block;
@@ -1081,26 +1132,6 @@ footer  .foot-in{
     font-weight: bold;
     font-family: 'OpenSansRegular';
 }
-
-input[type=checkbox]:checked + .feed-label:before {
-    content: "\2713";
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
-    font-size: 15px;
-    line-height: 20px;
-    font-weight: bold;
-    font-family: 'OpenSansRegular';
-}
-
-input[type=checkbox]:checked +.customer-feed-label:before {
-    content: "\2713";
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
-    font-size: 15px;
-    line-height: 20px;
-    font-weight: bold;
-    font-family: 'OpenSansRegular';
-}
-
-
 
 
 .policy-label .insurance-main-det{
@@ -1249,6 +1280,12 @@ input[type=checkbox]:checked +.customer-feed-label:before {
     /*margin-right: 15px;*/
 }
 .carrier-location{
+    color: #989898;
+    font-size: 16px;
+    /*margin-right: 15px;*/
+}
+
+.carrier-id{
     color: #989898;
     font-size: 16px;
     /*margin-right: 15px;*/
@@ -1431,14 +1468,19 @@ input[type=checkbox]:checked +.customer-feed-label:before {
 .carrier-view-name{
     color: black;
     font-size: 16px;
-    margin-right: 15px;
+    /* margin-right: 0px; */
+    vertical-align: middle;
+    display: inline-block;
 }
 .carrier-view-id{
     color: #989898;
     font-size: 16px;
     margin-right: 15px;
-    overflow-x: auto;
+    overflow: hidden;
     /* width: 300px; */
+    width: 200px;
+    display: inline-block;
+    vertical-align: middle;
 }
 .carrier-view-parent{
     overflow: hidden;
@@ -1485,7 +1527,9 @@ input[type=checkbox]:checked +.customer-feed-label:before {
 .carrier-facebook-name{
 
     font-size: 16px;
-    margin-right: 15px;
+
+
+    margin-right: 2px;
 }
 
 .carrier-view-info1{
@@ -1555,11 +1599,11 @@ input[type=checkbox]:checked +.customer-feed-label:before {
     border: 1px solid #CCC;
 }
 .carrier-view-rightblock{
-    width: 73%;
-    /*padding:26px 0px 0px 0px;*/
+    width: 75%;
+    /* padding: 25px 0px 0px 0px; */
 }
 .carrier-view-leftbloack{
-    width:25%;
+    width: 24%;
 }
 .carrier-border-view{
     padding: 10px 0px;
@@ -1585,6 +1629,7 @@ input[type=checkbox]:checked +.customer-feed-label:before {
     margin: auto;
     position: relative;
     padding: 10px 9px;
+    height: 60px;
 }
 .carrier-feed-associated-view{
     padding: 25px 0px;
@@ -1598,7 +1643,7 @@ input[type=checkbox]:checked +.customer-feed-label:before {
 }
 /******* customer profile view *****/
 .customer-view-feed{
-    width: 13%;
+    width: 12%;
     /*padding: 15px 0px;*/
 }
 .customer-logo-view{
@@ -1720,11 +1765,20 @@ input[type=checkbox]:checked +.customer-feed-label:before {
 }
 .container-maxwidth{
     margin-bottom: 20px;
-    min-height: 500px;
+    // min-height: 500px;
     margin-top: 15px;
-    max-height: 100%;
-    overflow: auto;
+    // max-height: 100%;
+    //  overflow: auto;
+
+    margin-bottom:20px;
+    min-height: 60px;
+    margin-top: 15px;
+    max-height: 365px;
+    overflow-y: auto;
+    /* overflow-y: scroll; */
 }
+
+
 .customer-feed-screen:hover .customer-feed-view{
     background:#f34f4e;
 }
@@ -1785,7 +1839,7 @@ input[type=checkbox]:checked +.customer-feed-label:before {
     border: 1px solid #b9b8b8;
     margin-right: 6px;
     position: absolute;
-    z-index: 9999;
+    z-index: 1;
     top: 15px;
     /* margin-right: 25px; */
 }
@@ -1808,7 +1862,7 @@ input[type=checkbox]:checked + .vendor-label:before {
 }
 
 .settings-vendor-bar{
-    width:12%;
+    width: 15%;
     padding: 5px 0px;
     margin-right:5px;
 }
@@ -1857,7 +1911,7 @@ input[type=checkbox]:checked + .vendor-label:before {
     padding: 5px 0px;
 }
 .reps-feed-screen {
-    width: 24%;
+    width: 32%;
     margin-right: 10px;
     margin-bottom: 10px;
 
@@ -1931,7 +1985,8 @@ textarea::-webkit-input-placeholder {  color: #999;}
     color: black;
 }
 
-.txt-now{
+.txt-now,.txt-later{
+    cursor: pointer;
 }
 
 #radio-button-now,#radio-button-later,#radio-button-public,#radio-button-private,#radio-button-custom{
@@ -2943,14 +2998,14 @@ textarea::-webkit-input-placeholder {  color: #999;}
 /*  Common spinner  */
 .spinner1:after {
     position: absolute;
-    top:0;
+    top:200px;
     bottom:0;
     left:0;
     right:0;
-    height: 40px;
-    width: 40px;
+    height: 30px;
+    width: 30px;
     margin: auto;
-    border: solid #F0F0F0 3px;
+    border: solid rgb(200,210,213) 3px;
     border-top: solid #379ba2 3px;
     border-radius: 50% 50%;
     z-index: 99;
@@ -2997,9 +3052,69 @@ textarea::-webkit-input-placeholder {  color: #999;}
     }
 }
 
+.bottomSpinner:after {
+    position: absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    height: 30px;
+    width: 30px;
+    margin: auto;
+    border: solid rgb(200,210,213) 3px;
+    border-top: solid #379ba2 3px;
+    border-radius: 50% 50%;
+    z-index: 99;
+    content: "";
+    -webkit-animation: spinnerRotate .5s linear infinite;
+    -moz-animation: spinnerRotate .5s linear infinite;
+    -ms-animation: spinnerRotate .5s linear infinite;
+    -o-animation: spinnerRotate .5s linear infinite;
+    animation: spinnerRotate .5s linear infinite;
+}
+.bottomSpinner.fixed:after {position:fixed;}
+
+@-webkit-keyframes spinnerRotate {
+    0% {
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes spinnerRotate {
+    0% {
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
 @media print
 {
     .noprint {display:none;}
+}
+
+ul#searchResultUL li:hover,.searchItemClass{
+    background : rgb(200,210,213);
 }
 
 
@@ -3082,7 +3197,7 @@ footer  .foot-in{
     width: 75%;
 }
 .feed-user-det-b .bot-b .feed-date, .feed-user-det-b .bot-b .feed-location, .feed-user-det-b .bot-b .cust-phone, .feed-user-det-b .bot-b .cust-email{
-    margin: 0px 12px;
+    margin: 0px 10px;
 }
 
 
@@ -3132,24 +3247,9 @@ footer  .foot-in{
     float: left;
     margin-top: 18px;
     /* text-align: left; */
+    overflow: hidden;
 }
 
-.customer-feed-label:before {
-    content: "";
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    background: #eeeeee;
-    color: #f34f4e;
-    text-align: center;
-    border: 1px solid #b9b8b8;
-    vertical-align: top;
-    margin-right: 10px;
-    position: absolute;
-    z-index: 1;
-    top: 8px;
-    right: 0px;
-}
 .agencyprofinput{border: solid 1px lightgrey;color: black;width: 40%;display:none;}
 
 .downview :hover{
@@ -3164,7 +3264,7 @@ footer  .foot-in{
 .reps-profile-info-root{
 }
 #associatedownarrow{
-    left: -64px;
+    left: -4%;
     top: 5px;
 }
 .associated-background{
@@ -3185,4 +3285,65 @@ footer  .foot-in{
     position: fixed;
     height: 10%;
     margin-bottom: 2px;
+    bottom: 0px;
+}
+.carrier-icon{
+    background-position: -6px -39px; 
+    width: 28px;
+    height: 29px;
+}
+
+#id-carrierpage-headertext{
+    margin-left: 9px;
+    font-size: 14px;
+}
+.carrier-headerbox{
+    width: 500px;
+}
+#id-customers-headername{
+    margin-left: 10px;
+    font-size: 14px;
+}
+
+#id-carrier-view-rightblock{
+    width: 86% !important;
+}
+
+.message-icon{
+    background-position: -6px -849px; 
+    width: 25px;
+    height: 18px;
+    float: left;
+    margin-top: 9px;
+}
+
+.invite-reps-icon{
+    background-position: -67px -506px; 
+    width: 21px;
+    height: 20px;
+    float: left;
+    margin-top: 10px;
+}
+
+
+#associatedcustomersdropdownarrow{
+    left: 17%;
+    top: -22px;
+    width: 80%;
+}
+#id-norecords{
+    opacity: 0.2;
+}
+
+.Carrierreps-feed-view {
+    width: 49.877%;
+    padding: 5px 0px;
+    display:inline-block;	
+}
+.reps-feed-screen {
+    width: 32%;
+    margin-right: 10px;
+    margin-bottom: 10px;
+
+    background: white;
 }

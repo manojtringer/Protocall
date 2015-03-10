@@ -66,6 +66,15 @@ var template = {
             return html;
 
 	},
+	viewRelatedFeeds : function(relatedFeedValue,alertTypeValue){
+		var incedentAlertFeed = template.incidentAlertFeedHMLT(relatedFeedValue,alertTypeValue);
+		var policyAlertFeed = template.policyAlertFeedHMLT(relatedFeedValue,alertTypeValue);
+		html = '<div class="feed-block clr-fl">'
+                    +incedentAlertFeed
+                    + policyAlertFeed
+                    + '</div>';
+            return html;
+	},
 	/*Naveen 23-2-2015 Changes Start */
 	incidentAlertFeedHMLT : function(alertDetailsValue,alertType){
 		var noOfOtherPartyRecordsCount = alertDetailsValue.NoofOtherPartyRecord,noOfAudioRecordCount = alertDetailsValue.NoofAudioRecord,noOfPictureRecord = alertDetailsValue.NoofPictureRecord,html = "",alertFeedHtml = "";
@@ -76,32 +85,6 @@ var template = {
 				noOfOtherPartyRecordsCount = 0;
 				noOfPictureRecord = 0;
 				noOfAudioRecordCount = 0;
-			} 
-			if(alertDetailsValue.OtherPartyDetails){
-				console.log("condition satisfied in if");
-				$.each(alertDetailsValue.OtherPartyDetails,function(index,element){
-					console.log("condition satisfied in each element.carrier",element.carrier);
-					/* if(element.carrier == undefined){
-						console.log("condition satisfied in each");
-						noOfOtherPartyRecordsCount = 0;
-					}
-					if(element.name == undefined){
-						console.log("condition satisfied in each");
-						noOfOtherPartyRecordsCount = 0;
-					}
-					if(element.phone == undefined){
-						console.log("condition satisfied in each");
-						noOfOtherPartyRecordsCount = 0;
-					}
-if(element.address == undefined){
-						console.log("condition satisfied in each");
-						noOfOtherPartyRecordsCount = 0;
-					}
-					if(element.vehicalNo == undefined){
-						console.log("condition satisfied in each");
-						noOfOtherPartyRecordsCount = 0;
-					} */
-				});
 			} 
 			var incidentrightSideFeed = template.rightSideFeed(alertDetailsValue,alertType);
 			alertFeedHtml = '<div class="rg-block left p-relative">'
@@ -185,45 +168,64 @@ if(element.address == undefined){
    rightSideFeed : function (alertDetailsValue,alertType) {
 		 console.log("alertDetails in feedsTemplateHTML",alertDetailsValue);
 		var html = "",firstName = "",lastName = "",alertDate ="",alertTime ="",bDay ="",bDate ="",residentialCity = "",phoneNumber="",feedUserEmail ="",alertFeedHtml ="",profilePicture = "",rightSideAlerFeedHTML = "",viewArchiveFeedHTML = "";
-		if(alertDetailsValue.userDetails.firstName !=="undefined"){
-			firstName = alertDetailsValue.userDetails.firstName;
-		} 
-		if(alertDetailsValue.userDetails.lastName !=="undefined"){
-			lastName = alertDetailsValue.userDetails.lastName;
+		if(HOMEPAGERESPONSE.ISVIEWALERTVALUECLICKED){
+			firstName = HOMEPAGERESPONSE.COMMONUSERDETAILS.firstName;
+			lastName = HOMEPAGERESPONSE.COMMONUSERDETAILS.lastName;
+			console.log("lastName",lastName);
+			if(lastName == undefined){
+				lastName = "";
+			}
+			alertTime = HOMEPAGERESPONSE.COMMONUSERDETAILS.alertTime;
+			birthday = HOMEPAGERESPONSE.COMMONUSERDETAILS.birthday;
+			residentialCity = HOMEPAGERESPONSE.COMMONUSERDETAILS.residentialCity;
+			phoneNumber = HOMEPAGERESPONSE.COMMONUSERDETAILS.phoneNumber;
+			feedUserEmail = HOMEPAGERESPONSE.COMMONUSERDETAILS.userEmail;
+			profilePicture = HOMEPAGERESPONSE.COMMONUSERDETAILS.profilePicture;
+			bDate = HOMEPAGERESPONSE.COMMONUSERDETAILS.birthday;
+		} else {
+			if(alertDetailsValue.userDetails.firstName !=="undefined"){
+				firstName = alertDetailsValue.userDetails.firstName;
+			} 
+			if(alertDetailsValue.userDetails.lastName !==undefined){
+				lastName = alertDetailsValue.userDetails.lastName;
+			} 
+			if(alertDetailsValue.alertDetails.alertDate !== "undefined"){
+				alertDate = alertDetailsValue.alertDetails.alertDate;
+				alertTime = moment(Number(alertDate)).format('h:mmA');
+			} 
+			if(alertDetailsValue.userDetails.birthDate !== "undefined"){
+				bDay = alertDetailsValue.userDetails.birthDate;
+				bDate =  moment(bDay).format('MMM D, YYYY');
+			}
+			if(alertDetailsValue.userDetails.residentialCity !== "undefined"){
+				residentialCity = alertDetailsValue.userDetails.residentialCity;
+			} 
+			if(alertDetailsValue.userDetails.phone.number !== "undefined"){
+				phoneNumber = alertDetailsValue.userDetails.phone.number;
+			} 
+			if(alertDetailsValue.userDetails.emailId.email !== "undefined"){
+				feedUserEmail = alertDetailsValue.userDetails.emailId.email;
+			}
+			console.log("alertType",alertType);
+			 if(alertDetailsValue.userDetails.profilePicture !== "undefined"){
+				profilePicture = HOMEPAGERESPONSE.PROFILEAPI+alertDetailsValue.userDetails.profilePicture; 
+			 }
+			 if(alertDetailsValue.alertDetails.alertId !== "undefined"){
+				 alertId = alertDetailsValue.alertDetails.alertId;
+			 }
 		}
-		if(alertDetailsValue.alertDetails.alertDate !== "undefined"){
-			alertDate = alertDetailsValue.alertDetails.alertDate;
-			alertTime = moment(Number(alertDate)).format('h:mmA');
-		} 
-		if(alertDetailsValue.userDetails.birthDate !== "undefined"){
-			bDay = alertDetailsValue.userDetails.birthDate;
-			bDate =  moment(bDay).format('ll');
-		}
-		if(alertDetailsValue.userDetails.residentialCity !== "undefined"){
-			residentialCity = alertDetailsValue.userDetails.residentialCity;
-		} 
-		if(alertDetailsValue.userDetails.phone.number !== "undefined"){
-			phoneNumber = alertDetailsValue.userDetails.phone.number;
-		} 
-		if(alertDetailsValue.userDetails.emailId.email !== "undefined"){
-			feedUserEmail = alertDetailsValue.userDetails.emailId.email;
-		}
-		console.log("alertType",alertType);
-		 if(alertDetailsValue.userDetails.profilePicture !== "undefined"){
-			profilePicture = HOMEPAGERESPONSE.PROFILEAPI+alertDetailsValue.userDetails.profilePicture; 
-		 }
-		  /* if(HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED) {
+		  if(HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED) {
 			   viewArchiveFeedHTML = ""; 
 		  } else {
-			 viewArchiveFeedHTML = '<input id='+alertDetailsValue.alertDetails.alertId+' type="checkbox" class="checkbox snap" data-type="archiveCheckBox"><label class="feed-label" for='+alertDetailsValue.alertDetails.alertId+'></label>'; 
-		 } */ 
+			 viewArchiveFeedHTML = '<input style="z-index:10;" id='+alertId+' type="checkbox" class="checkbox snap" data-type="archiveCheckBox"><label for='+alertId+'></label>'; 
+		 }
 		rightSideAlerFeedHTML = '<div class="lf-block left">'
                     + '<div class="leftblk-spacing">'
                     + '<div class="feed-det bg-color-dblue p-relative">'
                     + '<div class="feed-det-pad p-relative">'
                     + '<div class="feed-pic-b inline-block v-align-mid">'
-                    + '<div id="" class="feed-user-pic-box">'
-					+'<input style="z-index:10;" id='+alertDetailsValue.alertDetails.alertId+' type="checkbox" class="checkbox snap" data-type="archiveCheckBox"><label for='+alertDetailsValue.alertDetails.alertId+'></label>'
+                    + '<div class="feed-user-pic-box">'
+					+viewArchiveFeedHTML
                     + '<img src="'+profilePicture+'" alt="" class="feeduserpic">'
                     + '</div>'
                     + '</div>'
@@ -257,7 +259,7 @@ if(element.address == undefined){
                     + '</div>'
                     + '<div class="feed-user-share-b inline-block v-align-mid">'
                     + '<div class="myshare">'
-                    + '<div class="inner-share-spacing snap" data-type="share" id='+alertDetailsValue.alertDetails.alertId+'>'
+                    + '<div class="inner-share-spacing snap" data-type="share" id='+alertId+'>'
                     + '<div class="t-center mid-align">'
                     + '<div class="sprite-im inline-block v-align-mid share-icon">&nbsp;</div>'
                     + '<span class="feed-menu-text inline-block v-align-mid f-color-w">Share</span>'
@@ -268,7 +270,7 @@ if(element.address == undefined){
                     + '<div class="inner-view-spacing snap" data-type="view">'
                     + '<div class="t-center mid-align">'
                     + '<div class="sprite-im inline-block v-align-mid view-icon">&nbsp;</div>'
-                    + '<span class="feed-menu-text inline-block v-align-mid f-color-w" name='+alertDetailsValue.alertDetails.alertId+' id='+alertDetailsValue.userDetails.emailId.email+'>View</span>'
+                    + '<span class="feed-menu-text inline-block v-align-mid f-color-w" name='+alertId+' id='+feedUserEmail+'>View</span>'
                     + '</div>'
                     + '</div>'
                     + '</div>'

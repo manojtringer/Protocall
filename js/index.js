@@ -17,18 +17,29 @@ var CONSTANTS = {
     FORM_SUBMIT_OPACITY: 0.2,
     CHANNEL_TOKEN: null,
     LINK_TYPE: {
-        PAGE: "page", HOME_PAGE: "home", CARRIERS_PAGE: "carriers", CUSTOMERS_PAGE: "customers", MY_REP_PAGE: "myreps", LOGIN_PAGE: "login", LOGIN_YES: "login-yes", LOGOUT_YES: "logout-yes",
+        PAGE: "page", HOME_PAGE: "home", CARRIERS_PAGE: "carriers", AGENCY_PAGE: "agency", AGENCIES_PAGE: "agencies", CUSTOMERS_PAGE: "customers", MY_REP_PAGE: "myreps",
+        yesPAGE: "login", LOGIN_YES: "login-yes", LOGOUT_YES: "logout-yes",
         VIEW_FEED: "view", FEEDS: "feeds", SHARE_TO_REP: "share", CLOSE_OVERLAY: "closeOverlay", CLOSE_POPUP: "closePopUp", EDIT_AGENCY_PIC: "editAgencyPic",
-        MY_ALERTS: "myalerts", INCIDENTS: "incidents", POLICIES: "policies", MATCH_RELEASE_CLAIMS: "matchReleaseClaim", INVITE_REPS: "invitereps",
-        ASSIGN_TO_REPS: "assignrep", PHOTS_OVERLAY_DISPLAY: "photosDoc", THUMB_NAIL: "thumbNail", PREVIOUS: "previous", NEXT: "next", VIEW_CARRIER_FEEDVIEW: "viewcarrierfeedview", PUSHMESSAGE: "pushmessage", PRIVACY: "privacy", ARCHIVES: "archives", VIEW_ARCHIVES: "view_archives", SORTBY: "sortby", SORTBYCARRIER: "sortbycarrier", SORTBYCUSTOMER: "sortbycustomer", SORTBYREPS: "sortbyreps", MY_PROFILE: "profile-link", VIEW_CUSTOMER_FEEDVIEW: "customerprofileviewfeed", SETTINGS_PAGE: "mysettings", PROFILE_PAGE: "myProfileView", SENDAPPLINK: "sendapplink", AUDIO_OVERLAY: "voiceDoc", AUDIO_PLAY: "playAudio", AGENCY_VIEW_LOAD: "agency-view-load", PREFERRED_VENDOE_VIEW_LOAD: "preferred vendors-view-load", AGENCY_EDIT_LOAD: "agency-edit-load", AGENCY_REMOVE_LOAD: "agency-remove-load", AGENCY_ADD_VENDOR_LOAD: "agency-addvendor-load", VENDOR_PROFILE_INFO: "vendor-profile-info",
+        MY_ALERTS: "myalerts", INCIDENTS: "incidents", POLICIES: "policies", MATCH_RELEASE_CLAIMS: "matchReleaseClaim", INVITE_REPS: "invitereps", SEND_INVITE_REPS: "InvitemyRep",
+        ASSIGN_TO_REPS: "assignrep", PHOTS_OVERLAY_DISPLAY: "photosDoc", THUMB_NAIL: "thumbNail", PREVIOUS: "previous", NEXT: "next", VIEW_CARRIER_FEEDVIEW: "viewcarrierfeedview",
+        PUSHMESSAGE: "pushmessage", PRIVACY: "privacy", ARCHIVES: "archives", VIEW_ARCHIVES: "view_archives", SORTBY: "sortby", SORTBYCARRIER: "sortbycarrier",
+        SORTBYCUSTOMER: "sortbycustomer", SORTBYREPS: "sortbyreps", MY_PROFILE: "profile-link", VIEW_CUSTOMER_FEEDVIEW: "customerprofileviewfeed", SETTINGS_PAGE: "mysettings",
+        PROFILE_PAGE: "myProfileView", SENDAPPLINK: "sendapplink", AUDIO_OVERLAY: "voiceDoc", AUDIO_PLAY: "playAudio", AGENCY_VIEW_LOAD: "agency-view-load",
+        PREFERRED_VENDOE_VIEW_LOAD: "preferred vendors-view-load", AGENCY_EDIT_LOAD: "agency-edit-load", AGENCY_REMOVE_LOAD: "agency-remove-load",
+        AGENCY_ADD_VENDOR_LOAD: "agency-addvendor-load", VENDOR_PROFILE_INFO: "vendor-profile-info",
         ASSIGN_TO_CUSTOMERS: "dt-assigncustomer", PROPERTY_POLICY: "dt-propertypolicy", HEALTH_POLICY: "dt-healthpolicy",
         VEHICLE_POLICY: "dt-vehiclepolicy", RESETPASSWORD: "dtresetpassword", SIGNUP: "dtsignup", OVERLAY_RESETPASSALERTBOX: "dtoverlayresetpassword",
         EDITPASSWORDYES: "dtoverlayrestpassyes", EDITPASSWORDNO: "dtoverlayrestpassno",
         PREVIOUS_AUDIO: "previousAudio", NEXT_AUDIO: "nextAudio", DOCUMENTSOVERLAY: "textDoc", MYPROFEDIT: "edit",
-        SORYBYRECENT: "recent", SORTBYALPHABETICAL: "alphabetical", CARRIERSORYBYRECENT: "carrier-recent", CARRIERSORTBYALPHABETICAL: "carrier-alphabetical", REPSSORYBYRECENT: "reps-recent", REPSSORTBYALPHABETICAL: "reps-alpha", CUSTOMERSORYBYRECENT: "customer-recent", CUSTOMERSORTBYALPHABETICAL: "customer-alphabetical", VIEWARCHIVECHECKBOX: "archiveCheckBox", VIEWCUSTOMERFEED: "viewcustomerfeedview",
+        SORYBYRECENT: "recent", SORTBYALPHABETICAL: "alphabetical", CARRIERSORYBYRECENT: "carrier-recent", CARRIERSORTBYALPHABETICAL: "carrier-alphabetical",
+        REPSSORYBYRECENT: "reps-recent", REPSSORTBYALPHABETICAL: "reps-alpha", CUSTOMERSORYBYRECENT: "customer-recent", CUSTOMERSORTBYALPHABETICAL: "customer-alphabetical",
+        VIEWARCHIVECHECKBOX: "archiveCheckBox",
+        VIEWCUSTOMERFEED: "viewcustomerfeedview", VIEWAGENCIESFEED: "viewagenciesfeedview",
         BUTTON_SENDAPPLINK: "dt_overlaybtn_sendapplink",
         BUTTON_PRIVACYSEND: "overlaybtnPrivacySend", BUTTON_ADDVENDORSEND: "overlaybtn_addvendordetails", BUTTON_SHAREWITHREP: "dt_overlaybtn_sharerepwithcustomers",
-        BUTTON_PUSHMESSAGESEND: "overlaybtn-pushmessage", PRINTPAGE: "printPage", BUTTON_ASSIGNTOREPS: "dt_overlaybtn_assignToReps", BUTTON_ASSIGNTOCUSTOMERS: "dt_overlaybtn_assigncustomers"
+        BUTTON_PUSHMESSAGESEND: "overlaybtn-pushmessage", PRINTPAGE: "printPage", BUTTON_ASSIGNTOREPS: "dt_overlaybtn_assignToReps",
+        BUTTON_ASSIGNTOCUSTOMERS: "dt_overlaybtn_assigncustomers", SELECTED_SEARCH_ITEM: "selectedSearchItem", CARRIERAGENCY: "carrieragency", CARRIERCUSTOMERS: "carriercustomers", CARRIER_REPS_PAGE: "carrierreps",
+        VIEW_CARRIER_REPS_DETAILS: "viewCarrierRep", VIEW_CARIER_REP_PROFILE_PAGE: "ViewCarrierRep"
     },
     ERROR_MSG: {
         ajaxFailed: "Oops! This action could not be completed now! Please try again"
@@ -67,6 +78,7 @@ var RESPONSE = {
     AUDIOURLS: [],
     OTHERPARTYDETAILS: [],
     NAMES: [],
+    OTHERPARTYNAMES: [],
     ROLE: [],
     PHONE: [],
     ADDRESS: [],
@@ -79,8 +91,17 @@ var RESPONSE = {
     INJURIES: [],
     OTHERINFORMATION: [],
     OTHERPARTYIDS: [],
-    INCIDENTID: []
+    INCIDENTID: [],
+	RELATEDFEEDS : {},
+	RELATEDFEEDSLOADED : false
 };
+var PAGEREFRESH = {
+	ISPAGEREFRESHED : false,
+	ISPAGEREFRESHEDFORCARRIERFEEDVIEW : false,
+	ISPAGEREFRESHEDFORCUSTOMERFEEDVIEW : false,
+	ISPAGEREFRESHEDFORMYPROFILE : false,
+	ISPAGEREFRESHEDFORSETTINGS : false
+}
 /*Naveen 19-2-2015 Chnage start*/
 var HOMEPAGERESPONSE = {
     ALERTDETAILS: [],
@@ -90,6 +111,7 @@ var HOMEPAGERESPONSE = {
     HOMEPAGEMYALERTSLOADED: true,
     POLICYALERTCLICKED: false,
     PROFILEAPI: "https://proto-call-test.appspot.com/file/",
+	PROFILEAPIFORIMAGE : "https://2-dot-proto-call-test.appspot.com/file/",
     SORYBYRECENTVIEW: false,
     SORTBYALPHABETICALVIEW: false,
     ISVIEWARCHIVECLICKED: false,
@@ -99,7 +121,13 @@ var HOMEPAGERESPONSE = {
     POLICYALERTSFEED: [],
     HOMEPAGESTUBBEDDATA: {},
     LISTOFALERTIDSFORARCHIVE: [],
-    HOMEPAGEMYALERTSLOADEDCOUNT: 0
+    HOMEPAGEMYALERTSLOADEDCOUNT: 0,
+    COMMONUSERDETAILS: {},
+    ISVIEWALERTVALUECLICKED: false,
+    FEEDSICONCLICKED: false,
+	PROFILEPICUPDATECLICKED : false,
+	DOWNARROWPRESSEDCOUNT : 0,
+	UPARROWPRESSEDCOUNT : 0
             /*Naveen 23-2-2015 Changes End */
 }
 /*Naveen 19-2-2015 Chnage end*/
@@ -321,6 +349,7 @@ protocall = {
         return pageName;
     },
     loadPage: function (pageUrl) {
+
         var pageArr = pageUrl.split("/");
         var page = "", subMenu = [];
         if (pageArr.length > 0) {
@@ -338,35 +367,65 @@ protocall = {
         if (page == LOGIN_PAGE) {
             this.view.loadLoginPage(false);
         }
-
+//CARRIERCUSTOMERS
         else if (page == HOME_PAGE) {
-            this.view.loadHomePage(false);
+			if(subMenu.length > 0){
+				var subMenuName = subMenu[0];
+				if (subMenuName == CONSTANTS.LINK_TYPE.VIEW_FEED) {
+					PAGEREFRESH.ISPAGEREFRESHED = true;
+					this.view.viewFeed(false);
+				}
+			} else {
+				this.view.loadHomePage(false);
+			}
         } else if (page == CARRIERS_PAGE) {
-            this.view.loadCarrierPage(false);
+			if(subMenu.length > 0){
+				var subMenuName = subMenu[0];
+				if (subMenuName == CONSTANTS.LINK_TYPE.VIEW_CARRIER_FEEDVIEW) {
+					PAGEREFRESH.ISPAGEREFRESHEDFORCARRIERFEEDVIEW = true;
+					var Carrieremail = "";
+					this.view.viewCarrierViewFeed(false, Carrieremail);
+				}
+			} else {
+				this.view.loadCarrierPage(false);
+			}
         } else if (page == CUSTOMERS_PAGE) {
-            this.view.loadCustomerPage(false);
+			if(subMenu.length > 0){
+				var subMenuName = subMenu[0];
+				if (subMenuName == CONSTANTS.LINK_TYPE.VIEWCUSTOMERFEED) {
+					PAGEREFRESH.ISPAGEREFRESHEDFORCUSTOMERFEEDVIEW = true;
+					this.view.viewCustomerFeed(false);
+				}
+			} else {
+				this.view.loadCustomerPage(false);
+			}
         } else if (page == MY_REP_PAGE) {
             this.view.loadMyRepsPage(false);
+        } else if (page == CONSTANTS.LINK_TYPE.CARRIER_REPS_PAGE) {
+            this.view.loadCarrierRepsPage(false);
         } else if (page == SETTINGS_PAGE) {
             var $el = $(".mysettings");
+			PAGEREFRESH.ISPAGEREFRESHEDFORSETTINGS = true;
             this.view.viewSettingsPage(false, $el);
         } else if (page == PROFILE_PAGE) {
             var $el = $(".myProfileView");
+			PAGEREFRESH.ISPAGEREFRESHEDFORMYPROFILE = true;
             this.view.viewProfileViewPage(false, $el);
+        } else if (page == AGENCY_PAGE) {
+            this.view.loadAgencyPage(false);
         }
 
         if (subMenu.length > 0) {
             var subMenuName = subMenu[0];
             console.log("SubMenu Name", subMenuName)
-            if (subMenuName == CONSTANTS.LINK_TYPE.VIEW_FEED) {
-                this.view.viewFeed(false);
-            }
-            else if (subMenuName == CONSTANTS.LINK_TYPE.VIEW_CARRIER_FEEDVIEW) {
-                this.view.viewCarrierViewFeed(false);
-            } else if (subMenuName == CONSTANTS.LINK_TYPE.VIEWCUSTOMERFEED) {
+            /* else if (subMenuName == CONSTANTS.LINK_TYPE.VIEW_CARRIER_FEEDVIEW) {
+				PAGEREFRESH.ISPAGEREFRESHEDFORCARRIERFEEDVIEW = true;
+				var Carrieremail = "";
+                this.view.viewCarrierViewFeed(false, Carrieremail);
+            } */ /* else if (subMenuName == CONSTANTS.LINK_TYPE.VIEWCUSTOMERFEED) {
                 this.view.viewCustomerFeed(false);
-            }
-            else if (subMenuName == CONSTANTS.LINK_TYPE.VIEW_CUSTOMER_FEEDVIEW) {
+            } */
+            if (subMenuName == CONSTANTS.LINK_TYPE.VIEW_CUSTOMER_FEEDVIEW) {
                 this.view.viewCustomerViewFeed(false);
             }
             else if (subMenuName == CONSTANTS.LINK_TYPE.MY_ALERTS) {
@@ -391,6 +450,11 @@ protocall = {
         }
     },
     setPage: function (page, url, title, data) {
+
+        // alert("url" + url);
+        if (url == undefined) {
+            url = "login";
+        }
         data = data ? data : ""; // json data for the page
         var urlWithHash = "#" + url;
         var dataModified = {
@@ -401,6 +465,9 @@ protocall = {
     },
     setPageNavigation: function (page) {
         // should be called first for navigating pages on start.
+
+        //alert("page" + page);
+
         CURRENT_PAGE = page;
         this.loadPage(CURRENT_PAGE);
         this.setPage(CURRENT_PAGE, CURRENT_PAGE, CURRENT_PAGE, "");
@@ -431,15 +498,24 @@ protocall = {
         }
     },
     setMenuSelection: function (page, subMenu) {
+        //
         $(".mb-menu a.selected-tab").removeClass("selected-tab");
         if (page == CONSTANTS.LINK_TYPE.HOME_PAGE) {
             $(".mb-menu a.home").addClass("selected-tab");
         } else if (page == CONSTANTS.LINK_TYPE.CARRIERS_PAGE) {
             $(".mb-menu a.carriers").addClass("selected-tab");
+        } else if (page == CONSTANTS.LINK_TYPE.AGENCY_PAGE) {
+            $(".mb-menu a.agencyinfo").addClass("selected-tab");
+        } else if (page == CONSTANTS.LINK_TYPE.CARRIERAGENCY) {
+            $(".mb-menu a.CarrierAgencies").addClass("selected-tab");
+        } else if (page == CONSTANTS.LINK_TYPE.AGENCIES_PAGE) {
+            $(".mb-menu a.agencies-info").addClass("selected-tab");
         } else if (page == CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE) {
             $(".mb-menu a.customers").addClass("selected-tab");
         } else if (page == CONSTANTS.LINK_TYPE.MY_REP_PAGE) {
             $(".mb-menu a.myreps").addClass("selected-tab");
+        } else if (page == CONSTANTS.LINK_TYPE.CARRIER_REPS_PAGE) {
+            $(".mb-menu a.carrierreps").addClass("selected-tab");
         }
     },
     displaySpinner: function (show) {
@@ -463,26 +539,23 @@ protocall.events = {
             protocall.events.handleClick(e);
 
         });
-        $(document).on("click", ".printPageClass", function (e) {
+		$(document).on("click", ".printPageClass", function (e) {
             e.stopPropagation();
             protocall.events.handleClick(e);
 
         });
-        $(document).on("click", ".mysnap", function (e) {
-            $(".mysnap").css("background", "lightgrey");
-            $(this).css("background", "#f34f4e");
-            var loginContent = LoginTemplate.login.MyloginContent();
-            $(".box").empty();
-            $(".box").append($(loginContent));
-            $(".box").fadeIn("slow");
 
-        });
 
 
 //******************Customers View Click Event***********************************
 
         $(document).on("click", ".mycustomerView", function () {
+            //alert("data" + $(this).attr("id") + "" + $(this).attr("value"));
             protocall.view.viewCustomerFeed(true, $(this).attr("id"), $(this).attr("value"));
+        });
+
+        $(document).on("click", ".myagenciesView", function () {
+            protocall.view.viewAgenciesFeed(true, $(this).attr("id"), $(this).attr("value"));
         });
 
 //*******************************************************************************
@@ -515,6 +588,12 @@ protocall.events = {
         });
 
 
+        $(document).on("click", ".Carrierreps-feed-view", function () {
+            var carrierid = $(this).attr("id");
+            localStorage.setItem("CARRIERADMIN_MYREPID", carrierid);
+        });
+
+
 //*******************************************************************************
 
 //******************associatedropdown  Click Event***********************************
@@ -522,16 +601,73 @@ protocall.events = {
             var optionSelected = $("option:selected", this);
             var selOption = optionSelected.val();
 
-            if (selOption == "ASSOCIATED REPS") {
-                protocall.carrier.loadAssociatedReps();
-            } else {
-                protocall.carrier.loadAssociatedCustomers();
+            if (localStorage.getItem("LOGIN_LABEL") == "Agency") {
+                if (selOption == "ASSOCIATED REPS") {
+                    protocall.carrier.loadAssociatedReps();
+                } else {
+                    protocall.carrier.loadAssociatedCustomers();
+                }
+            } else if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
+                if (selOption == "ASSOCIATED CUSTOMERS") {
+                    CarrierdynamicTemplate.carrier.loadAssocaiteCustomersDataForCarrier();
+                } else {
+                    CarrierdynamicTemplate.carrier.loadAssocaiteAgenciesDataForCarrier();
+                }
             }
         });
 
 //*******************************************************************************
 
 //****************************Date click Function ***************************************************
+//id-customers-dropdown
+
+        if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
+            if (localStorage.LoginType == 'Representatives') {
+                $(document).on("change", "#id-customers-dropdown", function () {
+
+                    if ($("#id-customers-dropdown").val() == "ASSOCIATED REPS") {
+                        protocall.carrier.loadCarrierAssociatedReps();
+                    } else if ($("#id-customers-dropdown").val() == "ASSOCIATED CUSTOMERS") {
+                        protocall.carrier.loadCarrierAssociatedCustomers();
+
+                    }
+
+
+                });
+            }
+
+            if (localStorage.LoginType == 'Admin') {
+                $(document).on("change", "#id-customers-dropdown", function () {
+
+                    if ($("#id-customers-dropdown").val() == "ASSOCIATED REPS") {
+                        protocall.carrier.loadCarrierAdminAssociatedRep();
+                    } else if ($("#id-customers-dropdown").val() == "ASSOCIATED CUSTOMERS") {
+                        protocall.carrier.loadCarrierAdminAssociatedCustomers();
+                    }
+
+
+                });
+            }
+        } else {
+            $(document).on("change", "#id-customers-dropdown", function () {
+
+                if ($("#id-customers-dropdown").val() == "ASSOCIATED REPS") {
+                    protocall.carrier.loadAssociatedReps();
+                } else if ($("#id-customers-dropdown").val() == "ASSOCIATED CARRIER") {
+                    $("#id-carrierassociatedblock").html('');
+                    // alert(localStorage.getItem("ASSOCIATE_CARRIER"));
+                    if (localStorage.getItem("ASSOCIATE_CARRIER") == undefined || localStorage.getItem("ASSOCIATE_CARRIER") == "") {
+                        localStorage.setItem("<div>No Records</div>");
+                    } else {
+                        $("#id-carrierassociatedblock").append(localStorage.getItem("ASSOCIATE_CARRIER"));
+                    }
+
+                }
+
+
+            });
+        }
+
 
         $(document).on("change", "#datepicker", function () {
             var inputDate = new Date(this.value);
@@ -561,9 +697,20 @@ protocall.events = {
                     minutes = 0;
                 }
 
-                $("#ampmtimepicker").prop("selectedIndex", 1);
+                if (ampm == "AM") {
+                    $("#ampmtimepicker").prop("selectedIndex", 0);
+                } else {
+                    $("#ampmtimepicker").prop("selectedIndex", 1);
+                }
 
-
+            } else {
+                $("#pushmessagetimepicker").empty();
+                for (var hour = 1; hour <= 12; hour++) {
+                    for (var min = 0; min < 60; min++) {
+                        $("#pushmessagetimepicker").append('<option>' + minTwoDigits(hour) + ":" + minTwoDigits(min) + '</option>');
+                    }
+                }
+                $("#ampmtimepicker").prop("selectedIndex", 0);
             }
 
         });
@@ -571,14 +718,23 @@ protocall.events = {
 //*******************************************************************************
 
 //***********************Drop Down click Events*******************************
-//drop-down-icon-1
-//        $(document).on("click", ".drop-down-icon-1", function () {
-//            alert("dd");
-//            $("#timepicker").trigger('click');
-//        });
+        $(document).on("click", ".id-associatedownarrow", function () {
+            protocall.carrier.openSelect("#id-associatedropdown");
+        });
 
         //*******************************************************************************     
 
+        $(document).on("click", ".drop-down-icon-1", function () {
+            protocall.carrier.openSelect("#timepicker");
+        });
+
+        $(document).on("click", ".drop-down-icon-2", function () {
+            protocall.carrier.openSelect("#timepicker2");
+        });
+
+        $(document).on("click", ".associatedownarrow-customer", function () {
+            protocall.carrier.openSelect("#id-customers-dropdown");
+        });
 
 
         $(document).on("click", ".overalyPhots", function (e) {
@@ -596,14 +752,82 @@ protocall.events = {
             console.log(".o-content");
             protocall.events.handleClickForAudioThumbNail(e);
         });
-		/* $(document).on("scroll",  function (e) {
-			console.log("scroll invoked");
-			$("#pop-up-content").hide();
-			e.preventDefault();
-	   }); */
+        /* $(document).on("scroll",  function (e) {
+         console.log("scroll invoked");
+         $("#pop-up-content").hide();
+         e.preventDefault();
+         }); */
         $(window).on("resize", function (e) {
+			if($(".searchbox-border") !== ""){
+				var widthOfSearchTextBox = $(".searchbox-border").width()+"px";
+				var searchBorderLeftPosition = $(".searchbox-border").offset().left+"px";
+				var searchBorderTopPosition = $(".searchbox-border").offset().top+54+"px";
+				$("#searchBarDiv").css({"width":widthOfSearchTextBox,"left":searchBorderLeftPosition,"position":"absolute","top":searchBorderTopPosition});
+			}
+			
             protocall.events.handleResize(e);
         });
+        /*Search */
+        $(document).on("keyup", "#searchUserDetails", function (e) {
+            var searchTextValue = $(this).val();
+			console.log("e.which",e.which);
+			/* console.log("$.ui.keyCode.UP",$.ui.keyCode.UP);
+			console.log("$.ui.keyCode.UP",$.ui.keyCode.DOWN); */
+			if(e.which == 40) {
+				++HOMEPAGERESPONSE.DOWNARROWPRESSEDCOUNT;
+				HOMEPAGERESPONSE.UPARROWPRESSEDCOUNT = 0
+				protocall.view.handleDownarrow();
+			} else if(e.which == 38){
+				++HOMEPAGERESPONSE.UPARROWPRESSEDCOUNT;
+				HOMEPAGERESPONSE.DOWNARROWPRESSEDCOUNT = 0
+				protocall.view.handleUpArrowFun();
+			} else if(e.which == 13){
+				protocall.view.handleEnterFunction();
+			} else {
+				console.log("searchTextValue>>>>>>>>>>>>>>>>", searchTextValue);
+				if (searchTextValue == "" || searchTextValue == "null") {
+					$("#searchBarDiv").hide();
+					$("#searchResultUL").hide();
+					return false;
+				} else {
+					$("#searchResultUL").empty();
+					$("#searchResultUL").show();
+					var widthOfSearchTextBox = $(".searchbox-border").width()+"px";
+					var searchBorderLeftPosition = $(".searchbox-border").offset().left+"px";
+					var searchBorderTopPosition = $(".searchbox-border").offset().top+54+"px";
+					debugger;
+					$("#searchBarDiv").css({"width":widthOfSearchTextBox,"left":searchBorderLeftPosition,"position":"absolute","top":searchBorderTopPosition});
+					protocall.view.searchUserDetails(searchTextValue);
+				}
+				e.stopPropagation();
+			}
+            /* console.log(".o-content");
+             protocall.events.handleClickForAudioThumbNail(e); */
+        });
+		$(document).click(function (e) {
+            e.stopPropagation();
+            if(!($("#searchUserDetails").is(":focus"))){
+				$("#searchBarDiv").hide();
+				$("#searchResultUL").hide();
+			 } else {
+				 var searchText = $("#searchUserDetails").val();
+				 if(searchText == "" || searchText == "null"){
+					 $("#searchBarDiv").hide();
+					 $("#searchResultUL").hide();
+					 return false;
+				 } else {
+					$("#searchResultUL").empty();
+					$("#searchResultUL").show();
+					protocall.view.searchUserDetails(searchText);
+				 }
+			 }
+
+        });
+        /* $(document).on("blur", ".searchBarDiv", function (e) {
+         e.stopPropagation();
+         $("#searchBarDiv").hide();
+         $(".search-ip").val("");
+         }); */
     },
     /*Naveen Chnages 19-2-2015 start */
     containerScrollEvent: function () {
@@ -613,32 +837,32 @@ protocall.events = {
             protocall.events.handleScroll();
         });
     },
-	mouseOverCheckbox : function(){
-		var userFeedbox = $(".feed-user-pic-box");
-		$.each(userFeedbox,function(index,element){
-			$(this).hover(
-				 function () {
-				   console.log("mouse enter");
-				   $(this).find("label").addClass("feed-label");
-				 }, 
-				 function () {
-					console.log("mouse leave");
-					if($(this).find("input").prop("checked")){
-						$(this).find("label").addClass("feed-label");
-					} else {
-						$(this).find("label").removeClass("feed-label");
-					} 
-				 }
-			 );
-		});
-	},
+    mouseOverCheckbox: function () {
+        var userFeedbox = $(".feed-user-pic-box");
+        $.each(userFeedbox, function (index, element) {
+            $(this).hover(
+                    function () {
+                        console.log("mouse enter");
+                        $(this).find("label").addClass("feed-label");
+                    },
+                    function () {
+                        console.log("mouse leave");
+                        if ($(this).find("input").prop("checked")) {
+                            $(this).find("label").addClass("feed-label");
+                        } else {
+                            $(this).find("label").removeClass("feed-label");
+                        }
+                    }
+            );
+        });
+    },
     handleScroll: function (e) {
         var container = $('.container'), pageNumber = 1, deepPath = "", page = "";
         var scrollHeightValue = container[0].scrollHeight - container.scrollTop();
         var containerOuterHeight = container.outerHeight();
         console.log("scrollHeightValue", scrollHeightValue);
         console.log("containerOuterHeight", containerOuterHeight);
-        console.log("container.scrollTop()", container.scrollTop());
+        //console.log("container.scrollTop()", container.scrollTop());
         //var containerScrollTop = 0;
         CONSTANTS.SCROLLTOPVALUE = CONSTANTS.SCROLLTOPVALUE + container.scrollTop();
         console.log("HOMEPAGERESPONSE.INCIDENTALERTSCLICKED", HOMEPAGERESPONSE.INCIDENTALERTSCLICKED);
@@ -647,11 +871,15 @@ protocall.events = {
             deepPath = "filterfeedbyalphabetical";
         } else {
             deepPath = "filterfeedbyalertdate";
-        } if(HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED){
-			deepPath = "viewedarchieved";
-		}
-        if (scrollHeightValue == containerOuterHeight) {
-            if (CONSTANTS.HASNEXTPAGE) {
+        }
+        if (HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED) {
+            deepPath = "viewedarchieved";
+        }
+        
+            if (scrollHeightValue === containerOuterHeight) {
+				$(".container").off("scroll");
+				console.log("condition satisfied");
+				if (CONSTANTS.HASNEXTPAGE) {
                 if (HOMEPAGERESPONSE.INCIDENTALERTSCLICKED) {
                     container.scrollTop();
                 } else if (HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED) {
@@ -660,12 +888,13 @@ protocall.events = {
                     container.scrollTop();
                     page = "home";
                 }
-                $(".content-holder").addClass("spinner1");
-                protocall.home.loadingAlertFeeds(++CONSTANTS.PGNUMBER, deepPath, page);
+                $(".content-holder").append('<div id="scrollingDiv" style="position:relative;margin: 20px 0px;"><div class="bottomSpinner"></div></div>');
+                $(".content-holder").css("opacity", "0.5");
+				protocall.home.loadingAlertFeeds(++CONSTANTS.PGNUMBER, deepPath, page);
+				return false;
             }
         }
-        return false;
-    },
+	},
     /*Naveen Chnages 19-2-2015 end */
     handleClick: function (e) {
         var $el = $(e.currentTarget);
@@ -687,16 +916,33 @@ protocall.events = {
                 switch (page) {
 
                     case CONSTANTS.LINK_TYPE.HOME_PAGE:
+
                         protocall.view.loadHomePage(true);
                         break;
+                        //AGENCY_PAGE
                     case CONSTANTS.LINK_TYPE.CARRIERS_PAGE:
                         protocall.view.loadCarrierPage(true);
+                        break;
+                    case CONSTANTS.LINK_TYPE.AGENCY_PAGE:
+                        protocall.view.loadAgencyPage(true);
+                        break;
+                    case CONSTANTS.LINK_TYPE.CARRIERAGENCY:
+                        protocall.view.loadCarrierOwnerAgenciesPage(true);
+                        break;
+                    case CONSTANTS.LINK_TYPE.AGENCIES_PAGE:
+                        protocall.view.loadAgenciesPage(true);
                         break;
                     case CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE:
                         protocall.view.loadCustomerPage(true);
                         break;
+                    case CONSTANTS.LINK_TYPE.CARRIERCUSTOMERS:
+                        protocall.view.loadCustomerPage(true);
+                        break;
                     case CONSTANTS.LINK_TYPE.MY_REP_PAGE:
                         protocall.view.loadMyRepsPage(true);
+                        break;
+                    case CONSTANTS.LINK_TYPE.CARRIER_REPS_PAGE:
+                        protocall.view.loadCarrierRepsPage(true);
                         break;
                     default:
                         break;
@@ -705,10 +951,20 @@ protocall.events = {
                     case CONSTANTS.LINK_TYPE.CARRIERS_PAGE:
                         protocall.view.loadCarrierPage(true);
                         break;
+                    case CONSTANTS.LINK_TYPE.AGENCY_PAGE:
+                        protocall.view.loadAgencyPage(true);
+                        break;
+                    case CONSTANTS.LINK_TYPE.CARRIERAGENCY:
+                        protocall.view.loadCarrierOwnerAgenciesPage(true);
+                        break;
+                    case CONSTANTS.LINK_TYPE.AGENCIES_PAGE:
+                        protocall.view.loadAgenciesPage(true);
+                        break;
                     case CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE:
                         protocall.view.loadCustomerPage(true);
                         break;
                     case CONSTANTS.LINK_TYPE.FEEDS:
+                        HOMEPAGERESPONSE.FEEDSICONCLICKED = true;
                         protocall.view.loadHomePage(true);
                         break;
                     case CONSTANTS.LINK_TYPE.MY_ALERTS:
@@ -753,13 +1009,29 @@ protocall.events = {
                     case CONSTANTS.LINK_TYPE.MYPROFEDIT:
                         protocall.view.MyprofEdit();
                         break;
+                    case CONSTANTS.LINK_TYPE.CARRIER_REPS_PAGE:
+                        protocall.view.loadCarrierRepsPage(true);
+                        break;
+                    case CONSTANTS.LINK_TYPE.ASSIGN_TO_CUSTOMERS:
+                        if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
+                            if (localStorage.LoginType == 'Admin') {
+                                protocall.view.assignToCustomers();
+                            }
+                        }
 
                     default:
                         break;
                 }
                 break;
             case CONSTANTS.LINK_TYPE.SETTINGS_PAGE:
+                CONSTANTS.HASNEXTPAGE = false;
                 protocall.view.viewSettingsPage(true, $el);
+                break;
+            case CONSTANTS.LINK_TYPE.VIEW_CARRIER_REPS_DETAILS:
+                protocall.view.viewCarrierRepsDetails(true, $el);
+                break;
+            case CONSTANTS.LINK_TYPE.SEND_INVITE_REPS:
+                protocall.view.sendInviteReps($el, true);
                 break;
             case CONSTANTS.LINK_TYPE.PROFILE_PAGE:
                 protocall.view.viewProfileViewPage(true, $el);
@@ -774,14 +1046,20 @@ protocall.events = {
                 protocall.view.loadProfile($el);
                 break;
             case CONSTANTS.LINK_TYPE.VIEW_FEED:
-                protocall.view.viewFeed(true, $el);
+				PAGEREFRESH.ISPAGEREFRESHED = false;
+                protocall.view.viewFeed(true, e);
                 break;
             case CONSTANTS.LINK_TYPE.SHARE_TO_REP:
 
                 //protocall.view.shareToRep();
                 break;
             case CONSTANTS.LINK_TYPE.ASSIGN_TO_CUSTOMERS:
-//                protocall.view.assignToCustomers();
+                if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
+                    if (localStorage.LoginType == 'Admin') {
+                        protocall.view.assignToCustomers();
+                    }
+                }
+
                 break;
             case CONSTANTS.LINK_TYPE.PROPERTY_POLICY:
                 protocall.view.properityPolicy();
@@ -815,17 +1093,19 @@ protocall.events = {
                 break;
             case CONSTANTS.LINK_TYPE.AGENCY_REMOVE_LOAD:
 
+                // alert("cp");
                 var index = 0;
                 var subIndex = 0;
+                // alert("cp" + subIndex);
                 var DELETELIST = [];
                 $('.checkbox').each(function () {
-                    str = this.checked ? "1" : "0";
+                    var str = this.checked ? "1" : "0";
                     if (str == "1") {
+                        //  alert("ss" + index);
                         var vendorCheck = document.getElementById('removevendor_' + index);
                         if (vendorCheck.checked) {
-                            $("#item_" + index).css({
-                                'display': 'none'
-                            });
+
+                            $("#item_" + index).remove();
 
                             DELETELIST[subIndex] = $(this).val();
                             subIndex++;
@@ -835,6 +1115,13 @@ protocall.events = {
                     }
                     index++;
                 });
+                //   alert("dd" + subIndex);
+                if (subIndex == 0) {
+                    ///  alert("dd");
+                    subIndex = 0;
+                    utils.server.displayError("Please select atleat a name to delete..!");
+                }
+
 
                 page = "deletevendorpage";
                 var dataq = {alertList: DELETELIST};
@@ -861,7 +1148,7 @@ protocall.events = {
                 protocall.view.editAgencyPic();
                 break;
             case CONSTANTS.LINK_TYPE.MATCH_RELEASE_CLAIMS:
-                protocall.view.matchReleaseClaimAlert();
+                protocall.view.matchReleaseClaimAlert(e);
                 break;
                 /*Naveen Chnages 19-2-2015 start */
             case CONSTANTS.LINK_TYPE.PHOTS_OVERLAY_DISPLAY:
@@ -872,6 +1159,9 @@ protocall.events = {
                 break;
             case CONSTANTS.LINK_TYPE.DOCUMENTSOVERLAY:
                 protocall.view.staticDocumentOverlayDisplay(e);
+                break;
+            case CONSTANTS.LINK_TYPE.SELECTED_SEARCH_ITEM:
+                protocall.view.showSearchResult(e);
                 break;
             case CONSTANTS.LINK_TYPE.SORYBYRECENT:
                 protocall.view.loadSortByRecent($el, true);
@@ -1030,6 +1320,17 @@ protocall.events = {
 };
 //protocall view functions
 protocall.view = {
+    viewCarrierRepsDetails: function (isClickEvent, $el) {
+
+        localStorage.setItem("SUBMENU", "VIEW_CARIER_REP_PROFILE_PAGE");
+        protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.CARRIER_REPS_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_CARIER_REP_PROFILE_PAGE);
+        protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CARRIER_REPS_PAGE);
+        if (isClickEvent) {
+            protocall.setPage(CONSTANTS.LINK_TYPE.CARRIER_REPS_PAGE, CONSTANTS.LINK_TYPE.CARRIER_REPS_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_CARIER_REP_PROFILE_PAGE, CONSTANTS.LINK_TYPE.VIEW_CARIER_REP_PROFILE_PAGE, "");
+        }
+        protocall.myProfile.loadMyCarrierRepProfile($el);
+        protocall.displaySpinner(false);
+    },
     loadSignupPage: function (isClickEvent) {
         console.log("Load signup Page");
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.SIGNUP);
@@ -1050,6 +1351,87 @@ protocall.view = {
         }
         protocall.displaySpinner(false);
     },
+	handleDownarrow : function(){
+		var searchItemsLength = $("#searchResultUL li").length,keyboardEvent = "downArrow";
+		var selectedListItem = $("#searchResultUL").find("li.searchItemClass");
+		var selectedElementIndex = $("#searchResultUL li").index(selectedListItem);
+		if(HOMEPAGERESPONSE.DOWNARROWPRESSEDCOUNT > 1){
+			protocall.view.showNextDownArrowResult(selectedListItem,selectedElementIndex,searchItemsLength,keyboardEvent);
+		} else {
+			$("#searchResultUL li").removeClass("searchItemClass");
+			$("#searchResultUL li:first-child").addClass("searchItemClass");
+		}
+	},
+	handleUpArrowFun : function(){
+		var searchItemsLength = $("#searchResultUL li").length,keyboardEvent = "upArrow";
+		console.log("searchItemsLength>>>>>>>>>>>>>",searchItemsLength);
+		var selectedListItem = $("#searchResultUL").find("li.searchItemClass");
+		var selectedElementIndex = $("#searchResultUL li").index(selectedListItem);
+		if(HOMEPAGERESPONSE.UPARROWPRESSEDCOUNT > 1){
+			protocall.view.showNextUpArrowResult(selectedListItem,selectedElementIndex,searchItemsLength,keyboardEvent);
+		} else {
+			$("#searchResultUL li").removeClass("searchItemClass");
+			$("#searchResultUL li:last-child").addClass("searchItemClass");
+			var container = $('#searchBarDiv'),scrollTo = $("#searchResultUL li:last-child");
+			container.scrollTop(scrollTo.offset().top - container.offset().top + container.scrollTop());
+		}
+		//protocall.view.foucsingSelectedSearchItem(selectedListItem,selectedElementIndex,searchItemsLength);
+	},
+	handleEnterFunction : function(){
+		var currentTarget = $("#searchResultUL").find("li.searchItemClass");
+		console.log("currentTarget >>>>>>>>>>>>>> handleEnterFunction",currentTarget);
+		var userEmail = currentTarget.find("p.searchItemEmail").text();
+		var userRole = currentTarget.find("p.searchItemRole").text();
+		var userName = currentTarget.find("p.searchItemUserName").text();
+		protocall.view.showUserDetailsOnEnter(userEmail,userRole,userName);
+	},
+	showUserDetailsOnEnter : function(userEmail,userRole,userName){
+		$(".search-ip").val(userName, +'&nbsp' + userRole);
+        $("#searchBarDiv").hide();
+        var data = {"emailId": userEmail, "role": userRole},
+        deepPath = "detailsofretrieveduserfromglobalsearch",
+                page = "home",
+                callback = protocall.view.showUserDetails;
+        var resp = utils.server.makeServerCall(page, data, callback, deepPath);
+	},
+	showNextDownArrowResult : function(listItemValue,listItemIndex,searchListItemsLength,keyboardEvent){
+		$("#searchResultUL li").removeClass("searchItemClass");
+		var nextListItemIndexValue = listItemIndex+1;
+		++nextListItemIndexValue;
+		var nextDownArrowListItem = $("#searchResultUL li:nth-child("+nextListItemIndexValue+")").addClass("searchItemClass");
+		protocall.view.foucsingSelectedSearchItem($("#searchResultUL li:nth-child("+nextListItemIndexValue+")"),nextListItemIndexValue,searchListItemsLength,keyboardEvent);
+	},
+	showNextUpArrowResult : function(listItemValue,listItemIndex,searchListItemsLength,keyboardEvent){
+		$("#searchResultUL li").removeClass("searchItemClass");
+		var nextListItemIndexValue = listItemIndex-1;
+		++nextListItemIndexValue;
+		var nextDownArrowListItem = $("#searchResultUL li:nth-child("+nextListItemIndexValue+")").addClass("searchItemClass");
+		protocall.view.foucsingSelectedSearchItem($("#searchResultUL li:nth-child("+nextListItemIndexValue+")"),nextListItemIndexValue,searchListItemsLength,keyboardEvent);
+	},
+	foucsingSelectedSearchItem : function(listItem,indexValue,searchListItemsLength,keyboardEvent){
+		if(keyboardEvent == "upArrow"){
+			if(indexValue <= 0){
+				$("#searchResultUL li").removeClass("searchItemClass");
+				$("#searchResultUL li:last-child").addClass("searchItemClass");
+				var container = $('#searchBarDiv'),scrollTo = $("#searchResultUL li:last-child");
+				container.scrollTop(scrollTo.offset().top - container.offset().top + container.scrollTop());
+			} else {
+				var container = $('#searchBarDiv'),scrollTo = $(listItem);
+				container.scrollTop(scrollTo.offset().top - container.offset().top + container.scrollTop());
+			} 
+		} else {
+			if(indexValue >= searchListItemsLength+1){
+				$("#searchResultUL li").removeClass("searchItemClass");
+				$("#searchResultUL li:first-child").addClass("searchItemClass");
+				var container = $('#searchBarDiv');
+				container.scrollTop(0);
+			} else {
+				var container = $('#searchBarDiv'),scrollTo = $(listItem);
+				container.scrollTop(scrollTo.offset().top - container.offset().top + container.scrollTop());
+			}
+		}
+		
+	},
     MyprofEdit: function (isClickEvent) {
 
 
@@ -1063,7 +1445,7 @@ protocall.view = {
             $('.submenu-title').empty();
             $('.submenu-title').append("Save");
             $(".profile-result-cls").css("display", "none");
-            $(".agencyprofinput").css("display", "inline-block");
+            $(".agencyprofinput").css("display", "block");
             $('#namenew').val(name);
             $('#phonenew').val(phone);
             $('#emailnew').val(email);
@@ -1081,7 +1463,33 @@ protocall.view = {
             $('#phoneview').html(phone);
             $('#emailview').html(email);
 //Make call here
+            var page = "myprofile";
+            var data = {firstName: name, emailId: "agencyowner@gmail.com", phone: phone};
+            var callback = utils.server.gotprofileEditresponse;
+            var deepPath = "edituser";
+            utils.server.makeServerCall(page, data, callback, deepPath);
 
+            //Make image server call
+
+            var formdata = new FormData();
+
+            if ($('#agency-prof-img')[0].files.length > 0) {
+                var file = $('#agency-prof-img')[0].files[0];
+                formdata.append("profilePicture", file);
+            }
+
+            step1 = "profilePicture";
+            var resultObject = step1;
+
+            var dataString = JSON.stringify(resultObject);
+            formdata.append("type", dataString);
+
+            var callback = utils.server.profilePicResponse;
+            var isFormData = true;
+            var ref = "profilePic";
+            var qs = "agencyowner@gmail.com";
+            var pagespinner = true;
+            utils.server.imagesToServer(formdata, callback, isFormData, ref, qs, pagespinner);
         }
 
 
@@ -1097,24 +1505,65 @@ protocall.view = {
         protocall.displaySpinner(false);
     },
     loadHomePage: function (isClickEvent) {
-        console.log("Load Home Page");
-        $(".content-holder").addClass("spinner1");
+        //protocall.displaySpinner(false);
+        /* $(".content-holder").css("opacity", "0.5");
+        $(".content-holder").addClass("spinner1"); */
         HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED = true;
-        HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADEDCOUNT++;
         HOMEPAGERESPONSE.POLICYALERTCLICKED = false;
         HOMEPAGERESPONSE.INCIDENTALERTSCLICKED = false;
+        HOMEPAGERESPONSE.UNREADFEEDCOUNT = 0;
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE);
         protocall.home.initHomePage();
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.HOME_PAGE, CONSTANTS.LINK_TYPE.HOME_PAGE, CONSTANTS.LINK_TYPE.HOME_PAGE, "");
         }
-        protocall.displaySpinner(false);
         //var $myAlerts = $(".myalerts")
         // protocall.view.setSelectedLinkClasses($myAlerts, true);
     },
+    //AGENCY_PAGE
+    loadAgencyPage: function (isClickEvent) {
+
+        localStorage.setItem("SUBMENU", "AGENCY_PAGE");
+        console.log("Load Carrier Page");
+        $(".content-holder").addClass("spinner1");
+        protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.AGENCY_PAGE);
+        //Call the below in carrier.js
+        protocall.carrier.initAgencyPage();
+        protocall.setMenuSelection(CONSTANTS.LINK_TYPE.AGENCY_PAGE);
+        if (isClickEvent) {
+            protocall.setPage(CONSTANTS.LINK_TYPE.AGENCY_PAGE, CONSTANTS.LINK_TYPE.AGENCY_PAGE, CONSTANTS.LINK_TYPE.AGENCY_PAGE, "");
+        }
+        protocall.displaySpinner(false);
+    },
+    loadAgenciesPage: function (isClickEvent) {
+
+        localStorage.setItem("SUBMENU", "AGENCIES_PAGE");
+        $(".content-holder").addClass("spinner1");
+        protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.AGENCIES_PAGE);
+        //Call the below in carrier.js
+        protocall.carrier.initAgenciesPage();
+        protocall.setMenuSelection(CONSTANTS.LINK_TYPE.AGENCIES_PAGE);
+        if (isClickEvent) {
+            protocall.setPage(CONSTANTS.LINK_TYPE.AGENCIES_PAGE, CONSTANTS.LINK_TYPE.AGENCIES_PAGE, CONSTANTS.LINK_TYPE.AGENCIES_PAGE, "");
+        }
+        protocall.displaySpinner(false);
+    },
+    loadCarrierOwnerAgenciesPage: function (isClickEvent) {
+        localStorage.setItem("SUBMENU", "AGENCIES_PAGE");
+        $(".content-holder").addClass("spinner1");
+        protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.CARRIERAGENCY);
+        //Call the below in carrier.js
+        protocall.carrier.initCarrierOwnerAgenciesPage();
+        protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CARRIERAGENCY);
+        if (isClickEvent) {
+            protocall.setPage(CONSTANTS.LINK_TYPE.CARRIERAGENCY, CONSTANTS.LINK_TYPE.CARRIERAGENCY, CONSTANTS.LINK_TYPE.CARRIERAGENCY, "");
+        }
+        protocall.displaySpinner(false);
+    },
     loadCarrierPage: function (isClickEvent) {
         console.log("Load Carrier Page");
+        $(".content-holder").css("opacity", "0.5");
         $(".content-holder").addClass("spinner1");
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.CARRIERS_PAGE);
         //Call the below in carrier.js
@@ -1126,6 +1575,7 @@ protocall.view = {
         protocall.displaySpinner(false);
     },
     loadCustomerPage: function (isClickEvent) {
+        $(".content-holder").css("opacity", "0.5");
         $(".content-holder").addClass("spinner1");
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
         //  console.log("Load Customer Page");
@@ -1141,6 +1591,7 @@ protocall.view = {
     },
     loadMyRepsPage: function (isClickEvent) {
         console.log("Load My Reps Page");
+        $(".content-holder").css("opacity", "0.5");
         $(".content-holder").addClass("spinner1");
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.MY_REP_PAGE);
         //Call the below in myreps.js
@@ -1151,22 +1602,109 @@ protocall.view = {
         }
         protocall.displaySpinner(false);
     },
-    viewFeed: function (isClickEvent, currentTarget) {
+    loadCarrierRepsPage: function (isClickEvent) {
+
+        $(".content-holder").css("opacity", "0.5");
+        $(".content-holder").addClass("spinner1");
+        protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.CARRIER_REPS_PAGE);
+        //Call the below in myreps.js
+        protocall.myRep.initCarrierRepsPage();
+        // protocall.setMenuSelection(CONSTANTS.LINK_TYPE.MY_REP_PAGE);
+        if (isClickEvent) {
+            protocall.setPage(CONSTANTS.LINK_TYPE.CARRIER_REPS_PAGE, CONSTANTS.LINK_TYPE.CARRIER_REPS_PAGE, CONSTANTS.LINK_TYPE.CARRIER_REPS_PAGE, "");
+        }
+        protocall.displaySpinner(false);
+    },
+    viewFeed: function (isClickEvent, e) {
+	var currentTarget = "",userEmail = "",incidentDate = "", alertType = "",alertIDForView = "";
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_FEED);
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
-        if (isClickEvent) {
+		if (isClickEvent) {
+			currentTarget = $(e.currentTarget);
+			userEmail = currentTarget.find("div span").attr("id");
+			alertIDForView = currentTarget.find("div span").attr("name")
             protocall.setPage(CONSTANTS.LINK_TYPE.HOME_PAGE, CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_FEED, CONSTANTS.LINK_TYPE.VIEW_FEED, "");
+			sessionStorage.setItem("userEmailViewFeed",userEmail)
+			sessionStorage.setItem("userAlertIdViewFeed",alertIDForView)
+			sessionStorage.setItem("alertFeeds",HOMEPAGERESPONSE.RECURRINGALERTDFEEDS);
         }
-        protocall.home.loadFeed(currentTarget);
-        //Call the below dynamically
-        var userEmail = currentTarget.find("div span").attr("id");
+		if(PAGEREFRESH.ISPAGEREFRESHED){
+			userEmail = sessionStorage.getItem("userEmailViewFeed");
+			alertIDForView = sessionStorage.getItem("userAlertIdViewFeed");
+			HOMEPAGERESPONSE.RECURRINGALERTDFEEDS = sessionStorage.getItem("alertFeeds");
+		}
+		//Call the below dynamically
         $.each(HOMEPAGERESPONSE.RECURRINGALERTDFEEDS, function (index, viewAlertFeed) {
-            if (userEmail == viewAlertFeed.userDetails.emailId.email) {
+            console.log("alertIDForView >>>>>>>>>>>", alertIDForView);
+            console.log("alertId in each >>>>>>>>>>>", viewAlertFeed.alertDetails.alertId);
+            console.log("Email Id in each >>>>>>>>>>>", viewAlertFeed.userDetails.emailId.email);
+            if (userEmail == viewAlertFeed.userDetails.emailId.email && alertIDForView == viewAlertFeed.alertDetails.alertId) {
                 firstName = viewAlertFeed.userDetails.firstName;
                 lastName = viewAlertFeed.userDetails.lastName;
-                userName = firstName + '&nbsp' + lastName;
+                alertId = viewAlertFeed.alertDetails.alertId;
+                alDate = viewAlertFeed.alertDetails.alertDate;
+                console.log("alDate>>>>>>>>>>>>>>>>>>>", alDate);
+                alertDateValue = moment(new Date(parseInt(alDate))).format('MMM D, YYYY');
+                console.log("alertDateValue>>>>>>>>>>>>>>>>>>>", alertDateValue);
+                alertTime = moment(Number(alDate)).format('h:mmA');
+                bDay = viewAlertFeed.userDetails.birthDate;
+                console.log("bDay>>>>>>>>>>>>>", bDay);
+                birthday = moment(bDay).format('MMM D, YYYY');
+                profilePicture = HOMEPAGERESPONSE.PROFILEAPI + viewAlertFeed.userDetails.profilePicture;
+                gender = viewAlertFeed.userDetails.gender;
+                residentialCity = viewAlertFeed.userDetails.residentialCity;
+                console.log("residentialCity>>>>>>>>>>>>>", residentialCity);
+                phoneNumber = viewAlertFeed.userDetails.phone.number;
+                alertType = viewAlertFeed.alertDetails.type;
+                if (alertType == "incidentalert") {
+                    incidentDate = viewAlertFeed.IncidentDetails.incidentId;
+                } else {
+                    incidentDate = viewAlertFeed.alertDetails.policyId;
+                }
+                noOfOtherPartyRecordsCount = viewAlertFeed.NoofOtherPartyRecord;
+                noOfAudioRecordCount = viewAlertFeed.NoofAudioRecord;
+                noOfPictureRecord = viewAlertFeed.NoofPictureRecord;
+                debugger;
             }
+            /* if(alertType == "incidentalert"){
+             incidentDate = viewAlertFeed.IncidentDetails.timeStamp;
+             } else {
+             incidentDate = viewAlertFeed.alertDetails.alertDate;
+             } */
         });
+
+        console.log("alertType Temp Obj", alertType);
+        if (lastName == undefined) {
+            lastName = "";
+        }
+        if (gender == undefined) {
+            gender = "";
+        }
+        userName = firstName + '&nbsp' + lastName;
+        var tempObj = {
+            "firstName": firstName,
+            "lastName": lastName,
+            "userName": userName,
+            "alertId": alertId,
+            "birthday": birthday,
+            "alertDate": alertDateValue,
+            "alertTime": alertTime,
+            "profilePicture": profilePicture,
+            "gender": gender,
+            "phoneNumber": phoneNumber,
+            "alertType": alertType,
+            "userEmail": userEmail,
+            "residentialCity": residentialCity,
+            "noOfOtherPartyRecordsCount": noOfOtherPartyRecordsCount,
+            "noOfAudioRecordCount": noOfAudioRecordCount,
+            "noOfPictureRecord": noOfPictureRecord,
+            "incidentDate": incidentDate
+        };
+        console.log("tempObj.alertDate", tempObj.alertDate);
+        HOMEPAGERESPONSE.COMMONUSERDETAILS = tempObj;
+        console.log("HOMEPAGERESPONSE.COMMONUSERDETAILS", HOMEPAGERESPONSE.COMMONUSERDETAILS.lastName);
+        console.log("HOMEPAGERESPONSE.COMMONUSERDETAILS tempObj", tempObj.lastName);
+        protocall.home.loadFeed(tempObj);
         var breadCrumbObj = {};
         breadCrumbObj.customerName = userName;
         $('.tab-rb-submenu a').each(function () {
@@ -1189,9 +1727,23 @@ protocall.view = {
             protocall.view.setSelectedLinkClasses($(this), false);
         });
         protocall.view.buildSubMenuBlk(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE, breadCrumbObj);
+		protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
         protocall.displaySpinner(false);
     },
     viewSettingsPage: function (isClickEvent, $el) {
+		if(PAGEREFRESH.ISPAGEREFRESHEDFORSETTINGS){
+			//HeaderTemplate.Menu.DynamicHeaderTemplate();
+			var header = HeaderTemplate.Menu.DynamicHeaderTemplate();
+                    var content = '<div class="container"> <div class="content-holder"></div></div></div></div>';
+                    var footer = footerDynamicTemplate.footer.DynamicFooterTemplate();
+
+                    $("#page").empty();
+                    totalHtml = header+content+footer;
+                    $("#page").append(totalHtml);
+                    //protocall.displaySpinner(false);
+                    //protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
+		}
+        localStorage.setItem("SUBMENU", "SETTINGS_PAGE");
 
         popUpContent.closePopUpContent();
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.SETTINGS_PAGE);
@@ -1203,6 +1755,20 @@ protocall.view = {
         protocall.displaySpinner(false);
     },
     viewProfileViewPage: function (isClickEvent, $el) {
+
+		if(PAGEREFRESH.ISPAGEREFRESHEDFORMYPROFILE){
+			//HeaderTemplate.Menu.DynamicHeaderTemplate();
+			var header = HeaderTemplate.Menu.DynamicHeaderTemplate();
+                    var content = '<div class="container"> <div class="content-holder"></div></div></div></div>';
+                    var footer = footerDynamicTemplate.footer.DynamicFooterTemplate();
+
+                    $("#page").empty();
+                    totalHtml = header+content+footer;
+                    $("#page").append(totalHtml);
+                    //protocall.displaySpinner(false);
+                    //protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
+		}
+        localStorage.setItem("SUBMENU", "PROFILE_PAGE");
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.PROFILE_PAGE);
         //	protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
         if (isClickEvent) {
@@ -1217,19 +1783,32 @@ protocall.view = {
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CARRIERS_PAGE);
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.CARRIERS_PAGE, CONSTANTS.LINK_TYPE.CARRIERS_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_CARRIER_FEEDVIEW, CONSTANTS.LINK_TYPE.VIEW_CARRIER_FEEDVIEW, "");
+			sessionStorage.setItem("carrierEmailId",Carrieremail);
         }
-
+		if(PAGEREFRESH.ISPAGEREFRESHEDFORCARRIERFEEDVIEW){
+			Carrieremail = sessionStorage.getItem("carrierEmailId");
+		}
+		
         protocall.carrier.loadFeed(Carrieremail);
-
+		protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CARRIERS_PAGE);
         protocall.displaySpinner(false);
     },
     viewCustomerFeed: function (isClickEvent, emailId, carrierId) {
+
+        localStorage.setItem("SUBMENU", "CUSTOMERSVIEW_PAGE");
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEWCUSTOMERFEED);
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE, CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEWCUSTOMERFEED, CONSTANTS.LINK_TYPE.VIEWCUSTOMERFEED, "");
+			sessionStorage.setItem("customerEmailId",emailId);
+			sessionStorage.setItem("customerCarrierId",carrierId);
         }
+		if(PAGEREFRESH.ISPAGEREFRESHEDFORCUSTOMERFEEDVIEW){
+			emailId = sessionStorage.getItem("customerEmailId");
+			carrierId = sessionStorage.getItem("customerCarrierId");
+		}
         protocall.customer.loadCustomersViewFeed(emailId, carrierId);
+	protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
         //Call the below dynamically
         /*var breadCrumbObj = {};
          breadCrumbObj.customerName = "Way to Safe";
@@ -1239,9 +1818,47 @@ protocall.view = {
          protocall.view.buildSubMenuBlk(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE, breadCrumbObj);*/
         protocall.displaySpinner(false);
     },
+    viewAgenciesFeed: function (isClickEvent, emailId, carrierId) {
+
+        if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
+            if (localStorage.LoginType == 'Admin') {
+                localStorage.setItem("SUBMENU", "CARRIERS_AGENCY_PAGE");
+                protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.CARRIERAGENCY + "/" + CONSTANTS.LINK_TYPE.CARRIERAGENCY);
+                protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CARRIERAGENCY);
+                if (isClickEvent) {
+                    protocall.setPage(CONSTANTS.LINK_TYPE.CARRIERAGENCY, CONSTANTS.LINK_TYPE.CARRIERAGENCY + "/" + CONSTANTS.LINK_TYPE.VIEWAGENCIESFEED, CONSTANTS.LINK_TYPE.VIEWAGENCIESFEED, "");
+                }
+                protocall.customer.loadAgenciesViewFeed(emailId, carrierId);
+                //Call the below dynamically
+                /*var breadCrumbObj = {};
+                 breadCrumbObj.customerName = "Way to Safe";
+                 $('.tab-rb-submenu a').each(function () {
+                 protocall.view.setSelectedLinkClasses($(this), false);
+                 });
+                 protocall.view.buildSubMenuBlk(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE, breadCrumbObj);*/
+                protocall.displaySpinner(false);
+            }
+        } else {
+            localStorage.setItem("SUBMENU", "AGENCIESVIEW_PAGE");
+            protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.AGENCIES_PAGE + "/" + CONSTANTS.LINK_TYPE.AGENCIES_PAGE);
+            protocall.setMenuSelection(CONSTANTS.LINK_TYPE.AGENCIES_PAGE);
+            if (isClickEvent) {
+                protocall.setPage(CONSTANTS.LINK_TYPE.AGENCIES_PAGE, CONSTANTS.LINK_TYPE.AGENCIES_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEWAGENCIESFEED, CONSTANTS.LINK_TYPE.VIEWAGENCIESFEED, "");
+            }
+            protocall.customer.loadAgenciesViewFeed(emailId, carrierId);
+            //Call the below dynamically
+            /*var breadCrumbObj = {};
+             breadCrumbObj.customerName = "Way to Safe";
+             $('.tab-rb-submenu a').each(function () {
+             protocall.view.setSelectedLinkClasses($(this), false);
+             });
+             protocall.view.buildSubMenuBlk(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE, breadCrumbObj);*/
+            protocall.displaySpinner(false);
+        }
+    },
     /*Naveen Chnages 19-2-2015 start */
     loadMyAlertsFeeds: function ($el, isClickEvent) {
-		$(".content-holder").empty();
+        $(".content-holder").css("opacity", "0.5");
         $(".content-holder").addClass("spinner1");
         HOMEPAGERESPONSE.UNREADFEEDCOUNT = 0;
         HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED = false;
@@ -1260,7 +1877,7 @@ protocall.view = {
 
     },
     loadIncidentsFeeds: function ($el, isClickEvent) {
-		$(".content-holder").empty();
+        $(".content-holder").css("opacity", "0.5");
         $(".content-holder").addClass("spinner1");
         HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED = false;
         HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED = false;
@@ -1276,7 +1893,7 @@ protocall.view = {
         protocall.view.setSelectedLinkClasses($el, true);
     },
     loadPoliciesFeeds: function ($el, isClickEvent) {
-		$(".content-holder").empty();
+        $(".content-holder").css("opacity", "0.5");
         $(".content-holder").addClass("spinner1");
         HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED = false;
         HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED = false;
@@ -1319,7 +1936,7 @@ protocall.view = {
          protocall.setPage(CONSTANTS.LINK_TYPE.HOME_PAGE, CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.ARCHIVES, CONSTANTS.LINK_TYPE.ARCHIVES, "");
          } */
         if (HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE.length !== 0) {
-			$(".content-holder").empty();
+            //$(".content-holder").empty();
             $(".content-holder").addClass("spinner1");
             var data = {"alertList": HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE},
             deepPath = "archieve",
@@ -1353,7 +1970,8 @@ protocall.view = {
          protocall.displaySpinner(false); */
     },
     loadviewArchivedFeeds: function ($el, isClickEvent) {
-		$(".content-holder").empty();
+        $(".content-holder").css("opacity", "0.5");
+        $(".content-holder").addClass("spinner1");
         HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED = true;
         HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED = false;
         HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED = false;
@@ -1384,15 +2002,15 @@ protocall.view = {
         var alertIDValue = $e1.attr("id");
         console.log("$e1", $e1);
         if ($e1.prop("checked") == true) {
-			HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE.push(alertIDValue);
-			$("a.archives").css("display","block");
+            HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE.push(alertIDValue);
+            $("a.archives").css("display", "block");
         } else {
-			HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE.pop(alertIDValue);
-			if(HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE.length == 0){
-				$("a.archives").css("display","none");
-			} else {
-				$("a.archives").css("display","block");
-			}
+            HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE.pop(alertIDValue);
+            if (HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE.length == 0) {
+                $("a.archives").css("display", "none");
+            } else {
+                $("a.archives").css("display", "block");
+            }
         }
         console.log("alertIDValue", $e1.attr("id"));
     },
@@ -1476,6 +2094,7 @@ protocall.view = {
         popUpContent.closePopUpContent();
         HOMEPAGERESPONSE.SORYBYRECENTVIEW = true;
         HOMEPAGERESPONSE.SORTBYALPHABETICALVIEW = false;
+        HOMEPAGERESPONSE.UNREADFEEDCOUNT = 0;
         protocall.home.initHomePage();
     },
     sortyByAlphabeticalView: function () {
@@ -1483,6 +2102,7 @@ protocall.view = {
         popUpContent.closePopUpContent();
         HOMEPAGERESPONSE.SORYBYRECENTVIEW = false;
         HOMEPAGERESPONSE.SORTBYALPHABETICALVIEW = true;
+        HOMEPAGERESPONSE.UNREADFEEDCOUNT = 0;
         protocall.home.initHomePage();
     },
     sortyByCarrierRecnetView: function () {
@@ -1512,7 +2132,14 @@ protocall.view = {
 
     },
     loadProfile: function ($el) {
-        var html = '<div><div class="prof-view-overlay snap myProfileView" data-type="myProfileView">My Profile</div><div class="prof-view-overlay snap mysettings" data-type="mysettings">Settings</div>'
+        var settings = "";
+        if (localStorage.LoginType == 'Representatives') {
+            settings = '<div id="mysettings" class="prof-view-overlay snap mysettings" data-type="mysettings" style="display:none;">Settings</div>';
+        } else {
+            settings = '<div id="mysettings" class="prof-view-overlay snap mysettings" data-type="mysettings">Settings</div>';
+        }
+        var html = '<div><div class="prof-view-overlay snap myProfileView" data-type="myProfileView">My Profile</div>'
+                + settings
                 + '<div class="prof-view-overlay">Help</div><div class="prof-view-overlay snap" data-type="logout-yes">Log out</div></div>';
         popUpContent.togglePopUpContent($el, html);
     },
@@ -1570,13 +2197,11 @@ protocall.view = {
         $('#id-agency-view-load').css("color", "white");
         $('.settings-vendor-bar').css("background-color", "#ccc");
         $('#id-preferred-vendors-view-load').css("color", "black");
-        $('.success').css("visibility", "hidden");
-        $('.error').css("visibility", "hidden");
-        if (IsVendorDataChanged === true) {
-            editVendorSaveData();
-            IsVendorDataChanged = false;
-        }
+        $('.success').css("display", "none");
+        $('.error').css("display", "none");
         REFERENCE_TYPE = "agency_info";
+
+
 
 
         $(".agency-view-block").css({
@@ -1600,6 +2225,11 @@ protocall.view = {
         $(".addvendor-bar").css({
             'display': 'none'
         });
+
+        if (IsVendorDataChanged === true) {
+            editVendorSaveData();
+            IsVendorDataChanged = false;
+        }
     },
     LoadPreferrredvendorInfo: function () {
 
@@ -1684,11 +2314,53 @@ protocall.view = {
         var password = $('#password').val();
         var login = "yes";
 
-        page = "login";
-        var data = {employeeType: "agencyowner", userId: email, password: password, agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"};
-        callback = utils.server.gotloginresponse;
-        deepPath = "employeeauthentication";
-        utils.server.makeServerCall(page, data, callback, deepPath);
+        localStorage.setItem("LOGIN_LABEL", label);
+        var type = localStorage.LoginType;
+
+        // alert(type);
+        if (type == undefined) {
+            var type = "Admin";
+            localStorage.LoginType = "Admin";
+        }
+
+        var EmployeeType = "";
+
+        if (label == "Agency") {
+            if (type == "Admin") {
+                EmployeeType = "agencyowner";
+            } else if (type == "Representatives") {
+                EmployeeType = "agencyrepresentative";
+            }
+        }
+        else if (label == "Carriers") {
+            if (type == "Representatives") {
+                EmployeeType = "carrierrepresentative";
+            } else if (type == "Admin") {
+                EmployeeType = "carrierowner";
+            }
+        }
+
+        //  alert(EmployeeType);
+        if (label == "Agency") {
+
+            var data = {employeeType: EmployeeType, userId: email, password: password, agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"};
+            var page = "login";
+            var callback = utils.server.gotloginresponse;
+            var deepPath = "employeeauthentication";
+            utils.server.makeServerCall(page, data, callback, deepPath);
+        }
+        if (label == "Carriers") {
+            // alert(EmployeeType);
+            // var data = {employeeType: EmployeeType, userId: "aravind.m@tringapps.com", password: "aravind", carrierId: "559c0339-22b3-460d-9893-a4d7e1413055"};
+            var data = {employeeType: EmployeeType, userId: email, password: password, carrierId: "559c0339-22b3-460d-9893-a4d7e1413055"};
+            var page = "login";
+            var callback = utils.server.gotloginresponse;
+            var deepPath = "employeeauthentication";
+            utils.server.makeServerCall(page, data, callback, deepPath);
+
+        }
+
+
     },
     LogoutAuthenticateYes: function () {
         popUpContent.closePopUpContent();
@@ -1722,8 +2394,14 @@ protocall.view = {
     /*Added by Naveen -- Start*/
     /*Naveen Chnages 19-2-2015 start */
     staticPhotOverlayDisplay: function (e) {
-        var currentTarget = $(e.currentTarget);
-        var photoCountValue = currentTarget.find("span.doc-count.doc-count-placement").text();
+        var currentTarget = $(e.currentTarget), photoCountValue = 0;
+        var currentTargetName = currentTarget.attr("name");
+        if (HOMEPAGERESPONSE.ISVIEWALERTVALUECLICKED && currentTargetName == "photosDocView") {
+            photoCountValue = currentTarget.find("div.file-count.inline-block").text();
+			HOMEPAGERESPONSE.RELATEDFEEDSLOADED = false;
+        } else {
+            photoCountValue = currentTarget.find("span.doc-count.doc-count-placement").text();
+        }
         if (photoCountValue == 0) {
             e.stopPropagation();
             //return true;
@@ -1744,8 +2422,17 @@ protocall.view = {
         }
     },
     staticAudioOverlayDisplay: function (e) {
-        var currentTarget = $(e.currentTarget);
-        var audioCountValue = currentTarget.find("span.doc-count.doc-count-placement").text();
+        console.log("staticAudioOverlayDisplay");
+        var currentTarget = $(e.currentTarget), audioCountValue = 0;
+        var currentTargetName = currentTarget.attr("name");
+        console.log("staticAudioOverlayDisplay currentTarget", currentTarget);
+        if (HOMEPAGERESPONSE.ISVIEWALERTVALUECLICKED && currentTargetName == "voiceDocView") {
+            audioCountValue = currentTarget.find("div.file-count.inline-block").text();
+			HOMEPAGERESPONSE.RELATEDFEEDSLOADED = false;
+        } else {
+            audioCountValue = currentTarget.find("span.doc-count.doc-count-placement").text();
+        }
+        console.log("staticAudioOverlayDisplay audioCountValue", audioCountValue);
         if (audioCountValue == 0) {
             return true;
         } else {
@@ -1760,8 +2447,14 @@ protocall.view = {
     /*Naveen 23-2-2015 Changes Start */
     staticDocumentOverlayDisplay: function (e) {
         console.log("staticDocumentOverlayDisplay currentTarget", $(e.currentTarget));
-        var currentTarget = $(e.currentTarget);
-        var docCountValue = currentTarget.find("span.doc-count.doc-count-placement").text();
+        var currentTarget = $(e.currentTarget), docCountValue = 0;
+        var currentTargetName = currentTarget.attr("name");
+        if (HOMEPAGERESPONSE.ISVIEWALERTVALUECLICKED && currentTargetName == "textDocView") {
+            docCountValue = currentTarget.find("div.file-count.inline-block").text();
+			HOMEPAGERESPONSE.RELATEDFEEDSLOADED = false;
+        } else {
+            docCountValue = currentTarget.find("span.doc-count.doc-count-placement").text();
+        }
         console.log("docCountValue", docCountValue);
         if (docCountValue == 0) {
             return true;
@@ -1789,13 +2482,44 @@ protocall.view = {
     LoadAgencyEdit: function () {
         editDataInfo();
     },
-    matchReleaseClaimAlert: function () {
-        var html = staticTemplate.home.matchReleaseClaimTemplate();
-        overlay.displayOverlay(html);
+    matchReleaseClaimAlert: function (e) {
+        /* var policyInput = $(".policy-det-blk").find("input");
+         $.each(policyInput,function(index,value){
+         if($(this).prop("checked")){
+         console.log("input box checked",$(this).attr("id"));
+         }
+         }) */
+        var currentTarget = $(e.currentTarget);
+        currentTarget.css({"cursor": "default", "background": "#f34f4e"});
+        var incidentDate = currentTarget.find(".incidentDateSpan").text(),
+                carrierId = currentTarget.find(".carrierIdSpan").text(),
+                policyId = currentTarget.find(".policyIdSpan").text(),
+                data = {"incidentId": incidentDate, "carrierId": carrierId, "policyId": policyId
+                    , "alertId": HOMEPAGERESPONSE.COMMONUSERDETAILS.alertId},
+        page = "home",
+                deepPath = "matchandrelease",
+                callback = protocall.view.matchAndOrReleaseClaim;
+        var resp = utils.server.makeServerCall(page, data, callback, deepPath);
+    },
+    matchAndOrReleaseClaim: function (result) {
+        console.log("matchAndOrReleaseClaim>>>>>>>>>>>>>>>>", result);
+        if (result.resultMap.TypeCode == "4038") {
+            var html = staticTemplate.home.matchReleaseClaimTemplate();
+            overlay.displayOverlay(html);
+
+        } else {
+            return false;
+        }
+        /* var html = staticTemplate.home.matchReleaseClaimTemplate();
+         overlay.displayOverlay(html); */
     },
     loadInviteReps: function () {
         var html = staticTemplate.myreps.inviteRepsTemplate();
         overlay.displayOverlay(html);
+    },
+    sendInviteReps: function () {
+
+        protocall.InviteRep.sendemailinvite();
     },
     loadAssignToReps: function () {
         var html = staticTemplate.home.assignToRepTemplate();
@@ -2268,14 +2992,111 @@ protocall.view = {
         onplayhead = true;
         //window.addEventListener('mousemove', protocall.view.moveplayhead, true);
         music.removeEventListener('timeupdate', protocall.view.timeUpdate(music, pButton, pButton2), false);
+    },
+    searchUserDetails: function (searchText) {
+        console.log("searchText", searchText);
+        var data = {"name": searchText},
+        deepPath = "globalsearchusingsearchapi",
+                page = "home",
+                callback = protocall.view.searchResults;
+        var resp = utils.server.makeServerCall(page, data, callback, deepPath);
+
+    },
+    searchResults: function (result) {
+        console.log("result>>>>>>>>>>", result);
+        $("#searchBarDiv").show();
+        var resultValueHTML = "";
+        if (result.resultMap.TypeCode == "4012") {
+            resultValueHTML += '<li style="margin:10px;cursor:default;padding:10px;">'
+                    + '<p class="searchItemUserName" style="color:#585858" class="opensans-regular f-sz-16">No Search Result Found</p>'
+                    + '</li>';
+            $("#searchResultUL").html($(resultValueHTML));
+        } else {
+            var matchedResultValue = result.resultMap.MatchedDocumentList;
+            console.log("matchedResultValue>>>>>>>>>>>>", matchedResultValue.length);
+            $.each(matchedResultValue, function (index, resultValue) {
+                resultValueHTML += '<li style="margin:10px;cursor:pointer;border-bottom: 1px solid #d4d4d4;padding:10px;" id="searchItem_' + index + '" class="snap" data-type="selectedSearchItem">'
+                        + '<p class="searchItemUserName" style="color:#585858" class="opensans-regular f-sz-16">' + resultValue.firstName + '</p>'
+                        + '<p class="opensans-regular f-sz-12 searchItemRole" style="margin-bottom: 5px;">' + resultValue.role + '</p>'
+                        + '<p class="searchItemEmail" style="display:none">' + resultValue.emailId + '</p>'
+                        + '</li>';
+            });
+            $("#searchResultUL").append($(resultValueHTML));
+            $("#searchResultUL li:last-child").css("border-bottom", "none");
+        }
+    },
+    showSearchResult: function (e) {
+        var currentTarget = $(e.currentTarget);
+        console.log("currentTarget showSearchResult", currentTarget);
+        var userEmailId = currentTarget.find("p.searchItemEmail").text();
+        var userName = currentTarget.find("p.searchItemUserName").text();
+        var userRole = currentTarget.find("p.searchItemRole").text();
+        $(".search-ip").val(userName, +'&nbsp' + userRole);
+        $("#searchBarDiv").hide();
+        var data = {"emailId": userEmailId, "role": userRole},
+        deepPath = "detailsofretrieveduserfromglobalsearch",
+                page = "home",
+                callback = protocall.view.showUserDetails;
+        var resp = utils.server.makeServerCall(page, data, callback, deepPath);
+    },
+    showUserDetails: function (result) {
+        console.log("showUserDetails result>>>>>>>>>>>>>>>>", result);
+        $(".content-holder").empty();
+        $(".content-holder").addClass("spinner1");
+        $(".content-holder").css("opacity", "0.5");
+        var requiredUserDetails = result.resultMap.RequiredDetails, requiredUserEmailId = "";
+        var requiredUserCarrierId = result.resultMap.RequiredDetails.carrierId;
+        var givenRole = result.resultMap.GivenRole;
+        if (givenRole == "agencyrepresentative") {
+            requiredUserEmailId = result.resultMap.RequiredDetails.agencyRepresentativeId.email;
+        } else if (givenRole == "carrierrepresentative") {
+            requiredUserEmailId = result.resultMap.RequiredDetails.carrierRepresentativeId.email;
+        } else {
+            requiredUserEmailId = result.resultMap.RequiredDetails.emailId.email;
+        }
+        /* if(result.resultMap.RequiredDetails.agencyRepresentativeId !== undefined){
+         requiredUserEmailId = result.resultMap.RequiredDetails.agencyRepresentativeId.email;
+         } else if(result.resultMap.RequiredDetails.carrierRepresentativeId !== undefined){
+         requiredUserEmailId = result.resultMap.RequiredDetails.carrierRepresentativeId.email;
+         } else {
+         requiredUserEmailId = result.resultMap.RequiredDetails.emailId.email;
+         } */
+        /* if(result.resultMap.RequiredDetails.emailId !== undefined){
+         $(".content-holder").addClass("spinner1");
+         $(".content-holder").css("opacity", "0.5");
+         var requiredUserEmailId = result.resultMap.RequiredDetails.emailId.email;
+         protocall.customer.loadCustomersViewFeed(requiredUserEmailId, requiredUserCarrierId);
+         } else {
+         return;
+         } */
+        protocall.customer.loadCustomersViewFeed(requiredUserEmailId, requiredUserCarrierId);
+        console.log("requiredUserDetails>>>>>>>>>>>>", requiredUserDetails.length);
+
     }
 };
 protocall.home = {
     /*Naveen 19-2-2015 Chnage start*/
     initHomePage: function () {
-		console.log("HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE.length",HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE.length);
-		if (HOMEPAGERESPONSE.SORTBYALPHABETICALVIEW || HOMEPAGERESPONSE.SORYBYRECENTVIEW || HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED || HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED) {
+
+        if (localStorage.getItem("LOGIN_LABEL") == "Agency") {
+            var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"};
+            var path = utils.server.getServerPath("agencydashboarddesign");
+            var request = path(data).execute(function (resp) {
+                if (resp.error) {
+                    t.server.handleError(resp);
+                } else {
+                    localStorage.setItem("customers_data", JSON.stringify(resp.resultMap.userTab));
+                    localStorage.setItem("users", JSON.stringify(resp.resultMap.carrierTab));
+                }
+            });
+        }
+        // alert("home");
+        localStorage.setItem("SUBMENU", "HOME_PAGE");
+        //protocall.displaySpinner(false);
+        console.log("HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE.length", HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE.length);
+        if (HOMEPAGERESPONSE.SORTBYALPHABETICALVIEW || HOMEPAGERESPONSE.SORYBYRECENTVIEW || HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED || HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED || HOMEPAGERESPONSE.FEEDSICONCLICKED || HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED) {
             $(".content-holder").addClass("spinner1");
+            $(".content-holder").css("opacity", "0.5");
         } else {
             protocall.displaySpinner(true);
         }
@@ -2294,6 +3115,16 @@ protocall.home = {
             deepPath = "filterfeedbyalertdate";
         }
         var resp = utils.server.makeServerCall(page, data, callback, deepPath);
+
+
+        var page = "carriers";
+        var data = {},
+                deepPath = "carrierdashboarddesign",
+                page = "home",
+                callback = protocall.carrier.getresponsecarrieragency,
+                authId = "",
+                spinnerMsg = "";
+        utils.server.makeServerCall(page, data, callback, deepPath);
     },
     loadViewArchivedFeedsResponse: function (dataValue) {
         console.log("loadViewArchivedFeedsResponse", dataValue);
@@ -2358,27 +3189,67 @@ protocall.home = {
         protocall.util.viewingHomePageData(data);
     },
     loadingAlertFeeds: function (pageNumber, deepPath, page) {
-        var data = {"pageNumber": pageNumber};
+		var data = {"pageNumber": pageNumber};
         callback = protocall.home.loadingHomePageFeeds;
         var resp = utils.server.makeServerCall(page, data, callback, deepPath);
     },
     loadingHomePageFeeds: function (data, page) {
         protocall.util.viewingHomePageData(data);
     },
-    loadFeed: function (currentTarget) {
-        var html = staticTemplate.home.staticFeedViewTemplate(HOMEPAGERESPONSE.RECURRINGALERTDFEEDS, currentTarget);
+    loadFeed: function (tempObj) {
         $(".content-holder").empty();
+        $(".content-holder").css("opacity", "0.5");
+        $(".content-holder").addClass("spinner1");
+        var data = {
+            "userId": tempObj.userEmail,
+            "alertId": tempObj.alertId
+        },
+        deepPath = "clickonalertfeed",
+                page = "home",
+                callback = protocall.home.loadViewRelatedFeeds;
+        var resp = utils.server.makeServerCall(page, data, callback, deepPath);
+        var html = staticTemplate.home.staticFeedViewTemplate(tempObj);
         $(".content-holder").append($(html));
-        var totalHTML = "";
-        var totalLen = 1;
-        /* for (var h = 0; h < totalLen; h++) {
-         var template = staticTemplate.home.staticFeedTemplate(HOMEPAGERESPONSE.RECURRINGALERTDFEEDS);
-         totalHTML = totalHTML + template;
-         } */
-        /* var template = staticTemplate.home.staticFeedTemplate(HOMEPAGERESPONSE.RECURRINGALERTDFEEDS,currentTarget);
-         totalHTML = totalHTML + template; */
+    },
+    loadViewRelatedFeeds: function (dataValue) {
+        var policyDetailsValues = {}, insurancePolicyDetails = "";
+        HOMEPAGERESPONSE.ISVIEWALERTVALUECLICKED = true;
+        CONSTANTS.HASNEXTPAGE = false;
+        console.log("responseData>>>>>>>>>>>>", dataValue);
+        var feedHTML = "";
+        if (dataValue.resultMap.TypeCode !== "undefined" && dataValue.resultMap.TypeCode == "4011") {
+            if (dataValue.resultMap.RelatedFeeds !== "undefined" && dataValue.resultMap.RelatedFeeds.length !== "undefined" && dataValue.resultMap.RelatedFeeds.length !== 0) {
+				var relatedFeedsValue = dataValue.resultMap.RelatedFeeds;
+				HOMEPAGERESPONSE.RELATEDFEEDS = dataValue.resultMap.RelatedFeeds;
+				HOMEPAGERESPONSE.RELATEDFEEDSLOADED = true;
+                policyDetailsValues = dataValue.resultMap.PoliciesDetails;
+                if (policyDetailsValues !== "undefined" && policyDetailsValues.length !== 0) {
+                    $.each(policyDetailsValues, function (index, policyDetail) {
+                        insurancePolicyDetails += staticTemplate.home.insurencePolicyDetails(policyDetail);
+                    });
+                    $(".policy-main-blk").empty();
+                    $(".policy-main-blk").append($(insurancePolicyDetails));
+                }
+                console.log("policyDetailsValues>>>>>>>>>>>>", policyDetailsValues);
+                $.each(relatedFeedsValue, function (index, alertDetailsValue) {
+                    console.log("alertDetailsValue.alertDetails index", alertDetailsValue.alertDetails.length);
+                    var alertType = alertDetailsValue.alertDetails.type;
+                    feedHTML += template.viewRelatedFeeds(alertDetailsValue, alertType);
+                    /* if (alertType == "incidentalert") {
+                     feedHTML += template.incidentAlertFeedHMLT(alertDetailsValue, alertType);
+                     } else {
+                     feedHTML += template.policyAlertFeedHMLT(alertDetailsValue, alertType);
+                     } */
+                });
+                console.log("policyDetailsValues.length", policyDetailsValues.length);
+                $(".content-holder").removeClass("spinner1");
+                $(".content-holder").css("opacity", "1");
+            }
+        }
         $(".rel-feeds-content").empty();
-        $(".rel-feeds-content").append($(totalHTML));
+        $(".rel-feeds-content").append($(feedHTML));
+        /* $(".rel-feeds-content").find("div.feed-user-pic-box").css({"width": "80px", "positon": "relative", "margin-left": "auto", "margin-right": "auto", "background": "#fff", "border": "2px solid #b9b8b8", "color": "#fff", "overflow": "hidden", "height": "67px"});
+         $(".rel-feeds-content").find(".feed-user-pic-box img").css({"width": "100%", "positon": "absolute", "margin": "auto", "top": "0", "right": "0", "left": "0", "bottom": "0", "height": "100%"}); */
     },
     displayMyAlertsFeeds: function () {
         HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED = true;
@@ -2428,17 +3299,58 @@ protocall.home = {
     /*Naveen 19-2-2015 Chnage end*/
 };
 protocall.carrier = {
+    getresponsecarrieragency: function (data) {
+        localStorage.setItem("CARRIERAGENCYTOTALDETAILS", JSON.stringify(data));
+    },
+    initAgenciesPage: function () {
+        localStorage.setItem("SUBMENU", "AGENICES_PAGE");
+        CustomerdynamicTemplate.customer.loadAgenciesPage(null);
+    },
+    initCarrierOwnerAgenciesPage: function () {
+        localStorage.setItem("SUBMENU", "CARRIERS_AGENCY_PAGE");
+        //   alert("o");
+        CustomerdynamicTemplate.customer.loadCarrierOwnerAgenciesPage(null);
+    },
+    initAgencyPage: function () {
+
+//        var page = "agency";
+//        var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
+//        deepPath = "agencydashboarddesign",
+//                page = "home",
+        AgencydynamicTemplate.agency.agencyDetailViewTemplate();
+//                authId = "",
+//                spinnerMsg = "";
+//        utils.server.makeServerCall(page, data, callback, deepPath);
+
+    },
     initCarrierPage: function () {
 
+        localStorage.setItem("SUBMENU", "CARRIER_PAGE");
+	localStorage.mycarvalue1 = "mysortselected";
+	localStorage.mycarvalue2 = "";
 
-        var page = "carriers";
-        var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
-        deepPath = "agencydashboarddesign",
-                page = "home",
-                callback = CarrierdynamicTemplate.carrier.loadcarriercontent,
-                authId = "",
-                spinnerMsg = "";
-        utils.server.makeServerCall(page, data, callback, deepPath);
+
+        if (localStorage.getItem("LOGIN_LABEL") == "Agency") {
+            var page = "carriers";
+            var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
+            deepPath = "agencydashboarddesign",
+                    page = "home",
+                    callback = CarrierdynamicTemplate.carrier.loadcarriercontent,
+                    authId = "",
+                    spinnerMsg = "";
+            utils.server.makeServerCall(page, data, callback, deepPath);
+        } else if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
+            //  var page = "carriers";
+            // var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
+            // deepPath = "agencydashboarddesign",
+            //   page = "home",
+            CarrierdynamicTemplate.carrier.loadcarriercontent();
+
+            // authId = "",
+            //spinnerMsg = "";
+            //utils.server.makeServerCall(page, data, callback, deepPath);
+        }
+
 
     },
     initCarrierPageSort: function () {
@@ -2454,30 +3366,348 @@ protocall.carrier = {
         utils.server.makeServerCall(page, data, callback, deepPath);
 
     },
-    loadAssociatedReps: function () {
-        var totalHTML = "";
+    loadCarrierAdminAssociatedCustomers: function () {
+
+        var totalHTML = "<div>No Records </div>";
         var resp = JSON.parse(localStorage.getItem("ASSOCIATEFEED"));
-        console.log(resp);
 
-        for (var index = 0; index < resp.resultMap.AssociatedRepresentatives.length; index++) {
-            var name = resp.resultMap.AssociatedRepresentatives[index].name;
-            var location = resp.resultMap.AssociatedRepresentatives[index].location;
-            var email = resp.resultMap.AssociatedRepresentatives[index].carrierRepresentativeId.email;
-            var carrierid = resp.resultMap.AssociatedRepresentatives[index].carrierId;
-            // var image = resp.resultMap.AssociatedRepresentatives[index].email;
+        //$("#id-carrierassociatedblock").html('');
+        //    $("#id-carrierassociatedblock").append(totalHTML);
 
-            // alert(name);
-            if (name == undefined) {
-                name = "";
-            }
-            if (location == undefined) {
-                location = "";
-            }
-            if (email == undefined) {
-                email = "";
-            }
+        try {
+            if (resp.resultMap.AssociatedCustomers.length != undefined) {
+                if (resp.resultMap.AssociatedCustomers.length > 0) {
+                    totalHTML = "";
+                }
+                for (var index = 0; index < resp.resultMap.AssociatedCustomers.length; index++) {
 
-            var image = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                    var name = resp.resultMap.AssociatedCustomers[index].firstName;
+                    // alert(name);
+                    var location = resp.resultMap.AssociatedCustomers[index].residentialCity + "," + resp.resultMap.agencyTab[0].associatedCustomers[index].residentialState;
+                    var email = resp.resultMap.AssociatedCustomers[index].emailId.email;
+                    var carrierid = resp.resultMap.AssociatedCustomers[index].carrierId;
+                    var image = resp.resultMap.AssociatedCustomers[index].profilePicture;
+
+                    // alert(name);
+                    if (name == undefined) {
+                        name = "";
+                    }
+                    if (location == undefined) {
+                        location = "";
+                    }
+                    if (email == undefined) {
+                        email = "";
+                    }
+
+                    // var image = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                    if (image == undefined) {
+                        image = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                    } else {
+                        image = "https://proto-call-test.appspot.com/file/" + image;
+
+                    }
+//rep id
+
+                    var associateBlock = '<div id=' + email + '  value=' + carrierid + ' class="carrier-feed-associated-view mycustomerView left p-relative" data-type="dt-viewcustomerfeedview"> <div class="border-all p-relative"> <div class="associated-background p-relative">'
+                            + '<div class="associated-carrier-pic inline-block "> <img src=' + image + ' '
+                            + 'alt="" class="carrier-img-width"> '
+                            + '</div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> '
+                            + '<div class="carrier-name t-caps t-left">' + name + '</div> '
+                            + '<div class="carrier-location t-caps t-left">' + location + '</div> '
+                            + '<div class="carrier-location t-caps t-left"><a href="mailto:' + email + '">' + email + '</a></div></div> </div> </div> </div>';
+
+                    totalHTML += associateBlock;
+                }
+            }
+        } catch (err) {
+            totalHTML = "<div>No Records </div>";
+        }
+
+//        alert(totalHTML);
+        $("#id-carrierassociatedblock").html('');
+        $("#id-carrierassociatedblock").append(totalHTML);
+//            }
+//        });
+    },
+    loadCarrierAdminAssociatedRep: function () {
+
+        var totalHTML = "<div>No Records </div>";
+        var resp = JSON.parse(localStorage.getItem("ASSOCIATEFEED"));
+
+        //$("#id-carrierassociatedblock").html('');
+        //    $("#id-carrierassociatedblock").append(totalHTML);
+
+        try {
+            if (resp.resultMap.AssociatedRepresentatives.length != undefined) {
+                if (resp.resultMap.AssociatedRepresentatives.length > 0) {
+                    totalHTML = "";
+                }
+                for (var index = 0; index < resp.resultMap.AssociatedRepresentatives.length; index++) {
+
+                    var name = resp.resultMap.AssociatedRepresentatives[index].name;
+                    // alert(name);
+                    var location = resp.resultMap.AssociatedRepresentatives[index].location;
+                    var email = resp.resultMap.AssociatedRepresentatives[index].emailId.email;
+                    var carrierid = resp.resultMap.AssociatedRepresentatives[index].carrierRepresentativeId.email;
+                    //  var image = resp.resultMap.AssociatedRepresentatives[index].profilePicture;
+
+                    var image = undefined;
+
+                    // alert(name);
+                    if (name == undefined) {
+                        name = "";
+                    }
+                    if (location == undefined) {
+                        location = "";
+                    }
+                    if (email == undefined) {
+                        email = "";
+                    }
+
+                    // var image = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                    if (image == undefined) {
+                        image = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                    } else {
+                        image = "https://proto-call-test.appspot.com/file/" + image;
+
+                    }
+//rep id
+
+                    var associateBlock = '<div id=' + email + '  value=' + carrierid + ' class="carrier-feed-associated-view mycustomerView left p-relative" data-type="dt-viewcustomerfeedview"> <div class="border-all p-relative"> <div class="associated-background p-relative">'
+                            + '<div class="associated-carrier-pic inline-block "> <img src=' + image + ' '
+                            + 'alt="" class="carrier-img-width"> '
+                            + '</div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> '
+                            + '<div class="carrier-name t-caps t-left">' + name + '</div> '
+                            + '<div class="carrier-location t-caps t-left">' + location + '</div> '
+                            + '<div class="carrier-location t-caps t-left"><a href="mailto:' + email + '">' + email + '</a></div></div> </div> </div> </div>';
+
+                    totalHTML += associateBlock;
+                }
+            }
+        } catch (err) {
+            totalHTML = "<div>No Records </div>";
+        }
+
+//        alert(totalHTML);
+        $("#id-carrierassociatedblock").html('');
+        $("#id-carrierassociatedblock").append(totalHTML);
+//            }
+//        });
+    },
+    loadCarrierAssociatedCustomers: function () {
+
+        var totalHTML = "<div>No Records </div>";
+        var resp = JSON.parse(localStorage.getItem("carrierrepcustomers_data"));
+
+        //$("#id-carrierassociatedblock").html('');
+        //    $("#id-carrierassociatedblock").append(totalHTML);
+
+        try {
+            if (resp.resultMap.agencyTab[0].associatedCustomers.length != undefined) {
+                if (resp.resultMap.agencyTab[0].associatedCustomers.length > 0) {
+                    totalHTML = "";
+                }
+                for (var index = 0; index < resp.resultMap.agencyTab[0].associatedCustomers.length; index++) {
+
+                    var name = resp.resultMap.agencyTab[0].associatedCustomers[index].firstName;
+                    // alert(name);
+                    var location = resp.resultMap.agencyTab[0].associatedCustomers[index].residentialCity + "," + resp.resultMap.agencyTab[0].associatedCustomers[index].residentialState;
+                    var email = resp.resultMap.agencyTab[0].associatedCustomers[index].emailId.email;
+                    var carrierid = resp.resultMap.agencyTab[0].associatedCustomers[index].carrierId;
+                    var image = resp.resultMap.agencyTab[0].associatedCustomers[index].profilePicture;
+
+                    // alert(name);
+                    if (name == undefined) {
+                        name = "";
+                    }
+                    if (location == undefined) {
+                        location = "";
+                    }
+                    if (email == undefined) {
+                        email = "";
+                    }
+
+                    // var image = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                    if (image == undefined) {
+                        image = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                    } else {
+                        image = "https://proto-call-test.appspot.com/file/" + image;
+
+                    }
+//rep id
+
+                    var associateBlock = '<div id=' + email + '  value=' + carrierid + ' class="carrier-feed-associated-view mycustomerView left p-relative" data-type="dt-viewcustomerfeedview"> <div class="border-all p-relative"> <div class="associated-background p-relative">'
+                            + '<div class="associated-carrier-pic inline-block "> <img src=' + image + ' '
+                            + 'alt="" class="carrier-img-width"> '
+                            + '</div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> '
+                            + '<div class="carrier-name t-caps t-left">' + name + '</div> '
+                            + '<div class="carrier-location t-caps t-left">' + location + '</div> '
+                            + '<div class="carrier-location t-caps t-left"><a href="mailto:' + email + '">' + email + '</a></div></div> </div> </div> </div>';
+
+                    totalHTML += associateBlock;
+                }
+            }
+        } catch (err) {
+            totalHTML = "<div>No Records </div>";
+        }
+
+//        alert(totalHTML);
+        $("#id-carrierassociatedblock").html('');
+        $("#id-carrierassociatedblock").append(totalHTML);
+//            }
+//        });
+    },
+    loadCarrierAssociatedReps: function () {
+        var totalHTML = "<div>No Records </div>";
+        var resp = JSON.parse(localStorage.getItem("carrierrepcustomers_data"));
+
+        //$("#id-carrierassociatedblock").html('');
+        //    $("#id-carrierassociatedblock").append(totalHTML);
+        try {
+            if (resp.resultMap.agencyTab[0].associatedRepresentative.length != undefined) {
+                if (resp.resultMap.agencyTab[0].associatedRepresentative.length > 0) {
+                    totalHTML = "";
+                }
+                for (var index = 0; index < resp.resultMap.agencyTab[0].associatedRepresentative.length; index++) {
+
+                    var name = resp.resultMap.agencyTab[0].associatedRepresentative[index].name;
+                    var location = resp.resultMap.agencyTab[0].associatedRepresentative[index].location;
+                    var email = resp.resultMap.agencyTab[0].associatedRepresentative[index].agencyRepresentativeId.email;
+                    var carrierid = resp.resultMap.agencyTab[0].associatedRepresentative[index].agencyId;
+                    var image = resp.resultMap.agencyTab[0].associatedRepresentative[index].profilePicture;
+
+                    // alert(name);
+                    if (name == undefined) {
+                        name = "";
+                    }
+                    if (location == undefined) {
+                        location = "";
+                    }
+                    if (email == undefined) {
+                        email = "";
+                    }
+
+                    // var image = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                    if (image == undefined) {
+                        image = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                    } else {
+                        image = "https://proto-call-test.appspot.com/file/" + image;
+
+                    }
+//rep id
+
+                    var associateBlock = '<div id=' + email + '  value=' + carrierid + '  class="carrier-feed-associated-view   left p-relative" data-type="dt-assigncustomer"> <div class="border-all p-relative"> <div class="associated-background p-relative">'
+                            + '<div class="associated-carrier-pic inline-block "> <img src=' + image + ' '
+                            + 'alt="" class="carrier-img-width"> '
+                            + '</div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> '
+                            + '<div class="carrier-name t-caps t-left">' + name + '</div> '
+                            + '<div class="carrier-location t-caps t-left">' + location + '</div> '
+                            + '<div class="carrier-location t-caps t-left"><a href="mailto:' + email + '">' + email + '</a></div></div> </div> </div> </div>';
+
+                    totalHTML += associateBlock;
+                }
+            }
+        } catch (err) {
+            totalHTML = "<div>No Records </div>";
+        }
+
+//        alert(totalHTML);
+        $("#id-carrierassociatedblock").html('');
+        $("#id-carrierassociatedblock").append(totalHTML);
+    },
+    loadAssociatedAgencies: function () {
+        var totalHTML = "<div>No Records </div>";
+        var resp = JSON.parse(localStorage.getItem("carrierrepcustomers_data"));
+
+        //$("#id-carrierassociatedblock").html('');
+        //    $("#id-carrierassociatedblock").append(totalHTML);
+        try {
+            if (resp.resultMap.customerTab.length != undefined) {
+                if (resp.resultMap.customerTab.length > 0) {
+                    totalHTML = "";
+                }
+                for (var index = 0; index < resp.resultMap.customerTab.length; index++) {
+
+                    var name = resp.resultMap.customerTab[index].associatedAgency.agencyName;
+                    var location = resp.resultMap.customerTab[index].associatedAgency.city + "," + resp.resultMap.customerTab[index].associatedAgency.state;
+                    var email = resp.resultMap.customerTab[index].associatedAgency.emailId.email;
+                    var carrierid = resp.resultMap.customerTab[index].associatedAgency.carrierAgencyId;
+                    var image = resp.resultMap.customerTab[index].associatedAgency.agencyLogo;
+
+                    // alert(name);
+                    if (name == undefined) {
+                        name = "";
+                    }
+                    if (location == undefined) {
+                        location = "";
+                    }
+                    if (email == undefined) {
+                        email = "";
+                    }
+
+                    // var image = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                    if (image == undefined) {
+                        image = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                    } else {
+                        image = "https://proto-call-test.appspot.com/file/" + image;
+
+                    }
+//rep id
+
+                    var associateBlock = '<div id=' + email + '  value=' + carrierid + ' class="carrier-feed-associated-view myagenciesView left p-relative" data-type="viewagenciesfeedview"> <div class="border-all p-relative"> <div class="associated-background p-relative">'
+                            + '<div class="associated-carrier-pic inline-block "> <img src=' + image + ' '
+                            + 'alt="" class="carrier-img-width"> '
+                            + '</div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> '
+                            + '<div class="carrier-name t-caps t-left">' + name + '</div> '
+                            + '<div class="carrier-location t-caps t-left">' + location + '</div> '
+                            + '<div class="carrier-location t-caps t-left"><a href="mailto:' + email + '">' + email + '</a></div></div> </div> </div> ';
+
+                    totalHTML += associateBlock;
+                }
+            }
+        } catch (err) {
+            totalHTML = "<div>No Records </div>";
+        }
+
+//        alert(totalHTML);
+        $("#id-carrierassociatedblock").html('');
+        $("#id-carrierassociatedblock").append(totalHTML);
+//            }
+//        });
+    },
+    loadAssociatedReps: function () {
+        var totalHTML = "<div>No Records </div>";
+        var resp = JSON.parse(localStorage.getItem("ASSOCIATEFEED"));
+
+
+        //$("#id-carrierassociatedblock").html('');
+        //    $("#id-carrierassociatedblock").append(totalHTML);
+        try {
+            if (resp.resultMap.AssociatedRepresentatives.length != undefined) {
+                if (resp.resultMap.AssociatedRepresentatives.length > 0) {
+                    totalHTML = "";
+                }
+                for (var index = 0; index < resp.resultMap.AssociatedRepresentatives.length; index++) {
+
+                    var name = resp.resultMap.AssociatedRepresentatives[index].name;
+                    var location = resp.resultMap.AssociatedRepresentatives[index].location;
+                    var email = resp.resultMap.AssociatedRepresentatives[index].carrierRepresentativeId.email;
+                    var carrierid = resp.resultMap.AssociatedRepresentatives[index].carrierId;
+                    // var image = resp.resultMap.AssociatedRepresentatives[index].email;
+
+                    // alert(name);
+                    
+                    if (name == undefined) {
+                        name = "";
+                    }
+                    if (location == undefined) {
+                        location = "";
+                    }
+                    if (email == undefined) {
+                        email = "";
+                    }
+
+                    var image = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
 //                    if (image == undefined) {
 //                        image = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
 //                    } else {
@@ -2486,44 +3716,55 @@ protocall.carrier = {
 //                    }
 //rep id
 
-            var associateBlock = '<div id=' + carrierid + '  class="carrier-feed-associated-view  carrier-feed-assigntocustomeroverlay-view left p-relative" data-type="dt-assigncustomer"> <div class="border-all p-relative"> <div class="associated-background p-relative">'
-                    + '<div class="associated-carrier-pic inline-block "> <img src=' + image + ' '
-                    + 'alt="" class="carrier-img-width"> '
-                    + '</div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> '
-                    + '<div class="carrier-name t-caps t-left">' + name + '</div> '
-                    + '<div class="carrier-location t-caps t-left">' + location + '</div> '
-                    + '<div class="carrier-location t-caps t-left">' + email + '</div></div> </div> </div> </div> ';
+                    var associateBlock = '<div id=' + carrierid + '  class="carrier-feed-associated-view  carrier-feed-assigntocustomeroverlay-view left p-relative" data-type="dt-assigncustomer"> <div class="border-all p-relative"> <div class="associated-background p-relative">'
+                            + '<div class="associated-carrier-pic inline-block "> <img src=' + image + ' '
+                            + 'alt="" class="carrier-img-width"> '
+                            + '</div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> '
+                            + '<div class="carrier-name t-caps t-left">' + name + '</div> '
+                            + '<div class="carrier-location t-caps t-left">' + location + '</div> '
+                            + '<div class="carrier-location t-caps t-left"><a href="mailto:' + email + '">' + email + '</a></div></div> </div> </div></div> ';
 
-            totalHTML += associateBlock;
+                    totalHTML += associateBlock;
+                }
+            }
+        } catch (err) {
+            totalHTML = "<div>No Records </div>";
         }
 
+//        alert(totalHTML);
         $("#id-carrierassociatedblock").html('');
         $("#id-carrierassociatedblock").append(totalHTML);
 //            }
 //        });
     },
     loadAssociatedCustomers: function () {
-        var totalHTML = "";
+        var totalHTML = "<div>No Records</div>";
         var resp = JSON.parse(localStorage.getItem("ASSOCIATEFEED"));
-        for (var index = 0; index < resp.resultMap.AssociatedCustomers.length; index++) {
-            var name = resp.resultMap.AssociatedCustomers[index].firstName;
-            var location = resp.resultMap.AssociatedCustomers[index].residentialCity;
-            var email = resp.resultMap.AssociatedCustomers[index].emailId.email;
-            var carrierid = resp.resultMap.AssociatedCustomers[index].carrierId;
-            // var image = resp.resultMap.AssociatedCustomers[index].email;
 
-            //  alert(name);
-            if (name == undefined) {
-                name = "";
-            }
-            if (location == undefined) {
-                location = "";
-            }
-            if (email == undefined) {
-                email = "";
+        try {
+            if (resp.resultMap.AssociatedCustomers.length > 1) {
+                totalHTML = "";
             }
 
-            var image = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+            for (var index = 0; index < resp.resultMap.AssociatedCustomers.length; index++) {
+                var name = resp.resultMap.AssociatedCustomers[index].firstName;
+                var location = resp.resultMap.AssociatedCustomers[index].residentialCity;
+                var email = resp.resultMap.AssociatedCustomers[index].emailId.email;
+                var carrierid = resp.resultMap.AssociatedCustomers[index].carrierId;
+                // var image = resp.resultMap.AssociatedCustomers[index].email;
+
+                //  alert(name);
+                if (name == undefined) {
+                    name = "";
+                }
+                if (location == undefined) {
+                    location = "";
+                }
+                if (email == undefined) {
+                    email = "";
+                }
+
+                var image = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
 //                    if (image == undefined) {
 //                        image = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
 //                    } else {
@@ -2531,23 +3772,51 @@ protocall.carrier = {
 //
 //                    }
 
-            var associateBlock = '<div id=' + email + '  class="carrier-feed-associated-view mycustomerView left p-relative" data-type="viewcustomerfeedview"> <div class="border-all p-relative"> <div class="associated-background p-relative">'
-                    + '<div class="associated-carrier-pic inline-block "> <img src=' + image + ' '
-                    + 'alt="" class="carrier-img-width"> '
-                    + '</div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> <div class="carrier-name t-caps t-left">' + name + '</div> '
-                    + '<div class="carrier-location t-caps t-left">' + location + '</div> '
-                    + '<div class="carrier-location t-caps t-left">' + email + '</div></div> </div> </div> </div> ';
-            totalHTML += associateBlock;
-        }
+                var associateBlock = '<div id=' + email + '  value=' + carrierid + ' class="carrier-feed-associated-view mycustomerView left p-relative" data-type="viewcustomerfeedview"> <div class="border-all p-relative"> <div class="associated-background p-relative">'
+                        + '<div class="associated-carrier-pic inline-block "> <img src=' + image + ' '
+                        + 'alt="" class="carrier-img-width"> '
+                        + '</div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> <div class="carrier-name t-caps t-left">' + name + '</div> '
+                        + '<div class="carrier-location t-caps t-left">' + location + '</div> '
+                        + '<div class="carrier-location t-caps t-left"><a href="mailto:' + email + '">' + email + '</a></div></div> </div> </div> </div> ';
+                totalHTML += associateBlock;
+            }
 
+        } catch (err) {
+            totalHTML = "<div>No Records</div>";
+        }
         $("#id-carrierassociatedblock").html('');
         $("#id-carrierassociatedblock").append(totalHTML);
 
     },
+    openSelect: function (selector) {
+        var element = $(selector)[0], worked = false;
+        if (document.createEvent) { // all browsers
+            var e = document.createEvent("MouseEvents");
+            e.initMouseEvent("mousedown", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+            worked = element.dispatchEvent(e);
+        } else if (element.fireEvent) { // ie
+            worked = element.fireEvent("onmousedown");
+        }
+        if (!worked) { // unknown browser / error
+            alert("It didn't worked in your browser.");
+        }
+    },
     loadFeed: function (Carrierid) {
 
-        var html = staticTemplate.carriers.staticCarrierFeedViewTemplate(Carrierid);
+        //var html = staticTemplate.carriers.staticCarrierFeedViewTemplate(Carrierid);
+		if(PAGEREFRESH.ISPAGEREFRESHEDFORCARRIERFEEDVIEW){
+			//HeaderTemplate.Menu.DynamicHeaderTemplate();
+			var header = HeaderTemplate.Menu.DynamicHeaderTemplate();
 
+                    var content = '<div class="container"> <div class="content-holder"></div></div></div></div>';
+                    var footer = footerDynamicTemplate.footer.DynamicFooterTemplate();
+
+                    $("#page").empty();
+                    totalHtml = header+content+footer;
+                    $("#page").append(totalHtml);
+                    //protocall.displaySpinner(false);
+                    //protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
+		}
         var totalHTML = "";
         var totalLen = 1;
         for (var h = 0; h < totalLen; h++) {
@@ -2556,36 +3825,41 @@ protocall.carrier = {
         }
 
         var dropDownContent = '<div class="associated-carrierview p-relative"> <div class="p-relative ">'
-                + '<select id="id-associatedropdown" class="associated-carrier-sort t-upper p-relative opensans-regular inline-block"><option>ASSOCIATED REPS</option><option>ASSOCIATED CUTOMERS</option></select> '
-                + '<div id="associatedownarrow" class="p-relative inline-block"> <div id="associatedownarrow" class="sprite-im drop-down-icon">&nbsp;</div> </div> </div> '
+                + '<select id="id-associatedropdown" class="associated-carrier-sort t-upper p-relative opensans-regular inline-block"><option>ASSOCIATED REPS</option><option>ASSOCIATED CUSTOMERS</option></select> '
+                + '<div id="associatedownarrow" class="p-relative inline-block"> <div id="associatedownarrow" class="id-associatedownarrow sprite-im drop-down-icon">&nbsp;</div> </div> </div> '
                 + '<div id="id-carrierassociatedblock" class="associated-carrier-feed p-relative border-bot">';
 
         totalHTML = totalHTML + dropDownContent;
 
         $(".container").addClass("container-maxwidth");
         $(".container").removeClass("container");
-        $(".rel-feeds-content").empty();
-
-        totalHTML = totalHTML + "</div>";
-        $(".rel-feeds-content").append($(totalHTML));
+		totalHTML = totalHTML + "</div>";
+		console.log("totalHTML>>>>>>>>>>>>>>>>>",totalHTML);
+		if(!(PAGEREFRESH.ISPAGEREFRESHEDFORCARRIERFEEDVIEW)){
+			$(".rel-feeds-content").empty();
+			$(".rel-feeds-content").append($(totalHTML));
+		}
         $(".content-holder").empty();
         $(".content-holder").append($(totalHTML));
 
-        if (localStorage.getItem("ASSOCIATEFEED") == null) {
+
+        localStorage.setItem("ASSOCIATEFEED", null);
+
+        if (localStorage.getItem("ASSOCIATEFEED") == "null") {
             var data = {carrierId: Carrierid};
-            var totalHTML = "";
+            //var totalHTML = "";
             var path = utils.server.getServerPath("associatedcustomerandrepresentative");
             var request = path(data).execute(function (resp) {
                 if (resp.error) {
                     t.server.handleError(resp);
                 } else {
                     localStorage.setItem("ASSOCIATEFEED", JSON.stringify(resp));
+                    protocall.carrier.loadAssociatedReps();
                 }
             });
         }
+
         protocall.carrier.loadAssociatedReps();
-
-
 
     }
 
@@ -2594,14 +3868,47 @@ protocall.carrier = {
 protocall.customer = {
     initCustomerPage: function () {
 
-        var page = "customers";
-        var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
-        deepPath = "agencydashboarddesign",
-                page = "customers",
-                callback = CustomerdynamicTemplate.customer.loadcustomercontent,
-                authId = "",
-                spinnerMsg = "";
-        utils.server.makeServerCall(page, data, callback, deepPath);
+        localStorage.setItem("SUBMENU", "CUSTOMER_PAGE");
+        localStorage.setItem("ARRAY_CUSTOMERS_LIST", "");
+	localStorage.myvalue1 = "mysortselected";
+	localStorage.myvalue2 = "";
+
+        if (localStorage.LoginType == undefined) {
+            var page = "customers";
+            var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
+            deepPath = "agencydashboarddesign",
+                    page = "customers",
+                    callback = CustomerdynamicTemplate.customer.loadcustomercontent,
+                    authId = "",
+                    spinnerMsg = "";
+            utils.server.makeServerCall(page, data, callback, deepPath);
+        }
+        if (localStorage.getItem("LOGIN_LABEL") == "Agency") {
+            if (localStorage.LoginType == 'Admin') {
+                var page = "customers";
+                var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
+                deepPath = "agencydashboarddesign",
+                        page = "customers",
+                        callback = CustomerdynamicTemplate.customer.loadcustomercontent,
+                        authId = "",
+                        spinnerMsg = "";
+                utils.server.makeServerCall(page, data, callback, deepPath);
+            }
+            if (localStorage.LoginType == 'Representatives') {
+                // alert("1");
+                CustomerdynamicTemplate.customer.loadcustomercontent(null, null);
+            }
+        } else if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
+            if (localStorage.LoginType == 'Admin') {
+                CustomerdynamicTemplate.customer.loadcarrierAdmincustomercontent(null, null);
+            }
+
+            if (localStorage.LoginType == 'Representatives') {
+                CustomerdynamicTemplate.customer.loadcarrierRepcustomercontent(null, null);
+
+            }
+        }
+
     },
     initCustomerPageSort: function () {
 
@@ -2615,7 +3922,23 @@ protocall.customer = {
         utils.server.makeServerCall(page, data, callback, deepPath);
     },
     loadCustomersViewFeed: function (emailID, carrierId) {
+		if(PAGEREFRESH.ISPAGEREFRESHEDFORCUSTOMERFEEDVIEW){
+			//HeaderTemplate.Menu.DynamicHeaderTemplate();
+			var header = HeaderTemplate.Menu.DynamicHeaderTemplate();
+
+                    var content = '<div class="container"> <div class="content-holder"></div></div></div></div>';
+                    var footer = footerDynamicTemplate.footer.DynamicFooterTemplate();
+
+                    $("#page").empty();
+                    totalHtml = header+content+footer;
+                    $("#page").append(totalHtml);
+                    //protocall.displaySpinner(false);
+                    //protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
+		}
         var data = JSON.parse(localStorage.getItem("customers_data"));
+
+
+        localStorage.setItem("ARRAY_CUSTOMERS_LIST", emailID);
 
         var html = "";
         var status = 0;
@@ -2623,7 +3946,100 @@ protocall.customer = {
             var element = data[index];
 
             if (element.emailId.email == emailID) {
+
                 html = staticTemplate.customers.staticCustomerViewTemplate(element);
+                status = 1;
+            }
+        }
+
+        if (status == 0) {
+            html = "<div> No Records </div>";
+        } else {
+            html + "</div>";
+        }
+
+
+        // var totalHTML = html;
+        $(".content-holder").empty();
+        $(".content-holder").append($(html));
+        $(".container").addClass("container-maxwidth");
+        $(".container").removeClass("container");
+		if(!(PAGEREFRESH.ISPAGEREFRESHEDFORCUSTOMERFEEDVIEW)) {
+			$(".rel-feeds-content").empty();
+			$(".rel-feeds-content").append(html);
+		}
+        if (localStorage.LoginType == 'Representatives') {
+            var Omega = '\u003E';
+            $(".mb-submenu-in").empty();
+            $(".mb-submenu-in").append("<div class=\"bcrum-lb-submenu clr-fl inline-block v-align-mid\"><a href=\"#\" class=\"carrier-headerbox  left f-sz-16 ptsans-light snap carriers t-upper p-relative f-color-green\" data-type=\"page\" data-submenu=\"customers\"><div class=\"\"><div class=\"sprite-im carriers-icon inline-block v-align-mid mr-space-10 \"> </div>"
+                    + "<span class=\"sub-menu-text inline-block v-align-mid\"> CUSTOMERS </span><span id=\"id-carrierpage-headertext\">" + Omega + "   " + localStorage.getItem("id-customers-headername") + "</span></div></a><div class=\"bcrum-icon-blk left f-color-green f-sz-16 ptsans-light\" style=\"display:none;\">&gt;</div><a href=\"#\" class=\"snap left f-sz-16 ptsans-light feeds-customer t-caps p-relative f-color-green\" data-type=\"page\" data-submenu=\"carriers-customer\" style=\"display:none;\"></a></div>");
+        }
+        localStorage.setItem("ASSOCIATEFEED", null);
+
+        if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
+            if (localStorage.LoginType == 'Representatives') {
+
+                protocall.carrier.loadAssociatedAgencies();
+
+            }
+        } else if (localStorage.getItem("ASSOCIATEFEED") == "null") {
+            var data = {carrierId: carrierId};
+
+            var path = utils.server.getServerPath("associatedcustomerandrepresentative");
+            var request = path(data).execute(function (resp) {
+                if (resp.error) {
+                    t.server.handleError(resp);
+                } else {
+                    localStorage.setItem("ASSOCIATEFEED", JSON.stringify(resp));
+                    protocall.customer.loadAssociateCarrier(carrierId, emailID);
+                    if (localStorage.LoginType == undefined) {
+                        protocall.carrier.loadAssociatedReps();
+                    }
+                    if (localStorage.LoginType == 'Admin') {
+                        protocall.carrier.loadAssociatedReps();
+                    }
+                    if (localStorage.LoginType == 'Representatives') {
+                        protocall.customer.loadAssociateCarrier(carrierId, emailID);
+                    }
+
+                }
+            });
+        }
+
+        if (localStorage.LoginType == undefined) {
+            protocall.customer.loadAssociateCarrier(carrierId, emailID);
+            protocall.carrier.loadAssociatedReps();
+        }
+        if (localStorage.LoginType == 'Admin') {
+            protocall.customer.loadAssociateCarrier(carrierId, emailID);
+            protocall.carrier.loadAssociatedReps();
+        }
+
+
+        $(".content-holder").removeClass("spinner1");
+        $(".content-holder").css("opacity", "1");
+    },
+    loadAgenciesViewFeed: function (emailID, carrierId) {
+        var data = "";
+        if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
+            if (localStorage.LoginType == 'Admin') {
+                var response = JSON.parse(localStorage.getItem("CARRIERAGENCYTOTALDETAILS"));
+                data = response.resultMap.agencyTab;
+            }
+        } else {
+            data = JSON.parse(localStorage.getItem("agencies_data"));
+        }
+
+
+        localStorage.setItem("ARRAY_CUSTOMERS_LIST", emailID);
+
+        var html = "";
+        var status = 0;
+        for (var index = 0; index < data.length; index++) {
+            var element = data[index];
+
+            if (element.emailId.email == emailID) {
+                html = staticTemplate.customers.staticAegnciesViewTemplate(element);
                 status = 1;
             }
         }
@@ -2643,19 +4059,190 @@ protocall.customer = {
         $(".rel-feeds-content").empty();
         $(".rel-feeds-content").append(html);
 
-        if (localStorage.getItem("ASSOCIATEFEED") == null) {
+        var Omega = '\u003E';
+        $("#id-carrierpage-headertext").text(Omega + "   " + localStorage.getItem("id-customers-headername"));
+
+//        if (localStorage.LoginType == 'Representatives') {
+//            var Omega = '\u003E';
+//            $(".mb-submenu-in").empty();
+//            $(".mb-submenu-in").append("<div class=\"bcrum-lb-submenu clr-fl inline-block v-align-mid\"><a href=\"#\" class=\"carrier-headerbox  left f-sz-16 ptsans-light snap carriers t-upper p-relative f-color-green\" data-type=\"page\" data-submenu=\"customers\"><div class=\"\"><div class=\"sprite-im carriers-icon inline-block v-align-mid mr-space-10 \"> </div>"
+//                    + "<span class=\"sub-menu-text inline-block v-align-mid\"> CUSTOMERS </span><span id=\"id-carrierpage-headertext\">" + Omega + "   " + localStorage.getItem("id-customers-headername") + "</span></div></a><div class=\"bcrum-icon-blk left f-color-green f-sz-16 ptsans-light\" style=\"display:none;\">&gt;</div><a href=\"#\" class=\"snap left f-sz-16 ptsans-light feeds-customer t-caps p-relative f-color-green\" data-type=\"page\" data-submenu=\"carriers-customer\" style=\"display:none;\"></a></div>");
+//        }
+        localStorage.setItem("ASSOCIATEFEED", null);
+
+
+        if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
+            if (localStorage.LoginType == 'Representatives') {
+
+                protocall.carrier.loadCarrierAssociatedCustomers();
+                //protocall.carrier.loadCarrierAssociatedReps();
+                var Omega = '\u003E';
+                $(".mb-submenu-in").empty();
+
+                $(".mb-submenu-in").append("<div class=\"bcrum-lb-submenu clr-fl inline-block v-align-mid\"><a href=\"#\" class=\"carrier-headerbox  left f-sz-16 ptsans-light snap agencies-info t-upper p-relative f-color-green\" data-type=\"page\" data-submenu=\"agencies\"><div class=\"\"><div class=\"sprite-im carriers-icon inline-block v-align-mid mr-space-10 \"> </div>"
+                        + "<span class=\"sub-menu-text inline-block v-align-mid\"> AGENCIES </span><span id=\"id-carrierpage-headertext\">" + Omega + "   " + localStorage.getItem("id-customers-headername") + "</span></div></a><div class=\"bcrum-icon-blk left f-color-green f-sz-16 ptsans-light\" style=\"display:none;\">&gt;</div><a href=\"#\" class=\"snap left f-sz-16 ptsans-light feeds-customer t-caps p-relative f-color-green\" data-type=\"page\" data-submenu=\"carriers-customer\" style=\"display:none;\"></a></div>");
+
+            }
+            if (localStorage.LoginType == 'Admin') {
+                var data = {carrierId: carrierId};
+                var path = utils.server.getServerPath("associatedcustomerandrepresentative");
+                var request = path(data).execute(function (resp) {
+                    if (resp.error) {
+                        t.server.handleError(resp);
+                    } else {
+                        localStorage.setItem("ASSOCIATEFEED", JSON.stringify(resp));
+                        protocall.carrier.loadCarrierAdminAssociatedCustomers();
+
+                    }
+                });
+
+
+                // protocall.carrier.loadCarrierAssociatedCustomers();
+                //protocall.carrier.loadCarrierAssociatedReps();
+                var Omega = '\u003E';
+                $(".mb-submenu-in").empty();
+
+                $(".mb-submenu-in").append("<div class=\"bcrum-lb-submenu clr-fl inline-block v-align-mid\"><a href=\"#\" class=\"carrier-headerbox  left f-sz-16 ptsans-light snap CarrierAgencies t-upper p-relative f-color-green\" data-type=\"page\" data-submenu=\"carrieragency\"><div class=\"\"><div class=\"sprite-im carriers-icon inline-block v-align-mid mr-space-10 \"> </div>"
+                        + "<span class=\"sub-menu-text inline-block v-align-mid\"> AGENCIES </span><span id=\"id-carrierpage-headertext\">" + Omega + "   " + localStorage.getItem("id-customers-headername") + "</span></div></a><div class=\"bcrum-icon-blk left f-color-green f-sz-16 ptsans-light\" style=\"display:none;\">&gt;</div><a href=\"#\" class=\"snap left f-sz-16 ptsans-light feeds-customer t-caps p-relative f-color-green\" data-type=\"page\" data-submenu=\"carriers-customer\" style=\"display:none;\"></a></div><div class=\"tab-rb-submenu inline-block v-align-mid\" style=\"width:70%;\"><div class=\"tab-rb-submenu-in-block p-relative\"><div href=\"#\" class=\"snap submenu-sort right f-sz-16 ptsans-light p-relative\" data-type=\"page\" data-submenu=\"sortbycustomer\"><div class=\"sort-text f-italic\">Sort by</div><div class=\"sprite-im drop-down-icon submenu-drop-icon\">&nbsp;</div></div><a href=\"/pushmessage\" class=\"snap submenu-tab bg-color-green right f-sz-16 ptsans-light pushmessage p-relative\" data-type=\"page\" data-submenu=\"\">"
+                        + "<div class=\"sprite-im edit-icon inline-block tab-icon v-align-mid\" style=\"display:block;margin-top:10px;margin-left:0px;margin-right: 5px;\">&nbsp;</div><div class=\"submenu-title t-caps inline-block f-color-w v-align-mid\"> Edit </div><div class=\"cnt-blk inline-block v-align-mid\" style=\"display:none;\">(<span class=\"cnt-no\"></span>)</div></a></div></div>");
+
+
+            }
+        } else if (localStorage.getItem("ASSOCIATEFEED") == "null") {
             var data = {carrierId: carrierId};
+
             var path = utils.server.getServerPath("associatedcustomerandrepresentative");
             var request = path(data).execute(function (resp) {
                 if (resp.error) {
                     t.server.handleError(resp);
                 } else {
-
                     localStorage.setItem("ASSOCIATEFEED", JSON.stringify(resp));
+                    if (localStorage.LoginType == undefined) {
+                        protocall.carrier.loadAssociatedReps();
+                    }
+
                 }
             });
         }
-        protocall.carrier.loadAssociatedReps();
+
+        $(".content-holder").removeClass("spinner1");
+        $(".content-holder").css("opacity", "1");
+    },
+    loadAssociateCarrier: function (carrierId, emailID) {
+        var totalHTML = "<div>No Records </div>";
+        localStorage.setItem("ASSOCIATE_CARRIER", "<div>No Records </div>");
+        var userTab = JSON.parse(localStorage.getItem("customers_data"));
+
+        for (var index = 0; index < userTab.length; index++) {
+            var temp_carriedid = userTab[index].carrierId;
+            var temp_emailid = userTab[index].emailId.email;
+
+            if (temp_carriedid == carrierId && temp_emailid == emailID) {
+                var agencyemail = userTab[index].agencyRepresentativeId.email;
+                var alertlistarr = [];
+                alertlistarr = userTab[index].policyListWithCarrier;
+
+                if (alertlistarr.length > 0) {
+                    var datalist = {userId: emailID, agencyRepresentativeId: agencyemail, carrierId: carrierId, alertList: alertlistarr};
+                    var path = utils.server.getServerPath("userwithpoliciesandotherproduct");
+                    var request = path(datalist).execute(function (resp) {
+                        if (resp.error) {
+                            t.server.handleError(resp);
+                        } else {
+                            var carrierIds = "";
+
+                            for (var i = 0; i < resp.resultMap.Policies.length; i++) {
+                                if (totalHTML == "<div>No Records </div>") {
+                                    totalHTML = "";
+                                }
+
+                                var carrierPic = resp.resultMap.Policies[i].carrierDetails.carrierLogo;
+                                var carrierId = resp.resultMap.Policies[i].carrierDetails.carrierId;
+                                var carrierName = resp.resultMap.Policies[i].carrierDetails.carrierName;
+                                var carrierEmail = resp.resultMap.Policies[i].carrierDetails.emailId.email;
+                                var carrierLocation = resp.resultMap.Policies[i].carrierDetails.city + "," + resp.resultMap.Policies[i].carrierDetails.state;
+
+
+                                carrierIds += "," + carrierId;
+
+                                if (carrierPic != undefined) {
+                                    carrierPic = "https://proto-call-test.appspot.com/file/" + carrierPic;
+                                } else {
+                                    carrierPic = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                                }
+
+                                if (carrierName == undefined)
+                                {
+                                    carrierName = ' ';
+                                }
+
+                                if (carrierEmail == undefined)
+                                {
+                                    carrierEmail = ' ';
+                                }
+                                if (carrierLocation == undefined)
+                                {
+                                    carrierLocation = ' ';
+                                }
+
+//<div class="carrier-view p-relative bg-color-green t-caps t-center opensans-regular f-color-w snap" data-type="viewcarrierfeedview" 
+//data-id="5587210c-3fb9-4060-96d0-e92a4badf67d">view </div>
+
+                                var associateBlock = '';
+                                associateBlock = '<div id=' + carrierId + '  class="carrier-feed-associated-view   left p-relative snap" data-type="viewcarrierfeedview"  data-id="' + carrierId + '"> <div class="border-all p-relative"> <div class="associated-background p-relative">'
+                                        + '<div class="associated-carrier-pic inline-block "> <img src=' + carrierPic + ' '
+                                        + 'alt="" class="carrier-img-width"> '
+                                        + '</div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> '
+                                        + '<div class="carrier-name t-caps t-left">' + carrierName + '</div> '
+                                        + '<div class="carrier-location t-caps t-left">' + carrierLocation + '</div> '
+                                        + '<div class="carrier-location t-caps t-left"><a href="mailto:' + carrierEmail + '">' + carrierEmail + '</a></div></div> </div> </div> </div> ';
+
+
+                                if (localStorage.LoginType == 'Representatives') {
+                                    associateBlock = '<div id=' + carrierId + '  class="carrier-feed-associated-view   left p-relative " data-type="viewcarrierfeedview"  data-id="' + carrierId + '"> <div class="border-all p-relative"> <div class="associated-background p-relative">'
+                                            + '<div class="associated-carrier-pic inline-block "> <img src=' + carrierPic + ' '
+                                            + 'alt="" class="carrier-img-width"> '
+                                            + '</div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> '
+                                            + '<div class="carrier-name t-caps t-left">' + carrierName + '</div> '
+                                            + '<div class="carrier-location t-caps t-left">' + carrierLocation + '</div> '
+                                            + '<div class="carrier-location t-caps t-left"><a href="mailto:' + carrierEmail + '">' + carrierEmail + '</a></div></div> </div> </div> </div> ';
+                                }
+
+                                if (totalHTML == "") {
+                                    totalHTML += associateBlock;
+                                } else {
+                                    if (totalHTML.indexOf(associateBlock) > -1) {
+                                    } else {
+                                        totalHTML += associateBlock;
+                                    }
+                                }
+
+                            }
+
+                            carrierIds = "";
+                            localStorage.setItem("ASSOCIATE_CARRIER", totalHTML);
+
+                            //  alert(localStorage.getItem("ASSOCIATE_CARRIER"));
+                            if (localStorage.LoginType == 'Representatives') {
+                                $("#id-carrierassociatedblock").html('');
+
+                                if (localStorage.getItem("ASSOCIATE_CARRIER") == undefined || localStorage.getItem("ASSOCIATE_CARRIER") == "") {
+                                    localStorage.setItem("ASSOCIATE_CARRIER", "<div>No Records</div>");
+                                } else {
+                                    $("#id-carrierassociatedblock").append(localStorage.getItem("ASSOCIATE_CARRIER"));
+                                }
+
+                                // $("#id-carrierassociatedblock").append(localStorage.getItem("ASSOCIATE_CARRIER"));
+                            }
+
+                        }
+                    });
+
+                }
+            }
+
+        }
+
 
     },
     loadFeedSetting: function () {
@@ -2690,8 +4277,11 @@ protocall.customer = {
     },
 }
 
-protocall.myRep = {
-    initMyRepsPage: function () {
+protocall.myRep = {initMyRepsPage: function () {
+
+	localStorage.myrepvalue1 = "mysortselected";
+	localStorage.myrepvalue2 = "";
+        localStorage.setItem("SUBMENU", "MYREPS_PAGE");
         var page = "myrepspage";
         var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
         deepPath = "agencydashboarddesign",
@@ -2702,6 +4292,12 @@ protocall.myRep = {
         utils.server.makeServerCall(page, data, callback, deepPath);
 
 
+
+    },
+    initCarrierRepsPage: function () {
+
+        localStorage.setItem("SUBMENU", "CARRIER_REPS_PAGE");
+        MyrepsdynamicTemplate.myreps.CarrierRepsDynamicList();
 
     },
     initMyRepsPageSort: function () {
@@ -2717,9 +4313,7 @@ protocall.myRep = {
 
 
     },
-    loadHomePageData: function (data, page) {
-        //console.log(data, page);
-        feedHTML1 = '<div class="customer-home-parent clr-fl p-relative">';
+    loadHomePageData: function (data, page) {         //console.log(data, page);         feedHTML1 = '<div class="customer-home-parent clr-fl p-relative">';
         var feedHTML = "";
         //console.log("datalength",data.resultMap.userTab.length);
         if (data.resultMap != null && data.resultMap != "") {
@@ -2727,7 +4321,6 @@ protocall.myRep = {
             //console.log(resultCarrier.length)
 
             for (var mp = 0; mp < resultReps.length; mp++) {
-
                 var rep = resultReps[mp];
                 console.log(rep)
 
@@ -2745,7 +4338,6 @@ protocall.myRep = {
                     profilePicture = "http://johnjournal.bravesites.com/files/images/Profile_Score_Photo.jpg";
 
                 } else {
-
                     var profilePath = rep.profilePicture;
                     profilePicture = ProfileAPI + profilePath;
                     //console.log(pic)
@@ -2767,14 +4359,79 @@ protocall.myRep = {
 }
 
 
-protocall.myProfile = {
-    loadFeedSetting: function ($el) {
+protocall.InviteRep = {sendemailinvite: function ($el) {
+        var email = $("#inviterepemail").val();
+        if (email == '') {
+            $(".invite-reps-text").css("color", "red");
+            $(".invite-reps-text").css("display", "none");
+            $(".invite-reps-text").html("Email should not be blank").fadeIn("slow");
+            return false;
+        }
 
-        var page = "settings";
-        var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"};
-        var callback = utils.server.MysettingsResponse;
-        var deepPath = "settingsinagencydesign";
+        if (email != '') {
+            var checkemail = isValidEmailAddress(email);
+            if (checkemail == false) {
+                $(".invite-reps-text").css("color", "red");
+                $(".invite-reps-text").css("display", "none");
+                $(".invite-reps-text").html("Enter valid email").fadeIn("slow");
+                return false;
+            }
+            function isValidEmailAddress(email) {
+                var pattern = new RegExp(/^[+a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i);
+                return pattern.test(email);
+            }
+            ;
+        }
+
+        var page = "InviteRep";
+        //var emailList     = [ {"email":"dhfsf.p@tringapps.com"}, {"email":"sdjfhsdgfs.k@tringapps.com"} ];
+        var emailList = [{"email": email}];
+        var deepPath = "sendinvitation";
+        var link = "http://gridframe.net/demo/protocall/#signup";
+        var resetPassword = false;
+        var callback = protocall.InviteRep.InviteRepbyEmail;
+        var content = sessionStorage.agencyName + 'is inviting you to join in protocall.Please use the below link to signup in protocall and the link will expire in 24 hours.';
+        var data = {"emailList": emailList, "link": link, "resetPassword": resetPassword, "text": content};
         utils.server.makeServerCall(page, data, callback, deepPath);
+        $(".invite-reps-text").css("color", "green");
+        $(".invite-reps-text").css("display", "none");
+        $(".invite-reps-text").html("Invitation sent successfully!").fadeIn("slow");
+    },
+    InviteRepbyEmail: function ($el) {
+        return false;
+    }
+}
+
+
+protocall.myProfile = {loadFeedSetting: function ($el) {
+        if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
+            if (localStorage.LoginType == 'Admin') {
+
+                var page = "settings";
+                var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"};
+                var callback = utils.server.MysettingsResponse;
+                var deepPath = "settingsinagencydesign";
+                utils.server.makeServerCall(page, data, callback, deepPath);
+                //utils.server.MysettingsResponse();
+            }
+        } else {
+            var page = "settings";
+            var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"};
+            var callback = utils.server.MysettingsResponse;
+            var deepPath = "settingsinagencydesign";
+            utils.server.makeServerCall(page, data, callback, deepPath);
+        }
+    },
+    loadMyCarrierRepProfile: function ($el) {
+      
+        var submenu = MyrepsdynamicTemplate.myreps.CarrierRepsviewSubmenu();
+          $(".mb-submenu-in").empty();
+        $(".mb-submenu-in").append($(submenu));
+
+        var html = staticTemplate.customers.dynamicMyProfileViewTemplate();
+        $(".content-holder").empty();
+        $(".content-holder").append($(html));
+        this.setSelectedClassPopContent($el);
     },
     loadMyProfileView: function ($el) {
         popUpContent.closePopUpContent();
@@ -2782,6 +4439,7 @@ protocall.myProfile = {
         $(".content-holder").empty();
         $(".content-holder").append($(html));
         this.setSelectedClassPopContent($el);
+        $(".mb-menu a.selected-tab").removeClass("selected-tab");
     },
     setSelectedClassPopContent: function ($el) {
         var $popUpContent = $("#pop-up-content");
@@ -2796,8 +4454,7 @@ protocall.myProfile = {
 
 }
 /*Naveen 23-2-2015 Chnage start*/
-protocall.util = {
-    viewingHomePageData: function (dataValue) {
+protocall.util = {viewingHomePageData: function (dataValue) {
         console.log("data in viewing home page data", dataValue);
         var header = "",
                 content = "",
@@ -2805,15 +4462,15 @@ protocall.util = {
                 feedHTML = ""
         footer = "";
         console.log("data in viewingHomePageData", dataValue);
-
+        console.log("dataValue.resultMap.isNextPage", dataValue.resultMap.isNextPage);
         if (dataValue !== "undefined" && dataValue.resultMap !== "undefined") {
-            if (dataValue.resultMap.TypeCode !== "undefined" && dataValue.resultMap.TypeCode == "4011") {
-                if (dataValue.resultMap.isNextPage) {
-                    CONSTANTS.HASNEXTPAGE = true;
-                } else {
-                    CONSTANTS.HASNEXTPAGE = false;
-                }
-                //console.log("resultMap.ArrayOfAlertDetails.length", dataValue.resultMap.ArrayOfAlertDetails.length);
+            if (dataValue.resultMap.isNextPage == true) {
+                console.log("is Next page is true");
+                CONSTANTS.HASNEXTPAGE = true;
+            } else {
+                CONSTANTS.HASNEXTPAGE = false;
+            }
+            if (dataValue.resultMap.TypeCode !== "undefined" && dataValue.resultMap.TypeCode == "4011") {                 //console.log("resultMap.ArrayOfAlertDetails.length", dataValue.resultMap.ArrayOfAlertDetails.length);
                 if (dataValue.resultMap.ArrayOfAlertDetails !== "undefined" && dataValue.resultMap.ArrayOfAlertDetails.length !== "undefined" && dataValue.resultMap.ArrayOfAlertDetails.length !== 0) {
                     $.each(dataValue.resultMap.ArrayOfAlertDetails, function (index, alertDetailsValue) {
                         console.log("alertDetailsValue.alertDetails index", alertDetailsValue.alertDetails.length);
@@ -2828,63 +4485,106 @@ protocall.util = {
                             feedHTML += template.policyAlertFeedHMLT(alertDetailsValue, alertType);
                         } else {
                             feedHTML += template.feedsTemplateHTML(alertDetailsValue);
-                            if (HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED && HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADEDCOUNT < 1) {
+                            console.log("HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADEDCOUNT", HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADEDCOUNT);
+                            if (HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED) {
                                 if (alertDetailsValue.alertStatusDetails.status == undefined) {
                                     HOMEPAGERESPONSE.UNREADFEEDCOUNT = HOMEPAGERESPONSE.UNREADFEEDCOUNT + 1;
                                 }
+                            } else {
+                                HOMEPAGERESPONSE.UNREADFEEDCOUNT = HOMEPAGERESPONSE.UNREADFEEDCOUNT;
                             }
                         }
                         HOMEPAGERESPONSE.RECURRINGALERTDFEEDS.push(alertDetailsValue);
                     });
                     /*Naveen 23-2-2015 Changes Start */
-                    if (feedHTML == "" && HOMEPAGERESPONSE.POLICYALERTCLICKED) {
-                        feedHTML = '<div class="feed-block clr-fl">There are No Policy Feeds Available for the User</div>';
-                    }
-                    if (feedHTML == "" && HOMEPAGERESPONSE.INCIDENTALERTSCLICKED) {
-                        feedHTML = '<div class="feed-block clr-fl">There are No Incident Feeds Available for the User</div>';
-                    }
-                    if (feedHTML == "" && HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED) {
-                        feedHTML = '<div class="feed-block clr-fl">There are No My Alert Feeds Available for the User</div>';
-                    }
+                    /* if (feedHTML == "" && HOMEPAGERESPONSE.POLICYALERTCLICKED) {
+                     feedHTML = '<div class="feed-block clr-fl">There are No Policy Feeds Available for the User</div>';
+                     }
+                     if (feedHTML == "" && HOMEPAGERESPONSE.INCIDENTALERTSCLICKED) {
+                     feedHTML = '<div class="feed-block clr-fl">There are No Incident Feeds Available for the User</div>';
+                     }
+                     if (feedHTML == "" && HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED) {
+                     feedHTML = '<div class="feed-block clr-fl">There are No My Alert Feeds Available for the User</div>';
+                     } */
                     /*Naveen 23-2-2015 Changes End */
                     console.log("HOMEPAGERESPONSE.INCIDENTALERTSCLICKED 2", HOMEPAGERESPONSE.INCIDENTALERTSCLICKED);
                 }
-            }
+            } else {
+				return false;
+				//HOMEPAGERESPONSE.RECURRINGALERTDFEEDS = [];
+			}
         }
-        if (dataValue.resultMap.TypeCode == "4012") {
-            feedHTML = '<div class="feed-block clr-fl">' + dataValue.resultMap.AlertMessage + '</div>';
-        }
+        /* if (CONSTANTS.HASNEXTPAGE === false && dataValue.resultMap.TypeCode == "4012") {
+         feedHTML = '<div class="feed-block clr-fl">' + dataValue.resultMap.AlertMessage + '</div>';
+         }  */
         if (CONSTANTS.PGNUMBER == 1) {
             $("#page").empty();
-            header = HomedynamicTemplate.home.HomeDynamicHeaderTemplate();
+            header = HeaderTemplate.Menu.DynamicHeaderTemplate();
+            if (dataValue.resultMap.AlertMessage != "undefined" && dataValue.resultMap.TypeCode == "4012") {
+                feedHTML = "<div id=\"id-norecords\">" + "No Records..!" + "</div>";
+            }
+
             content = '<div class="container"> <div class="content-holder">' + feedHTML + '</div></div></div></div>';
-            footer = HomedynamicTemplate.home.HomeDynamicFooterTemplate();
+            var footer = footerDynamicTemplate.footer.DynamicFooterTemplate();
             totalHtml = header + content + footer;
             $("#page").append(totalHtml);
-		} else {
+        } else {
             $(".content-holder").append($(feedHTML));
+
         }
-		if(HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE.length == 0){
-			$("a.archives").css("display","none");
-		} else {
-			$("a.archives").css("display","block");
-		}
-		if (HOMEPAGERESPONSE.UNREADFEEDCOUNT !== 0) {
+
+
+        if (HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE.length == 0) {
+            $("a.archives").css("display", "none");
+        } else {
+            $("a.archives").css("display", "block");
+        }
+        if (HOMEPAGERESPONSE.UNREADFEEDCOUNT !== 0) {
             $(".mb-submenu").find("a.myalerts span.cnt-no").text(HOMEPAGERESPONSE.UNREADFEEDCOUNT);
         } else {
             $(".mb-submenu").find("a.myalerts span.cnt-blk").text("");
         }
-		protocall.events.mouseOverCheckbox();
+        protocall.events.mouseOverCheckbox();
         protocall.displaySpinner(false);
         protocall.events.containerScrollEvent();
         protocall.view.subMenuSelectedTab();
-        $(".content-holder").removeClass("spinner1");
+        $(".content-holder").find(".spinner1").removeClass("spinner1");
+        $(".content-holder").find(".bottomSpinner").removeClass("bottomSpinner");
+        $(".content-holder").find("#scrollingDiv").empty();
+        $(".content-holder").css("opacity", "1");
+
+
+        if (localStorage.LoginType == undefined) {
+            $(".edit-cover-pic").css("display", "block");
+            $(".edit-agency-pic").css("display", "block");
+        }
+        if (localStorage.LoginType == 'Admin') {
+            $(".edit-cover-pic").css("display", "block");
+            $(".edit-agency-pic").css("display", "block");
+            //edit-agency-pic
+        }
+        if (localStorage.LoginType == 'Representatives') {             // alert("dd");
+            $(".edit-cover-pic").css("display", "none");
+            $(".edit-agency-pic").css("display", "none");
+
+        }
+        if (localStorage.LoginType == 'Representatives') {             // alert("dd");
+            $(".edit-cover-pic").css("display", "none");
+            $(".edit-agency-pic").css("display", "none");
+        }
+        $("#id-norecords").animate({
+            width: "20%",
+            opacity: 1,
+            marginLeft: "0.2in",
+            fontSize: "16px"
+        }, 1500);
+
+
     }
-}
-/*Naveen 23-2-2015 Chnage end*/
+} /*Naveen 23-2-2015 Chnage end*/
 
 //--------------------------- Agency Logo Added By Manoj -----------------------------------
-function readURL(input) {
+/* function readURL(input) {
     if (input.files && input.files[0]) {
         var filePath = $("#inputfile").val();
         if (filePath) {
@@ -2901,14 +4601,15 @@ function readURL(input) {
             $('#id-agencyprofilelogo').attr('src', e.target.result);
         };
         reader.readAsDataURL(input.files[0]);
+		sessionStorage.profilePicAfterUpdate = e.target.result;
+		console.log("sessionStorage.profilePicAfterUpdate",sessionStorage.profilePicAfterUpdate);
     }
-}
+} */
 
 function minTwoDigits(n) {
     return (n < 10 ? '0' : '') + n;
 }
 function loadtimePicker() {
-
 
     for (var hour = 1; hour <= 12; hour++) {
         for (var min = 0; min < 60; min++) {
@@ -2919,7 +4620,6 @@ function loadtimePicker() {
 }
 
 function checkboxStatus(idValue) {
-
 
     if (idValue === "radio-button-now") {
         document.getElementById("radio-button-now").checked = true;
@@ -2934,11 +4634,21 @@ function checkboxStatus(idValue) {
         document.getElementById("radio-button-public").checked = true;
         document.getElementById("radio-button-private").checked = false;
         document.getElementById("radio-button-custom").checked = false;
+        $(".rep-content-blk").css("opacity", "0.5");
+        $(".rep-content-blk").find("input", "div").attr('disabled', 'disabled');
+        $(".switchsample").css("pointer-events", "none");
     } else if (idValue === "radio-button-private") {
         document.getElementById("radio-button-public").checked = false;
         document.getElementById("radio-button-private").checked = true;
         document.getElementById("radio-button-custom").checked = false;
+        $(".rep-content-blk").css("opacity", "0.5");
+        $(".rep-content-blk").find("input", "div").attr('disabled', 'disabled');
+        $(".switchsample").css("pointer-events", "none");
     } else if (idValue === "radio-button-custom") {
+        $(".rep-content-blk").find("input", "div").attr('disabled', false);
+        // $('#id-switch-on').removeAttr("onclick");
+        $(".switchsample").css("pointer-events", "auto");
+        $(".rep-content-blk").css("opacity", "1");
         document.getElementById("radio-button-public").checked = false;
         document.getElementById("radio-button-private").checked = false;
         document.getElementById("radio-button-custom").checked = true;
@@ -2971,7 +4681,6 @@ function hideAgencyTextboxes() {
     $("#id-carrier-agencyphone").css("visibility", "hidden");
     $("#id-carrier-agencyemail").css("visibility", "hidden");
 }
-
 
 function editAgencySaveData() {
     addBottomBorder();
@@ -3112,7 +4821,7 @@ function editVendorSaveData() {
 
     //    alert(SERVICEID + "" + name + " " + type + "" + zipcode + "" + phone);
 
-    if (preferredvendorid != "") {
+    if (preferredvendorid != "" || preferredvendorid != null) {
         page = "vendorsavepage";
         var data = {serviceId: SERVICEID, serviceName: name, serviceType: type, zipcode: zipcode, phone: phone,
             address1: address1, address2: address2, city: city, state: state};
@@ -3177,9 +4886,7 @@ function removerBottomBorder() {
 
 }
 function addBottomBorder() {
-
     var className = document.getElementsByClassName("carrier-border-view");
-
     if (REFERENCE_TYPE === "agency_info") {
         for (var i = 0; i < className.length - 2; i++) {
             className[i].style.borderBottom = "1px solid #ccc";
@@ -3192,7 +4899,6 @@ function addBottomBorder() {
 }
 
 function editDataInfo() {
-
     var innerHtmlValue = document.getElementById("id-carrier-edit").innerHTML;
 
     if (REFERENCE_TYPE === "agency_info") {
@@ -3220,6 +4926,7 @@ function readURL(input) {
         reader.onload = function (e) {
             $('.ageny-img-width').attr('src', e.target.result);
             $('.setProfilePic').attr('src', e.target.result);
+			sessionStorage.profilePicAfterUpdate = e.target.result;
         }
         reader.readAsDataURL(input.files[0]);
     }

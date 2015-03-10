@@ -1,12 +1,20 @@
 var LoginTemplate = {
     login: {
         staticLoginTemplate: function () {
-            var html = '<div id="id_loginfadeinout" class="ctrl-blk" style="display:none;"><div class="login-logo"><img src="images/Logo.png" alt="" ></div><div class="ctrl-login-box"><div class="login-type-box1"><div class="mylistbox mysnap" data-type="superadmin">Super Admin</div><div class="mylistbox mysnap" data-type="admin" style="background: #f34f4e;">Admin</div><div class="mylistbox mysnap" data-type="representaties">Representatives</div></div><div class="login-type-box2"><div class="login-head">LOGIN</div><div class="login-error"></div><form method="post" onsubmit = "return loginmask();"><div class="box"><div class="userbox"><select name="usertype" id="usertype"> <optgroup label="Carriers"><option value="volvo">Auto Owners Insurance</option> <option value="saab">ProtoCALL</option> <option value="saab">Acuity</option> <option value="saab">Hastings Mutual Insurance Companies</option> <option value="saab">Westfield Grou</option> <option value="saab">Grange Insurance</option> <option value="saab">Central Insurance Companies</option> </optgroup> <optgroup label="Agency"> <option value="49c03e36-f3f1-4132-8115-2f74c8a7bae3" selected>Brooker Insurance Agency</option></optgroup></select></div><div class="userbox"><input type="text" name="email" value="" placeholder="Email" id="email"/></div><div class="passbox"><input type="password" name="password" value="" placeholder="password" id="password"/></div><div class="logbutton snap" data-type ="login-yes" ><input type="submit" name="login" value="Login" class="loginbutton"/></div> <div class="resetpassword-text p-relative opensans-regular left f-color-green f-sz-16 t-center snap" data-type="dtresetpassword">Reset Password ?</div> </form></div></div></div></div>';
+            var html = '<div id="id_loginfadeinout" class="ctrl-blk" style="display:none;"><div class="login-logo"><img src="images/Logo.png" alt="" ></div><div class="ctrl-login-box"><div class="login-type-box1"><div class="mylistbox mysnap" data-type="superadmin">Super Admin</div><div class="mylistbox mysnap" data-type="admin" style="background: #f34f4e;" >Admin</div><div class="mylistbox mysnap" data-type="representatives">Representatives</div></div><div class="login-type-box2"><div class="login-head">LOGIN</div><div class="login-error"></div><form method="post" onsubmit = "return loginmask();"><div class="box"><div class="userbox"><select name="usertype" id="usertype"> <optgroup label="Carriers"> <option value="saab">Acuity</option> </optgroup> <optgroup label="Agency"> <option value="49c03e36-f3f1-4132-8115-2f74c8a7bae3" selected>Brooker Insurance Agency</option></optgroup></select></div><div class="userbox"><input type="text" name="email" value="" placeholder="Email" id="email"/></div><div class="passbox"><input type="password" name="password" value="" placeholder="password" id="password"/></div><div class="logbutton snap" data-type ="login-yes" ><input type="submit" name="login" value="Login" class="loginbutton"/></div> <div class="resetpassword-text p-relative opensans-regular left f-color-green f-sz-16 t-center snap" data-type="dtresetpassword">Reset Password ?</div> </form></div></div></div></div>';
             return html;
         },
-        MyloginContent: function () {
-           var html = '<div class="box" style="display:none;padding:0px;"><div class="userbox"><select name="usertype" id="usertype"> <optgroup label="Carriers"><option value="volvo">Auto Owners Insurance</option> <option value="saab">ProtoCALL</option> <option value="saab">Acuity</option> <option value="saab">Hastings Mutual Insurance Companies</option> <option value="saab">Westfield Grou</option> <option value="saab">Grange Insurance</option> <option value="saab">Central Insurance Companies</option> </optgroup> <optgroup label="Agency"> <option value="49c03e36-f3f1-4132-8115-2f74c8a7bae3" selected="">Brooker Insurance Agency</option></optgroup></select></div><div class="userbox"><input type="text" name="email" value="" placeholder="Email" id="email"></div><div class="passbox"><input type="password" name="password" value="" placeholder="password" id="password"></div><div class="logbutton snap" data-type="login-yes"><input type="submit" name="login" value="Login" class="loginbutton"></div> <div class="resetpassword-text p-relative opensans-regular left f-color-green f-sz-16 t-center snap" data-type="dtresetpassword">Reset Password ?</div> </div>';
-           return html;
+        superloginContent: function () {
+            var html = '<div class="box" style="display:none;padding:0px;"> <div class="userbox"><input type="hidden" name="test" id="test" value=""/><input type="text" name="email" value="" placeholder="Email" id="email"> </div><div class="passbox"> <input type="password" name="password" value="" placeholder="password" id="password"> </div><div class="logbutton snap" data-type="login-yes"> <input type="submit" name="login" value="Login" class="loginbutton"> </div><div class="resetpassword-text p-relative opensans-regular left f-color-green f-sz-16 t-center snap" data-type="dtresetpassword"> Reset Password ? </div></div>';
+            return html;
+        },
+        agencyloginContent: function () {
+            var html = '<div class="box" style="display:none;padding:0px;"><div class="userbox"><select name="usertype" id="usertype"> <optgroup label="Carriers"><option value="saab">Acuity</option>  <optgroup label="Agency"> <option value="49c03e36-f3f1-4132-8115-2f74c8a7bae3" selected="">Brooker Insurance Agency</option></optgroup></select></div><div class="userbox"><input type="text" name="email" value="" placeholder="Email" id="email"></div><div class="passbox"><input type="password" name="password" value="" placeholder="password" id="password"></div><div class="logbutton snap" data-type="login-yes"><input type="submit" name="login" value="Login" class="loginbutton"></div> <div class="resetpassword-text p-relative opensans-regular left f-color-green f-sz-16 t-center snap" data-type="dtresetpassword">Reset Password ?</div> </div>';
+            return html;
+        },
+        carrierloginContent: function () {
+            var html = '<div class="box" style="display:none;padding:0px;"><div class="userbox"><select name="usertype" id="usertype"> <optgroup label="Carriers"> <option value="saab">Acuity</option>  </optgroup> <optgroup label="Agency"> <option value="49c03e36-f3f1-4132-8115-2f74c8a7bae3" selected="">Brooker Insurance Agency</option></optgroup></select></div><div class="userbox"><input type="text" name="email" value="" placeholder="Email" id="email"></div><div class="passbox"><input type="password" name="password" value="" placeholder="password" id="password"></div><div class="logbutton snap" data-type="login-yes"><input type="submit" name="login" value="Login" class="loginbutton"></div> <div class="resetpassword-text p-relative opensans-regular left f-color-green f-sz-16 t-center snap" data-type="dtresetpassword">Reset Password ?</div> </div>';
+            return html;
         },
         staticSignUpTemplate: function () {
 
@@ -19,3 +27,31 @@ var LoginTemplate = {
         }
     }
 }
+
+$(document).on("click", ".mysnap", function (e) {
+
+    var $el = $(e.currentTarget);
+    var type = $el.data("type") ? $el.data("type") : null;
+    $(".mysnap").css("background", "lightgrey");
+    $(this).css("background", "#f34f4e");
+
+    //alert("type" + type);
+
+    if (type == 'superadmin') {
+        var loginContent = LoginTemplate.login.superloginContent();
+        localStorage.LoginType = "SuperAdmin";
+    }
+    if (type == 'admin') {
+        var loginContent = LoginTemplate.login.agencyloginContent();
+        localStorage.LoginType = "Admin";
+    }
+    if (type == 'representatives') {
+        var loginContent = LoginTemplate.login.carrierloginContent();
+        localStorage.LoginType = "Representatives";
+    }
+
+    $(".box").empty();
+    $(".box").append($(loginContent));
+    $(".box").fadeIn("slow");
+
+});

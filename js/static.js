@@ -295,12 +295,12 @@ var staticTemplate = {
         },
         sendAppLinkTemplate: function (data) {
             var html = ' <h2 class="t-left f-color-green opensans-regular" style="">Send app link to the customers</h2> <div class="o-sub-content-top border-bot p-relative"> <div class="link-content p-relative"> <div class="link opensans-regular f-sz-18">Link</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input type="text" class="opensans-regular" placeholder=' + data + ' /> </div> </div> <div class="link-content p-relative"> <div class="message opensans-regular f-sz-18">Message</div> <div class="message-box textBox-placeholder-italic border-all"> <textarea draggable="false" class="textarea opensans-regular" placeholder="Type message" maxlength="170"></textarea> </div> </div> </div> '
-                    + ' <div class="o-sub-content p-relative"> <div class="success" style=" display:none; color: green;"></div><div class="error" style=" display:none; color: red;"></div><div class="text-box-outer p-relative textBox-placeholder-italic"> <input type="search"'
+                    + ' <div class="o-sub-content p-relative"> <div class="success2" style=" display:none; color: green;"></div><div class="error2" style=" display:none; color: red;"></div><div class="text-box-outer p-relative textBox-placeholder-italic"> <input type="search"'
                     + 'class="opensans-regular" id="id-overlaysendapplink"  placeholder="Search.." onkeyup="sendAppLinkkeyup(event)"  onkeypress="sendAppLinkkeyup(event)" /> <div  id="id-sendapplinksearchicon" class="c-search-icon search-icon sprite-im  p-absolute"></div></div> <div class="range-box clr-fl"> <div class="opensans-regular'
                     + 'f-sz-14 range-color left f-italic range-title">Select Range</div> <div class="text-box-outer p-relative textBox-placeholder-italic left range-sel1">'
-                    + '<select id="timepicker" class="none-1 opensans-regular left" onchange="Sharewithrep_sortbyBox1()"> <option selected> None </option> <option>Alphabetical</option> <option>City,State</option> </select>  '
+                    + '<select id="timepicker" class="none-1 opensans-regular left" onchange="sendAppLinkSortbyBox1()"> <option selected> None </option> <option>Alphabetical</option> <option>City,State</option> </select>  '
                     + '<div class="drop-down-icon-1 sprite-im drop-down-icon dropdown-icon p-absolute"></div> </div> <div class="text-box-outer '
-                    + 'textBox-placeholder-italic p-relative left range-sel2"> <select id="timepicker2" class="none-1 opensans-regular left" onchange="sharewithRepSortbyBox2()"> <option selected> None </option> <option>Select All</option> <option>Section A</option> <option>Section B</option><option>Section C</option><option>Section D</option><option>Section E</option></select>  '
+                    + 'textBox-placeholder-italic p-relative left range-sel2"> <select id="timepicker2" class="none-1 opensans-regular left" onchange="sendAppLinkSortbyBox2()"> <option selected> None </option> <option>Select All</option> <option>Section A</option> <option>Section B</option><option>Section C</option><option>Section D</option><option>Section E</option></select>  '
                     + '<div class="drop-down-icon-2 sprite-im drop-down-icon dropdown-icon p-absolute"></div> </div> </div> <div class="rep-block">'
                     + '<div class="rep-title-blk clr-fl"> <div class="name-title opensans-regular t-upper left text-color-overlay bold">NAMES</div>'
                     + '<div class="name-title opensans-regular t-upper right text-color-overlay bold">CITY,STATE</div> </div>'
@@ -330,7 +330,7 @@ var staticTemplate = {
             return html;
         },
         pushMessageTemplate: function () {
-            var html = ' <h2 class="t-left f-color-green opensans-regular" style="">Push Message</h2> <div class="o-sub-content p-relative"> <div class="success" style=" display:none; color: green;"></div><div class="error" style=" display:none; color: red;"></div><div class="c-textarea text-box-outer textBox-placeholder-italic"> <textarea draggable="false" id="idpushmessage-textarea" class="textarea opensans-regular" placeholder="Type message" maxlength="170"></textarea> </div> <div class="delivery-box clr-fl"> <div class="delivery-time left opensans-regular">Delivery Time</div> <div class="deliverytime-content left opensans-regular clr-fl"> <div class="now left"> <input id="radio-button-now" type="radio" value="now" checked="true" onclick="checkboxStatus(\'radio-button-now\')"> <span class="txt-now opensans-regular f-sz-15">Now</span> </div> <div class="later left"> <input id="radio-button-later" type="radio" value="later" onclick="checkboxStatus(\'radio-button-later\')"> <span class="txt-later opensans-regular f-sz-15">Later</span> </div> </div> </div> </div> <div class="later-box clr-fl" style="display: none"> <div class="select-date-content left opensans-regular"> <div class="select-date left opensans-regular">Select Date</div> <div class="text-box-outer textBox-placeholder-italic left push-select-dropdown border-all p-relative"> '
+            var html = ' <h2 class="t-left f-color-green opensans-regular" style="">Push Message</h2> <div class="o-sub-content p-relative"> <div class="success" style=" display:none; color: green;"></div><div class="error" style=" display:none; color: red;"></div><div class="c-textarea text-box-outer textBox-placeholder-italic"> <textarea draggable="false" id="idpushmessage-textarea" class="textarea opensans-regular" placeholder="Type message" maxlength="170"></textarea> </div> <div class="delivery-box clr-fl"> <div class="delivery-time left opensans-regular">Delivery Time</div> <div class="deliverytime-content left opensans-regular clr-fl"> <div class="now left"> <input id="radio-button-now" type="radio" value="now" checked="true" onclick="checkboxStatus(\'radio-button-now\')"> <span class="txt-now opensans-regular f-sz-15" onclick="checkboxStatus(\'radio-button-now\')">Now</span> </div> <div class="later left"> <input id="radio-button-later" type="radio" value="later" onclick="checkboxStatus(\'radio-button-later\')"> <span class="txt-later opensans-regular f-sz-15" onclick="checkboxStatus(\'radio-button-later\')">Later</span> </div> </div> </div> </div> <div class="later-box clr-fl" style="display: none"> <div class="select-date-content left opensans-regular"> <div class="select-date left opensans-regular">Select Date</div> <div class="text-box-outer textBox-placeholder-italic left push-select-dropdown border-all p-relative"> '
                     + '<input id="datepicker" type="date" size="9" class="c-datepicker opensans-regular left" placeholder="22-11-2014" editable="false"/> <div class="sprite-im datepicker-icon p-absolute"></div> </div> </div> <div class="time-content left opensans-regular clr-fl"> <div class="time left opensans-regular">Time</div> <div class="text-box-outer textBox-placeholder-italic left time-dropdown-1 border-all p-relative" data-type="dt-time-dropdown"> '
                     + '<select id="pushmessagetimepicker" class="none-1 opensans-regular left"> </select> <div class="sprite-im drop-down-icon push-drop-down-icon-1 p-absolute"></div> </div> <div class="text-box-outer textBox-placeholder-italic left time-dropdown-2 border-all p-relative" data-type="dt-am-pm-dropdown"> <select id="ampmtimepicker" class="none-1 opensans-regular left"> <option selected> AM </option> <option>PM</option> </select> <div class="sprite-im drop-down-icon push-drop-down-icon-2 p-absolute"></div> </div> </div> </div> <div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="overlaybtn-pushmessage">Send</div> </div>';
             return html;
@@ -347,7 +347,12 @@ var staticTemplate = {
         showPhotsOverlayTemplate: function (alertID) {
             var numberOfPictures = 0, pictureThumbNailViewHTML = "", imageTextSavePrintHTML = "", originalImageHTML = "", sliderBar = "";
             console.log("HOMEPAGERESPONSE.RECURRINGALERTDFEEDS showPhotsOverlayTemplate", HOMEPAGERESPONSE.RECURRINGALERTDFEEDS);
-            $.each(HOMEPAGERESPONSE.RECURRINGALERTDFEEDS, function (index, alertDetailsValue) {
+			if(HOMEPAGERESPONSE.RELATEDFEEDSLOADED){
+				photoFeedValues = HOMEPAGERESPONSE.RELATEDFEEDS;
+			} else {
+				photoFeedValues = HOMEPAGERESPONSE.RECURRINGALERTDFEEDS;
+			}
+            $.each(photoFeedValues, function (index, alertDetailsValue) {
                 var alerIDValue = alertDetailsValue.alertDetails.alertId;
                 if (alertID == alertDetailsValue.alertDetails.alertId) {
                     console.log("condition satisfied alertDetailsValue", alertDetailsValue);
@@ -426,8 +431,13 @@ var staticTemplate = {
         /*Naveen 23-2-2015 Chnage end*/
         showAudioOverlayTemplate: function (alertID) {
             console.log("in audio");
-            var numberOfAudio = 0, voiceThumbNailViewHTML = "", resultThumbNail = "", originalAudioFileHTML = "", resultOriginaAudioFile = "", sliderBar = "";
-            $.each(HOMEPAGERESPONSE.RECURRINGALERTDFEEDS, function (index, alertDetailsValue) {
+            var numberOfAudio = 0, voiceThumbNailViewHTML = "", resultThumbNail = "", originalAudioFileHTML = "", resultOriginaAudioFile = "", sliderBar = "",voiceFeedValues = {};
+			if(HOMEPAGERESPONSE.RELATEDFEEDSLOADED){
+				voiceFeedValues = HOMEPAGERESPONSE.RELATEDFEEDS;
+			} else {
+				voiceFeedValues = HOMEPAGERESPONSE.RECURRINGALERTDFEEDS;
+			}
+            $.each(voiceFeedValues, function (index, alertDetailsValue) {
                 var alerIDValue = alertDetailsValue.alertDetails.alertId;
                 if (alertID == alertDetailsValue.alertDetails.alertId) {
                     console.log("condition satisfied alertDetailsValue", alertDetailsValue);
@@ -505,8 +515,13 @@ var staticTemplate = {
         },
         /*Naveen 23-2-2015 Changes Start */
         showDocumentOverlayTemplate: function (alertID) {
-            var resultThumbNail = "", noofDocuments = 0, sliderBar = "", resultDocumentFile = "", documentThumbNailViewHTML = "", originalImageHTML = "", imageTextSavePrintHTML = "";
-            $.each(HOMEPAGERESPONSE.RECURRINGALERTDFEEDS, function (i, element) {
+            var resultThumbNail = "", noofDocuments = 0, sliderBar = "", resultDocumentFile = "", documentThumbNailViewHTML = "", originalImageHTML = "", imageTextSavePrintHTML = "",docFeedValues = {};
+			if(HOMEPAGERESPONSE.RELATEDFEEDSLOADED){
+				docFeedValues = HOMEPAGERESPONSE.RELATEDFEEDS;
+			} else {
+				docFeedValues = HOMEPAGERESPONSE.RECURRINGALERTDFEEDS;
+			}
+            $.each(docFeedValues, function (i, element) {
                 var alerIDValue = element.alertDetails.alertId;
                 if (alertID == element.alertDetails.alertId) {
                     console.log("in static method", element);
@@ -531,10 +546,16 @@ var staticTemplate = {
                 console.log("driverLicenseNumber", element.driverLicenseNumber);
                 console.log("injuries", element.injuries);
                 console.log("otherInformation", element.otherInformation);
-
                 //RESPONSE.OTHERPARTYIDS.push(element.otherPartyId);
                 if (element.otherPartyId !== undefined) {
                     RESPONSE.OTHERPARTYIDS.push(element.otherPartyId);
+                }
+                console.log("element.otherPartyName", element.otherPartyName);
+                if (element.otherPartyName !== undefined) {
+                    console.log("if");
+                    RESPONSE.OTHERPARTYNAMES.push(element.otherPartyName);
+                } else {
+                    RESPONSE.OTHERPARTYNAMES.push("Nil");
                 }
                 console.log("element.fileName", element.fileName);
                 if (element.fileName !== undefined) {
@@ -612,7 +633,7 @@ var staticTemplate = {
             originalDocumentHTML = '<div class="leftDiv">'
                     + '<p id="textOverlayName">'
                     + '<span class="firstSpan">Name</span>'
-                    + '<span class="secondSpan">' + RESPONSE.NAMES[0] + '</span>'
+                    + '<span class="secondSpan">' + RESPONSE.OTHERPARTYNAMES[0] + '</span>'
                     + '</p>'
                     + '<p id="textOverlayRole">'
                     + '<span class="firstSpan">Role</span>'
@@ -752,7 +773,6 @@ var staticTemplate = {
                     + '<div class="rep-title-blk clr-fl"> <div class="name-title opensans-regular t-upper left text-color-overlay bold">NAMES</div>'
                     + '<div class="name-title opensans-regular t-upper right text-color-overlay bold">CITY,STATE</div> </div>'
                     + '<div class="rep-content-blk"> <form>';
-
             return html;
         },
         assignToRepTemplate: function () {
@@ -782,81 +802,96 @@ var staticTemplate = {
             return html;
         },
         addVendorDetailsTemplate: function () {
-            var html = ' <h2 class="t-left f-color-green opensans-regular" style="">Add Vendor details</h2> <div class="o-sub-content p-relative"> <div class="success" style=" display:none; color: green;"></div><div class="error" style=" display:none; color: red;"></div><div class="left-sub-content left p-relative"> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Type</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input id="id-vendortype" type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Address 1</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input id="id-vendoraddress1" type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Phone</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input id="id-vendorphone" type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">State</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input id="id-vendorstate" type="text" class="opensans-regular" placeholder="" /> </div> </div> </div> <div class="right-sub-content right p-relative"> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Name</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input id="id-vendorname" type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Address 2</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input id="id-vendoraddress2" type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">City</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input id="id-vendorcity" type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Zip</div> <div class="url-box right text-box-outer textBox-placeholder-italic border-all"> <input id="id-vendorzip" type="text" class="opensans-regular" placeholder="" /> </div> </div> </div> </div> <div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="overlaybtn_addvendordetails">Save</div> ';
+            var html = ' <h2 class="t-left f-color-green opensans-regular" style="">Add Vendor details</h2> <div class="o-sub-content p-relative"> <div class="success2" style=" display:none; color: green;"></div><div class="error2" style=" display:none; color: red;"></div><div class="left-sub-content left p-relative"> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Type</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input id="id-vendortype" type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Address 1</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input id="id-vendoraddress1" type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Phone</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input id="id-vendorphone" type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">State</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input id="id-vendorstate" type="text" class="opensans-regular" placeholder="" /> </div> </div> </div> <div class="right-sub-content right p-relative"> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Name</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input id="id-vendorname" type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Address 2</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input id="id-vendoraddress2" type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">City</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input id="id-vendorcity" type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Zip</div> <div class="url-box right text-box-outer textBox-placeholder-italic border-all"> <input id="id-vendorzip" type="text" class="opensans-regular" placeholder="" /> </div> </div> </div> </div> <div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="overlaybtn_addvendordetails">Save</div> ';
             return html;
         },
 //        editVendorDetailsTemplate: function () {
 //            var html = ' <h2 class="t-left f-color-green opensans-regular" style="">Edit Vendor details</h2> <div class="o-sub-content p-relative"> <div class="left-sub-content left p-relative"> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Type</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Address 1</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Phone</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">State</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input type="text" class="opensans-regular" placeholder="" /> </div> </div> </div> <div class="right-sub-content right p-relative"> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Name</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Address 2</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">City</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Zip</div> <div class="url-box right text-box-outer textBox-placeholder-italic border-all"> <input type="text" class="opensans-regular" placeholder="" /> </div> </div> </div> </div> <div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="overlaybtn">Save</div> ';
 //            return html;
 //        },
-        staticFeedViewTemplate: function (recurringAlertFeeds, currentTarget) {
-            console.log("staticFeedTemplate recurringAlertFeeds", recurringAlertFeeds);
-            console.log("staticFeedTemplate currentTarget", currentTarget);
-            var userEmail = currentTarget.find("div span").attr("id"), profilePicture = "", alertFeed = "";
-            noOfOtherPartyRecordsCount = "", noOfAudioRecordCount = "", noOfPictureRecord = "";
-            $.each(recurringAlertFeeds, function (index, viewAlertFeed) {
-                if (userEmail == viewAlertFeed.userDetails.emailId.email) {
-                    console.log("matchFound");
-                    profilePicture = HOMEPAGERESPONSE.PROFILEAPI + viewAlertFeed.userDetails.profilePicture;
-                    firstName = viewAlertFeed.userDetails.firstName;
-                    lastName = viewAlertFeed.userDetails.lastName;
-                    //userName = firstName+''+lastName;
-                    gender = viewAlertFeed.userDetails.gender;
-                    bDay = viewAlertFeed.userDetails.birthDate;
-                    bDate = moment(bDay).format('ll');
-                    residentialCity = viewAlertFeed.userDetails.residentialCity;
-                    phoneNumber = viewAlertFeed.userDetails.phone.number;
-                    alertType = viewAlertFeed.alertDetails.type;
-                    alertDate = viewAlertFeed.alertDetails.alertDate;
-                    alertTime = moment(Number(alertDate)).format('h:mmA');
-                    noOfOtherPartyRecordsCount = viewAlertFeed.NoofOtherPartyRecord;
-                    noOfAudioRecordCount = viewAlertFeed.NoofAudioRecord;
-                    noOfPictureRecord = viewAlertFeed.NoofPictureRecord;
-                    alertId = viewAlertFeed.alertDetails.alertId;
-                    if (alertType == "policyalert") {
-                        policyChangeValue = viewAlertFeed.alertDetails.PolicyChangeSelected;
-                    }
-                }
-            });
+        staticFeedViewTemplate: function (tempObj) {
             console.log("alertType");
-            if (alertType == "incidentalert") {
+            console.log("tempObj", tempObj.alertType);
+            if (tempObj.alertType == "incidentalert") {
                 if (noOfOtherPartyRecordsCount === undefined && noOfPictureRecord === undefined && noOfAudioRecordCount === undefined) {
                     console.log("condition satisfied");
-                    noOfOtherPartyRecordsCount = 0;
-                    noOfPictureRecord = 0;
-                    noOfAudioRecordCount = 0;
+                    tempObj.noOfOtherPartyRecordsCount = 0;
+                    tempObj.noOfPictureRecord = 0;
+                    tempObj.noOfAudioRecordCount = 0;
                 }
-                alertFeed = '<div class="feed-det bg-color-dblue p-relative">'
-                        + '<div class="feed-docs-pad p-relative docs-block t-center">'
-                        + '<a href="/text" class="snap feed-docs inline-block v-align-mid f-sz-14 opensans-regular f-color-green textDoc p-relative" data-type="textDoc" id=' + alertId + '>'
-                        + '<div class="t-center p-relative">'
-                        + '<div class="doc-icon-box" >'
+                alertFeed = '<div class="inline-block v-align-mid" style="margin-right:10px;">'
+                        + '<a href="/text" class="snap feed-doc-btn block f-sz-14 opensans-regular textDoc p-relative" data-type="textDoc" name="textDocView" id=' + tempObj.alertId + '>'
+                        + '<div class="t-center p-relative bg-color-white f-color-green">'
+                        + '<div class="doc-icon-box inline-block">'
                         + '<div class="sprite-im text-icon doc-icon-placement">&nbsp;</div>'
                         + '</div>'
-                        + '<div class="doc-cnt-box"><span class="doc-count doc-count-placement">' + noOfOtherPartyRecordsCount + '</span></div>'
-                        + '<div class="feed-menu-text bold">Text</div>'
+                        + '<div class="feed-menu-text inline-block f-color-green">Files</div>'
+                        + '</div>'
+                        + '<div class="t-center p-relative bg-color-green f-color-w">'
+                        + '<div class="file-count inline-block">' + tempObj.noOfOtherPartyRecordsCount + '</div>'
+                        + '<div class="inline-block">View</div>'
                         + '</div>'
                         + '</a>'
-                        + '<a href="/photos" class="snap feed-docs inline-block v-align-mid f-sz-14 opensans-regular f-color-green photosDoc p-relative" data-type="photosDoc" id=' + alertId + '>'
-                        + '<div class="t-center p-relative">'
-                        + '<div class="doc-icon-box" >'
+                        + '</div>'
+                        + '<div class="inline-block v-align-mid" style="margin-right:10px;">'
+                        + '<a href="/photos" class="snap feed-doc-btn block f-sz-14 opensans-regular photosDoc p-relative" data-type="photosDoc" name="photosDocView" id=' + tempObj.alertId + '>'
+                        + '<div class="t-center p-relative bg-color-white f-color-green">'
+                        + '<div class="doc-icon-box inline-block">'
                         + '<div class="sprite-im photos-icon doc-icon-placement">&nbsp;</div>'
                         + '</div>'
-                        + '<div class="doc-cnt-box"><span class="doc-count doc-count-placement">' + noOfPictureRecord + '</span></div>'
-                        + '<div class="feed-menu-text bold">Photos</div>'
+                        + '<div class="feed-menu-text inline-block f-color-green">Photos</div>'
+                        + '</div>'
+                        + '<div class="t-center p-relative bg-color-green f-color-w">'
+                        + '<div class="file-count inline-block">' + tempObj.noOfPictureRecord + '</div>'
+                        + '<div class="inline-block">View</div>'
                         + '</div>'
                         + '</a>'
-                        + '<a href="/voice" class="snap feed-docs inline-block v-align-mid f-sz-14 opensans-regular f-color-green voiceDoc p-relative" data-type="voiceDoc" id=' + alertId + '>'
-                        + '<div class="t-center p-relative">'
-                        + '<div class="doc-icon-box" >'
+                        + '</div>'
+                        + '<div class="inline-block v-align-mid" style="margin-top:0px;">'
+                        + '<a href="/voice" class="snap feed-doc-btn block f-sz-14 opensans-regular voiceDoc p-relative" data-type="voiceDoc" name="voiceDocView"  id=' + tempObj.alertId + '>'
+                        + '<div class="t-center p-relative bg-color-white f-color-green">'
+                        + '<div class="doc-icon-box inline-block">'
                         + '<div class="sprite-im voice-icon doc-icon-placement">&nbsp;</div>'
                         + '</div>'
-                        + '<div class="doc-cnt-box"><span class="doc-count doc-count-placement">' + noOfAudioRecordCount + '</span></div>'
-                        + '<div class="feed-menu-text bold">Voice</div>'
+                        + '<div class="feed-menu-text inline-block f-color-green">Voice</div>'
+                        + '</div>'
+                        + '<div class="t-center p-relative bg-color-green f-color-w">'
+                        + '<div class="file-count inline-block">' + tempObj.noOfAudioRecordCount + '</div>'
+                        + '<div class="inline-block">View</div>'
                         + '</div>'
                         + '</a>'
-                        + '</div>'
                         + '</div>';
+                /* alertFeed = '<div class="feed-det bg-color-dblue p-relative">'
+                 + '<div class="feed-docs-pad p-relative docs-block t-center">'
+                 + '<a href="/text" class="snap feed-docs inline-block v-align-mid f-sz-14 opensans-regular f-color-green textDoc p-relative" data-type="textDoc" id=' + tempObj.alertId + '>'
+                 + '<div class="t-center p-relative">'
+                 + '<div class="doc-icon-box" >'
+                 + '<div class="sprite-im text-icon doc-icon-placement">&nbsp;</div>'
+                 + '</div>'
+                 + '<div class="doc-cnt-box"><span class="doc-count doc-count-placement">' + tempObj.noOfOtherPartyRecordsCount + '</span></div>'
+                 + '<div class="feed-menu-text bold">Text</div>'
+                 + '</div>'
+                 + '</a>'
+                 + '<a href="/photos" class="snap feed-docs inline-block v-align-mid f-sz-14 opensans-regular f-color-green photosDoc p-relative" data-type="photosDoc" id=' + tempObj.alertId + '>'
+                 + '<div class="t-center p-relative">'
+                 + '<div class="doc-icon-box" >'
+                 + '<div class="sprite-im photos-icon doc-icon-placement">&nbsp;</div>'
+                 + '</div>'
+                 + '<div class="doc-cnt-box"><span class="doc-count doc-count-placement">' + tempObj.noOfPictureRecord + '</span></div>'
+                 + '<div class="feed-menu-text bold">Photos</div>'
+                 + '</div>'
+                 + '</a>'
+                 + '<a href="/voice" class="snap feed-docs inline-block v-align-mid f-sz-14 opensans-regular f-color-green voiceDoc p-relative" data-type="voiceDoc" id=' + tempObj.alertId + '>'
+                 + '<div class="t-center p-relative">'
+                 + '<div class="doc-icon-box" >'
+                 + '<div class="sprite-im voice-icon doc-icon-placement">&nbsp;</div>'
+                 + '</div>'
+                 + '<div class="doc-cnt-box"><span class="doc-count doc-count-placement">' + tempObj.noOfAudioRecordCount + '</span></div>'
+                 + '<div class="feed-menu-text bold">Voice</div>'
+                 + '</div>'
+                 + '</a>'
+                 + '</div>'
+                 + '</div>';  */
             } else {
                 alertFeed = '<a href="/changecoverage" class="snap feed-doc-btn block f-sz-17 opensans-regular f-color-green changeCoverage p-relative" data-type="changeCoverage">'
                         + '<div class="t-center p-relative">'
@@ -871,41 +906,41 @@ var staticTemplate = {
                     + '<div class="feed-user-top-details">'
                     + '<div class="feed-pic-b inline-block v-align-mid">'
                     + '<div id="" class="feed-user-pic-box border-all">'
-                    + '<img src=' + profilePicture + ' alt="" class="feeduserpic">'
+                    + '<img src=' + tempObj.profilePicture + ' alt="" class="feeduserpic">'
                     + '</div>'
                     + '</div>'
 
-                    + '<div class="feed-user-details-top inline-block v-align-mid">'
+                    + '<div class="feed-user-details-top inline-block v-align-mid" style="width:79%">'
                     + '<div class="line1">'
                     + '<div class="p-relative inline-block v-align-top">'
                     + '<div class="sprite-im mobile-icon mobile-icon-pos">&nbsp;</div>'
                     + '</div>'
-                    + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-16 cust-name t-caps bold">' + firstName + '&nbsp' + lastName + '</div>'
-                    + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 feed-time t-upper">' + alertTime + '</div>'
+                    + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-16 cust-name t-caps bold">' + tempObj.firstName + '&nbsp' + tempObj.lastName + '</div>'
+                    + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 feed-time t-upper">' + tempObj.alertTime + '</div>'
                     + '</div>'
-                    + '<div class="line1">' + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 cust-name t-caps">' + gender + '</div>'
+                    + '<div class="line1">' + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 cust-name t-caps">' + tempObj.gender + '</div>'
                     + '<div class="p-relative inline-block v-align-top">'
                     + '<div class="sprite-im mobile-icon mobile-icon-pos">&nbsp;</div>'
                     + '</div>'
-                    + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 cust-bday t-upper">' + bDate + '</div>'
+                    + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 cust-bday t-upper">' + tempObj.birthday + '</div>'
                     + '</div>'
                     + '<div class="feed-user-other-details">'
                     + '<div class="p-relative inline-block v-align-bot">'
                     + '<div class="sprite-im calendar-icon calendar-icon-pos">&nbsp;</div>'
                     + '</div>'
-                    + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 feed-date t-caps">' + bDate + '</div>'
+                    + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 feed-date t-caps">' + tempObj.alertDate + '</div>'
                     + '<div class="p-relative inline-block v-align-bot">'
                     + '<div class="sprite-im map-icon map-icon-pos">&nbsp;</div>'
                     + '</div>'
-                    + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 feed-location t-caps">' + residentialCity + '</div>'
+                    + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 feed-location t-caps">' + tempObj.residentialCity + '</div>'
                     + '<div class="p-relative inline-block v-align-bot">'
                     + '<div class="sprite-im phone-icon phone-icon-pos">&nbsp;</div>'
                     + '</div>'
-                    + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 cust-phone t-caps">' + phoneNumber + '</div>'
+                    + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 cust-phone t-caps">' + tempObj.phoneNumber + '</div>'
                     + '<div class="p-relative inline-block v-align-bot">'
                     + '<div class="sprite-im email-icon email-icon-pos">&nbsp;</div>'
                     + '</div>'
-                    + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 cust-email no-right-margin">' + userEmail + '</div>'
+                    + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 cust-email no-right-margin">' + tempObj.userEmail + '</div>'
                     + '</div>'
                     + '</div>'
                     + '</div>' + '<div class="feed-user-bottom-details">'
@@ -916,7 +951,7 @@ var staticTemplate = {
                     + '<span class="feed-menu-text inline-block v-align-mid f-color-w">Share</span>'
                     + '</div>'
                     + '</a>'
-                    + '<div class="bg-color-green block feed-btn f-sz-14 opensans-regular f-color-w p-relative t-center alert-type-box">' + alertType + ''
+                    + '<div class="bg-color-green block feed-btn f-sz-14 opensans-regular f-color-w p-relative t-center alert-type-box">' + tempObj.alertType + ''
                     + '</div>'
                     + '</div>'
 
@@ -962,7 +997,7 @@ var staticTemplate = {
                      + '</div>'
                      + '</a>'
                      + '</div>' */
-                    + '<div class="inline-block v-align-mid" style="margin-left:70px;">'
+                    + '<div class="inline-block v-align-mid">'
                     /* + '<a href="/changecoverage" class="snap feed-doc-btn block f-sz-17 opensans-regular f-color-green changeCoverage p-relative" data-type="changeCoverage">'
                      + '<div class="t-center p-relative">'
                      + '<div class="sprite-im message-green-icon center-icon">&nbsp;</div>'
@@ -976,94 +1011,6 @@ var staticTemplate = {
                     + '</div>'
                     + '<div class="view-in-blocks inline-block v-align-mid bg-color-dblue p-relative">'
                     + '<div class="p-relative policy-main-blk">'
-                    + '<div class="insurance-policy-blk">'
-                    + '<div class="policy-det-blk inline-block  v-align-mid">'
-                    + '<input type="checkbox" id="policy1" name="" class="checkbox" />'
-                    + '<label for="policy1" class="policy-label">'
-                    + '<div class="p-relative insurance-main-det inline-block v-align-top">'
-                    + '<div class="insurance-tit-blk">'
-                    + '<div class="f-sz-16 inline-block opensans-regular">Ideal Insurance,</div>'
-                    + '<div class="f-sz-13	inline-block opensans-regular">#454723</div>'
-                    + '</div>'
-                    + '<div class="insurance-det-blk">'
-                    + '<ul class="ins-sub-det-group f-sz-12 opensans-regular">'
-                    + '<li class="t-left">'
-                    + '<span class="f-italic t-left text-ellipsis inline-block v-align-mid ins-sub-head" title="Due Amount">Due Amount</span>'
-                    + '<span class="inline-block v-align-mid t-center">:</span>'
-                    + '<span class="t-left inline-block v-align-mid bold">$244</span>'
-                    + '</li>'
-                    + '<li class="t-left">'
-                    + '<span class="f-italic t-left text-ellipsis inline-block v-align-mid ins-sub-head" title="Next Due Date">Next Due Date</span>'
-                    + '<span class="inline-block v-align-mid t-center">:</span>'
-                    + '<span class="t-left inline-block v-align-mid bold">Oct 25, 2026</span>'
-                    + '</li>'
-                    + '<li class="t-left">'
-                    + '<span class="f-italic t-left text-ellipsis inline-block v-align-mid ins-sub-head" title="Policy Type">Policy Type</span>'
-                    + '<span class="inline-block v-align-mid t-center">:</span>'
-                    + '<span class="t-left inline-block v-align-mid bold">Property</span>'
-                    + '</li>' + '</div>'
-                    + '</div>'
-                    + '</label>'
-                    + '</div>'
-                    + '<div class="policy-btn-blk inline-block p-relative v-align-mid">'
-                    + '<div class="p-relative f-sz-12 opensans-regular t-center">'
-                    + '<div class="date-blk p-relative">'
-                    + '<span class="bold">Sep 24,2014</span>'
-                    + '<span>to</span>'
-                    + '<span class="bold">Oct 25,2026</span>'
-                    + '</div>'
-                    + '<div class="match-blk p-relative">'
-                    + '<a href="/matchReleaseClaim" class="snap bg-color-green block f-sz-12 ptsans-light t-upper t-center matchReleaseClaim p-relative f-color-w" data-type="matchReleaseClaim">'
-                    + '<div>Match & Release Claim</div>'
-                    + '</a>'
-                    + '</div>'
-                    + '</div>'
-                    + '</div>'
-                    + '</div>'
-                    + '<div class="insurance-policy-blk">'
-                    + '<div class="policy-det-blk inline-block  v-align-mid">'
-                    + '<input type="checkbox" id="policy2" name="" class="checkbox" />'
-                    + '<label for="policy2" class="policy-label">'
-                    + '<div class="p-relative insurance-main-det inline-block v-align-top">'
-                    + '<div class="insurance-tit-blk">'
-                    + '<div class="f-sz-16 inline-block opensans-regular">Ideal Insurance,</div>'
-                    + '<div class="f-sz-13	inline-block opensans-regular">#454723</div>'
-                    + '</div>'
-                    + '<div class="insurance-det-blk">'
-                    + '<ul class="ins-sub-det-group f-sz-12 opensans-regular">'
-                    + '<li class="t-left">'
-                    + '<span class="f-italic t-left text-ellipsis inline-block v-align-mid ins-sub-head" title="Due Amount">Due Amount</span>'
-                    + '<span class="inline-block v-align-mid t-center">:</span>'
-                    + '<span class="t-left inline-block v-align-mid bold">$244</span>'
-                    + '</li>'
-                    + '<li class="t-left">'
-                    + '<span class="f-italic t-left text-ellipsis inline-block v-align-mid ins-sub-head" title="Next Due Date">Next Due Date</span>'
-                    + '<span class="inline-block v-align-mid t-center">:</span>'
-                    + '<span class="t-left inline-block v-align-mid bold">Oct 25, 2026</span>'
-                    + '</li>'
-                    + '<li class="t-left">'
-                    + '<span class="f-italic t-left text-ellipsis inline-block v-align-mid ins-sub-head" title="Policy Type">Policy Type</span>'
-                    + '<span class="inline-block v-align-mid t-center">:</span>'
-                    + '<span class="t-left inline-block v-align-mid bold">Property</span>'
-                    + '</li>' + '</div>'
-                    + '</div>'
-                    + '</label>'
-                    + '</div>'
-                    + '<div class="policy-btn-blk inline-block p-relative v-align-mid">'
-                    + '<div class="p-relative f-sz-12 opensans-regular t-center">'
-                    + '<div class="date-blk p-relative">'
-                    + '<span class="bold">Sep 24,2014</span>'
-                    + '<span>to</span>'
-                    + '<span class="bold">Oct 25,2026</span>'
-                    + '</div>'
-                    + '<div class="match-blk p-relative">'
-                    + '<a href="/matchReleaseClaim" class="snap bg-color-green block f-sz-12 ptsans-light t-upper t-center matchReleaseClaim p-relative f-color-w" data-type="matchReleaseClaim">'
-                    + '<div>Match & Release Claim</div>	'
-                    + '</a>'
-                    + '</div>'
-                    + '</div>'
-                    + '</div>'
-                    + '</div>'
                     + '</div>'
                     + '</div>'
                     + '<div class="related-feeds p-relative">'
@@ -1074,6 +1021,115 @@ var staticTemplate = {
                     + '</div>'
                     + '</div>'
 
+                    + '</div>';
+            return html;
+        },
+        insurencePolicyDetails: function (insurencePolicyDetail) {
+            console.log("insurencePolicyDetail>>>>>>>>>>>>", insurencePolicyDetail);
+            var policyDetailsValue = insurencePolicyDetail.policyDetails,
+                    carrierName = insurencePolicyDetail.carrierDetails.carrierName,
+                    carrierPolicyNumber = insurencePolicyDetail.policyDetails.carrierPolicyNumber,
+                    carrierId = insurencePolicyDetail.policyDetails.carrierId,
+                    dueAmount = insurencePolicyDetail.policyDetails.nextPaymentAmountDue,
+                    dueDate = insurencePolicyDetail.policyDetails.nextPaymentDueDate,
+                    dueDateOfPolicy = moment(new Date(parseInt(dueDate))).format('MMM D, YYYY'),
+                    effectiveDate = insurencePolicyDetail.policyDetails.effectiveDate,
+                    effectiveDateOfPolicy = moment(new Date(parseInt(effectiveDate))).format('MMM D, YYYY'),
+                    expiryDate = insurencePolicyDetail.policyDetails.expirationDate,
+                    matchAndOrReleaseClaimHTML = "",
+                    policyType = "",
+                    policyId = insurencePolicyDetail.policyDetails.policyId;
+            exipryDateOfPolicy = moment(new Date(parseInt(expiryDate))).format('MMM D, YYYY'),
+                    policyCoverageDetails = insurencePolicyDetail.PolicyCoverageDetails,
+                    incidentDate = HOMEPAGERESPONSE.COMMONUSERDETAILS.incidentDate;
+            /* if(insurencePolicyDetail.PolicyCoverageDetails.carrierVehiclesWatercraftsId !== undefined){
+             policyType = "Vehicle";
+             } else if(insurencePolicyDetail.PolicyCoverageDetails.carrierPropertyId !== undefined){
+             policyType = "Property";
+             } else {
+             policyType = "Other Product";
+             } */
+            $.each(policyCoverageDetails, function (index, value) {
+                console.log("value>>>>>>>>>>>>>>>", value);
+                if (value.carrierVehiclesWatercraftsId !== undefined) {
+                    policyType = "Vehicle";
+                    return false;
+                } else if (value.carrierPropertyId !== undefined) {
+                    policyType = "Property";
+                    return false;
+                } else {
+                    policyType = "Other Product";
+                    return false;
+                }
+            });
+            console.log("carrierName", carrierName);
+            console.log("carrierId", carrierId);
+            console.log("dueAmount", dueAmount);
+            console.log("dueDate", dueDate);
+            console.log("effectiveDate", effectiveDate);
+            console.log("effectiveDate", effectiveDate);
+            //$.each(policyDetailsValue,function(index,value){
+
+            //}) 
+            var hiddenPolicyDetailsHTML = '<div class="matchAndReleaseClaim" style="display:none;">'
+                    + '<span class="incidentDateSpan">' + incidentDate + '</span>'
+                    + '<span class="carrierIdSpan">' + carrierId + '</span>'
+                    + '<span class="policyIdSpan">' + policyId + '</span>'
+                    + '</div>';
+            if (HOMEPAGERESPONSE.COMMONUSERDETAILS.alertType == "incidentalert") {
+                matchAndOrReleaseClaimHTML = '<div class="match-blk p-relative">'
+                        + '<a href="/matchReleaseClaim" class="snap bg-color-green block f-sz-12 ptsans-light t-upper t-center matchReleaseClaim p-relative f-color-w" data-type="matchReleaseClaim">'
+                        + '<div>Match & Release Claim</div>'
+                        + hiddenPolicyDetailsHTML
+                        + '</a>'
+                        + '</div>';
+            } else {
+                matchAndOrReleaseClaimHTML = '<div class="match-blk p-relative">'
+                        + '<a href="/matchReleaseClaim" class="snap bg-color-green block f-sz-12 ptsans-light t-upper t-center matchReleaseClaim p-relative f-color-w" data-type="matchReleaseClaim">'
+                        + '<div>Match</div>'
+                        + hiddenPolicyDetailsHTML
+                        + '</a>'
+                        + '</div>';
+            }
+            var html = '<div class="insurance-policy-blk">'
+                    + '<div class="policy-det-blk inline-block  v-align-mid">'
+                    + '<input type="checkbox" id=' + policyId + ' name="" class="checkbox" />'
+                    + '<label for=' + policyId + ' class="policy-label">'
+                    + '<div class="p-relative insurance-main-det inline-block v-align-top">'
+                    + '<div class="insurance-tit-blk">'
+                    + '<div class="f-sz-16 inline-block opensans-regular">' + carrierName + ',</div>'
+                    + '<div class="f-sz-13	inline-block opensans-regular">' + carrierPolicyNumber + '</div>'
+                    + '</div>'
+                    + '<div class="insurance-det-blk">'
+                    + '<ul class="ins-sub-det-group f-sz-12 opensans-regular">'
+                    + '<li class="t-left">'
+                    + '<span class="f-italic t-left text-ellipsis inline-block v-align-mid ins-sub-head" title="Due Amount">Due Amount</span>'
+                    + '<span class="inline-block v-align-mid t-center">:</span>'
+                    + '<span class="t-left inline-block v-align-mid bold">$' + dueAmount + '</span>'
+                    + '</li>'
+                    + '<li class="t-left">'
+                    + '<span class="f-italic t-left text-ellipsis inline-block v-align-mid ins-sub-head" title="Next Due Date">Next Due Date</span>'
+                    + '<span class="inline-block v-align-mid t-center">:</span>'
+                    + '<span class="t-left inline-block v-align-mid bold">' + dueDateOfPolicy + '</span>'
+                    + '</li>'
+                    + '<li class="t-left">'
+                    + '<span class="f-italic t-left text-ellipsis inline-block v-align-mid ins-sub-head" title="Policy Type">Policy Type</span>'
+                    + '<span class="inline-block v-align-mid t-center">:</span>'
+                    + '<span class="t-left inline-block v-align-mid bold">' + policyType + '</span>'
+                    + '</li>' + '</ul></div>'
+                    + '</div>'
+                    + '</label>'
+                    + '</div>'
+                    + '<div class="policy-btn-blk inline-block p-relative v-align-mid">'
+                    + '<div class="p-relative f-sz-12 opensans-regular t-center">'
+                    + '<div class="date-blk p-relative">'
+                    + '<span class="bold">' + effectiveDateOfPolicy + '</span>'
+                    + '<span>to</span>'
+                    + '<span class="bold">' + exipryDateOfPolicy + '</span>'
+                    + '</div>'
+                    + matchAndOrReleaseClaimHTML
+                    + '</div>'
+                    + '</div>'
                     + '</div>';
             return html;
         }
@@ -1121,12 +1177,9 @@ var staticTemplate = {
         staticCarrierFeedViewTemplate: function (Carrieremail) {
 
             console.log("bbb", Carrieremail);
-
             resultCarrier = JSON.parse(localStorage.getItem("users"));
-
             for (var rc = 0; rc < resultCarrier.length; rc++) {
                 var result = resultCarrier[rc];
-
                 if (result.carrierId == Carrieremail) {
                     viewdata = result;
                     //console.log("test",result);
@@ -1135,18 +1188,22 @@ var staticTemplate = {
 
 
             console.log("vin", viewdata);
-
             if (viewdata.emailId.email == undefined) {
                 var carrieremail = '';
             } else {
                 var carrieremail = viewdata.emailId.email;
             }
 
-            var html = '<div class="carrier-view-parent bg-color-white p-relative"> <div class="carrier-view-leftbloack inline-block v-align-mid p-relative"> <div class="carrier-view-auth opensans-regular p-relative"> <div class="carrier-view-name inline-block t-caps">carrier id</div> <div class="carrier-view-id inline-block">' + viewdata.carrierId + '</div> </div> <div class="carrier-logo-view p-relative"> <div class="carrierlogo-viewpic"> <img src="' + HOMEPAGERESPONSE.PROFILEAPI + viewdata.carrierLogo + '" alt="" class="carrier-img-width"> </div> </div> <div class="carrier-view-social p-relative clr-fr"> <div class="carrier-view-website p-relative left bg-color-green"> <div class="p-relative inline-block v-align-top"> <div class="sprite-im pop-out">&nbsp;</div> </div> <div class="carrier-website-name inline-block t-caps opensans-regular f-color-w"><a href="' + viewdata.website.value + '" target="_blank">website</a></div> </div> <div class="carrier-view-facebook p-relative left bg-color-green"> <div class="p-relative inline-block v-align-top"> <div class="sprite-im pop-out">&nbsp;</div> </div> <div class="carrier-facebook-name inline-block t-caps opensans-regular f-color-w"><a href="' + viewdata.facebookPage + '" target="_blank">facebook</a></div> </div> </div> </div> <div class="carrier-view-rightblock inline-block v-align-mid p-relative "> <div class="carrier-view-block p-relative "> <div class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">agency name</div> <div class="carrier-left-content t-left right ">' + viewdata.carrierName + '</div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">address</div> <div class="carrier-left-content t-left right">' + viewdata.address + '</div> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">address</div> <div class="carrier-left-content t-left right ">' + viewdata.address + '</div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">state</div> <div class="carrier-left-content t-left right">' + viewdata.state + '</div> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">city</div> <div class="carrier-left-content t-left right ">' + viewdata.city + '</div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">phone</div> <div class="carrier-left-content t-left right"><a href="tel:' + viewdata.phone.number + '">' + viewdata.phone.number + '</a></div> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div class="carrier-border-view clr-fl"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">zip</div> <div class="carrier-left-content t-left right ">' + viewdata.zip + '</div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">email</div> '
+
+            var html = '<div class="carrier-view-parent bg-color-white p-relative"> <div class="carrier-view-leftbloack inline-block v-align-mid p-relative"> <div class="carrier-view-auth opensans-regular p-relative"> <div class="carrier-view-name inline-block t-caps">CARRIER ID :</div> <div class="carrier-view-id inline-block">' + viewdata.carrierId + '</div> </div> <div class="carrier-logo-view p-relative"> <div class="carrierlogo-viewpic"> <img src="' + HOMEPAGERESPONSE.PROFILEAPI + viewdata.carrierLogo + '" alt="" class="carrier-img-width"> </div> </div> <div class="carrier-view-social p-relative clr-fr"> <div class="carrier-view-website p-relative left bg-color-green"> <div class="p-relative inline-block v-align-top"> <div class="sprite-im pop-out">&nbsp;</div> </div> <div class="carrier-website-name inline-block t-caps opensans-regular "><a class="f-color-w" href="' + viewdata.website.value + '" target="_blank">WEBSITE</a></div> </div> <div class="carrier-view-facebook p-relative left bg-color-green"> <div class="p-relative inline-block v-align-top"> <div class="sprite-im pop-out">&nbsp;</div> </div> <div class="carrier-facebook-name inline-block t-caps opensans-regular f-color-w"><a class="f-color-w" href="' + viewdata.facebookPage + '" target="_blank">FACEBOOK</a></div> </div> </div> </div> <div class="carrier-view-rightblock inline-block v-align-mid p-relative "> <div class="carrier-view-block p-relative "> <div class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">agency name</div> <div class="carrier-left-content t-left right ">' + viewdata.carrierName + '</div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">address</div> <div class="carrier-left-content t-left right">' + viewdata.address + '</div> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">address</div> <div class="carrier-left-content t-left right ">' + viewdata.address + '</div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">state</div> <div class="carrier-left-content t-left right">' + viewdata.state + '</div> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">city</div> <div class="carrier-left-content t-left right ">' + viewdata.city + '</div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">phone</div> <div class="carrier-left-content t-left right"><a href="tel:' + viewdata.phone.number + '">' + viewdata.phone.number + '</a></div> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div class="carrier-border-view clr-fl"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">zip</div> <div class="carrier-left-content t-left right ">' + viewdata.zip + '</div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">email</div> '
                     + '<div class="carrier-left-content t-left right"><a href="mailto:' + carrieremail + '">' + carrieremail + '</a></div> </div> </div> </div> </div> </div> </div> '
 //                    + '<div class="associated-carrierview p-relative"> <div class="p-relative ">'
-//                    + '<select class="associated-carrier-sort t-upper p-relative opensans-regular inline-block"><option>ASSOCIATED REPS</option><option>ASSOCIATED CUTOMERS</option></select> '
+//                    + '<select class="associated-carrier-sort t-upper p-relative opensans-regular inline-block"><option>ASSOCIATED REPS</option><option>ASSOCIATED CUSTOMERS</option></select> '
 //                    + '<div id="associatedownarrow" class="p-relative inline-block"> <div id="associatedownarrow" class="sprite-im drop-down-icon">&nbsp;</div> </div> </div> <div class="associated-carrier-feed p-relative border-bot"> <div class="carrier-feed-associated-view left p-relative"> <div class="border-all p-relative"> <div class="p-relative"> <div class="associated-carrier-pic inline-block "> <img src="http://johnjournal.bravesites.com/files/images/Profile_Score_Photo.jpg" alt="" class="carrier-img-width"> </div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> <div class="carrier-name t-caps t-center">james jeo</div> <div class="carrier-location t-caps t-center">location</div> </div> </div> </div> </div> <div class="carrier-feed-associated-view left p-relative"> <div class="border-all p-relative"> <div class="p-relative"> <div class="associated-carrier-pic inline-block "> <img src="http://johnjournal.bravesites.com/files/images/Profile_Score_Photo.jpg" alt="" class="carrier-img-width"> </div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> <div class="carrier-name t-caps t-center">Hugh jackman</div> <div class="carrier-location t-caps t-center">location</div> </div> </div> </div> </div> <div class="carrier-feed-associated-view left p-relative"> <div class="border-all p-relative"> <div class="p-relative"> <div class="associated-carrier-pic inline-block "> <img src="http://johnjournal.bravesites.com/files/images/Profile_Score_Photo.jpg" alt="" class="carrier-img-width"> </div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> <div class="carrier-name t-caps t-center">smith</div> <div class="carrier-location t-caps t-center">location</div> </div> </div> </div> </div> <div class="carrier-feed-associated-view left p-relative"> <div class="border-all p-relative"> <div class="p-relative"> <div class="associated-carrier-pic inline-block "> <img src="http://johnjournal.bravesites.com/files/images/Profile_Score_Photo.jpg" alt="" class="carrier-img-width"> </div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> <div class="carrier-name t-caps t-center">anderson</div> <div class="carrier-location t-caps t-center">location</div> </div> </div> </div> </div> </div> </div>';
+
+            // alert(c.carrierName);
+            var Omega = '\u003E';
+            $("#id-carrierpage-headertext").text(Omega + "   " + viewdata.carrierName);
             return html;
         }
 
@@ -1211,10 +1268,151 @@ var staticTemplate = {
                     + '</div>';
             return html;
         },
+        staticAegnciesViewTemplate: function (viewdata) {
+            var firstname, lastename, gender, occupation, dob, city, state, zipcode, email, phone = "";
+            var profilePicture = "";
+//            //undefined
+            if (viewdata.agencyName != undefined) {
+                firstname = viewdata.agencyName;
+            } else {
+                firstname = "";
+            }
+//            if (data.lastname != undefined) {
+//                lastename = data.lastname;
+//            } else {
+//                lastename = "";
+//            }
+//            if (data.gender != undefined) {
+//                gender = data.gender;
+//            } else {
+//                gender = "";
+//            }
+//            if (data.occupation != undefined) {
+//                occupation = data.occupation;
+//            } else {
+//                occupation = "";
+//            }
+//            if (data.birthDate != undefined) {
+//                dob = data.birthDate;
+//            } else {
+//                dob = "";
+//            }
+//            if (data.city != undefined) {
+//                city = data.city;
+//            } else {
+//                city = "";
+//            }
+//            if (data.state != undefined) {
+//                state = data.state;
+//            } else {
+//                state = "";
+//            }
+            if (viewdata.zipcode != undefined) {
+                zipcode = viewdata.zipcode;
+            } else {
+                if (viewdata.zip != undefined) {
+                    zipcode = viewdata.zip;
+                } else {
+                    zipcode = "";
+                }
+
+            }
+//            if (data.emailId.email != undefined) {
+//                email = data.emailId.email;
+//            } else {
+//                email = "";
+//            }
+//            var phoneHtml = "";
+//            if (data.phone.number != undefined) {
+//                phone = data.phone.number;
+//                phoneHtml = "<a href=\"tel:" + data.phone.number + "\"><div class=\"sprite-im carrier-mobile-icon\" style=\"float:left;display:block;\">&nbsp;</div></a>";
+//            } else {
+//                phone = "";
+//                phoneHtml = "<div class=\"sprite-im carrier-mobile-icon\" style=\"float:left;display:none;\">&nbsp;</div>";
+//            }
+//
+            if (viewdata.agencyLogo != undefined) {
+                profilePicture = "https://proto-call-test.appspot.com/file/" + viewdata.agencyLogo;
+            } else {
+                profilePicture = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+            }
+
+//            //  }
+
+
+            var dropdownHtml = "";
+            if (localStorage.LoginType == undefined) {
+                dropdownHtml = '<select id="id-customers-dropdown" class="associated-carrier-sort t-upper p-relative opensans-regular inline-block"><option>ASSOCIATED REPS</option><option>ASSOCIATED CARRIER</option></select>'
+                        + '<div id="associatedcustomersdropdownarrow" class="p-relative inline-block" style="display:block;"> <div  class="associatedownarrow-customer sprite-im drop-down-icon">&nbsp;</div> </div> </div> '
+                        + '<div id="id-carrierassociatedblock" class="associated-carrier-feed p-relative border-bot"> ';
+            }
+            if (localStorage.LoginType == 'Admin') {
+                dropdownHtml = '<select id="id-customers-dropdown" class="associated-carrier-sort t-upper p-relative opensans-regular inline-block"><option>ASSOCIATED REPS</option><option>ASSOCIATED CARRIER</option></select>'
+                        + '<div id="associatedcustomersdropdownarrow" class="p-relative inline-block" style="display:block;"> <div  class="associatedownarrow-customer sprite-im drop-down-icon">&nbsp;</div> </div> </div> '
+                        + '<div id="id-carrierassociatedblock" class="associated-carrier-feed p-relative border-bot"> ';
+            }
+            if (localStorage.LoginType == 'Representatives') {
+                dropdownHtml = '<div id="id-customers-dropdown" class="associated-carrier-sort t-upper p-relative opensans-regular inline-block">ASSOCIATED CARRIER</div>'
+                        + '<div id="associatedcustomersdropdownarrow" class="p-relative inline-block" style="display:none;"> <div  class="associatedownarrow-customer sprite-im drop-down-icon">&nbsp;</div> </div> </div> '
+                        + '<div id="id-carrierassociatedblock" class="associated-carrier-feed p-relative border-bot"> ';
+            }
+
+            if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
+                if (localStorage.LoginType == 'Admin') {
+                    dropdownHtml = '<select id="id-customers-dropdown" class="associated-carrier-sort t-upper p-relative opensans-regular inline-block"><option>ASSOCIATED CUSTOMERS</option><option>ASSOCIATED REPS</option></select>'
+                            + '<div id="associatedcustomersdropdownarrow" class="p-relative inline-block" style="display:block;"> <div  class="associatedownarrow-customer sprite-im drop-down-icon">&nbsp;</div> </div> </div> '
+                            + '<div id="id-carrierassociatedblock" class="associated-carrier-feed p-relative border-bot"> ';
+                }
+                if (localStorage.LoginType == 'Representatives') {
+                    dropdownHtml = '<select id="id-customers-dropdown" class="associated-carrier-sort t-upper p-relative opensans-regular inline-block"><option>ASSOCIATED CUSTOMERS</option><option>ASSOCIATED REPS</option></select>'
+                            + '<div id="associatedcustomersdropdownarrow" class="p-relative inline-block" style="display:block;"> <div  class="associatedownarrow-customer sprite-im drop-down-icon">&nbsp;</div> </div> </div> '
+                            + '<div id="id-carrierassociatedblock" class="associated-carrier-feed p-relative border-bot"> ';
+                }
+            }
+            if (viewdata.address2 == undefined) {
+                address2 = "";
+            } else {
+                address2 = viewdata.address2;
+            }
+
+            if (viewdata.facebookPage == undefined) {
+                facebook = "";
+            } else {
+                facebook = viewdata.facebookPage;
+            }
+
+            var html = '<div class="carrier-view-parent bg-color-white p-relative"> <div class="carrier-view-leftbloack inline-block v-align-mid p-relative"> <div class="carrier-view-auth opensans-regular p-relative"> <div class="carrier-view-name inline-block t-caps">AGENCY ID :</div> <div class="carrier-view-id inline-block">' + viewdata.agencyId + '</div> </div> <div class="carrier-logo-view p-relative"> <div class="carrierlogo-viewpic"> <img src="' + profilePicture + '" alt="" class="carrier-img-width"> </div> </div> <div class="carrier-view-social p-relative clr-fr"> <div class="carrier-view-website p-relative left bg-color-green"> <div class="p-relative inline-block v-align-top"> <div class="sprite-im pop-out">&nbsp;</div> </div> <div class="carrier-website-name inline-block t-caps opensans-regular "><a class="f-color-w" href="' + viewdata.website.value + '" target="_blank">WEBSITE</a></div> </div> <div class="carrier-view-facebook p-relative left bg-color-green"> <div class="p-relative inline-block v-align-top"> <div class="sprite-im pop-out">&nbsp;</div> </div> <div class="carrier-facebook-name inline-block t-caps opensans-regular f-color-w"><a class="f-color-w" href="' + facebook + '" target="_blank">FACEBOOK</a></div> </div> </div> </div> <div class="carrier-view-rightblock inline-block v-align-mid p-relative "> <div class="carrier-view-block p-relative "> <div class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">agency name</div> <div class="carrier-left-content t-left right ">' + firstname + '</div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">address</div> <div class="carrier-left-content t-left right">' + viewdata.address + '</div> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">address</div> <div class="carrier-left-content t-left right ">' + address2 + '</div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">state</div> <div class="carrier-left-content t-left right">' + viewdata.state + '</div> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">city</div> <div class="carrier-left-content t-left right ">' + viewdata.city + '</div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">phone</div> <div class="carrier-left-content t-left right"><a href="tel:' + viewdata.phone.number + '">' + viewdata.phone.number + '</a></div> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div class="carrier-border-view clr-fl"> <div class="carrier-view-left p-relative left"> '
+                    + '<div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">zip</div> <div class="carrier-left-content t-left right ">' + zipcode + '</div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">email</div> '
+                    + '<div class="carrier-left-content t-left right"><a href="mailto:' + viewdata.emailId.email + '">' + viewdata.emailId.email + '</a></div> </div> </div> </div> </div> </div> </div> ' + dropdownHtml;
+//            var html = '<div class="carrier-view-parent bg-color-white p-relative"> <div class="customer-view-feed inline-block v-align-mid p-relative"> <div class="customer-logo-view p-relative"> <div class="customerlogo-viewpic"> <img src=' + profilePicture + ' alt="" class="carrier-img-width"> </div> </div> '
+//                    + '<div class="customer-view-name opensans-regular t-caps t-center p-relative">' + firstname + '</div> </div> <div id="id-carrier-view-rightblock" class="carrier-view-rightblock inline-block v-align-mid p-relative "> <div class="customer-view-block p-relative "> <div class="customer-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">first name</div> <div class="carrier-left-content t-left right ">' + firstname + '</div> '
+//                    + '</div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">last name</div> <div class="carrier-left-content t-left right">' + lastename + '</div> <div class="customer-view-mbapp p-relative inline-block v-align-top right"> '
+//                    + phoneHtml + '</div> </div> </div> </div> </div> <div class="customer-view-block p-relative "> <div class="customer-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">gender</div> <div class="carrier-left-content t-left right ">' + gender + '</div>'
+//                    + '</div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">occupation</div> <div class="carrier-left-content t-left right">' + occupation + '</div> '
+//                    + '</div> </div> </div> </div> <div class="customer-view-block p-relative "> <div class="customer-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">year of birth</div>'
+//                    + '<div class="carrier-left-content t-left right ">' + dob + '</div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">residential city</div> <div class="carrier-left-content t-left right">' + city + '</div>'
+//                    + '</div> </div> </div> </div> <div class="customer-view-block p-relative "> <div class="customer-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">residential state</div> '
+//                    + '<div class="carrier-left-content t-left right t-upper ">' + state + '</div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">residential zipcode</div>'
+//                    + '<div class="carrier-left-content t-left right">' + zipcode + '</div> </div> </div> </div> </div> <div class="customer-view-block p-relative "> <div class="customer-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width opensans-regular clr-fl"> <div class="carrier-left-title t-right t-caps left">email</div> '
+//                    + '<div class="carrier-left-content t-left right"><a href="mailto:' + email + '">' + email + '</a></div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">phone</div> '
+//                    + '<div class="carrier-left-content t-left right"><a href="tel:' + phone + '">' + phone + '</a></div> </div> </div> </div> </div> <div class="customer-view-button p-relative"  style="display:none;"> <div class="customer-view-policy inline-block t-caps t-center opensans-regular">policies</div> <div class="customer-policy-button p-relative inline-block bg-color-red t-caps t-center opensans-regular f-color-w snap" data-type="dt-propertypolicy">property policy</div> <div class="customer-policy-button p-relative inline-block bg-color-green t-caps t-center opensans-regular f-color-w snap" data-type="dt-healthpolicy">health policy</div> <div class="customer-policy-button p-relative inline-block bg-color-green t-caps t-center opensans-regular f-color-w snap" data-type="dt-vehiclepolicy">vehicle policy</div> </div> </div> </div> <div class="associated-carrierview p-relative"> <div class="p-relative "> '
+//                    + dropdownHtml;
+
+
+
+//                    + '<select id="id-customers-dropdown" class="associated-carrier-sort t-upper p-relative opensans-regular inline-block"><option>ASSOCIATED REPS</option><option>ASSOCIATED CARRIER</option></select>'
+//                    + '<div id="associatedcustomersdropdownarrow" class="p-relative inline-block" style="display:block;"> <div  class="associatedownarrow-customer sprite-im drop-down-icon">&nbsp;</div> </div> </div> '
+//                    + '<div id="id-carrierassociatedblock" class="associated-carrier-feed p-relative border-bot"> ';
+
+            var Omega = '\u003E';
+            $("#id-customers-headername").text(Omega + "   " + firstname);
+            localStorage.setItem("id-customers-headername", firstname);
+            $(".pushmessage").css("display", "none");
+            return html;
+        },
         staticCustomerViewTemplate: function (data) {
             var firstname, lastename, gender, occupation, dob, city, state, zipcode, email, phone = "";
             var profilePicture = "";
-
             //undefined
             if (data.firstName != undefined) {
                 firstname = data.firstName;
@@ -1261,10 +1459,13 @@ var staticTemplate = {
             } else {
                 email = "";
             }
+            var phoneHtml = "";
             if (data.phone.number != undefined) {
                 phone = data.phone.number;
+                phoneHtml = "<a href=\"tel:" + data.phone.number + "\"><div class=\"sprite-im carrier-mobile-icon\" style=\"float:left;display:block;\">&nbsp;</div></a>";
             } else {
                 phone = "";
+                phoneHtml = "<div class=\"sprite-im carrier-mobile-icon\" style=\"float:left;display:none;\">&nbsp;</div>";
             }
 
             if (data.profilePicture != undefined) {
@@ -1272,9 +1473,44 @@ var staticTemplate = {
             } else {
                 profilePicture = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
             }
+
+            //  }
+
+
+
+            var dropdownHtml = "";
+            if (localStorage.LoginType == undefined) {
+                dropdownHtml = '<select id="id-customers-dropdown" class="associated-carrier-sort t-upper p-relative opensans-regular inline-block"><option>ASSOCIATED REPS</option><option>ASSOCIATED CARRIER</option></select>'
+                        + '<div id="associatedcustomersdropdownarrow" class="p-relative inline-block" style="display:block;"> <div  class="associatedownarrow-customer sprite-im drop-down-icon">&nbsp;</div> </div> </div> '
+                        + '<div id="id-carrierassociatedblock" class="associated-carrier-feed p-relative border-bot"> ';
+            }
+            if (localStorage.LoginType == 'Admin') {
+                dropdownHtml = '<select id="id-customers-dropdown" class="associated-carrier-sort t-upper p-relative opensans-regular inline-block"><option>ASSOCIATED REPS</option><option>ASSOCIATED CARRIER</option></select>'
+                        + '<div id="associatedcustomersdropdownarrow" class="p-relative inline-block" style="display:block;"> <div  class="associatedownarrow-customer sprite-im drop-down-icon">&nbsp;</div> </div> </div> '
+                        + '<div id="id-carrierassociatedblock" class="associated-carrier-feed p-relative border-bot"> ';
+            }
+            if (localStorage.LoginType == 'Representatives') {
+                dropdownHtml = '<div id="id-customers-dropdown" class="associated-carrier-sort t-upper p-relative opensans-regular inline-block">ASSOCIATED CARRIER</div>'
+                        + '<div id="associatedcustomersdropdownarrow" class="p-relative inline-block" style="display:none;"> <div  class="associatedownarrow-customer sprite-im drop-down-icon">&nbsp;</div> </div> </div> '
+                        + '<div id="id-carrierassociatedblock" class="associated-carrier-feed p-relative border-bot"> ';
+            }
+            if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
+                if (localStorage.LoginType == 'Representatives') {
+                    dropdownHtml = '<div id="id-customers-dropdown" class="associated-carrier-sort t-upper p-relative opensans-regular inline-block">ASSOCIATED AGENCIES</div>'
+                            + '<div id="associatedcustomersdropdownarrow" class="p-relative inline-block" style="display:none;"> <div  class="associatedownarrow-customer sprite-im drop-down-icon">&nbsp;</div> </div> </div> '
+                            + '<div id="id-carrierassociatedblock" class="associated-carrier-feed p-relative border-bot"> ';
+                }
+                if (localStorage.LoginType == 'Admin') {
+                    dropdownHtml = '<select id="id-customers-dropdown" class="associated-carrier-sort t-upper p-relative opensans-regular inline-block"><option>ASSOCIATED REPS</option><option>ASSOCIATED AGENCY</option></select>'
+                            + '<div id="associatedcustomersdropdownarrow" class="p-relative inline-block" style="display:block;"> <div  class="associatedownarrow-customer sprite-im drop-down-icon">&nbsp;</div> </div> </div> '
+                            + '<div id="id-carrierassociatedblock" class="associated-carrier-feed p-relative border-bot"> ';
+                }
+            }
+
             var html = '<div class="carrier-view-parent bg-color-white p-relative"> <div class="customer-view-feed inline-block v-align-mid p-relative"> <div class="customer-logo-view p-relative"> <div class="customerlogo-viewpic"> <img src=' + profilePicture + ' alt="" class="carrier-img-width"> </div> </div> '
-                    + '<div class="customer-view-name opensans-regular t-caps t-center p-relative">' + firstname + '</div> </div> <div class="carrier-view-rightblock inline-block v-align-mid p-relative "> <div class="customer-view-block p-relative "> <div class="customer-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">first name</div> <div class="carrier-left-content t-left right ">' + firstname + '</div> '
-                    + '</div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">last name</div> <div class="carrier-left-content t-left right">' + lastename + '</div> <div class="customer-view-mbapp p-relative inline-block v-align-top right"> <div class="sprite-im carrier-mobile-icon">&nbsp;</div> </div> </div> </div> </div> </div> <div class="customer-view-block p-relative "> <div class="customer-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">gender</div> <div class="carrier-left-content t-left right ">' + gender + '</div>'
+                    + '<div class="customer-view-name opensans-regular t-caps t-center p-relative">' + firstname + '</div> </div> <div id="id-carrier-view-rightblock" class="carrier-view-rightblock inline-block v-align-mid p-relative "> <div class="customer-view-block p-relative "> <div class="customer-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">first name</div> <div class="carrier-left-content t-left right ">' + firstname + '</div> '
+                    + '</div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">last name</div> <div class="carrier-left-content t-left right">' + lastename + '</div> <div class="customer-view-mbapp p-relative inline-block v-align-top right"> '
+                    + phoneHtml + '</div> </div> </div> </div> </div> <div class="customer-view-block p-relative "> <div class="customer-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">gender</div> <div class="carrier-left-content t-left right ">' + gender + '</div>'
                     + '</div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">occupation</div> <div class="carrier-left-content t-left right">' + occupation + '</div> '
                     + '</div> </div> </div> </div> <div class="customer-view-block p-relative "> <div class="customer-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">year of birth</div>'
                     + '<div class="carrier-left-content t-left right ">' + dob + '</div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">residential city</div> <div class="carrier-left-content t-left right">' + city + '</div>'
@@ -1282,49 +1518,147 @@ var staticTemplate = {
                     + '<div class="carrier-left-content t-left right t-upper ">' + state + '</div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">residential zipcode</div>'
                     + '<div class="carrier-left-content t-left right">' + zipcode + '</div> </div> </div> </div> </div> <div class="customer-view-block p-relative "> <div class="customer-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width opensans-regular clr-fl"> <div class="carrier-left-title t-right t-caps left">email</div> '
                     + '<div class="carrier-left-content t-left right"><a href="mailto:' + email + '">' + email + '</a></div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">phone</div> '
-                    + '<div class="carrier-left-content t-left right"><a href="tel:' + phone + '">' + phone + '</a></div> </div> </div> </div> </div> <div class="customer-view-button p-relative"> <div class="customer-view-policy inline-block t-caps t-center opensans-regular">policies</div> <div class="customer-policy-button p-relative inline-block bg-color-red t-caps t-center opensans-regular f-color-w snap" data-type="dt-propertypolicy">property policy</div> <div class="customer-policy-button p-relative inline-block bg-color-green t-caps t-center opensans-regular f-color-w snap" data-type="dt-healthpolicy">health policy</div> <div class="customer-policy-button p-relative inline-block bg-color-green t-caps t-center opensans-regular f-color-w snap" data-type="dt-vehiclepolicy">vehicle policy</div> </div> </div> </div> <div class="associated-carrierview p-relative"> <div class="p-relative "> <div class="associated-carrier-sort t-upper p-relative opensans-regular inline-block">ASSOCIATED REPS</div> <div id="associatedownarrow" class="p-relative inline-block" style="display:none;"> <div  class="sprite-im drop-down-icon">&nbsp;</div> </div> </div> '
-                    + '<div id="id-carrierassociatedblock" class="associated-carrier-feed p-relative border-bot"> ';
+                    + '<div class="carrier-left-content t-left right"><a href="tel:' + phone + '">' + phone + '</a></div> </div> </div> </div> </div> <div class="customer-view-button p-relative" > <div class="customer-view-policy inline-block t-caps t-center opensans-regular">policies</div> <div class="customer-policy-button p-relative inline-block bg-color-red t-caps t-center opensans-regular f-color-w snap" data-type="dt-propertypolicy">property policy</div> <div class="customer-policy-button p-relative inline-block bg-color-green t-caps t-center opensans-regular f-color-w snap" data-type="dt-healthpolicy">health policy</div> <div class="customer-policy-button p-relative inline-block bg-color-green t-caps t-center opensans-regular f-color-w snap" data-type="dt-vehiclepolicy">vehicle policy</div> </div> </div> </div> <div class="associated-carrierview p-relative"> <div class="p-relative "> '
+                    + dropdownHtml;
+//                    + '<select id="id-customers-dropdown" class="associated-carrier-sort t-upper p-relative opensans-regular inline-block"><option>ASSOCIATED REPS</option><option>ASSOCIATED CARRIER</option></select>'
+//                    + '<div id="associatedcustomersdropdownarrow" class="p-relative inline-block" style="display:block;"> <div  class="associatedownarrow-customer sprite-im drop-down-icon">&nbsp;</div> </div> </div> '
+//                    + '<div id="id-carrierassociatedblock" class="associated-carrier-feed p-relative border-bot"> ';
 
+            var Omega = '\u003E';
+            $("#id-customers-headername").text(Omega + "   " + firstname);
+            localStorage.setItem("id-customers-headername", firstname);
+            $(".pushmessage").css("display", "none");
             return html;
         },
         staticSettingsTemplate: function (data) {
 
-            console.log(data);
+            //console.log(data);
+            var html = "";
+            if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
+                if (localStorage.LoginType == 'Admin') {
+                    html = ' <form id="carrier-form"> <div class="settings-click-button clr-fl"><div class="success" style=" display:none; color: green;"></div><div class="error" style=" display:none; color: red;"></div> <div class="settings-agency-bar inline-block p-relative bg-color-gray t-caps t-center opensans-regular f-color-w snap"><a class="snap" href="javascript:void(0)" id="id-agency-view-load" data-type="agency-view-load" >AGENCY</a></div> <div class="settings-vendor-bar inline-block p-relative bg-color-gray t-caps t-center opensans-regular f-color-w snap"><a class="snap" href="javascript:void(0)" id="id-preferred-vendors-view-load" data-type="preferred vendors-view-load" >PREFERRED VENDORS</a></div> '
+                            + '<div class="settings-edit-bar right inline-block p-relative bg-color-green snap" data-type="agency-edit-load"><div class="p-relative inline-block"> <div class="edit-icon sprite-im">&nbsp;</div> </div> <div class="p-relative inline-block t-caps t-right opensans-regular f-color-w"> <a id="id-carrier-edit" class="f-color-w" href="javascript:void(0)" >edit</a></div>'
+                            + '</div><div class="removevendor-bar right inline-block p-relative bg-color-green snap" data-type="agency-remove-load"> <div class="p-relative inline-block"> <div class="remove-icon sprite-im">&nbsp;</div> </div> <div class="p-relative inline-block t-caps t-right opensans-regular f-color-w"><a class="f-color-w" href="javascript:void(0)"  >remove</a></div> </div> <div class="addvendor-bar right inline-block p-relative bg-color-green snap" data-type="agency-addvendor-load"> <div class="p-relative inline-block"> <div class="add-icon sprite-im">&nbsp;</div> </div> <div class="p-relative inline-block t-caps t-right opensans-regular f-color-w"><a class="f-color-w" href="javascript:void(0)"  >add vendor</a></div></div></div> <div class="bg-color-white"><div class="agency-view-block"><div class="settings-view-leftblock inline-block v-align-mid p-relative"> <div class="settings-view-auth opensans-regular p-relative"> <div class="carrier-view-name inline-block t-upper">Carrier id</div> '
+                            + '<div class="carrier-view-id inline-block">' + data.resultMap.carrierDetails.carrierId + '</div> </div> <div class="settings-logo-view p-relative"> '
+                            + '<div class="settingslogo-viewpic"> <img src=http://2-dot-proto-call-test.appspot.com/file/' + data.resultMap.carrierDetails.carrierLogo + ' alt="" class="carrier-img-width"> </div> </div> <div class="settings-view-social p-relative clr-fr"> <div class="settings-view-website p-relative left bg-color-green"> <div class="p-relative inline-block v-align-top"> <div class="sprite-im pop-out">&nbsp;</div> </div> '
+                            + '<div class="carrier-website-name inline-block t-caps opensans-regular f-color-w t-center"><a href="' + data.resultMap.carrierDetails.website.value + '" class="f-color-w">WEBSITE</a></div> </div> <div class="settings-view-facebook p-relative left bg-color-green"> <div class="p-relative inline-block v-align-top"> <div class="sprite-im pop-out">&nbsp;</div> </div> <div class="carrier-facebook-name inline-block t-caps opensans-regular f-color-w t-center">FACEBOOK</div> </div> </div> </div> <div class="settings-view-rightblock inline-block v-align-mid p-relative "> <div class="carrier-view-block p-relative "> <div id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">carrier  id</div> '
+                            + '<div id="id-c-agencyid" class="carrier-left-content t-left right " style="visibility: visible"></div> <input id="id-carrier-agencyid" class="carrier-left-content-textbox t-left right p-absoalute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">Master Carrier id</div> '
+                            + '<div class="carrier-left-content t-left right" id="id-c-masteragencyid" style="visibility: visible">' + data.resultMap.carrierDetails.carrierId + '</div> <input id="id-carrier-masteragencyid" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">Carrier Type</div> '
+                            + '<div id="id-c-agencytype" class="carrier-left-content t-left right " style="visibility: visible"></div> <input id="id-carrier-agencytype" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">name</div> '
+                            + '<div id="id-c-agencyname" class="carrier-left-content t-left right" style="visibility: visible">' + data.resultMap.carrierDetails.carrierName + '</div> <input id="id-carrier-agencyname" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">address</div> '
+                            + '<div id="id-c-agencyaddress1" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.carrierDetails.address + '</div> <input id="id-carrier-agencyaddress1" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">address</div> '
+                            + '<div id="id-c-agencyaddress2" class="carrier-left-content t-left right" style="visibility: visible"></div> <input id="id-carrier-agencyaddress2" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view border-bot clr-fl"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">city</div> '
+                            + '<div id="id-c-agencycity" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.carrierDetails.city + '</div> <input id="id-carrier-agencycity" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">state</div> '
+                            + '<div id="id-c-agencystate" class="carrier-left-content t-left right t-upper" style="visibility: visible">' + data.resultMap.carrierDetails.state + '</div> <input id="id-carrier-agencystate" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view border-bot clr-fl"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">zip</div> '
+                            + '<div id="id-c-agencyzip" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.carrierDetails.zip + '</div> <input id="id-carrier-agencyzipcode" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">phone</div> '
+                            + '<div id="id-c-agencyphone" class="carrier-left-content t-left right t-upper" style="visibility: visible">' + data.resultMap.carrierDetails.phone.number + '</div> <input id="id-carrier-agencyphone" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width opensans-regular clr-fl"> <div class="carrier-left-title t-right left t-caps">email</div>'
+                            + '<div id="id-c-agencyemail" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.carrierDetails.emailId.email + '</div> <input id="id-carrier-agencyemail" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left"></div> <div class="carrier-left-content t-left right t-upper"></div> </div> </div> </div> </div> </div></div> <div class="preferred-vendor-block inline-block v-align-mid p-relative clr-fl">'
+                            + '<div class="preffered-border-view clr-fl border-bot left clr-fl"> <div class="preffered-view-left p-relative left"> <div class="carrier-left-width t-upper opensans-regular "> <div id ="id-vendornamebox" class="carrier-left-title t-upper t-left inline-block " style="color:black">name</div> '
+                            + '<div id ="id-vendortypebox" class="carrier-left-title t-right inline-block" style="color:black">type</div> </div> </div> <div class="preffered-view-right right p-relative right "> <div class="carrier-left-width t-upper opensans-regular"> <div class="carrier-left-title t-left inline-block" style="color:black">phone</div> <div class="carrier-left-title t-right inline-block" style="color:black">state,city</div> </div> </div> </div>';
+                    // alert("1" + data.resultMap.listOfPreferredVendor[0].serviceId);
+                    if (data.resultMap.listOfPreferredVendor[0].serviceId == undefined) {
+                        // alert('2');
+                        html += "<div>There were no preferredVendor for this carrier</div>";
+                    } else {
+                        for (var index = 0; index < data.resultMap.listOfPreferredVendor.length; index++) {
 
-            var html = ' <form id="carrier-form"> <div class="carrier-view-parent p-relative"> <div class="app-link t-upper opensans-regular p-relative">app download link</div> <div class="app-parent p-relative"> '
-                    + '<div class="app-download-bar inline-block p-relative bg-color-white">' + data.resultMap.appDownloadLink + '</div> <div class="send-app-bar inline-block p-relative border-all bg-color-green t-caps t-center opensans-regular f-color-w"><a class="snap f-color-w" href="javascript:void(0)" data-type="sendapplink" >send app link</a></div> </div> <div class="settings-click-button clr-fl"><div class="success" style=" display:none; color: green;"></div><div class="error" style=" display:none; color: red;"></div> <div class="settings-agency-bar inline-block p-relative bg-color-gray t-caps t-center opensans-regular f-color-w snap"><a class="snap" href="javascript:void(0)" id="id-agency-view-load" data-type="agency-view-load" >agency</a></div> <div class="settings-vendor-bar inline-block p-relative bg-color-gray t-caps t-center opensans-regular f-color-w snap"><a class="snap" href="javascript:void(0)" id="id-preferred-vendors-view-load" data-type="preferred vendors-view-load" >preferred vendors</a></div> <div class="settings-edit-bar right inline-block p-relative bg-color-green "><div class="p-relative inline-block"> <div class="edit-icon sprite-im">&nbsp;</div> </div> <div class="p-relative inline-block t-caps t-right opensans-regular f-color-w"> <a id="id-carrier-edit" class="snap f-color-w" href="javascript:void(0)" data-type="agency-edit-load">edit</a></div> </div><div class="removevendor-bar right inline-block p-relative bg-color-green "> <div class="p-relative inline-block"> <div class="remove-icon sprite-im">&nbsp;</div> </div> <div class="p-relative inline-block t-caps t-right opensans-regular f-color-w"><a class="snap f-color-w" href="javascript:void(0)" data-type="agency-remove-load" >remove</a></div> </div> <div class="addvendor-bar right inline-block p-relative bg-color-green "> <div class="p-relative inline-block"> <div class="add-icon sprite-im">&nbsp;</div> </div> <div class="p-relative inline-block t-caps t-right opensans-regular f-color-w"><a class="snap f-color-w" href="javascript:void(0)" data-type="agency-addvendor-load" >add vendor</a></div></div></div> <div class="bg-color-white"><div class="agency-view-block"><div class="settings-view-leftblock inline-block v-align-mid p-relative"> <div class="settings-view-auth opensans-regular p-relative"> <div class="carrier-view-name inline-block t-upper">agency id</div> '
-                    + '<div class="carrier-view-id inline-block">' + data.resultMap.agencyDetails.agencyId + '</div> </div> <div class="settings-logo-view p-relative"> '
-                    + '<div class="settingslogo-viewpic"> <img src=http://2-dot-proto-call-test.appspot.com/file/' + data.resultMap.agencyDetails.agencyLogo + ' alt="" class="carrier-img-width"> </div> </div> <div class="settings-view-social p-relative clr-fr"> <div class="settings-view-website p-relative left bg-color-green"> <div class="p-relative inline-block v-align-top"> <div class="sprite-im pop-out">&nbsp;</div> </div> '
-                    + '<div class="carrier-website-name inline-block t-caps opensans-regular f-color-w t-center"><a href="' + data.resultMap.agencyDetails.website.value + '">website</a></div> </div> <div class="settings-view-facebook p-relative left bg-color-green"> <div class="p-relative inline-block v-align-top"> <div class="sprite-im pop-out">&nbsp;</div> </div> <div class="carrier-facebook-name inline-block t-caps opensans-regular f-color-w t-center">facebook</div> </div> </div> </div> <div class="settings-view-rightblock inline-block v-align-mid p-relative "> <div class="carrier-view-block p-relative "> <div id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">carrier agency id</div> '
-                    + '<div id="id-c-agencyid" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.agencyDetails.carrierAgencyId + '</div> <input id="id-carrier-agencyid" class="carrier-left-content-textbox t-left right p-absoalute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">master agency id</div> '
-                    + '<div class="carrier-left-content t-left right" id="id-c-masteragencyid" style="visibility: visible">' + data.resultMap.agencyDetails.agencyId + '</div> <input id="id-carrier-masteragencyid" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">agency type</div> '
-                    + '<div id="id-c-agencytype" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.agencyDetails.agencyType + '</div> <input id="id-carrier-agencytype" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">name</div> '
-                    + '<div id="id-c-agencyname" class="carrier-left-content t-left right" style="visibility: visible">' + data.resultMap.agencyDetails.agencyName + '</div> <input id="id-carrier-agencyname" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">address</div> '
-                    + '<div id="id-c-agencyaddress1" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.agencyDetails.address + '</div> <input id="id-carrier-agencyaddress1" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">address</div> '
-                    + '<div id="id-c-agencyaddress2" class="carrier-left-content t-left right" style="visibility: visible">' + data.resultMap.agencyDetails.address2 + '</div> <input id="id-carrier-agencyaddress2" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view border-bot clr-fl"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">city</div> '
-                    + '<div id="id-c-agencycity" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.agencyDetails.city + '</div> <input id="id-carrier-agencycity" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">state</div> '
-                    + '<div id="id-c-agencystate" class="carrier-left-content t-left right t-upper" style="visibility: visible">' + data.resultMap.agencyDetails.state + '</div> <input id="id-carrier-agencystate" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view border-bot clr-fl"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">zip</div> '
-                    + '<div id="id-c-agencyzip" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.agencyDetails.zipcode + '</div> <input id="id-carrier-agencyzipcode" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">phone</div> '
-                    + '<div id="id-c-agencyphone" class="carrier-left-content t-left right t-upper" style="visibility: visible">' + data.resultMap.agencyDetails.phone.number + '</div> <input id="id-carrier-agencyphone" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width opensans-regular clr-fl"> <div class="carrier-left-title t-right left t-caps">email</div>'
-                    + '<div id="id-c-agencyemail" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.agencyDetails.emailId.email + '</div> <input id="id-carrier-agencyemail" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left"></div> <div class="carrier-left-content t-left right t-upper"></div> </div> </div> </div> </div> </div></div> <div class="preferred-vendor-block inline-block v-align-mid p-relative clr-fl"> <div class="preffered-border-view clr-fl border-bot left clr-fl"> <div class="preffered-view-left p-relative left"> <div class="carrier-left-width t-upper opensans-regular "> <div id ="id-vendornamebox" class="carrier-left-title t-upper t-left inline-block ">name</div> '
-                    + '<div id ="id-vendortypebox" class="carrier-left-title t-right inline-block">type</div> </div> </div> <div class="preffered-view-right right p-relative right "> <div class="carrier-left-width t-upper opensans-regular"> <div class="carrier-left-title t-left inline-block">phone</div> <div class="carrier-left-title t-right inline-block">state,city</div> </div> </div> </div>';
+                            html += '<div id="item_' + index + '" class="preffered-border-view clr-fl border-bot left clr-fl"> <div class="preffered-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular ">'
+                                    + '<input type="checkbox" id="removevendor_' + index + '" value=' + data.resultMap.listOfPreferredVendor[index].serviceId + ' class="checkbox remove-vendor"> <label for="removevendor_' + index + '" class="vendor-label"></label>'
+                                    + '<div id="id-prefeeredvendorbox" class="carrier-left-title t-left inline-block ">'
+                                    + '<a id=' + data.resultMap.listOfPreferredVendor[index].serviceId + ' class="preferredvendor snap name-color" href="javascript:void(0)" data-type="vendor-profile-info" >' + data.resultMap.listOfPreferredVendor[index].serviceName + '</a></div> '
+                                    + '<div id="id-vendortypebox" class="carrier-left-title t-right inline-block">' + data.resultMap.listOfPreferredVendor[index].serviceType + '</div> </div> </div> <div class="preffered-view-right right p-relative right "> <div class="carrier-left-width t-caps opensans-regular"> '
+                                    + '<div class="carrier-left-title t-left inline-block">' + data.resultMap.listOfPreferredVendor[index].city + '</div> '
+                                    + '<div class="carrier-left-title t-right inline-block">' + data.resultMap.listOfPreferredVendor[index].city + "," + data.resultMap.listOfPreferredVendor[index].state + '</div> </div> </div> </div> ';
+                        }
+                    }
 
-            for (var index = 0; index < data.resultMap.listOfPreferredVendor.length; index++) {
+                }
+            } else {
+                html = ' <form id="carrier-form"> <div class="carrier-view-parent p-relative"> <div class="app-link t-upper opensans-regular p-relative">app download link</div> <div class="app-parent p-relative"> '
+                        + '<div class="app-download-bar inline-block p-relative bg-color-white">' + data.resultMap.appDownloadLink + '</div> <div class="send-app-bar inline-block p-relative border-all bg-color-green t-caps t-center opensans-regular f-color-w snap"  data-type="sendapplink" ><a class="f-color-w" href="javascript:void(0)" >send app link</a></div> </div> <div class="settings-click-button clr-fl"><div class="success" style=" display:none; color: green;"></div><div class="error" style=" display:none; color: red;"></div> <div class="settings-agency-bar inline-block p-relative bg-color-gray t-caps t-center opensans-regular f-color-w snap"><a class="snap" href="javascript:void(0)" id="id-agency-view-load" data-type="agency-view-load" >AGENCY</a></div> <div class="settings-vendor-bar inline-block p-relative bg-color-gray t-caps t-center opensans-regular f-color-w snap"><a class="snap" href="javascript:void(0)" id="id-preferred-vendors-view-load" data-type="preferred vendors-view-load" >PREFERRED VENDORS</a></div> '
+                        + '<div class="settings-edit-bar right inline-block p-relative bg-color-green snap" data-type="agency-edit-load"><div class="p-relative inline-block"> <div class="edit-icon sprite-im">&nbsp;</div> </div> <div class="p-relative inline-block t-caps t-right opensans-regular f-color-w"> <a id="id-carrier-edit" class="f-color-w" href="javascript:void(0)" >edit</a></div>'
+                        + '</div><div class="removevendor-bar right inline-block p-relative bg-color-green snap" data-type="agency-remove-load"> <div class="p-relative inline-block"> <div class="remove-icon sprite-im">&nbsp;</div> </div> <div class="p-relative inline-block t-caps t-right opensans-regular f-color-w"><a class="f-color-w" href="javascript:void(0)"  >remove</a></div> </div> <div class="addvendor-bar right inline-block p-relative bg-color-green snap" data-type="agency-addvendor-load"> <div class="p-relative inline-block"> <div class="add-icon sprite-im">&nbsp;</div> </div> <div class="p-relative inline-block t-caps t-right opensans-regular f-color-w"><a class="f-color-w" href="javascript:void(0)"  >add vendor</a></div></div></div> <div class="bg-color-white"><div class="agency-view-block"><div class="settings-view-leftblock inline-block v-align-mid p-relative"> <div class="settings-view-auth opensans-regular p-relative"> <div class="carrier-view-name inline-block t-upper">agency id</div> '
+                        + '<div class="carrier-view-id inline-block">' + data.resultMap.agencyDetails.agencyId + '</div> </div> <div class="settings-logo-view p-relative"> '
+                        + '<div class="settingslogo-viewpic"> <img src=http://2-dot-proto-call-test.appspot.com/file/' + data.resultMap.agencyDetails.agencyLogo + ' alt="" class="carrier-img-width"> </div> </div> <div class="settings-view-social p-relative clr-fr"> <div class="settings-view-website p-relative left bg-color-green"> <div class="p-relative inline-block v-align-top"> <div class="sprite-im pop-out">&nbsp;</div> </div> '
+                        + '<div class="carrier-website-name inline-block t-caps opensans-regular f-color-w t-center"><a href="' + data.resultMap.agencyDetails.website.value + '" class="f-color-w">WEBSITE</a></div> </div> <div class="settings-view-facebook p-relative left bg-color-green"> <div class="p-relative inline-block v-align-top"> <div class="sprite-im pop-out">&nbsp;</div> </div> <div class="carrier-facebook-name inline-block t-caps opensans-regular f-color-w t-center">FACEBOOK</div> </div> </div> </div> <div class="settings-view-rightblock inline-block v-align-mid p-relative "> <div class="carrier-view-block p-relative "> <div id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">carrier id</div> '
+                        + '<div id="id-c-agencyid" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.agencyDetails.carrierAgencyId + '</div> <input id="id-carrier-agencyid" class="carrier-left-content-textbox t-left right p-absoalute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">master agency id</div> '
+                        + '<div class="carrier-left-content t-left right" id="id-c-masteragencyid" style="visibility: visible">' + data.resultMap.agencyDetails.agencyId + '</div> <input id="id-carrier-masteragencyid" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">agency type</div> '
+                        + '<div id="id-c-agencytype" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.agencyDetails.agencyType + '</div> <input id="id-carrier-agencytype" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">name</div> '
+                        + '<div id="id-c-agencyname" class="carrier-left-content t-left right" style="visibility: visible">' + data.resultMap.agencyDetails.agencyName + '</div> <input id="id-carrier-agencyname" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">address</div> '
+                        + '<div id="id-c-agencyaddress1" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.agencyDetails.address + '</div> <input id="id-carrier-agencyaddress1" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">address</div> '
+                        + '<div id="id-c-agencyaddress2" class="carrier-left-content t-left right" style="visibility: visible">' + data.resultMap.agencyDetails.address2 + '</div> <input id="id-carrier-agencyaddress2" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view border-bot clr-fl"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">city</div> '
+                        + '<div id="id-c-agencycity" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.agencyDetails.city + '</div> <input id="id-carrier-agencycity" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">state</div> '
+                        + '<div id="id-c-agencystate" class="carrier-left-content t-left right t-upper" style="visibility: visible">' + data.resultMap.agencyDetails.state + '</div> <input id="id-carrier-agencystate" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view border-bot clr-fl"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">zip</div> '
+                        + '<div id="id-c-agencyzip" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.agencyDetails.zipcode + '</div> <input id="id-carrier-agencyzipcode" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">phone</div> '
+                        + '<div id="id-c-agencyphone" class="carrier-left-content t-left right t-upper" style="visibility: visible">' + data.resultMap.agencyDetails.phone.number + '</div> <input id="id-carrier-agencyphone" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width opensans-regular clr-fl"> <div class="carrier-left-title t-right left t-caps">email</div>'
+                        + '<div id="id-c-agencyemail" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.agencyDetails.emailId.email + '</div> <input id="id-carrier-agencyemail" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left"></div> <div class="carrier-left-content t-left right t-upper"></div> </div> </div> </div> </div> </div></div> <div class="preferred-vendor-block inline-block v-align-mid p-relative clr-fl">'
+                        + '<div class="preffered-border-view clr-fl border-bot left clr-fl"> <div class="preffered-view-left p-relative left"> <div class="carrier-left-width t-upper opensans-regular "> <div id ="id-vendornamebox" class="carrier-left-title t-upper t-left inline-block " style="color:black">name</div> '
+                        + '<div id ="id-vendortypebox" class="carrier-left-title t-right inline-block" style="color:black">type</div> </div> </div> <div class="preffered-view-right right p-relative right "> <div class="carrier-left-width t-upper opensans-regular"> <div class="carrier-left-title t-left inline-block" style="color:black">phone</div> <div class="carrier-left-title t-right inline-block" style="color:black">state,city</div> </div> </div> </div>';
+                for (var index = 0; index < data.resultMap.listOfPreferredVendor.length; index++) {
 
-                html += '<div id="item_' + index + '" class="preffered-border-view clr-fl border-bot left clr-fl"> <div class="preffered-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular ">'
-                        + '<input type="checkbox" id="removevendor_' + index + '" value=' + data.resultMap.listOfPreferredVendor[index].serviceId + ' class="checkbox remove-vendor"> <label for="removevendor_' + index + '" class="vendor-label"></label>'
-                        + '<div id="id-prefeeredvendorbox" class="carrier-left-title t-left inline-block ">'
-                        + '<a id=' + data.resultMap.listOfPreferredVendor[index].serviceId + ' class="preferredvendor snap name-color" href="javascript:void(0)" data-type="vendor-profile-info" >' + data.resultMap.listOfPreferredVendor[index].serviceName + '</a></div> '
-                        + '<div id="id-vendortypebox" class="carrier-left-title t-right inline-block">' + data.resultMap.listOfPreferredVendor[index].serviceType + '</div> </div> </div> <div class="preffered-view-right right p-relative right "> <div class="carrier-left-width t-caps opensans-regular"> '
-                        + '<div class="carrier-left-title t-left inline-block">' + data.resultMap.listOfPreferredVendor[index].city + '</div> '
-                        + '<div class="carrier-left-title t-right inline-block">' + data.resultMap.listOfPreferredVendor[index].city + "," + data.resultMap.listOfPreferredVendor[index].state + '</div> </div> </div> </div> ';
+                    html += '<div id="item_' + index + '" class="preffered-border-view clr-fl border-bot left clr-fl"> <div class="preffered-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular ">'
+                            + '<input type="checkbox" id="removevendor_' + index + '" value=' + data.resultMap.listOfPreferredVendor[index].serviceId + ' class="checkbox remove-vendor"> <label for="removevendor_' + index + '" class="vendor-label"></label>'
+                            + '<div id="id-prefeeredvendorbox" class="carrier-left-title t-left inline-block ">'
+                            + '<a id=' + data.resultMap.listOfPreferredVendor[index].serviceId + ' class="preferredvendor snap name-color" href="javascript:void(0)" data-type="vendor-profile-info" >' + data.resultMap.listOfPreferredVendor[index].serviceName + '</a></div> '
+                            + '<div id="id-vendortypebox" class="carrier-left-title t-right inline-block">' + data.resultMap.listOfPreferredVendor[index].serviceType + '</div> </div> </div> <div class="preffered-view-right right p-relative right "> <div class="carrier-left-width t-caps opensans-regular"> '
+                            + '<div class="carrier-left-title t-left inline-block">' + data.resultMap.listOfPreferredVendor[index].city + '</div> '
+                            + '<div class="carrier-left-title t-right inline-block">' + data.resultMap.listOfPreferredVendor[index].city + "," + data.resultMap.listOfPreferredVendor[index].state + '</div> </div> </div> </div> ';
+                }
+
             }
 
 
             return html;
+        },
+        dynamicMyProfileViewTemplate: function () {
+            var carrierid = $(".Carrierreps-feed-view").attr("id");
+            localStorage.setItem("CARRIERADMIN_MYREPID", carrierid);
+            var tempCarriedId = localStorage.getItem("CARRIERADMIN_MYREPID");
+            var data = JSON.parse(localStorage.getItem("CARRIERAGENCYTOTALDETAILS"));
+            console.log("Manoj---->", data);
+            var name, phone, email, profilepic = '';
+            var html = "<div> No records </div>"
 
+            for (var index = 0; index < data.resultMap.myRepTab.length; index++) {
+
+                if (data.resultMap.myRepTab[index].carrierId == tempCarriedId) {
+                    var details = data.resultMap.myRepTab[index];
+                    if (details.name != undefined) {
+                        name = details.name;
+                    } else {
+                        name = '';
+                    }
+                    if (details.phone.number != undefined) {
+                        phone = details.phone.number;
+                    } else {
+                        phone = '';
+                    }
+                    if (details.carrierRepresentativeId.email != undefined) {
+                        email = details.carrierRepresentativeId.email;
+                    } else {
+                        email = '';
+                    }
+                    if (details.profilePicture != undefined) {
+                        profilepic = details.profilePicture;
+                    } else {
+                        profilepic = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREcPNRtKYiBvLn1TGvtd2JZQrg_P4IubK34BlZIEcmnel20KIINiVxnPV0';
+                    }
+                    html = "";
+                    localStorage.setItem("CARRIERREP_EMAILID", email);
+                    html = '<div class="agenyparent-class bg-color-white"> <div class="p-relative"> <form> <div class="agenyleft-profile inline-block v-align-mid p-relative"> '
+                            + '<div class="agenyleft-image"> <div class="overflow-hidden"> <div class="agenypic-info"> <img src=' + profilepic + ' alt="" class="ageny-img-width"> </div><div class="v-align-mid opensans-regular text-color-overlay f-sz-12 p-relative" style="padding:0px 25px;"> <div class="sprite-im profcamera-icon inline-block"> &nbsp; </div><div class="t-upper inline-block"> Change Image </div><input type="file" name="agency-prof-img" id="agency-prof-img" onchange="readURL(this);"/> </div></div></div></div><div class="agenyright-profile inline-block v-align-mid"> <div class="agenyparent-block"> <div class="agenyinternal-block"> <div class="agenygroup-block border-bot opensans-regular"> <div class="agenychild-block"> <div class="agenytitle-block inline-block p-relative"> Name </div><div class="agenycontent-block inline-block p-relative"> '
+                            + '<span class="profile-result-cls" id="nameview"> ' + name + ' </span> </div><input type="text" name="profileName" value="" class="agencyprofinput" id="namenew"> </div></div><div class="agenygroup-block border-bot opensans-regular"> <div class="agenychild-block"> <div class="agenytitle-block inline-block p-relative" > Phone </div><div class="agenycontent-block inline-block p-relative"> '
+                            + '<span class="profile-result-cls" id="phoneview"> ' + phone + ' </span> </div><input type="text" name="profileName" value="" class="agencyprofinput" id="phonenew"> </div></div><div class="agenygroup-block border-bot opensans-regular"> <div class="agenychild-block"> <div class="agenytitle-block inline-block p-relative"> Email </div><div class="agenycontent-block inline-block p-relative">'
+                            + '<span class="profile-result-cls" id="emailview"> ' + email + ' </span> </div><input type="text" name="profileName" value="" class="agencyprofinput" id="emailnew"> </div></div></div></div></div></form> </div></div>';
+                    break;
+                }
+
+            }
+
+            return html;
         },
         staticMyProfileViewTemplate: function () {
+
             var html = '<div class="agenyparent-class bg-color-white"> <div class="p-relative"> <form> <div class="agenyleft-profile inline-block v-align-mid p-relative"> <div class="agenyleft-image"> <div class="overflow-hidden"> <div class="agenypic-info"> <img src=' + sessionStorage.profilePic + ' alt="" class="ageny-img-width"> </div><div class="v-align-mid opensans-regular text-color-overlay f-sz-12 p-relative" style="padding:0px 25px;"> <div class="sprite-im profcamera-icon inline-block"> &nbsp; </div><div class="t-upper inline-block"> Change Image </div><input type="file" name="agency-prof-img" id="agency-prof-img" onchange="readURL(this);"/> </div></div></div></div><div class="agenyright-profile inline-block v-align-mid"> <div class="agenyparent-block"> <div class="agenyinternal-block"> <div class="agenygroup-block border-bot opensans-regular"> <div class="agenychild-block"> <div class="agenytitle-block inline-block p-relative"> Name </div><div class="agenycontent-block inline-block p-relative"> <span class="profile-result-cls" id="nameview"> ' + sessionStorage.agencyName + ' </span> </div><input type="text" name="profileName" value="" class="agencyprofinput" id="namenew"> </div></div><div class="agenygroup-block border-bot opensans-regular"> <div class="agenychild-block"> <div class="agenytitle-block inline-block p-relative" > Phone </div><div class="agenycontent-block inline-block p-relative"> <span class="profile-result-cls" id="phoneview"> ' + sessionStorage.agencyPhone + ' </span> </div><input type="text" name="profileName" value="" class="agencyprofinput" id="phonenew"> </div></div><div class="agenygroup-block border-bot opensans-regular"> <div class="agenychild-block"> <div class="agenytitle-block inline-block p-relative"> Email </div><div class="agenycontent-block inline-block p-relative"> <span class="profile-result-cls" id="emailview"> ' + sessionStorage.agencyEmail + ' </span> </div><input type="text" name="profileName" value="" class="agencyprofinput" id="emailnew"> </div></div></div></div></div></form> </div></div>';
             return html;
         }
@@ -1335,9 +1669,9 @@ var staticTemplate = {
                     + '<div class="o-sub-content p-relative">'
                     + '<div class="f-sz-14 t-left opensans-regular invite-reps-text">User will have access to all the features of Dashboard</div>'
                     + '<div class="text-box-outer">'
-                    + '<input type="text" class="opensans-regular" placeholder="Mail Address" />'
+                    + '<input type="text" class="opensans-regular" id="inviterepemail" placeholder="Mail Address" />'
                     + '</div>'
-                    + '<div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="overlaybtn">Done</div>'
+                    + '<div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="InvitemyRep">Done</div>'
                     + '</div>';
             return html;
         },

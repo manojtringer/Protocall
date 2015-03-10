@@ -112,7 +112,120 @@ utils.server = {
 //resultMap
         console.log("myvinoth", data);
 
+        //alert(data.resultMap.TypeCode);
 
+        // alert("4001" + localStorage.getItem("LOGIN_LABEL") + "-->" + localStorage.LoginType);
+
+
+        if (data.resultMap.TypeCode == '4001') {
+            sessionStorage.loggedIn = "true";
+            localStorage.imageURl = "http://2-dot-proto-call-test.appspot.com/file/";
+            if (localStorage.getItem("LOGIN_LABEL") == "Agency") {
+
+                if (localStorage.LoginType == 'Admin') {
+                    sessionStorage.loginType = 'AgencyAdmin';
+                    sessionStorage.agencyName = data.resultMap.agencyDetails.agencyName;
+                }
+                if (localStorage.LoginType == 'Representatives') {
+                    sessionStorage.loginType = 'AgencyRepresentative';
+                    sessionStorage.agencyName = data.resultMap.userDetails.name;
+                    //                    sessionStorage.agencyName = "Manoj";
+                }
+
+                //  alert("1"+sessionStorage.loginType);
+                sessionStorage.loggedIn = "true";
+                localStorage.imageURl = "http://2-dot-proto-call-test.appspot.com/file/";
+                sessionStorage.profilePic = localStorage.imageURl + data.resultMap.userDetails.profilePicture;
+                sessionStorage.agencyEmail = data.resultMap.userDetails.agencyRepresentativeId.email;
+                sessionStorage.agencyLogo = localStorage.imageURl + data.resultMap.agencyDetails.agencyLogo;
+
+                sessionStorage.agencyPhone = data.resultMap.agencyDetails.phone.number;
+                sessionStorage.agencyId = data.resultMap.agencyId;
+            } else if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
+
+                if (localStorage.LoginType == 'Admin') {
+
+                    sessionStorage.loginType = 'CarrierAdmin';
+                    sessionStorage.agencyName = data.resultMap.carrierDetails.carrierName;
+                    sessionStorage.agencyEmail = data.resultMap.userDetails.emailId.email;
+                    sessionStorage.profilePic = localStorage.imageURl + data.resultMap.carrierDetails.profilePicture;
+                    sessionStorage.agencyLogo = localStorage.imageURl + data.resultMap.carrierDetails.carrierLogo;
+                    sessionStorage.agencyPhone = data.resultMap.carrierDetails.phone.number;
+
+                    if (data.resultMap.userDetails.profilePicture != undefined) {
+                        sessionStorage.profilePic = localStorage.imageURl + data.resultMap.userDetails.profilePicture;
+                    } else {
+                        sessionStorage.profilePic = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                    }
+                }
+                if (localStorage.LoginType == 'Representatives') {
+                    sessionStorage.loginType = 'CarrierRepresentative';
+                    sessionStorage.agencyName = data.resultMap.userDetails.name;
+                    sessionStorage.agencyEmail = data.resultMap.userDetails.carrierRepresentativeId.email;
+                    sessionStorage.agencyLogo = localStorage.imageURl + data.resultMap.carrierDetails.carrierLogo;
+                    sessionStorage.agencyPhone = data.resultMap.carrierDetails.phone.number;
+                    sessionStorage.agencyId = data.resultMap.carrierDetails.carrierId;
+                    if (data.resultMap.userDetails.profilePicture != undefined) {
+                        sessionStorage.profilePic = localStorage.imageURl + data.resultMap.userDetails.profilePicture;
+                    } else {
+                        sessionStorage.profilePic = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                    }
+                }
+            }
+
+
+
+            if (localStorage.getItem("LOGIN_LABEL") == "Agency") {
+
+                if (localStorage.LoginType == 'Representatives') {
+                    var dataq = {};
+                    var path = utils.server.getServerPath("agencydashboarddesignforrepresentativelogin");
+                    var request = path(dataq).execute(function (resp) {
+                        if (resp.error) {
+                            t.server.handleError(resp);
+                        } else {
+                            localStorage.setItem("AGENCYLOGIN_DATA", JSON.stringify(resp));
+                        }
+                    });
+                }
+
+            }
+            if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
+                if (localStorage.LoginType == 'Representatives') {
+                    var dataq = {};
+                    var path = utils.server.getServerPath("carrierdashboarddesignforrepresentativelogin");
+                    var request = path(dataq).execute(function (resp) {
+                        if (resp.error) {
+                            t.server.handleError(resp);
+                        } else {
+                            localStorage.setItem("CARRIERREP_DATA", JSON.stringify(resp));
+                            localStorage.setItem("customers_data", JSON.stringify(resp.resultMap.carrierTab[2]));
+                            localStorage.setItem("agencies_data", JSON.stringify(resp.resultMap.carrierTab[0]));
+                            localStorage.setItem("carrierrepcustomers_data", JSON.stringify(resp));
+                        }
+                    });
+                }
+            }
+
+
+            protocall.setPageNavigation(HOME_PAGE);
+
+
+
+            /* var header   = HomedynamicTemplate.home.HomeDynamicHeaderTemplate();
+             
+             var template = staticTemplate.home.staticFeedTemplate();
+             
+             var content = '<div class="container"> <div class="content-holder">'+template+'</div></div></div></div>';
+             var footer   = HomedynamicTemplate.home.HomeDynamicFooterTemplate()
+             
+             $("#page").empty();
+             
+             totalHtml = header+content+footer;
+             
+             $("#page").append(totalHtml); */
+            protocall.displaySpinner(true);
+        }
 
         if (data.resultMap.TypeCode == '4002') {
             var error = "Your password is wrong, check whether the caplock is enabled";
@@ -136,35 +249,9 @@ utils.server = {
 
 
 
-        if (data.resultMap.TypeCode == '4001') {
 
 
-            $("#homecontent").css("display", "block");
-            sessionStorage.loggedIn = "true";
-            localStorage.imageURl = "http://2-dot-proto-call-test.appspot.com/file/";
-            sessionStorage.profilePic = localStorage.imageURl + data.resultMap.userDetails.profilePicture;
-            sessionStorage.agencyEmail = data.resultMap.userDetails.agencyRepresentativeId.email;
-            sessionStorage.agencyLogo = localStorage.imageURl + data.resultMap.agencyDetails.agencyLogo;
-            sessionStorage.agencyName = data.resultMap.userDetails.firstName;
-            sessionStorage.agencyPhone = data.resultMap.agencyDetails.phone.number;
-            sessionStorage.agencyId = data.resultMap.agencyId;
-            protocall.setPageNavigation(HOME_PAGE);
 
-            /* var header   = HomedynamicTemplate.home.HomeDynamicHeaderTemplate();
-             
-             var template = staticTemplate.home.staticFeedTemplate();
-             
-             var content = '<div class="container"> <div class="content-holder">'+template+'</div></div></div></div>';
-             
-             var footer   = HomedynamicTemplate.home.HomeDynamicFooterTemplate()
-             
-             $("#page").empty();
-             
-             totalHtml = header+content+footer;
-             
-             $("#page").append(totalHtml); */
-            protocall.displaySpinner(true);
-        }
 
     },
     //ADDED BY MANOJ FRIDAY 17 2015---->STARTS HERE
@@ -233,10 +320,10 @@ utils.server = {
             var customerCity = data.resultMap.RepresentativeDetails[index].location;
             var customerState = "";
             var customerEmailId = data.resultMap.RepresentativeDetails[index].agencyRepresentativeId.email;
-//            alert(customerEmailId);
+            //            alert(customerEmailId);
 
             RESPONSE_ARRAY[index] = [customerName, customerCity, customerState, customerEmailId];
-//<input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'>
+            //<input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'>
             var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + " id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
             feedHtml = feedHtml + tempHtml;
             tempHtml = "";
@@ -256,10 +343,10 @@ utils.server = {
             var customerCity = data.resultMap.RepresentativeDetails[index].location;
             var customerState = "";
             var customerEmailId = data.resultMap.RepresentativeDetails[index].agencyRepresentativeId.email;
-//            alert(customerEmailId);
+            //            alert(customerEmailId);
 
             RESPONSE_ARRAY[index] = [customerName, customerCity, customerState, customerEmailId];
-//<input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'>
+            //<input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'>
             var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + "  id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
             feedHtml = feedHtml + tempHtml;
             tempHtml = "";
@@ -268,6 +355,30 @@ utils.server = {
         var finalHtml = feedHtml + buttonHtml;
         overlay.displayOverlay(finalHtml);
         sharewithRepSelectAllDropDown("false");
+        var flag = 0;
+        $('.getSelectedCustomers').each(function () {
+            str = this.checked ? "1" : "0";
+            if (str == "1") {
+                flag = 1;
+            }
+        });
+
+        // alert(flag + "data--" + localStorage.getItem("ARRAY_CUSTOMERS_LIST"));
+        if (flag == 0) {
+            if (localStorage.getItem("ARRAY_CUSTOMERS_LIST") == "" || localStorage.getItem("ARRAY_CUSTOMERS_LIST") == null || localStorage.getItem("ARRAY_CUSTOMERS_LIST") == undefined) {
+                $(".error").html("Please select atleat a Customer..!");
+                $(".error").css("display", "block");
+                //  alert("2");
+                $(".error").css("padding-top", "10px");
+                $(".error").css("padding-bottom", "10px");
+                $('.error').delay(3000).slideUp('slow');
+
+                setTimeout(myFunction, 3000);
+                function myFunction() {
+                    overlay.closeOverlay();
+                }
+            }
+        }
     },
     gotPrivacyResponse: function (data, page) {
 
@@ -279,14 +390,21 @@ utils.server = {
             var customerState = "";
             var customerEmailId = data.resultMap.RepresentativeDetails[index].agencyRepresentativeId.email;
             var privacy = data.resultMap.RepresentativeDetails[index].privacy;
-            // alert(privacy);
+            var carrierAgencyRepresentativeId = data.resultMap.RepresentativeDetails[index].carrierAgencyRepresentativeId;
+
+            if (carrierAgencyRepresentativeId == "undefined" || carrierAgencyRepresentativeId == null) {
+                carrierAgencyRepresentativeId = "";
+            }
+
             if (privacy == "undefined") {
                 privacy = customerEmailId + "#off";
             } else {
                 privacy = customerEmailId + "#" + privacy;
             }
 
-            RESPONSE_ARRAY[index] = [customerName, customerCity, customerState, customerEmailId, privacy];
+
+
+            RESPONSE_ARRAY[index] = [customerName, customerCity, customerState, customerEmailId, privacy, carrierAgencyRepresentativeId];
             var toggleStyleOn = "";
             var toggleStyleOff = "";
             if (privacy == "on") {
@@ -300,7 +418,8 @@ utils.server = {
             }
 
             //alert(privacy);
-            var tempHtml = "<div class=\"rep-grp-blk opensans-regular border-bot text-color-overlay p-relative\"> <input type=\"checkbox\" id='name" + index + "'  class=\"checkbox\" /> <label for='name" + index + "' class=\"rep-label\"> <div class=\"lbl-in-block p-relative\"> <div class=\"f-sz-14 text-color-overlay left rep-name\" style=\"width:20%;\">" + customerName + "</div> <div class=\"nameRepId f-sz-14 text-color-overlay left\"><i>#5454547</i></div> <div class=\"t-caps f-sz-13 right t-right location-color rep-location\"> <div class=\"bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-on\"> <div id=\"id" + index + "-switch-container\" class=\"bootstrap-switch-container\" style=" + toggleStyle + "> "
+            var tempHtml = "<div class=\"rep-grp-blk opensans-regular border-bot text-color-overlay p-relative\"> <input type=\"checkbox\" id='name" + index + "'  class=\"checkbox\" /> <label for='name" + index + "' class=\"rep-label\"> <div class=\"lbl-in-block p-relative\"> <div class=\"f-sz-14 text-color-overlay left rep-name\" style=\"width:20%;\">" + customerName + "</div> "
+                    + "<div class=\"nameRepId f-sz-14 text-color-overlay left\"><i>" + carrierAgencyRepresentativeId + "</i></div> <div class=\"t-caps f-sz-13 right t-right location-color rep-location\"> <div class=\"switchsample bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-on\"> <div id=\"id" + index + "-switch-container\" class=\"bootstrap-switch-container\" style=" + toggleStyle + "> "
                     + "<span id=\"id-switch-on\" class=\"bootstrap-switch-handle-on bootstrap-switch-primary\"  onclick=\"moveani(" + index + ",\'id-switch-on\', \'id" + index + "-switch-container\')\"><div  class=\"togglevalue" + index + "\" style=\"display:none;\">" + privacy + "</div> ON</span> <span class=\"bootstrap-switch-label\">&nbsp;</span> <span id=\"id-switch-off\" class=\"bootstrap-switch-handle-off bootstrap-switch-default\"  onclick=\"moveani(" + index + ",\'id-switch-off\', \'id" + index + "-switch-container\')\"> OFF</span> <input type=\"checkbox\" checked=\"\"></div></div> </div> </div> </div> ";
             feedHtml = feedHtml + tempHtml;
             tempHtml = "";
@@ -309,6 +428,12 @@ utils.server = {
         var buttonHtml = " </form> </div> </div> <div class='o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w' data-type='overlaybtnPrivacySend'>Save</div> </div> ";
         var finalHtml = feedHtml + buttonHtml;
         overlay.displayOverlay(finalHtml);
+
+        //rep-content-blk
+        $(".rep-content-blk").css("opacity", "0.5");
+        $(".rep-content-blk").find("input", "div").attr('disabled', 'disabled');
+        $(".switchsample").css("pointer-events", "none");
+        //  $("#id-switch-off").css("pointer-events", "none");
         //sharewithRepSelectAllDropDown("false");
 
 
@@ -359,7 +484,7 @@ utils.server = {
 //        }
 //        var buttonHtml = " </form> </div> </div> <div class='o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w' data-type='dt_overlaybtn_sendapplink'>Send</div> </div> ";
 //        var finalHtml = feedHtml + buttonHtml;
-//        overlay.displayOverlay(finalHtml);
+        //        overlay.displayOverlay(finalHtml);
 
         sharewithRepSelectAllDropDown("true");
     },
@@ -371,13 +496,15 @@ utils.server = {
 
         if ($('#radio-button-now').is(':checked')) {
             var date = new Date();
-            scheduledDate = date.getMilliseconds();
+            scheduledDate = date.getTime();
+            //alert(scheduledDate);
         } else if ($('#radio-button-later').is(':checked')) {
             dateofschedule = $("#datepicker").val() + " " + $("#pushmessagetimepicker").val() + " " + $("#ampmtimepicker").val();
             var date = Date.parse(dateofschedule);
             scheduledDate = date;
         }
 
+        utils.server.displayMessage("Successfully Send..!");
         var page = "pushmessagepage";
         var data = {targetString: $("#idpushmessage-textarea").val(), agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3", scheduledDate: scheduledDate};
         var callback = utils.server.getCodeResponseAssignCustomers;
@@ -388,10 +515,15 @@ utils.server = {
         var page = "addvendorpage";
         var data = {serviceName: $("#id-vendorname").val(), serviceType: $("#id-vendortype").val(), state: $("#id-vendorstate").val(), zipcode: $("#id-vendorzip").val(),
             phone: $("#id-vendorphone").val(), address1: $("#id-vendoraddress1").val(), address2: $("#id-vendoraddress2").val(), city: $("#id-vendorcity").val()};
-        utils.server.displayMessage("Successfully Saved..!");
-        var deepPath = "createservice";
-        utils.server.makeServerCall(page, data, null, deepPath);
-        utils.server.loadPrefferedvendorsdetails();
+
+        if ($("#id-vendorname").val() != "") {
+            utils.server.displayMessage2("Successfully Saved..!");
+            var deepPath = "createservice";
+            utils.server.makeServerCall(page, data, null, deepPath);
+            utils.server.loadPrefferedvendorsdetails();
+        } else {
+            utils.server.displayError2("No Empty Values..!");
+        }
     },
     loadPrefferedvendorsdetails: function () {
 
@@ -409,16 +541,21 @@ utils.server = {
         var representativeId = [];
         var index = 0;
         var subindex = 0;
-        $('.checkbox').each(function () {
-            str = this.checked ? "1" : "0";
-            if (str == "1") {
-                //  alert(RESPONSE_ARRAY[index][3] + "#" + $('.togglevalue' + index).html());
-                representativeId[subindex] = $('.togglevalue' + index).html();
-                subindex++;
-            }
-            index++;
-        });
-        protocall.displaySpinner(true);
+        //radio-button-custom
+        if ($('#radio-button-custom').is(':checked')) {
+
+            $('.checkbox').each(function () {
+                str = this.checked ? "1" : "0";
+                if (str == "1") {
+                    //  alert(RESPONSE_ARRAY[index][3] + "#" + $('.togglevalue' + index).html());
+                    representativeId[subindex] = $('.togglevalue' + index).html();
+                    subindex++;
+                }
+                index++;
+            });
+        }
+        // protocall.displaySpinner(true);
+
         if (subindex == 0) {
 
             if ($('#radio-button-public').is(':checked')) {
@@ -432,7 +569,10 @@ utils.server = {
                 }
             }
 
-            representativeId = RESPONSE_ARRAY[index][4];
+            for (var i = 0; i < RESPONSE_ARRAY.length; i++) {
+                representativeId[i] = RESPONSE_ARRAY[i][4];
+            }
+
         }
 
         $(".success1").html("Sucessfully Saved..!");
@@ -440,6 +580,8 @@ utils.server = {
         $(".success1").css("display", "block");
         $(".success1").css("padding-top", "4px");
         $(".success1").css("padding-bottom", "10px");
+        $('.success1').delay(2000).slideUp('slow');
+
         var page = "submitprivacydata";
         var data = {alertList: representativeId};
         var callback = utils.server.getCodeResponseAssignCustomers;
@@ -458,24 +600,27 @@ utils.server = {
         });
         protocall.displaySpinner(true);
         if (index == 0) {
-            $(".error").html("Please select atleat a name to share..!");
-            $(".error").css("display", "block");
-            $(".error").css("padding-top", "10px");
-            $(".error").css("padding-bottom", "10px");
+            $(".error2").html("Please select atleat a name to share..!");
+            $(".error2").css("display", "block");
+            $(".error2").css("padding-top", "10px");
+            $(".error2").css("padding-bottom", "10px");
+            $('.error2').delay(2000).slideUp('slow');
             return false;
         }
 
-
         var page = "sendapplinkpage";
         var data = {applicationLink: $(".app-download-bar").html(), message: $(".textarea").val(), userIdList: representativeId};
-        utils.server.displayMessage("Send Successfully...!");
+        utils.server.displayMessage2("Send Successfully...!");
         var deepPath = "sendsetuplink";
         utils.server.makeServerCall(page, data, null, deepPath);
     },
     submitAssignCustomersData: function () {
         var index = 0;
         var customersEmailIds = [];
-        var Rep_Num = "agencyowner@gmail.com";
+        var Rep_Num = "";
+        Rep_Num = "agencyowner@gmail.com";
+
+        //alert(Rep_Num);
         $('.checkbox').each(function () {
             str = this.checked ? "1" : "0";
             if (str == "1") {
@@ -485,7 +630,7 @@ utils.server = {
             index++;
         });
         protocall.displaySpinner(true);
-//          ********************** Doubts here ---------------------->
+        //          ********************** Doubts here ---------------------->
 
         console.log(customersEmailIds);
         var page = "assignCustomersPage";
@@ -493,7 +638,7 @@ utils.server = {
         var callback = utils.server.getCodeResponseAssignCustomers;
         var deepPath = "assigncustomer";
         utils.server.makeServerCall(page, data, callback, deepPath);
-//     *************************    Doubts here ---------------------->
+        //     *************************    Doubts here ---------------------->
 
     },
     settingsResponse: function (data) {
@@ -511,17 +656,48 @@ utils.server = {
         $("#id-preferred-vendors-view-load").click();
     },
     MysettingsResponse: function (data) {
+        if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
+            if (localStorage.LoginType == 'Admin') {
+                var html = staticTemplate.customers.staticSettingsTemplate(data);
+                TEMPSETTINGSPAGE = "";
+                TEMPSETTINGSPAGE = html;
+                $(".content-holder").empty();
+                $(".content-holder").append(TEMPSETTINGSPAGE + "</form>");
+                $('.settings-agency-bar').css("background-color", "#f34f4e");
+                $('#id-agency-view-load').css("color", "white");
+                $('.settings-vendor-bar').css("background-color", "#ccc");
+                $('#id-preferred-vendors-view-load').css("color", "black");
+            }
+        } else {
 
+            var html = staticTemplate.customers.staticSettingsTemplate(data);
+            TEMPSETTINGSPAGE = "";
+            TEMPSETTINGSPAGE = html;
+            $(".content-holder").empty();
+            $(".content-holder").append(TEMPSETTINGSPAGE + "</form>");
+            $('.settings-agency-bar').css("background-color", "#f34f4e");
+            $('#id-agency-view-load').css("color", "white");
+            $('.settings-vendor-bar').css("background-color", "#ccc");
+            $('#id-preferred-vendors-view-load').css("color", "black");
+        }
 
-        var html = staticTemplate.customers.staticSettingsTemplate(data);
-        TEMPSETTINGSPAGE = "";
-        TEMPSETTINGSPAGE = html;
-        $(".content-holder").empty();
-        $(".content-holder").append(TEMPSETTINGSPAGE + "</form>");
-        $('.settings-agency-bar').css("background-color", "#f34f4e");
-        $('#id-agency-view-load').css("color", "white");
-        $('.settings-vendor-bar').css("background-color", "#ccc");
-        $('#id-preferred-vendors-view-load').css("color", "black");
+        $(".mb-submenu-in").empty();
+        $(".mb-submenu-in").append("<div class=\"mb-submenu-in p-relative\"><div class=\"bcrum-lb-submenu clr-fl inline-block v-align-mid\">"
+                + "<a href=\"#\" class=\"snap left f-sz-16 ptsans-light settings t-upper p-relative f-color-green\" data-type=\"page\" data-submenu=\"settings\">"
+                + "<div class=\"\"><div class=\"sprite-im inline-block v-align-mid mr-space-10 \">&nbsp;</div><span class=\"sub-menu-text inline-block v-align-mid\"> settings</span></div></a>"
+                + "<div class=\"bcrum-icon-blk left f-color-green f-sz-16 ptsans-light\" style=\"display:none;\">&gt;</div>"
+                + "<a href=\"#\" class=\"snap left f-sz-16 ptsans-light feeds-customer t-caps p-relative f-color-green\" data-type=\"page\" data-submenu=\"settings-customer\" style=\"display:none;\">"
+                + "</a></div><div class=\"tab-rb-submenu inline-block v-align-mid\" style=\"width:70%;\"><div class=\"tab-rb-submenu-in-block p-relative\">"
+                + "<a href=\"/privacy\" class=\"snap submenu-tab bg-color-green right f-sz-16 ptsans-light privacy p-relative\" data-type=\"page\" data-submenu=\"privacy\">"
+                + "<div class=\"sprite-im inline-block tab-icon v-align-mid\" style=\"display:none;\">&nbsp;</div><div class=\"submenu-title t-caps inline-block f-color-w v-align-mid \"> privacy</div>"
+                + "<div class=\"cnt-blk inline-block v-align-mid\" style=\"display:none;\">(<span class=\"cnt-no\"></span>)</div></a>"
+                + "<a href=\"#\" class=\"snap submenu-tab bg-color-green right f-sz-16 ptsans-light save p-relative\" data-type=\"page\" data-submenu=\"save\">"
+                + "<div class=\"sprite-im inline-block edit-icon v-align-mid\" style=\"display:none;\">&nbsp;</div>"
+                + "<a href=\"#\" class=\"snap submenu-tab bg-color-green right f-sz-16 ptsans-light save p-relative\" data-type=\"page\" data-submenu=\"save\">"
+                + "<div class=\"sprite-im inline-block edit-icon v-align-mid\" style=\"display:none;\">&nbsp;</div>"
+                + "<div class=\"submenu-title t-caps inline-block f-color-w v-align-mid \"> Edit </div>"
+                + "<div class=\"cnt-blk inline-block v-align-mid\" style=\"display:none;\">(<span class=\"cnt-no\"></span>)</div></a></div></div></div>");
+
     },
     getResponseForPreferredVendor: function (idvalue) {
         page = "settingspage";
@@ -572,6 +748,7 @@ utils.server = {
             $(".error").css("display", "block");
             $(".error").css("padding-top", "10px");
             $(".error").css("padding-bottom", "10px");
+            $('.error').delay(2000).slideUp('slow');
             return false;
         }
         if (index > 1) {
@@ -579,6 +756,7 @@ utils.server = {
             $(".error").css("display", "block");
             $(".error").css("padding-top", "10px");
             $(".error").css("padding-bottom", "10px");
+            $('.error').delay(2000).slideUp('slow');
             return false;
         }
 
@@ -589,7 +767,16 @@ utils.server = {
         utils.server.makeServerCall(page, data, callback, deepPath);
     },
     submitAssignToCustomers: function () {
-        var representativeId = ASSIGNTOCUSOVERLAY_REPEMAILID;
+        var representativeId = '';
+        if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
+            if (localStorage.LoginType == 'Admin') {
+                representativeId = localStorage.getItem("CARRIERREP_EMAILID");
+            }
+        } else {
+            representativeId = ASSIGNTOCUSOVERLAY_REPEMAILID;
+        }
+
+        //  alert(representativeId);
         var subIndex = 0;
         CUSTOMERS_LIST = [];
 
@@ -604,11 +791,15 @@ utils.server = {
 
         });
         protocall.displaySpinner(true);
-        if (index == 0) {
+
+        if (subIndex == 0) {
             $(".error").html("Please select atleat a customers to Assign..!");
             $(".error").css("display", "block");
+            $(".success").css("display", "none");
             $(".error").css("padding-top", "10px");
             $(".error").css("padding-bottom", "10px");
+            $('.error').delay(2000).slideUp('slow');
+
             return false;
         }
 
@@ -627,6 +818,7 @@ utils.server = {
         CUSTOMERS_LIST = [];
         var cusIndex = 0;
         var cusSubIndex = 0;
+
         $('.getSelectedCustomers').each(function () {
             str = this.checked ? "1" : "0";
             if (str == "1") {
@@ -635,6 +827,11 @@ utils.server = {
             }
             cusIndex++;
         });
+
+        if (cusSubIndex == 0) {
+            CUSTOMERS_LIST[0] = localStorage.getItem("ARRAY_CUSTOMERS_LIST");
+        }
+
         $('.checkbox').each(function () {
             str = this.checked ? "1" : "0";
             if (str == "1") {
@@ -649,6 +846,7 @@ utils.server = {
             $(".error").css("display", "block");
             $(".error").css("padding-top", "10px");
             $(".error").css("padding-bottom", "10px");
+            $('.error').delay(2000).slideUp('slow');
             return false;
         }
         if (index > 1) {
@@ -656,6 +854,7 @@ utils.server = {
             $(".error").css("display", "block");
             $(".error").css("padding-top", "10px");
             $(".error").css("padding-bottom", "10px");
+            $('.error').delay(2000).slideUp('slow');
             return false;
         }
 
@@ -666,11 +865,22 @@ utils.server = {
         utils.server.makeServerCall(page, data, callback, deepPath);
     },
     displayError: function (message) {
+        // alert("dd1");
         $(".success").css("display", "none");
         $(".error").css("display", "block");
+        $(".error").css("visibility", "visible");
         $(".error").css("padding-top", "4px");
         $(".error").css("padding-bottom", "10px");
         $(".error").html(message);
+        $('.error').delay(2000).slideUp('slow');
+    },
+    displayError2: function (message) {
+        $(".success2").css("display", "none");
+        $(".error2").css("display", "block");
+        $(".error2").css("padding-top", "4px");
+        $(".error2").css("padding-bottom", "10px");
+        $(".error2").html(message);
+        $('.error2').delay(2000).slideUp('slow');
     },
     displayMessage: function (message) {
         $(".success").html(message);
@@ -678,6 +888,16 @@ utils.server = {
         $(".success").css("display", "block");
         $(".success").css("padding-top", "4px");
         $(".success").css("padding-bottom", "10px");
+        $('.success').delay(2000).slideUp('slow');
+    },
+    displayMessage2: function (message) {
+        $(".success2").html(message);
+        $(".error2").css("display", "none");
+        $(".success2").css("display", "block");
+        $(".success2").css("padding-top", "4px");
+        $(".success2").css("padding-bottom", "10px");
+        $('.success2').delay(2000).slideUp('slow');
+
     },
     getCodeResponseAssignCustomers: function (data)
     {
@@ -687,12 +907,12 @@ utils.server = {
             utils.server.displayMessage(message);
         }
         if (data.resultMap.TypeCode == '4032') {
-            alert("atleast one customer");
+            //alert("atleast one customer");
             message = "Please select atleast one customer for the given representative";
             utils.server.errorMessage(message);
         }
         if (data.resultMap.TypeCode == '4033') {
-            alert("Authentication Erro");
+            //alert("Authentication Erro");
             message = "Authentication Error: Only admin or superadmin can assign customers to the representatives";
             utils.server.errorMessage(message);
         }
@@ -710,11 +930,12 @@ utils.server = {
 
     },
     imagesToServer: function (form, callback, isFormData, ref, qs, pagespinner) {
-        if (pagespinner) {
-            t.ui.showPageSpinner()
-        } else {
-            t.form.showFormSpinner();
-        }
+        /* if (pagespinner) {
+         t.ui.showPageSpinner()
+         } else {
+         t.form.showFormSpinner();
+         } */
+		 HOMEPAGERESPONSE.PROFILEPICUPDATECLICKED = true;
         isFormData = (typeof isFormData == "undefined" || isFormData == false) ? false : true;
         var formData;
         if (!isFormData) {
@@ -729,8 +950,7 @@ utils.server = {
         }
         $.ajax({
             type: "POST",
-            url: BASE_URL + qs,
-            processData: false,
+            url: HOMEPAGERESPONSE.PROFILEAPIFORIMAGE + qs, processData: false,
             contentType: false,
             data: formData,
             xhrFields: {
@@ -738,14 +958,14 @@ utils.server = {
             },
             success: function (data) {
                 // do what ever you want with the server response
-                if (pagespinner) {
-                    t.ui.hidePageSpinner();
-                } else {
-                    t.ui.hidePageSpinner();
-                }
-                if (!isFormData) {
-                    p.resetForm(form);
-                }
+                /* if (pagespinner) {
+                 t.ui.hidePageSpinner();
+                 } else {
+                 t.ui.hidePageSpinner();
+                 }
+                 if (!isFormData) {
+                 p.resetForm(form);
+                 } */
                 callback(data, form, isFormData, ref);
             },
             error: function (data) {
@@ -766,6 +986,9 @@ utils.server = {
         });
         return false;
     },
+    profilePicResponse: function (data) {
+        console.log("profilepicupdate", data);
+    },
     getCodeResponse: function (code) {
         var message = "Somthing Went wrong, please try again";
         if (code == "E4004") {
@@ -781,8 +1004,7 @@ utils.server = {
         }
         $.ajax({
             type: type,
-            retryMax: 3,
-            timeout: 15000,
+            retryMax: 3, timeout: 15000,
             url: BASE_URL + qs,
             data: data,
             xhrFields: {
@@ -812,7 +1034,6 @@ utils.server = {
 //ADDED BY MANOJ FRIDAY 18 2015---->STARTS HERE
 
 function sharewithRepSelectAllDropDown(isNone) {
-
     if (isNone == "true") {
         $("#timepicker2").prop("disabled", false);
         $('#timepicker2').empty();
@@ -831,12 +1052,10 @@ function sharewithRepSelectAllDropDown(isNone) {
 }
 
 function onKeyPressEventAssignCustomers(tag) {
-
     var searchText = $(tag).val().toUpperCase();
     if (searchText !== "" && searchText !== null) {
         var finalHtml = "<form>";
         for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
-
             if (RESPONSE_ARRAY[index][0].toUpperCase().indexOf(searchText) > -1) {
                 var customerName = RESPONSE_ARRAY[index][0];
                 var customerCity = RESPONSE_ARRAY[index][1];
@@ -876,7 +1095,6 @@ function onKeyPressEventshareWithRep(tag) {
     if (searchText !== "" && searchText !== null) {
         var finalHtml = "<form>";
         for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
-
             if (RESPONSE_ARRAY[index][0].toUpperCase().indexOf(searchText) > -1) {
                 var customerName = RESPONSE_ARRAY[index][0];
                 var customerCity = RESPONSE_ARRAY[index][1];
@@ -911,20 +1129,21 @@ function onKeyPressEventshareWithRep(tag) {
 
 }
 
-
 function onKeyPressEventPrivacy(tag) {
-
     var searchText = $(tag).val().toUpperCase();
     if (searchText !== "" && searchText !== null) {
         var finalHtml = "<form>";
         for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
-
             if (RESPONSE_ARRAY[index][0].toUpperCase().indexOf(searchText) > -1) {
                 var customerName = RESPONSE_ARRAY[index][0];
                 var customerCity = RESPONSE_ARRAY[index][1];
                 var customerState = "";
                 var customerEmailId = RESPONSE_ARRAY[index][3];
                 var privacy = RESPONSE_ARRAY[index][4];
+                var carrierAgencyRepresentativeId = RESPONSE_ARRAY[index][5];
+                if (carrierAgencyRepresentativeId == "undefined" || carrierAgencyRepresentativeId == null) {
+                    carrierAgencyRepresentativeId = "";
+                }
                 var toggleStyleOn = "";
                 var toggleStyleOff = "";
                 if (privacy == "on") {
@@ -932,11 +1151,9 @@ function onKeyPressEventPrivacy(tag) {
                     //toggleStyleOff = "margin-left:-9px";
 
                 } else {
-
                     toggleStyle = "margin-left:-10px";
-                    //toggleStyleOn = "margin-left:-px";
                 }
-                var tempHtml = "<div class=\"rep-grp-blk opensans-regular border-bot text-color-overlay p-relative\"> <input type=\"checkbox\" value=" + customerEmailId + " id='name" + index + "'  class=\"checkbox\" /> <label for='name" + index + "' class=\"rep-label\"> <div class=\"lbl-in-block p-relative\"> <div class=\"f-sz-14 text-color-overlay left rep-name\">" + customerName + "</div> <div class=\"nameRepId f-sz-14 text-color-overlay left\"><i>#5454547</i></div> <div class=\"t-caps f-sz-13 right t-right location-color rep-location\"> <div class=\"bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-on\"> <div id=\"id" + index + "-switch-container\" class=\"bootstrap-switch-container\" style=" + toggleStyle + "> "
+                var tempHtml = "<div class=\"rep-grp-blk opensans-regular border-bot text-color-overlay p-relative\"> <input type=\"checkbox\" id='name" + index + "'  class=\"checkbox\" /> <label for='name" + index + "' class=\"rep-label\"> <div class=\"lbl-in-block p-relative\"> <div class=\"f-sz-14 text-color-overlay left rep-name\" style=\"width:20%;\">" + customerName + "</div> " + "<div class=\"nameRepId f-sz-14 text-color-overlay left\"><i>" + carrierAgencyRepresentativeId + "</i></div> <div class=\"t-caps f-sz-13 right t-right location-color rep-location\"> <div class=\"bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-on\"> <div id=\"id" + index + "-switch-container\" class=\"bootstrap-switch-container\" style=" + toggleStyle + "> "
                         + "<span id=\"id-switch-on\" class=\"bootstrap-switch-handle-on bootstrap-switch-primary\"  onclick=\"moveani(" + index + ",\'id-switch-on\', \'id" + index + "-switch-container\')\"><div  class=\"togglevalue" + index + "\" style=\"display:none;\">" + privacy + "</div> ON</span> <span class=\"bootstrap-switch-label\">&nbsp;</span> <span id=\"id-switch-off\" class=\"bootstrap-switch-handle-off bootstrap-switch-default\"  onclick=\"moveani(" + index + ",\'id-switch-off\', \'id" + index + "-switch-container\')\"> OFF</span> <input type=\"checkbox\" checked=\"\"></div></div> </div> </div> </div> ";
                 finalHtml = finalHtml + tempHtml;
                 tempHtml = "";
@@ -948,7 +1165,7 @@ function onKeyPressEventPrivacy(tag) {
             finalHtml = finalHtml + tempHtml;
         }
 
-//var buttonHtml = "</div> </div> <div class=\"o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w\" data-type=\"overlaybtn\">Send</div> </div> </div> ";
+        //var buttonHtml = "</div> </div> <div class=\"o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w\" data-type=\"overlaybtn\">Send</div> </div> </div> ";
         $(".rep-content-blk").html(finalHtml + "</form>");
     } else {
         var finalHtml = "<form>";
@@ -958,24 +1175,29 @@ function onKeyPressEventPrivacy(tag) {
             var customerState = "";
             var customerEmailId = RESPONSE_ARRAY[index][3];
             var privacy = RESPONSE_ARRAY[index][4];
+            var carrierAgencyRepresentativeId = RESPONSE_ARRAY[index][5];
+            if (carrierAgencyRepresentativeId == "undefined" || carrierAgencyRepresentativeId == null) {
+                carrierAgencyRepresentativeId = "";
+            }
+
             var toggleStyle = "";
             if (privacy == "on") {
                 toggleStyle = "margin-left:50px";
                 //toggleStyleOff = "margin-left:-9px";
 
             } else {
-
                 toggleStyle = "margin-left:-10px";
                 //toggleStyleOn = "margin-left:-px";
             }
 
-            var tempHtml = "<div class=\"rep-grp-blk opensans-regular border-bot text-color-overlay p-relative\"> <input type=\"checkbox\" value=" + customerEmailId + " id='name" + index + "'  class=\"checkbox\" /> <label for='name" + index + "' class=\"rep-label\"> <div class=\"lbl-in-block p-relative\"> <div class=\"f-sz-14 text-color-overlay left rep-name\">" + customerName + "</div> <div class=\"nameRepId f-sz-14 text-color-overlay left\"><i>#5454547</i></div> <div class=\"t-caps f-sz-13 right t-right location-color rep-location\"> <div class=\"bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-on\"> <div id=\"id" + index + "-switch-container\" class=\"bootstrap-switch-container\" style=" + toggleStyle + "> "
+            var tempHtml = "<div class=\"rep-grp-blk opensans-regular border-bot text-color-overlay p-relative\"> <input type=\"checkbox\" id='name" + index + "'  class=\"checkbox\" /> <label for='name" + index + "' class=\"rep-label\"> <div class=\"lbl-in-block p-relative\"> <div class=\"f-sz-14 text-color-overlay left rep-name\" style=\"width:20%;\">" + customerName + "</div> "
+                    + "<div class=\"nameRepId f-sz-14 text-color-overlay left\"><i>" + carrierAgencyRepresentativeId + "</i></div> <div class=\"t-caps f-sz-13 right t-right location-color rep-location\"> <div class=\"bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-on\"> <div id=\"id" + index + "-switch-container\" class=\"bootstrap-switch-container\" style=" + toggleStyle + "> "
                     + "<span id=\"id-switch-on\" class=\"bootstrap-switch-handle-on bootstrap-switch-primary\"  onclick=\"moveani(" + index + ",\'id-switch-on\', \'id" + index + "-switch-container\')\"><div  class=\"togglevalue" + index + "\" style=\"display:none;\">" + privacy + "</div> ON</span> <span class=\"bootstrap-switch-label\">&nbsp;</span> <span id=\"id-switch-off\" class=\"bootstrap-switch-handle-off bootstrap-switch-default\"  onclick=\"moveani(" + index + ",\'id-switch-off\', \'id" + index + "-switch-container\')\"> OFF</span> <input type=\"checkbox\" checked=\"\"></div></div> </div> </div> </div> ";
             finalHtml = finalHtml + tempHtml;
             tempHtml = "";
         }
 
-// var buttonHtml = "</div> </div> <div class=\"o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w\" data-type=\"overlaybtn\">Send</div> </div> </div> ";
+        // var buttonHtml = "</div> </div> <div class=\"o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w\" data-type=\"overlaybtn\">Send</div> </div> </div> ";
         $(".rep-content-blk").html(finalHtml + "</form>");
     }
 
@@ -983,7 +1205,6 @@ function onKeyPressEventPrivacy(tag) {
 }
 
 function sortbyBox1() {
-
     var selectedOption = document.getElementById("timepicker").value;
     if (selectedOption == "Alphabetical") {
         RESPONSE_ARRAY.sort();
@@ -991,7 +1212,6 @@ function sortbyBox1() {
         sharewithRepSelectAllDropDown("true");
         var finalHtml = "<form>";
         for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
-
             var customerName = RESPONSE_ARRAY[index][0];
             var customerCity = RESPONSE_ARRAY[index][1];
             var customerState = RESPONSE_ARRAY[index][2];
@@ -1008,7 +1228,6 @@ function sortbyBox1() {
         }
 
     } else if (selectedOption == "City,State") {
-
         $('#timepicker2').empty();
         var TEMP_ARRAY = [];
         for (var i = 0; i < RESPONSE_ARRAY.length; i++) {
@@ -1019,7 +1238,7 @@ function sortbyBox1() {
             $('#timepicker2').append($('<option> ' + TEMP_ARRAY[i] + '</option>'));
         }
 
-//--***************  Section Sortby Box 2
+        //--***************  Section Sortby Box 2
         var finalHtml = "<form>";
         for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
             var customerName = RESPONSE_ARRAY[index][0];
@@ -1041,7 +1260,6 @@ function sortbyBox1() {
         sharewithRepSelectAllDropDown("true");
         var finalHtml = "<form>";
         for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
-
             var customerName = RESPONSE_ARRAY[index][0];
             var customerCity = RESPONSE_ARRAY[index][1];
             var customerState = RESPONSE_ARRAY[index][2];
@@ -1056,7 +1274,6 @@ function sortbyBox1() {
             var tempHtml = "<div class='rep-grp-blk opensans-regular t-center border-bot text-color-overlay p-relative'> No Records Found </div>";
             finalHtml = finalHtml + tempHtml;
         }
-
     }
 
     $(".rep-content-blk").html(finalHtml + "</form>");
@@ -1082,19 +1299,20 @@ var unique = function (origArr) {
 }
 
 function Sharewithrep_sortbyBox1(idvalue) {
-
     var selectedOption = document.getElementById("timepicker").value;
     if (selectedOption == "Alphabetical") {
         RESPONSE_ARRAY.sort();
-        if (idvalue == "sharewithrep") {
-            sharewithRepSelectAllDropDown("false");
-        } else {
-            sharewithRepSelectAllDropDown("true");
-        }
+        $("#timepicker2").prop("disabled", false);
+        $('#timepicker2').empty();
+        $('#timepicker2').append('<option> None </option>');
+        var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+        $.each(alphabet, function (letter) {
+            $('#timepicker2').append($('<option> Section ' + alphabet[letter] + '</option>'));
+        });
+
 
         var finalHtml = "<form>";
         for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
-
             var customerName = RESPONSE_ARRAY[index][0];
             var customerCity = RESPONSE_ARRAY[index][1];
             var customerEmailId = RESPONSE_ARRAY[index][3];
@@ -1108,7 +1326,6 @@ function Sharewithrep_sortbyBox1(idvalue) {
             var tempHtml = "<div class='rep-grp-blk opensans-regular t-center border-bot text-color-overlay p-relative'> No Records Found </div>";
             finalHtml = finalHtml + tempHtml;
         }
-
     } else if (selectedOption == "City,State") {
 //        //sharewithRepSelectAllDropDown("false");
 //--***************  Section Sortby Box 2
@@ -1123,10 +1340,9 @@ function Sharewithrep_sortbyBox1(idvalue) {
             $('#timepicker2').append($('<option> ' + TEMP_ARRAY[i] + '</option>'));
         }
 
-//--***************  Section Sortby Box 2
+        //--***************  Section Sortby Box 2
         var finalHtml = "<form>";
         for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
-
             var customerName = RESPONSE_ARRAY[index][0];
             var customerCity = RESPONSE_ARRAY[index][1];
             var customerEmailId = RESPONSE_ARRAY[index][3];
@@ -1147,7 +1363,6 @@ function Sharewithrep_sortbyBox1(idvalue) {
         }
         var finalHtml = "<form>";
         for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
-
             var customerName = RESPONSE_ARRAY[index][0];
             var customerCity = RESPONSE_ARRAY[index][1];
             var customerEmailId = RESPONSE_ARRAY[index][3];
@@ -1180,25 +1395,60 @@ function assignCustomersSortbyBox2() {
 
 function sharewithRepSortbyBox2() {
     var selectedOption = document.getElementById("timepicker2").value;
-    if (selectedOption == "Select All") {
-        $('.checkbox').each(function () {
-            this.checked = true;
-        });
-    } else if (selectedOption.indexOf("Section") > -1) {
-        $("input[name='" + selectedOption.trim().charAt(8).toUpperCase() + "']").each(function () {
+    if (selectedOption == "None") {
+        //        $('.checkbox').each(function () {
+//            this.checked = true;
+//        });
+        var finalHtml = "<form>";
+        for (var index = 0; index < RESPONSE_ARRAY.length; index++) {             //if (RESPONSE_ARRAY[index][1].indexOf(selectedOption) > -1) {
+            var customerName = RESPONSE_ARRAY[index][0];
+            var customerCity = RESPONSE_ARRAY[index][1];
+            var customerEmailId = RESPONSE_ARRAY[index][3];
+            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox'  value=" + customerEmailId + " id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + "</div> </div> </label> </div>";
+            finalHtml = finalHtml + tempHtml;
+            tempHtml = "";             //}
+        }
 
-            if (this.checked == true) {
-                this.checked = false;
-            } else {
-                this.checked = true;
+        if (finalHtml == "<form>") {
+            var tempHtml = "<div class='rep-grp-blk opensans-regular t-center border-bot text-color-overlay p-relative'> No Records Found </div>";
+            finalHtml = finalHtml + tempHtml;
+        }
+
+        $(".rep-content-blk").html(finalHtml + "</form>");
+    } else if (selectedOption.indexOf("Section") > -1) {
+        var char = selectedOption.trim().charAt(8).toUpperCase();
+        var finalHtml = "<form>";
+        for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
+            var customerName = RESPONSE_ARRAY[index][0];
+
+            if (customerName.charAt(0) == char) {
+                var customerCity = RESPONSE_ARRAY[index][1];
+                var customerEmailId = RESPONSE_ARRAY[index][3];
+                var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + " id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + "</div> </div> </label> </div>";
+                finalHtml = finalHtml + tempHtml;
+                tempHtml = "";
             }
-        });
+        }
+        if (finalHtml == "<form>") {
+            var tempHtml = "<div class='rep-grp-blk opensans-regular t-center border-bot text-color-overlay p-relative'> No Records Found </div>";
+            finalHtml = finalHtml + tempHtml;
+        }
+        $(".rep-content-blk").html(finalHtml + "</form>");
+
+
+//        $("input[name='" + selectedOption.trim().charAt(8).toUpperCase() + "']").each(function () {
+//
+//            if (this.checked == true) {
+//                this.checked = false;
+//            } else {
+//                this.checked = true;
+//            }
+//        });
     } else {
-//sharewithRepSelectAllDropDown("false");
+        //sharewithRepSelectAllDropDown("false");
 
         var finalHtml = "<form>";
         for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
-
             if (RESPONSE_ARRAY[index][1].indexOf(selectedOption) > -1) {
                 var customerName = RESPONSE_ARRAY[index][0];
                 var customerCity = RESPONSE_ARRAY[index][1];
@@ -1219,6 +1469,126 @@ function sharewithRepSortbyBox2() {
 
 }
 
+//sendAppLinkSortbyBox1
+function sendAppLinkSortbyBox1() {
+    var selectedOption = document.getElementById("timepicker").value;
+    if (selectedOption == "Alphabetical") {
+        RESPONSE_ARRAY.sort();
+
+        $("#timepicker2").prop("disabled", false);
+        $('#timepicker2').empty();
+        $('#timepicker2').append('<option> None </option>');
+        $('#timepicker2').append('<option>Select All</option>');
+        var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+        $.each(alphabet, function (letter) {
+            $('#timepicker2').append($('<option> Section ' + alphabet[letter] + '</option>'));
+        });
+
+        var finalHtml = "<form>";
+        for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
+            var customerName = RESPONSE_ARRAY[index][0];
+            var customerCity = RESPONSE_ARRAY[index][1];
+            var customerEmailId = RESPONSE_ARRAY[index][3];
+
+            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + " id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + "</div> </div> </label> </div>";
+            finalHtml = finalHtml + tempHtml;
+            tempHtml = "";
+        }
+
+        if (finalHtml == "<form>") {
+            var tempHtml = "<div class='rep-grp-blk opensans-regular t-center border-bot text-color-overlay p-relative'> No Records Found </div>";
+            finalHtml = finalHtml + tempHtml;
+        }
+
+    } else if (selectedOption == "City,State") {
+//        //sharewithRepSelectAllDropDown("false");
+//--***************  Section Sortby Box 2
+        $('#timepicker2').empty();
+        $("#timepicker2").prop("disabled", false);
+        var TEMP_ARRAY = [];
+        for (var i = 0; i < RESPONSE_ARRAY.length; i++) {
+            TEMP_ARRAY[i] = RESPONSE_ARRAY[i][1];
+        }
+        TEMP_ARRAY = unique(TEMP_ARRAY);
+        for (var i = 0; i < TEMP_ARRAY.length; i++) {
+            $('#timepicker2').append($('<option> ' + TEMP_ARRAY[i] + '</option>'));
+        }
+        //--***************  Section Sortby Box 2
+        var finalHtml = "<form>";
+        for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
+            var customerName = RESPONSE_ARRAY[index][0];
+            var customerCity = RESPONSE_ARRAY[index][1];
+            var customerEmailId = RESPONSE_ARRAY[index][3];
+            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + " id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + "</div> </div> </label> </div>";
+            finalHtml = finalHtml + tempHtml;
+            tempHtml = "";
+        }
+
+        if (finalHtml == "<form>") {
+            var tempHtml = "<div class='rep-grp-blk opensans-regular t-center border-bot text-color-overlay p-relative'> No Records Found </div>";
+            finalHtml = finalHtml + tempHtml;
+        }
+    } else {
+        if (idvalue == "sharewithrep") {
+            sharewithRepSelectAllDropDown("false");
+        } else {
+            sharewithRepSelectAllDropDown("true");
+        }
+        var finalHtml = "<form>";
+        for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
+            var customerName = RESPONSE_ARRAY[index][0];
+            var customerCity = RESPONSE_ARRAY[index][1];
+            var customerEmailId = RESPONSE_ARRAY[index][3];
+            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + " id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + "</div> </div> </label> </div>";
+            finalHtml = finalHtml + tempHtml;
+            tempHtml = "";
+        }
+        if (finalHtml == "<form>") {
+            var tempHtml = "<div class='rep-grp-blk opensans-regular t-center border-bot text-color-overlay p-relative'> No Records Found </div>";
+            finalHtml = finalHtml + tempHtml;
+        }
+    }
+
+    $(".rep-content-blk").html(finalHtml + "</form>");
+}
+function sendAppLinkSortbyBox2() {
+    var selectedOption = document.getElementById("timepicker2").value;
+    if (selectedOption == "Select All") {
+        $('.checkbox').each(function () {
+            this.checked = true;
+        });
+    } else if (selectedOption.indexOf("Section") > -1) {
+        $("input[name='" + selectedOption.trim().charAt(8).toUpperCase() + "']").each(function () {
+            if (this.checked == true) {
+                this.checked = false;
+            } else {
+                this.checked = true;
+            }
+        });
+    } else {
+        //sharewithRepSelectAllDropDown("false"); 
+        var finalHtml = "<form>";
+        for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
+            if (RESPONSE_ARRAY[index][1].indexOf(selectedOption) > -1) {
+                var customerName = RESPONSE_ARRAY[index][0];
+                var customerCity = RESPONSE_ARRAY[index][1];
+                var customerState = RESPONSE_ARRAY[index][2];
+                var customerEmailId = RESPONSE_ARRAY[index][3];
+                var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox'  value=" + customerEmailId + "  id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
+                finalHtml = finalHtml + tempHtml;
+                tempHtml = "";
+            }
+        }
+
+        if (finalHtml == "<form>") {
+            var tempHtml = "<div class='rep-grp-blk opensans-regular t-center border-bot text-color-overlay p-relative'> No Records Found </div>";
+            finalHtml = finalHtml + tempHtml;
+        }
+
+        $(".rep-content-blk").html(finalHtml + "</form>");
+    }
+}
+
 function sortbyBox2() {
     var selectedOption = document.getElementById("timepicker2").value;
     if (selectedOption == "Select All") {
@@ -1227,7 +1597,6 @@ function sortbyBox2() {
         });
     } else if (selectedOption.indexOf("Section") > -1) {
         $("input[name='" + selectedOption.trim().charAt(8).toUpperCase() + "']").each(function () {
-
             if (this.checked == true) {
                 this.checked = false;
             } else {
@@ -1235,11 +1604,10 @@ function sortbyBox2() {
             }
         });
     } else {
-//sharewithRepSelectAllDropDown("false");
+        //sharewithRepSelectAllDropDown("false");
 
         var finalHtml = "<form>";
         for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
-
             if (RESPONSE_ARRAY[index][1].indexOf(selectedOption) > -1) {
                 var customerName = RESPONSE_ARRAY[index][0];
                 var customerCity = RESPONSE_ARRAY[index][1];
@@ -1272,8 +1640,7 @@ $(document).on('click', '#id-privacysearchicon', function () {
 });
 function sharewithrepkeypress(e) {
     var Ucode = e.keyCode ? e.keyCode : e.charCode;
-    if (Ucode == 13)
-    {
+    if (Ucode == 13) {
         onKeyPressEventshareWithRep("#id-overlaysharewithrep");
     }
 
@@ -1286,8 +1653,7 @@ function sharewithrepkeyup(e) {
 
 function assignToCustomerkeypress(e) {
     var Ucode = e.keyCode ? e.keyCode : e.charCode;
-    if (Ucode == 13)
-    {
+    if (Ucode == 13) {
         onKeyPressEventAssignCustomers("#id-overlayaiigncustomers");
     }
 
@@ -1307,7 +1673,6 @@ function privacykeyup(e) {
 }
 
 function moveani(index, idValue, idcontainerValue) {
-
     if (idValue === "id-switch-off") {
         document.getElementById(idcontainerValue).style.marginLeft = "50px";
         if (index > 0) {
