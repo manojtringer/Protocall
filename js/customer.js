@@ -37,13 +37,19 @@ var CustomerdynamicTemplate = {
             console.log("manoj", data);
             if (data.resultMap != null && data.resultMap != "") {
 
-                var resultCustomer = data.resultMap.agencyTab;
+                var resultCustomer = data.resultMap.agencyTab[0];
 
-                console.log(resultCustomer.length);
+                console.log("---->", resultCustomer.length);
                 var template = '';
+                var length = 1;
+                if (resultCustomer.length == undefined) {
+                    length = 1;
+                } else {
+                    length = resultCustomer.length;
+                }
                 // alert("1" + data.resultMap.CustomerTab[0].emailId.email);
-                for (var c = 0; c < resultCustomer.length; c++) {
-                    var cus = resultCustomer[c];
+                for (var c = 0; c < length; c++) {
+                    var cus = resultCustomer.AgencyDetail;
 
 
 //                    if (cus.agencyLogo == undefined)
@@ -82,11 +88,14 @@ var CustomerdynamicTemplate = {
 
                 var resultCustomer = data.resultMap.agencyTab;
 
-                console.log(resultCustomer.length);
+                // console.log(resultCustomer.length);
                 var template = '';
+                console.log("sss", resultCustomer);
                 // alert("1" + data.resultMap.CustomerTab[0].emailId.email);
                 for (var c = 0; c < resultCustomer.length; c++) {
-                    var cus = resultCustomer[c].agencyDetail;
+                    var cus = resultCustomer.AgencyDetail;
+
+
 
                     if (cus.emailId.email == undefined) {
                         cusEmail = ' ';
@@ -141,7 +150,8 @@ var CustomerdynamicTemplate = {
                 // alert("1" + data.resultMap.CustomerTab[0].emailId.email);
                 for (var c = 0; c < data.resultMap.customerTab.length; c++) {
 
-                    var cus = data.resultMap.customerTab[c];
+                    var cust = data.resultMap.customerTab[c];
+                    var cus = cust.CustomerDetails;
                     //   alert("3" + cus.emailId.email);
 
                     if (cus.emailId.email == undefined) {
@@ -406,15 +416,13 @@ var CustomerdynamicTemplate = {
             }
         },
         agenciesDynamicList: function (cus) {
-            try {
-                if (cus.emailId.email == undefined) {
-                    cusEmail = ' ';
-                } else {
-                    cusEmail = cus.emailId.email;
-                }
-            } catch (err) {
+
+            if (cus.emailId.email == undefined) {
                 cusEmail = ' ';
+            } else {
+                cusEmail = cus.emailId.email;
             }
+
 
 
             if (cus.lastName == undefined)

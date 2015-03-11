@@ -16,7 +16,7 @@ var MyrepsdynamicTemplate = {
                 var resultreps = datares.resultMap.myRepTab;
                 var template = '';
                 for (var c = 0; c < resultreps.length; c++) {
-                    var rep = resultreps[c];
+                    var rep = resultreps[c].RepresentativeDetails;
                     if (rep.carrierRepresentativeId.email == undefined) {
                         cusEmail = ' ';
                     } else {

@@ -51,20 +51,20 @@ var overlay = {
         console.log("start");
         var $obxParent = $("div.o-box");
         $obxParent.removeClass("o-box").addClass("o-box-custom");
-        overlay.slider();
+        //overlay.slider();
         console.log("end");
     },
     audioInit: function () {
         var $obxParent = $("div.o-box");
         $obxParent.removeClass("o-box").addClass("o-box-custom");
-        overlay.slider();
+        //overlay.slider();
     },
     documentInIt: function () {
         var $obxParent = $("div.o-box");
         $obxParent.removeClass("o-box").addClass("o-box-custom");
-        overlay.slider();
+        //overlay.slider();
     },
-    slider: function () {
+    /* slider: function () {
         $("#slider-vertical").slider({
             orientation: "vertical",
             range: "min",
@@ -72,7 +72,7 @@ var overlay = {
             max: 100,
             value: 60
         });
-    },
+    }, */
     /*Naveen 23-2-2015 Changes End */
     /*Added by Naveen - Slider Control */
     initOverlay: function () {

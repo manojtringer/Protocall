@@ -367,8 +367,8 @@ var staticTemplate = {
                 console.log("media id", element.mediaId);
                 RESPONSE.MEDIAIDFORPICTURE.push(element.mediaId);
                 RESPONSE.IMAGEURLS.push(element.file);
-                RESPONSE.IMGETEXT.push(element.imageText);
-            });
+                RESPONSE.IMGETEXT.push(element.fileName);
+			});
             /* if (numberOfPictures > 5) {
              sliderBar = '<div id="slider-vertical" style="float:left;position: absolute;height: 332px;left: 96px;top: 10px;">'
              + '</div>';
@@ -396,7 +396,7 @@ var staticTemplate = {
                     /*Thumbnail Image */
                     + '<div style="width:80%;background:white;position: absolute;left: 131px;min-height:476px;">'
                     + '<div style="height:70px;color:#585858;position: absolute;;width: 100%;background:white;">'
-                    + '<div style="width:50%;float:left;margin-top:25px;margin-left:25px;color:#939393" class"opensans-regular">'
+                    + '<div style="width:50%;float:left;margin-top:25px;margin-left:25px;color:#939393" class="opensans-regular">'
                     + '<span id="imageinformation" style="color:rgb(47,156,161);">' + RESPONSE.IMGETEXT[0] + '</span><span>,New jersy</span>'
                     + '</div>'
                     + '<a id="downloadImageLink" style="float:left;margin-left:20px;margin-top:20px;" href=' + HOMEPAGERESPONSE.PROFILEAPI + RESPONSE.IMAGEURLS[0] + ' download>'
@@ -484,7 +484,7 @@ var staticTemplate = {
                     + '<div style="width:80%;background:white;position: absolute;left: 131px;min-height:476x;">'
                     + '<div style="height:70px;color:#585858;position: absolute;;width: 100%;background:white;>'
                     + '<div style="height:70px;height:70px;color:#585858;position: absolute;;width: 100%;background:white;">'
-                    + '<div style="width:50%;float:left;margin-top:25px;margin-left:25px;color:#939393" class"opensans-regular">'
+                    + '<div style="width:50%;float:left;margin-top:25px;margin-left:25px;color:#939393" class="opensans-regular">'
                     + '<span id="voiceinformation" style="color:rgb(47,156,161);">' + RESPONSE.AUDIOTEXT[0] + '</span><span>,New jersy</span>'
                     + '</div>'
                     + '<a id="downloadAudioLink" style="float:left;margin-left:20px;margin-top:20px;" href=' + audioValue + ' download>'
@@ -692,7 +692,7 @@ var staticTemplate = {
                     + '<div style="width:80%;background:white;position: absolute;left: 131px;min-height:476x;">'
                     + '<div style="height:70px;color:#585858;position: absolute;;width: 100%;background:white;>'
                     + '<div style="height:70px;height:70px;color:#585858;position: absolute;;width: 100%;background:white;">'
-                    + '<div style="width:50%;float:left;margin-top:25px;margin-left:25px;color:#939393" class"opensans-regular">'
+                    + '<div style="width:50%;float:left;margin-top:25px;margin-left:25px;color:#939393" class="opensans-regular">'
                     + '<span id="textinformation" style="color:rgb(47,156,161);">' + RESPONSE.NAMES[0] + '</span>'
                     + '</div>'
                     + '<a id="downloadTextLink" style="float:left;margin-left:20px;margin-top:20px;" href="#" download>'
@@ -915,7 +915,7 @@ var staticTemplate = {
                     + '<div class="p-relative inline-block v-align-top">'
                     + '<div class="sprite-im mobile-icon mobile-icon-pos">&nbsp;</div>'
                     + '</div>'
-                    + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-16 cust-name t-caps bold">' + tempObj.firstName + '&nbsp' + tempObj.lastName + '</div>'
+                    + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-16 cust-name t-caps bold" style="margin-left:5px;">' + tempObj.firstName + '&nbsp' + tempObj.lastName + '</div>'
                     + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 feed-time t-upper">' + tempObj.alertTime + '</div>'
                     + '</div>'
                     + '<div class="line1">' + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 cust-name t-caps">' + tempObj.gender + '</div>'
@@ -1621,8 +1621,8 @@ var staticTemplate = {
 
             for (var index = 0; index < data.resultMap.myRepTab.length; index++) {
 
-                if (data.resultMap.myRepTab[index].carrierId == tempCarriedId) {
-                    var details = data.resultMap.myRepTab[index];
+                if (data.resultMap.myRepTab[index].RepresentativeDetails.carrierId == tempCarriedId) {
+                    var details = data.resultMap.myRepTab[index].RepresentativeDetails;
                     if (details.name != undefined) {
                         name = details.name;
                     } else {
@@ -1681,8 +1681,8 @@ var staticTemplate = {
                             + '  <textarea id="txtbox-sendinvite" placeholder="Custom message"></textarea>'
                             + '</div>'
                             + '<div class="checkbox-box">'
-                            + '<div class="checkbox-box1"> <input type="radio" class="sendinvite_agency" value="" id="radio-button-agency" checked onclick="checkboxStatus(\'radio-button-agency\')" />Agency</div>'
-                            + ' <div class="checkbox-box2"> <input type="radio" class="sendinvite_rep" value="" id="radio-button-rep" onclick="checkboxStatus(\'radio-button-rep\')" />Representative</div>'
+                            + '<div class="checkbox-box1" style="display:none;"> <input type="radio" class="sendinvite_agency" value="" id="radio-button-agency" checked onclick="checkboxStatus(\'radio-button-agency\')" />Agency</div>'
+                            + ' <div class="checkbox-box2"> <input type="radio" class="sendinvite_rep" value="" id="radio-button-rep" checked onclick="checkboxStatus(\'radio-button-rep\')" />Representative</div>'
                             + '</div>'
                             + '<div class="checkbox-form">'
                             + '<div id="delete_item0" class="checkbox-box">'
