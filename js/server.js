@@ -125,22 +125,37 @@ utils.server = {
                 if (localStorage.LoginType == 'Admin') {
                     sessionStorage.loginType = 'AgencyAdmin';
                     sessionStorage.agencyName = data.resultMap.agencyDetails.agencyName;
+                    sessionStorage.userName = data.resultMap.userDetails.firstName;
+
+                    // alert(sessionStorage.agencyName+","+sessionStorage.userName);
                 }
                 if (localStorage.LoginType == 'Representatives') {
                     sessionStorage.loginType = 'AgencyRepresentative';
-                    sessionStorage.agencyName = data.resultMap.userDetails.name;
+                    sessionStorage.agencyName = data.resultMap.agencyDetails.agencyName;
+                    sessionStorage.userName = data.resultMap.userDetails.name;
                     //                    sessionStorage.agencyName = "Manoj";
                 }
 
                 //  alert("1"+sessionStorage.loginType);
                 sessionStorage.loggedIn = "true";
                 localStorage.imageURl = "http://2-dot-proto-call-test.appspot.com/file/";
-                sessionStorage.profilePic = localStorage.imageURl + data.resultMap.userDetails.profilePicture;
-                sessionStorage.agencyEmail = data.resultMap.userDetails.agencyRepresentativeId.email;
-                sessionStorage.agencyLogo = localStorage.imageURl + data.resultMap.agencyDetails.agencyLogo;
-
-                sessionStorage.agencyPhone = data.resultMap.agencyDetails.phone.number;
+                // sessionStorage.profilePic = localStorage.imageURl + data.resultMap.userDetails.profilePicture;
+                sessionStorage.agencyEmail = data.resultMap.agencyDetails.emailId.email;
+               sessionStorage.agencyPhone = data.resultMap.agencyDetails.phone.number;
                 sessionStorage.agencyId = data.resultMap.agencyId;
+
+                if (data.resultMap.userDetails.profilePicture != undefined) {
+                    sessionStorage.profilePic = localStorage.imageURl + data.resultMap.userDetails.profilePicture;
+                } else {
+                    sessionStorage.profilePic = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                }
+
+                if (data.resultMap.agencyDetails.agencyLogo != undefined) {
+                    sessionStorage.agencyLogo = localStorage.imageURl + data.resultMap.agencyDetails.agencyLogo;
+                } else {
+                    sessionStorage.agencyLogo = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                }
+
             } else if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
 
                 if (localStorage.LoginType == 'Admin') {
@@ -200,7 +215,7 @@ utils.server = {
                         } else {
                             localStorage.setItem("CARRIERREP_DATA", JSON.stringify(resp));
                             localStorage.setItem("customers_data", JSON.stringify(resp.resultMap.carrierTab[2]));
-                            localStorage.setItem("agencies_data", JSON.stringify(resp.resultMap.carrierTab[0]));
+                            localStorage.setItem("agencies_data", JSON.stringify(resp.resultMap.carrierTab[0][0]));
                             localStorage.setItem("carrierrepcustomers_data", JSON.stringify(resp));
                         }
                     });
@@ -492,13 +507,15 @@ utils.server = {
 
         var scheduledDate = "";
         var dateofschedule = "";
-
+        var booleanValue = true;
 
         if ($('#radio-button-now').is(':checked')) {
+            booleanValue = true;
             var date = new Date();
             scheduledDate = date.getTime();
             //alert(scheduledDate);
         } else if ($('#radio-button-later').is(':checked')) {
+            booleanValue = false;
             dateofschedule = $("#datepicker").val() + " " + $("#pushmessagetimepicker").val() + " " + $("#ampmtimepicker").val();
             var date = Date.parse(dateofschedule);
             scheduledDate = date;
@@ -506,7 +523,7 @@ utils.server = {
 
         utils.server.displayMessage("Successfully Send..!");
         var page = "pushmessagepage";
-        var data = {targetString: $("#idpushmessage-textarea").val(), agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3", scheduledDate: scheduledDate};
+        var data = {isNow: booleanValue, targetString: $("#idpushmessage-textarea").val(), agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3", scheduledDate: scheduledDate};
         var callback = utils.server.getCodeResponseAssignCustomers;
         var deepPath = "sendpushmessage";
         utils.server.makeServerCall(page, data, callback, deepPath);

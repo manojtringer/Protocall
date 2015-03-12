@@ -766,9 +766,17 @@ footer  .foot-in{
 .container{
     margin-bottom:20px;
     min-height: 60px;
-    margin-top: 15px;
+    margin-top: 9px;
     max-height: 365px;
-    overflow: auto;
+    overflow: scroll;
+
+
+    /* box-shadow: inset 0px 8px 8px #444444; */
+    /*      -webkit-box-shadow: inset 0 20px 20px -20px rgba(0,0,0,0.8);
+        -moz-box-shadow: inset 0 20px 20px -20px rgba(0,0,0,0.8);
+        box-shadow: inset 0 50px 70px -20px rgba(0,0,0,0.8);*/
+
+
 }
 
 .container .content-holder{
@@ -1669,6 +1677,10 @@ input[type=checkbox]:checked + .customer-feed-label:before {
     width: 12%;
     padding: 5px 4px 5px 5px;
 }
+
+.customer-policy-button:hover{
+    background-color: #f34f4e;
+}
 .customer-view-button{
     padding: 15px 15px 27px 15px;
     width: 100%;
@@ -1774,7 +1786,7 @@ input[type=checkbox]:checked + .customer-feed-label:before {
     min-height: 60px;
     margin-top: 15px;
     max-height: 365px;
-    overflow-y: auto;
+    overflow: scroll;
     /* overflow-y: scroll; */
 }
 
@@ -2167,6 +2179,7 @@ textarea::-webkit-input-placeholder {  color: #999;}
     line-height: 30px;
     text-align: center;
     position: absolute;
+    cursor: pointer;
 }
 
 

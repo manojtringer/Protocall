@@ -68,12 +68,13 @@ var CustomerdynamicTemplate = {
                 //  template += CustomerdynamicTemplate.customer.CustomerDynamicList(resp);
                 var header = HeaderTemplate.Menu.DynamicHeaderTemplate();
 
-                var content = '<div class="container"> <div class="content-holder">' + template + '</div></div></div></div>';
+                var content = '<div class="topContainer"><div class="container"> <div class="content-holder">' + template + '</div></div></div></div></div>';
                 var footer = footerDynamicTemplate.footer.DynamicFooterTemplate();
                 $("#page").empty();
                 totalHtml = header + content + footer;
                 $("#page").append(totalHtml);
                 protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CARRIERAGENCY);
+                protocall.events.GlobalContainerScrollevent();
                 protocall.displaySpinner(false);
             }
             $(".edit-cover-pic").css("display", "none");
@@ -88,15 +89,48 @@ var CustomerdynamicTemplate = {
 
                 var resultCustomer = data.resultMap.agencyTab;
 
-                // console.log(resultCustomer.length);
-                var template = '';
-                console.log("sss", resultCustomer);
-                // alert("1" + data.resultMap.CustomerTab[0].emailId.email);
-                for (var c = 0; c < resultCustomer.length; c++) {
-                    var cus = resultCustomer.AgencyDetail;
+                var errlen = 0;
+                try {
+                    errlen = resultCustomer.length;
+                } catch (err) {
+                    errlen = 0;
+                }
+
+                if (errlen != 0) {
+                    // console.log(resultCustomer.length);
+                    var template = '';
+                    console.log("sss", resultCustomer);
+                    // alert("1" + data.resultMap.CustomerTab[0].emailId.email);
+                    for (var c = 0; c < resultCustomer.length; c++) {
+                        var cus = resultCustomer[c].agencyDetail;
 
 
 
+                    if (cus.emailId.email == undefined) {
+                        cusEmail = ' ';
+                    } else {
+                        cusEmail = cus.emailId.email;
+                    }
+                    if (cus.lastName == undefined)
+                    {
+                        lastName = ' ';
+                    } else {
+                        lastName = cus.lastName;
+                    }
+                    if (cus.agencyLogo == undefined)
+                    {
+                        profilePicture = "http://www.deshow.net/d/file/animal/2009-05/animal-pictures-pet-photography-557-4.jpg";
+
+                        } else {
+                            var profilePath = cus.agencyLogo;
+                            profilePicture = "http://www.deshow.net/d/file/animal/2009-05/animal-pictures-pet-photography-557-4.jpg";
+                            //profilePicture = ProfileAPI + profilePath;
+                        }
+                        template += CustomerdynamicTemplate.customer.agenciesDynamicList(cus);
+                    }
+                } else {
+                    var template = '';
+                    var cus = resultCustomer[0].agencyDetail;
                     if (cus.emailId.email == undefined) {
                         cusEmail = ' ';
                     } else {
@@ -118,19 +152,23 @@ var CustomerdynamicTemplate = {
                         //profilePicture = ProfileAPI + profilePath;
                     }
                     template += CustomerdynamicTemplate.customer.agenciesDynamicList(cus);
+                    // }
                 }
+
+
 
                 //  var resp = data.resultMap.carrierTab[2][0];
                 //  template += CustomerdynamicTemplate.customer.CustomerDynamicList(resp);
                 var header = HeaderTemplate.Menu.DynamicHeaderTemplate();
 
-                var content = '<div class="container"> <div class="content-holder">' + template + '</div></div></div></div>';
+                var content = '<div class="topContainer"><div class="container"> <div class="content-holder">' + template + '</div></div></div></div></div>';
                 var footer = footerDynamicTemplate.footer.DynamicFooterTemplate();
                 $("#page").empty();
                 totalHtml = header + content + footer;
                 $("#page").append(totalHtml);
                 protocall.displaySpinner(false);
                 protocall.setMenuSelection(CONSTANTS.LINK_TYPE.AGENCIES_PAGE);
+                protocall.events.GlobalContainerScrollevent();
 
 
             }
@@ -179,7 +217,7 @@ var CustomerdynamicTemplate = {
 
                 var header = HeaderTemplate.Menu.DynamicHeaderTemplate();
 
-                var content = '<div class="container"> <div class="content-holder">' + template + '</div></div></div></div>';
+                var content = '<div class="topContainer"><div class="container"> <div class="content-holder">' + template + '</div></div></div></div></div>';
                 var footer = footerDynamicTemplate.footer.DynamicFooterTemplate();
 
                 $("#page").empty();
@@ -187,6 +225,7 @@ var CustomerdynamicTemplate = {
                 $("#page").append(totalHtml);
                 protocall.displaySpinner(false);
                 protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
+                protocall.events.GlobalContainerScrollevent();
             }
             $(".edit-cover-pic").css("display", "none");
             $(".edit-agency-pic").css("display", "none");
@@ -236,7 +275,7 @@ var CustomerdynamicTemplate = {
 
                 var header = HeaderTemplate.Menu.DynamicHeaderTemplate();
 
-                var content = '<div class="container"> <div class="content-holder">' + template + '</div></div></div></div>';
+                var content = '<div class="topContainer"><div class="container"> <div class="content-holder">' + template + '</div></div></div></div></div>';
                 var footer = footerDynamicTemplate.footer.DynamicFooterTemplate();
 
                 $("#page").empty();
@@ -244,6 +283,7 @@ var CustomerdynamicTemplate = {
                 $("#page").append(totalHtml);
                 protocall.displaySpinner(false);
                 protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
+                protocall.events.GlobalContainerScrollevent();
             }
             $(".edit-cover-pic").css("display", "none");
             $(".edit-agency-pic").css("display", "none");
@@ -290,7 +330,7 @@ var CustomerdynamicTemplate = {
 
                     var header = HeaderTemplate.Menu.DynamicHeaderTemplate();
 
-                    var content = '<div class="container"> <div class="content-holder">' + template + '</div></div></div></div>';
+                    var content = '<div class="topContainer"><div class="container"> <div class="content-holder">' + template + '</div></div></div></div></div>';
                     var footer = footerDynamicTemplate.footer.DynamicFooterTemplate();
 
                     $("#page").empty();
@@ -298,6 +338,7 @@ var CustomerdynamicTemplate = {
                     $("#page").append(totalHtml);
                     protocall.displaySpinner(false);
                     protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
+                    protocall.events.GlobalContainerScrollevent();
 
 
                     if (localStorage.LoginType == 'Representatives') {
@@ -346,7 +387,7 @@ var CustomerdynamicTemplate = {
 
                     var header = HeaderTemplate.Menu.DynamicHeaderTemplate();
 
-                    var content = '<div class="container"> <div class="content-holder">' + template + '</div></div></div></div>';
+                    var content = '<div class="topContainer"><div class="container"> <div class="content-holder">' + template + '</div></div></div></div></div>';
                     var footer = footerDynamicTemplate.footer.DynamicFooterTemplate();
 
                     $("#page").empty();
@@ -354,6 +395,7 @@ var CustomerdynamicTemplate = {
                     $("#page").append(totalHtml);
                     protocall.displaySpinner(false);
                     protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
+                    protocall.events.GlobalContainerScrollevent();
 
                     //  $(".mb-submenu").empty();
                     // $(".mb-submenu").append("<div class=\"mb-submenu-in p-relative\"><div class=\"bcrum-lb-submenu clr-fl inline-block v-align-mid\"><a href=\"#\" class=\"snap left f-sz-16 ptsans-light customers t-upper p-relative f-color-green\" data-type=\"page\" data-submenu=\"customers\"><div class=\"\"><div class=\"sprite-im customers-icon inline-block v-align-mid mr-space-10 \">&nbsp;</div><span class=\"sub-menu-text inline-block v-align-mid\"> customers</span><span id=\"id-customers-headername\"></span></div></a><div class=\"bcrum-icon-blk left f-color-green f-sz-16 ptsans-light\" style=\"display:none;\">&gt;</div><a href=\"#\" class=\"snap left f-sz-16 ptsans-light feeds-customer t-caps p-relative f-color-green\" data-type=\"page\" data-submenu=\"customers-customer\" style=\"display:none;\"></a></div><div class=\"tab-rb-submenu inline-block v-align-mid\" style=\"width:70%;\"><div class=\"tab-rb-submenu-in-block p-relative\"><div href=\"#\" class=\"snap submenu-sort right f-sz-16 ptsans-light p-relative\" data-type=\"page\" data-submenu=\"sortbycustomer\"><div class=\"sort-text f-italic\">Sort by</div><div class=\"sprite-im drop-down-icon submenu-drop-icon\">&nbsp;</div></div><a href=\"/assignrep\" class=\"snap submenu-tab bg-color-green right f-sz-16 ptsans-light assignrep p-relative\" data-type=\"page\" data-submenu=\"assignrep\"><div class=\"sprite-im inline-block tab-icon v-align-mid\" style=\"display:none;\">&nbsp;</div><div class=\"submenu-title t-caps inline-block f-color-w v-align-mid\"> assign rep</div><div class=\"cnt-blk inline-block v-align-mid\" style=\"display:none;\">(<span class=\"cnt-no\"></span>)</div></a><a href=\"/pushmessage\" class=\"snap submenu-tab bg-color-green right f-sz-16 ptsans-light pushmessage p-relative\" data-type=\"page\" data-submenu=\"pushmessage\"><div class=\"sprite-im message-icon inline-block tab-icon v-align-mid\" style=\"display:block;\">&nbsp;</div><div class=\"submenu-title t-caps inline-block f-color-w v-align-mid\"> push message</div><div class=\"cnt-blk inline-block v-align-mid\" style=\"display:none;\">(<span class=\"cnt-no\"></span>)</div></a></div></div></div>");
@@ -405,7 +447,7 @@ var CustomerdynamicTemplate = {
                 var type = "Alphabetical";
                 var header = HeaderTemplate.Menu.DynamicHeaderTemplate();
 
-                var content = '<div class="container"> <div class="content-holder">' + template + '</div></div></div></div>';
+                var content = '<div class="topContainer"><div class="container"> <div class="content-holder">' + template + '</div></div></div></div></div>';
                 var footer = footerDynamicTemplate.footer.DynamicFooterTemplate();
 
                 $("#page").empty();
@@ -413,6 +455,7 @@ var CustomerdynamicTemplate = {
                 $("#page").append(totalHtml);
                 protocall.displaySpinner(false);
                 protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
+                protocall.events.GlobalContainerScrollevent();
             }
         },
         agenciesDynamicList: function (cus) {

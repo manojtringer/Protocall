@@ -182,6 +182,8 @@ var template = {
 			feedUserEmail = HOMEPAGERESPONSE.COMMONUSERDETAILS.userEmail;
 			profilePicture = HOMEPAGERESPONSE.COMMONUSERDETAILS.profilePicture;
 			bDate = HOMEPAGERESPONSE.COMMONUSERDETAILS.birthday;
+			alertId = alertDetailsValue.alertDetails.alertId;
+			alertDate = HOMEPAGERESPONSE.COMMONUSERDETAILS.alertDate;
 		} else {
 			if(alertDetailsValue.userDetails.firstName !=="undefined"){
 				firstName = alertDetailsValue.userDetails.firstName;
@@ -190,8 +192,9 @@ var template = {
 				lastName = alertDetailsValue.userDetails.lastName;
 			} 
 			if(alertDetailsValue.alertDetails.alertDate !== "undefined"){
-				alertDate = alertDetailsValue.alertDetails.alertDate;
-				alertTime = moment(Number(alertDate)).format('h:mmA');
+				alDate = alertDetailsValue.alertDetails.alertDate;
+                alertDate = moment(new Date(parseInt(alDate))).format('MMM D, YYYY');
+				alertTime = moment(Number(alDate)).format('h:mmA');
 			} 
 			if(alertDetailsValue.userDetails.birthDate !== "undefined"){
 				bDay = alertDetailsValue.userDetails.birthDate;
@@ -242,7 +245,7 @@ var template = {
                     + '<div class="p-relative inline-block v-align-bot" style="margin-left:-2px;">'
                     + '<div class="sprite-im calendar-icon calendar-icon-pos">&nbsp;</div>'
                     + '</div>'
-                    + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 feed-date t-caps" style="margin-left:5px;">'+bDate+'</div>'
+                    + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 feed-date t-caps" style="margin-left:5px;">'+alertDate+'</div>'
                     + '<div class="p-relative inline-block v-align-bot">'
                     + '<div class="sprite-im map-icon map-icon-pos">&nbsp;</div>'
                     + '</div>'

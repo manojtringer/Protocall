@@ -41,13 +41,14 @@ var MyrepsdynamicTemplate = {
                 }
 
                 var header = HeaderTemplate.Menu.DynamicHeaderTemplate();
-                var content = '<div class="container"> <div class="content-holder">' + template + '</div></div></div></div>';
+                var content = '<div class="topContainer"><div class="container"> <div class="content-holder">' + template + '</div></div></div></div></div>';
                 var footer = HomedynamicTemplate.home.HomeDynamicFooterTemplate();
 
                 $("#page").empty();
                 totalHtml = header + content + footer;
                 $("#page").append(totalHtml);
                 protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CARRIER_REPS_PAGE);
+                protocall.events.GlobalContainerScrollevent();
                 protocall.displaySpinner(false);
                 $(".content-holder").removeClass("spinner1");
                 $(".content-holder").css("opacity", "1");
@@ -131,7 +132,7 @@ var MyrepsdynamicTemplate = {
                 }
 
                 var header = HeaderTemplate.Menu.DynamicHeaderTemplate();
-                var content = '<div class="container"> <div class="content-holder">' + template + '</div></div></div></div>';
+                var content = '<div class="topContainer"><div class="container"> <div class="content-holder">' + template + '</div></div></div></div></div>';
                 var footer = HomedynamicTemplate.home.HomeDynamicFooterTemplate();
 
                 $("#page").empty();
@@ -139,6 +140,7 @@ var MyrepsdynamicTemplate = {
                 $("#page").append(totalHtml);
                 protocall.displaySpinner(false);
                 protocall.setMenuSelection(CONSTANTS.LINK_TYPE.MY_REP_PAGE);
+                protocall.events.GlobalContainerScrollevent();
             }
         },
         MyrepsDynamicListSort: function (data) {
@@ -173,7 +175,7 @@ var MyrepsdynamicTemplate = {
                 }
 
                 var header = HeaderTemplate.Menu.DynamicHeaderTemplate();
-                var content = '<div class="container"> <div class="content-holder">' + template + '</div></div></div></div>';
+                var content = '<div class="topContainer"><div class="container"> <div class="content-holder">' + template + '</div></div></div></div></div>';
                 var footer = HomedynamicTemplate.home.HomeDynamicFooterTemplate();
 
                 $("#page").empty();
@@ -181,6 +183,7 @@ var MyrepsdynamicTemplate = {
                 $("#page").append(totalHtml);
                 protocall.displaySpinner(false);
                 protocall.setMenuSelection(CONSTANTS.LINK_TYPE.MY_REP_PAGE);
+                protocall.events.GlobalContainerScrollevent();
             }
         },
         CarrierRepsviewSubmenu: function () {

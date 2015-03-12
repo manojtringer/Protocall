@@ -39,7 +39,7 @@ var CONSTANTS = {
         BUTTON_PRIVACYSEND: "overlaybtnPrivacySend", BUTTON_ADDVENDORSEND: "overlaybtn_addvendordetails", BUTTON_SHAREWITHREP: "dt_overlaybtn_sharerepwithcustomers",
         BUTTON_PUSHMESSAGESEND: "overlaybtn-pushmessage", PRINTPAGE: "printPage", BUTTON_ASSIGNTOREPS: "dt_overlaybtn_assignToReps",
         BUTTON_ASSIGNTOCUSTOMERS: "dt_overlaybtn_assigncustomers", SELECTED_SEARCH_ITEM: "selectedSearchItem", CARRIERAGENCY: "carrieragency", CARRIERCUSTOMERS: "carriercustomers", CARRIER_REPS_PAGE: "carrierreps",
-        VIEW_CARRIER_REPS_DETAILS: "viewCarrierRep", VIEW_CARIER_REP_PROFILE_PAGE: "ViewCarrierRep", EDITCARRIEROWNER_AGENCYDETAILS: "editcarrierowner_agencydetails", ADDMORE: "addmoredata"
+        VIEW_CARRIER_REPS_DETAILS: "viewCarrierRep", VIEW_CARIER_REP_PROFILE_PAGE: "ViewCarrierRep", EDITCARRIEROWNER_AGENCYDETAILS: "editcarrierowner_agencydetails", ADDMORE: "addmoredata", TEMPCLOSE_OVERLAY: "overlaybtn"
     },
     ERROR_MSG: {
         ajaxFailed: "Oops! This action could not be completed now! Please try again"
@@ -91,9 +91,7 @@ var RESPONSE = {
     INJURIES: [],
     OTHERINFORMATION: [],
     OTHERPARTYIDS: [],
-    INCIDENTID: [],
-	RELATEDFEEDS : {},
-	RELATEDFEEDSLOADED : false
+    INCIDENTID: []
 };
 var PAGEREFRESH = {
 	ISPAGEREFRESHED : false,
@@ -127,7 +125,9 @@ var HOMEPAGERESPONSE = {
     FEEDSICONCLICKED: false,
 	PROFILEPICUPDATECLICKED : false,
 	DOWNARROWPRESSEDCOUNT : 0,
-	UPARROWPRESSEDCOUNT : 0
+	UPARROWPRESSEDCOUNT : 0,
+	RELATEDFEEDSLOADED : false,
+	RELATEDFEEDS : {}
             /*Naveen 23-2-2015 Changes End */
 }
 /*Naveen 19-2-2015 Chnage end*/
@@ -361,6 +361,7 @@ protocall = {
             page = pageUrl;
         }
         this.setMenuSelection(page);
+        protocall.events.GlobalContainerScrollevent();
         this.displaySpinner(true);
         this.setLocalStorage(page);
 
@@ -778,7 +779,8 @@ protocall.events = {
          e.preventDefault();
          }); */
         $(window).on("resize", function (e) {
-            if ($(".searchbox-border") !== "") {
+			var searchBarLength = $(".searchbox-border").length;
+            if (searchBarLength !== 0) {
                 var widthOfSearchTextBox = $(".searchbox-border").width() + "px";
                 var searchBorderLeftPosition = $(".searchbox-border").offset().left + "px";
                 var searchBorderTopPosition = $(".searchbox-border").offset().top + 54 + "px";
@@ -856,6 +858,24 @@ protocall.events = {
             protocall.events.handleScroll();
         });
     },
+    GlobalContainerScrollevent: function () {
+        $(".container-maxwidth").on("scroll", function (e) {
+            var container = $('.container-maxwidth');
+            if (!container.scrollTop()) {
+                $(".topContainer").css("box-shadow", "inset 0px 8px 8px #E9EFF0");
+            } else {
+                $(".topContainer").css("box-shadow", "inset 0px 5px 5px #9999cc");
+            }
+        });
+        $(".container").on("scroll", function (e) {
+            var container = $('.container');
+            if (!container.scrollTop()) {
+                $(".topContainer").css("box-shadow", "inset 0px 8px 8px #E9EFF0");
+            } else {
+                $(".topContainer").css("box-shadow", "inset 0px 5px 5px #9999cc");
+            }
+        });
+    },
     mouseOverCheckbox: function () {
         var userFeedbox = $(".feed-user-pic-box");
         $.each(userFeedbox, function (index, element) {
@@ -909,8 +929,9 @@ protocall.events = {
                 }
                 $(".content-holder").append('<div id="scrollingDiv" style="position:relative;margin: 20px 0px;"><div class="bottomSpinner"></div></div>');
                 $(".content-holder").css("opacity", "0.5");
-				protocall.home.loadingAlertFeeds(++CONSTANTS.PGNUMBER, deepPath, page);
-				return false;
+                protocall.events.GlobalContainerScrollevent();
+                protocall.home.loadingAlertFeeds(++CONSTANTS.PGNUMBER, deepPath, page);
+                return false;
             }
         }
 	},
@@ -1166,6 +1187,9 @@ protocall.events = {
             case CONSTANTS.LINK_TYPE.CLOSE_OVERLAY:
                 protocall.closeOverlay();
                 break;
+            case CONSTANTS.LINK_TYPE.TEMPCLOSE_OVERLAY:
+                protocall.closeOverlay();
+                break;
             case CONSTANTS.LINK_TYPE.CLOSE_POPUP:
                 protocall.closePopUp();
                 break;
@@ -1362,6 +1386,7 @@ protocall.view = {
         localStorage.setItem("SUBMENU", "VIEW_CARIER_REP_PROFILE_PAGE");
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.CARRIER_REPS_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_CARIER_REP_PROFILE_PAGE);
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CARRIER_REPS_PAGE);
+        protocall.events.GlobalContainerScrollevent();
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.CARRIER_REPS_PAGE, CONSTANTS.LINK_TYPE.CARRIER_REPS_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_CARIER_REP_PROFILE_PAGE, CONSTANTS.LINK_TYPE.VIEW_CARIER_REP_PROFILE_PAGE, "");
         }
@@ -1373,6 +1398,7 @@ protocall.view = {
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.SIGNUP);
         protocall.home.initSignUpPage();
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.SIGNUP);
+        protocall.events.GlobalContainerScrollevent();
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.SIGNUP, CONSTANTS.LINK_TYPE.SIGNUP, CONSTANTS.LINK_TYPE.SIGNUP, "");
         }
@@ -1383,6 +1409,7 @@ protocall.view = {
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.RESETPASSWORD);
         protocall.home.initResetPasswordPage();
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.RESETPASSWORD);
+        protocall.events.GlobalContainerScrollevent();
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.RESETPASSWORD, CONSTANTS.LINK_TYPE.RESETPASSWORD, CONSTANTS.LINK_TYPE.RESETPASSWORD, "");
         }
@@ -1597,6 +1624,7 @@ protocall.view = {
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.LOGIN_PAGE);
         protocall.home.initLoginPage();
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.LOGIN_PAGE);
+        protocall.events.GlobalContainerScrollevent();
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.LOGIN_PAGE, CONSTANTS.LINK_TYPE.LOGIN_PAGE, CONSTANTS.LINK_TYPE.LOGIN_PAGE, "");
         }
@@ -1609,10 +1637,14 @@ protocall.view = {
         HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED = true;
         HOMEPAGERESPONSE.POLICYALERTCLICKED = false;
         HOMEPAGERESPONSE.INCIDENTALERTSCLICKED = false;
+		HOMEPAGERESPONSE.ISVIEWALERTVALUECLICKED = false;
+		HOMEPAGERESPONSE.FEEDSICONCLICKED = false;
         HOMEPAGERESPONSE.UNREADFEEDCOUNT = 0;
+		HOMEPAGERESPONSE.RELATEDFEEDSLOADED = false;
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE);
         protocall.home.initHomePage();
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
+        protocall.events.GlobalContainerScrollevent();
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.HOME_PAGE, CONSTANTS.LINK_TYPE.HOME_PAGE, CONSTANTS.LINK_TYPE.HOME_PAGE, "");
         }
@@ -1626,9 +1658,11 @@ protocall.view = {
         console.log("Load Carrier Page");
         $(".content-holder").addClass("spinner1");
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.AGENCY_PAGE);
+        protocall.events.GlobalContainerScrollevent();
         //Call the below in carrier.js
         protocall.carrier.initAgencyPage();
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.AGENCY_PAGE);
+        protocall.events.GlobalContainerScrollevent();
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.AGENCY_PAGE, CONSTANTS.LINK_TYPE.AGENCY_PAGE, CONSTANTS.LINK_TYPE.AGENCY_PAGE, "");
         }
@@ -1642,6 +1676,7 @@ protocall.view = {
         //Call the below in carrier.js
         protocall.carrier.initAgenciesPage();
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.AGENCIES_PAGE);
+        protocall.events.GlobalContainerScrollevent();
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.AGENCIES_PAGE, CONSTANTS.LINK_TYPE.AGENCIES_PAGE, CONSTANTS.LINK_TYPE.AGENCIES_PAGE, "");
         }
@@ -1654,6 +1689,7 @@ protocall.view = {
         //Call the below in carrier.js
         protocall.carrier.initCarrierOwnerAgenciesPage();
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CARRIERAGENCY);
+        protocall.events.GlobalContainerScrollevent();
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.CARRIERAGENCY, CONSTANTS.LINK_TYPE.CARRIERAGENCY, CONSTANTS.LINK_TYPE.CARRIERAGENCY, "");
         }
@@ -1667,6 +1703,7 @@ protocall.view = {
         //Call the below in carrier.js
         protocall.carrier.initCarrierPage();
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CARRIERS_PAGE);
+        protocall.events.GlobalContainerScrollevent();
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.CARRIERS_PAGE, CONSTANTS.LINK_TYPE.CARRIERS_PAGE, CONSTANTS.LINK_TYPE.CARRIERS_PAGE, "");
         }
@@ -1676,6 +1713,7 @@ protocall.view = {
         $(".content-holder").css("opacity", "0.5");
         $(".content-holder").addClass("spinner1");
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
+        protocall.events.GlobalContainerScrollevent();
         //  console.log("Load Customer Page");
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
         //Call the below in customer.js
@@ -1694,7 +1732,8 @@ protocall.view = {
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.MY_REP_PAGE);
         //Call the below in myreps.js
         protocall.myRep.initMyRepsPage();
-        // protocall.setMenuSelection(CONSTANTS.LINK_TYPE.MY_REP_PAGE);
+        protocall.setMenuSelection(CONSTANTS.LINK_TYPE.MY_REP_PAGE);
+        protocall.events.GlobalContainerScrollevent();
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.MY_REP_PAGE, CONSTANTS.LINK_TYPE.MY_REP_PAGE, CONSTANTS.LINK_TYPE.MY_REP_PAGE, "");
         }
@@ -1707,20 +1746,22 @@ protocall.view = {
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.CARRIER_REPS_PAGE);
         //Call the below in myreps.js
         protocall.myRep.initCarrierRepsPage();
-        // protocall.setMenuSelection(CONSTANTS.LINK_TYPE.MY_REP_PAGE);
+        protocall.setMenuSelection(CONSTANTS.LINK_TYPE.MY_REP_PAGE);
+        protocall.events.GlobalContainerScrollevent();
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.CARRIER_REPS_PAGE, CONSTANTS.LINK_TYPE.CARRIER_REPS_PAGE, CONSTANTS.LINK_TYPE.CARRIER_REPS_PAGE, "");
         }
         protocall.displaySpinner(false);
     },
     viewFeed: function (isClickEvent, e) {
-	var currentTarget = "",userEmail = "",incidentDate = "", alertType = "",alertIDForView = "";
+	var currentTarget = "",userEmail = "",incidentDate = "", alertType = "",alertIDForView = "",policyAlertMessage="";
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_FEED);
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
-		if (isClickEvent) {
-			currentTarget = $(e.currentTarget);
-			userEmail = currentTarget.find("div span").attr("id");
-			alertIDForView = currentTarget.find("div span").attr("name")
+        protocall.events.GlobalContainerScrollevent();
+        if (isClickEvent) {
+            currentTarget = $(e.currentTarget);
+            userEmail = currentTarget.find("div span").attr("id");
+            alertIDForView = currentTarget.find("div span").attr("name")
             protocall.setPage(CONSTANTS.LINK_TYPE.HOME_PAGE, CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_FEED, CONSTANTS.LINK_TYPE.VIEW_FEED, "");
 			sessionStorage.setItem("userEmailViewFeed",userEmail)
 			sessionStorage.setItem("userAlertIdViewFeed",alertIDForView)
@@ -1758,6 +1799,7 @@ protocall.view = {
                     incidentDate = viewAlertFeed.IncidentDetails.incidentId;
                 } else {
                     incidentDate = viewAlertFeed.alertDetails.policyId;
+					policyAlertMessage = viewAlertFeed.PolicyChangeSelected;
                 }
                 noOfOtherPartyRecordsCount = viewAlertFeed.NoofOtherPartyRecord;
                 noOfAudioRecordCount = viewAlertFeed.NoofAudioRecord;
@@ -1777,6 +1819,9 @@ protocall.view = {
         if (gender == undefined) {
             gender = "";
         }
+		if (policyAlertMessage == "") {
+            policyAlertMessage = "";
+        }
         userName = firstName + '&nbsp' + lastName;
         var tempObj = {
             "firstName": firstName,
@@ -1795,7 +1840,8 @@ protocall.view = {
             "noOfOtherPartyRecordsCount": noOfOtherPartyRecordsCount,
             "noOfAudioRecordCount": noOfAudioRecordCount,
             "noOfPictureRecord": noOfPictureRecord,
-            "incidentDate": incidentDate
+            "incidentDate": incidentDate,
+			"policyMessage" : policyAlertMessage
         };
         console.log("tempObj.alertDate", tempObj.alertDate);
         HOMEPAGERESPONSE.COMMONUSERDETAILS = tempObj;
@@ -1809,10 +1855,12 @@ protocall.view = {
         });
         protocall.view.buildSubMenuBlk(CONSTANTS.LINK_TYPE.HOME_PAGE, breadCrumbObj);
         protocall.displaySpinner(false);
+        protocall.events.GlobalContainerScrollevent();
     },
     viewCustomerViewFeed: function (isClickEvent) {
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_CUSTOMER_FEEDVIEW);
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
+        protocall.events.GlobalContainerScrollevent();
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE, CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_CUSTOMER_FEEDVIEW, CONSTANTS.LINK_TYPE.VIEW_CUSTOMER_FEEDVIEW, "");
         }
@@ -1824,15 +1872,16 @@ protocall.view = {
             protocall.view.setSelectedLinkClasses($(this), false);
         });
         protocall.view.buildSubMenuBlk(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE, breadCrumbObj);
-		protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
+        protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
+        protocall.events.GlobalContainerScrollevent();
         protocall.displaySpinner(false);
     },
     viewSettingsPage: function (isClickEvent, $el) {
-		if(PAGEREFRESH.ISPAGEREFRESHEDFORSETTINGS){
-			//HeaderTemplate.Menu.DynamicHeaderTemplate();
-			var header = HeaderTemplate.Menu.DynamicHeaderTemplate();
-                    var content = '<div class="container"> <div class="content-holder"></div></div></div></div>';
-                    var footer = footerDynamicTemplate.footer.DynamicFooterTemplate();
+        if (PAGEREFRESH.ISPAGEREFRESHEDFORSETTINGS) {
+            //HeaderTemplate.Menu.DynamicHeaderTemplate();
+            var header = HeaderTemplate.Menu.DynamicHeaderTemplate();
+            var content = '<div class="topContainer"><div class="container"> <div class="content-holder"></div></div></div></div></div>';
+            var footer = footerDynamicTemplate.footer.DynamicFooterTemplate();
 
                     $("#page").empty();
                     totalHtml = header+content+footer;
@@ -1850,6 +1899,7 @@ protocall.view = {
         protocall.myProfile.loadFeedSetting($el);
         // protocall.view.buildSubMenuBlk(CONSTANTS.LINK_TYPE.SETTINGS_PAGE);
         protocall.displaySpinner(false);
+        protocall.events.GlobalContainerScrollevent();
     },
     viewProfileViewPage: function (isClickEvent, $el) {
         localStorage.setItem("SUBMENU", "PROFILE_PAGE");
@@ -1858,7 +1908,7 @@ protocall.view = {
             //  alert("2");
             //HeaderTemplate.Menu.DynamicHeaderTemplate();
             var header = HeaderTemplate.Menu.DynamicHeaderTemplate();
-            var content = '<div class="container"> <div class="content-holder"></div></div></div></div>';
+            var content = '<div class="topContainer"><div class="container"> <div class="content-holder"></div></div></div></div></div>';
             var footer = footerDynamicTemplate.footer.DynamicFooterTemplate();
 
             $("#page").empty();
@@ -1876,10 +1926,12 @@ protocall.view = {
         protocall.myProfile.loadMyProfileView($el);
         protocall.view.buildSubMenuBlk(CONSTANTS.LINK_TYPE.PROFILE_PAGE);
         protocall.displaySpinner(false);
+        protocall.events.GlobalContainerScrollevent();
     },
     viewCarrierViewFeed: function (isClickEvent, Carrieremail) {
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.CARRIERS_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_CARRIER_FEEDVIEW);
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CARRIERS_PAGE);
+        protocall.events.GlobalContainerScrollevent();
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.CARRIERS_PAGE, CONSTANTS.LINK_TYPE.CARRIERS_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_CARRIER_FEEDVIEW, CONSTANTS.LINK_TYPE.VIEW_CARRIER_FEEDVIEW, "");
 			sessionStorage.setItem("carrierEmailId",Carrieremail);
@@ -1897,6 +1949,7 @@ protocall.view = {
         localStorage.setItem("SUBMENU", "CUSTOMERSVIEW_PAGE");
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEWCUSTOMERFEED);
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
+        protocall.events.GlobalContainerScrollevent();
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE, CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEWCUSTOMERFEED, CONSTANTS.LINK_TYPE.VIEWCUSTOMERFEED, "");
 			sessionStorage.setItem("customerEmailId",emailId);
@@ -1916,6 +1969,7 @@ protocall.view = {
          });
          protocall.view.buildSubMenuBlk(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE, breadCrumbObj);*/
         protocall.displaySpinner(false);
+        protocall.events.GlobalContainerScrollevent();
     },
     viewAgenciesFeed: function (isClickEvent, emailId, carrierId) {
 
@@ -1924,6 +1978,7 @@ protocall.view = {
                 localStorage.setItem("SUBMENU", "CARRIERS_AGENCY_PAGE");
                 protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.CARRIERAGENCY + "/" + CONSTANTS.LINK_TYPE.CARRIERAGENCY);
                 protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CARRIERAGENCY);
+                protocall.events.GlobalContainerScrollevent();
                 if (isClickEvent) {
                     protocall.setPage(CONSTANTS.LINK_TYPE.CARRIERAGENCY, CONSTANTS.LINK_TYPE.CARRIERAGENCY + "/" + CONSTANTS.LINK_TYPE.VIEWAGENCIESFEED, CONSTANTS.LINK_TYPE.VIEWAGENCIESFEED, "");
                 }
@@ -1936,11 +1991,32 @@ protocall.view = {
                  });
                  protocall.view.buildSubMenuBlk(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE, breadCrumbObj);*/
                 protocall.displaySpinner(false);
+                protocall.events.GlobalContainerScrollevent();
+            } else {
+                localStorage.setItem("SUBMENU", "AGENCIESVIEW_PAGE");
+                protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.AGENCIES_PAGE + "/" + CONSTANTS.LINK_TYPE.AGENCIES_PAGE);
+                protocall.setMenuSelection(CONSTANTS.LINK_TYPE.AGENCIES_PAGE);
+                protocall.events.GlobalContainerScrollevent();
+                if (isClickEvent) {
+                    protocall.setPage(CONSTANTS.LINK_TYPE.AGENCIES_PAGE, CONSTANTS.LINK_TYPE.AGENCIES_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEWAGENCIESFEED, CONSTANTS.LINK_TYPE.VIEWAGENCIESFEED, "");
+                }
+                protocall.customer.loadAgenciesViewFeed(emailId, carrierId);
+                //Call the below dynamically
+                /*var breadCrumbObj = {};
+                 breadCrumbObj.customerName = "Way to Safe";
+                 $('.tab-rb-submenu a').each(function () {
+                 protocall.view.setSelectedLinkClasses($(this), false);
+                 });
+                 protocall.view.buildSubMenuBlk(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE, breadCrumbObj);*/
+                protocall.displaySpinner(false);
+                protocall.events.GlobalContainerScrollevent();
             }
         } else {
+
             localStorage.setItem("SUBMENU", "AGENCIESVIEW_PAGE");
             protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.AGENCIES_PAGE + "/" + CONSTANTS.LINK_TYPE.AGENCIES_PAGE);
             protocall.setMenuSelection(CONSTANTS.LINK_TYPE.AGENCIES_PAGE);
+            protocall.events.GlobalContainerScrollevent();
             if (isClickEvent) {
                 protocall.setPage(CONSTANTS.LINK_TYPE.AGENCIES_PAGE, CONSTANTS.LINK_TYPE.AGENCIES_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEWAGENCIESFEED, CONSTANTS.LINK_TYPE.VIEWAGENCIESFEED, "");
             }
@@ -1953,6 +2029,7 @@ protocall.view = {
              });
              protocall.view.buildSubMenuBlk(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE, breadCrumbObj);*/
             protocall.displaySpinner(false);
+            protocall.events.GlobalContainerScrollevent();
         }
     },
     /*Naveen Chnages 19-2-2015 start */
@@ -1964,6 +2041,7 @@ protocall.view = {
         HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED = false;
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.MY_ALERTS);
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
+        protocall.events.GlobalContainerScrollevent();
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.HOME_PAGE, CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.MY_ALERTS, CONSTANTS.LINK_TYPE.MY_ALERTS, "");
         }
@@ -1973,6 +2051,7 @@ protocall.view = {
         });
         protocall.view.setSelectedLinkClasses($el, true);
         protocall.displaySpinner(false);
+        protocall.events.GlobalContainerScrollevent();
 
     },
     loadIncidentsFeeds: function ($el, isClickEvent) {
@@ -1982,6 +2061,7 @@ protocall.view = {
         HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED = false;
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.INCIDENTS);
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
+        protocall.events.GlobalContainerScrollevent();
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.HOME_PAGE, CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.INCIDENTS, CONSTANTS.LINK_TYPE.INCIDENTS, "");
         }
@@ -1998,6 +2078,7 @@ protocall.view = {
         HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED = false;
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.POLICIES);
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
+        protocall.events.GlobalContainerScrollevent();
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.HOME_PAGE, CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.POLICIES, CONSTANTS.LINK_TYPE.POLICIES, "");
         }
@@ -2007,6 +2088,7 @@ protocall.view = {
         });
         protocall.view.setSelectedLinkClasses($el, true);
         protocall.displaySpinner(false);
+        protocall.events.GlobalContainerScrollevent();
 
     },
     /* Naveen 23-2-2015 Changes Start */
@@ -2078,6 +2160,7 @@ protocall.view = {
         HOMEPAGERESPONSE.INCIDENTALERTSCLICKED = false;
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_ARCHIVES);
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
+        protocall.events.GlobalContainerScrollevent();
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.HOME_PAGE, CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_ARCHIVES, CONSTANTS.LINK_TYPE.VIEW_ARCHIVES, "");
         }
@@ -2096,6 +2179,7 @@ protocall.view = {
         /* var template = HomedynamicTemplate.home.HomeDynamicViewArchiveFeedTemplate();
          $(".content-holder").append(template); */
         protocall.view.subMenuSelectedTab();
+        protocall.events.GlobalContainerScrollevent();
     },
     archiveFeeds: function ($e1) {
         var alertIDValue = $e1.attr("id");
@@ -2625,6 +2709,8 @@ protocall.view = {
     editAgencyPic: function () {
         var html = staticTemplate.home.editAgencyPicTemplate();
         overlay.displayOverlay(html);
+        $('#id-agencyprofilelogo').attr('src', sessionStorage.agencyLogo);
+
     },
     LoadAgencyEdit: function () {
         editDataInfo();
@@ -2855,55 +2941,115 @@ protocall.view = {
                     element.otherInformation = "Nil";
                 }
                 mainDocHTML = '<div class="leftDiv">'
-                        + '<p>'
+                        + '<p id="nameOfTheTextDoc">'
                         + '<span class="firstSpan">Name</span>'
-                        + '<span class="secondSpan">' + element.fileName + '</span>'
+                        + '<span class="secondSpan">' + element.otherPartyName + '</span>'
                         + '</p>'
-                        + '<p>'
+                        + '<p id="roleOfTheTextDoc">'
                         + '<span class="firstSpan">Role</span>'
                         + '<span class="secondSpan">' + element.role + '</span>'
                         + '</p>'
-                        + '<p>'
+                        + '<p id="phoneOfTheTextDoc">'
                         + '<span class="firstSpan">Phone</span>'
                         + '<span class="secondSpan">' + phoneNumber + '</span>'
                         + '</p>'
-                        + '<p>'
+                        + '<p id="addressOfTheTextDoc">'
                         + '<span class="firstSpan">Address</span>'
                         + '<span class="secondSpan">' + addressValue + '</span>'
                         + '</p>'
-                        + '<p>'
+                        + '<p id="carrierOfTheTextDoc">'
                         + '<span class="firstSpan">Insurance co</span>'
                         + '<span class="secondSpan">' + element.carrier + '</span>'
                         + '</p>'
-                        + '<p>'
+                        + '<p id="policyOfTheTextDoc">'
                         + '<span class="firstSpan">Policy #</span>'
                         + '<span class="secondSpan">' + element.policyNumber + '</span>'
                         + '</p>'
-                        + '<p>'
+                        + '<p id="modelOfTheTextDoc">'
                         + '<span class="firstSpan">Auto Yr/make/model</span>'
                         + '<span class="secondSpan">' + element.model + '</span>'
                         + '</p>'
-                        + '<p>'
+                        + '<p id="vehicleNoOfTheTextDoc">'
                         + '<span class="firstSpan">Auto License plate state & Number</span>'
                         + '<span class="secondSpan">' + element.vehicleIdentificationNumber + '</span>'
                         + '</p>'
-                        + '<p>'
+                        + '<p id="licenseStateOfTheTextDoc">'
                         + '<span class="firstSpan">Drivers License State</span>'
                         + '<span class="secondSpan">' + element.driverLicenseState + '</span>'
                         + '</p>'
-                        + '<p>'
+                        + '<p id="licenseOfTheTextDoc">'
                         + '<span class="firstSpan">Drivers License Number</span>'
                         + '<span class="secondSpan">' + element.driverLicenseNumber + '</span>'
                         + '</p>'
-                        + '<p>'
+                        + '<p id="injuriesOfTheTextDoc">'
                         + '<span class="firstSpan">Injuries</span>'
                         + '<span class="secondSpan">' + element.injuries + '</span>'
                         + '</p>'
-                        + '<p>'
+                        + '<p id="otherinfoOfTheTextDoc">'
                         + '<span class="firstSpan">Other info</span>'
                         + '<span class="secondSpan">' + element.otherInformation + '</span>'
                         + '</p>'
                         + '</div>';
+			/* if(element.otherPartyName == "Nil"){
+				$('#nameOfTheTextDoc').hide();
+			} else {
+				$('#nameOfTheTextDoc').show();
+			}
+			if(element.role == "Nil"){
+				$('#roleOfTheTextDoc').hide();
+			} else {
+				$('#roleOfTheTextDoc').show();
+			}
+			if(phoneNumber == "Nil"){
+				$('#phoneOfTheTextDoc').hide();
+			} else {
+				$('#phoneOfTheTextDoc').show();
+			}
+			if(addressValue == "Nil"){
+				$('#addressOfTheTextDoc').hide();
+			} else {
+				$('#addressOfTheTextDoc').show();
+			}
+			if(element.carrier == "Nil"){
+				$('#carrierOfTheTextDoc').hide();
+			} else {
+				$('#carrierOfTheTextDoc').show();
+			}
+			if(element.policyNumber == "Nil"){
+				$('#policyOfTheTextDoc').hide();
+			} else {
+				$('#policyOfTheTextDoc').show();
+			}
+			if(element.model == "Nil"){
+				$('#modelOfTheTextDoc').hide();
+			} else {
+				$('#modelOfTheTextDoc').show();
+			}
+			if(element.vehicleIdentificationNumber == "Nil"){
+				$('#vehicleNoOfTheTextDoc').hide();
+			} else {
+				$('#vehicleNoOfTheTextDoc').show();
+			}
+			if(element.driverLicenseState == "Nil"){
+				$('#licenseStateOfTheTextDoc').hide();
+			} else {
+				$('#licenseStateOfTheTextDoc').show();
+			}
+			if(element.driverLicenseNumber == "Nil"){
+				$('#licenseOfTheTextDoc').hide();
+			} else {
+				$('#licenseOfTheTextDoc').show();
+			}
+			if(element.injuries == "Nil"){
+				$('#injuriesOfTheTextDoc').hide();
+			} else {
+				$('#injuriesOfTheTextDoc').show();
+			}
+			if(element.otherInformation == "Nil"){
+				$('#otherinfoOfTheTextDoc').hide();
+			} else {
+				$('#otherinfoOfTheTextDoc').show();
+			} */
             }
         });
         $("#textinformation").html(currentDocName);
@@ -3331,8 +3477,9 @@ protocall.home = {
     /*Naveen 19-2-2015 Chnage start*/
     loadHomePageData: function (data, page) {
         console.log("data", data);
-        HOMEPAGERESPONSE.HOMEPAGESTUBBEDDATA = data;
-        if (HOMEPAGERESPONSE.INCIDENTALERTSCLICKED || HOMEPAGERESPONSE.POLICYALERTCLICKED || HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED || HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED || HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED) {
+		//debugger;
+        //HOMEPAGERESPONSE.HOMEPAGESTUBBEDDATA = data;
+        if (HOMEPAGERESPONSE.INCIDENTALERTSCLICKED || HOMEPAGERESPONSE.POLICYALERTCLICKED || HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED || HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED || HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED || HOMEPAGERESPONSE.FEEDSICONCLICKED) {
             HOMEPAGERESPONSE.RECURRINGALERTDFEEDS = [];
         }
         protocall.util.viewingHomePageData(data);
@@ -3359,6 +3506,7 @@ protocall.home = {
         var resp = utils.server.makeServerCall(page, data, callback, deepPath);
         var html = staticTemplate.home.staticFeedViewTemplate(tempObj);
         $(".content-holder").append($(html));
+        protocall.events.GlobalContainerScrollevent();
     },
     loadViewRelatedFeeds: function (dataValue) {
         var policyDetailsValues = {}, insurancePolicyDetails = "";
@@ -3425,6 +3573,7 @@ protocall.home = {
         totalHTML = archiveTemplate;
         $(".content-holder").empty();
         $(".content-holder").append($(totalHTML));
+        protocall.events.GlobalContainerScrollevent();
     },
     displayIncidentsFeeds: function () {
         HOMEPAGERESPONSE.INCIDENTALERTSCLICKED = true;
@@ -4131,6 +4280,7 @@ protocall.carrier = {
 
         $(".content-holder").empty();
         $(".content-holder").append(contentHtml + totalHTML);
+        protocall.events.GlobalContainerScrollevent();
 
 
     },
@@ -4154,15 +4304,16 @@ protocall.carrier = {
 			//HeaderTemplate.Menu.DynamicHeaderTemplate();
 			var header = HeaderTemplate.Menu.DynamicHeaderTemplate();
 
-                    var content = '<div class="container"> <div class="content-holder"></div></div></div></div>';
-                    var footer = footerDynamicTemplate.footer.DynamicFooterTemplate();
+            var content = '<div class="topContainer"><div class="container"> <div class="content-holder"></div></div></div></div></div>';
+            var footer = footerDynamicTemplate.footer.DynamicFooterTemplate();
 
-                    $("#page").empty();
-                    totalHtml = header+content+footer;
-                    $("#page").append(totalHtml);
-                    //protocall.displaySpinner(false);
-                    //protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
-		}
+            $("#page").empty();
+            totalHtml = header + content + footer;
+            $("#page").append(totalHtml);
+            protocall.events.GlobalContainerScrollevent();
+            //protocall.displaySpinner(false);
+            //protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
+        }
         var totalHTML = "";
         var totalLen = 1;
         for (var h = 0; h < totalLen; h++) {
@@ -4187,6 +4338,7 @@ protocall.carrier = {
 		}
         $(".content-holder").empty();
         $(".content-holder").append($(totalHTML));
+        protocall.events.GlobalContainerScrollevent();
 
 
         localStorage.setItem("ASSOCIATEFEED", null);
@@ -4272,15 +4424,15 @@ protocall.customer = {
 			//HeaderTemplate.Menu.DynamicHeaderTemplate();
 			var header = HeaderTemplate.Menu.DynamicHeaderTemplate();
 
-                    var content = '<div class="container"> <div class="content-holder"></div></div></div></div>';
-                    var footer = footerDynamicTemplate.footer.DynamicFooterTemplate();
+            var content = '<div class="topContainer"><div class="container"> <div class="content-holder"></div></div></div></div></div>';
+            var footer = footerDynamicTemplate.footer.DynamicFooterTemplate();
 
-                    $("#page").empty();
-                    totalHtml = header+content+footer;
-                    $("#page").append(totalHtml);
-                    //protocall.displaySpinner(false);
-                    //protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
-		}
+            $("#page").empty();
+            totalHtml = header + content + footer;
+            $("#page").append(totalHtml);
+            //protocall.displaySpinner(false);
+            protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
+        }
         var data = JSON.parse(localStorage.getItem("customers_data"));
 
 
@@ -4308,12 +4460,14 @@ protocall.customer = {
         // var totalHTML = html;
         $(".content-holder").empty();
         $(".content-holder").append($(html));
+        protocall.events.GlobalContainerScrollevent();
         $(".container").addClass("container-maxwidth");
         $(".container").removeClass("container");
-		if(!(PAGEREFRESH.ISPAGEREFRESHEDFORCUSTOMERFEEDVIEW)) {
-			$(".rel-feeds-content").empty();
-			$(".rel-feeds-content").append(html);
-		}
+        protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
+        if (!(PAGEREFRESH.ISPAGEREFRESHEDFORCUSTOMERFEEDVIEW)) {
+            $(".rel-feeds-content").empty();
+            $(".rel-feeds-content").append(html);
+        }
         if (localStorage.LoginType == 'Representatives') {
             var Omega = '\u003E';
             $(".mb-submenu-in").empty();
@@ -4371,6 +4525,7 @@ protocall.customer = {
 
         $(".content-holder").removeClass("spinner1");
         $(".content-holder").css("opacity", "1");
+        protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
     },
     loadAgenciesViewFeed: function (emailID, carrierId) {
         var data = "";
@@ -4390,6 +4545,9 @@ protocall.customer = {
         var status = 0;
         if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
             if (localStorage.LoginType == 'Admin') {
+                html = staticTemplate.customers.staticAegnciesViewTemplate(data);
+                status = 1;
+            } else {
                 html = staticTemplate.customers.staticAegnciesViewTemplate(data);
                 status = 1;
             }
@@ -4413,6 +4571,7 @@ protocall.customer = {
         // var totalHTML = html;
         $(".content-holder").empty();
         $(".content-holder").append($(html));
+        protocall.events.GlobalContainerScrollevent();
         $(".container").addClass("container-maxwidth");
         $(".container").removeClass("container");
         $(".rel-feeds-content").empty();
@@ -4595,6 +4754,7 @@ protocall.customer = {
         var html = staticTemplate.customers.staticSettingViewTemplate();
         $(".content-holder").empty();
         $(".content-holder").append($(html));
+        protocall.events.GlobalContainerScrollevent();
         var totalHTML = "";
         var totalLen = 1;
         for (var h = 0; h < totalLen; h++) {
@@ -4610,6 +4770,7 @@ protocall.customer = {
         var html = staticTemplate.customers.staticCustomerViewTemplate();
         $(".content-holder").empty();
         $(".content-holder").append($(html));
+        protocall.events.GlobalContainerScrollevent();
         var totalHTML = "";
         var totalLen = 1;
         for (var h = 0; h < totalLen; h++) {
@@ -4699,6 +4860,7 @@ protocall.myRep = {initMyRepsPage: function () {
             $(".container").removeClass("container-maxwidth");
             $(".content-holder").empty();
             $(".content-holder").append($(feedHTML1 + feedHTML + feedHTML2));
+            protocall.events.GlobalContainerScrollevent();
             //console.log(feedHTML)
         }
     },
@@ -4783,6 +4945,7 @@ protocall.myProfile = {loadFeedSetting: function ($el) {
         var html = staticTemplate.customers.staticMyProfileViewTemplate();
         $(".content-holder").empty();
         $(".content-holder").append($(html));
+        protocall.events.GlobalContainerScrollevent();
         this.setSelectedClassPopContent($el);
         $(".mb-menu a.selected-tab").removeClass("selected-tab");
     },
@@ -4799,7 +4962,9 @@ protocall.myProfile = {loadFeedSetting: function ($el) {
 
 }
 /*Naveen 23-2-2015 Chnage start*/
-protocall.util = {viewingHomePageData: function (dataValue) {
+protocall.util = {
+	viewingHomePageData: function (dataValue) {
+		//debugger;
         console.log("data in viewing home page data", dataValue);
         var header = "",
                 content = "",
@@ -4854,10 +5019,9 @@ protocall.util = {viewingHomePageData: function (dataValue) {
                     /*Naveen 23-2-2015 Changes End */
                     console.log("HOMEPAGERESPONSE.INCIDENTALERTSCLICKED 2", HOMEPAGERESPONSE.INCIDENTALERTSCLICKED);
                 }
-            } else {
-				return false;
-				//HOMEPAGERESPONSE.RECURRINGALERTDFEEDS = [];
-			}
+            } else if (dataValue.resultMap.TypeCode !== "undefined" && dataValue.resultMap.TypeCode == "4012") {
+                feedHTML = '<div class="feed-block clr-fl">There are No Policy Feeds Available for the User</div>';
+            }
         }
         /* if (CONSTANTS.HASNEXTPAGE === false && dataValue.resultMap.TypeCode == "4012") {
          feedHTML = '<div class="feed-block clr-fl">' + dataValue.resultMap.AlertMessage + '</div>';
@@ -4869,16 +5033,17 @@ protocall.util = {viewingHomePageData: function (dataValue) {
                 feedHTML = "<div id=\"id-norecords\">" + "No Records..!" + "</div>";
             }
 
-            content = '<div class="container"> <div class="content-holder">' + feedHTML + '</div></div></div></div>';
+            content = '<div class="topContainer"><div class="container"><div class="content-holder">' + feedHTML + '</div></div></div></div></div>';
             var footer = footerDynamicTemplate.footer.DynamicFooterTemplate();
             totalHtml = header + content + footer;
             $("#page").append(totalHtml);
+            protocall.events.GlobalContainerScrollevent();
         } else {
             $(".content-holder").append($(feedHTML));
-
+            protocall.events.GlobalContainerScrollevent();
         }
 
-
+        $(".topContainer").css("box-shadow", "inset 0px 8px 8px #E9EFF0");
         if (HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE.length == 0) {
             $("a.archives").css("display", "none");
         } else {
@@ -4892,12 +5057,14 @@ protocall.util = {viewingHomePageData: function (dataValue) {
         protocall.events.mouseOverCheckbox();
         protocall.displaySpinner(false);
         protocall.events.containerScrollEvent();
+        protocall.events.GlobalContainerScrollevent();
         protocall.view.subMenuSelectedTab();
         $(".content-holder").find(".spinner1").removeClass("spinner1");
         $(".content-holder").find(".bottomSpinner").removeClass("bottomSpinner");
         $(".content-holder").find("#scrollingDiv").empty();
         $(".content-holder").css("opacity", "1");
 
+        $('#id-agencyprofilelogo').attr('src', sessionStorage.agencyLogo);
 
         if (localStorage.LoginType == undefined) {
             $(".edit-cover-pic").css("display", "block");
@@ -4929,7 +5096,7 @@ protocall.util = {viewingHomePageData: function (dataValue) {
 } /*Naveen 23-2-2015 Chnage end*/
 
 //--------------------------- Agency Logo Added By Manoj -----------------------------------
-/* function readURL(input) {
+function readBrowserURL(input) {
     if (input.files && input.files[0]) {
         var filePath = $("#inputfile").val();
         if (filePath) {
@@ -4949,7 +5116,7 @@ protocall.util = {viewingHomePageData: function (dataValue) {
 		sessionStorage.profilePicAfterUpdate = e.target.result;
 		console.log("sessionStorage.profilePicAfterUpdate",sessionStorage.profilePicAfterUpdate);
     }
-} */
+}
 
 function minTwoDigits(n) {
     return (n < 10 ? '0' : '') + n;

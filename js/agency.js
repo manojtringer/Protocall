@@ -74,6 +74,7 @@ var AgencydynamicTemplate = {
             $(".content-holder").empty();
             $(".content-holder").append($(html));
             protocall.setMenuSelection(CONSTANTS.LINK_TYPE.AGENCY_PAGE);
+               protocall.events.GlobalContainerScrollevent();
             var Omega = '\u003E';
             $("#id-carrierpage-headertext").text(Omega + "   " + viewdata.carrierName);
             $(".content-holder").removeClass("spinner1");

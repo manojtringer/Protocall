@@ -42,7 +42,7 @@ var CarrierdynamicTemplate = {
                     }
                     var header = HeaderTemplate.Menu.DynamicHeaderTemplate();
 
-                    var content = '<div class="container"> <div class="content-holder">' + template + '</div></div></div></div>';
+                    var content = '<div class="topContainer"><div class="container"> <div class="content-holder">' + template + '</div></div></div></div></div>';
                     var footer = footerDynamicTemplate.footer.DynamicFooterTemplate();
 
                     $("#page").empty();
@@ -50,6 +50,7 @@ var CarrierdynamicTemplate = {
                     $("#page").append(totalHtml);
                     protocall.displaySpinner(false);
                     protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CARRIERS_PAGE);
+                       protocall.events.GlobalContainerScrollevent();
                 }
             } else if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
                 var header = HeaderTemplate.Menu.DynamicHeaderTemplate();
@@ -227,13 +228,14 @@ var CarrierdynamicTemplate = {
                 totalHTML = "<div>No Records </div>";
             }
             var temp_html = template + totalHTML + "</div>";
-            var contenta = contenthtml + '<div class="container"> <div class="content-holder">' + temp_html + '</div></div></div></div></div>';
+            var contenta = contenthtml + '<div class="topContainer"><div class="container"> <div class="content-holder">' + temp_html + '</div></div></div></div></div></div>';
             var footer = footerDynamicTemplate.footer.DynamicFooterTemplate();
 
             $("#page").empty();
             $("#page").append(contenta + footer);
             protocall.displaySpinner(false);
             protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CARRIERS_PAGE);
+               protocall.events.GlobalContainerScrollevent();
 //            }
 //        });
         },
@@ -269,7 +271,7 @@ var CarrierdynamicTemplate = {
                 }
                 var header = HeaderTemplate.Menu.DynamicHeaderTemplate();
 
-                var content = '<div class="container"> <div class="content-holder">' + template + '</div></div></div></div>';
+                var content = '<div class="topContainer"><div class="container"> <div class="content-holder">' + template + '</div></div></div></div></div>';
                 var footer = HomedynamicTemplate.home.HomeDynamicFooterTemplate();
 
                 $("#page").empty();
@@ -277,6 +279,7 @@ var CarrierdynamicTemplate = {
                 $("#page").append(totalHtml);
                 protocall.displaySpinner(false);
                 protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CARRIERS_PAGE);
+                   protocall.events.GlobalContainerScrollevent();
             }
         },
         carrierRepdynamicView: function (response) {
