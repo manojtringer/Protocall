@@ -124,15 +124,36 @@ utils.server = {
 
                 if (localStorage.LoginType == 'Admin') {
                     sessionStorage.loginType = 'AgencyAdmin';
-                    sessionStorage.agencyName = data.resultMap.agencyDetails.agencyName;
-                    sessionStorage.userName = data.resultMap.userDetails.firstName;
+
+                    if (data.resultMap.agencyDetails.agencyName == undefined) {
+                        sessionStorage.agencyName = "";
+                    } else {
+                        sessionStorage.agencyName = data.resultMap.agencyDetails.agencyName;
+                    }
+
+                    if (data.resultMap.userDetails.firstName == undefined) {
+                        sessionStorage.userName = "";
+                    } else {
+                        sessionStorage.userName = data.resultMap.userDetails.firstName;
+                    }
 
                     // alert(sessionStorage.agencyName+","+sessionStorage.userName);
                 }
                 if (localStorage.LoginType == 'Representatives') {
                     sessionStorage.loginType = 'AgencyRepresentative';
-                    sessionStorage.agencyName = data.resultMap.agencyDetails.agencyName;
-                    sessionStorage.userName = data.resultMap.userDetails.name;
+                    if (data.resultMap.agencyDetails.agencyName == undefined) {
+                        sessionStorage.agencyName = "";
+                    } else {
+                        sessionStorage.agencyName = data.resultMap.agencyDetails.agencyName;
+                    }
+
+                    if (data.resultMap.userDetails.name == undefined) {
+                        sessionStorage.userName = "";
+                    } else {
+                        sessionStorage.userName = data.resultMap.userDetails.name;
+                    }
+
+
                     //                    sessionStorage.agencyName = "Manoj";
                 }
 
@@ -141,7 +162,7 @@ utils.server = {
                 localStorage.imageURl = "http://2-dot-proto-call-test.appspot.com/file/";
                 // sessionStorage.profilePic = localStorage.imageURl + data.resultMap.userDetails.profilePicture;
                 sessionStorage.agencyEmail = data.resultMap.agencyDetails.emailId.email;
-               sessionStorage.agencyPhone = data.resultMap.agencyDetails.phone.number;
+                sessionStorage.agencyPhone = data.resultMap.agencyDetails.phone.number;
                 sessionStorage.agencyId = data.resultMap.agencyId;
 
                 if (data.resultMap.userDetails.profilePicture != undefined) {
@@ -161,11 +182,22 @@ utils.server = {
                 if (localStorage.LoginType == 'Admin') {
 
                     sessionStorage.loginType = 'CarrierAdmin';
-                    sessionStorage.agencyName = data.resultMap.carrierDetails.carrierName;
                     sessionStorage.agencyEmail = data.resultMap.userDetails.emailId.email;
                     sessionStorage.profilePic = localStorage.imageURl + data.resultMap.carrierDetails.profilePicture;
                     sessionStorage.agencyLogo = localStorage.imageURl + data.resultMap.carrierDetails.carrierLogo;
                     sessionStorage.agencyPhone = data.resultMap.carrierDetails.phone.number;
+
+                    if (data.resultMap.carrierDetails.carrierName == undefined) {
+                        sessionStorage.agencyName = "";
+                    } else {
+                        sessionStorage.agencyName = data.resultMap.carrierDetails.carrierName;
+                    }
+
+                    if (data.resultMap.userDetails.firstName == undefined) {
+                        sessionStorage.userName = "";
+                    } else {
+                        sessionStorage.userName = data.resultMap.userDetails.firstName;
+                    }
 
                     if (data.resultMap.userDetails.profilePicture != undefined) {
                         sessionStorage.profilePic = localStorage.imageURl + data.resultMap.userDetails.profilePicture;
@@ -175,11 +207,24 @@ utils.server = {
                 }
                 if (localStorage.LoginType == 'Representatives') {
                     sessionStorage.loginType = 'CarrierRepresentative';
-                    sessionStorage.agencyName = data.resultMap.userDetails.name;
+                    //  sessionStorage.agencyName = data.resultMap.userDetails.name;
                     sessionStorage.agencyEmail = data.resultMap.userDetails.carrierRepresentativeId.email;
                     sessionStorage.agencyLogo = localStorage.imageURl + data.resultMap.carrierDetails.carrierLogo;
                     sessionStorage.agencyPhone = data.resultMap.carrierDetails.phone.number;
                     sessionStorage.agencyId = data.resultMap.carrierDetails.carrierId;
+
+                    if (data.resultMap.carrierDetails.carrierName == undefined) {
+                        sessionStorage.agencyName = "";
+                    } else {
+                        sessionStorage.agencyName = data.resultMap.carrierDetails.carrierName;
+                    }
+
+                    if (data.resultMap.userDetails.name == undefined) {
+                        sessionStorage.userName = "";
+                    } else {
+                        sessionStorage.userName = data.resultMap.userDetails.name;
+                    }
+
                     if (data.resultMap.userDetails.profilePicture != undefined) {
                         sessionStorage.profilePic = localStorage.imageURl + data.resultMap.userDetails.profilePicture;
                     } else {
@@ -191,6 +236,16 @@ utils.server = {
 
 
             if (localStorage.getItem("LOGIN_LABEL") == "Agency") {
+                if (localStorage.LoginType == 'Admin') {
+                    var page = "carriers";
+                    var data = {},
+                            deepPath = "carrierdashboarddesign",
+                            page = "home",
+                            callback = protocall.carrier.getresponsecarrieragency,
+                            authId = "",
+                            spinnerMsg = "";
+                    utils.server.makeServerCall(page, data, callback, deepPath);
+                }
 
                 if (localStorage.LoginType == 'Representatives') {
                     var dataq = {};
@@ -215,11 +270,30 @@ utils.server = {
                         } else {
                             localStorage.setItem("CARRIERREP_DATA", JSON.stringify(resp));
                             localStorage.setItem("customers_data", JSON.stringify(resp.resultMap.carrierTab[2]));
-                            localStorage.setItem("agencies_data", JSON.stringify(resp.resultMap.carrierTab[0][0]));
+                            localStorage.setItem("agencies_data", JSON.stringify(resp.resultMap.agencyTab[0].agencyDetail));
                             localStorage.setItem("carrierrepcustomers_data", JSON.stringify(resp));
                         }
                     });
                 }
+                if (localStorage.LoginType == 'Admin') {
+                    var page = "carriers";
+                    var data = {},
+                            deepPath = "carrierdashboarddesign",
+                            page = "home",
+                            callback = protocall.carrier.getresponsecarrieragency,
+                            authId = "",
+                            spinnerMsg = "";
+                    utils.server.makeServerCall(page, data, callback, deepPath);
+                }
+            }
+
+
+            if (localStorage.LoginType == 'SuperAdmin') {
+                sessionStorage.loginType = 'SuperAdmin';
+                //sessionStorage.superAdminName = data.resultMap.userDetails.name;
+                sessionStorage.userName = data.resultMap.userDetails.name;
+                sessionStorage.profilePic = localStorage.imageURl + data.resultMap.userDetails.profilePicture;
+                sessionStorage.superAdminEmailId = data.resultMap.userDetails.usaEmployeeId.email;
             }
 
 
@@ -530,17 +604,20 @@ utils.server = {
     },
     submitAddVendorDetails: function () {
         var page = "addvendorpage";
-        var data = {serviceName: $("#id-vendorname").val(), serviceType: $("#id-vendortype").val(), state: $("#id-vendorstate").val(), zipcode: $("#id-vendorzip").val(),
-            phone: $("#id-vendorphone").val(), address1: $("#id-vendoraddress1").val(), address2: $("#id-vendoraddress2").val(), city: $("#id-vendorcity").val()};
+        var data = {name: $("#id-vendorname").val(), serviceType: $("#id-vendortype").val(), state: $("#id-vendorstate").val(), zipcode: $("#id-vendorzip").val(),
+            phone: $("#id-vendorphone").val(), address: $("#id-vendoraddress1").val(), city: $("#id-vendorcity").val()};
 
         if ($("#id-vendorname").val() != "") {
-            utils.server.displayMessage2("Successfully Saved..!");
-            var deepPath = "createservice";
-            utils.server.makeServerCall(page, data, null, deepPath);
+            var deepPath = "createpreferredvendorservice";
+            var callback = utils.server.gotAddvendorReponse;
+            utils.server.makeServerCall(page, data, callback, deepPath);
             utils.server.loadPrefferedvendorsdetails();
         } else {
             utils.server.displayError2("No Empty Values..!");
         }
+    },
+    gotAddvendorReponse: function () {
+        utils.server.displayMessage2("Successfully Saved..!");
     },
     loadPrefferedvendorsdetails: function () {
 
@@ -674,17 +751,17 @@ utils.server = {
     },
     carrierOwnerMyProfileSubmenu: function () {
         $(".mb-submenu").empty();
-        $(".mb-submenu").append("<div class=\"bcrum-lb-submenu clr-fl inline-block v-align-mid\"><a href=\"#\" class=\"snap left f-sz-16 ptsans-light myprofile t-upper p-relative f-color-green\" data-type=\"page\" data-submenu=\"myprofile\"><div class=\"\"><div class=\"sprite-im inline-block v-align-mid mr-space-10 \">&nbsp;</div><span class=\"sub-menu-text inline-block v-align-mid\"> my profile</span></div></a><div class=\"bcrum-icon-blk left f-color-green f-sz-16 ptsans-light\" style=\"display:none;\">&gt;</div><a href=\"#\" class=\"snap left f-sz-16 ptsans-light feeds-customer t-caps p-relative f-color-green\" data-type=\"page\" data-submenu=\"myprofile-customer\" style=\"display:none;\"></a></div><div class=\"tab-rb-submenu inline-block v-align-mid\" style=\"width:70%;\"><div class=\"tab-rb-submenu-in-block p-relative\"><a href=\"/edit\" class=\"snap submenu-tab bg-color-green right f-sz-16 ptsans-light edit p-relative\" data-type=\"page\" data-submenu=\"edit\"><div class=\"sprite-im inline-block edit-icon v-align-mid\" style=\"display:inline-block;margin-left:0px;margin-right: 5px;\">&nbsp;</div><div class=\"submenu-title t-caps inline-block f-color-w v-align-mid \"> edit</div><div class=\"cnt-blk inline-block v-align-mid\" style=\"display:none;  float: left;  margin-right: 10px;  margin-top: 10px\">(<span class=\"cnt-no\"></span>)</div></a></div></div>");
-         $(".mb-menu a.selected-tab").removeClass("selected-tab");
+        $(".mb-submenu").append("<div class=\"bcrum-lb-submenu clr-fl inline-block v-align-mid\"><a href=\"#\" class=\"snap left f-sz-16 ptsans-light myprofile t-upper p-relative f-color-green\" data-type=\"page\" data-submenu=\"myprofile\"><div class=\"\"><div class=\"sprite-im inline-block v-align-mid mr-space-10 \">&nbsp;</div><span class=\"sub-menu-text inline-block v-align-mid\"> my profile</span></div></a><div class=\"bcrum-icon-blk left f-color-green f-sz-16 ptsans-light\" style=\"display:none;\">&gt;</div><a href=\"#\" class=\"snap left f-sz-16 ptsans-light feeds-customer t-caps p-relative f-color-green\" data-type=\"page\" data-submenu=\"myprofile-customer\" style=\"display:none;\"></a></div><div class=\"tab-rb-submenu inline-block v-align-mid\" style=\"width:69%;\"><div class=\"tab-rb-submenu-in-block p-relative\"><a href=\"/edit\" class=\"snap submenu-tab bg-color-green right f-sz-16 ptsans-light edit p-relative\" data-type=\"page\" data-submenu=\"edit\"><div class=\"sprite-im inline-block edit-icon v-align-mid\" style=\"display:inline-block;margin-left:0px;margin-right: 5px;\">&nbsp;</div><div class=\"submenu-title t-caps inline-block f-color-w v-align-mid \"> edit</div><div class=\"cnt-blk inline-block v-align-mid\" style=\"display:none;  float: left;  margin-right: 10px;  margin-top: 10px\">(<span class=\"cnt-no\"></span>)</div></a></div></div>");
+        $(".mb-menu a.selected-tab").removeClass("selected-tab");
     },
     carrierOwnerSettingSubmenu: function () {
         $(".mb-submenu").empty();
         $(".mb-submenu").append("<div class=\"mb-submenu-in p-relative\"><div class=\"bcrum-lb-submenu clr-fl inline-block v-align-mid\">"
                 + "<a href=\"#\" class=\"snap left f-sz-16 ptsans-light settings t-upper p-relative f-color-green\" data-type=\"page\" data-submenu=\"settings\">"
-                + "<div class=\"\"><div class=\"sprite-im inline-block v-align-mid mr-space-10 \">&nbsp;</div><span class=\"sub-menu-text inline-block v-align-mid\"> settings</span></div></a>"
+                + "<div class=\"\"><div class=\"sprite-im settings-icon inline-block v-align-mid mr-space-10 \" style=\"  margin-top: 5px;\">&nbsp;</div><span class=\"sub-menu-text inline-block v-align-mid\"> settings</span></div></a>"
                 + "<div class=\"bcrum-icon-blk left f-color-green f-sz-16 ptsans-light\" style=\"display:none;\">&gt;</div>"
                 + "<a href=\"#\" class=\"snap left f-sz-16 ptsans-light feeds-customer t-caps p-relative f-color-green\" data-type=\"page\" data-submenu=\"settings-customer\" style=\"display:none;\">"
-                + "</a></div><div class=\"tab-rb-submenu inline-block v-align-mid\" style=\"width:70%;\"><div class=\"tab-rb-submenu-in-block p-relative\">"
+                + "</a></div><div class=\"tab-rb-submenu inline-block v-align-mid\" style=\"width:69%;\"><div class=\"tab-rb-submenu-in-block p-relative\">"
                 + "<a href=\"/privacy\" class=\"snap submenu-tab bg-color-green right f-sz-16 ptsans-light privacy p-relative\" data-type=\"page\" data-submenu=\"privacy\">"
                 + "<div class=\"sprite-im inline-block tab-icon v-align-mid\" style=\"display:none;display:block;float: left; margin-top: 10px;\">&nbsp;</div><div class=\"submenu-title t-caps inline-block f-color-w v-align-mid \"> privacy</div>"
                 + "<div class=\"cnt-blk inline-block v-align-mid\" style=\"display:none;\">(<span class=\"cnt-no\"></span>)</div></a>"
@@ -701,11 +778,13 @@ utils.server = {
                 + "<div class=\"sprite-im inline-block add-icon v-align-mid\" style=\"display:block;float: left; margin-top: 10px;\">&nbsp;</div>"
                 + "<div class=\"submenu-title t-caps inline-block f-color-w v-align-mid \" > Add Vendor </div>"
                 + "<div class=\"cnt-blk inline-block v-align-mid\" style=\"display:none;\">(<span class=\"cnt-no\"></span>)</div></a></div></div></div>");
-         $(".mb-menu a.selected-tab").removeClass("selected-tab");
+        $(".mb-menu a.selected-tab").removeClass("selected-tab");
     },
     MysettingsResponse: function (data) {
         if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
             if (localStorage.LoginType == 'Admin') {
+                localStorage.setItem("SETTINGTAB_PreferredVendorDATA", JSON.stringify(data.resultMap.listOfPreferredVendor));
+                //  var header = HeaderTemplate.Menu.DynamicHeaderTemplate();
                 var html = staticTemplate.customers.staticSettingsTemplate(data);
                 TEMPSETTINGSPAGE = "";
                 TEMPSETTINGSPAGE = html;
@@ -716,11 +795,11 @@ utils.server = {
                 $('.settings-vendor-bar').css("background-color", "#ccc");
                 $('#id-preferred-vendors-view-load').css("color", "black");
                 utils.server.carrierOwnerSettingSubmenu();
-                
 
             }
         } else {
-
+            localStorage.setItem("SETTINGTAB_PreferredVendorDATA", JSON.stringify(data.resultMap.listOfPreferredVendor));
+            // var header = HeaderTemplate.Menu.DynamicHeaderTemplate();
             var html = staticTemplate.customers.staticSettingsTemplate(data);
             TEMPSETTINGSPAGE = "";
             TEMPSETTINGSPAGE = html;
@@ -730,17 +809,57 @@ utils.server = {
             $('#id-agency-view-load').css("color", "white");
             $('.settings-vendor-bar').css("background-color", "#ccc");
             $('#id-preferred-vendors-view-load').css("color", "black");
-        }
 
+            var subMenu = '<div class="bcrum-lb-submenu clr-fl inline-block v-align-mid" style="width: 20%;"><a href="#" class="snap left f-sz-16 ptsans-light settings t-upper p-relative f-color-green" data-type="page" data-submenu="settings"><div class=""><div class="sprite-im settings-icon inline-block v-align-mid mr-space-10 ">&nbsp;</div><span class="sub-menu-text inline-block v-align-mid"> settings</span></div></a><div class="bcrum-icon-blk left f-color-green f-sz-16 ptsans-light" style="display:none;">&gt;</div><a href="#" class="snap left f-sz-16 ptsans-light feeds-customer t-caps p-relative f-color-green" data-type="page" data-submenu="settings-customer" style="display:none;"></a></div><div class="tab-rb-submenu inline-block v-align-mid" style="width: 80%;"><div class="tab-rb-submenu-in-block p-relative"><a href="/save" class="snap submenu-tab bg-color-green right f-sz-16 ptsans-light save p-relative" data-type="page" data-submenu="save"><div class="sprite-im inline-block tab-icon v-align-mid" style="display:none;">&nbsp;</div><div class="submenu-title t-caps inline-block f-color-w v-align-mid "> save</div><div class="cnt-blk inline-block v-align-mid" style="display:none;">(<span class="cnt-no"></span>)</div></a><a href="/privacy" class="snap submenu-tab bg-color-green right f-sz-16 ptsans-light privacy p-relative" data-type="page" data-submenu="privacy"><div class="sprite-im inline-block tab-icon v-align-mid" style="display:none;">&nbsp;</div><div class="submenu-title t-caps inline-block f-color-w v-align-mid "> privacy</div><div class="cnt-blk inline-block v-align-mid" style="display:none;">(<span class="cnt-no"></span>)</div></a></div></div>';
+            $(".mb-submenu").empty();
+            $(".mb-submenu").append(subMenu);
+            $(".mb-menu a.selected-tab").removeClass("selected-tab");
+        }
 
 
     },
     getResponseForPreferredVendor: function (idvalue) {
-        page = "settingspage";
-        var dataq = {serviceId: idvalue};
-        callback = utils.server.settingsPreffredVendor;
-        deepPath = "readservice";
-        utils.server.makeServerCall(page, dataq, callback, deepPath);
+        var data = JSON.parse(localStorage.getItem("SETTINGTAB_PreferredVendorDATA"));
+
+        var footer = "";
+        var status = 0;
+        for (var index = 0; index < data.length; index++) {
+            var element = data[index];
+            if (element.preferredVendorId == idvalue) {
+                footer = '</div><div class="vendor-detail-block"> <div class="vendor-view-block inline-block v-align-mid p-relative "> '
+                        + '<div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> '
+                        + '<div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> '
+                        + '<div  class="carrier-left-title t-right left">preferred vendor id</div> '
+                        + '<div id="id-v-preferredvendorid" class="carrier-left-content t-left right " style="visibility: visible">' + element.preferredVendorId + '</div> '
+                        + '<input id="id-vendor-preferredvendorid" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> '
+                        + '</div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> '
+                        + '<div class="carrier-left-title t-right left">type</div> '
+                        + '<div id="id-v-vendortype" class="carrier-left-content t-left right" style="visibility: visible">' + element.serviceType + '</div>'
+                        + '<input id="id-vendor-type" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden">'
+                        + '</div> </div> </div> </div><div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">name</div> <div id="id-v-vendorname" class="carrier-left-content t-left right " style="visibility: visible">' + element.name + '</div> '
+                        + '<input id="id-vendor-name" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">phone</div>'
+                        + '<div id="id-v-vendorphone" class="carrier-left-content t-left right" style="visibility: visible">' + element.phone + '</div> <input id="id-vendor-phone" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">address</div> '
+                        + '<div id="id-v-address1" class="carrier-left-content t-left right ">' + element.address + '</div> <input id="id-vendor-address1" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">address</div> <div id="id-v-address2" class="carrier-left-content t-left right">' + element.address2 + '</div> <input id="id-vendor-address2" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view border-bot clr-fl"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">city</div> <div id="id-v-city" class="carrier-left-content t-left right ">' + element.city + '</div> <input id="id-vendor-city" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">state</div> <div id="id-v-state" class="carrier-left-content t-left right t-upper">' + element.state + '</div> <input id="id-vendor-state" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">zip</div> <div id="id-v-zipcode" class="carrier-left-content t-left right ">' + element.zipcode + '</div> <input id="id-vendor-zipcode" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left"></div> <div class="carrier-left-content t-left right t-upper"></div> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl"> <div class="vendor-view-right right t-caps opensans-regular"> </div> </div> </div> </div> <div class="vendor-back-button"> <div class="vendor-back-bar inline-block p-relative bg-color-green "> <div class="p-relative inline-block t-caps t-right v-align-mid opensans-regular f-color-w">back</div> </div> </div> </div></div> </form>';
+                status = 1;
+                break;
+            }
+            if (status == 1) {
+                break;
+            }
+        }
+
+        if (status == 0) {
+            footer = "<div>No records</div>";
+        }
+
+        $(".content-holder").empty();
+        $(".content-holder").append(TEMPSETTINGSPAGE + footer);
+        $('.settings-agency-bar').css("background-color", "#ccc");
+        $('#id-agency-view-load').css("color", "black");
+        $('.settings-vendor-bar').css("background-color", "#f34f4e");
+        $('#id-preferred-vendors-view-load').css("color", "white");
+        protocall.view.LoadVendorInfo();
+
     },
     settingsPreffredVendor: function (data) {
 
@@ -971,7 +1090,7 @@ utils.server = {
          } else {
          t.form.showFormSpinner();
          } */
-		 HOMEPAGERESPONSE.PROFILEPICUPDATECLICKED = true;
+        HOMEPAGERESPONSE.PROFILEPICUPDATECLICKED = true;
         isFormData = (typeof isFormData == "undefined" || isFormData == false) ? false : true;
         var formData;
         if (!isFormData) {

@@ -106,6 +106,14 @@ var overlay = {
         });
         $(".ctrl-blk").removeClass("noprint");
         $("footer").removeClass("noprint");
+		$("#downloadTextLink").removeClass("noprint");
+		$("#downloadImageLink").removeClass("noprint");
+		$("#printTextOverlay").removeClass("noprint");
+		$("#thumbNailViewForText").removeClass("noprint");
+		$("#thumbNailViewForImages").removeClass("noprint");
+		$("#printImageICON").removeClass("noprint");
+		$("#previousICON").removeClass("noprint");
+		$("#nextICON").removeClass("noprint");
     }
 };
 
