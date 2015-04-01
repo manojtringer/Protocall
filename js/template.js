@@ -18,6 +18,7 @@ var template = {
                 + '</div>'
                 + '</a>'
                 + '<div class="bcrum-icon-blk left f-color-green f-sz-16 ptsans-light" style="{{isBC_Name}}">></div>'
+				+'<a href="javascript:void(0)" class="bcrum-icon-blk left f-color-green f-sz-16 ptsans-light" id="subMenuToShow" style="display:none;float:left;"></a>'
                 + '<a href="#" class="snap left f-sz-16 ptsans-light feeds-customer t-caps p-relative f-color-green" data-type="page" data-submenu="{{bc-title}}-customer" style="{{isBC_Name}}">{{customer-name}}</a>'
         //+'</div>';
         return html;
@@ -32,7 +33,7 @@ var template = {
     },
     subMenuBlk: function () {
         var html = '<div class="mb-submenu-in p-relative">'
-                + '<div class="bcrum-lb-submenu clr-fl inline-block v-align-mid">'
+                + '<div class="bcrum-lb-submenu clr-fl inline-block v-align-mid" style="width:50%;">'
                 // BreadCrumb Zone
                 + '{{breadcrumb_block}}'
                 + '</div>'
@@ -169,15 +170,26 @@ var template = {
             if (lastName == undefined) {
                 lastName = "";
             }
-            alertTime = HOMEPAGERESPONSE.COMMONUSERDETAILS.alertTime;
+            if (alertDetailsValue.alertDetails.alertDate !== "undefined") {
+                alDate = alertDetailsValue.alertDetails.alertDate;
+                alertDate = moment(Number(alDate)).format('MMM D, YYYY');
+                alertTime = moment(Number(alDate)).format('h:mmA');
+            }
             birthday = HOMEPAGERESPONSE.COMMONUSERDETAILS.birthday;
             residentialCity = HOMEPAGERESPONSE.COMMONUSERDETAILS.residentialCity;
             phoneNumber = HOMEPAGERESPONSE.COMMONUSERDETAILS.phoneNumber;
             feedUserEmail = HOMEPAGERESPONSE.COMMONUSERDETAILS.userEmail;
             profilePicture = HOMEPAGERESPONSE.COMMONUSERDETAILS.profilePicture;
+            try {
+                if (profilePicture == undefined) {
+                    profilePicture = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                }
+            } catch (err) {
+                profilePicture = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+            }
             bDate = HOMEPAGERESPONSE.COMMONUSERDETAILS.birthday;
             alertId = alertDetailsValue.alertDetails.alertId;
-            alertDate = HOMEPAGERESPONSE.COMMONUSERDETAILS.alertDate;
+            //alertDate = HOMEPAGERESPONSE.COMMONUSERDETAILS.alertDate;
         } else {
             if (alertDetailsValue.userDetails.firstName !== "undefined") {
                 firstName = alertDetailsValue.userDetails.firstName;
@@ -187,7 +199,7 @@ var template = {
             }
             if (alertDetailsValue.alertDetails.alertDate !== "undefined") {
                 alDate = alertDetailsValue.alertDetails.alertDate;
-                alertDate = moment(new Date(parseInt(alDate))).format('MMM D, YYYY');
+                alertDate = moment(Number(alDate)).format('MMM D, YYYY');
                 alertTime = moment(Number(alDate)).format('h:mmA');
             }
             if (alertDetailsValue.userDetails.birthDate !== "undefined") {
@@ -204,8 +216,14 @@ var template = {
                 feedUserEmail = alertDetailsValue.userDetails.emailId.email;
             }
             console.log("alertType", alertType);
-            if (alertDetailsValue.userDetails.profilePicture !== "undefined") {
-                profilePicture = HOMEPAGERESPONSE.PROFILEAPI + alertDetailsValue.userDetails.profilePicture;
+            try {
+                if (alertDetailsValue.userDetails.profilePicture != undefined) {
+                    profilePicture = HOMEPAGERESPONSE.PROFILEAPI + alertDetailsValue.userDetails.profilePicture;
+                } else {
+                    profilePicture = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                }
+            } catch (err) {
+                profilePicture = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
             }
             if (alertDetailsValue.alertDetails.alertId !== "undefined") {
                 alertId = alertDetailsValue.alertDetails.alertId;
@@ -234,6 +252,8 @@ var template = {
                 + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-16 cust-name t-caps" style="margin-left:5px;">' + firstName + ' ' + lastName + '</div>'
                 + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 feed-time t-upper" style="margin-left:4px;">' + alertTime + '</div>'
                 + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-13 alert-color alert-type t-caps" style="margin-left:-7px;">' + alertType + '</div>'
+                + '<div class="sprite-im inline-block assigedrep-icon">&nbsp;</div>'
+                + '<div title=' + alertType + ' class="p-relative inline-block opensans-regular v-align-bot f-sz-13 alert-color alert-type t-caps" style="   cursor: pointer; margin-left: 5px; text-overflow: ellipsis;">' + alertType + '</div>'
                 + '</div>'
                 + '<div class="bot-b" style="width:103%;">'
                 + '<div class="p-relative inline-block v-align-bot" style="margin-left:-2px;">'
@@ -251,7 +271,7 @@ var template = {
                 + '<div class="p-relative inline-block v-align-bot">'
                 + '<div class="sprite-im email-icon email-icon-pos">&nbsp;</div>'
                 + '</div>'
-                + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 cust-email no-right-margin" style="margin-left:5px;">' + feedUserEmail + '</div>'
+                + '<div title=' + feedUserEmail + ' class="p-relative inline-block opensans-regular v-align-bot f-sz-12 cust-email no-right-margin" style="margin-left:4px;  text-overflow: ellipsis;">' + feedUserEmail + '</div>'
                 + '</div>'
                 + '</div>'
                 + '<div class="feed-user-share-b inline-block v-align-mid" style="margin-left:25px;">'
@@ -358,7 +378,7 @@ var template = {
         return html;
     },
     GetarchiveMenu: function () {
-        var html = '<div class="mb-submenu-in p-relative"><div class="tab-rb-submenu inline-block v-align-mid"><div class="p-relative "><a href="/myalerts" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light myalerts p-relative selected-tab" data-type="page" data-submenu="myalerts"><span class="submenu-title t-caps f-color-w">My Alerts</span><span class="cnt-blk">(<span class="cnt-no">24</span>)</span></a><a href="/incidents" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light incidents p-relative" data-type="page" data-submenu="incidents"><div class="submenu-title t-caps inline-block f-color-w v-align-mid">incidents</div></a><a href="/policies" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light policies p-relative" data-type="page" data-submenu="policies"><span class="submenu-title t-caps f-color-w">Policies</span></a><a href="/policies" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light policies p-relative" data-type="page" data-submenu="archives"><span class="submenu-title t-caps f-color-w">Archive</span></a><a href="/policies" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light policies p-relative" data-type="page" data-submenu="view_archives"><span class="submenu-title t-caps f-color-w">View Archived</span></a><div href="#" class="snap submenu-sort right f-sz-16 ptsans-light p-relative" data-type="page" data-submenu="sortby"><div class="sort-text f-italic">Sort by</div><div class="sprite-im drop-down-icon submenu-drop-icon">&nbsp;</div></div></div><div class="clear"></div></div></div>';
+        var html = '<div class="mb-submenu-in p-relative"><div class="tab-rb-submenu inline-block v-align-mid"><div class="p-relative "><a style="width:115px;"  href="/myalerts" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light myalerts p-relative selected-tab" data-type="page" data-submenu="myalerts"><span class="submenu-title t-caps f-color-w">My Alerts</span><span class="cnt-blk">(<span class="cnt-no">24</span>)</span></a><a href="/incidents" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light incidents p-relative" data-type="page" data-submenu="incidents"><div class="submenu-title t-caps inline-block f-color-w v-align-mid">incidents</div></a><a href="/policies" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light policies p-relative" data-type="page" data-submenu="policies"><span class="submenu-title t-caps f-color-w">Policies</span></a><a href="/policies" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light policies p-relative" data-type="page" data-submenu="archives"><span class="submenu-title t-caps f-color-w">Archive</span></a><a href="/policies" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light policies p-relative" data-type="page" data-submenu="view_archives"><span class="submenu-title t-caps f-color-w">View Archived</span></a><div href="#" class="snap submenu-sort right f-sz-16 ptsans-light p-relative" data-type="page" data-submenu="sortby"><div class="sort-text f-italic">Sort by</div><div class="sprite-im drop-down-icon submenu-drop-icon">&nbsp;</div></div></div><div class="clear"></div></div></div>';
         return html;
     }
 

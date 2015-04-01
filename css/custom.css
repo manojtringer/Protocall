@@ -107,18 +107,18 @@ position: absolute;
 .o-box .o-content{
 display: block;
 padding: 5px;
-min-height: 290px;
+min-height: 250px;
 }
 
 .o-box .o-content h2{
-margin: 15px 15px;
+margin: 15px 4px;
 padding-bottom: 10px;
 border-bottom: 1px solid #b9b8b8;
 }
 .o-box .o-content .o-sub-content{
 /* margin-top:50px; */
-margin: 0px 4px;
-min-height: 195px;
+margin: 7px 4px;
+min-height: 148px;
 }
 
 

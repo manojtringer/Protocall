@@ -52,7 +52,7 @@ var AgencydynamicTemplate = {
                     image = "https://proto-call-test.appspot.com/file/" + image;
                 }//rep id
 
-                var associateBlock = '<div id=' + carrierid + '  class="carrier-feed-associated-view  left p-relative" data-type=""> <div class="border-all p-relative"> <div class="associated-background p-relative">'
+                var associateBlock = '<div id=' + carrierid + '  class="carrier-feed-associated-view  left p-relative" data-type=""> <div class=" p-relative"> <div class="associated-background p-relative">'
                         + '<div class="associated-carrier-pic inline-block "> <img src=' + image + ' '
                         + 'alt="" class="carrier-img-width"> '
                         + '</div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> '

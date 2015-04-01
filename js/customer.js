@@ -24,13 +24,43 @@ var CustomerdynamicTemplate = {
             }
 
 
-            var Header = '<div class="m-width"> <div class="ctrl-blk"> <header class="w-pad"> <div class="logo-info-blk clr-fl p-relative"> <div class="lf-block left clr-fl header-left-panel"> <div class="leftblk-spacing"> <div style="width:100%;"> <div class="logo-container left"> <div class="logo-holder"> <img src="images/Logo.png" alt="" class="logo"/> </div></div><div class="left search-blk"> <form name="globalSearch" method="GET" action="#search" class="" onsubmit="event.preventDefault();"> <div style="width:100%;"> <div class="searchbox-border"> <input class="search-ip opensans-regular" type="search" name="" placeholder="Search"> </div></div></form> </div><div class="clear"></div></div></div></div><div class="rg-block left p-relative"> <a href="/profile" id="profile" class="logged-user-info clr-fl snap" data-type="profile-link"> <div id="" class="left user-pic-box"> <img src="' + sessionStorage.profilePic + '" alt="Profile pic" class="setProfilePic"> </div><div class="left user-info"> <div class="opensans-regular text-ellipsis"> <span>Hi,</span> <span class="t-caps">' + sessionStorage.userName + '</span> </div></div><div class="left sprite-im drop-down-icon user-drop-icon">&nbsp;</div><div class="clear"></div></a> </div></div></header> <div class="m-block p-relative"> <div class="clr-fl"> <div class="lf-block left"> <div class="leftblk-spacing"> <div class="mb-menu bg-color-green clr-fl t-center t-upper"> ' + MainMenu + ' </div><div class="mb-submenu"> <div class="mb-submenu-in p-relative"> <div class="tab-rb-submenu inline-block v-align-mid"> <div class="p-relative "> <a href="/myalerts" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light myalerts p-relative" data-type="page" data-submenu="myalerts"> <span class="submenu-title t-caps f-color-w">My Alerts</span> <span class="cnt-blk">(<span class="cnt-no">' + HOMEPAGERESPONSE.RECURRINGALERTDFEEDS.length + '</span>)</span> </a> <a href="/incidents" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light incidents p-relative" data-type="page" data-submenu="incidents"> <div class="submenu-title t-caps inline-block f-color-w v-align-mid">incidents</div></a> <a href="/policies" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light policies p-relative" data-type="page" data-submenu="policies"> <span class="submenu-title t-caps f-color-w">Policies</span> </a> <a href="/archives" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light archives p-relative" data-type="page" data-submenu="archives"> <span class="submenu-title t-caps f-color-w">Archive/span> </a> <a href="/viewarchives" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light view_archives p-relative" data-type="page" data-submenu="view_archives"> <span class="submenu-title t-caps f-color-w">View Archived</span> </a> <div href="#" class="snap submenu-sort right f-sz-16 ptsans-light p-relative" data-type="page" data-submenu="sortby"> <div class="sort-text f-italic">' + sortText + '</div><div class="sprite-im drop-down-icon submenu-drop-icon">&nbsp;</div></div></div><div class="clear"></div></div></div></div></div></div><div class="rg-block left p-relative"> <div class="agency-info p-relative clr-fl bg-color-dblue"> <a class="agency-details clr-fl snap" data-type="agency-link"> <div id="" class="left agency-pic-box p-relative"> <img src="' + sessionStorage.agencyLogo + '" alt="agency pic" class="setAgencyPic"> <div class="edit-cover-pic p-absolute anim-opacity">&nbsp;</div><div class="edit-agency-pic p-absolute anim bg-color-red f-color-w snap" data-type="editAgencyPic"> <div class="p-relative t-center"> <div class="sprite-im mobile-icon inline-block v-align-mid">&nbsp;</div><div class="inline-block f-sz-12 v-align-mid opensans-regular ">Edit</div></div></div></div><div class="left agency-name-details t-left anim"> <div class="opensans-regular text-ellipsis f-italic f-sz-17 agency-name t-caps">' + sessionStorage.agencyName + '</div><div class="opensans-regular text-ellipsis f-italic agency-email">' + sessionStorage.agencyEmail + '</div></div></a> </div></div></div></div>';
+            var Header = '<div class="m-width"> <div class="ctrl-blk"> <header class="w-pad"> <div class="logo-info-blk clr-fl p-relative"> <div class="lf-block left clr-fl header-left-panel"> <div class="leftblk-spacing"> <div style="width:100%;"> <div class="logo-container left"> <div class="logo-holder"> <img src="images/Logo.png" alt="" class="logo"/> </div></div><div class="left search-blk"> <form name="globalSearch" method="GET" action="#search" class="" onsubmit="event.preventDefault();"> <div style="width:100%;"> <div class="searchbox-border"> <input class="search-ip opensans-regular" type="search" name="" placeholder="Search"> </div></div></form> </div><div class="clear"></div></div></div></div><div class="rg-block left p-relative"> <a href="/profile" id="profile" class="logged-user-info clr-fl snap" data-type="profile-link"> <div id="" class="left user-pic-box"> <img src="' + sessionStorage.profilePic + '" alt="Profile pic" class="setProfilePic"> </div><div class="left user-info"> <div class="opensans-regular text-ellipsis"> <span>Hi,</span> <span class="t-caps">' + sessionStorage.userName + '</span> </div></div><div class="left sprite-im drop-down-icon user-drop-icon">&nbsp;</div><div class="clear"></div></a> </div></div></header> <div class="m-block p-relative"> <div class="clr-fl"> <div class="lf-block left"> <div class="leftblk-spacing"> <div class="mb-menu bg-color-green clr-fl t-center t-upper"> ' + MainMenu + ' </div><div class="mb-submenu"> <div class="mb-submenu-in p-relative"> <div class="tab-rb-submenu inline-block v-align-mid"> <div class="p-relative "> <a style="width:115px;" href="/myalerts" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light myalerts p-relative" data-type="page" data-submenu="myalerts"> <span class="submenu-title t-caps f-color-w">My Alerts</span> <span class="cnt-blk">(<span class="cnt-no">' + HOMEPAGERESPONSE.RECURRINGALERTDFEEDS.length + '</span>)</span> </a> <a href="/incidents" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light incidents p-relative" data-type="page" data-submenu="incidents"> <div class="submenu-title t-caps inline-block f-color-w v-align-mid">incidents</div></a> <a href="/policies" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light policies p-relative" data-type="page" data-submenu="policies"> <span class="submenu-title t-caps f-color-w">Policies</span> </a> <a href="/archives" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light archives p-relative" data-type="page" data-submenu="archives"> <span class="submenu-title t-caps f-color-w">Archive/span> </a> <a href="/viewarchives" class="snap submenu-tab bg-color-green left f-sz-16 ptsans-light view_archives p-relative" data-type="page" data-submenu="view_archives"> <span class="submenu-title t-caps f-color-w">View Archived</span> </a> <div href="#" class="snap submenu-sort right f-sz-16 ptsans-light p-relative" data-type="page" data-submenu="sortby"> <div class="sort-text f-italic">' + sortText + '</div><div class="sprite-im drop-down-icon submenu-drop-icon">&nbsp;</div></div></div><div class="clear"></div></div></div></div></div></div><div class="rg-block left p-relative"> <div class="agency-info p-relative clr-fl bg-color-dblue"> <a class="agency-details clr-fl snap" data-type="agency-link"> <div id="" class="left agency-pic-box p-relative"> <img src="' + sessionStorage.agencyLogo + '" alt="agency pic" class="setAgencyPic"> <div class="edit-cover-pic p-absolute anim-opacity">&nbsp;</div><div class="edit-agency-pic p-absolute anim bg-color-red f-color-w snap" data-type="editAgencyPic"> <div class="p-relative t-center"> <div class="sprite-im mobile-icon inline-block v-align-mid">&nbsp;</div><div class="inline-block f-sz-12 v-align-mid opensans-regular ">Edit</div></div></div></div><div class="left agency-name-details t-left anim"> <div class="opensans-regular text-ellipsis f-italic f-sz-17 agency-name t-caps">' + sessionStorage.agencyName + '</div><div class="opensans-regular text-ellipsis f-italic agency-email">' + sessionStorage.agencyEmail + '</div></div></a> </div></div></div></div>';
 
             return Header;
         }
 
     },
     customer: {
+        loadSuperAdminAegnciesalphaSortBy: function (data) {
+            localStorage.setItem("TABNAME", "Agencies");
+
+            var template = '';
+            for (var i = 0; i < data.resultMap.ArrayOfCarriersDetails.length; i++) {
+                var cus = data.resultMap.ArrayOfCarriersDetails[i];
+                if (cus.emailId.email == undefined) {
+                    cusEmail = ' ';
+                } else {
+                    cusEmail = cus.emailId.email;
+                }
+                if (cus.agencyName == undefined)
+                {
+                    fisrtname = ' ';
+                } else {
+                    fisrtname = cus.agencyName;
+                }
+                template += CustomerdynamicTemplate.customer.superadminagenciesDynamicList(cus);
+            }
+
+            var header = HeaderTemplate.Menu.DynamicHeaderTemplate();
+            var content = '<div class="container"> <div class="content-holder">' + template + '</div></div></div></div>';
+            var footer = footerDynamicTemplate.footer.DynamicFooterTemplate();
+            $("#page").empty();
+            totalHtml = header + content + footer;
+            $("#page").append(totalHtml);
+            protocall.setMenuSelection(CONSTANTS.LINK_TYPE.AGENCIES_PAGE);
+            protocall.events.GlobalContainerScrollevent();
+            protocall.displaySpinner(false);
+        },
         loadCarrierOwnerAgenciesPage: function (data) {
             if (sessionStorage.loginType == 'SuperAdmin') {
                 localStorage.setItem("TABNAME", "Agencies");
@@ -70,8 +100,10 @@ var CustomerdynamicTemplate = {
                 protocall.setMenuSelection(CONSTANTS.LINK_TYPE.AGENCIES_PAGE);
                 protocall.events.GlobalContainerScrollevent();
                 protocall.displaySpinner(false);
+                $("div.submenu-sort div:nth-child(1)").text("Recent");
+                popUpContent.closePopUpContent();
             } else {
-                var data = "";
+                //var data = "";
                 if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
                     if (localStorage.LoginType == 'Representatives') {
                         data = JSON.parse(localStorage.getItem("CARRIERREP_DATA"));
@@ -696,6 +728,43 @@ var CustomerdynamicTemplate = {
                 protocall.events.GlobalContainerScrollevent();
             }
         },
+        superadminagenciesDynamicList: function (cus) {
+
+            if (cus.emailId.email == undefined) {
+                cusEmail = ' ';
+            } else {
+                cusEmail = cus.emailId.email;
+            }
+
+
+
+            if (cus.agencyName == undefined)
+            {
+                agencyName = ' ';
+            } else {
+                agencyName = cus.agencyName;
+            }
+            if (cus.agencyLogo != undefined) {
+                profilePicture = "https://proto-call-test.appspot.com/file/" + cus.agencyLogo;
+            } else {
+                profilePicture = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+            }
+
+            var phoneHtml = "";
+            if (cus.phone.number == undefined) {
+                phoneHtml = "<span class=\"sprite-im carrier-mobile-icon\" style=\"display:none;position: absolute;top: 17px;left: 57%;margin-left: 10px;\">&nbsp;</span>";
+            } else {
+                phoneHtml = "<a href=\"tel:" + cus.phone.number + "\"><div class=\"sprite-im carrier-mobile-icon\" style=\"position: relative;float:right;margin-left: 5px\">&nbsp;</div></a>";
+            }
+
+            var html = " <div class=\"parent-content-holder\"> <div class=\"topview p-relative\"> <div class=\"topview-leftcontent\">"
+                    + "<img src=\"" + profilePicture + "\" alt=\"\" id=" + cusEmail + "  value=" + cus.agencyId + " class=\"carrier-img-width \" data-type=\"viewcustomerfeedview\"></div> <div class=\"topview-rightcontent\"> <div class=\"carrierid\" style=\"display:none;\">" + cus.agencyId + "</div>"
+                    + "<div class=\"topview-rightcontentcarrier-name t-caps \" style=\"font-size: 16px;color: #3e3e3e;float:left;margin-right:5px;margin-bottom: 5px;\">" + cus.agencyName + phoneHtml + "</div>"
+                    + "<div class=\"topview-rightcontentcarrier-location t-caps \" style=\"color: #3e3e3e;font-style: italic;clear:both;margin-bottom: 5px;\">" + cus.city + "</div> <div class=\"topview-rightcontentcarrier-email\"><a title=" + cusEmail + " href=\"mailto:" + cusEmail + "\">" + cusEmail + "</a></div> </div> <input type=\"checkbox\" class=\"getSelectedCustomers  p-absolute snap\" data-type=\"customersCheckBox\" value=" + cusEmail + " id=" + cusEmail + " > <label for=" + cusEmail + " class=\"customer-feed-label\" style=\"display:none;\"></label> </div> <div class=\"downview p-relative\">"
+                    + "<div id=" + cusEmail + "  value=" + cus.agencyId + " class=\"carrier-view myagenciesView p-relative bg-color-green t-caps t-center opensans-regular f-color-w snap\" data-type=\"viewagenciesfeedview\">view</div> </div> </div>";
+
+            return html;
+        },
         agenciesDynamicList: function (cus) {
 
             if (cus.emailId.email == undefined) {
@@ -727,8 +796,8 @@ var CustomerdynamicTemplate = {
 
             var html = " <div class=\"parent-content-holder\"> <div class=\"topview p-relative\"> <div class=\"topview-leftcontent\">"
                     + "<img src=\"" + profilePicture + "\" alt=\"\" id=" + cusEmail + "  value=" + cus.agencyId + " class=\"carrier-img-width \" data-type=\"viewcustomerfeedview\"></div> <div class=\"topview-rightcontent\"> <div class=\"carrierid\" style=\"display:none;\">" + cus.agencyId + "</div>"
-                    + "<div class=\"topview-rightcontentcarrier-name t-caps \" style=\"float:left;margin-right:5px;\">" + cus.agencyName + phoneHtml + "</div>"
-                    + "<div class=\"topview-rightcontentcarrier-location t-caps \" style=\"clear:both;\">" + cus.city + "</div> <div class=\"topview-rightcontentcarrier-email\"><a title="+ cusEmail + " href=\"mailto:" + cusEmail + "\">" + cusEmail + "</a></div> </div> <input type=\"checkbox\" class=\"getSelectedCustomers  p-absolute snap\" data-type=\"customersCheckBox\" value=" + cusEmail + " id=" + cusEmail + " > <label for=" + cusEmail + " class=\"customer-feed-label\" style=\"display:none;\"></label> </div> <div class=\"downview p-relative\">"
+                    + "<div class=\"topview-rightcontentcarrier-name t-caps \" style=\"font-size: 16px;color: #3e3e3e;float:left;margin-right:5px;margin-bottom: 5px;\">" + cus.agencyName + phoneHtml + "</div>"
+                    + "<div class=\"topview-rightcontentcarrier-location t-caps \" style=\"color: #3e3e3e;font-style: italic;clear:both;margin-bottom: 5px;\">" + cus.city + "</div> <div class=\"topview-rightcontentcarrier-email\"><a title=" + cusEmail + " href=\"mailto:" + cusEmail + "\">" + cusEmail + "</a></div> </div> <input type=\"checkbox\" class=\"getSelectedCustomers  p-absolute snap\" data-type=\"customersCheckBox\" value=" + cusEmail + " id=" + cusEmail + " > <label for=" + cusEmail + " class=\"customer-feed-label\" style=\"display:none;\"></label> </div> <div class=\"downview p-relative\">"
                     + "<div id=" + cusEmail + "  value=" + cus.agencyId + " class=\"carrier-view myagenciesView p-relative bg-color-green t-caps t-center opensans-regular f-color-w snap\" data-type=\"viewagenciesfeedview\">view</div> </div> </div>";
 
             return html;
@@ -752,9 +821,10 @@ var CustomerdynamicTemplate = {
 
                 html = " <div class=\"parent-content-holder\"> <div class=\"topview p-relative\"> <div class=\"topview-leftcontent\">"
                         + "<img src=\"" + profilePicture + "\" alt=\"\" id=" + cusEmail + "  value=" + cus.carrierId + " class=\"carrier-img-width \" data-type=\"viewcustomerfeedview\"></div> <div class=\"topview-rightcontent\"> <div class=\"carrierid\" style=\"display:none;\">" + cus.carrierId + "</div>"
-                        + "<div class=\"topview-rightcontentcarrier-name t-caps \" style=\"float:left;margin-right:5px;\">" + cus.firstName + phoneHtml + "</div>"
-                        + "<div class=\"topview-rightcontentcarrier-location t-caps \" style=\"clear:both;\">" + cus.residentialCity + "</div> "
-                        +"<div class=\"topview-rightcontentcarrier-email\"><a title="+cusEmail+" href=\"mailto:" + cusEmail + "\">" + cusEmail + "</a></div> </div> <input type=\"checkbox\" class=\"getSelectedCustomers  p-absolute snap\" data-type=\"customersCheckBox\" value=" + cusEmail + " id='id" + cusEmail + "' > <label for='id" + cusEmail + "' class=\"customer-feed-label\" style=\"display:block;\"></label> </div> <div class=\"downview p-relative\">"
+                        + "<div class=\"topview-rightcontentcarrier-name t-caps \" style=\"font-size: 16px;color: #3e3e3e;float:left;margin-right:5px;margin-bottom: 5px;\">" + cus.firstName + phoneHtml + "</div>"
+                        + "<div class=\"topview-rightcontentcarrier-location t-caps \" style=\"color: #3e3e3e;font-style: italic;clear:both;margin-bottom: 5px;\">" + cus.residentialCity + "</div> "
+                        + "<div class=\"topview-rightcontentcarrier-email\"><a title=" + cusEmail + " href=\"mailto:" + cusEmail + "\">" + cusEmail + "</a></div> </div> <input type=\"checkbox\" class=\"getSelectedCustomers  p-absolute snap\" data-type=\"customersCheckBox\" value=" + cusEmail + " id='id" + cusEmail + "' > "
+                        + "<label for='id" + cusEmail + "' class=\"customer-feed-label\" style=\"display:block;\"></label> </div> <div class=\"downview p-relative\">"
                         + "<div id=" + cusEmail + "  value=" + cus.carrierId + " class=\"carrier-view mycustomerView p-relative bg-color-green t-caps t-center opensans-regular f-color-w snap\" data-type=\"viewcustomerfeedview\">view</div> </div> </div>";
             } else {
                 if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
@@ -774,9 +844,9 @@ var CustomerdynamicTemplate = {
 
                         html = " <div class=\"parent-content-holder\"> <div class=\"topview p-relative\"> <div class=\"topview-leftcontent\">"
                                 + "<img src=\"" + profilePicture + "\" alt=\"\" id=" + cusEmail + "  value=" + cus.carrierId + " class=\"carrier-img-width \" data-type=\"viewcustomerfeedview\"></div> <div class=\"topview-rightcontent\"> <div class=\"carrierid\" style=\"display:none;\">" + cus.carrierId + "</div>"
-                                + "<div class=\"topview-rightcontentcarrier-name t-caps \" style=\"float:left;margin-right:5px;\">" + cus.firstName + phoneHtml + "</div>"
-                                + "<div class=\"topview-rightcontentcarrier-location t-caps \" style=\"clear:both;\">" + cus.residentialCity + "</div> "
-                                +"<div class=\"topview-rightcontentcarrier-email\"><a title="+cusEmail+"  href=\"mailto:" + cusEmail + "\">" + cusEmail + "</a></div> </div> <input type=\"checkbox\" class=\"getSelectedCustomers  p-absolute snap\" data-type=\"customersCheckBox\" value=" + cusEmail + " id='id" + cusEmail + "' > <label for='id" + cusEmail + "' class=\"customer-feed-label\" style=\"display:none;\"></label> </div> <div class=\"downview p-relative\">"
+                                + "<div class=\"topview-rightcontentcarrier-name t-caps \" style=\"font-size: 16px;color: #3e3e3e;float:left;margin-right:5px;margin-bottom: 5px;\">" + cus.firstName + phoneHtml + "</div>"
+                                + "<div class=\"topview-rightcontentcarrier-location t-caps \" style=\"color: #3e3e3e;font-style: italic;clear:both;margin-bottom: 5px;\">" + cus.residentialCity + "</div> "
+                                + "<div class=\"topview-rightcontentcarrier-email\"><a title=" + cusEmail + "  href=\"mailto:" + cusEmail + "\">" + cusEmail + "</a></div> </div> <input type=\"checkbox\" class=\"getSelectedCustomers  p-absolute snap\" data-type=\"customersCheckBox\" value=" + cusEmail + " id='id" + cusEmail + "' > <label for='id" + cusEmail + "' class=\"customer-feed-label\" style=\"display:none;\"></label> </div> <div class=\"downview p-relative\">"
                                 + "<div id=" + cusEmail + "  value=" + cus.carrierId + " class=\"carrier-view mycustomerView p-relative bg-color-green t-caps t-center opensans-regular f-color-w snap\" data-type=\"viewcustomerfeedview\">view</div> </div> </div>";
                     }
                     if (localStorage.LoginType == 'Admin') {
@@ -795,31 +865,54 @@ var CustomerdynamicTemplate = {
 
                         html = " <div class=\"parent-content-holder\"> <div class=\"topview p-relative\"> <div class=\"topview-leftcontent\">"
                                 + "<img src=\"" + profilePicture + "\" alt=\"\" id=" + cusEmail + "  value=" + cus.carrierId + " class=\"carrier-img-width \" data-type=\"viewcustomerfeedview\"></div> <div class=\"topview-rightcontent\"> <div class=\"carrierid\" style=\"display:none;\">" + cus.carrierId + "</div>"
-                                + "<div class=\"topview-rightcontentcarrier-name t-caps \" style=\"float:left;margin-right:5px;\">" + cus.firstName + phoneHtml + "</div>"
-                                + "<div class=\"topview-rightcontentcarrier-location t-caps \" style=\"clear:both;\">" + cus.residentialCity + "</div> "
-                                +"<div class=\"topview-rightcontentcarrier-email\"><a title="+cusEmail+"  href=\"mailto:" + cusEmail + "\">" + cusEmail + "</a></div> </div> <input type=\"checkbox\" class=\"getSelectedCustomers  p-absolute snap\" data-type=\"customersCheckBox\" value=" + cusEmail + " id='id" + cusEmail + "' > <label for='id" + cusEmail + "' class=\"customer-feed-label\" style=\"display:block;\"></label> </div> <div class=\"downview p-relative\">"
+                                + "<div class=\"topview-rightcontentcarrier-name t-caps \" style=\"font-size: 16px;color: #3e3e3e;float:left;margin-right:5px;margin-bottom: 5px;\">" + cus.firstName + phoneHtml + "</div>"
+                                + "<div class=\"topview-rightcontentcarrier-location t-caps \" style=\"color: #3e3e3e;font-style: italic;clear:both;margin-bottom: 5px;\">" + cus.residentialCity + "</div> "
+                                + "<div class=\"topview-rightcontentcarrier-email\"><a title=" + cusEmail + "  href=\"mailto:" + cusEmail + "\">" + cusEmail + "</a></div> </div> <input type=\"checkbox\" class=\"getSelectedCustomers  p-absolute snap\" data-type=\"customersCheckBox\" value=" + cusEmail + " id='id" + cusEmail + "' > <label for='id" + cusEmail + "' class=\"customer-feed-label\" style=\"display:block;\"></label> </div> <div class=\"downview p-relative\">"
                                 + "<div id=" + cusEmail + "  value=" + cus.carrierId + " class=\"carrier-view mycustomerView p-relative bg-color-green t-caps t-center opensans-regular f-color-w snap\" data-type=\"viewcustomerfeedview\">view</div> </div> </div>";
                     }
                 } else {
-                    if (cus.profilePicture != undefined) {
-                        profilePicture = "https://proto-call-test.appspot.com/file/" + cus.profilePicture;
+                    if (localStorage.LoginType == 'Admin') {
+                        if (cus.profilePicture != undefined) {
+                            profilePicture = "https://proto-call-test.appspot.com/file/" + cus.profilePicture;
+                        } else {
+                            profilePicture = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                        }
+
+                        var phoneHtml = "";
+                        if (cus.phone.number == undefined) {
+                            phoneHtml = "<span class=\"sprite-im carrier-mobile-icon\" style=\"display:none;position: absolute;top: 17px;left: 57%;margin-left: 10px;\">&nbsp;</span>";
+                        } else {
+                            phoneHtml = "<a href=\"tel:" + cus.phone.number + "\"><div class=\"sprite-im carrier-mobile-icon\" style=\"position: relative;float:right;margin-left: 5px\">&nbsp;</div></a>";
+                        }
+
+                        html = " <div class=\"parent-content-holder\"> <div class=\"topview p-relative\"> <div class=\"topview-leftcontent\">"
+                                + "<img src=\"" + profilePicture + "\" alt=\"\" id=" + cusEmail + "  value=" + cus.carrierId + " class=\"carrier-img-width \" data-type=\"viewcustomerfeedview\"></div> <div class=\"topview-rightcontent\"> <div class=\"carrierid\" style=\"display:none;\">" + cus.carrierId + "</div>"
+                                + "<div class=\"topview-rightcontentcarrier-name t-caps \" style=\"font-size: 16px;color: #3e3e3e;float:left;margin-right:5px;margin-bottom: 5px;\">" + cus.firstName + phoneHtml + "</div>"
+                                + "<div class=\"topview-rightcontentcarrier-location t-caps \" style=\"color: #3e3e3e;font-style: italic;clear:both;margin-bottom: 5px;\">" + cus.residentialCity + "</div> "
+                                + "<div class=\"topview-rightcontentcarrier-email\"><a title=" + cusEmail + "  href=\"mailto:" + cusEmail + "\">" + cusEmail + "</a></div> </div> <input type=\"checkbox\" class=\"getSelectedCustomers  p-absolute snap\" data-type=\"customersCheckBox\" value=" + cusEmail + " id='id" + cusEmail + "' > <label for='id" + cusEmail + "' class=\"customer-feed-label\" style=\"display:block;\"></label> </div> <div class=\"downview p-relative\">"
+                                + "<div id=" + cusEmail + "  value=" + cus.carrierId + " class=\"carrier-view mycustomerView p-relative bg-color-green t-caps t-center opensans-regular f-color-w snap\" data-type=\"viewcustomerfeedview\">view</div> </div> </div>";
                     } else {
-                        profilePicture = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                        if (cus.profilePicture != undefined) {
+                            profilePicture = "https://proto-call-test.appspot.com/file/" + cus.profilePicture;
+                        } else {
+                            profilePicture = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                        }
+
+                        var phoneHtml = "";
+                        if (cus.phone.number == undefined) {
+                            phoneHtml = "<span class=\"sprite-im carrier-mobile-icon\" style=\"display:none;position: absolute;top: 17px;left: 57%;margin-left: 10px;\">&nbsp;</span>";
+                        } else {
+                            phoneHtml = "<a href=\"tel:" + cus.phone.number + "\"><div class=\"sprite-im carrier-mobile-icon\" style=\"position: relative;float:right;margin-left: 5px\">&nbsp;</div></a>";
+                        }
+
+                        html = " <div class=\"parent-content-holder\"> <div class=\"topview p-relative\"> <div class=\"topview-leftcontent\">"
+                                + "<img src=\"" + profilePicture + "\" alt=\"\" id=" + cusEmail + "  value=" + cus.carrierId + " class=\"carrier-img-width \" data-type=\"viewcustomerfeedview\"></div> <div class=\"topview-rightcontent\"> <div class=\"carrierid\" style=\"display:none;\">" + cus.carrierId + "</div>"
+                                + "<div class=\"topview-rightcontentcarrier-name t-caps \" style=\"font-size: 16px;color: #3e3e3e;float:left;margin-right:5px;margin-bottom: 5px;\">" + cus.firstName + phoneHtml + "</div>"
+                                + "<div class=\"topview-rightcontentcarrier-location t-caps \" style=\"color: #3e3e3e;font-style: italic;clear:both;margin-bottom: 5px;\">" + cus.residentialCity + "</div> "
+                                + "<div class=\"topview-rightcontentcarrier-email\"><a title=" + cusEmail + "  href=\"mailto:" + cusEmail + "\">" + cusEmail + "</a></div> </div> <input type=\"checkbox\" class=\"getSelectedCustomers  p-absolute snap\" data-type=\"customersCheckBox\" value=" + cusEmail + " id='id" + cusEmail + "' > <label for='id" + cusEmail + "' class=\"customer-feed-label\" style=\"display:none;\"></label> </div> <div class=\"downview p-relative\">"
+                                + "<div id=" + cusEmail + "  value=" + cus.carrierId + " class=\"carrier-view mycustomerView p-relative bg-color-green t-caps t-center opensans-regular f-color-w snap\" data-type=\"viewcustomerfeedview\">view</div> </div> </div>";
                     }
 
-                    var phoneHtml = "";
-                    if (cus.phone.number == undefined) {
-                        phoneHtml = "<span class=\"sprite-im carrier-mobile-icon\" style=\"display:none;position: absolute;top: 17px;left: 57%;margin-left: 10px;\">&nbsp;</span>";
-                    } else {
-                        phoneHtml = "<a href=\"tel:" + cus.phone.number + "\"><div class=\"sprite-im carrier-mobile-icon\" style=\"position: relative;float:right;margin-left: 5px\">&nbsp;</div></a>";
-                    }
-
-                    html = " <div class=\"parent-content-holder\"> <div class=\"topview p-relative\"> <div class=\"topview-leftcontent\">"
-                            + "<img src=\"" + profilePicture + "\" alt=\"\" id=" + cusEmail + "  value=" + cus.carrierId + " class=\"carrier-img-width \" data-type=\"viewcustomerfeedview\"></div> <div class=\"topview-rightcontent\"> <div class=\"carrierid\" style=\"display:none;\">" + cus.carrierId + "</div>"
-                            + "<div class=\"topview-rightcontentcarrier-name t-caps \" style=\"float:left;margin-right:5px;\">" + cus.firstName + phoneHtml + "</div>"
-                            + "<div class=\"topview-rightcontentcarrier-location t-caps \" style=\"clear:both;\">" + cus.residentialCity + "</div> "
-                            +"<div class=\"topview-rightcontentcarrier-email\"><a title="+cusEmail+"  href=\"mailto:" + cusEmail + "\">" + cusEmail + "</a></div> </div> <input type=\"checkbox\" class=\"getSelectedCustomers  p-absolute snap\" data-type=\"customersCheckBox\" value=" + cusEmail + " id='id" + cusEmail + "' > <label for='id" + cusEmail + "' class=\"customer-feed-label\" style=\"display:block;\"></label> </div> <div class=\"downview p-relative\">"
-                            + "<div id=" + cusEmail + "  value=" + cus.carrierId + " class=\"carrier-view mycustomerView p-relative bg-color-green t-caps t-center opensans-regular f-color-w snap\" data-type=\"viewcustomerfeedview\">view</div> </div> </div>";
 
                 }
 

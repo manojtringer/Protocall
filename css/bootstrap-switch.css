@@ -1,5 +1,5 @@
 .bootstrap-switch {
-    width: 102px;
+    width: 95px;
     height: 31px;
     position:relative;
     display: inline-block;
@@ -80,7 +80,7 @@
     color: #000;
     background: #eeeeee;
     width: 52px;
-    margin-left: -3px;
+    margin-left: -9px;
 }
 .bootstrap-switch .bootstrap-switch-label {
     text-align: center;

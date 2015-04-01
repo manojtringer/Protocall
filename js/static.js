@@ -309,15 +309,15 @@ var staticTemplate = {
         },
         editAgencyPicTemplate: function () {
             var html = '<div class="header-panel border-bot"> <div class="left-content-panel t-left left f-color-green f-sz-18 opensans-regular">'
-                    + 'Agency Profile</div> <div class="right-content-panel t-right right f-color-red f-sz-12 opensans-regular"> <i>Manage Agency</i></div>'
+                    + 'Agency Profile</div> <div class="right-content-panel t-right right f-color-red f-sz-12 opensans-regular snap" id="id-manageagency" data-type="manage_agency"> <i>Manage Agency</i></div>'
                     + '</div> <div class="o-sub-content p-relative"> <div class="carriers-left-content left "> <div class="profile-pic-content"> '
                     + '<div id="id-agency-logo" class="agency-logo p-relative"> <img src="' + sessionStorage.agencyLogo + '" alt="" id="id-agencyprofilelogo" class="agencyprofilelogo"> '
                     + '</div> </div> </div> <div class="carriers-right-content left "> <div class="c-agency-logo"> '
                     + '<input type="text" id="id-agency-logo-name" class="txt-agency-logo-name opensans-regular f-sz-14" value="Agency Logo.jpg" disabled> '
                     + '<input type="file" style="display:none;" id="inputfile1" onchange="readBrowserURL(this)" /> '
                     + '<div class="browse-button-content p-absolute f-color-w f-sz-16 opensans-regular" onclick="javascript:document.getElementById(\'inputfile1\').click();"> Browse </div>'
-                    + '</div> <div class="c-agency-name"> <input type="text" class="txt-agency-name opensans-regular f-sz-14" value="' + sessionStorage.agencyName + '"> </div>'
-                    + '<div class="c-agency-emailid"> <input type="text" class="txt-agency-emailid opensans-regular f-sz-14" value="' + sessionStorage.agencyEmail + '"> </div> </div>'
+                    + '</div> <div class="c-agency-name" style="display:none;"> <input id="agencyNameInOverlay" type="text" class="txt-agency-name opensans-regular f-sz-14" value="' + sessionStorage.agencyName + '"> </div>'
+                    + '<div id="agencyEmailOverlay" class="c-agency-emailid" style="display:none;"> <input type="text" class="txt-agency-emailid opensans-regular f-sz-14" value="' + sessionStorage.agencyEmail + '"> </div> </div>'
                     + '</div> <div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="agencyPicEdit">Save</div>';
             return html;
         },
@@ -336,7 +336,8 @@ var staticTemplate = {
             return html;
         },
         privacyTemplate: function () {
-            var html = '  <h2 class="t-center f-color-green opensans-regular" style="">Privacy</h2> <div class="o-sub-content p-relative"> <h3 class="enable-text t-center f-sz-18 opensans-regular "><b>Enable / disable privacy option for your agency</b></h3> <h3 class="enable-text-1 t-left f-sz-14 opensans-regular "> <input id="radio-button-public" class="left" type="radio" value="now" checked="true" onclick="checkboxStatus(\'radio-button-public\')">Make all profile public <div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-on"> <div id="id-switchtop1-container" class="bootstrap-switch-container"> <span id="id-switch-on" class="bootstrap-switch-handle-on bootstrap-switch-primary" onclick="moveani(-1,\'id-switch-on\', \'id-switchtop1-container\')"> ON</span> <span class="bootstrap-switch-label">&nbsp;</span> <span id="id-switch-off" class="bootstrap-switch-handle-off bootstrap-switch-default" onclick="moveani(-1,\'id-switch-off\', \'id-switchtop1-container\')"> OFF</span> <input type="checkbox" checked=""></div></div> </h3> <h3 class="enable-text-1 t-left f-sz-14 opensans-regular "> <input id="radio-button-private" class="left" type="radio" value="now" onclick="checkboxStatus(\'radio-button-private\')"> Make all profile private <div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-on"> <div id="id-switchtop2-container" class="bootstrap-switch-container"> <span id="id-switch-on" class="bootstrap-switch-handle-on bootstrap-switch-primary" onclick="moveani(-1,\'id-switch-on\', \'id-switchtop2-container\')"> ON</span> <span class="bootstrap-switch-label">&nbsp;</span> <span id="id-switch-off" class="bootstrap-switch-handle-off bootstrap-switch-default" onclick="moveani(-1,\'id-switch-off\', \'id-switchtop2-container\')"> OFF</span> <input type="checkbox" checked=""></div></div> </h3> <h3 class="enable-text-1 t-left f-sz-14 opensans-regular "> <input id="radio-button-custom" class="left" type="radio" value="now" onclick="checkboxStatus(\'radio-button-custom\')">Custom <div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-on"> <div id="id-switchtop3-container" class="bootstrap-switch-container"> <span id="id-switch-on" class="bootstrap-switch-handle-on bootstrap-switch-primary" onclick="moveani(-1,\'id-switch-on\', \'id-switchtop3-container\')"> ON</span> <span class="bootstrap-switch-label">&nbsp;</span> <span id="id-switch-off" class="bootstrap-switch-handle-off bootstrap-switch-default" onclick="moveani(-1,\'id-switch-off\', \'id-switchtop3-container\')"> OFF</span> <input type="checkbox" checked=""></div></div> </h3> <div class="text-box-outer textBox-placeholder-italic border-all"> '
+            var html = '  <h2 class="t-center f-color-green opensans-regular" style="">Privacy</h2> <div class="o-sub-content p-relative"> <h3 class="enable-text t-center f-sz-18 opensans-regular "><b>Enable / disable privacy option for your agency</b></h3> <h3 class="enable-text-1 t-left f-sz-14 opensans-regular "> <input id="radio-button-public" class="left" type="radio" value="now" checked="true" onclick="checkboxStatus(\'radio-button-public\')">Make all profile public <div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-on"> '
+                    + '<div id="id-switchtop1-container" class="bootstrap-switch-container"> <span id="id-switch-on" class="bootstrap-switch-handle-on bootstrap-switch-primary" onclick=""> ON</span> <span class="bootstrap-switch-label">&nbsp;</span> <span id="id-switch-off" class="bootstrap-switch-handle-off bootstrap-switch-default" onclick=""> OFF</span> <input type="checkbox" checked=""></div></div> </h3> <h3 class="enable-text-1 t-left f-sz-14 opensans-regular "> <input id="radio-button-private" class="left" type="radio" value="now" onclick="checkboxStatus(\'radio-button-private\')"> Make all profile private <div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-on"> <div id="id-switchtop2-container" class="bootstrap-switch-container" style="margin-left: 50px;"> <span id="id-switch-on" class="bootstrap-switch-handle-on bootstrap-switch-primary" onclick=""> ON</span> <span class="bootstrap-switch-label">&nbsp;</span> <span id="id-switch-off" class="bootstrap-switch-handle-off bootstrap-switch-default" onclick=""> OFF</span> <input type="checkbox" checked=""></div></div> </h3> <h3 class="enable-text-1 t-left f-sz-14 opensans-regular "> <input id="radio-button-custom" class="left" type="radio" value="now" onclick="checkboxStatus(\'radio-button-custom\')">Custom <div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-on" style="display:none;"> <div id="id-switchtop3-container" class="bootstrap-switch-container"> <span id="id-switch-on" class="bootstrap-switch-handle-on bootstrap-switch-primary" onclick="moveani(-1,\'id-switch-on\', \'id-switchtop3-container\')"> ON</span> <span class="bootstrap-switch-label">&nbsp;</span> <span id="id-switch-off" class="bootstrap-switch-handle-off bootstrap-switch-default" onclick="moveani(-1,\'id-switch-off\', \'id-switchtop3-container\')"> OFF</span> <input type="checkbox" checked=""></div></div> </h3> <div class="text-box-outer textBox-placeholder-italic border-all"> '
                     + ' <input id="id-overlayprivacy" type="search" class="opensans-regular" placeholder="Search.." onkeyup="privacykeyup(event)"  onkeypress="privacykeyup(event)" /> <div id="id-privacysearchicon" class="c-privacysearch-icon search-icon sprite-im p-absolute"></div></div> <div class="success1" style=" display:none; color: green;"></div><div class="error1" style=" display:none; color: red;"></div> <div class="rep-block"> <div class="rep-title-blk clr-fl"> <div class="name-title opensans-regular t-upper left text-color-overlay bold" style="width:25%;">Member Names</div> <div class="nameRepId opensans-regular t-upper left text-color-overlay bold">Rep ID</div> <div class="name-title opensans-regular t-upper right text-color-overlay bold">Private / Public</div> </div> <div class="rep-content-blk"> <form> '
 
                     ;
@@ -345,7 +346,7 @@ var staticTemplate = {
         /*Added by Naveen - Start */
         /*Naveen 23-2-2015 Chnage start*/
         showPhotsOverlayTemplate: function (alertID) {
-			RESPONSE.LOCATION = "";
+            RESPONSE.LOCATION = "";
             RESPONSE.MEDIAIDFORPICTURE = [], RESPONSE.IMAGEURLS = [], RESPONSE.PICTUREDETAILS = [], RESPONSE.IMGETEXT = [];
             var numberOfPictures = 0, pictureThumbNailViewHTML = "", imageTextSavePrintHTML = "", originalImageHTML = "", sliderBar = "";
             console.log("HOMEPAGERESPONSE.RECURRINGALERTDFEEDS showPhotsOverlayTemplate", HOMEPAGERESPONSE.RECURRINGALERTDFEEDS);
@@ -360,12 +361,17 @@ var staticTemplate = {
                     console.log("condition satisfied alertDetailsValue", alertDetailsValue);
                     numberOfPictures = alertDetailsValue.NoofPictureRecord;
                     RESPONSE.PICTUREDETAILS = alertDetailsValue.PictureDetails;
-					RESPONSE.LOCATION = alertDetailsValue.userDetails.residentialCity;
-					/* if (alertDetailsValue.userDetails.residentialCity != undefined && alertDetailsValue.userDetails.residentialCity != null && alertDetailsValue.userDetails.residentialCity != "") {
-						RESPONSE.STATENAME.push("," + alertDetailsValue.userDetails.residentialCity);
-					} else {
-						RESPONSE.STATENAME.push(" ");
-					} */
+                    if (HOMEPAGERESPONSE.RELATEDFEEDSLOADED) {
+                        RESPONSE.LOCATION = HOMEPAGERESPONSE.COMMONUSERDETAILS.residentialCity;
+                    } else {
+                        RESPONSE.LOCATION = alertDetailsValue.userDetails.residentialCity;
+                    }
+
+                    /* if (alertDetailsValue.userDetails.residentialCity != undefined && alertDetailsValue.userDetails.residentialCity != null && alertDetailsValue.userDetails.residentialCity != "") {
+                     RESPONSE.STATENAME.push("," + alertDetailsValue.userDetails.residentialCity);
+                     } else {
+                     RESPONSE.STATENAME.push(" ");
+                     } */
                     console.log("noOfPictureRecords", numberOfPictures);
                 }
             });
@@ -413,16 +419,16 @@ var staticTemplate = {
                     + '<a id="printImageICON" class="sprite-im printImage-icon" style="float:left;margin-left:20px;margin-top:20px;" href="#" data-type="printPage">&nbsp;</a>'
                     + '</div>'
                     + '<div style="width:100%;position: absolute;top: 69px;background:white;border-top:2px solid #939393">'
-                    + '<div style="width:80%;position: absolute;  margin: auto;  top: 65px;  left: 72px;">'
+                    + '<div style="width:80%;position: absolute;  margin: auto;  top: 35px;  left: 17px;">'
                     + '<div style="margin: auto;position: absolute;top: 31px;left: 113px;">'
                     + '<div style="max-height: 220px;  max-width: 300px;  margin-left: auto;  margin-right: auto;" id="viewImage">'
                     + '<img src=' + HOMEPAGERESPONSE.PROFILEAPI + RESPONSE.IMAGEURLS[0] + ' style="max-height: 220px;max-width: 300px;"/>'
                     + '</div>'
                     + '<div style="position: absolute;top: 77px;">'
-                    + '<div style="position: absolute;left: -139px;display:none;" id="previousICON">'
+                    + '<div style="position: absolute;left: -78px;display:none;" id="previousICON">'
                     + '<a href="javascript:void(0)" class="overalyPhots previous" data-type="previous"><img src="images/backwardArrow.png" /></a>'
                     + '</div>'
-                    + '<div style="position: absolute;right: -289px;top:10px;" id="nextICON">'
+                    + '<div style="position: absolute;right: -353px;top:10px;" id="nextICON">'
                     + '<a href="javascript:void(0)" class="overalyPhots next" data-type="next"><img src="images/frontArrow.png" /></a>'
                     + '</div>'
                     + '</div>'
@@ -510,17 +516,18 @@ var staticTemplate = {
                     + '<div style="width:100%;position: absolute;top: 69px;background:white;border-top:2px solid #939393;min-height:406px;">'
                     + '<div style="width:80%;position: absolute;  margin: auto;  top: 160px;  left: 120px;" id="viewVoice">'
                     + '<audio id="music" preload="none" controls style="">'
-                    + '<source src=' + HOMEPAGERESPONSE.PROFILEAPI + RESPONSE.AUDIOURLS[0] + '>'
-                    + '<source src=' + HOMEPAGERESPONSE.PROFILEAPI + RESPONSE.AUDIOURLS[0] + '>'
+                    + '<source id="id-media_source" src=' + HOMEPAGERESPONSE.PROFILEAPI + RESPONSE.AUDIOURLS[0] + '>'
+                    + '<source id="id-media_source" src=' + HOMEPAGERESPONSE.PROFILEAPI + RESPONSE.AUDIOURLS[0] + '>'
                     + '</audio>'
                     + '</div>'
+         
 
-
-
-                    + '</div>'
+            +'</div>'
                     + '</div>'
                     + '</div>'
                     + '</div>';
+            
+             
             return html;
         },
         /*Naveen 23-2-2015 Changes Start */
@@ -569,45 +576,70 @@ var staticTemplate = {
                 if (element.fileName !== undefined) {
                     console.log("if");
                     RESPONSE.NAMES.push(element.fileName);
-                }
+                } else {
+					RESPONSE.NAMES.push("Nil");
+				}
                 if (element.role !== undefined) {
                     RESPONSE.ROLE.push(element.role);
-                }
+                } else {
+					RESPONSE.ROLE.push("Nil");
+				}
                 if (element.phone !== undefined) {
                     RESPONSE.PHONE.push(element.phone.number);
-                }
+                } else {
+					RESPONSE.PHONE.push("Nil");
+				}
                 if (element.address !== undefined) {
                     RESPONSE.ADDRESS.push(element.address.address);
-                }
+                } else {
+					RESPONSE.ADDRESS.push("Nil");
+				}
                 if (element.carrier !== undefined) {
                     RESPONSE.INSURANCECO.push(element.carrier);
-                }
+                } else {
+					RESPONSE.INSURANCECO.push("Nil");
+				}
                 if (element.policyNumber !== undefined) {
                     RESPONSE.POLICY.push(element.policyNumber);
-                }
+                } else {
+					RESPONSE.POLICY.push("Nil");
+				}
                 if (element.vehicleIdentificationNumber !== undefined) {
                     RESPONSE.VEHICLENO.push(element.vehicleIdentificationNumber);
-                }
+                } else {
+					RESPONSE.VEHICLENO.push("Nil");
+				}
                 if (element.model !== undefined) {
                     RESPONSE.VEHICLEMODEL.push(element.model);
-                }
+                } else {
+					RESPONSE.VEHICLEMODEL.push("Nil");
+				}
                 if (element.driverLicenseState !== undefined) {
                     RESPONSE.DRIVINGLICENCESTATE.push(element.driverLicenseState);
-                }
+                } else {
+					RESPONSE.DRIVINGLICENCESTATE.push("Nil");
+				}
                 if (element.driverLicenseNumber !== undefined) {
                     RESPONSE.DRIVINGLICENCENUMBER.push(element.driverLicenseNumber);
-                }
+                } else {
+					RESPONSE.DRIVINGLICENCENUMBER.push("Nil");
+				}
                 if (element.injuries !== undefined) {
                     RESPONSE.INJURIES.push(element.injuries);
-                }
+                } else {
+					RESPONSE.INJURIES.push("Nil");
+				}
                 if (element.otherInformation !== undefined) {
                     RESPONSE.OTHERINFORMATION.push(element.otherInformation);
-                }
+                } else {
+					RESPONSE.OTHERINFORMATION.push("Nil");
+				}
             });
             /* if (noofDocuments > 4) {
              sliderBar = '<div id="slider-vertical" style="float:left;position: absolute;height: 332px;left: 96px;top: 10px;">'
              + '</div>';
              } */
+			 var textDownload = HOMEPAGERESPONSE.TEXTDOWNLOADURL; 
             for (var i = 0, j = 0; i <= noofDocuments - 1; i++, j++) {
                 console.log("in for loop");
                 documentThumbNailViewHTML = documentThumbNailViewHTML
@@ -664,6 +696,7 @@ var staticTemplate = {
                     + '<span class="secondSpan">' + RESPONSE.OTHERINFORMATION[0] + '</span>'
                     + '</p>'
                     + '</div>';
+			var firstTextDownload = textDownload+RESPONSE.OTHERPARTYIDS[0];
             var html = '<div class="o-sub-content p-relative">'
                     + '<div style="position:relative;width:100%;">'
                     /*Thumbnail Text */
@@ -679,12 +712,12 @@ var staticTemplate = {
                     + '<div style="width:50%;float:left;margin-top:25px;margin-left:25px;color:#939393" class="opensans-regular">'
                     + '<span id="textinformation" style="color:rgb(47,156,161);">' + RESPONSE.NAMES[0] + '</span>'
                     + '</div>'
-					+ '<a id="copyTextOverlay" class="sprite-im copy-clipBoard-icon" style="float:left;margin-left:20px;margin-top:20px;" href="#" data-type="copyText">&nbsp;</a>'
-                    + '<a id="downloadTextLink" class="sprite-im download-icon" style="float:left;margin-left:20px;margin-top:20px;" href="#">&nbsp;</a>'
-                    + '<a id="printTextOverlay" class="sprite-im printImage-icon" style="float:left;margin-left:20px;margin-top:20px;" href="#" data-type="printPage">&nbsp;</a>'
+                    + '<a id="copyTextOverlay" class="sprite-im copy-clipBoard-icon" style="float:left;margin-left:20px;margin-top:20px;" href="javascript:void(0)" data-type="copyText">&nbsp;</a>'
+                    + '<a id="downloadTextLink" class="sprite-im download-icon" style="float:left;margin-left:20px;margin-top:20px;" href='+firstTextDownload+' download>&nbsp;</a>'
+                    + '<a id="printTextOverlay" class="sprite-im printImage-icon" style="float:left;margin-left:20px;margin-top:20px;" href="javascript:void(0)" data-type="printPage">&nbsp;</a>'
                     + '</div>'
                     + '<div style="width:100%;position: absolute;top: 69px;background:white;border-top:2px solid #939393;min-height:406px;">'
-                    + '<div style="width:80%;position: absolute;  margin: auto;  top: 33px;  left: 70px;" id="viewText">'
+                    + '<div style="width:80%;position: absolute;  margin: auto;  top: 33px;  left: 43px;" id="viewText">'
                     + originalDocumentHTML
                     + '</div>'
                     + '</div>'
@@ -770,19 +803,45 @@ var staticTemplate = {
             return html;
         },
         properyPolicyTemplate: function () {
-            var html = ' <h2 class="t-left f-color-green opensans-regular" style="">Property Policy</h2> <div class="o-sub-content p-relative"> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Carrier Name</div> <div class="policy-value t-left right f-sz-16">Ideal Insurance &#38; co</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Carrier Number</div> <div class="policy-value t-left right f-sz-16">#4567</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Due Amount</div> <div class="policy-value t-left right f-sz-16"><span class="money-sym">$</span>255</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Next Due Date</div> <div class="policy-value t-left right date-format f-sz-16">25 Feb 2015</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16 ">Policy type</div> <div class="policy-value t-left right f-sz-16">Property</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Policy duration</div> <div class="policy-value t-left right f-sz-16">Sep 2012 to Sep 2015</div> </div> <div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="overlaybtn">Done</div> </div> ';
+            var html = "";
+			var dueDate = "",startDate,endDate;
+            for (i = 0; i < HOMEPAGERESPONSE.PROPERTYPOLICYCOUNT; i++) {
+				dueDate = moment(new Date(parseInt(HOMEPAGERESPONSE.PROPERTYNEXTPAYMENTAMOUNTDATE[i]))).format('MMM D, YYYY');
+				startDate = moment(new Date(parseInt(HOMEPAGERESPONSE.PROPERTYDURATIONSTARTDATE[i]))).format('MMM YYYY');
+				endDate = moment(new Date(parseInt(HOMEPAGERESPONSE.PROPERTYDURATIONENDDATE[i]))).format('MMM YYYY');
+                html += '<div id="slideshow"> <div id="slideshowWindow"> <div class="slide"><div ><h2 class="t-left f-color-green opensans-regular" style="">Property Policy</h2> <div class="o-sub-content p-relative"> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Carrier Name</div> <div class="policy-value t-left right f-sz-16">' + HOMEPAGERESPONSE.PROPERTYCARRIERNAMES[i] + '</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Carrier Number</div> <div class="policy-value t-left right f-sz-16">' + HOMEPAGERESPONSE.PROPERTYPHONENUMBER[i] + '</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Due Amount</div> <div class="policy-value t-left right f-sz-16"><span class="money-sym">$</span>' + HOMEPAGERESPONSE.PROPERTYNEXTPAYMENTAMOUNT[i] + '</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Next Due Date</div> <div class="policy-value t-left right date-format f-sz-16">' + dueDate + '</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16 ">Policy type</div> <div class="policy-value t-left right f-sz-16">Property</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Policy duration</div> <div class="policy-value t-left right f-sz-16">'+startDate+' to '+endDate+'</div> </div> <div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="closeOverlay">Done</div></div> </div></div></div></div>';
+
+            }
             return html;
         },
         healthPolicyTemplate: function () {
-            var html = ' <h2 class="t-left f-color-green opensans-regular" style="">Health Policy</h2> <div class="o-sub-content p-relative"> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Carrier Name</div> <div class="policy-value t-left right f-sz-16">Ideal Insurance &#38; co</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Carrier Number</div> <div class="policy-value t-left right f-sz-16">#4567</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Due Amount</div> <div class="policy-value t-left right f-sz-16"><span class="money-sym">$</span>255</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Next Due Date</div> <div class="policy-value t-left right date-format f-sz-16">25 Feb 2015</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16 ">Policy type</div> <div class="policy-value t-left right f-sz-16">Property</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Policy duration</div> <div class="policy-value t-left right f-sz-16">Sep 2012 to Sep 2015</div> </div> <div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="overlaybtn">Done</div> </div> ';
+            var html = "";
+            var dueDate = "",startDate,endDate;
+            for (i = 0; i < HOMEPAGERESPONSE.OTHERPOLICYCOUNT; i++) {
+				dueDate = moment(new Date(parseInt(HOMEPAGERESPONSE.OTHERNEXTPAYMENTAMOUNTDATE[i]))).format('MMM D, YYYY');
+				startDate = moment(new Date(parseInt(HOMEPAGERESPONSE.OTHERDURATIONSTARTDATE[i]))).format('MMM YYYY');
+				endDate = moment(new Date(parseInt(HOMEPAGERESPONSE.OTHERDURATIONENDDATE[i]))).format('MMM YYYY');
+				html += '<div id="slideshow"> <div id="slideshowWindow"> <div class="slide"><div ><h2 class="t-left f-color-green opensans-regular" style="">Others</h2> <div class="o-sub-content p-relative"> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Carrier Name</div> <div class="policy-value t-left right f-sz-16">' + HOMEPAGERESPONSE.OTHERCARRIERNAMES[i] + '</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Carrier Number</div> <div class="policy-value t-left right f-sz-16">' + HOMEPAGERESPONSE.OTHERPHONENUMBER[i] + '</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Due Amount</div> <div class="policy-value t-left right f-sz-16"><span class="money-sym">$</span>' + HOMEPAGERESPONSE.OTHERNEXTPAYMENTAMOUNT[i] + '</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Next Due Date</div> <div class="policy-value t-left right date-format f-sz-16">' + dueDate + '</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16 ">Policy type</div> <div class="policy-value t-left right f-sz-16">Other</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Policy duration</div> <div class="policy-value t-left right f-sz-16">'+startDate+' to '+endDate+'</div> </div> <div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="closeOverlay">Done</div></div> </div></div></div></div>';
+
+            }
             return html;
         },
         vehiclePolicyTemplate: function () {
-            var html = ' <h2 class="t-left f-color-green opensans-regular" style="">Vehicle Policy</h2> <div class="o-sub-content p-relative"> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Carrier Name</div> <div class="policy-value t-left right f-sz-16">Ideal Insurance &#38; co</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Carrier Number</div> <div class="policy-value t-left right f-sz-16">#4567</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Due Amount</div> <div class="policy-value t-left right f-sz-16"><span class="money-sym">$</span>255</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Next Due Date</div> <div class="policy-value t-left right date-format f-sz-16">25 Feb 2015</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16 ">Policy type</div> <div class="policy-value t-left right f-sz-16">Property</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Policy duration</div> <div class="policy-value t-left right f-sz-16">Sep 2012 to Sep 2015</div> </div> <div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="overlaybtn">Done</div> </div> ';
+            var html = "";
+			var dueDate = "",startDate,endDate;
+            for (i = 0; i < HOMEPAGERESPONSE.VEHICLEPOLICYCOUNT; i++) {
+				dueDate = moment(new Date(parseInt(HOMEPAGERESPONSE.VEHICLENEXTPAYMENTAMOUNTDATE[i]))).format('MMM D, YYYY');
+				startDate = moment(new Date(parseInt(HOMEPAGERESPONSE.VEHICLEDURATIONSTARTDATE[i]))).format('MMM YYYY');
+				endDate = moment(new Date(parseInt(HOMEPAGERESPONSE.VEHICLEDURATIONENDDATE[i]))).format('MMM YYYY');
+                html += '<div id="slideshow"> <div id="slideshowWindow"> <div class="slide"><div ><h2 class="t-left f-color-green opensans-regular" style="">Vehicles/Watercrafts</h2> <div class="o-sub-content p-relative"> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Carrier Name</div> <div class="policy-value t-left right f-sz-16">' + HOMEPAGERESPONSE.VEHICLECARRIERNAMES[i] + '</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Carrier Number</div> <div class="policy-value t-left right f-sz-16">' + HOMEPAGERESPONSE.VEHICLEPHONENUMBER[i] + '</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Due Amount</div> <div class="policy-value t-left right f-sz-16"><span class="money-sym">$</span>' + HOMEPAGERESPONSE.VEHICLENEXTPAYMENTAMOUNTDATE[i] + '</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Next Due Date</div> <div class="policy-value t-left right date-format f-sz-16">' + dueDate + '</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16 ">Policy type</div> <div class="policy-value t-left right f-sz-16">Vehicle</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Policy duration</div> <div class="policy-value t-left right f-sz-16">'+startDate+' to '+endDate+'</div> </div> <div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="closeOverlay">Done</div></div> </div></div></div></div>';
+
+            }
             return html;
         },
-        addVendorDetailsTemplate: function () {
-            var html = ' <h2 class="t-left f-color-green opensans-regular" style="">Add Vendor details</h2> <div class="o-sub-content p-relative"> <div class="success2" style=" display:none; color: green;"></div><div class="error2" style=" display:none; color: red;"></div><div class="left-sub-content left p-relative"> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Type</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input id="id-vendortype" type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Address 1</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input id="id-vendoraddress1" type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Phone</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input id="id-vendorphone" type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">State</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input id="id-vendorstate" type="text" class="opensans-regular" placeholder="" /> </div> </div> </div> <div class="right-sub-content right p-relative"> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Name</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input id="id-vendorname" type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Address 2</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input id="id-vendoraddress2" type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">City</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input id="id-vendorcity" type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Zip</div> <div class="url-box right text-box-outer textBox-placeholder-italic border-all"> <input id="id-vendorzip" type="text" class="opensans-regular" placeholder="" /> </div> </div> </div> </div> <div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="overlaybtn_addvendordetails">Save</div> ';
+  addVendorDetailsTemplate: function () {
+            var html = ' <h2 class="t-left f-color-green opensans-regular" style="">Add Vendor details</h2> <div class="o-sub-content p-relative"> <div class="success2" style=" display:none; color: green;"></div><div class="error2" style=" display:none; color: red;"></div><div class="left-sub-content left p-relative"> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Type</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all">'
+                    + '<select tabindex="1" class="opensans-regular" id="id-vendortype"><option>Towing Service</option><option>Home Restoration</option></select>'
+                    + '</div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Address 1</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input tabindex="3" id="id-vendoraddress1" type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">City</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input tabindex="5" id="id-vendorcity" type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Zip</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input tabindex="7" id="id-vendorzip" type="text" class="opensans-regular" placeholder="" /> </div> </div> </div> <div class="right-sub-content right p-relative"> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Name</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input tabindex="2" id="id-vendorname" type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Address 2</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input tabindex="4" id="id-vendoraddress2" type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">State</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input tabindex="6"  id="id-vendorstate" type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Phone</div> <div class="url-box right text-box-outer textBox-placeholder-italic border-all"> <input tabindex="8" id="id-vendorphone" type="text" class="opensans-regular" placeholder="" /> </div> </div> </div> </div> <div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="overlaybtn_addvendordetails">Save</div> ';
             return html;
         },
 //        editVendorDetailsTemplate: function () {
@@ -792,6 +851,7 @@ var staticTemplate = {
         staticFeedViewTemplate: function (tempObj) {
             console.log("alertType");
             console.log("tempObj", tempObj.alertType);
+            var genderDiv = "";
             if (tempObj.alertType == "incidentalert") {
                 if (noOfOtherPartyRecordsCount === undefined && noOfPictureRecord === undefined && noOfAudioRecordCount === undefined) {
                     console.log("condition satisfied");
@@ -880,31 +940,52 @@ var staticTemplate = {
                         + '<div class="feed-addRemove-text t-center p-relative t-caps" id="policyMessageForPolicyAlert">' + tempObj.policyMessage + '</div>'
                         + '</a>';
             }
+            if (tempObj.gender == undefined) {
+                genderDiv = '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 cust-name t-caps gender">' + tempObj.gender + '</div>';
+            } else {
+                genderDiv = "";
+            }
+
+            /* if (tempObj.profilePicture !== "undefined") {
+                profilePicture = tempObj.profilePicture;
+            } else {
+                profilePicture = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+            } */
             var html = '<div class="view-feed-block">'
                     + '<div class="view-in-blocks inline-block v-align-mid bg-color-dblue p-relative">'
                     + '<div class="p-relative">'
                     + '<div class="feed-user-top-details">'
                     + '<div class="feed-pic-b inline-block v-align-mid">'
                     + '<div id="" class="feed-user-pic-box border-all">'
-                    + '<img src=' + tempObj.profilePicture + ' alt="" class="feeduserpic">'
+                    + '<img src=' + profilePicture + ' alt="" class="feeduserpic">'
                     + '</div>'
                     + '</div>'
-                    + '<div class="feed-user-details-top inline-block v-align-mid" style="width:79%">'
-                    + '<div class="line1">'
+                    + '<div class="feed-user-details-top inline-block v-align-mid" style="width:79%;color: #3e3e3e;">'
+                    + '<div class="line1" style="margin-bottom:3px;">'
                     + '<div class="p-relative inline-block v-align-top">'
                     + '<div class="sprite-im mobile-icon mobile-icon-pos">&nbsp;</div>'
                     + '</div>'
                     + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-16 cust-name t-caps bold" style="margin-left:5px;">' + tempObj.firstName + '&nbsp' + tempObj.lastName + '</div>'
                     + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 feed-time t-upper">' + tempObj.alertTime + '</div>'
-                    + '<div class="sprite-im archieve-icon" id="id-achieveicon">&nbsp;</div>'
-                    + '</div>'
+                    + '<div class="sprite-im archieve-icon" id="id-achieveicon">&nbsp;</div>';
+            if (localStorage.getItem("LOGIN_LABEL") == "Agency") {
+                if (localStorage.LoginType == 'Representatives') {
+                    html += '<div class="archieve-icon" id="id-achieveicon" style="margin-right:20px;">Archive</div>';
+                }
+            } else if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
+                if (localStorage.LoginType == 'Representatives') {
+                    html += '<div class="archieve-icon" id="id-achieveicon" style="margin-right:20px;">Archive</div>';
+                }
+            }
+
+            html += '</div>'
                     + '<div class="line1">' + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 cust-name t-caps">' + tempObj.gender + '</div>'
                     + '<div class="p-relative inline-block v-align-top">'
                     + '<div class="sprite-im birthday-icon">&nbsp;</div>'
                     + '</div>'
                     + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 cust-bday t-upper">' + tempObj.birthday + '</div>'
                     + '</div>'
-                    + '<div class="feed-user-other-details">'
+                    + '<div class="feed-user-other-details" style="margin-top:10px !important;">'
                     + '<div class="p-relative inline-block v-align-bot">'
                     + '<div class="sprite-im calendar-icon calendar-icon-pos">&nbsp;</div>'
                     + '</div>'
@@ -916,7 +997,7 @@ var staticTemplate = {
                     + '<div class="p-relative inline-block v-align-bot">'
                     + '<div class="sprite-im phone-icon phone-icon-pos">&nbsp;</div>'
                     + '</div>'
-                    + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 cust-phone t-caps" style="width: 30%;">' + tempObj.phoneNumber + '</div>'
+                    + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 cust-phone t-caps" style="width: 28%;">' + tempObj.phoneNumber + '</div>'
                     + '<div class="p-relative inline-block v-align-bot">'
                     + '<div class="sprite-im email-icon email-icon-pos">&nbsp;</div>'
                     + '</div>'
@@ -931,7 +1012,7 @@ var staticTemplate = {
                     + '<span id="id-sharetorep" class="feed-menu-text inline-block v-align-mid f-color-w">Share</span>'
                     + '</div>'
                     + '</a>'
-                    + '<div class="bg-color-green block feed-btn f-sz-14 opensans-regular f-color-w p-relative t-center alert-type-box">' + tempObj.alertType + ''
+                    + '<div class="bg-color-green block feed-btn f-sz-14 opensans-regular f-color-w p-relative t-center alert-type-box t-caps">' + tempObj.alertType + ''
                     + '</div>'
                     + '</div>'
 
@@ -1029,19 +1110,22 @@ var staticTemplate = {
              } else {
              policyType = "Other Product";
              } */
-            $.each(policyCoverageDetails, function (index, value) {
-                console.log("value>>>>>>>>>>>>>>>", value);
-                if (value.carrierVehiclesWatercraftsId !== undefined) {
-                    policyType = "Vehicle";
-                    return false;
-                } else if (value.carrierPropertyId !== undefined) {
-                    policyType = "Property";
-                    return false;
-                } else {
-                    policyType = "Other Product";
-                    return false;
-                }
-            });
+			if(policyCoverageDetails){
+				$.each(policyCoverageDetails, function (index, value) {
+					console.log("value>>>>>>>>>>>>>>>", value);
+					if (value.carrierVehiclesWatercraftsId !== undefined) {
+						policyType = "Vehicle";
+						return false;
+					} else if (value.carrierPropertyId !== undefined) {
+						policyType = "Property";
+						return false;
+					} else {
+						policyType = "Other Product";
+						return false;
+					}
+				});
+			}
+            
             console.log("carrierName", carrierName);
             console.log("carrierId", carrierId);
             console.log("dueAmount", dueAmount);
@@ -1055,6 +1139,7 @@ var staticTemplate = {
                     + '<span class="incidentDateSpan">' + incidentDate + '</span>'
                     + '<span class="carrierIdSpan">' + carrierId + '</span>'
                     + '<span class="policyIdSpan">' + policyId + '</span>'
+                    + '<span class="policyTypeSpan">' + policyType + '</span>'
                     + '</div>';
             if (HOMEPAGERESPONSE.COMMONUSERDETAILS.alertType == "incidentalert") {
                 matchAndOrReleaseClaimHTML = '<div class="match-blk p-relative">'
@@ -1082,19 +1167,19 @@ var staticTemplate = {
                     + '</div>'
                     + '<div class="insurance-det-blk">'
                     + '<ul class="ins-sub-det-group f-sz-12 opensans-regular">'
-                    + '<li class="t-left">'
+                    + '<li class="t-left" style="margin-bottom:3px;">'
                     + '<span class="f-italic t-left text-ellipsis inline-block v-align-mid ins-sub-head" title="Due Amount">Due Amount</span>'
-                    + '<span class="inline-block v-align-mid t-center">:</span>'
+                    + '<span class="inline-block v-align-mid t-center" style="margin-right:10px;">:</span>'
                     + '<span class="t-left inline-block v-align-mid bold">$' + dueAmount + '</span>'
                     + '</li>'
-                    + '<li class="t-left">'
+                    + '<li class="t-left" style="margin-bottom:3px;">'
                     + '<span class="f-italic t-left text-ellipsis inline-block v-align-mid ins-sub-head" title="Next Due Date">Next Due Date</span>'
-                    + '<span class="inline-block v-align-mid t-center">:</span>'
+                    + '<span class="inline-block v-align-mid t-center" style="margin-right:10px;">:</span>'
                     + '<span class="t-left inline-block v-align-mid bold">' + dueDateOfPolicy + '</span>'
                     + '</li>'
-                    + '<li class="t-left">'
+                    + '<li class="t-left" style="margin-bottom:3px;">'
                     + '<span class="f-italic t-left text-ellipsis inline-block v-align-mid ins-sub-head" title="Policy Type">Policy Type</span>'
-                    + '<span class="inline-block v-align-mid t-center">:</span>'
+                    + '<span class="inline-block v-align-mid t-center" style="margin-right:10px;">:</span>'
                     + '<span class="t-left inline-block v-align-mid bold">' + policyType + '</span>'
                     + '</li>' + '</ul></div>'
                     + '</div>'
@@ -1102,7 +1187,7 @@ var staticTemplate = {
                     + '</div>'
                     + '<div class="policy-btn-blk inline-block p-relative v-align-mid">'
                     + '<div class="p-relative f-sz-12 opensans-regular t-center">'
-                    + '<div class="date-blk p-relative" style="margin-bottom:24px;">'
+                    + '<div class="date-blk p-relative" style="margin-bottom:24px;font-style: italic;">'
                     + '<span class="bold">' + effectiveDateOfPolicy + '</span>'
                     + '<span>to</span>'
                     + '<span class="bold">' + exipryDateOfPolicy + '</span>'
@@ -1211,8 +1296,14 @@ var staticTemplate = {
             } else {
                 zip = viewdata.zip;
             }
+            if (viewdata.facebookPage == undefined) {
+                facebookPage = "#";
+            } else {
+                facebookPage = viewdata.facebookPage;
+            }
 
-            var html = '<div class="carrier-view-parent bg-color-white p-relative"> <div class="carrier-view-leftbloack inline-block v-align-mid p-relative"> <div class="carrier-view-auth opensans-regular p-relative"> <div class="carrier-view-name inline-block t-caps">CARRIER ID :</div> <div class="carrier-view-id inline-block">' + viewdata.carrierId + '</div> </div> <div class="carrier-logo-view p-relative"> <div class="carrierlogo-viewpic"> <img src="' + HOMEPAGERESPONSE.PROFILEAPI + viewdata.carrierLogo + '" alt="" class="carrier-img-width"> </div> </div> <div class="carrier-view-social p-relative clr-fr"> <div class="carrier-view-website p-relative left bg-color-green"> <div class="p-relative inline-block v-align-top"> <div class="sprite-im pop-out">&nbsp;</div> </div> <div class="carrier-website-name inline-block t-caps opensans-regular "><a class="f-color-w" href="' + viewdata.website.value + '" target="_blank">WEBSITE</a></div> </div> <div class="carrier-view-facebook p-relative left bg-color-green"> <div class="p-relative inline-block v-align-top"> <div class="sprite-im pop-out">&nbsp;</div> </div> <div class="carrier-facebook-name inline-block t-caps opensans-regular f-color-w"><a class="f-color-w" href="' + viewdata.facebookPage + '" target="_blank">FACEBOOK</a></div> </div> </div> </div> <div class="carrier-view-rightblock inline-block v-align-mid p-relative "> <div class="carrier-view-block p-relative "> <div class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">agency name</div> '
+
+            var html = '<div class="carrier-view-parent bg-color-white p-relative"> <div class="carrier-view-leftbloack inline-block v-align-mid p-relative"> <div class="carrier-view-auth opensans-regular p-relative"> <div class="carrier-view-name inline-block t-caps">CARRIER ID :</div> <div class="carrier-view-id inline-block">' + viewdata.carrierId + '</div> </div> <div class="carrier-logo-view p-relative"> <div class="carrierlogo-viewpic"> <img src="' + HOMEPAGERESPONSE.PROFILEAPI + viewdata.carrierLogo + '" alt="" class="carrier-img-width"> </div> </div> <div class="carrier-view-social p-relative clr-fr"> <div class="carrier-view-website p-relative left bg-color-green"> <div class="p-relative inline-block v-align-top"> <div class="sprite-im pop-out">&nbsp;</div> </div> <div class="carrier-website-name inline-block t-caps opensans-regular "><a class="f-color-w" href="' + viewdata.website.value + '" target="_blank">WEBSITE</a></div> </div> <div class="carrier-view-facebook p-relative left bg-color-green"> <div class="p-relative inline-block v-align-top"> <div class="sprite-im pop-out">&nbsp;</div> </div> <div class="carrier-facebook-name inline-block t-caps opensans-regular f-color-w"><a class="f-color-w" href="' + facebookPage + '" target="_blank">FACEBOOK</a></div> </div> </div> </div> <div class="carrier-view-rightblock inline-block v-align-mid p-relative "> <div class="carrier-view-block p-relative "> <div class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">agency name</div> '
                     + '<div class="carrier-left-content t-left right ">' + name + '</div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">address</div>'
                     + '<div class="carrier-left-content t-left right">' + address1 + '</div> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">address</div> <div class="carrier-left-content t-left right ">' + address2 + '</div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">state</div>'
                     + '<div class="carrier-left-content t-left right">' + address2 + '</div> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">city</div> '
@@ -1224,6 +1315,7 @@ var staticTemplate = {
 //                    + '<select class="associated-carrier-sort t-upper p-relative opensans-regular inline-block"><option>ASSOCIATED REPS</option><option>ASSOCIATED CUSTOMERS</option></select> '
 //                    + '<div id="associatedownarrow" class="p-relative inline-block"> <div id="associatedownarrow" class="sprite-im drop-down-icon">&nbsp;</div> </div> </div> <div class="associated-carrier-feed p-relative border-bot"> <div class="carrier-feed-associated-view left p-relative"> <div class="border-all p-relative"> <div class="p-relative"> <div class="associated-carrier-pic inline-block "> <img src="http://johnjournal.bravesites.com/files/images/Profile_Score_Photo.jpg" alt="" class="carrier-img-width"> </div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> <div class="carrier-name t-caps t-center">james jeo</div> <div class="carrier-location t-caps t-center">location</div> </div> </div> </div> </div> <div class="carrier-feed-associated-view left p-relative"> <div class="border-all p-relative"> <div class="p-relative"> <div class="associated-carrier-pic inline-block "> <img src="http://johnjournal.bravesites.com/files/images/Profile_Score_Photo.jpg" alt="" class="carrier-img-width"> </div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> <div class="carrier-name t-caps t-center">Hugh jackman</div> <div class="carrier-location t-caps t-center">location</div> </div> </div> </div> </div> <div class="carrier-feed-associated-view left p-relative"> <div class="border-all p-relative"> <div class="p-relative"> <div class="associated-carrier-pic inline-block "> <img src="http://johnjournal.bravesites.com/files/images/Profile_Score_Photo.jpg" alt="" class="carrier-img-width"> </div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> <div class="carrier-name t-caps t-center">smith</div> <div class="carrier-location t-caps t-center">location</div> </div> </div> </div> </div> <div class="carrier-feed-associated-view left p-relative"> <div class="border-all p-relative"> <div class="p-relative"> <div class="associated-carrier-pic inline-block "> <img src="http://johnjournal.bravesites.com/files/images/Profile_Score_Photo.jpg" alt="" class="carrier-img-width"> </div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> <div class="carrier-name t-caps t-center">anderson</div> <div class="carrier-location t-caps t-center">location</div> </div> </div> </div> </div> </div> </div>';
 
+            localStorage.setItem("TEMP_CARRIERNAME", viewdata.carrierName);
             // alert(c.carrierName);
             var Omega = '\u003E';
             $("#id-carrierpage-headertext").text(Omega + "   " + viewdata.carrierName);
@@ -1612,7 +1704,22 @@ var staticTemplate = {
             }
 
             var html = '<div class="carrier-view-parent bg-color-white p-relative"> <div class="customer-view-feed inline-block v-align-mid p-relative"> <div class="customer-logo-view p-relative"> <div class="customerlogo-viewpic"> <img src=' + profilePicture + ' alt="" class="carrier-img-width"> </div> </div> '
-                    + '<div class="customer-view-name opensans-regular t-caps t-center p-relative">' + firstname + '</div> </div> <div id="id-carrier-view-rightblock" class="carrier-view-rightblock inline-block v-align-mid p-relative "> <div class="customer-view-block p-relative "> <div class="customer-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">first name</div> <div class="carrier-left-content t-left right ">' + firstname + '</div> '
+                    + '<div class="customer-view-name opensans-regular t-caps t-center p-relative">' + firstname + '</div>';
+
+            if (localStorage.getItem("LOGIN_LABEL") == "Agency") {
+                if (localStorage.LoginType == 'Representatives') {
+                    html += "<div class=\"sprite-im carrier-mobile-icon\" style=\"    margin-left: 45%;    margin-top: 5%;\"></div>";
+                    phoneHtml = "";
+                }
+
+            } else if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
+                if (localStorage.LoginType == 'Representatives') {
+                    html += "<div class=\"sprite-im carrier-mobile-icon\" style=\"    margin-left: 45%;    margin-top: 5%;\"></div>";
+                    phoneHtml = "";
+                }
+            }
+
+            html += '</div> <div id="id-carrier-view-rightblock" class="carrier-view-rightblock inline-block v-align-mid p-relative "> <div class="customer-view-block p-relative "> <div class="customer-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">first name</div> <div class="carrier-left-content t-left right ">' + firstname + '</div> '
                     + '</div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">last name</div> <div class="carrier-left-content t-left right">' + lastename + '</div> <div class="customer-view-mbapp p-relative inline-block v-align-top right"> '
                     + phoneHtml + '</div> </div> </div> </div> </div> <div class="customer-view-block p-relative "> <div class="customer-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">gender</div> <div class="carrier-left-content t-left right ">' + gender + '</div>'
                     + '</div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">occupation</div> <div class="carrier-left-content t-left right">' + occupation + '</div> '
@@ -1622,7 +1729,7 @@ var staticTemplate = {
                     + '<div class="carrier-left-content t-left right t-upper ">' + state + '</div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">residential zipcode</div>'
                     + '<div class="carrier-left-content t-left right">' + zipcode + '</div> </div> </div> </div> </div> <div class="customer-view-block p-relative "> <div class="customer-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width opensans-regular clr-fl"> <div class="carrier-left-title t-right t-caps left">email</div> '
                     + '<div class="carrier-left-content t-left right"><a title=' + email + ' href="mailto:' + email + '">' + email + '</a></div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">phone</div> '
-                    + '<div class="carrier-left-content t-left right"><a href="tel:' + phone + '">' + phone + '</a></div> </div> </div> </div> </div> <div class="customer-view-button p-relative" > <div class="customer-view-policy inline-block t-caps t-center opensans-regular">policies</div> <div class="customer-policy-button p-relative inline-block bg-color-green t-caps t-center opensans-regular f-color-w snap" data-type="dt-propertypolicy">property policy</div> <div class="customer-policy-button p-relative inline-block bg-color-green t-caps t-center opensans-regular f-color-w snap" data-type="dt-healthpolicy">health policy</div> <div class="customer-policy-button p-relative inline-block bg-color-green t-caps t-center opensans-regular f-color-w snap" data-type="dt-vehiclepolicy">vehicle policy</div> </div> </div> </div> <div class="associated-carrierview p-relative"> <div class="p-relative "> '
+                    + '<div class="carrier-left-content t-left right"><a href="tel:' + phone + '">' + phone + '</a></div> </div> </div> </div> </div> <div class="customer-view-button p-relative" > <div class="customer-view-policy inline-block t-caps t-center opensans-regular">policies</div> <div class="customer-policy-button p-relative inline-block bg-color-green t-caps t-center opensans-regular f-color-w snap " data-type="dt-propertypolicy">property policy</div> <div class="customer-policy-button p-relative inline-block bg-color-green t-caps t-center opensans-regular f-color-w snap" data-type="dt-healthpolicy">Others</div> <div class="customer-policy-button p-relative inline-block bg-color-green t-caps t-center opensans-regular f-color-w snap" data-type="dt-vehiclepolicy">Vehicles/Watercrafts</div> </div> </div> </div> <div class="associated-carrierview p-relative"> <div class="p-relative "> '
                     + dropdownHtml;
 //                    + '<select id="id-customers-dropdown" class="associated-carrier-sort t-upper p-relative opensans-regular inline-block"><option>ASSOCIATED REPS</option><option>ASSOCIATED CARRIER</option></select>'
 //                    + '<div id="associatedcustomersdropdownarrow" class="p-relative inline-block" style="display:block;"> <div  class="associatedownarrow-customer sprite-im drop-down-icon">&nbsp;</div> </div> </div> '
@@ -1648,7 +1755,8 @@ var staticTemplate = {
                             + '<div class="carrier-website-name inline-block t-caps opensans-regular f-color-w t-center"><a href="' + data.resultMap.carrierDetails.website.value + '" class="f-color-w">WEBSITE</a></div> </div> <div class="settings-view-facebook p-relative left bg-color-green"> <div class="p-relative inline-block v-align-top"> <div class="sprite-im pop-out">&nbsp;</div> </div> <div class="carrier-facebook-name inline-block t-caps opensans-regular f-color-w t-center">FACEBOOK</div> </div> </div> </div> <div class="settings-view-rightblock inline-block v-align-mid p-relative "> <div class="carrier-view-block p-relative "> <div id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">carrier  id</div> '
                             + '<div id="id-c-agencyid" class="carrier-left-content t-left right " style="visibility: visible"></div> <input id="id-carrier-agencyid" class="carrier-left-content-textbox t-left right p-absoalute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">Master Carrier id</div> '
                             + '<div class="carrier-left-content t-left right" id="id-c-masteragencyid" title=' + data.resultMap.carrierDetails.carrierId + ' style="visibility: visible">' + data.resultMap.carrierDetails.carrierId + '</div> <input id="id-carrier-masteragencyid" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">Carrier Type</div> '
-                            + '<div id="id-c-agencytype" class="carrier-left-content t-left right " style="visibility: visible"></div> <input id="id-carrier-agencytype" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">name</div> '
+                            + '<div id="id-c-agencytype" class="carrier-left-content t-left right " style="visibility: visible"></div> '
+                            + '<select id="id-carrier-agencytype" class="carrier-left-content-textbox t-left right p-absolute" style="visibility: hidden"><option>Master Type</option><option>Branch</option></select> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">name</div> '
                             + '<div id="id-c-agencyname" class="carrier-left-content t-left right" style="visibility: visible">' + data.resultMap.carrierDetails.carrierName + '</div> <input id="id-carrier-agencyname" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">address</div> '
                             + '<div id="id-c-agencyaddress1" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.carrierDetails.address + '</div> <input id="id-carrier-agencyaddress1" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">address</div> '
                             + '<div id="id-c-agencyaddress2" class="carrier-left-content t-left right" style="visibility: visible"></div> <input id="id-carrier-agencyaddress2" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view border-bot clr-fl"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">city</div> '
@@ -1668,10 +1776,10 @@ var staticTemplate = {
 
                             html += '<div id="item_' + index + '" class="preffered-border-view clr-fl border-bot left clr-fl"> <div class="preffered-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular ">'
                                     + '<input type="checkbox" id="removevendor_' + index + '" value=' + data.resultMap.listOfPreferredVendor[index].preferredVendorId + ' class="checkbox remove-vendor"> <label for="removevendor_' + index + '" class="vendor-label"></label>'
-                                    + '<div id="id-prefeeredvendorbox" class="carrier-left-title t-left inline-block ">'
+                                    + '<div id="id-prefeeredvendorbox" class="carrier-left-title t-left inline-block " style="margin-left: 25px;width: 46%;">'
                                     + '<a id=' + data.resultMap.listOfPreferredVendor[index].preferredVendorId + ' class="preferredvendor snap name-color" href="javascript:void(0)" data-type="vendor-profile-info" >' + data.resultMap.listOfPreferredVendor[index].name + '</a></div> '
                                     + '<div id="id-vendortypebox" class="carrier-left-title t-right inline-block">' + data.resultMap.listOfPreferredVendor[index].serviceType + '</div> </div> </div> <div class="preffered-view-right right p-relative right "> <div class="carrier-left-width t-caps opensans-regular"> '
-                                    + '<div class="carrier-left-title t-left inline-block"><a href="tel:' + data.resultMap.listOfPreferredVendor[index].phone + '">' + data.resultMap.listOfPreferredVendor[index].phone + '</a></div> '
+                                    + '<div class="carrier-left-title t-left inline-block"><a href="tel:' + data.resultMap.listOfPreferredVendor[index].phone + '">' + (data.resultMap.listOfPreferredVendor[index].phone).replace(/(\d\d\d)\s*(\d\d\d)\s*(.*?)$/, '$1-$2-$3') + '</a></div> '
                                     + '<div class="carrier-left-title t-right inline-block">' + data.resultMap.listOfPreferredVendor[index].city + "," + data.resultMap.listOfPreferredVendor[index].state + '</div> </div> </div> </div> ';
                         }
                     }
@@ -1687,7 +1795,8 @@ var staticTemplate = {
                         + '<div class="carrier-website-name inline-block t-caps opensans-regular f-color-w t-center"><a href="' + data.resultMap.agencyDetails.website.value + '" class="f-color-w">WEBSITE</a></div> </div> <div class="settings-view-facebook p-relative left bg-color-green"> <div class="p-relative inline-block v-align-top"> <div class="sprite-im pop-out">&nbsp;</div> </div> <div class="carrier-facebook-name inline-block t-caps opensans-regular f-color-w t-center">FACEBOOK</div> </div> </div> </div> <div class="settings-view-rightblock inline-block v-align-mid p-relative "> <div class="carrier-view-block p-relative "> <div id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">carrier id</div> '
                         + '<div id="id-c-agencyid" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.agencyDetails.carrierAgencyId + '</div> <input id="id-carrier-agencyid" class="carrier-left-content-textbox t-left right p-absoalute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">master agency id</div> '
                         + '<div class="carrier-left-content t-left right" id="id-c-masteragencyid" title=' + data.resultMap.agencyDetails.agencyId + ' style="visibility: visible">' + data.resultMap.agencyDetails.agencyId + '</div> <input id="id-carrier-masteragencyid" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">agency type</div> '
-                        + '<div id="id-c-agencytype" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.agencyDetails.agencyType + '</div> <input id="id-carrier-agencytype" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">name</div> '
+                        + '<div id="id-c-agencytype" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.agencyDetails.agencyType + '</div> '
+                        + '<select id="id-carrier-agencytype" class="carrier-left-content-textbox t-left right p-absolute" style="visibility: hidden"><option>Master Type</option><option>Branch</option></select></div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">name</div> '
                         + '<div id="id-c-agencyname" class="carrier-left-content t-left right" style="visibility: visible">' + data.resultMap.agencyDetails.agencyName + '</div> <input id="id-carrier-agencyname" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">address</div> '
                         + '<div id="id-c-agencyaddress1" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.agencyDetails.address + '</div> <input id="id-carrier-agencyaddress1" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">address</div> '
                         + '<div id="id-c-agencyaddress2" class="carrier-left-content t-left right" style="visibility: visible">' + data.resultMap.agencyDetails.address2 + '</div> <input id="id-carrier-agencyaddress2" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view border-bot clr-fl"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">city</div> '
@@ -1702,10 +1811,10 @@ var staticTemplate = {
 
                     html += '<div id="item_' + index + '" class="preffered-border-view clr-fl border-bot left clr-fl"> <div class="preffered-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular ">'
                             + '<input type="checkbox" id="removevendor_' + index + '" value=' + data.resultMap.listOfPreferredVendor[index].preferredVendorId + ' class="checkbox remove-vendor"> <label for="removevendor_' + index + '" class="vendor-label" style="display:none"></label>'
-                            + '<div id="id-prefeeredvendorbox" class="carrier-left-title t-left inline-block ">'
+                            + '<div id="id-prefeeredvendorbox" class="carrier-left-title t-left inline-block " style="margin-left: 25px;width: 46%;">'
                             + '<a id=' + data.resultMap.listOfPreferredVendor[index].preferredVendorId + ' class="preferredvendor snap name-color" href="javascript:void(0)" data-type="vendor-profile-info" >' + data.resultMap.listOfPreferredVendor[index].name + '</a></div> '
                             + '<div id="id-vendortypebox" class="carrier-left-title t-right inline-block">' + data.resultMap.listOfPreferredVendor[index].serviceType + '</div> </div> </div> <div class="preffered-view-right right p-relative right "> <div class="carrier-left-width t-caps opensans-regular"> '
-                            + '<div class="carrier-left-title t-left inline-block"><a href="tel:' + data.resultMap.listOfPreferredVendor[index].phone + '">' + data.resultMap.listOfPreferredVendor[index].phone + '</a></div> '
+                            + '<div class="carrier-left-title t-left inline-block"><a href="tel:' + data.resultMap.listOfPreferredVendor[index].phone + '">' + (data.resultMap.listOfPreferredVendor[index].phone).replace(/(\d\d\d)\s*(\d\d\d)\s*(.*?)$/, '$1-$2-$3') + '</a></div> '
                             + '<div class="carrier-left-title t-right inline-block">' + data.resultMap.listOfPreferredVendor[index].city + "," + data.resultMap.listOfPreferredVendor[index].state + '</div> </div> </div> </div> ';
                 }
 
@@ -1746,17 +1855,17 @@ var staticTemplate = {
                         email = '';
                     }
                     if (details.profilePicture != undefined) {
-                        profilepic = details.profilePicture;
+                        profilepic = HOMEPAGERESPONSE.PROFILEAPI+details.profilePicture;
                     } else {
                         profilepic = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREcPNRtKYiBvLn1TGvtd2JZQrg_P4IubK34BlZIEcmnel20KIINiVxnPV0';
                     }
                     html = "";
                     localStorage.setItem("CARRIERREP_EMAILID", email);
                     html = '<div class="agenyparent-class bg-color-white"> <div class="p-relative"> <form> <div class="agenyleft-profile inline-block v-align-mid p-relative"> '
-                            + '<div class="agenyleft-image"> <div class="overflow-hidden"> <div class="agenypic-info"> <img src=' + profilepic + ' alt="" class="ageny-img-width"> </div><div class="v-align-mid opensans-regular text-color-overlay f-sz-12 p-relative" style="padding:0px 25px;"> <div class="sprite-im profcamera-icon inline-block"> &nbsp; </div><div class="t-upper inline-block"> Change Image </div><input type="file" name="agency-prof-img" id="agency-prof-img" onchange="readURL(this);"/> </div></div></div></div><div class="agenyright-profile inline-block v-align-mid"> <div class="agenyparent-block"> <div class="agenyinternal-block"> <div class="agenygroup-block border-bot opensans-regular"> <div class="agenychild-block"> <div class="agenytitle-block inline-block p-relative"> Name </div><div class="agenycontent-block inline-block p-relative"> '
+                            + '<div class="agenyleft-image"> <div class="overflow-hidden"> <div class="agenypic-info"> <img src=' + profilepic + ' alt="" class="ageny-img-width"> </div><div id="id-changeimg" class="v-align-mid opensans-regular text-color-overlay f-sz-12 p-relative" style="padding:0px 25px;display:none;"> <div class="sprite-im profcamera-icon inline-block"> &nbsp; </div><div class="t-upper inline-block"> Change Image </div><input type="file" name="agency-prof-img" id="agency-prof-img" onchange="readURL(this);"/> </div></div></div></div><div class="agenyright-profile inline-block v-align-mid"> <div class="agenyparent-block"> <div class="agenyinternal-block"> <div class="agenygroup-block border-bot opensans-regular"> <div class="agenychild-block"> <div class="agenytitle-block inline-block p-relative"> Name </div><div class="agenycontent-block inline-block p-relative"> '
                             + '<span class="profile-result-cls" id="nameview"> ' + name + ' </span> </div><input type="text" name="profileName" value="" class="agencyprofinput" id="namenew"> </div></div><div class="agenygroup-block border-bot opensans-regular"> <div class="agenychild-block"> <div class="agenytitle-block inline-block p-relative" > Phone </div><div class="agenycontent-block inline-block p-relative"> '
                             + '<span class="profile-result-cls" id="phoneview"> ' + phone + ' </span> </div><input type="text" name="profileName" value="" class="agencyprofinput" id="phonenew"> </div></div><div class="agenygroup-block border-bot opensans-regular"> <div class="agenychild-block"> <div class="agenytitle-block inline-block p-relative"> Email </div><div class="agenycontent-block inline-block p-relative">'
-                            + '<span class="profile-result-cls" id="emailview"> ' + email + ' </span> </div><input type="text" name="profileName" value="" class="agencyprofinput" id="emailnew"> </div></div></div></div></div></form> </div></div>';
+                            + '<span class="profile-result-cls" id="emailview"> ' + email + ' </span> </div><input type="text" name="profileName" value="" class="agencyprofinput" id="emailnew" readonly> </div></div></div></div></div></form> </div></div>';
 
                     var dropdownHtml = '<div id="id-customers-dropdown" class="associated-carrier-sort t-upper p-relative opensans-regular inline-block">ASSOCIATED CUSTOMERS</div>'
                             + '<div id="associatedcustomersdropdownarrow" class="p-relative inline-block" style="display:none;"> <div  class="associatedownarrow-customer sprite-im drop-down-icon">&nbsp;</div> </div> </div> '
@@ -1772,7 +1881,35 @@ var staticTemplate = {
         },
         staticMyProfileViewTemplate: function () {
 
-            var html = '<div class="agenyparent-class bg-color-white"> <div class="p-relative"> <form> <div class="agenyleft-profile inline-block v-align-mid p-relative"> <div class="agenyleft-image"> <div class="overflow-hidden"> <div class="agenypic-info"> <img src=' + sessionStorage.profilePic + ' alt="" class="ageny-img-width"> </div><div class="v-align-mid opensans-regular text-color-overlay f-sz-12 p-relative" style="padding:0px 25px;"> <div class="sprite-im profcamera-icon inline-block"> &nbsp; </div><div class="t-upper inline-block"> Change Image </div><input type="file" name="agency-prof-img" id="agency-prof-img" onchange="readURL(this);"/> </div></div></div></div><div class="agenyright-profile inline-block v-align-mid"> <div class="agenyparent-block"> <div class="agenyinternal-block"> <div class="agenygroup-block border-bot opensans-regular"> <div class="agenychild-block"> <div class="agenytitle-block inline-block p-relative"> Name </div><div class="agenycontent-block inline-block p-relative"> <span class="profile-result-cls" id="nameview"> ' + sessionStorage.userName + ' </span> </div><input type="text" name="profileName" value="" class="agencyprofinput" id="namenew"> </div></div><div class="agenygroup-block border-bot opensans-regular"> <div class="agenychild-block"> <div class="agenytitle-block inline-block p-relative" > Phone </div><div class="agenycontent-block inline-block p-relative"> <span class="profile-result-cls" id="phoneview"> ' + sessionStorage.agencyPhone + ' </span> </div><input type="text" name="profileName" value="" class="agencyprofinput" id="phonenew"> </div></div><div class="agenygroup-block border-bot opensans-regular"> <div class="agenychild-block"> <div class="agenytitle-block inline-block p-relative"> Email </div><div class="agenycontent-block inline-block p-relative"> <span class="profile-result-cls" id="emailview"> ' + sessionStorage.agencyEmail + ' </span> </div><input type="text" name="profileName" value="" class="agencyprofinput" id="emailnew"> </div></div></div></div></div></form> </div></div>';
+            if (sessionStorage.userName == undefined) {
+                userName = "";
+            } else {
+                userName = sessionStorage.userName;
+            }
+
+            if (sessionStorage.userPhoneNumber == undefined) {
+                agencyPhone = "";
+            } else {
+                agencyPhone = sessionStorage.userPhoneNumber;
+            }
+
+            if (sessionStorage.userEmailId == undefined) {
+                agencyEmail = "";
+            } else {
+                agencyEmail = sessionStorage.userEmailId;
+            }
+
+            if (sessionStorage.profilePic == undefined) {
+                profilePic = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+            } else {
+                profilePic = sessionStorage.profilePic;
+            }
+
+            var html = '<div class="agenyparent-class bg-color-white"> <div class="p-relative"> <form> <div class="agenyleft-profile inline-block v-align-mid p-relative"> <div class="agenyleft-image"> <div class="overflow-hidden"> <div class="agenypic-info">'
+                    + '<img src=' + profilePic + ' alt="" class="ageny-img-width"> </div><div class="v-align-mid opensans-regular text-color-overlay f-sz-12 p-relative"  id="id-changeimg"  style="padding:0px 25px;display:none;"> <div class="sprite-im profcamera-icon inline-block"> &nbsp; </div><div class="t-upper inline-block"> Change Image </div><input type="file" name="agency-prof-img" id="agency-prof-img" onchange="readURL(this);"/> </div></div></div></div><div class="agenyright-profile inline-block v-align-mid"> <div class="agenyparent-block"> <div class="agenyinternal-block"> <div class="agenygroup-block border-bot opensans-regular"> <div class="agenychild-block"> <div class="agenytitle-block inline-block p-relative"> Name </div><div class="agenycontent-block inline-block p-relative">'
+                    + '<span class="profile-result-cls" id="nameview"> ' + userName + ' </span> </div><input type="text" name="profileName" value="" class="agencyprofinput" id="namenew"> </div></div><div class="agenygroup-block border-bot opensans-regular"> <div class="agenychild-block"> <div class="agenytitle-block inline-block p-relative" > Phone </div><div class="agenycontent-block inline-block p-relative">'
+                    + '<span class="profile-result-cls" id="phoneview"> ' + agencyPhone + ' </span> </div><input type="text" name="profileName" value="" class="agencyprofinput" id="phonenew"> </div></div><div class="agenygroup-block border-bot opensans-regular"> <div class="agenychild-block"> <div class="agenytitle-block inline-block p-relative"> Email </div><div class="agenycontent-block inline-block p-relative"> '
+                    + '<span class="profile-result-cls" id="emailview"> ' + agencyEmail + ' </span> </div><input type="text" name="profileName" value="" class="agencyprofinput" id="emailnew" readonly> </div></div></div></div></div></form> </div></div>';
             return html;
         }
     },

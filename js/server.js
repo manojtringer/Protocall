@@ -16,6 +16,33 @@ utils.server = {
             return response;
         }
     },
+    gotagencyLogoEditresponse: function (data) {
+//        sessionStorage.userName = data.resultMap.editedDetails.firstName;
+//        sessionStorage.userPhoneNumber = data.resultMap.editedDetails.phone.number;
+		  if(data.resultMap.TypeCode == "4051"){
+			  if(localStorage.getItem("LOGIN_LABEL") == "Agency"){
+				  sessionStorage.agencyEmail = data.resultMap.editedAgencyDetails.emailId.email;
+				  sessionStorage.agencyName = data.resultMap.editedAgencyDetails.agencyName;
+			  } else {
+				  sessionStorage.agencyEmail = data.resultMap.EditedCarrierDetails.emailId.email;
+				  sessionStorage.agencyName = data.resultMap.EditedCarrierDetails.carrierName;
+			  }
+			  
+			  $("#adminEmailIDValue").html(sessionStorage.agencyEmail);
+			  $("#agencyNameValue").html(sessionStorage.agencyName);
+		  }
+    },
+	gotprofileEditresponse: function (data) {
+		  if(data.resultMap.TypeCode == "4051"){
+			  sessionStorage.userName = data.resultMap.editedDetails.firstName;
+			  sessionStorage.userPhoneNumber = data.resultMap.editedDetails.phone.number;
+			  sessionStorage.userEmailId = data.resultMap.editedDetails.emailId.email;
+			  $("#namenew").html(sessionStorage.userName);
+			  $("#phonenew").html(sessionStorage.userPhoneNumber);
+			  $("#emailnew").html(sessionStorage.userEmailId);
+			  $("#profileUserName").html(sessionStorage.userName);
+		  }
+    },
     getData: function (page, data, callback, deepPath) {
         //console.log(deepPath);
         var ref = page;
@@ -163,7 +190,20 @@ utils.server = {
                 // sessionStorage.profilePic = localStorage.imageURl + data.resultMap.userDetails.profilePicture;
                 sessionStorage.agencyEmail = data.resultMap.agencyDetails.emailId.email;
                 sessionStorage.agencyPhone = data.resultMap.agencyDetails.phone.number;
+				if(data.resultMap.userDetails.phone !== undefined){
+					sessionStorage.userPhoneNumber = data.resultMap.userDetails.phone.number;
+				} else {
+					sessionStorage.userPhoneNumber = "";
+				}
+                
                 sessionStorage.agencyId = data.resultMap.agencyId;
+                try {
+                    sessionStorage.userEmailId = data.resultMap.userDetails.emailId.email;
+                } catch (err) {
+                    sessionStorage.userEmailId = "";
+                }
+
+                // alert(sessionStorage.userEmailId);
 
                 if (data.resultMap.userDetails.profilePicture != undefined) {
                     sessionStorage.profilePic = localStorage.imageURl + data.resultMap.userDetails.profilePicture;
@@ -186,6 +226,12 @@ utils.server = {
                     sessionStorage.profilePic = localStorage.imageURl + data.resultMap.carrierDetails.profilePicture;
                     sessionStorage.agencyLogo = localStorage.imageURl + data.resultMap.carrierDetails.carrierLogo;
                     sessionStorage.agencyPhone = data.resultMap.carrierDetails.phone.number;
+                    try {
+                        sessionStorage.userEmailId = data.resultMap.userDetails.emailId.email;
+                    } catch (err) {
+                        sessionStorage.userEmailId = "";
+                    }
+                    sessionStorage.userPhoneNumber = data.resultMap.userDetails.phone.number;
 
                     if (data.resultMap.carrierDetails.carrierName == undefined) {
                         sessionStorage.agencyName = "";
@@ -212,6 +258,14 @@ utils.server = {
                     sessionStorage.agencyLogo = localStorage.imageURl + data.resultMap.carrierDetails.carrierLogo;
                     sessionStorage.agencyPhone = data.resultMap.carrierDetails.phone.number;
                     sessionStorage.agencyId = data.resultMap.carrierDetails.carrierId;
+                    //  sessionStorage.userEmailId = data.resultMap.userDetails.emailId.email;
+                    sessionStorage.userPhoneNumber = data.resultMap.userDetails.phone.number;
+
+                    try {
+                        sessionStorage.userEmailId = data.resultMap.userDetails.emailId.email;
+                    } catch (err) {
+                        sessionStorage.userEmailId = "";
+                    }
 
                     if (data.resultMap.carrierDetails.carrierName == undefined) {
                         sessionStorage.agencyName = "";
@@ -239,9 +293,9 @@ utils.server = {
                 if (localStorage.LoginType == 'Admin') {
                     var page = "carriers";
                     var data = {},
-                            deepPath = "carrierdashboarddesign",
+                            deepPath = "agencydashboarddesign",
                             page = "home",
-                            callback = protocall.carrier.getresponsecarrieragency,
+                            callback = protocall.carrier.getresponseagencydetails,
                             authId = "",
                             spinnerMsg = "";
                     utils.server.makeServerCall(page, data, callback, deepPath);
@@ -254,7 +308,10 @@ utils.server = {
                         if (resp.error) {
                             t.server.handleError(resp);
                         } else {
+                            localStorage.setItem("AGENCY_ADMIN_TOTAL_DETAILS", JSON.stringify(resp));
                             localStorage.setItem("AGENCYLOGIN_DATA", JSON.stringify(resp));
+                            localStorage.setItem("customers_data", JSON.stringify(resp.resultMap.customerTab));
+                            HOMEPAGERESPONSE.CUSTOMERDATA = resp.resultMap.customerTab;
                         }
                     });
                 }
@@ -268,14 +325,16 @@ utils.server = {
                         if (resp.error) {
                             t.server.handleError(resp);
                         } else {
+                            localStorage.setItem("CARRIERAGENCYTOTALDETAILS", JSON.stringify(resp));
                             localStorage.setItem("CARRIERREP_DATA", JSON.stringify(resp));
-                            localStorage.setItem("customers_data", JSON.stringify(resp.resultMap.carrierTab[2]));
+                            localStorage.setItem("customers_data", JSON.stringify(resp.resultMap.customerTab));
                             localStorage.setItem("agencies_data", JSON.stringify(resp.resultMap.agencyTab[0].agencyDetail));
                             localStorage.setItem("carrierrepcustomers_data", JSON.stringify(resp));
                         }
                     });
                 }
                 if (localStorage.LoginType == 'Admin') {
+
                     var page = "carriers";
                     var data = {},
                             deepPath = "carrierdashboarddesign",
@@ -290,10 +349,24 @@ utils.server = {
 
             if (localStorage.LoginType == 'SuperAdmin') {
                 sessionStorage.loginType = 'SuperAdmin';
-                //sessionStorage.superAdminName = data.resultMap.userDetails.name;
-                sessionStorage.userName = data.resultMap.userDetails.name;
-                sessionStorage.profilePic = localStorage.imageURl + data.resultMap.userDetails.profilePicture;
-                sessionStorage.superAdminEmailId = data.resultMap.userDetails.usaEmployeeId.email;
+
+                if (data.resultMap.userDetails.name == undefined) {
+                    sessionStorage.userName = "";
+                } else {
+                    sessionStorage.userName = data.resultMap.userDetails.name;
+                }
+
+                if (data.resultMap.userDetails.profilePicture == undefined) {
+                    sessionStorage.profilePic = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                } else {
+                    sessionStorage.profilePic = localStorage.imageURl + data.resultMap.userDetails.profilePicture;
+                }
+
+                if (data.resultMap.userDetails.usaEmployeeId.email == undefined) {
+                    sessionStorage.superAdminEmailId = data.resultMap.userDetails.usaEmployeeId.email;
+                } else {
+                    sessionStorage.superAdminEmailId = data.resultMap.userDetails.usaEmployeeId.email;
+                }
             }
 
 
@@ -314,15 +387,18 @@ utils.server = {
              
              $("#page").append(totalHtml); */
             protocall.displaySpinner(true);
-        }
-
-        if (data.resultMap.TypeCode == '4002') {
+        } else if (data.resultMap.TypeCode == '4002') {
             var error = "Your password is wrong, check whether the caplock is enabled";
             protocall.displaySpinner(false);
             $('.login-error').html(error);
             return false
         }
         else if (data.resultMap.TypeCode == '4005') {
+            var error = "You are not a registered user";
+            protocall.displaySpinner(false);
+            $('.login-error').html(error);
+            return false
+        } else if (data.resultMap.TypeCode == '4006') {
             var error = "You are not a registered user";
             protocall.displaySpinner(false);
             $('.login-error').html(error);
@@ -349,37 +425,78 @@ utils.server = {
         ASSIGNTOCUSOVERLAY_REPEMAILID = "";
         ASSIGNTOCUSOVERLAY_REPEMAILID = repEmailId;
         protocall.displaySpinner(true);
-        var page = "pageassigncustomersoverlay";
-        var data = {};
-        var callback = utils.server.gotAssignCustomersResponse;
-        var deepPath = "userlist";
-        utils.server.makeServerCall(page, data, callback, deepPath);
+        utils.server.gotAssignCustomersResponse();
+        //var page = "pageassigncustomersoverlay";
+        //var data = {};
+        //var callback = utils.server.gotAssignCustomersResponse;
+        //var deepPath = "userlist";
+        // utils.server.makeServerCall(page, data, callback, deepPath);
     },
     gotAssignCustomersResponse: function (data, page) {
 
-        RESPONSE_ARRAY = [];
-        var feedHtml = staticTemplate.home.assignCustomersTemplate();
-        for (index = 0; index < data.result.resultObject.length; index++) {
-            var customerName = data.result.resultObject[index].name;
-            var customerCity = data.result.resultObject[index].city;
-            var customerState = data.result.resultObject[index].state;
-            var customerEmailId = data.result.resultObject[index].userId.email;
-            if (customerState == null || customerState == "") {
-                customerState = "";
-            } else {
-                customerState = "," + customerState;
-            }
 
-            RESPONSE_ARRAY[index] = [customerName, customerCity, customerState, customerEmailId];
-            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox'  value=" + customerEmailId + "  id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
-            feedHtml = feedHtml + tempHtml;
-            tempHtml = "";
-            console.log("Name" + customerName + "City,State" + customerCity + customerState + customerEmailId);
+
+        if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
+            //  if (localStorage.LoginType == 'Admin') {
+            data = JSON.parse(localStorage.getItem("customers_data"));
+            console.log("4675", data);
+            //CustomerDetails
+            RESPONSE_ARRAY = [];
+            var feedHtml = staticTemplate.home.assignCustomersTemplate();
+            for (var index = 0; index < data.length; index++) {
+                var customerName = data[index].CustomerDetails.firstName;
+                var customerCity = data[index].CustomerDetails.residentialCity;
+                var customerState = data[index].CustomerDetails.residentialState;
+                var customerEmailId = data[index].CustomerDetails.emailId.email;
+                if (customerState == null || customerState == "") {
+                    customerState = "";
+                } else {
+                    customerState = "," + customerState;
+                }
+
+                RESPONSE_ARRAY[index] = [customerName, customerCity, customerState, customerEmailId];
+                var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox'  value=" + customerEmailId + "  id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
+                feedHtml = feedHtml + tempHtml;
+                tempHtml = "";
+                console.log("Name" + customerName + "City,State" + customerCity + customerState + customerEmailId);
+            }
+            var buttonHtml = " </form> </div> </div> <div class='o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w' data-type='dt_overlaybtn_assigncustomers'>Assign</div> </div> ";
+            var finalHtml = feedHtml + buttonHtml;
+            overlay.displayOverlay(finalHtml);
+            sharewithRepSelectAllDropDown("true");
+            protocall.displaySpinner(false);
+            $("#id-overlayaiigncustomers").click();
+            //}
+        } else {
+            data = JSON.parse(localStorage.getItem("customers_data"));
+            RESPONSE_ARRAY = [];
+            var feedHtml = staticTemplate.home.assignCustomersTemplate();
+            for (index = 0; index < data.length; index++) {
+                var customerName = data[index].firstName;
+                var customerCity = data[index].residentialCity;
+                var customerState = data[index].residentialState;
+                var customerEmailId = data[index].emailId.email;
+                if (customerState == null || customerState == "") {
+                    customerState = "";
+                } else {
+                    customerState = "," + customerState;
+                }
+
+                RESPONSE_ARRAY[index] = [customerName, customerCity, customerState, customerEmailId];
+                var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox'  value=" + customerEmailId + "  id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
+                feedHtml = feedHtml + tempHtml;
+                tempHtml = "";
+                console.log("Name" + customerName + "City,State" + customerCity + customerState + customerEmailId);
+            }
+            var buttonHtml = " </form> </div> </div> <div class='o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w' data-type='dt_overlaybtn_assigncustomers'>Assign</div> </div> ";
+            var finalHtml = feedHtml + buttonHtml;
+            overlay.displayOverlay(finalHtml);
+            sharewithRepSelectAllDropDown("true");
+            protocall.displaySpinner(false);
+            $("#id-overlayaiigncustomers").click();
         }
-        var buttonHtml = " </form> </div> </div> <div class='o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w' data-type='dt_overlaybtn_assigncustomers'>Assign</div> </div> ";
-        var finalHtml = feedHtml + buttonHtml;
-        overlay.displayOverlay(finalHtml);
-        sharewithRepSelectAllDropDown("true");
+
+
     },
     shareToRep: function (alertid) {
         ALERTID = alertid;
@@ -392,12 +509,13 @@ utils.server = {
     },
     assignToRep: function () {
         // CUSTOMERS_LIST = customersEmailIds;
-        protocall.displaySpinner(true);
-        var page = "assignToRepsPage";
-        var data = {};
-        var callback = utils.server.gotAssignToRepResponse;
-        var deepPath = "agencyrepresentativenamewithlocation";
-        utils.server.makeServerCall(page, data, callback, deepPath);
+        protocall.displaySpinner(false);
+        //   var page = "assignToRepsPage";
+        // var data = {};
+        // var callback = utils.server.gotAssignToRepResponse;
+//        var deepPath = "agencyrepresentativenamewithlocation";
+//        utils.server.makeServerCall(page, data, callback, deepPath);
+        utils.server.gotAssignToRepResponse();
     },
     gotShareWithRepResponse: function (data, page) {
 
@@ -405,15 +523,65 @@ utils.server = {
         RESPONSE_ARRAY = [];
         var feedHtml = staticTemplate.home.shareWithRepTemplate();
         for (var index = 0; index < data.resultMap.RepresentativeDetails.length; index++) {
-            var customerName = data.resultMap.RepresentativeDetails[index].name;
-            var customerCity = data.resultMap.RepresentativeDetails[index].location;
+            var customerName = "";
+            var customerCity = "";
             var customerState = "";
-            var customerEmailId = data.resultMap.RepresentativeDetails[index].agencyRepresentativeId.email;
-            //            alert(customerEmailId);
+            var customerEmailId = "";
+            try {
+                if (data.resultMap.RepresentativeDetails[index].location == undefined) {
+                    try {
+                        customerCity = data.resultMap.RepresentativeDetails[index].residentialCity;
+                    } catch (err1) {
+                        customerCity = "";
+                    }
+                } else {
+                    customerCity = data.resultMap.RepresentativeDetails[index].location;
+                }
 
+            } catch (err) {
+                try {
+                    customerCity = data.resultMap.RepresentativeDetails[index].residentialCity;
+                } catch (err1) {
+                    customerCity = "";
+                }
+            }
+            try {
+
+                if (data.resultMap.RepresentativeDetails[index].name == undefined) {
+                    customerName = data.resultMap.RepresentativeDetails[index].firstName;
+                } else {
+                    customerName = data.resultMap.RepresentativeDetails[index].name;
+                }
+            } catch (err) {
+                // alert(data.resultMap.RepresentativeDetails[index]);
+                console.log("owner data--->", data.resultMap.RepresentativeDetails[index]);
+                customerName = data.resultMap.RepresentativeDetails[index].firstName;
+            }
+
+            var charcustomerName = "";
+
+            try {
+                charcustomerName = customerName.charAt(0).toUpperCase();
+            } catch (err) {
+
+            }
+
+            try {
+                if (data.resultMap.RepresentativeDetails[index].agencyRepresentativeId.email == undefined) {
+                    customerEmailId = data.resultMap.RepresentativeDetails[index].emailId.email;
+                } else {
+                    customerEmailId = data.resultMap.RepresentativeDetails[index].agencyRepresentativeId.email;
+                }
+
+            } catch (err) {
+                customerEmailId = data.resultMap.RepresentativeDetails[index].emailId.email;
+            }
+			if(customerCity == undefined){
+				customerCity = "NA";
+			}
             RESPONSE_ARRAY[index] = [customerName, customerCity, customerState, customerEmailId];
             //<input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'>
-            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + " id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
+            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + " id='name" + index + "' name='" + charcustomerName + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
             feedHtml = feedHtml + tempHtml;
             tempHtml = "";
         }
@@ -421,95 +589,279 @@ utils.server = {
         var finalHtml = feedHtml + buttonHtml;
         overlay.displayOverlay(finalHtml);
         sharewithRepSelectAllDropDown("false");
+        protocall.displaySpinner(false);
     },
     gotAssignToRepResponse: function (data, page) {
 
 
         RESPONSE_ARRAY = [];
-        var feedHtml = staticTemplate.home.assignToRepTemplate();
-        for (var index = 0; index < data.resultMap.RepresentativeDetails.length; index++) {
-            var customerName = data.resultMap.RepresentativeDetails[index].name;
-            var customerCity = data.resultMap.RepresentativeDetails[index].location;
-            var customerState = "";
-            var customerEmailId = data.resultMap.RepresentativeDetails[index].agencyRepresentativeId.email;
-            //            alert(customerEmailId);
 
-            RESPONSE_ARRAY[index] = [customerName, customerCity, customerState, customerEmailId];
-            //<input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'>
-            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + "  id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
-            feedHtml = feedHtml + tempHtml;
-            tempHtml = "";
-        }
-        var buttonHtml = " </form> </div> </div> <div class='o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w' data-type='dt_overlaybtn_assignToReps'>Assign</div> </div> ";
-        var finalHtml = feedHtml + buttonHtml;
-        overlay.displayOverlay(finalHtml);
-        sharewithRepSelectAllDropDown("false");
-        var flag = 0;
-        $('.getSelectedCustomers').each(function () {
-            str = this.checked ? "1" : "0";
-            if (str == "1") {
-                flag = 1;
+        if (localStorage.getItem("LOGIN_LABEL") == "Agency") {
+            data = JSON.parse(localStorage.getItem("AGENCY_ADMIN_TOTAL_DETAILS"));
+
+            var feedHtml = staticTemplate.home.assignToRepTemplate();
+            for (var index = 0; index < data.resultMap.repTab.length; index++) {
+                var customerName = "";
+                var customerCity = "";
+                var customerState = "";
+                var customerEmailId = "";
+                //            alert(customerEmailId);
+
+                try {
+                    if (data.resultMap.repTab[index].location == undefined) {
+                        try {
+                            customerCity = data.resultMap.repTab[index].residentialCity;
+                        } catch (err1) {
+                            customerCity = "";
+                        }
+                    } else {
+                        customerCity = data.resultMap.repTab[index].location;
+                    }
+
+                } catch (err) {
+                    try {
+                        customerCity = data.resultMap.repTab[index].residentialCity;
+                    } catch (err1) {
+                        customerCity = "";
+                    }
+                }
+                try {
+
+                    if (data.resultMap.repTab[index].name == undefined) {
+                        customerName = data.resultMap.repTab[index].firstName;
+                    } else {
+                        customerName = data.resultMap.repTab[index].name;
+                    }
+                } catch (err) {
+                    // alert(data.resultMap.RepresentativeDetails[index]);
+                    console.log("owner data--->", data.resultMap.repTab[index]);
+                    customerName = data.resultMap.repTab[index].firstName;
+                }
+
+                var charcustomerName = "";
+
+                try {
+                    charcustomerName = customerName.charAt(0).toUpperCase();
+                } catch (err) {
+
+                }
+
+                try {
+                    if (data.resultMap.repTab[index].agencyRepresentativeId.email == undefined) {
+                        customerEmailId = data.resultMap.repTab[index].emailId.email;
+                    } else {
+                        customerEmailId = data.resultMap.repTab[index].agencyRepresentativeId.email;
+                    }
+                } catch (err) {
+                    customerEmailId = data.resultMap.repTab[index].emailId.email;
+                }
+
+
+                RESPONSE_ARRAY[index] = [customerName, customerCity, customerState, customerEmailId];
+                //<input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'>
+                var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + "  id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
+                feedHtml = feedHtml + tempHtml;
+                tempHtml = "";
             }
-        });
+            var buttonHtml = " </form> </div> </div> <div class='o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w' data-type='dt_overlaybtn_assignToReps'>Assign</div> </div> ";
+            var finalHtml = feedHtml + buttonHtml;
+            overlay.displayOverlay(finalHtml);
+            sharewithRepSelectAllDropDown("false");
+            var flag = 0;
+            $('.getSelectedCustomers').each(function () {
+                str = this.checked ? "1" : "0";
+                if (str == "1") {
+                    flag = 1;
+                }
+            });
 
-        // alert(flag + "data--" + localStorage.getItem("ARRAY_CUSTOMERS_LIST"));
-        if (flag == 0) {
-            if (localStorage.getItem("ARRAY_CUSTOMERS_LIST") == "" || localStorage.getItem("ARRAY_CUSTOMERS_LIST") == null || localStorage.getItem("ARRAY_CUSTOMERS_LIST") == undefined) {
-                $(".error").html("Please select atleat a Customer..!");
-                $(".error").css("display", "block");
-                //  alert("2");
-                $(".error").css("padding-top", "10px");
-                $(".error").css("padding-bottom", "10px");
-                $('.error').delay(3000).slideUp('slow');
+            // alert(flag + "data--" + localStorage.getItem("ARRAY_CUSTOMERS_LIST"));
+            if (flag == 0) {
+                if (localStorage.getItem("ARRAY_CUSTOMERS_LIST") == "" || localStorage.getItem("ARRAY_CUSTOMERS_LIST") == null || localStorage.getItem("ARRAY_CUSTOMERS_LIST") == undefined) {
+                    $(".error").html("Please select atleat a Customer..!");
+                    $(".error").css("display", "block");
+                    //  alert("2");
+                    $(".error").css("padding-top", "10px");
+                    $(".error").css("padding-bottom", "10px");
+                    $('.error').delay(3000).slideUp('slow');
 
-                setTimeout(myFunction, 3000);
-                function myFunction() {
-                    overlay.closeOverlay();
+                    setTimeout(myFunction, 3000);
+                    function myFunction() {
+                        overlay.closeOverlay();
+                    }
+                }
+            }
+            // protocall.displaySpinner(false);
+        } else {
+            data = JSON.parse(localStorage.getItem("CARRIERAGENCYTOTALDETAILS"));
+            var feedHtml = staticTemplate.home.assignToRepTemplate();
+            for (var index = 0; index < data.resultMap.myRepTab.length; index++) {
+                var customerName = data.resultMap.myRepTab[index].RepresentativeDetails.name;
+                var customerCity = data.resultMap.myRepTab[index].RepresentativeDetails.location;
+                var customerState = "";
+                var customerEmailId = data.resultMap.myRepTab[index].RepresentativeDetails.carrierRepresentativeId.email;
+                //            alert(customerEmailId);
+
+                RESPONSE_ARRAY[index] = [customerName, customerCity, customerState, customerEmailId];
+                //<input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'>
+                var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + "  id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
+                feedHtml = feedHtml + tempHtml;
+                tempHtml = "";
+            }
+            var buttonHtml = " </form> </div> </div> <div class='o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w' data-type='dt_overlaybtn_assignToReps'>Assign</div> </div> ";
+            var finalHtml = feedHtml + buttonHtml;
+            overlay.displayOverlay(finalHtml);
+            sharewithRepSelectAllDropDown("false");
+            var flag = 0;
+            $('.getSelectedCustomers').each(function () {
+                str = this.checked ? "1" : "0";
+                if (str == "1") {
+                    flag = 1;
+                }
+            });
+
+            // alert(flag + "data--" + localStorage.getItem("ARRAY_CUSTOMERS_LIST"));
+            if (flag == 0) {
+                if (localStorage.getItem("ARRAY_CUSTOMERS_LIST") == "" || localStorage.getItem("ARRAY_CUSTOMERS_LIST") == null || localStorage.getItem("ARRAY_CUSTOMERS_LIST") == undefined) {
+                    $(".error").html("Please select atleat a Customer..!");
+                    $(".error").css("display", "block");
+                    //  alert("2");
+                    $(".error").css("padding-top", "10px");
+                    $(".error").css("padding-bottom", "10px");
+                    $('.error').delay(3000).slideUp('slow');
+
+                    setTimeout(myFunction, 3000);
+                    function myFunction() {
+                        overlay.closeOverlay();
+                    }
                 }
             }
         }
+
+
     },
     gotPrivacyResponse: function (data, page) {
 
         RESPONSE_ARRAY = [];
         var feedHtml = staticTemplate.home.privacyTemplate();
         for (var index = 0; index < data.resultMap.RepresentativeDetails.length; index++) {
-            var customerName = data.resultMap.RepresentativeDetails[index].name;
-            var customerCity = data.resultMap.RepresentativeDetails[index].location;
-            var customerState = "";
-            var customerEmailId = data.resultMap.RepresentativeDetails[index].agencyRepresentativeId.email;
+//            var customerName = data.resultMap.RepresentativeDetails[index].name;
+//            var customerCity = data.resultMap.RepresentativeDetails[index].location;
+//            var customerState = "";
+//            var customerEmailId = data.resultMap.RepresentativeDetails[index].agencyRepresentativeId.email;
             var privacy = data.resultMap.RepresentativeDetails[index].privacy;
+
+            if (privacy == undefined || privacy == "undefined") {
+                privacy = "off";
+            }
+//            
             var carrierAgencyRepresentativeId = data.resultMap.RepresentativeDetails[index].carrierAgencyRepresentativeId;
+
+
+
+            var customerName = "";
+            var customerCity = "";
+            var customerState = "";
+            var customerEmailId = "";
+            //            alert(customerEmailId);
+
+            try {
+                if (data.resultMap.RepresentativeDetails[index].location == undefined) {
+                    try {
+                        customerCity = data.resultMap.RepresentativeDetails[index].residentialCity;
+                    } catch (err1) {
+                        customerCity = "";
+                    }
+                } else {
+                    customerCity = data.resultMap.RepresentativeDetails[index].location;
+                }
+
+            } catch (err) {
+                try {
+                    customerCity = data.resultMap.RepresentativeDetails[index].residentialCity;
+                } catch (err1) {
+                    customerCity = "";
+                }
+            }
+            try {
+
+                if (data.resultMap.RepresentativeDetails[index].name == undefined) {
+                    customerName = data.resultMap.RepresentativeDetails[index].firstName;
+                } else {
+                    customerName = data.resultMap.RepresentativeDetails[index].name;
+                }
+            } catch (err) {
+                // alert(data.resultMap.RepresentativeDetails[index]);
+                console.log("owner data--->", data.resultMap.RepresentativeDetails[index]);
+                customerName = data.resultMap.RepresentativeDetails[index].firstName;
+            }
+
+            var charcustomerName = "";
+
+            try {
+                charcustomerName = customerName.charAt(0).toUpperCase();
+            } catch (err) {
+
+            }
+
+            try {
+                if (data.resultMap.RepresentativeDetails[index].agencyRepresentativeId.email == undefined) {
+                    customerEmailId = data.resultMap.RepresentativeDetails[index].emailId.email;
+                } else {
+                    customerEmailId = data.resultMap.RepresentativeDetails[index].agencyRepresentativeId.email;
+                }
+            } catch (err) {
+                customerEmailId = data.resultMap.RepresentativeDetails[index].emailId.email;
+            }
+
+
+
+
+
+
 
             if (carrierAgencyRepresentativeId == "undefined" || carrierAgencyRepresentativeId == null) {
                 carrierAgencyRepresentativeId = "";
             }
 
-            if (privacy == "undefined") {
-                privacy = customerEmailId + "#off";
-            } else {
-                privacy = customerEmailId + "#" + privacy;
-            }
-
-
-
-            RESPONSE_ARRAY[index] = [customerName, customerCity, customerState, customerEmailId, privacy, carrierAgencyRepresentativeId];
-            var toggleStyleOn = "";
-            var toggleStyleOff = "";
             if (privacy == "on") {
                 toggleStyle = "margin-left:50px";
                 //toggleStyleOff = "margin-left:-9px";
-
+                console.log("privacy--->name", customerName + " status" + privacy + "50");
             } else {
 
                 toggleStyle = "margin-left:-10px";
+                console.log("privacy--->name", customerName + " status" + privacy + "-10");
                 //toggleStyleOn = "margin-left:-px";
             }
 
-            //alert(privacy);
-            var tempHtml = "<div class=\"rep-grp-blk opensans-regular border-bot text-color-overlay p-relative\"> <input type=\"checkbox\" id='name" + index + "'  class=\"checkbox\" /> <label for='name" + index + "' class=\"rep-label\"> <div class=\"lbl-in-block p-relative\"> <div class=\"f-sz-14 text-color-overlay left rep-name\" style=\"width:20%;\">" + customerName + "</div> "
-                    + "<div class=\"nameRepId f-sz-14 text-color-overlay left\"><i>" + carrierAgencyRepresentativeId + "</i></div> <div class=\"t-caps f-sz-13 right t-right location-color rep-location\"> <div class=\"switchsample bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-on\"> <div id=\"id" + index + "-switch-container\" class=\"bootstrap-switch-container\" style=" + toggleStyle + "> "
-                    + "<span id=\"id-switch-on\" class=\"bootstrap-switch-handle-on bootstrap-switch-primary\"  onclick=\"moveani(" + index + ",\'id-switch-on\', \'id" + index + "-switch-container\')\"><div  class=\"togglevalue" + index + "\" style=\"display:none;\">" + privacy + "</div> ON</span> <span class=\"bootstrap-switch-label\">&nbsp;</span> <span id=\"id-switch-off\" class=\"bootstrap-switch-handle-off bootstrap-switch-default\"  onclick=\"moveani(" + index + ",\'id-switch-off\', \'id" + index + "-switch-container\')\"> OFF</span> <input type=\"checkbox\" checked=\"\"></div></div> </div> </div> </div> ";
+            var privacystatus = "";
+
+            if (privacy == "undefined") {
+                privacystatus = customerEmailId + "#off";
+            } else {
+                privacystatus = customerEmailId + "#" + privacy;
+            }
+
+            RESPONSE_ARRAY[index] = [customerName, customerCity, customerState, customerEmailId, privacy, carrierAgencyRepresentativeId, privacystatus];
+
+
+
+            var toggleStyleOn = "";
+            var toggleStyleOff = "";
+
+            var tempHtml = "";
+
+            if (customerEmailId != sessionStorage.userEmailId) {
+                tempHtml = "<div class=\"rep-grp-blk opensans-regular border-bot text-color-overlay p-relative\"> <input type=\"checkbox\" id='name" + index + "'  class=\"checkbox\" /> <label for='name" + index + "' class=\"rep-label1\"> <div class=\"lbl-in-block p-relative\"> <div class=\"f-sz-14 text-color-overlay left rep-name\" style=\"width:20%;\">" + customerName + "</div> "
+                        + "<div class=\"nameRepId f-sz-14 text-color-overlay left\"><i>" + carrierAgencyRepresentativeId + "</i></div> <div class=\"t-caps f-sz-13 right t-right location-color rep-location\"> <div class=\"switchsample bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-on\"> <div id=\"id" + index + "-switch-container\" class=\"bootstrap-switch-container\" style=" + toggleStyle + "> "
+                        + "<span id=\"id-switch-on\" class=\"bootstrap-switch-handle-on bootstrap-switch-primary\"  onclick=\"moveani(" + index + ",\'id-switch-on\', \'id" + index + "-switch-container\')\"><div  class=\"togglevalue" + index + "\" style=\"display:none;\">" + privacystatus + "</div> ON</span> <span class=\"bootstrap-switch-label\">&nbsp;</span> <span id=\"id-switch-off\" class=\"bootstrap-switch-handle-off bootstrap-switch-default\"  onclick=\"moveani(" + index + ",\'id-switch-off\', \'id" + index + "-switch-container\')\"> OFF</span> <input type=\"checkbox\" checked=\"\"></div></div> </div> </div> </div> ";
+            } else {
+                tempHtml = "<div class=\"rep-grp-blk opensans-regular border-bot text-color-overlay p-relative\"> <input type=\"checkbox\" id='name" + index + "'  class=\"checkbox\" /> <label for='name" + index + "' class=\"rep-label1\"> <div class=\"lbl-in-block p-relative\"> <div class=\"f-sz-14 text-color-overlay left rep-name\" style=\"width:20%;\">" + customerName + "</div> "
+                        + "<div class=\"nameRepId f-sz-14 text-color-overlay left\"><i>" + carrierAgencyRepresentativeId + "</i></div> <div class=\"t-caps f-sz-13 right t-right location-color rep-location\"> <div class=\"switchsample bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-on\"> <div id=\"id" + index + "-switch-container\" class=\"bootstrap-switch-container\" style=" + toggleStyle + "> "
+                        + "<span id=\"id-switch-on\" class=\"bootstrap-switch-handle-on bootstrap-switch-primary\"><div  class=\"togglevalue" + index + "\" style=\"display:none;\">" + privacystatus + "</div> ON</span> <span class=\"bootstrap-switch-label\">&nbsp;</span> <span id=\"id-switch-off\" class=\"bootstrap-switch-handle-off bootstrap-switch-default\" > OFF</span> <input type=\"checkbox\" checked=\"\"></div></div> </div> </div> </div> ";
+            }
+
             feedHtml = feedHtml + tempHtml;
             tempHtml = "";
         }
@@ -597,7 +949,7 @@ utils.server = {
 
         utils.server.displayMessage("Successfully Send..!");
         var page = "pushmessagepage";
-        var data = {isNow: booleanValue, targetString: $("#idpushmessage-textarea").val(), agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3", scheduledDate: scheduledDate};
+        var data = {isNow: booleanValue, targetString: $("#idpushmessage-textarea").val(), agencyId: sessionStorage.ownerId, scheduledDate: scheduledDate};
         var callback = utils.server.getCodeResponseAssignCustomers;
         var deepPath = "sendpushmessage";
         utils.server.makeServerCall(page, data, callback, deepPath);
@@ -607,7 +959,8 @@ utils.server = {
         var data = {name: $("#id-vendorname").val(), serviceType: $("#id-vendortype").val(), state: $("#id-vendorstate").val(), zipcode: $("#id-vendorzip").val(),
             phone: $("#id-vendorphone").val(), address: $("#id-vendoraddress1").val(), city: $("#id-vendorcity").val()};
 
-        if ($("#id-vendorname").val() != "") {
+        if ($("#id-vendorname").val() != "" && $("#id-vendortype").val() != "" && $("#id-vendorstate").val() != "" && $("#id-vendorzip").val() != "" &&
+                $("#id-vendorphone").val() != "" && $("#id-vendoraddress1").val() != "" && $("#id-vendorcity").val() != "") {
             var deepPath = "createpreferredvendorservice";
             var callback = utils.server.gotAddvendorReponse;
             utils.server.makeServerCall(page, data, callback, deepPath);
@@ -635,38 +988,40 @@ utils.server = {
         var representativeId = [];
         var index = 0;
         var subindex = 0;
-        //radio-button-custom
-        if ($('#radio-button-custom').is(':checked')) {
 
-            $('.checkbox').each(function () {
-                str = this.checked ? "1" : "0";
-                if (str == "1") {
-                    //  alert(RESPONSE_ARRAY[index][3] + "#" + $('.togglevalue' + index).html());
-                    representativeId[subindex] = $('.togglevalue' + index).html();
-                    subindex++;
-                }
-                index++;
-            });
-        }
-        // protocall.displaySpinner(true);
-
-        if (subindex == 0) {
-
-            if ($('#radio-button-public').is(':checked')) {
-                for (var i = 0; i < RESPONSE_ARRAY.length; i++) {
-                    RESPONSE_ARRAY[i][4] = RESPONSE_ARRAY[i][4].replace("on", "off");
-                }
-            }
-            if ($('#radio-button-private').is(':checked')) {
-                for (var i = 0; i < RESPONSE_ARRAY.length; i++) {
-                    RESPONSE_ARRAY[i][4] = RESPONSE_ARRAY[i][4].replace("off", "on");
-                }
-            }
-
+        if ($('#radio-button-public').is(':checked')) {
             for (var i = 0; i < RESPONSE_ARRAY.length; i++) {
-                representativeId[i] = RESPONSE_ARRAY[i][4];
-            }
+                // RESPONSE_ARRAY[i][4] = RESPONSE_ARRAY[i][4].replace("on", "off");
+                if (RESPONSE_ARRAY[i][3] != sessionStorage.userEmailId) {
+                    representativeId[i] = RESPONSE_ARRAY[i][6].replace("on", "off");
+                }
 
+            }
+        } else
+        if ($('#radio-button-private').is(':checked')) {
+            for (var i = 0; i < RESPONSE_ARRAY.length; i++) {
+                // RESPONSE_ARRAY[i][4] = RESPONSE_ARRAY[i][4].replace("off", "on");
+                if (RESPONSE_ARRAY[i][3] != sessionStorage.userEmailId) {
+                    representativeId[i] = RESPONSE_ARRAY[i][6].replace("off", "on");
+                }
+            }
+        } else {
+            var index = 0;
+            $('input[type=checkbox]').each(function () {
+
+                if ($('.togglevalue' + index).html() != undefined) {
+                    //  console.log("ssss--->", $('.togglevalue' + index).html());
+
+                    if ($('.togglevalue' + index).html() != "undefined" || $('.togglevalue' + index).html() != undefined) {
+
+                        if ($('.togglevalue' + index).html().indexOf(sessionStorage.userEmailId) > -1) {
+                        } else {
+                            representativeId[index] = $('.togglevalue' + index).html();
+                            index++;
+                        }
+                    }
+                }
+            });
         }
 
         $(".success1").html("Sucessfully Saved..!");
@@ -742,12 +1097,13 @@ utils.server = {
         TEMPSETTINGSPAGE = "";
         TEMPSETTINGSPAGE = html;
         $(".content-holder").empty();
-        $(".content-holder").append(TEMPSETTINGSPAGE + "</form>");
+        $(".content-holder").append(html + "</form>");
         $('.settings-agency-bar').css("background-color", "#f34f4e");
         $('#id-agency-view-load').css("color", "white");
         $('.settings-vendor-bar').css("background-color", "#ccc");
         $('#id-preferred-vendors-view-load').css("color", "black");
         $("#id-preferred-vendors-view-load").click();
+        localStorage.setItem("SETTINGTAB_PreferredVendorDATA", JSON.stringify(data.resultMap.listOfPreferredVendor));
     },
     carrierOwnerMyProfileSubmenu: function () {
         $(".mb-submenu").empty();
@@ -786,7 +1142,7 @@ utils.server = {
                 localStorage.setItem("SETTINGTAB_PreferredVendorDATA", JSON.stringify(data.resultMap.listOfPreferredVendor));
                 //  var header = HeaderTemplate.Menu.DynamicHeaderTemplate();
                 var html = staticTemplate.customers.staticSettingsTemplate(data);
-                TEMPSETTINGSPAGE = "";
+                //  TEMPSETTINGSPAGE = "";
                 TEMPSETTINGSPAGE = html;
                 $(".content-holder").empty();
                 $(".content-holder").append(TEMPSETTINGSPAGE + "</form>");
@@ -801,7 +1157,7 @@ utils.server = {
             localStorage.setItem("SETTINGTAB_PreferredVendorDATA", JSON.stringify(data.resultMap.listOfPreferredVendor));
             // var header = HeaderTemplate.Menu.DynamicHeaderTemplate();
             var html = staticTemplate.customers.staticSettingsTemplate(data);
-            TEMPSETTINGSPAGE = "";
+            //  TEMPSETTINGSPAGE = "";
             TEMPSETTINGSPAGE = html;
             $(".content-holder").empty();
             $(".content-holder").append(TEMPSETTINGSPAGE + "</form>");
@@ -810,12 +1166,13 @@ utils.server = {
             $('.settings-vendor-bar').css("background-color", "#ccc");
             $('#id-preferred-vendors-view-load').css("color", "black");
 
-            var subMenu = '<div class="bcrum-lb-submenu clr-fl inline-block v-align-mid" style="width: 20%;"><a href="#" class="snap left f-sz-16 ptsans-light settings t-upper p-relative f-color-green" data-type="page" data-submenu="settings"><div class=""><div class="sprite-im settings-icon inline-block v-align-mid mr-space-10 ">&nbsp;</div><span class="sub-menu-text inline-block v-align-mid"> settings</span></div></a><div class="bcrum-icon-blk left f-color-green f-sz-16 ptsans-light" style="display:none;">&gt;</div><a href="#" class="snap left f-sz-16 ptsans-light feeds-customer t-caps p-relative f-color-green" data-type="page" data-submenu="settings-customer" style="display:none;"></a></div><div class="tab-rb-submenu inline-block v-align-mid" style="width: 80%;"><div class="tab-rb-submenu-in-block p-relative"><a href="/save" class="snap submenu-tab bg-color-green right f-sz-16 ptsans-light save p-relative" data-type="page" data-submenu="save"><div class="sprite-im inline-block tab-icon v-align-mid" style="display:none;">&nbsp;</div><div class="submenu-title t-caps inline-block f-color-w v-align-mid "> save</div><div class="cnt-blk inline-block v-align-mid" style="display:none;">(<span class="cnt-no"></span>)</div></a><a href="/privacy" class="snap submenu-tab bg-color-green right f-sz-16 ptsans-light privacy p-relative" data-type="page" data-submenu="privacy"><div class="sprite-im inline-block tab-icon v-align-mid" style="display:none;">&nbsp;</div><div class="submenu-title t-caps inline-block f-color-w v-align-mid "> privacy</div><div class="cnt-blk inline-block v-align-mid" style="display:none;">(<span class="cnt-no"></span>)</div></a></div></div>';
+            var subMenu = '<div class="bcrum-lb-submenu clr-fl inline-block v-align-mid" style="width: 20%;"><a href="#" class="snap left f-sz-16 ptsans-light settings t-upper p-relative f-color-green" data-type="page" data-submenu="settings"><div class=""><div class="sprite-im settings-icon inline-block v-align-mid mr-space-10 ">&nbsp;</div><span class="sub-menu-text inline-block v-align-mid"> settings</span></div></a><div class="bcrum-icon-blk left f-color-green f-sz-16 ptsans-light" style="display:none;">&gt;</div><a href="#" class="snap left f-sz-16 ptsans-light feeds-customer t-caps p-relative f-color-green" data-type="page" data-submenu="settings-customer" style="display:none;"></a></div><div class="tab-rb-submenu inline-block v-align-mid" style="width: 80%;"><div class="tab-rb-submenu-in-block p-relative"><a href="/save" class="snap submenu-tab bg-color-green right f-sz-16 ptsans-light save p-relative" data-type="page" data-submenu="save" style="display:none;"><div class="sprite-im inline-block tab-icon v-align-mid" style="display:none;">&nbsp;</div><div class="submenu-title t-caps inline-block f-color-w v-align-mid "> save</div><div class="cnt-blk inline-block v-align-mid" style="display:none;">(<span class="cnt-no"></span>)</div></a><a href="/privacy" class="snap submenu-tab bg-color-green right f-sz-16 ptsans-light privacy p-relative" data-type="page" data-submenu="privacy"><div class="sprite-im inline-block tab-icon v-align-mid" style="display:none;">&nbsp;</div><div class="submenu-title t-caps inline-block f-color-w v-align-mid "> privacy</div><div class="cnt-blk inline-block v-align-mid" style="display:none;">(<span class="cnt-no"></span>)</div></a></div></div>';
             $(".mb-submenu").empty();
             $(".mb-submenu").append(subMenu);
             $(".mb-menu a.selected-tab").removeClass("selected-tab");
+            localStorage.setItem("SELECTED_SETTINGS_TAB", "AGENCY_TAB");
         }
-
+        protocall.displaySpinner(false);
 
     },
     getResponseForPreferredVendor: function (idvalue) {
@@ -835,11 +1192,13 @@ utils.server = {
                         + '</div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> '
                         + '<div class="carrier-left-title t-right left">type</div> '
                         + '<div id="id-v-vendortype" class="carrier-left-content t-left right" style="visibility: visible">' + element.serviceType + '</div>'
-                        + '<input id="id-vendor-type" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden">'
+                        + '<select id="id-vendor-type" class="carrier-left-content-textbox t-left right p-absolute" style="visibility: hidden"><option>Towing Service</option><option>Home Restoration</option></select>'
+//                        + '<input id="id-vendor-type" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden">'
                         + '</div> </div> </div> </div><div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">name</div> <div id="id-v-vendorname" class="carrier-left-content t-left right " style="visibility: visible">' + element.name + '</div> '
                         + '<input id="id-vendor-name" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">phone</div>'
-                        + '<div id="id-v-vendorphone" class="carrier-left-content t-left right" style="visibility: visible">' + element.phone + '</div> <input id="id-vendor-phone" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">address</div> '
-                        + '<div id="id-v-address1" class="carrier-left-content t-left right ">' + element.address + '</div> <input id="id-vendor-address1" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">address</div> <div id="id-v-address2" class="carrier-left-content t-left right">' + element.address2 + '</div> <input id="id-vendor-address2" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view border-bot clr-fl"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">city</div> <div id="id-v-city" class="carrier-left-content t-left right ">' + element.city + '</div> <input id="id-vendor-city" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">state</div> <div id="id-v-state" class="carrier-left-content t-left right t-upper">' + element.state + '</div> <input id="id-vendor-state" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">zip</div> <div id="id-v-zipcode" class="carrier-left-content t-left right ">' + element.zipcode + '</div> <input id="id-vendor-zipcode" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left"></div> <div class="carrier-left-content t-left right t-upper"></div> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl"> <div class="vendor-view-right right t-caps opensans-regular"> </div> </div> </div> </div> <div class="vendor-back-button"> <div class="vendor-back-bar inline-block p-relative bg-color-green "> <div class="p-relative inline-block t-caps t-right v-align-mid opensans-regular f-color-w">back</div> </div> </div> </div></div> </form>';
+                        + '<div id="id-v-vendorphone" class="carrier-left-content t-left right" style="visibility: visible">' + (element.phone).replace(/(\d\d\d)(\d\d\d)(\d\d\d\d)/, '$1-$2-$3') + '</div> <input id="id-vendor-phone" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">address</div> '
+                        + '<div id="id-v-address1" class="carrier-left-content t-left right ">' + element.address + '</div> <input id="id-vendor-address1" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">address</div> <div id="id-v-address2" class="carrier-left-content t-left right">' + element.address2 + '</div> <input id="id-vendor-address2" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view border-bot clr-fl"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">city</div> <div id="id-v-city" class="carrier-left-content t-left right ">' + element.city + '</div> <input id="id-vendor-city" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">state</div> <div id="id-v-state" class="carrier-left-content t-left right t-upper">' + element.state + '</div> <input id="id-vendor-state" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">zip</div> <div id="id-v-zipcode" class="carrier-left-content t-left right ">' + element.zipcode + '</div> <input id="id-vendor-zipcode" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left"></div> <div class="carrier-left-content t-left right t-upper"></div> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl"> <div class="vendor-view-right right t-caps opensans-regular"> </div> </div> </div> </div> <div class="vendor-back-button"> <div id="id_back_button" class="vendor-back-bar inline-block p-relative bg-color-green" style="cursor:pointer;">'
+                        + '<div class="p-relative inline-block t-caps t-right v-align-mid opensans-regular f-color-w">back</div> </div> </div> </div></div> </form>';
                 status = 1;
                 break;
             }
@@ -873,8 +1232,10 @@ utils.server = {
                 + '</div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> '
                 + '<div class="carrier-left-title t-right left">type</div> '
                 + '<div id="id-v-vendortype" class="carrier-left-content t-left right" style="visibility: visible">' + data.serviceType + '</div>'
-                + '<input id="id-vendor-type" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden">'
-                + '</div> </div> </div> </div><div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">name</div> <div id="id-v-vendorname" class="carrier-left-content t-left right " style="visibility: visible">' + data.serviceName + '</div> <input id="id-vendor-name" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">phone</div> <div id="id-v-vendorphone" class="carrier-left-content t-left right" style="visibility: visible">' + data.phone.number + '</div> <input id="id-vendor-phone" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">address</div> <div id="id-v-address1" class="carrier-left-content t-left right ">' + data.address1 + '</div> <input id="id-vendor-address1" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">address</div> <div id="id-v-address2" class="carrier-left-content t-left right">' + data.address2 + '</div> <input id="id-vendor-address2" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view border-bot clr-fl"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">city</div> <div id="id-v-city" class="carrier-left-content t-left right ">' + data.city + '</div> <input id="id-vendor-city" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">state</div> <div id="id-v-state" class="carrier-left-content t-left right t-upper">' + data.state + '</div> <input id="id-vendor-state" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">zip</div> <div id="id-v-zipcode" class="carrier-left-content t-left right ">' + data.zipcode + '</div> <input id="id-vendor-zipcode" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left"></div> <div class="carrier-left-content t-left right t-upper"></div> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl"> <div class="vendor-view-right right t-caps opensans-regular"> </div> </div> </div> </div> <div class="vendor-back-button"> <div class="vendor-back-bar inline-block p-relative bg-color-green "> <div class="p-relative inline-block t-caps t-right v-align-mid opensans-regular f-color-w">back</div> </div> </div> </div></div> </form>';
+                + '<select id="id-vendor-type" class="carrier-left-content-textbox t-left right p-absolute" style="visibility: hidden"><option>Towing Service</option><option>Home Restoration</option></select>'
+//                +'<input id="id-vendor-type" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden">'
+                + '</div> </div> </div> </div><div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">name</div> <div id="id-v-vendorname" class="carrier-left-content t-left right " style="visibility: visible">' + data.serviceName + '</div> <input id="id-vendor-name" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">phone</div> <div id="id-v-vendorphone" class="carrier-left-content t-left right" style="visibility: visible">' + (data.phone.number).replace(/(\d\d\d)(\d\d\d)(\d\d\d\d)/, '$1-$2-$3') + '</div> <input id="id-vendor-phone" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">address</div> <div id="id-v-address1" class="carrier-left-content t-left right ">' + data.address1 + '</div> <input id="id-vendor-address1" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">address</div> <div id="id-v-address2" class="carrier-left-content t-left right">' + data.address2 + '</div> <input id="id-vendor-address2" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view border-bot clr-fl"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">city</div> <div id="id-v-city" class="carrier-left-content t-left right ">' + data.city + '</div> <input id="id-vendor-city" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">state</div> <div id="id-v-state" class="carrier-left-content t-left right t-upper">' + data.state + '</div> <input id="id-vendor-state" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl"> <div class="vendor-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">zip</div> <div id="id-v-zipcode" class="carrier-left-content t-left right ">' + data.zipcode + '</div> <input id="id-vendor-zipcode" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="vendor-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left"></div> <div class="carrier-left-content t-left right t-upper"></div> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl"> <div class="vendor-view-right right t-caps opensans-regular"> </div> </div> </div> </div> <div class="vendor-back-button"> <div id="id_back_button" class="vendor-back-bar inline-block p-relative bg-color-green " style="cursor:pointer;"> '
+                + '<div class="p-relative inline-block t-caps t-right v-align-mid opensans-regular f-color-w" >back</div> </div> </div> </div></div> </form>';
         $(".content-holder").empty();
         $(".content-holder").append(TEMPSETTINGSPAGE + footer);
         $('.settings-agency-bar').css("background-color", "#ccc");
@@ -885,19 +1246,21 @@ utils.server = {
     },
     submitShareWithRepsData: function () {
 
-        var fromMailId = "agencyowner@gmail.com";
-        var representativeId = "";
+        // var fromMailId = "agencyowner@gmail.com";
+
+        var fromMailId = sessionStorage.userEmailId;
+        var representativeId = [];
         var alertID = ALERTID;
         var index = 0;
         $('.checkbox').each(function () {
             str = this.checked ? "1" : "0";
             if (str == "1") {
-                representativeId = $(this).val();
+                representativeId[index] = $(this).val();
                 index++;
             }
 
         });
-        protocall.displaySpinner(true);
+
         if (index == 0) {
             $(".error").html("Please select atleat a representative to share..!");
             $(".error").css("display", "block");
@@ -906,14 +1269,14 @@ utils.server = {
             $('.error').delay(2000).slideUp('slow');
             return false;
         }
-        if (index > 1) {
-            $(".error").html("You can select only one representative at a time..!");
-            $(".error").css("display", "block");
-            $(".error").css("padding-top", "10px");
-            $(".error").css("padding-bottom", "10px");
-            $('.error').delay(2000).slideUp('slow');
-            return false;
-        }
+//        if (index > 1) {
+//            $(".error").html("You can select only one representative at a time..!");
+//            $(".error").css("display", "block");
+//            $(".error").css("padding-top", "10px");
+//            $(".error").css("padding-bottom", "10px");
+//            $('.error').delay(2000).slideUp('slow');
+//            return false;
+//        }
 
         var page = "shareWithRepPage";
         var data = {fromUserId: fromMailId, alertId: alertID, toUserId: representativeId};
@@ -931,7 +1294,7 @@ utils.server = {
             representativeId = ASSIGNTOCUSOVERLAY_REPEMAILID;
         }
 
-        //  alert(representativeId);
+
         var subIndex = 0;
         CUSTOMERS_LIST = [];
 
@@ -1084,15 +1447,10 @@ utils.server = {
 
 
     },
-    imagesToServer: function (form, callback, isFormData, ref, qs, pagespinner) {
-        /* if (pagespinner) {
-         t.ui.showPageSpinner()
-         } else {
-         t.form.showFormSpinner();
-         } */
-        HOMEPAGERESPONSE.PROFILEPICUPDATECLICKED = true;
+    imagesToServer: function (form, callback, isFormData,qs, pagespinner,imageType,imageContentType) {
         isFormData = (typeof isFormData == "undefined" || isFormData == false) ? false : true;
         var formData;
+		var imageValue;
         if (!isFormData) {
             var isValidSubmit;
             if (!isValidSubmit) {
@@ -1103,25 +1461,29 @@ utils.server = {
             formData = form;
             console.log(formData);
         }
-        $.ajax({
+		var imageUploadURL = HOMEPAGERESPONSE.PROFILEAPIFORIMAGE+qs+"?typeOfImage="+imageType;
+		if(imageType == "profilePicture"){
+			imageValue = sessionStorage.profilePicAfterUpdate;
+		} else {
+			imageValue = sessionStorage.agencyLogo;
+		}
+		if(imageContentType.match("jpeg")){
+			imageContentType = "image/jpg";
+		} else {
+			imageContentType = "image/png";
+		}
+		var res = imageValue.slice(0,22);
+		var imageValueAfterReplace = imageValue.replace(res,"");
+		$.ajax({
             type: "POST",
-            url: HOMEPAGERESPONSE.PROFILEAPIFORIMAGE + qs, processData: false,
-            contentType: false,
-            data: formData,
+            url: imageUploadURL, processData: false,
+            contentType: imageContentType,
+            data: imageValueAfterReplace,
             xhrFields: {
                 withCredentials: true
             },
             success: function (data) {
-                // do what ever you want with the server response
-                /* if (pagespinner) {
-                 t.ui.hidePageSpinner();
-                 } else {
-                 t.ui.hidePageSpinner();
-                 }
-                 if (!isFormData) {
-                 p.resetForm(form);
-                 } */
-                callback(data, form, isFormData, ref);
+                callback(data, form, isFormData);
             },
             error: function (data) {
                 console.log(data);
@@ -1288,6 +1650,7 @@ function onKeyPressEventPrivacy(tag) {
     var searchText = $(tag).val().toUpperCase();
     if (searchText !== "" && searchText !== null) {
         var finalHtml = "<form>";
+        var subIndex = 0;
         for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
             if (RESPONSE_ARRAY[index][0].toUpperCase().indexOf(searchText) > -1) {
                 var customerName = RESPONSE_ARRAY[index][0];
@@ -1296,22 +1659,36 @@ function onKeyPressEventPrivacy(tag) {
                 var customerEmailId = RESPONSE_ARRAY[index][3];
                 var privacy = RESPONSE_ARRAY[index][4];
                 var carrierAgencyRepresentativeId = RESPONSE_ARRAY[index][5];
+                var privacystatus = RESPONSE_ARRAY[index][6];
                 if (carrierAgencyRepresentativeId == "undefined" || carrierAgencyRepresentativeId == null) {
                     carrierAgencyRepresentativeId = "";
                 }
-                var toggleStyleOn = "";
-                var toggleStyleOff = "";
+                //   var toggleStyleOn = "";
+                // var toggleStyleOff = "";
+
                 if (privacy == "on") {
                     toggleStyle = "margin-left:50px";
                     //toggleStyleOff = "margin-left:-9px";
-
+                    console.log("privacy--->name", customerName + " status" + privacy + "50");
                 } else {
                     toggleStyle = "margin-left:-10px";
+                    console.log("privacy--->name", customerName + " status" + privacy + "-10");
+                    //toggleStyleOn = "margin-left:-px";
                 }
-                var tempHtml = "<div class=\"rep-grp-blk opensans-regular border-bot text-color-overlay p-relative\"> <input type=\"checkbox\" id='name" + index + "'  class=\"checkbox\" /> <label for='name" + index + "' class=\"rep-label\"> <div class=\"lbl-in-block p-relative\"> <div class=\"f-sz-14 text-color-overlay left rep-name\" style=\"width:20%;\">" + customerName + "</div> " + "<div class=\"nameRepId f-sz-14 text-color-overlay left\"><i>" + carrierAgencyRepresentativeId + "</i></div> <div class=\"t-caps f-sz-13 right t-right location-color rep-location\"> <div class=\"bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-on\"> <div id=\"id" + index + "-switch-container\" class=\"bootstrap-switch-container\" style=" + toggleStyle + "> "
-                        + "<span id=\"id-switch-on\" class=\"bootstrap-switch-handle-on bootstrap-switch-primary\"  onclick=\"moveani(" + index + ",\'id-switch-on\', \'id" + index + "-switch-container\')\"><div  class=\"togglevalue" + index + "\" style=\"display:none;\">" + privacy + "</div> ON</span> <span class=\"bootstrap-switch-label\">&nbsp;</span> <span id=\"id-switch-off\" class=\"bootstrap-switch-handle-off bootstrap-switch-default\"  onclick=\"moveani(" + index + ",\'id-switch-off\', \'id" + index + "-switch-container\')\"> OFF</span> <input type=\"checkbox\" checked=\"\"></div></div> </div> </div> </div> ";
+
+                if (privacy == "undefined") {
+                    privacy = customerEmailId + "#off";
+                } else {
+                    privacy = customerEmailId + "#" + privacy;
+                }
+
+                //  console.log("privacy--->name" + subIndex, privacy);
+
+                var tempHtml = "<div class=\"rep-grp-blk opensans-regular border-bot text-color-overlay p-relative\"> <input type=\"checkbox\" id='name" + subIndex + "'  class=\"checkbox\" / > <label for='name" + subIndex + "' class=\"rep-label1\" > <div class=\"lbl-in-block p-relative\"> <div class=\"f-sz-14 text-color-overlay left rep-name\" style=\"width:20%;\">" + customerName + "</div> " + "<div class=\"nameRepId f-sz-14 text-color-overlay left\"><i>" + carrierAgencyRepresentativeId + "</i></div> <div class=\"t-caps f-sz-13 right t-right location-color rep-location\"> <div class=\"bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-on\"> <div id=\"id" + subIndex + "-switch-container\" class=\"bootstrap-switch-container\" style=" + toggleStyle + "> "
+                        + "<span id=\"id-switch-on\" class=\"bootstrap-switch-handle-on bootstrap-switch-primary\"  onclick=\"moveani(" + subIndex + ",\'id-switch-on\', \'id" + subIndex + "-switch-container\')\"><div  class=\"togglevalue" + subIndex + "\" style=\"display:none;\">" + privacystatus + "</div> ON</span> <span class=\"bootstrap-switch-label\">&nbsp;</span> <span id=\"id-switch-off\" class=\"bootstrap-switch-handle-off bootstrap-switch-default\"  onclick=\"moveani(" + subIndex + ",\'id-switch-off\', \'id" + subIndex + "-switch-container\')\"> OFF</span> <input type=\"checkbox\" checked=\"\"></div></div> </div> </div> </div> ";
                 finalHtml = finalHtml + tempHtml;
                 tempHtml = "";
+                subIndex++;
             }
         }
 
@@ -1331,6 +1708,7 @@ function onKeyPressEventPrivacy(tag) {
             var customerEmailId = RESPONSE_ARRAY[index][3];
             var privacy = RESPONSE_ARRAY[index][4];
             var carrierAgencyRepresentativeId = RESPONSE_ARRAY[index][5];
+            var privacystatus = RESPONSE_ARRAY[index][6];
             if (carrierAgencyRepresentativeId == "undefined" || carrierAgencyRepresentativeId == null) {
                 carrierAgencyRepresentativeId = "";
             }
@@ -1345,9 +1723,16 @@ function onKeyPressEventPrivacy(tag) {
                 //toggleStyleOn = "margin-left:-px";
             }
 
-            var tempHtml = "<div class=\"rep-grp-blk opensans-regular border-bot text-color-overlay p-relative\"> <input type=\"checkbox\" id='name" + index + "'  class=\"checkbox\" /> <label for='name" + index + "' class=\"rep-label\"> <div class=\"lbl-in-block p-relative\"> <div class=\"f-sz-14 text-color-overlay left rep-name\" style=\"width:20%;\">" + customerName + "</div> "
+            if (privacy == "undefined") {
+                privacy = customerEmailId + "#off";
+            } else {
+                privacy = customerEmailId + "#" + privacy;
+            }
+
+
+            var tempHtml = "<div class=\"rep-grp-blk opensans-regular border-bot text-color-overlay p-relative\"> <input type=\"checkbox\" id='name" + index + "'  class=\"checkbox\" /> <label for='name" + index + "' class=\"rep-label1\" > <div class=\"lbl-in-block p-relative\"> <div class=\"f-sz-14 text-color-overlay left rep-name\" style=\"width:20%;\">" + customerName + "</div> "
                     + "<div class=\"nameRepId f-sz-14 text-color-overlay left\"><i>" + carrierAgencyRepresentativeId + "</i></div> <div class=\"t-caps f-sz-13 right t-right location-color rep-location\"> <div class=\"bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-on\"> <div id=\"id" + index + "-switch-container\" class=\"bootstrap-switch-container\" style=" + toggleStyle + "> "
-                    + "<span id=\"id-switch-on\" class=\"bootstrap-switch-handle-on bootstrap-switch-primary\"  onclick=\"moveani(" + index + ",\'id-switch-on\', \'id" + index + "-switch-container\')\"><div  class=\"togglevalue" + index + "\" style=\"display:none;\">" + privacy + "</div> ON</span> <span class=\"bootstrap-switch-label\">&nbsp;</span> <span id=\"id-switch-off\" class=\"bootstrap-switch-handle-off bootstrap-switch-default\"  onclick=\"moveani(" + index + ",\'id-switch-off\', \'id" + index + "-switch-container\')\"> OFF</span> <input type=\"checkbox\" checked=\"\"></div></div> </div> </div> </div> ";
+                    + "<span id=\"id-switch-on\" class=\"bootstrap-switch-handle-on bootstrap-switch-primary\"  onclick=\"moveani(" + index + ",\'id-switch-on\', \'id" + index + "-switch-container\')\"><div  class=\"togglevalue" + index + "\" style=\"display:none;\">" + privacystatus + "</div> ON</span> <span class=\"bootstrap-switch-label\">&nbsp;</span> <span id=\"id-switch-off\" class=\"bootstrap-switch-handle-off bootstrap-switch-default\"  onclick=\"moveani(" + index + ",\'id-switch-off\', \'id" + index + "-switch-container\')\"> OFF</span> <input type=\"checkbox\" checked=\"\"></div></div> </div> </div> </div> ";
             finalHtml = finalHtml + tempHtml;
             tempHtml = "";
         }
@@ -1829,11 +2214,17 @@ function privacykeyup(e) {
 
 function moveani(index, idValue, idcontainerValue) {
     if (idValue === "id-switch-off") {
+        var value = $('.togglevalue' + index).text();
+        // alert(value.replace("on", "off"));
+        $('.togglevalue' + index).text(value.replace("off", "on"));
         document.getElementById(idcontainerValue).style.marginLeft = "50px";
         if (index > 0) {
             $('.togglevalue' + index).text("on");
         }
     } else if (idValue === "id-switch-on") {
+        var value = $('.togglevalue' + index).text();
+        // alert(value.replace("on", "off"));
+        $('.togglevalue' + index).text(value.replace("on", "off"));
         if (index > 0) {
             $('.togglevalue' + index).text("off");
         }

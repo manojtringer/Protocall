@@ -11,6 +11,8 @@ var REFERENCE_TYPE = "agency_info";
 var IsAgencyDataChanged = false;
 var IsVendorDataChanged = false;
 var SERVICEID = 0;
+var PAGE_COUNT = 0;
+var IsLoadNextPage = true;
 //CONSTANTS
 var CONSTANTS = {
     MODAL_OPACITY: 1,
@@ -18,29 +20,30 @@ var CONSTANTS = {
     CHANNEL_TOKEN: null,
     LINK_TYPE: {
         PAGE: "page", HOME_PAGE: "home", CARRIERS_PAGE: "carriers", AGENCY_PAGE: "agency", AGENCIES_PAGE: "agencies", CUSTOMERS_PAGE: "customers", MY_REP_PAGE: "myreps",
-        yesPAGE: "login", LOGIN_YES: "login-yes", LOGOUT_YES: "logout-yes",
+        LOGIN: "login", LOGIN_YES: "login-yes", LOGOUT_YES: "logout-yes",
         VIEW_FEED: "view", FEEDS: "feeds", SHARE_TO_REP: "share", CLOSE_OVERLAY: "closeOverlay", CLOSE_POPUP: "closePopUp", EDIT_AGENCY_PIC: "editAgencyPic",
-        MY_ALERTS: "myalerts", INCIDENTS: "incidents", POLICIES: "policies", MATCH_RELEASE_CLAIMS: "matchReleaseClaim",MATCH_CLAIMS: "matchClaim", INVITE_REPS: "invitereps", SEND_INVITE_REPS: "InvitemyRep",
+        MY_ALERTS: "myalerts", INCIDENTS: "incidents", POLICIES: "policies", MATCH_RELEASE_CLAIMS: "matchReleaseClaim", MATCH_CLAIMS: "matchClaim", INVITE_REPS: "invitereps", SEND_INVITE_REPS: "InvitemyRep",
         ASSIGN_TO_REPS: "assignrep", PHOTS_OVERLAY_DISPLAY: "photosDoc", THUMB_NAIL: "thumbNail", PREVIOUS: "previous", NEXT: "next", VIEW_CARRIER_FEEDVIEW: "viewcarrierfeedview",
-        PUSHMESSAGE: "pushmessage", PRIVACY: "privacy", ARCHIVES: "archives", VIEW_ARCHIVES: "view_archives", SORTBY: "sortby", SORTBYCARRIER: "sortbycarrier",
+        PUSHMESSAGE: "pushmessage", PRIVACY: "privacy", ARCHIVES: "archives", VIEW_ARCHIVES: "view_archives", SORTBY: "sortby", SORTBYCARRIER: "sortbycarrier", SORTBY_AGENCIES: "sortbyAgencies",
         SORTBYCUSTOMER: "sortbycustomer", SORTBYREPS: "sortbyreps", MY_PROFILE: "profile-link", VIEW_CUSTOMER_FEEDVIEW: "customerprofileviewfeed", SETTINGS_PAGE: "mysettings",
         PROFILE_PAGE: "myProfileView", SENDAPPLINK: "sendapplink", AUDIO_OVERLAY: "voiceDoc", AUDIO_PLAY: "playAudio", AGENCY_VIEW_LOAD: "agency-view-load",
         PREFERRED_VENDOE_VIEW_LOAD: "preferred vendors-view-load", AGENCY_EDIT_LOAD: "agency-edit-load", AGENCY_REMOVE_LOAD: "agency-remove-load",
         AGENCY_ADD_VENDOR_LOAD: "agency-addvendor-load", VENDOR_PROFILE_INFO: "vendor-profile-info",
         ASSIGN_TO_CUSTOMERS: "dt-assigncustomer", PROPERTY_POLICY: "dt-propertypolicy", HEALTH_POLICY: "dt-healthpolicy",
-        VEHICLE_POLICY: "dt-vehiclepolicy", RESETPASSWORD: "dtresetpassword", SIGNUP: "dtsignup", OVERLAY_RESETPASSALERTBOX: "dtoverlayresetpassword",
+        VEHICLE_POLICY: "dt-vehiclepolicy", RESETPASSWORD: "dtresetpassword", SIGNUP: "signup", OVERLAY_RESETPASSALERTBOX: "dtoverlayresetpassword",
         EDITPASSWORDYES: "dtoverlayrestpassyes", EDITPASSWORDNO: "dtoverlayrestpassno",
         PREVIOUS_AUDIO: "previousAudio", NEXT_AUDIO: "nextAudio", DOCUMENTSOVERLAY: "textDoc", MYPROFEDIT: "edit", MYPROFEDITMYREPS: "carrierownerrepedit",
-        SORYBYRECENT: "recent", SORTBYALPHABETICAL: "alphabetical", CARRIERSORYBYRECENT: "carrier-recent", CARRIERSORTBYALPHABETICAL: "carrier-alphabetical",
-        REPSSORYBYRECENT: "reps-recent", REPSSORTBYALPHABETICAL: "reps-alpha", CUSTOMERSORYBYRECENT: "customer-recent", CUSTOMERSORTBYALPHABETICAL: "customer-alphabetical",
-        VIEWARCHIVECHECKBOX: "archiveCheckBox",
+        SORTBYRECENT: "recent", SORTBYALPHABETICAL: "alphabetical", CARRIERSORTBYRECENT: "carrier-recent", CARRIERSORTBYALPHABETICAL: "carrier-alphabetical",
+        REPSSORTBYRECENT: "reps-recent", REPSSORTBYALPHABETICAL: "reps-alpha", CUSTOMERSORTBYRECENT: "customer-recent", CUSTOMERSORTBYALPHABETICAL: "customer-alphabetical",
+        VIEWARCHIVECHECKBOX: "archiveCheckBox", MANAGE_AGENCY: "manage_agency",
         VIEWCUSTOMERFEED: "viewcustomerfeedview", VIEWAGENCIESFEED: "viewagenciesfeedview",
         BUTTON_SENDAPPLINK: "dt_overlaybtn_sendapplink",
         BUTTON_PRIVACYSEND: "overlaybtnPrivacySend", BUTTON_ADDVENDORSEND: "overlaybtn_addvendordetails", BUTTON_SHAREWITHREP: "dt_overlaybtn_sharerepwithcustomers",
         BUTTON_PUSHMESSAGESEND: "overlaybtn-pushmessage", PRINTPAGE: "printPage", BUTTON_ASSIGNTOREPS: "dt_overlaybtn_assignToReps",
         BUTTON_ASSIGNTOCUSTOMERS: "dt_overlaybtn_assigncustomers", SELECTED_SEARCH_ITEM: "selectedSearchItem", CARRIERAGENCY: "carrieragency", CARRIERCUSTOMERS: "carriercustomers", CARRIER_REPS_PAGE: "carrierreps",
         VIEW_CARRIER_REPS_DETAILS: "viewCarrierRep", VIEW_CARIER_REP_PROFILE_PAGE: "ViewCarrierRep", EDITCARRIEROWNER_AGENCYDETAILS: "editcarrierowner_agencydetails", ADDMORE: "addmoredata", TEMPCLOSE_OVERLAY: "overlaybtn",
-        AGENCYPICEDIT: "agencyPicEdit", SUPERADMINHOMEFEEDVIEW: "superAdminHomeFeedView"
+        AGENCYPICEDIT: "agencyPicEdit", SUPERADMINHOMEFEEDVIEW: "superAdminHomeFeedView", SETTINGS_SAVE: "save", RESET_PASSWORD: "dt-resetpassword",
+        SUPERADMIN_AGENCIES_ALPHASORT: "agencies-alpha", SUPERADMIN_AGENCIES_RECENTSORT: "agencies-recent", COMPLETESIGNUP : "completeSignUp"
     },
     ERROR_MSG: {
         ajaxFailed: "Oops! This action could not be completed now! Please try again"
@@ -112,8 +115,9 @@ var HOMEPAGERESPONSE = {
     HOMEPAGEMYALERTSLOADED: true,
     POLICYALERTCLICKED: false,
     PROFILEAPI: "https://proto-call-test.appspot.com/file/",
-    PROFILEAPIFORIMAGE: "https://2-dot-proto-call-test.appspot.com/file/",
-    SORYBYRECENTVIEW: false,
+    PROFILEAPIFORIMAGE: "https://proto-call-test.appspot.com/imageuploadforwebteam/",
+    TEXTDOWNLOADURL: "https://2-dot-proto-call-test.appspot.com/downloadtextinformation/",
+    SORTBYRECENTVIEW: false,
     SORTBYALPHABETICALVIEW: false,
     ISVIEWARCHIVECLICKED: false,
     /*Naveen 23-2-2015 Changes Start */
@@ -130,7 +134,30 @@ var HOMEPAGERESPONSE = {
     DOWNARROWPRESSEDCOUNT: 0,
     UPARROWPRESSEDCOUNT: 0,
     RELATEDFEEDSLOADED: false,
-    RELATEDFEEDS: {}
+    RELATEDFEEDS: {},
+    PROPERTYPOLICYCOUNT: 0,
+    VEHICLEPOLICYCOUNT: 0,
+    OTHERPOLICYCOUNT: 0,
+    PROPERTYCARRIERNAMES: [],
+    PROPERTYPHONENUMBER: [],
+    PROPERTYNEXTPAYMENTAMOUNT: [],
+    PROPERTYNEXTPAYMENTAMOUNTDATE: [],
+    PROPERTYDURATIONSTARTDATE: [],
+    PROPERTYDURATIONENDDATE: [],
+    VEHICLECARRIERNAMES: [],
+    VEHICLEPHONENUMBER: [],
+    VEHICLENEXTPAYMENTAMOUNT: [],
+    VEHICLENEXTPAYMENTAMOUNTDATE: [],
+    VEHICLEDURATIONSTARTDATE: [],
+    VEHICLEDURATIONENDDATE: [],
+    OTHERCARRIERNAMES: [],
+    OTHERPHONENUMBER: [],
+    OTHERNEXTPAYMENTAMOUNTDATE: [],
+    OTHERNEXTPAYMENTAMOUNT: [],
+    OTHERDURATIONSTARTDATE: [],
+    OTHERDURATIONENDDATE: [],
+    CUSTOMERDATA: {},
+	SIGNUPREGISTRATIONDONE : false
     /*Naveen 23-2-2015 Changes End */
 }
 /*Naveen 19-2-2015 Chnage end*/
@@ -145,6 +172,8 @@ CUSTOMERS_PAGE = "customers";
 MY_REP_PAGE = "myreps";
 SETTINGS_PAGE = "mysettings";
 PROFILE_PAGE = "myProfileView";
+MANAGE_AGENCY = "manageagency";
+AGENCY_PAGE = "agency";
 //PAGE & SUBMENU OBJECTS
 var SUB_MENU = {
     HOME: {
@@ -315,14 +344,16 @@ $(document).ready(function () {
         // To wait for client endpoint to load
         protocall.init();
     }, 2000);
+	setInterval(function(){
+		protocall.view.loadHomePage(true);
+	},5*60*1000);
 });
 protocall = {
     init: function () {
         protocall.displaySpinner(true);
-        if (this.isLoggedIn()) {
-
-            var pageNameFromURL = this.grabHashPage();
-            if (pageNameFromURL !== "" && typeof pageNameFromURL !== "undefined" && pageNameFromURL.length != 0) {
+		var pageNameFromURL = this.grabHashPage();
+		if (this.isLoggedIn()) {
+			if (pageNameFromURL !== "" && typeof pageNameFromURL !== "undefined" && pageNameFromURL.length != 0) {
                 if (pageNameFromURL === LOGIN_PAGE) {
                     this.setPageNavigation(HOME_PAGE);
                 } else {
@@ -333,10 +364,23 @@ protocall = {
             }
         }
         else {
-            this.setPageNavigation(LOGIN_PAGE);
-            setTimeout(function () {
-                window.scrollTo(0, 1); //to fix refresh scrolling issue when page is reloaded with page scrolled
-            }, 300);
+			if(pageNameFromURL.match("signup-1")){
+				protocall.view.loadSignupPage(false);
+				sessionStorage.roleToBePassed = "agencyRep";
+			} else if(pageNameFromURL.match("signup-2")){
+				protocall.view.loadSignupPage(false);
+				sessionStorage.roleToBePassed = "carrierRep";
+			} else if(pageNameFromURL == "signup"){
+				sessionStorage.roleToBePassed = "";
+				protocall.view.loadSignupPage(false);
+			} 
+			else {
+				this.setPageNavigation(LOGIN_PAGE);
+				HOMEPAGERESPONSE.SIGNUPREGISTRATIONDONE = false;
+				setTimeout(function () {
+					window.scrollTo(0, 1); //to fix refresh scrolling issue when page is reloaded with page scrolled
+				}, 300);
+			}
         }
         this.events.createEvents();
     },
@@ -344,6 +388,15 @@ protocall = {
         var pageName = "";
         if (window.location.hash !== "" && window.location.hash !== null) {
             var hashArr = window.location.hash.split("#");
+            pageName = hashArr[1];
+            console.log("Page name from URL", pageName);
+        }
+        return pageName;
+    },
+	grabHashPageForInviteRep: function () {
+        var pageName = "";
+        if (window.location.hash !== "" && window.location.hash !== null) {
+            var hashArr = window.location.hash.split("=");
             pageName = hashArr[1];
             console.log("Page name from URL", pageName);
         }
@@ -367,7 +420,7 @@ protocall = {
         this.setLocalStorage(page);
         if (page == LOGIN_PAGE) {
             this.view.loadLoginPage(false);
-        }
+        } 
 //CARRIERCUSTOMERS
         else if (page == HOME_PAGE) {
             if (subMenu.length > 0) {
@@ -405,6 +458,10 @@ protocall = {
         } else if (page == CONSTANTS.LINK_TYPE.CARRIER_REPS_PAGE) {
             this.view.loadCarrierRepsPage(false);
         } else if (page == SETTINGS_PAGE) {
+            var $el = $(".mysettings");
+            PAGEREFRESH.ISPAGEREFRESHEDFORSETTINGS = true;
+            this.view.viewSettingsPage(false, $el);
+        } else if (page == MANAGE_AGENCY) {
             var $el = $(".mysettings");
             PAGEREFRESH.ISPAGEREFRESHEDFORSETTINGS = true;
             this.view.viewSettingsPage(false, $el);
@@ -564,6 +621,7 @@ protocall.events = {
         $(document).on("click", ".superadminHome", function () {
             protocall.view.viewSuperAdminHomeIndividualViewFeed(true, $(this).attr("id"), $(this).attr("value"));
         });
+
 
         //SUPERADMINHOMEFEEDVIEW
 //*******************************************************************************
@@ -726,6 +784,13 @@ protocall.events = {
 //*******************************************************************************
 
 //***********************Drop Down click Events*******************************
+
+//id_back_button
+        $(document).on("click", "#id_back_button", function () {
+            $("#id-preferred-vendors-view-load").click();
+        });
+
+
         $(document).on("click", ".id-associatedownarrow", function () {
             protocall.carrier.openSelect("#id-associatedropdown");
         });
@@ -735,6 +800,10 @@ protocall.events = {
         //*******************************************************************************     
 
 //submenu-drop-icon
+
+        $(document).on("click", "#id-sortbyfliter", function (event) {
+            protocall.view.loadSortBy(event.currentTarget, true);
+        });
         $(document).on("click", ".submenu-drop-icon", function () {
             protocall.carrier.openSelect("#usertype");
         });
@@ -862,13 +931,12 @@ protocall.events = {
         console.log("function called");
         $(".container").on("scroll", function (e) {
             console.log("container scroll");
-            protocall.events.handleScroll();
+            if (localStorage.getItem("SUBMENU") == "HOME_PAGE") {
+                protocall.events.handleScroll();
+            }
         });
     },
     GlobalContainerScrollevent: function () {
-
-
-
         $(".container container-maxwidth").on("scroll", function (e) {
             var container1 = $('.container-maxwidth');
             //alert("1" + container1.scrollTop());
@@ -932,7 +1000,7 @@ protocall.events = {
         }
 
         if (scrollHeightValue === containerOuterHeight) {
-            $(".container").off("scroll");
+            //  $(".container").off("scroll");
             console.log("condition satisfied");
             if (CONSTANTS.HASNEXTPAGE) {
                 if (HOMEPAGERESPONSE.INCIDENTALERTSCLICKED) {
@@ -946,7 +1014,10 @@ protocall.events = {
                 $(".content-holder").append('<div id="scrollingDiv" style="position:relative;margin: 20px 0px;"><div class="bottomSpinner"></div></div>');
                 $(".content-holder").css("opacity", "0.5");
                 protocall.events.GlobalContainerScrollevent();
-                protocall.home.loadingAlertFeeds(++CONSTANTS.PGNUMBER, deepPath, page);
+                if (IsLoadNextPage == true) {
+                    IsLoadNextPage = false;
+                    protocall.home.loadingAlertFeeds(++CONSTANTS.PGNUMBER, deepPath, page);
+                }
                 return false;
             }
         }
@@ -1003,7 +1074,20 @@ protocall.events = {
                         break;
                 }
                 switch (subMenu) {
+                    case CONSTANTS.LINK_TYPE.RESET_PASSWORD:
+                          protocall.view.loadResetPassAlertBox();
+                        break;
+                    case CONSTANTS.LINK_TYPE.SETTINGS_SAVE:
+                        var selectedTab = localStorage.getItem("SELECTED_SETTINGS_TAB");
 
+                        if (localStorage.getItem("LOGIN_LABEL") == "Agency") {
+                            if (selectedTab == "AGENCY_TAB") {
+                                editAgencySaveData();
+                            } else if (selectedTab == "PREFERRED_VENDORS") {
+                                editVendorSaveData();
+                            }
+                        }
+                        break;
                     case CONSTANTS.LINK_TYPE.HOME_PAGE:
 
                         protocall.view.loadHomePage(true);
@@ -1024,22 +1108,50 @@ protocall.events = {
                         protocall.view.loadCustomerPage(true);
                         break;
                     case CONSTANTS.LINK_TYPE.FEEDS:
-                        HOMEPAGERESPONSE.FEEDSICONCLICKED = true;
-                        protocall.view.loadHomePage(true);
+                        HOMEPAGERESPONSE.ISVIEWALERTVALUECLICKED = false;
+						HOMEPAGERESPONSE.RELATEDFEEDSLOADED = false;
+						HOMEPAGERESPONSE.FEEDSICONCLICKED = true;
+                        try {
+                            if (localStorage.getItem("HOME_PAGE_SELECTED_BUTTON") == undefined) {
+                                localStorage.setItem("HOME_PAGE_SELECTED_BUTTON", "MY_ALERTS");
+                            }
+                        } catch (err) {
+                            localStorage.setItem("HOME_PAGE_SELECTED_BUTTON", "MY_ALERTS");
+                        }
+                        var selectedTab = localStorage.getItem("HOME_PAGE_SELECTED_BUTTON");
+
+                        //  alert(selectedTab);
+                        if (selectedTab == "MY_ALERTS") {
+                            protocall.view.loadMyAlertsFeeds($el, true);
+                        } else if (selectedTab == "INCIDENTS") {
+                            protocall.view.loadIncidentsFeeds($el, true);
+                        } else if (selectedTab == "POLICIES") {
+                            protocall.view.loadPoliciesFeeds($el, true);
+                        } else if (selectedTab == "ARCHIVES") {
+                            protocall.view.loadArchiveFeeds($el, true);
+                        } else if (selectedTab == "VIEW_ARCHIVES") {
+                            protocall.view.loadviewArchivedFeeds($el, true);
+                        }
+
                         break;
                     case CONSTANTS.LINK_TYPE.MY_ALERTS:
+                        localStorage.setItem("HOME_PAGE_SELECTED_BUTTON", "MY_ALERTS");
                         protocall.view.loadMyAlertsFeeds($el, true);
                         break;
                     case CONSTANTS.LINK_TYPE.INCIDENTS:
+                        localStorage.setItem("HOME_PAGE_SELECTED_BUTTON", "INCIDENTS");
                         protocall.view.loadIncidentsFeeds($el, true);
                         break;
                     case CONSTANTS.LINK_TYPE.POLICIES:
+                        localStorage.setItem("HOME_PAGE_SELECTED_BUTTON", "POLICIES");
                         protocall.view.loadPoliciesFeeds($el, true);
                         break;
                     case CONSTANTS.LINK_TYPE.ARCHIVES:
+                        localStorage.setItem("HOME_PAGE_SELECTED_BUTTON", "ARCHIVES");
                         protocall.view.loadArchiveFeeds($el, true);
                         break;
                     case CONSTANTS.LINK_TYPE.VIEW_ARCHIVES:
+                        localStorage.setItem("HOME_PAGE_SELECTED_BUTTON", "VIEW_ARCHIVES");
                         protocall.view.loadviewArchivedFeeds($el, true);
                         break;
                     case CONSTANTS.LINK_TYPE.INVITE_REPS:
@@ -1059,6 +1171,9 @@ protocall.events = {
                         break;
                     case CONSTANTS.LINK_TYPE.SORTBYREPS:
                         protocall.view.loadSortByReps($el, true);
+                        break;
+                    case CONSTANTS.LINK_TYPE.SORTBY_AGENCIES:
+                        protocall.view.loadSortByAgencies($el, true);
                         break;
                     case CONSTANTS.LINK_TYPE.PUSHMESSAGE:
                         protocall.view.pushMessage($el, true);
@@ -1089,8 +1204,19 @@ protocall.events = {
                         break;
                 }
                 break;
+            case CONSTANTS.LINK_TYPE.MANAGE_AGENCY:
+                if (localStorage.LoginType == 'Admin') {
+                    protocall.closeOverlay();
+                    CONSTANTS.HASNEXTPAGE = false;
+                    protocall.displaySpinner(true);
+                    protocall.view.viewSettingsPage(true, $el);
+
+                }
+
+                break;
             case CONSTANTS.LINK_TYPE.SETTINGS_PAGE:
                 CONSTANTS.HASNEXTPAGE = false;
+                protocall.displaySpinner(true);
                 protocall.view.viewSettingsPage(true, $el);
                 break;
             case CONSTANTS.LINK_TYPE.VIEW_CARRIER_REPS_DETAILS:
@@ -1128,7 +1254,7 @@ protocall.events = {
 
                 break;
             case CONSTANTS.LINK_TYPE.PROPERTY_POLICY:
-                protocall.view.properityPolicy();
+                protocall.view.properityPolicy(e);
                 break;
             case CONSTANTS.LINK_TYPE.AGENCY_ADD_VENDOR_LOAD:
                 protocall.view.addVendorDetails();
@@ -1157,13 +1283,16 @@ protocall.events = {
             case CONSTANTS.LINK_TYPE.LOGOUT_YES:
                 protocall.view.LogoutAuthenticateYes();
                 break;
+            case CONSTANTS.LINK_TYPE.SETTINGS_SAVE:
+                //alert(";d");
+                break;
             case CONSTANTS.LINK_TYPE.AGENCY_REMOVE_LOAD:
 
                 if ($("#id-preffervendoreditremovebar").text() == "Edit") {
                     $("#id-preffervendoreditremovebar").text("Remove");
                     $(".vendor-label").css("display", "block");
                 } else {
-                      $(".vendor-label").css("display", "none");
+                    $(".vendor-label").css("display", "none");
                     $("#id-preffervendoreditremovebar").text("Edit");
                     var index = 0;
                     var subIndex = 0;
@@ -1176,30 +1305,30 @@ protocall.events = {
                             var vendorCheck = document.getElementById('removevendor_' + index);
                             if (vendorCheck.checked) {
 
-                            $("#item_" + index).remove();
-                            DELETELIST[subIndex] = $(this).val();
-                            subIndex++;
-                        } else {
-                            if (localStorage.getItem("LOGIN_LABEL") != "Carriers") {
-                                protocall.view.LoadAgencyRemove();
-                            }
+                                $("#item_" + index).remove();
+                                DELETELIST[subIndex] = $(this).val();
+                                subIndex++;
+                            } else {
+                                if (localStorage.getItem("LOGIN_LABEL") != "Carriers") {
+                                    protocall.view.LoadAgencyRemove();
+                                }
 
+                            }
                         }
+                        index++;
+                    });
+                    //   alert("dd" + subIndex);
+                    if (subIndex == 0) {
+                        ///  alert("dd");
+                        subIndex = 0;
+                        utils.server.displayError("Please select atleat a name to delete..!");
                     }
-                    index++;
-                });
-                //   alert("dd" + subIndex);
-                if (subIndex == 0) {
-                    ///  alert("dd");
-                    subIndex = 0;
-                    utils.server.displayError("Please select atleat a name to delete..!");
-                }
 
 
                     page = "deletevendorpage";
                     var dataq = {alertList: DELETELIST};
                     callback = utils.server.getCodeResponseAssignCustomers;
-                    deepPath = "deleteservice";
+                    deepPath = "deletepreferredvendorservice";
                     utils.server.makeServerCall(page, dataq, callback, deepPath);
                 }
                 // alert("cp");
@@ -1228,7 +1357,7 @@ protocall.events = {
             case CONSTANTS.LINK_TYPE.MATCH_RELEASE_CLAIMS:
                 protocall.view.matchReleaseClaimAlert(e);
                 break;
-			case CONSTANTS.LINK_TYPE.MATCH_CLAIMS:
+            case CONSTANTS.LINK_TYPE.MATCH_CLAIMS:
                 protocall.view.matchClaimAlert(e);
                 break;
                 /*Naveen Chnages 19-2-2015 start */
@@ -1242,27 +1371,37 @@ protocall.events = {
                 protocall.view.staticDocumentOverlayDisplay(e);
                 break;
             case CONSTANTS.LINK_TYPE.SELECTED_SEARCH_ITEM:
+                localStorage.setItem("SUBMENU", "CUSTOMER_PAGE");
+                PAGEREFRESH.ISPAGEREFRESHEDFORCUSTOMERFEEDVIEW = true;
                 protocall.view.showSearchResult(e);
                 break;
-            case CONSTANTS.LINK_TYPE.SORYBYRECENT:
+            case CONSTANTS.LINK_TYPE.SORTBYRECENT:
                 protocall.view.loadSortByRecent($el, true);
+                break;
+            case CONSTANTS.LINK_TYPE.SUPERADMIN_AGENCIES_RECENTSORT:
+                $("div.submenu-sort div:nth-child(1)").text("Recent");
+                popUpContent.closePopUpContent();
+                protocall.view.loadAgenciesPage(true);
+                break;
+            case CONSTANTS.LINK_TYPE.SUPERADMIN_AGENCIES_ALPHASORT:
+                protocall.view.loadAgenciesSortByAlphabetical($el, true);
                 break;
             case CONSTANTS.LINK_TYPE.SORTBYALPHABETICAL:
                 protocall.view.loadSortByAlphabetical($el, true);
                 break;
-            case CONSTANTS.LINK_TYPE.CARRIERSORYBYRECENT:
+            case CONSTANTS.LINK_TYPE.CARRIERSORTBYRECENT:
                 protocall.view.loadSortByRecentCarrier($el, true);
                 break;
             case CONSTANTS.LINK_TYPE.CARRIERSORTBYALPHABETICAL:
                 protocall.view.loadSortByAlphabeticalCarrier($el, true);
                 break;
-            case CONSTANTS.LINK_TYPE.CUSTOMERSORYBYRECENT:
+            case CONSTANTS.LINK_TYPE.CUSTOMERSORTBYRECENT:
                 protocall.view.loadSortByRecentCustomers($el, true);
                 break;
             case CONSTANTS.LINK_TYPE.CUSTOMERSORTBYALPHABETICAL:
                 protocall.view.loadSortByAlphabeticalCustomer($el, true);
                 break;
-            case CONSTANTS.LINK_TYPE.REPSSORYBYRECENT:
+            case CONSTANTS.LINK_TYPE.REPSSORTBYRECENT:
                 protocall.view.loadSortByRecentReps($el, true);
                 break;
             case CONSTANTS.LINK_TYPE.REPSSORTBYALPHABETICAL:
@@ -1276,10 +1415,16 @@ protocall.events = {
                 break;
                 /*Naveen Chnages 19-2-2015 start */
             case CONSTANTS.LINK_TYPE.SIGNUP:
-                protocall.view.loadSignupPage();
+                protocall.view.loadSignupPage(true);
+                break;
+			case CONSTANTS.LINK_TYPE.COMPLETESIGNUP:
+                protocall.view.finishSignUp(true);
                 break;
             case CONSTANTS.LINK_TYPE.LOGIN_PAGE:
                 protocall.view.loadLoginPage();
+                break;
+			case CONSTANTS.LINK_TYPE.LOGIN:
+                protocall.view.loadLoginPage(true);
                 break;
             case CONSTANTS.LINK_TYPE.RESETPASSWORD:
                 protocall.view.loadResetPassAlertBox();
@@ -1418,16 +1563,104 @@ protocall.events = {
 };
 //protocall view functions
 protocall.view = {
+	finishSignUp : function(isClickEvent){
+		var firstName = $("#firstNameSignup").val();
+		var lastName = $("#lastNameSignup").val();
+		var userEmailId = $("#emailIdSignup").val();
+		var passwordValue = $("#passwordSignUp").val();
+		var retypePassword = $("#reTypePasswordSignUp").val();
+		var userName = firstName+""+lastName;
+		var deepPath = "";
+		var linkExpirationID = protocall.grabHashPageForInviteRep();
+		if(passwordValue!="" && !passwordValue.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{10,128}$/)){
+			var error = "Your password is Invalid, please verify once";
+			protocall.displaySpinner(false);
+			$('.signup-error').html(error);
+		}
+		else if(passwordValue!="" && retypePassword!=""){
+			if(passwordValue == retypePassword){
+				$('.signup-error').html("");
+				if(sessionStorage.roleToBePassed == "carrierRep"){
+					deepPath = "carrierrepresentativeregistration";
+				} else {
+					deepPath = "agencyrepresentativeregistration";
+				}
+				var page = "signup";
+				var data = {linkExpiration:linkExpirationID,agencyRepresentativeId:{email:userEmailId},name:userName,password:passwordValue};
+				callback = protocall.view.signUpRegistration;
+				var resp = utils.server.makeServerCall(page, data, callback, deepPath);
+			} else {
+				var error = "Your password is mismatched, please verify once";
+				protocall.displaySpinner(false);
+				$('.signup-error').html(error);
+			}
+		}else{
+			var error = "Please Provide all the details";
+			protocall.displaySpinner(false);
+			$('.signup-error').html(error);
+		}
+	},
+	signUpRegistration : function(data,page){
+		console.log("data >>>>>>>>>>>>> signUpRegistration",data);
+		protocall.displaySpinner(true);
+		if(data.resultMap.TypeCode == "4112"){
+			var error = "Provide the different phone number, which already present";
+            protocall.displaySpinner(false);
+            $('.login-error').html(error);
+		} else if(data.resultMap.TypeCode == "4113") {
+			var error = "Your Invitation link has been expired. Please contact your admin";
+            protocall.displaySpinner(false);
+            $('.login-error').html(error);
+		} else {
+			HOMEPAGERESPONSE.SIGNUPREGISTRATIONDONE = true;
+			//protocall.displaySpinner(false);
+			protocall.view.loadLoginPage();
+		}
+	},
+    loadResetPassword: function () {
+        var email = sessionStorage.userEmailId;
+        var emailList1 = [email];
+        //  alert(emailList1);
+        var deepPath = "sendinvitation";
+        var link = "http://gridframe.net/demo/protocall/#signup";
+        var resetPassword = true;
+        var callback = protocall.view.gotLoginReponse;
+        var content = sessionStorage.userName + 'is inviting you to join in protocall.Please use the below link to signup in protocall and the link will expire in 24 hours.';
+        var data = {"emailList": emailList1, "link": link, "resetPassword": resetPassword, "text": content};
+        utils.server.makeServerCall("resetpage", data, callback, deepPath);
+    },
+    gotLoginReponse: function (data) {
+
+        console.log("rese", data);
+        if (data.resultMap.TypeCode == "4021") {
+            //  alert("Saved");
+        } else {
+            //  alert("Sllaved");
+        }
+    },
     superAdminPage: function (data, page) {
         console.log("superAdminPage>>>>>>>>>>>>>>>data", data);
         var feedHTML = "";
         if (data.resultMap.AlertMessage !== "undefined" && data.resultMap.TypeCode == "4011") {
-            console.log("superadmin", data);
-            HOMEPAGERESPONSE.SUPERADMINCARRIERDETAILS = data.resultMap.carrierTab;
-            HOMEPAGERESPONSE.SUPERADMINCUSTOMERS = data.resultMap.customerTab;
-            HOMEPAGERESPONSE.SUPERADMINAGENCIES = data.resultMap.agencyTab;
-            HOMEPAGERESPONSE.HOMEPAGEDATA = data.resultMap.homeTab;
 
+            console.log("superadmin", data);
+            if (HOMEPAGERESPONSE.SORTBYALPHABETICALVIEW == true) {
+                HOMEPAGERESPONSE.HOMEPAGEDATA = [];
+                HOMEPAGERESPONSE.HOMEPAGEDATA = data.resultMap.homeTab;
+            } else {
+                HOMEPAGERESPONSE.SUPERADMINCARRIERDETAILS = [];
+                HOMEPAGERESPONSE.SUPERADMINCUSTOMERS = [];
+                HOMEPAGERESPONSE.SUPERADMINAGENCIES = [];
+                HOMEPAGERESPONSE.HOMEPAGEDATA = [];
+                HOMEPAGERESPONSE.CUSTOMERDATA = [];
+                HOMEPAGERESPONSE.SUPERADMINCARRIERDETAILS = data.resultMap.carrierTab;
+                HOMEPAGERESPONSE.SUPERADMINCUSTOMERS = data.resultMap.customerTab;
+                HOMEPAGERESPONSE.SUPERADMINAGENCIES = data.resultMap.agencyTab;
+                HOMEPAGERESPONSE.HOMEPAGEDATA = data.resultMap.homeTab;
+                localStorage.setItem("customers_data", JSON.stringify(data.resultMap.customerTab));
+                HOMEPAGERESPONSE.CUSTOMERDATA = data.resultMap.customerTab;
+
+            }
 
             HOMEPAGERESPONSE.RECURRINGALERTDFEEDS = [];
             if (localStorage.getItem("LOGIN_LABEL") == "Agency") {
@@ -1474,9 +1707,9 @@ protocall.view = {
                 }
 
                 feedHTML += " <div class=\"parent-content-holder1\" style=\"  height: auto;  width: 23%;  background: white;  float: left;  margin: 5px;\"> <div class=\"topview p-relative\">  "
-                        + "<div class=\"topview-rightcontent1\" style=\"width: 100%; margin-left:5px; height: 60px;  float: left;  margin-top: 18px;padding-left:20px;line-height:20px;overflow: hidden;\"> <div class=\"carrierid\" style=\"display:none;\">" + cus.agencyId + "</div>"
-                        + "<div class=\"topview-rightcontentcarrier-name t-caps \" style=\"float:left;margin-right:5px;\">" + name + "</div>"
-                        + "<div class=\"topview-rightcontentcarrier-location t-caps \" style=\"clear:both;\">" + serviceType + "</div> <div class=\"topview-rightcontentcarrier-email\">#" + preferredVendorId + "</div> </div> <input type=\"checkbox\" class=\"getSelectedCustomers  p-absolute snap\" data-type=\"customersCheckBox\" value=" + "cusEmail" + " id=" + "cusEmail" + " > <label for=" + "cusEmail" + " class=\"customer-feed-label\" style=\"display:none;\"></label> </div> <div class=\"downview p-relative\">"
+                        + "<div class=\"topview-rightcontent1\" style=\"width: 100%; margin-left:5px; height: 70px;  float: left;  margin-top: 18px;padding-left:20px;line-height:20px;overflow: hidden;\"> <div class=\"carrierid\" style=\"display:none;\">" + cus.agencyId + "</div>"
+                        + "<div class=\"topview-rightcontentcarrier-name t-caps \" style=\"float:left;margin-right:5px;margin-bottom: 5px;\">" + name + "</div>"
+                        + "<div class=\"topview-rightcontentcarrier-location t-caps \" style=\"clear:both;margin-bottom: 5px;\">" + serviceType + "</div> <div class=\"topview-rightcontentcarrier-email\">#" + preferredVendorId + "</div> </div> <input type=\"checkbox\" class=\"getSelectedCustomers  p-absolute snap\" data-type=\"customersCheckBox\" value=" + "cusEmail" + " id=" + "cusEmail" + " > <label for=" + "cusEmail" + " class=\"customer-feed-label\" style=\"display:none;\"></label> </div> <div class=\"downview p-relative\">"
                         + "<div id=" + preferredVendorId + "  value=" + preferredVendorId + " class=\"carrier-view superadminHome p-relative bg-color-green t-caps t-center opensans-regular f-color-w snap\" data-type=\"superAdminHomeFeedView\">view</div> </div> </div>";
 
             }
@@ -1519,10 +1752,11 @@ protocall.view = {
     },
     loadSignupPage: function (isClickEvent) {
         console.log("Load signup Page");
-        protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.SIGNUP);
+		protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.SIGNUP);
+        //protocall.setPageNavigation(CONSTANTS.LINK_TYPE.SIGNUP);
         protocall.home.initSignUpPage();
-        protocall.setMenuSelection(CONSTANTS.LINK_TYPE.SIGNUP);
-        protocall.events.GlobalContainerScrollevent();
+        //protocall.setMenuSelection(CONSTANTS.LINK_TYPE.SIGNUP);
+		protocall.events.GlobalContainerScrollevent();
         if (isClickEvent) {
             protocall.setPage(CONSTANTS.LINK_TYPE.SIGNUP, CONSTANTS.LINK_TYPE.SIGNUP, CONSTANTS.LINK_TYPE.SIGNUP, "");
         }
@@ -1622,18 +1856,47 @@ protocall.view = {
     },
     overlayProfileEditPic: function (isClickEvent) {
 
-
-
         var name = $(".txt-agency-name").val();
         var emailId = $(".txt-agency-emailid").val();
-        //Make call here
-        var page = "myagencyoverlay";
-        var data = {agencyName: name, emailId: emailId, agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"};
-        var callback = utils.server.gotprofileEditresponse;
-        var deepPath = "editagency";
+		//Make call here
+		if(localStorage.getItem("LOGIN_LABEL") == "Agency"){
+			var page = "myagencyoverlay";
+			var data = {agencyName: name, emailId: emailId, agencyId: sessionStorage.ownerId};
+			var deepPath = "editagency";
+		} else {
+			 var page = "mycarrieroverlay";
+			var data = {carrierName: name, emailId: emailId, carrierId: sessionStorage.ownerId};
+			var deepPath = "editcarrier";
+		}
+       /*  var page = "myagencyoverlay";
+        var data = {agencyName: name, emailId: emailId, agencyId: sessionStorage.ownerId}; */
+        var callback = utils.server.gotagencyLogoEditresponse;
         utils.server.makeServerCall(page, data, callback, deepPath);
+		protocall.view.agencyImageUpload(sessionStorage.ownerId);
         overlay.closeOverlay();
     },
+	agencyImageUpload : function(agencyID){
+		var formdata = new FormData();
+		var imageContentType;
+		console.log("$('#inputfile1')[0]",$('#inputfile1')[0].files);
+		if ($('#inputfile1')[0].files.length > 0) {
+			var file = $('#inputfile1')[0].files[0];
+			formdata.append("Logo", file);
+			imageContentType = file.type;
+		}
+		var callback = utils.server.profilePicResponse;
+		var isFormData = true;
+		var qs = agencyID;
+		var pagespinner = true;
+		var typeOfImageValue;
+		if(localStorage.getItem("LOGIN_LABEL") == "Agency"){
+			typeOfImageValue = "agencyLogo";
+		} else {
+			typeOfImageValue = "carrierLogo";
+		}
+		HOMEPAGERESPONSE.PROFILEPICUPDATECLICKED = false;
+		utils.server.imagesToServer(formdata, callback, isFormData, qs, pagespinner,typeOfImageValue,imageContentType);
+	},
     MyprofEdit: function (isClickEvent) {
 
 
@@ -1645,6 +1908,7 @@ protocall.view = {
             var email = $("#emailview").text();
             $('.submenu-title').empty();
             $('.submenu-title').append("Save");
+            $("#id-changeimg").css("display", "block");
             $(".profile-result-cls").css("display", "none");
             $(".agencyprofinput").css("display", "block");
             $('#namenew').val(name);
@@ -1660,33 +1924,32 @@ protocall.view = {
             $('.submenu-title').append("Edit");
             $(".profile-result-cls").css("display", "block");
             $(".agencyprofinput").css("display", "none");
+            $("#id-changeimg").css("display", "none");
             $('#nameview').html(name);
             $('#phoneview').html(phone);
             $('#emailview').html(email);
             //Make call here
+
             var page = "myprofile";
-            var data = {firstName: name, emailId: "agencyowner@gmail.com", phone: phone};
+            var data = {firstName: name.trim(), emailId: email.trim(), phone: phone.trim()};
             var callback = utils.server.gotprofileEditresponse;
             var deepPath = "edituser";
             utils.server.makeServerCall(page, data, callback, deepPath);
             //Make image server call
-
+			var imageContentType;
             var formdata = new FormData();
             if ($('#agency-prof-img')[0].files.length > 0) {
                 var file = $('#agency-prof-img')[0].files[0];
                 formdata.append("profilePicture", file);
-            }
-
-            step1 = "profilePicture";
-            var resultObject = step1;
-            var dataString = JSON.stringify(resultObject);
-            formdata.append("type", dataString);
+				imageContentType = file.type;
+		    }
             var callback = utils.server.profilePicResponse;
             var isFormData = true;
-            var ref = "profilePic";
-            var qs = "agencyowner@gmail.com";
-            var pagespinner = true;
-            utils.server.imagesToServer(formdata, callback, isFormData, ref, qs, pagespinner);
+            var qs = sessionStorage.userEmailId;
+			var pagespinner = true;
+			var typeOfImage = "profilePicture";
+			HOMEPAGERESPONSE.PROFILEPICUPDATECLICKED = true;
+            utils.server.imagesToServer(formdata,callback,isFormData,qs,pagespinner,typeOfImage,imageContentType);
         }
 
 
@@ -1707,7 +1970,6 @@ protocall.view = {
             $('#phonenew').val(phone);
             $('#emailnew').val(email);
         } else {
-
             var name = $("#namenew").val();
             var phone = $("#phonenew").val();
             var email = $("#emailnew").val();
@@ -1719,41 +1981,40 @@ protocall.view = {
             $('#emailview').html(email);
             //Make call here
             var page = "myprofile";
-            var data = {firstName: name, emailId: "agencyowner@gmail.com", phone: phone};
+            var data = {firstName: name.trim(), emailId: email.trim(), phone: phone.trim()};
             var callback = utils.server.gotprofileEditresponse;
             var deepPath = "edituser";
             utils.server.makeServerCall(page, data, callback, deepPath);
             //Make image server call
-
+			var imageContentType;
             var formdata = new FormData();
             if ($('#agency-prof-img')[0].files.length > 0) {
                 var file = $('#agency-prof-img')[0].files[0];
-                formdata.append("profilePicture", file);
+                formdata.append(file);
+				imageContentType = file.type;
             }
-
-            step1 = "profilePicture";
-            var resultObject = step1;
-            var dataString = JSON.stringify(resultObject);
-            formdata.append("type", dataString);
             var callback = utils.server.profilePicResponse;
             var isFormData = true;
-            var ref = "profilePic";
-            var qs = "agencyowner@gmail.com";
+			var qs = sessionStorage.userEmailId;
             var pagespinner = true;
-            utils.server.imagesToServer(formdata, callback, isFormData, ref, qs, pagespinner);
+            console.log("frmdata", formdata);
+			var typeOfImage = "profilePicture";
+            utils.server.imagesToServer(formdata,callback,isFormData,qs,pagespinner,typeOfImage,imageContentType);
         }
 
 
     },
     loadLoginPage: function (isClickEvent) {
         console.log("Load login Page");
-        protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.LOGIN_PAGE);
+		protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.LOGIN_PAGE);
         protocall.home.initLoginPage();
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.LOGIN_PAGE);
         protocall.events.GlobalContainerScrollevent();
         if (isClickEvent) {
-            protocall.setPage(CONSTANTS.LINK_TYPE.LOGIN_PAGE, CONSTANTS.LINK_TYPE.LOGIN_PAGE, CONSTANTS.LINK_TYPE.LOGIN_PAGE, "");
-        }
+            protocall.setPage(CONSTANTS.LINK_TYPE.LOGIN, CONSTANTS.LINK_TYPE.LOGIN, CONSTANTS.LINK_TYPE.LOGIN, "");
+        } else {
+			protocall.setPage(CONSTANTS.LINK_TYPE.LOGIN_PAGE, CONSTANTS.LINK_TYPE.LOGIN_PAGE, CONSTANTS.LINK_TYPE.LOGIN_PAGE, "");
+		}
         protocall.displaySpinner(false);
     },
     loadHomePage: function (isClickEvent) {
@@ -1767,6 +2028,8 @@ protocall.view = {
         HOMEPAGERESPONSE.FEEDSICONCLICKED = false;
         HOMEPAGERESPONSE.UNREADFEEDCOUNT = 0;
         HOMEPAGERESPONSE.RELATEDFEEDSLOADED = false;
+		HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED = false;
+		protocall.view.subMenuSelectedTab();
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE);
         protocall.home.initHomePage();
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
@@ -1795,7 +2058,8 @@ protocall.view = {
         protocall.displaySpinner(false);
     },
     loadAgenciesPage: function (isClickEvent) {
-
+        HOMEPAGERESPONSE.SORTBYRECENTVIEW = true;
+        HOMEPAGERESPONSE.SORTBYALPHABETICALVIEW = false;
         localStorage.setItem("SUBMENU", "AGENCIES_PAGE");
         $(".content-holder").addClass("spinner1");
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.AGENCIES_PAGE);
@@ -1825,6 +2089,8 @@ protocall.view = {
         console.log("Load Carrier Page");
         $(".content-holder").css("opacity", "0.5");
         $(".content-holder").addClass("spinner1");
+        HOMEPAGERESPONSE.SORTBYRECENTVIEW = true;
+        HOMEPAGERESPONSE.SORTBYALPHABETICALVIEW = false;
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.CARRIERS_PAGE);
         //Call the below in carrier.js
         protocall.carrier.initCarrierPage();
@@ -1838,6 +2104,8 @@ protocall.view = {
     loadCustomerPage: function (isClickEvent) {
         $(".content-holder").css("opacity", "0.5");
         $(".content-holder").addClass("spinner1");
+        HOMEPAGERESPONSE.SORTBYRECENTVIEW = true;
+        HOMEPAGERESPONSE.SORTBYALPHABETICALVIEW = false;
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
         protocall.events.GlobalContainerScrollevent();
         //  console.log("Load Customer Page");
@@ -1878,17 +2146,34 @@ protocall.view = {
         protocall.displaySpinner(false);
     },
     viewFeed: function (isClickEvent, e) {
-        var currentTarget = "", userEmail = "", incidentDate = "", alertType = "", alertIDForView = "", policyAlertMessage = "";
-        protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_FEED);
+		$(".container").off("scroll");
+        var currentTarget = "", userEmail = "", incidentDate = "", alertType = "", alertIDForView = "", policyAlertMessage = "",statusOfThePolicy = "";
+		if(HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED){
+			protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_ARCHIVES);
+		}else if(HOMEPAGERESPONSE.INCIDENTALERTSCLICKED){
+			protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.INCIDENTS);
+		} else if(HOMEPAGERESPONSE.POLICYALERTCLICKED){
+			protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.POLICIES);
+		} else {
+			protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_FEED);
+		}
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
         protocall.events.GlobalContainerScrollevent();
         if (isClickEvent) {
             currentTarget = $(e.currentTarget);
             userEmail = currentTarget.find("div span").attr("id");
-            alertIDForView = currentTarget.find("div span").attr("name")
-            protocall.setPage(CONSTANTS.LINK_TYPE.HOME_PAGE, CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_FEED, CONSTANTS.LINK_TYPE.VIEW_FEED, "");
-            sessionStorage.setItem("userEmailViewFeed", userEmail)
-            sessionStorage.setItem("userAlertIdViewFeed", alertIDForView)
+            alertIDForView = currentTarget.find("div span").attr("name");
+			if(HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED){
+				protocall.setPage(CONSTANTS.LINK_TYPE.HOME_PAGE, CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_ARCHIVES + "/" + CONSTANTS.LINK_TYPE.VIEW_FEED, CONSTANTS.LINK_TYPE.VIEW_FEED, "");
+			}else if(HOMEPAGERESPONSE.INCIDENTALERTSCLICKED){
+				protocall.setPage(CONSTANTS.LINK_TYPE.HOME_PAGE, CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.INCIDENTS + "/" + CONSTANTS.LINK_TYPE.VIEW_FEED, CONSTANTS.LINK_TYPE.VIEW_FEED, "");
+			} else if(HOMEPAGERESPONSE.POLICYALERTCLICKED){
+				protocall.setPage(CONSTANTS.LINK_TYPE.HOME_PAGE, CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.POLICIES + "/" + CONSTANTS.LINK_TYPE.VIEW_FEED, CONSTANTS.LINK_TYPE.VIEW_FEED, "");
+			} else {
+				protocall.setPage(CONSTANTS.LINK_TYPE.HOME_PAGE, CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_FEED, CONSTANTS.LINK_TYPE.VIEW_FEED, "");
+			}
+            sessionStorage.setItem("userEmailViewFeed", userEmail);
+            sessionStorage.setItem("userAlertIdViewFeed", alertIDForView);
             sessionStorage.setItem("alertFeeds", HOMEPAGERESPONSE.RECURRINGALERTDFEEDS);
         }
         if (PAGEREFRESH.ISPAGEREFRESHED) {
@@ -1897,45 +2182,78 @@ protocall.view = {
             HOMEPAGERESPONSE.RECURRINGALERTDFEEDS = sessionStorage.getItem("alertFeeds");
         }
         //Call the below dynamically
-        $.each(HOMEPAGERESPONSE.RECURRINGALERTDFEEDS, function (index, viewAlertFeed) {
-            console.log("alertIDForView >>>>>>>>>>>", alertIDForView);
-            console.log("alertId in each >>>>>>>>>>>", viewAlertFeed.alertDetails.alertId);
-            console.log("Email Id in each >>>>>>>>>>>", viewAlertFeed.userDetails.emailId.email);
-            if (userEmail == viewAlertFeed.userDetails.emailId.email && alertIDForView == viewAlertFeed.alertDetails.alertId) {
-                firstName = viewAlertFeed.userDetails.firstName;
-                lastName = viewAlertFeed.userDetails.lastName;
-                alertId = viewAlertFeed.alertDetails.alertId;
-                alDate = viewAlertFeed.alertDetails.alertDate;
-                console.log("alDate>>>>>>>>>>>>>>>>>>>", alDate);
-                alertDateValue = moment(new Date(parseInt(alDate))).format('MMM D, YYYY');
-                console.log("alertDateValue>>>>>>>>>>>>>>>>>>>", alertDateValue);
-                alertTime = moment(Number(alDate)).format('h:mmA');
-                bDay = viewAlertFeed.userDetails.birthDate;
-                console.log("bDay>>>>>>>>>>>>>", bDay);
-                birthday = moment(bDay).format('MMM D, YYYY');
-                profilePicture = HOMEPAGERESPONSE.PROFILEAPI + viewAlertFeed.userDetails.profilePicture;
-                gender = viewAlertFeed.userDetails.gender;
-                residentialCity = viewAlertFeed.userDetails.residentialCity;
-                console.log("residentialCity>>>>>>>>>>>>>", residentialCity);
-                phoneNumber = viewAlertFeed.userDetails.phone.number;
-                alertType = viewAlertFeed.alertDetails.type;
-                if (alertType == "incidentalert") {
-                    incidentDate = viewAlertFeed.IncidentDetails.incidentId;
-                } else {
-                    incidentDate = viewAlertFeed.alertDetails.policyId;
-                    policyAlertMessage = viewAlertFeed.PolicyChangeSelected;
+        if (HOMEPAGERESPONSE.RELATEDFEEDSLOADED) {
+            feedValues = HOMEPAGERESPONSE.RELATEDFEEDS;
+        } else {
+            feedValues = HOMEPAGERESPONSE.RECURRINGALERTDFEEDS;
+        }
+        $.each(feedValues, function (index, viewAlertFeed) {
+            /* console.log("alertIDForView >>>>>>>>>>>", alertIDForView);
+             console.log("alertId in each >>>>>>>>>>>", viewAlertFeed.alertDetails.alertId);
+             console.log("Email Id in each >>>>>>>>>>>", viewAlertFeed.userDetails.emailId.email); */
+            if (HOMEPAGERESPONSE.RELATEDFEEDSLOADED) {
+                if (userEmail == HOMEPAGERESPONSE.COMMONUSERDETAILSFORRELATEDFEEDS.emailId.email && alertIDForView == viewAlertFeed.alertDetails.alertId) {
+                    firstName = HOMEPAGERESPONSE.COMMONUSERDETAILSFORRELATEDFEEDS.firstName;
+                    lastName = HOMEPAGERESPONSE.COMMONUSERDETAILSFORRELATEDFEEDS.lastName;
+                    bDay = HOMEPAGERESPONSE.COMMONUSERDETAILSFORRELATEDFEEDS.birthDate;
+                    birthday = moment(bDay).format('DD/MM/YYYY');
+                    gender = HOMEPAGERESPONSE.COMMONUSERDETAILSFORRELATEDFEEDS.gender;
+                    residentialCity = HOMEPAGERESPONSE.COMMONUSERDETAILSFORRELATEDFEEDS.residentialCity;
+                    phoneNumber = HOMEPAGERESPONSE.COMMONUSERDETAILSFORRELATEDFEEDS.phone.number;
+					if(HOMEPAGERESPONSE.COMMONUSERDETAILSFORRELATEDFEEDS.profilePicture){
+						profilePicture = HOMEPAGERESPONSE.PROFILEAPI + HOMEPAGERESPONSE.COMMONUSERDETAILSFORRELATEDFEEDS.profilePicture;
+					} else {
+						profilePicture = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+					}
+                    alDate = viewAlertFeed.alertDetails.alertDate;
+                    alertDateValue = moment(new Date(parseInt(alDate))).format('MMM D, YYYY');
+					alertTime = moment(Number(alDate)).format('h:mmA');
+                    alertType = viewAlertFeed.alertDetails.type;
+					debugger;
+                    if (alertType == "incidentalert") {
+                        incidentDate = viewAlertFeed.IncidentDetails.incidentId;
+                    } else {
+                        incidentDate = viewAlertFeed.alertDetails.policyId;
+                        policyAlertMessage = viewAlertFeed.PolicyChangeSelected;
+                    }
+                    noOfOtherPartyRecordsCount = viewAlertFeed.NoofOtherPartyRecord;
+                    noOfAudioRecordCount = viewAlertFeed.NoofAudioRecord;
+                    noOfPictureRecord = viewAlertFeed.NoofPictureRecord;
+					statusOfThePolicy = viewAlertFeed.alertStatusDetails.status;
+		        }
+            } else {
+                if (userEmail == viewAlertFeed.userDetails.emailId.email && alertIDForView == viewAlertFeed.alertDetails.alertId) {
+                    firstName = viewAlertFeed.userDetails.firstName;
+                    lastName = viewAlertFeed.userDetails.lastName;
+                    bDay = viewAlertFeed.userDetails.birthDate;
+                    birthday = moment(bDay).format('DD/MM/YYYY');
+                    gender = viewAlertFeed.userDetails.gender;
+                    residentialCity = viewAlertFeed.userDetails.residentialCity;
+                    phoneNumber = viewAlertFeed.userDetails.phone.number;
+					profilePicture = viewAlertFeed.userDetails.profilePicture;
+					if(profilePicture){
+						profilePicture = HOMEPAGERESPONSE.PROFILEAPI + viewAlertFeed.userDetails.profilePicture;
+					} else {
+						profilePicture = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+					}
+					alDate = viewAlertFeed.alertDetails.alertDate;
+                    //alertDateValue = moment(new Date(parseInt(alDate))).format('MMM D, YYYY');
+                    alertDateValue = moment(Number(alDate)).format('MMM D, YYYY');
+                    alertTime = moment(Number(alDate)).format('h:mmA');
+                    alertType = viewAlertFeed.alertDetails.type;
+                    if (alertType == "incidentalert") {
+                        incidentDate = viewAlertFeed.IncidentDetails.incidentId;
+                    } else {
+                        incidentDate = viewAlertFeed.alertDetails.policyId;
+                        policyAlertMessage = viewAlertFeed.PolicyChangeSelected;
+                    }
+                    noOfOtherPartyRecordsCount = viewAlertFeed.NoofOtherPartyRecord;
+                    noOfAudioRecordCount = viewAlertFeed.NoofAudioRecord;
+                    noOfPictureRecord = viewAlertFeed.NoofPictureRecord;
+					statusOfThePolicy = viewAlertFeed.alertStatusDetails.status;
                 }
-                noOfOtherPartyRecordsCount = viewAlertFeed.NoofOtherPartyRecord;
-                noOfAudioRecordCount = viewAlertFeed.NoofAudioRecord;
-                noOfPictureRecord = viewAlertFeed.NoofPictureRecord;
             }
-            /* if(alertType == "incidentalert"){
-             incidentDate = viewAlertFeed.IncidentDetails.timeStamp;
-             } else {
-             incidentDate = viewAlertFeed.alertDetails.alertDate;
-             } */
         });
-        console.log("alertType Temp Obj", alertType);
         if (lastName == undefined) {
             lastName = "";
         }
@@ -1945,12 +2263,15 @@ protocall.view = {
         if (policyAlertMessage == "") {
             policyAlertMessage = "";
         }
-        userName = firstName + '&nbsp' + lastName;
+		if (bDay == undefined) {
+            birthday = "";
+        }
+		userName = firstName + '&nbsp' + lastName;
         var tempObj = {
             "firstName": firstName,
             "lastName": lastName,
             "userName": userName,
-            "alertId": alertId,
+            "alertId": alertIDForView,
             "birthday": birthday,
             "alertDate": alertDateValue,
             "alertTime": alertTime,
@@ -1964,9 +2285,10 @@ protocall.view = {
             "noOfAudioRecordCount": noOfAudioRecordCount,
             "noOfPictureRecord": noOfPictureRecord,
             "incidentDate": incidentDate,
-            "policyMessage": policyAlertMessage
+            "policyMessage": policyAlertMessage,
+			"statusOfPolicy" : statusOfThePolicy
         };
-        console.log("tempObj.alertDate", tempObj.alertDate);
+		//console.log("tempObj.alertDate",);
         HOMEPAGERESPONSE.COMMONUSERDETAILS = tempObj;
         console.log("HOMEPAGERESPONSE.COMMONUSERDETAILS", HOMEPAGERESPONSE.COMMONUSERDETAILS.lastName);
         console.log("HOMEPAGERESPONSE.COMMONUSERDETAILS tempObj", tempObj.lastName);
@@ -1979,6 +2301,7 @@ protocall.view = {
         protocall.view.buildSubMenuBlk(CONSTANTS.LINK_TYPE.HOME_PAGE, breadCrumbObj);
         protocall.displaySpinner(false);
         protocall.events.GlobalContainerScrollevent();
+        $(".tab-rb-submenu").css("display", "none");
     },
     viewCustomerViewFeed: function (isClickEvent) {
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE + "/" + CONSTANTS.LINK_TYPE.VIEW_CUSTOMER_FEEDVIEW);
@@ -2046,6 +2369,7 @@ protocall.view = {
         protocall.myProfile.loadMyProfileView($el);
         //  protocall.view.buildSubMenuBlk(CONSTANTS.LINK_TYPE.PROFILE_PAGE);
         protocall.displaySpinner(false);
+        $(".container").off("scroll");
         protocall.events.GlobalContainerScrollevent();
     },
     viewCarrierViewFeed: function (isClickEvent, Carrieremail) {
@@ -2088,6 +2412,35 @@ protocall.view = {
          protocall.view.setSelectedLinkClasses($(this), false);
          });
          protocall.view.buildSubMenuBlk(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE, breadCrumbObj);*/
+        //var currentTarget = $(e.currentTarget);
+        //var emaiID = currentTarget.attr("id");
+        var policiesWithCarrierValues = [], agencyRepresentativeIdValue = "", carrierIdValue = "";
+        //var customerData = localStorage.getItem("customers_data");
+        //if(HOMEPAGERESPONSE.CUSTOMERDATA !== undefined){
+        $.each(HOMEPAGERESPONSE.CUSTOMERDATA, function (index, customerValue) {
+            if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
+                if (emailId == customerValue.CustomerDetails.emailId.email) {
+                    console.log("customerValue>>>>>>>>>>> match found", customerValue);
+                    policiesWithCarrierValues = customerValue.CustomerDetails.policyListWithCarrier;
+                    agencyRepresentativeIdValue = customerValue.CustomerDetails.agencyRepresentativeId.email;
+                    carrierIdValue = customerValue.CustomerDetails.carrierId;
+                }
+            } else {
+                if (emailId == customerValue.emailId.email) {
+                    console.log("customerValue>>>>>>>>>>> match found", customerValue);
+                    policiesWithCarrierValues = customerValue.policyListWithCarrier;
+                    agencyRepresentativeIdValue = customerValue.agencyRepresentativeId.email;
+                    carrierIdValue = customerValue.carrierId;
+                }
+            }
+        });
+        HOMEPAGERESPONSE.POLICYWITHCARRIER = policiesWithCarrierValues;
+        //}
+        var page = "pageassigncustomersoverlay";
+        var data = {userId: emailId, agencyRepresentativeId: agencyRepresentativeIdValue, carrierId: carrierIdValue, alertList: policiesWithCarrierValues};
+        var callback = protocall.view.properityPolicyresponse;
+        var deepPath = "userwithpoliciesandotherproduct";
+        utils.server.makeServerCall(page, data, callback, deepPath);
         protocall.displaySpinner(false);
         protocall.events.GlobalContainerScrollevent();
     },
@@ -2186,6 +2539,7 @@ protocall.view = {
         HOMEPAGERESPONSE.UNREADFEEDCOUNT = 0;
         HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED = false;
         HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED = false;
+		HOMEPAGERESPONSE.RELATEDFEEDSLOADED = false;
         protocall.clickPageNavigation(CONSTANTS.LINK_TYPE.HOME_PAGE + "/" + CONSTANTS.LINK_TYPE.MY_ALERTS);
         protocall.setMenuSelection(CONSTANTS.LINK_TYPE.HOME_PAGE);
         protocall.events.GlobalContainerScrollevent();
@@ -2199,6 +2553,7 @@ protocall.view = {
         protocall.view.setSelectedLinkClasses($el, true);
         protocall.displaySpinner(false);
         protocall.events.GlobalContainerScrollevent();
+
     },
     loadIncidentsFeeds: function ($el, isClickEvent) {
         $(".content-holder").css("opacity", "0.5");
@@ -2331,13 +2686,13 @@ protocall.view = {
         console.log("$e1", $e1);
         if ($e1.prop("checked") == true) {
             HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE.push(alertIDValue);
-            $("a.archives").css("display", "block");
+            $("a.archives").css("visibility", "visible");
         } else {
             HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE.pop(alertIDValue);
             if (HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE.length == 0) {
-                $("a.archives").css("display", "none");
+                $("a.archives").css("visibility", "hidden");
             } else {
-                $("a.archives").css("display", "block");
+                $("a.archives").css("visibility", "visible");
             }
         }
         console.log("alertIDValue", $e1.attr("id"));
@@ -2368,8 +2723,15 @@ protocall.view = {
         var html = '<div><div class="snap ' + localStorage.myrepvalue1 + ' prof-view-overlay-sort" id="Myrecent" data-type="reps-recent">Recent</div><div class="snap ' + localStorage.myrepvalue2 + ' prof-view-overlay-sort" data-type="reps-alpha" id="Myalphabet">Alphabetical</div></div>';
         popUpContent.togglePopUpContent($el, html);
     },
+    loadSortByAgencies: function ($el) {
+        var html = '<div><div class="snap ' + localStorage.myrepvalue1 + ' prof-view-overlay-sort" id="Myrecent" data-type="agencies-recent">Recent</div><div class="snap ' + localStorage.myrepvalue2 + ' prof-view-overlay-sort" data-type="agencies-alpha" id="Myalphabet">Alphabetical</div></div>';
+        popUpContent.togglePopUpContent($el, html);
+    },
     loadSortByRecent: function ($el) {
         protocall.view.sortyByRecnetView();
+    },
+    loadAgenciesSortByAlphabetical: function ($el) {
+        protocall.view.sortyByAgenciesAlphabeticalView();
     },
     loadSortByAlphabetical: function ($el) {
         protocall.view.sortyByAlphabeticalView();
@@ -2419,40 +2781,74 @@ protocall.view = {
     sortyByRecnetView: function () {
         $("div.submenu-sort div:nth-child(1)").text("Recent");
         popUpContent.closePopUpContent();
-        HOMEPAGERESPONSE.SORYBYRECENTVIEW = true;
+        HOMEPAGERESPONSE.SORTBYRECENTVIEW = true;
         HOMEPAGERESPONSE.SORTBYALPHABETICALVIEW = false;
         HOMEPAGERESPONSE.UNREADFEEDCOUNT = 0;
         protocall.home.initHomePage();
     },
-    sortyByAlphabeticalView: function () {
+    sortyByAgenciesAlphabeticalView: function () {
         $("div.submenu-sort div:nth-child(1)").text("Alphabetical");
         popUpContent.closePopUpContent();
-        HOMEPAGERESPONSE.SORYBYRECENTVIEW = false;
+        HOMEPAGERESPONSE.SORTBYRECENTVIEW = false;
         HOMEPAGERESPONSE.SORTBYALPHABETICALVIEW = true;
         HOMEPAGERESPONSE.UNREADFEEDCOUNT = 0;
+
+        var data = {};
+        var path = utils.server.getServerPath("agencylist");
+        var request = path(data).execute(function (resp) {
+            if (resp.error) {
+                t.server.handleError(resp);
+            } else {
+                CustomerdynamicTemplate.customer.loadSuperAdminAegnciesalphaSortBy(resp);
+            }
+        });
+
+
+
+    },
+    sortyByAlphabeticalView: function () {
+
+        $("div.submenu-sort div:nth-child(1)").text("Alphabetical");
+        popUpContent.closePopUpContent();
+        HOMEPAGERESPONSE.SORTBYRECENTVIEW = false;
+        HOMEPAGERESPONSE.SORTBYALPHABETICALVIEW = true;
+        HOMEPAGERESPONSE.UNREADFEEDCOUNT = 0;
+
         protocall.home.initHomePage();
+
+
+
+
     },
     sortyByCarrierRecnetView: function () {
-
+        $("div.submenu-sort div:nth-child(1)").text("Recent");
         popUpContent.closePopUpContent();
+        HOMEPAGERESPONSE.SORTBYRECENTVIEW = true;
+        HOMEPAGERESPONSE.SORTBYALPHABETICALVIEW = false;
         protocall.carrier.initCarrierPage();
         return false;
     },
     sortyByCarrierAlphabeticalView: function () {
-
+        $("div.submenu-sort div:nth-child(1)").text("Alphabetical");
         popUpContent.closePopUpContent();
+        HOMEPAGERESPONSE.SORTBYRECENTVIEW = false;
+        HOMEPAGERESPONSE.SORTBYALPHABETICALVIEW = true;
         protocall.carrier.initCarrierPageSort();
         return false;
     },
     sortyByCustomerRecnetView: function () {
-
+        $("div.submenu-sort div:nth-child(1)").text("Recent");
         popUpContent.closePopUpContent();
+        HOMEPAGERESPONSE.SORTBYRECENTVIEW = true;
+        HOMEPAGERESPONSE.SORTBYALPHABETICALVIEW = false;
         protocall.customer.initCustomerPage();
         return false;
     },
     sortyByCustomerAlphabeticalView: function () {
-
+        $("div.submenu-sort div:nth-child(1)").text("Alphabetical");
         popUpContent.closePopUpContent();
+        HOMEPAGERESPONSE.SORTBYRECENTVIEW = false;
+        HOMEPAGERESPONSE.SORTBYALPHABETICALVIEW = true;
         protocall.customer.initCustomerPageSort();
         return false;
     },
@@ -2478,15 +2874,58 @@ protocall.view = {
     },
     assignToCustomers: function () {
         protocall.displaySpinner(true);
-        var page = "pageassigncustomersoverlay";
-        var data = {};
-        var callback = utils.server.gotAssignCustomersResponse;
-        var deepPath = "userlist";
-        utils.server.makeServerCall(page, data, callback, deepPath);
+        // var page = "pageassigncustomersoverlay";
+        // var data = {};
+        // var callback = utils.server.gotAssignCustomersResponse;
+        // utils.server.gotAssignCustomersResponse
+        // var deepPath = "userlist";
+        // utils.server.makeServerCall(page, data, callback, deepPath);
+
+        utils.server.gotAssignCustomersResponse();
     },
-    properityPolicy: function () {
-        var html = staticTemplate.home.properyPolicyTemplate();
-        overlay.displayOverlay(html);
+    properityPolicy: function (e) {
+        if (HOMEPAGERESPONSE.PROPERTYPOLICYCOUNT !== 0) {
+            var html = staticTemplate.home.properyPolicyTemplate();
+            overlay.displayOverlay(html);
+            GetSlider();
+        }
+    },
+    properityPolicyresponse: function (resp, page) {
+		console.log("resp>>>>>>>>>>>>properityPolicyresponse", resp);
+        if (resp.resultMap.TypeCode == "4011") {
+            HOMEPAGERESPONSE.POLICYDETAILS = resp.resultMap.Policies;
+            $.each(HOMEPAGERESPONSE.POLICYDETAILS, function (index, policyDetails) {
+                HOMEPAGERESPONSE.POLICYCOVERAGEDETAILS = policyDetails.PolicyCoverageDetails;
+                $.each(HOMEPAGERESPONSE.POLICYCOVERAGEDETAILS, function (index, policyCoverageDetail) {
+                    if (policyCoverageDetail.propertyDetails) {
+                        HOMEPAGERESPONSE.PROPERTYPOLICYCOUNT++;
+                        HOMEPAGERESPONSE.PROPERTYCARRIERNAMES.push(policyDetails.carrierDetails.carrierName);
+                        HOMEPAGERESPONSE.PROPERTYPHONENUMBER.push(policyDetails.carrierDetails.phone.number);
+                        HOMEPAGERESPONSE.PROPERTYNEXTPAYMENTAMOUNT.push(policyDetails.policyDetails.nextPaymentAmountDue);
+                        HOMEPAGERESPONSE.PROPERTYNEXTPAYMENTAMOUNTDATE.push(policyDetails.policyDetails.nextPaymentDueDate);
+                        HOMEPAGERESPONSE.PROPERTYDURATIONSTARTDATE.push(policyDetails.policyDetails.effectiveDate);
+                        HOMEPAGERESPONSE.PROPERTYDURATIONENDDATE.push(policyDetails.policyDetails.expirationDate);
+                    } else if (policyCoverageDetail.vehicleDetails) {
+                        HOMEPAGERESPONSE.VEHICLEPOLICYCOUNT++;
+                        HOMEPAGERESPONSE.VEHICLECARRIERNAMES.push(policyDetails.carrierDetails.carrierName);
+                        HOMEPAGERESPONSE.VEHICLEPHONENUMBER.push(policyDetails.carrierDetails.phone.number);
+                        HOMEPAGERESPONSE.VEHICLENEXTPAYMENTAMOUNT.push(policyDetails.policyDetails.nextPaymentAmountDue);
+                        HOMEPAGERESPONSE.VEHICLENEXTPAYMENTAMOUNTDATE.push(policyDetails.policyDetails.nextPaymentDueDate);
+                        HOMEPAGERESPONSE.VEHICLEDURATIONSTARTDATE.push(policyDetails.policyDetails.effectiveDate);
+                        HOMEPAGERESPONSE.VEHICLEDURATIONENDDATE.push(policyDetails.policyDetails.expirationDate);
+                    } else if (policyCoverageDetail.otherProductDetails) {
+                        HOMEPAGERESPONSE.OTHERPOLICYCOUNT++;
+                        HOMEPAGERESPONSE.OTHERCARRIERNAMES.push(policyDetails.carrierDetails.carrierName);
+                        HOMEPAGERESPONSE.OTHERPHONENUMBER.push(policyDetails.carrierDetails.phone.number);
+                        HOMEPAGERESPONSE.OTHERNEXTPAYMENTAMOUNT.push(policyDetails.policyDetails.nextPaymentAmountDue);
+                        HOMEPAGERESPONSE.OTHERNEXTPAYMENTAMOUNTDATE.push(policyDetails.policyDetails.nextPaymentDueDate);
+                        HOMEPAGERESPONSE.OTHERDURATIONSTARTDATE.push(policyDetails.policyDetails.effectiveDate);
+                        HOMEPAGERESPONSE.OTHERDURATIONENDDATE.push(policyDetails.policyDetails.expirationDate);
+                    }
+                })
+            });
+        }
+
     },
     loadResetPassMailAlertBox: function () {
         var html = staticTemplate.home.passwordResetEmailAlertTemplate();
@@ -2495,18 +2934,28 @@ protocall.view = {
     loadResetPassAlertBox: function () {
         var html = staticTemplate.home.passwordResetAlertTemplate();
         overlay.displayOverlay(html);
+        $(".o-content").css("height", "250px");
     },
     addVendorDetails: function () {
         var html = staticTemplate.home.addVendorDetailsTemplate();
         overlay.displayOverlay(html);
     },
     healthPolicy: function () {
-        var html = staticTemplate.home.healthPolicyTemplate();
-        overlay.displayOverlay(html);
+        if (HOMEPAGERESPONSE.OTHERPOLICYCOUNT !== 0) {
+            var html = staticTemplate.home.healthPolicyTemplate();
+            console.log("html>>>>>>>>>>healthPolicy", html);
+            overlay.displayOverlay(html);
+            GetSlider();
+        }
     },
     vehiclePolicy: function () {
-        var html = staticTemplate.home.vehiclePolicyTemplate();
-        overlay.displayOverlay(html);
+        if (HOMEPAGERESPONSE.VEHICLEPOLICYCOUNT !== 0) {
+            var html = staticTemplate.home.vehiclePolicyTemplate();
+            console.log("html>>>>>>>>>>vehiclePolicy", html);
+            overlay.displayOverlay(html);
+            GetSlider();
+        }
+
     },
     sendAppLink: function () {
         protocall.displaySpinner(true);
@@ -2522,6 +2971,7 @@ protocall.view = {
     },
     LoadAgencyInfo: function () {
 
+        localStorage.setItem("SELECTED_SETTINGS_TAB", "AGENCY_TAB");
         if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
             if (localStorage.LoginType == 'Admin') {
                 //                /data-submenu
@@ -2582,6 +3032,8 @@ protocall.view = {
         }
     },
     LoadPreferrredvendorInfo: function () {
+
+        localStorage.setItem("SELECTED_SETTINGS_TAB", "PREFERRED_VENDORS");
 
         if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
             if (localStorage.LoginType == 'Admin') {
@@ -2680,6 +3132,9 @@ protocall.view = {
     LoginAuthenticateYes: function () {
         protocall.displaySpinner(true);
         var label = $('#usertype :selected').parent().attr('label');
+        var carrierID = $('#usertype :selected').val();
+		sessionStorage.ownerId = carrierID;
+		console.log("carrierID>>>>>>>>>>>>>",carrierID);
         var email = $('#email').val();
         var password = $('#password').val();
         var login = "yes";
@@ -2703,6 +3158,7 @@ protocall.view = {
             if (type == "Representatives") {
                 EmployeeType = "carrierrepresentative";
             } else if (type == "Admin") {
+
                 EmployeeType = "carrierowner";
             }
         }
@@ -2728,7 +3184,7 @@ protocall.view = {
         if (label == "Carriers") {
             // alert(EmployeeType);
             // var data = {employeeType: EmployeeType, userId: "aravind.m@tringapps.com", password: "aravind", carrierId: "559c0339-22b3-460d-9893-a4d7e1413055"};
-            var data = {employeeType: EmployeeType, userId: email, password: password, carrierId: "559c0339-22b3-460d-9893-a4d7e1413055"};
+            var data = {employeeType: EmployeeType, userId: email, password: password, carrierId: carrierID};
             var page = "login";
             var callback = utils.server.gotloginresponse;
             var deepPath = "employeeauthentication";
@@ -2745,6 +3201,54 @@ protocall.view = {
         sessionStorage.agencyId = "";
         localStorage.LoginType = "Admin";
         protocall.setPageNavigation(LOGIN_PAGE);
+		sessionStorage.removeItem("agencyEmail");
+         sessionStorage.removeItem("agencyId");
+         sessionStorage.removeItem("agencyLogo");
+         sessionStorage.removeItem("agencyPhone");
+         sessionStorage.removeItem("customerEmailId");
+         sessionStorage.removeItem("loggedIn");
+         sessionStorage.removeItem("loginType");
+         sessionStorage.removeItem("profilePic");
+         sessionStorage.removeItem("profilePicAfterUpdate");
+         sessionStorage.removeItem("superAdminEmailId");
+         sessionStorage.removeItem("superAdminLogo");
+         sessionStorage.removeItem("userName");
+         sessionStorage.removeItem("agencyName");
+         sessionStorage.removeItem("customerCarrierId");
+        /* localStorage.clear();
+         sessionStorage.removeItem("agencyEmail");
+         sessionStorage.removeItem("agencyId");
+         sessionStorage.removeItem("agencyLogo");
+         sessionStorage.removeItem("agencyPhone");
+         sessionStorage.removeItem("customerEmailId");
+         sessionStorage.removeItem("loggedIn");
+         sessionStorage.removeItem("loginType");
+         sessionStorage.removeItem("profilePic");
+         sessionStorage.removeItem("profilePicAfterUpdate");
+         sessionStorage.removeItem("superAdminEmailId");
+         sessionStorage.removeItem("superAdminLogo");
+         sessionStorage.removeItem("userName");
+         sessionStorage.removeItem("agencyName");
+         sessionStorage.removeItem("customerCarrierId");
+         localStorage.removeItem("AGENCYCARRIERTABDATA");
+         localStorage.removeItem("AGENCYLOGIN_DATA");
+         localStorage.removeItem("ARRAY_CUSTOMERS_LIST");
+         localStorage.removeItem("ASSOCIATEFEED");
+         localStorage.removeItem("ASSOCIATE_CARRIER");
+         localStorage.removeItem("CARRIERADMIN_MYREPID");
+         localStorage.removeItem("CARRIERAGENCYTOTALDETAILS");
+         localStorage.removeItem("CARRIERREP_DATA");
+         localStorage.removeItem("CARRIERREP_EMAILID");
+         localStorage.removeItem("LOGIN_LABEL");
+         localStorage.removeItem("LoginType");
+         localStorage.removeItem("SETTINGTAB_PreferredVendorDATA");
+         localStorage.removeItem("SUBMENU");
+         localStorage.removeItem("TABNAME");
+         localStorage.removeItem("agencies_data");
+         localStorage.removeItem("carrierrepcustomers_data");
+         localStorage.removeItem("currentPage");
+         localStorage.removeItem("customers_data");
+         localStorage.removeItem("id-customers-headername"); */
     },
     //    Added By Manoj
     pushMessage: function () {
@@ -2840,62 +3344,62 @@ protocall.view = {
             overlay.documentInIt();
             $("#printTextOverlay").addClass("printPageClass");
             $("#thumbNailViewForText div:nth-child(1)").addClass("activeAudio");
-            if (RESPONSE.OTHERPARTYNAMES[0] == undefined) {
+            if (RESPONSE.OTHERPARTYNAMES[0] == "Nil") {
                 $('#textOverlayName').hide();
             } else {
                 $('#textOverlayName').show();
             }
-            if (RESPONSE.ROLE[0] == undefined) {
+            if (RESPONSE.ROLE[0] == "Nil") {
                 $('#textOverlayRole').hide();
             } else {
                 $('#textOverlayRole').show();
             }
-            if (RESPONSE.PHONE[0] == undefined) {
+            if (RESPONSE.PHONE[0] == "Nil") {
                 $('#textOverlayPhone').hide();
             } else {
                 $('#textOverlayPhone').show();
             }
-            if (RESPONSE.ADDRESS[0] == undefined) {
+            if (RESPONSE.ADDRESS[0] == "Nil") {
                 $('#textOverlayAddress').hide();
             } else {
                 $('#textOverlayAddress').show();
             }
-            if (RESPONSE.INSURANCECO[0] == undefined) {
+            if (RESPONSE.INSURANCECO[0] == "Nil") {
                 $('#textOverlayInsurence').hide();
             } else {
                 $('#textOverlayInsurence').show();
             }
-            if (RESPONSE.POLICY[0] == undefined) {
+            if (RESPONSE.POLICY[0] == "Nil") {
                 $('#textOverlayPolicy').hide();
             } else {
                 $('#textOverlayPolicy').show();
             }
-            if (RESPONSE.VEHICLEMODEL[0] == undefined) {
+            if (RESPONSE.VEHICLEMODEL[0] == "Nil") {
                 $('#textOverlayModel').hide();
             } else {
                 $('#textOverlayModel').show();
             }
-            if (RESPONSE.VEHICLENO[0] == undefined) {
+            if (RESPONSE.VEHICLENO[0] == "Nil") {
                 $('#textOverlayAutoLicensePlate').hide();
             } else {
                 $('#textOverlayAutoLicensePlate').show();
             }
-            if (RESPONSE.DRIVINGLICENCESTATE[0] == undefined) {
+            if (RESPONSE.DRIVINGLICENCESTATE[0] == "Nil") {
                 $('#textOverlayDriversLicenseState').hide();
             } else {
                 $('#textOverlayDriversLicenseState').show();
             }
-            if (RESPONSE.DRIVINGLICENCENUMBER[0] == undefined) {
+            if (RESPONSE.DRIVINGLICENCENUMBER[0] == "Nil") {
                 $('#textOverlayDriversLicenseNumber').hide();
             } else {
                 $('#textOverlayDriversLicenseNumber').show();
             }
-            if (RESPONSE.INJURIES[0] == undefined) {
+            if (RESPONSE.INJURIES[0] == "Nil") {
                 $('#textOverlayInjuries').hide();
             } else {
                 $('#textOverlayInjuries').show();
             }
-            if (RESPONSE.OTHERINFORMATION[0] == undefined) {
+            if (RESPONSE.OTHERINFORMATION[0] == "Nil") {
                 $('#textOverlayOtherInfo').hide();
             } else {
                 $('#textOverlayOtherInfo').show();
@@ -2906,14 +3410,14 @@ protocall.view = {
         console.log("printOverlayPage");
         $("#page").addClass("noprint");
         $("footer").addClass("noprint");
-		$("#downloadTextLink").addClass("noprint");
-		$("#downloadImageLink").addClass("noprint");
-		$("#printTextOverlay").addClass("noprint");
-		$("#thumbNailViewForText").addClass("noprint");
-		$("#thumbNailViewForImages").addClass("noprint");
-		$("#printImageICON").addClass("noprint");
-		$("#previousICON").addClass("noprint");
-		$("#nextICON").addClass("noprint");
+        $("#downloadTextLink").addClass("noprint");
+        $("#downloadImageLink").addClass("noprint");
+        $("#printTextOverlay").addClass("noprint");
+        $("#thumbNailViewForText").addClass("noprint");
+        $("#thumbNailViewForImages").addClass("noprint");
+        $("#printImageICON").addClass("noprint");
+        $("#previousICON").addClass("noprint");
+        $("#nextICON").addClass("noprint");
         window.print();
     },
     /*Naveen 23-2-2015 Changes End */
@@ -2940,7 +3444,7 @@ protocall.view = {
                 callback = protocall.view.matchAndOrReleaseClaim;
         var resp = utils.server.makeServerCall(page, data, callback, deepPath);
     },
-	matchClaimAlert: function (e) {
+    matchClaimAlert: function (e) {
         var currentTarget = $(e.currentTarget);
         currentTarget.css({"cursor": "default", "background": "#f34f4e"});
         var incidentDate = currentTarget.find(".incidentDateSpan").text(),
@@ -3004,7 +3508,7 @@ protocall.view = {
         else {
             subMenuObj = "";
         }
-
+		
         if (subMenuObj !== "") {
             var bcTotalHTML = "";
             if (subMenuObj.BREADCRUMB != "" && subMenuObj.BREADCRUMB.length > 0) {
@@ -3025,8 +3529,7 @@ protocall.view = {
                             hrefBCTags = hrefBCTags + titleSplitArray[tit];
                             titleBCName = titleBCName + " " + titleSplitArray[tit];
                         }
-
-                    } else {
+					} else {
                         hrefBCTags = subMenuObj.BREADCRUMB[bc].TITLE;
                         titleBCName = subMenuObj.BREADCRUMB[bc].TITLE;
                     }
@@ -3085,6 +3588,18 @@ protocall.view = {
             subMenuBlockTemplate = subMenuBlockTemplate.replace(/{{tab_block}}/g, tabsWithSortHTML);
             $(".mb-submenu").empty();
             $(".mb-submenu").append($(subMenuBlockTemplate));
+			if(HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED){
+				$("#subMenuToShow").css("display","block");
+				$("#subMenuToShow").html("View Archived >");
+			} else if(HOMEPAGERESPONSE.POLICYALERTCLICKED) {
+				$("#subMenuToShow").css("display","block");
+				$("#subMenuToShow").html("Policies >");
+			} else if(HOMEPAGERESPONSE.INCIDENTALERTSCLICKED){
+				$("#subMenuToShow").css("display","block");
+				$("#subMenuToShow").html("Incidents >");
+			} else {
+				$("#subMenuToShow").css("display","none");
+			}
         }
 
     },
@@ -3124,44 +3639,44 @@ protocall.view = {
             if (currentOtherPartyID == element.otherPartyId) {
                 currentDocName = element.fileName;
                 if (element.fileName == undefined) {
-                    element.fileName = "Nil";
+                    element.fileName = "";
                 }
                 if (element.role == undefined) {
-                    element.role = "Nil";
+                    element.role = "";
                 }
                 if (element.phone == undefined) {
-                    phoneNumber = "Nil";
+                    phoneNumber = "";
                 } else {
                     phoneNumber = element.phone.number;
                 }
                 if (element.address == undefined) {
-                    addressValue = "Nil";
+                    addressValue = "";
                 } else {
                     addressValue = element.address.address;
                 }
                 if (element.carrier == undefined) {
-                    element.carrier = "Nil";
+                    element.carrier = "";
                 }
                 if (element.policyNumber == undefined) {
-                    element.policyNumber = "Nil";
+                    element.policyNumber = "";
                 }
                 if (element.vehicleIdentificationNumber == undefined) {
-                    element.vehicleIdentificationNumber = "Nil";
+                    element.vehicleIdentificationNumber = "";
                 }
                 if (element.model == undefined) {
-                    element.model = "Nil";
+                    element.model = "";
                 }
                 if (element.driverLicenseState == undefined) {
-                    element.driverLicenseState = "Nil";
+                    element.driverLicenseState = "";
                 }
                 if (element.driverLicenseNumber == undefined) {
-                    element.driverLicenseNumber = "Nil";
+                    element.driverLicenseNumber = "";
                 }
                 if (element.injuries == undefined) {
-                    element.injuries = "Nil";
+                    element.injuries = "";
                 }
                 if (element.otherInformation == undefined) {
-                    element.otherInformation = "Nil";
+                    element.otherInformation = "";
                 }
                 mainDocHTML = '<div class="leftDiv">'
                         + '<p id="nameOfTheTextDoc">'
@@ -3214,63 +3729,64 @@ protocall.view = {
                         + '</p>'
                         + '</div>';
                 $("#textinformation").html(currentDocName);
-                $("#viewText").html(mainDocHTML);
-                if (element.otherPartyName == "Nil") {
+                $("#downloadTextLink").attr("href",HOMEPAGERESPONSE.TEXTDOWNLOADURL+element.otherPartyId);
+				$("#viewText").html(mainDocHTML);
+                if (element.otherPartyName == "") {
                     $('#nameOfTheTextDoc').hide();
                 } else {
                     $('#nameOfTheTextDoc').show();
                 }
-                if (element.role == "Nil") {
+                if (element.role == "") {
                     $('#roleOfTheTextDoc').hide();
                 } else {
                     $('#roleOfTheTextDoc').show();
                 }
-                if (phoneNumber == "Nil") {
+                if (phoneNumber == "") {
                     $('#phoneOfTheTextDoc').hide();
                 } else {
                     $('#phoneOfTheTextDoc').show();
                 }
-                if (addressValue == "Nil") {
+                if (addressValue == "") {
                     $('#addressOfTheTextDoc').hide();
                 } else {
                     $('#addressOfTheTextDoc').show();
                 }
-                if (element.carrier == "Nil") {
+                if (element.carrier == "") {
                     $('#carrierOfTheTextDoc').hide();
                 } else {
                     $('#carrierOfTheTextDoc').show();
                 }
-                if (element.policyNumber == "Nil") {
+                if (element.policyNumber == "") {
                     $('#policyOfTheTextDoc').hide();
                 } else {
                     $('#policyOfTheTextDoc').show();
                 }
-                if (element.model == "Nil") {
+                if (element.model == "") {
                     $('#modelOfTheTextDoc').hide();
                 } else {
                     $('#modelOfTheTextDoc').show();
                 }
-                if (element.vehicleIdentificationNumber == "Nil") {
+                if (element.vehicleIdentificationNumber == "") {
                     $('#vehicleNoOfTheTextDoc').hide();
                 } else {
                     $('#vehicleNoOfTheTextDoc').show();
                 }
-                if (element.driverLicenseState == "Nil") {
+                if (element.driverLicenseState == "") {
                     $('#licenseStateOfTheTextDoc').hide();
                 } else {
                     $('#licenseStateOfTheTextDoc').show();
                 }
-                if (element.driverLicenseNumber == "Nil") {
+                if (element.driverLicenseNumber == "") {
                     $('#licenseOfTheTextDoc').hide();
                 } else {
                     $('#licenseOfTheTextDoc').show();
                 }
-                if (element.injuries == "Nil") {
+                if (element.injuries == "") {
                     $('#injuriesOfTheTextDoc').hide();
                 } else {
                     $('#injuriesOfTheTextDoc').show();
                 }
-                if (element.otherInformation == "Nil") {
+                if (element.otherInformation == "") {
                     $('#otherinfoOfTheTextDoc').hide();
                 } else {
                     $('#otherinfoOfTheTextDoc').show();
@@ -3344,6 +3860,8 @@ protocall.view = {
             console.log("media id", element.mediaId);
             if (currentMediaID == element.mediaId) {
                 console.log("condition satisfied");
+                $("#music").attr("src", HOMEPAGERESPONSE.PROFILEAPI + element.file);
+                $("#music").load();
                 $("#downloadAudioLink").attr("href", HOMEPAGERESPONSE.PROFILEAPI + element.file);
                 mainAudioHTML = '<source src=' + HOMEPAGERESPONSE.PROFILEAPI + element.file + '>'
                         + '<source src=' + HOMEPAGERESPONSE.PROFILEAPI + element.file + '>';
@@ -3357,7 +3875,11 @@ protocall.view = {
             }
         });
         $("#voiceinformation").html(fileNameOfAudio);
-        $("#music").html(mainAudioHTML);
+        // $("#music").html(mainAudioHTML);
+        /* $("#music").load();
+        $("#music").pause();
+        $("#music").currentTime = 0;
+        $("#music").play(); */
         // $(".audiodetailestime").html(moment(Number(timeValue)).format("Do MMM YY, h:mm A"));
     },
     displayPreviousAudio: function () {
@@ -3534,7 +4056,6 @@ protocall.view = {
             $("#searchResultUL").html($(resultValueHTML));
         } else {
             var matchedResultValue = result.resultMap.MatchedDocumentList;
-            console.log("matchedResultValue>>>>>>>>>>>>", matchedResultValue.length);
             $.each(matchedResultValue, function (index, resultValue) {
                 resultValueHTML += '<li style="margin:10px;cursor:pointer;border-bottom: 1px solid #d4d4d4;padding:10px;" id="searchItem_' + index + '" class="snap" data-type="selectedSearchItem">'
                         + '<p class="searchItemUserName" style="color:#585858" class="opensans-regular f-sz-16">' + resultValue.firstName + '</p>'
@@ -3561,37 +4082,37 @@ protocall.view = {
         var resp = utils.server.makeServerCall(page, data, callback, deepPath);
     },
     showUserDetails: function (result) {
-        console.log("showUserDetails result>>>>>>>>>>>>>>>>", result);
-        $(".content-holder").empty();
-        $(".content-holder").addClass("spinner1");
-        $(".content-holder").css("opacity", "0.5");
-        var requiredUserDetails = result.resultMap.RequiredDetails, requiredUserEmailId = "";
-        var requiredUserCarrierId = result.resultMap.RequiredDetails.carrierId;
-        var givenRole = result.resultMap.GivenRole;
-        if (givenRole == "agencyrepresentative") {
-            requiredUserEmailId = result.resultMap.RequiredDetails.agencyRepresentativeId.email;
-        } else if (givenRole == "carrierrepresentative") {
-            requiredUserEmailId = result.resultMap.RequiredDetails.carrierRepresentativeId.email;
-        } else {
-            requiredUserEmailId = result.resultMap.RequiredDetails.emailId.email;
+        localStorage.setItem("SUBMENU", "CUSTOMER_PAGE");
+        if (PAGEREFRESH.ISPAGEREFRESHEDFORCUSTOMERFEEDVIEW) {
+            //HeaderTemplate.Menu.DynamicHeaderTemplate();
+            var header = HeaderTemplate.Menu.DynamicHeaderTemplate();
+            var content = '<div class="container"> <div class="content-holder"></div></div></div></div>';
+            var footer = footerDynamicTemplate.footer.DynamicFooterTemplate();
+            $("#page").empty();
+            totalHtml = header + content + footer;
+            $("#page").append(totalHtml);
+            //protocall.displaySpinner(false);
+            //protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
         }
-        /* if(result.resultMap.RequiredDetails.agencyRepresentativeId !== undefined){
-         requiredUserEmailId = result.resultMap.RequiredDetails.agencyRepresentativeId.email;
-         } else if(result.resultMap.RequiredDetails.carrierRepresentativeId !== undefined){
-         requiredUserEmailId = result.resultMap.RequiredDetails.carrierRepresentativeId.email;
-         } else {
-         requiredUserEmailId = result.resultMap.RequiredDetails.emailId.email;
-         } */
-        /* if(result.resultMap.RequiredDetails.emailId !== undefined){
-         $(".content-holder").addClass("spinner1");
-         $(".content-holder").css("opacity", "0.5");
-         var requiredUserEmailId = result.resultMap.RequiredDetails.emailId.email;
-         protocall.customer.loadCustomersViewFeed(requiredUserEmailId, requiredUserCarrierId);
-         } else {
-         return;
-         } */
-        protocall.customer.loadCustomersViewFeed(requiredUserEmailId, requiredUserCarrierId);
-        console.log("requiredUserDetails>>>>>>>>>>>>", requiredUserDetails.length);
+
+        console.log("showUserDetails result>>>>>>>>>>>>>>>>", result);
+        if(result.resultMap.TypeCode != "4014"){
+			$(".content-holder").empty();
+			$(".content-holder").addClass("spinner1");
+			$(".content-holder").css("opacity", "0.5");
+			var requiredUserDetails = result.resultMap.RequiredDetails, requiredUserEmailId = "";
+			var requiredUserCarrierId = result.resultMap.RequiredDetails.carrierId;
+			var givenRole = result.resultMap.GivenRole;
+			if (givenRole == "agencyrepresentative") {
+				requiredUserEmailId = result.resultMap.RequiredDetails.agencyRepresentativeId.email;
+			} else if (givenRole == "carrierrepresentative") {
+				requiredUserEmailId = result.resultMap.RequiredDetails.carrierRepresentativeId.email;
+			} else {
+				requiredUserEmailId = result.resultMap.RequiredDetails.emailId.email;
+			}
+			protocall.customer.loadCustomersViewFeed(requiredUserEmailId, requiredUserCarrierId);
+			console.log("requiredUserDetails>>>>>>>>>>>>", requiredUserDetails.length);
+		}
     }
 };
 protocall.home = {
@@ -3599,26 +4120,23 @@ protocall.home = {
         protocall.view.loadHomePage(true);
     },
     /*Naveen 19-2-2015 Chnage start*/
+
     initHomePage: function () {
         if (sessionStorage.loginType == 'SuperAdmin') {
-
-
-
             //make a server call to get the information about the super admin
+
             console.log("super admin made the server call");
             var data = "";
             var page = "home";
-            var deepPath = "superadmindashboarddesign";
+            var deepPath = "";
+            if (HOMEPAGERESPONSE.SORTBYALPHABETICALVIEW == true) {
+                deepPath = "preferredvendorlistsortedbyname";
+            } else {
+                deepPath = "superadmindashboarddesign";
+            }
+
             var callback = protocall.view.superAdminPage;
             var resp = utils.server.makeServerCall(page, data, callback, deepPath);
-            /* $("#page").empty();
-             header = HeaderTemplate.Menu.DynamicHeaderTemplate();
-             var feedHTML = "Welcome to the Super Admin";
-             content = '<div class="container"><div class="content-holder">' + feedHTML + '</div></div></div></div>';
-             var footer = footerDynamicTemplate.footer.DynamicFooterTemplate();
-             totalHtml = header + content + footer;
-             $("#page").append(totalHtml);
-             protocall.displaySpinner(false); */
         } else {
             HOMEPAGERESPONSE.RECURRINGALERTDFEEDS = [];
             if (localStorage.getItem("LOGIN_LABEL") == "Agency") {
@@ -3629,6 +4147,7 @@ protocall.home = {
                         t.server.handleError(resp);
                     } else {
                         localStorage.setItem("customers_data", JSON.stringify(resp.resultMap.userTab));
+                        HOMEPAGERESPONSE.CUSTOMERDATA = resp.resultMap.userTab;
                         localStorage.setItem("users", JSON.stringify(resp.resultMap.carrierTab));
                     }
                 });
@@ -3637,7 +4156,7 @@ protocall.home = {
             localStorage.setItem("SUBMENU", "HOME_PAGE");
             //protocall.displaySpinner(false);
             console.log("HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE.length", HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE.length);
-            if (HOMEPAGERESPONSE.SORTBYALPHABETICALVIEW || HOMEPAGERESPONSE.SORYBYRECENTVIEW || HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED || HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED || HOMEPAGERESPONSE.FEEDSICONCLICKED || HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED) {
+            if (HOMEPAGERESPONSE.SORTBYALPHABETICALVIEW || HOMEPAGERESPONSE.SORTBYRECENTVIEW || HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED || HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED || HOMEPAGERESPONSE.FEEDSICONCLICKED || HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED) {
                 $(".content-holder").addClass("spinner1");
                 $(".content-holder").css("opacity", "0.5");
             } else {
@@ -3677,7 +4196,8 @@ protocall.home = {
                     });
                 });
                 HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE = [];
-            }
+				$("a.archives").css("visibility", "hidden");
+			}
             $(".content-holder").removeClass("spinner1");
         }
     },
@@ -3689,9 +4209,20 @@ protocall.home = {
         $(".container").removeClass("container-maxwidth");
         $("#page").empty();
         $("#page").append($(template));
-        $("#id_loginfadeinout").fadeIn();
+		$("#id_loginfadeinout").fadeIn();
         $("#id_loginfadeinout").fadeIn("slow");
         $("#id_loginfadeinout").fadeIn(3000);
+		if(HOMEPAGERESPONSE.SIGNUPREGISTRATIONDONE){
+			var text = "Registered Successfully";
+			$(".signup-success").html(text);
+			$("#signUpSuccess").fadeIn();
+			$("#signUpSuccess").fadeIn("slow");
+			//$("#signUpSuccess").fadeOut("slow");
+			$("#signUpSuccess").fadeOut(3000);
+			protocall.displaySpinner(false);
+		} else {
+			$(".signup-success").html("");
+		}
     },
     initSignUpPage: function () {
         var template = LoginTemplate.login.staticSignUpTemplate();
@@ -3716,14 +4247,13 @@ protocall.home = {
     /*Naveen 19-2-2015 Chnage start*/
     loadHomePageData: function (data, page) {
         console.log("data", data);
-        //debugger;
-        //HOMEPAGERESPONSE.HOMEPAGESTUBBEDDATA = data;
         if (HOMEPAGERESPONSE.INCIDENTALERTSCLICKED || HOMEPAGERESPONSE.POLICYALERTCLICKED || HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED || HOMEPAGERESPONSE.ISVIEWARCHIVECLICKED || HOMEPAGERESPONSE.ISVIEWEDARCHIVECLICKED || HOMEPAGERESPONSE.FEEDSICONCLICKED) {
             HOMEPAGERESPONSE.RECURRINGALERTDFEEDS = [];
         }
         protocall.util.viewingHomePageData(data);
     },
     loadingAlertFeeds: function (pageNumber, deepPath, page) {
+        console.log("page number------>", pageNumber);
         var data = {"pageNumber": pageNumber};
         callback = protocall.home.loadingHomePageFeeds;
         var resp = utils.server.makeServerCall(page, data, callback, deepPath);
@@ -3732,19 +4262,32 @@ protocall.home = {
         protocall.util.viewingHomePageData(data);
     },
     loadFeed: function (tempObj) {
+		var deepPath = "",page = "";
         $(".content-holder").empty();
         $(".content-holder").css("opacity", "0.5");
         $(".content-holder").addClass("spinner1");
-        var data = {
+		 var html = staticTemplate.home.staticFeedViewTemplate(tempObj);
+        $(".content-holder").append($(html));
+		if(tempObj.gender == ""){
+			$(".gender-show").css("display","none");
+		} else {
+			$(".gender-show").css("display","block");
+		}
+		if(tempObj.birthday == ""){
+			$(".birthday-show").css("display","none");
+			$(".birthday-icon").css("display","none");
+		} else {
+			$(".gender-show").css("display","block");
+			$(".birthday-icon").css("display","block");
+		}
+		var data = {
             "userId": tempObj.userEmail,
             "alertId": tempObj.alertId
-        },
-        deepPath = "clickonalertfeed",
-                page = "home",
-                callback = protocall.home.loadViewRelatedFeeds;
+        };
+       var deepPath = "clickonalertfeed";
+        var page = "home";
+        var callback = protocall.home.loadViewRelatedFeeds;
         var resp = utils.server.makeServerCall(page, data, callback, deepPath);
-        var html = staticTemplate.home.staticFeedViewTemplate(tempObj);
-        $(".content-holder").append($(html));
         protocall.events.GlobalContainerScrollevent();
     },
     loadViewRelatedFeeds: function (dataValue) {
@@ -3757,6 +4300,7 @@ protocall.home = {
             if (dataValue.resultMap.RelatedFeeds !== "undefined" && dataValue.resultMap.RelatedFeeds.length !== "undefined" && dataValue.resultMap.RelatedFeeds.length !== 0) {
                 var relatedFeedsValue = dataValue.resultMap.RelatedFeeds;
                 HOMEPAGERESPONSE.RELATEDFEEDS = dataValue.resultMap.RelatedFeeds;
+                HOMEPAGERESPONSE.COMMONUSERDETAILSFORRELATEDFEEDS = dataValue.resultMap.CommonUserDetails;
                 HOMEPAGERESPONSE.RELATEDFEEDSLOADED = true;
                 policyDetailsValues = dataValue.resultMap.PoliciesDetails;
                 if (policyDetailsValues !== "undefined" && policyDetailsValues.length !== 0) {
@@ -3771,12 +4315,10 @@ protocall.home = {
                     console.log("alertDetailsValue.alertDetails index", alertDetailsValue.alertDetails.length);
                     var alertType = alertDetailsValue.alertDetails.type;
                     feedHTML += template.viewRelatedFeeds(alertDetailsValue, alertType);
-                    /* if (alertType == "incidentalert") {
-                     feedHTML += template.incidentAlertFeedHMLT(alertDetailsValue, alertType);
-                     } else {
-                     feedHTML += template.policyAlertFeedHMLT(alertDetailsValue, alertType);
-                     } */
                 });
+                if (feedHTML == "") {
+                    feedHTML = "<div id=\"\">" + "No Records..!" + "</div>";
+                }
                 console.log("policyDetailsValues.length", policyDetailsValues.length);
                 $(".content-holder").removeClass("spinner1");
                 $(".content-holder").css("opacity", "1");
@@ -3784,22 +4326,22 @@ protocall.home = {
         } else if (dataValue.resultMap.TypeCode !== "undefined" && dataValue.resultMap.TypeCode == "4014") {
             $(".content-holder").empty();
             $(".content-holder").html(dataValue.resultMap.AlertMessage);
-            $(".content-holder").removeClass("spinner1");
-            $(".content-holder").css("opacity", "1");
         }
         $(".rel-feeds-content").empty();
         $(".rel-feeds-content").append($(feedHTML));
-        /* $(".rel-feeds-content").find("div.feed-user-pic-box").css({"width": "80px", "positon": "relative", "margin-left": "auto", "margin-right": "auto", "background": "#fff", "border": "2px solid #b9b8b8", "color": "#fff", "overflow": "hidden", "height": "67px"});
-         $(".rel-feeds-content").find(".feed-user-pic-box img").css({"width": "100%", "positon": "absolute", "margin": "auto", "top": "0", "right": "0", "left": "0", "bottom": "0", "height": "100%"}); */
+        $(".content-holder").removeClass("spinner1");
+        $(".content-holder").css("opacity", "1");
     },
     displayMyAlertsFeeds: function () {
         HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED = true;
         HOMEPAGERESPONSE.POLICYALERTCLICKED = false;
         HOMEPAGERESPONSE.INCIDENTALERTSCLICKED = false;
         CONSTANTS.PGNUMBER = 0;
+
+
         var page = "home",
                 pageNumber = ++CONSTANTS.PGNUMBER,
-                data = {"pageNumber": pageNumber},
+                data = {"pageNumber": 1},
         deepPath = "filterfeedbyalertdate",
                 callback = protocall.home.loadHomePageData;
         var resp = utils.server.makeServerCall(page, data, callback, deepPath);
@@ -3847,10 +4389,28 @@ protocall.home = {
     /*Naveen 19-2-2015 Chnage end*/
 };
 protocall.carrier = {
+    getresponseagencydetails: function (data) {
+        localStorage.setItem("AGENCY_ADMIN_TOTAL_DETAILS", JSON.stringify(data));
+    },
     getresponsecarrieragency: function (data) {
         console.log("manojkrish", data);
+        // if (data.resultMap.TypeCode == "4011") {
+        //  alert("d");
         localStorage.setItem("CARRIERAGENCYTOTALDETAILS", JSON.stringify(data));
         localStorage.setItem("customers_data", JSON.stringify(data.resultMap.customerTab));
+        if (localStorage.getItem("LOGIN_LABEL") == "Agency") {
+            if (localStorage.LoginType == 'Admin') {
+                HOMEPAGERESPONSE.CUSTOMERDATA = data.resultMap.userTab;
+            }
+        } else {
+            if (localStorage.LoginType == 'Admin') {
+                HOMEPAGERESPONSE.CUSTOMERDATA = data.resultMap.customerTab.CustomerDetails;
+            } else {
+                HOMEPAGERESPONSE.CUSTOMERDATA = data.resultMap.customerTab.userDetails;
+            }
+        }
+        // }
+        //HOMEPAGERESPONSE.CUSTOMERDATA = data.resultMap.customerTab;
     },
     initAgenciesPage: function () {
         localStorage.setItem("SUBMENU", "AGENICES_PAGE");
@@ -3960,7 +4520,7 @@ protocall.carrier = {
                 }
 //rep id
 
-                var associateBlock = '<div id=' + email + '  value=' + carrierid + ' class="carrier-feed-associated-view mycustomerView left p-relative" data-type="dt-viewcustomerfeedview"> <div class="border-all p-relative"> <div class="associated-background p-relative">'
+                var associateBlock = '<div id=' + email + '  value=' + carrierid + ' class="carrier-feed-associated-view mycustomerView left p-relative" data-type="dt-viewcustomerfeedview"> <div class=" p-relative"> <div class="associated-background p-relative">'
                         + '<div class="associated-carrier-pic inline-block "> <img src=' + image + ' '
                         + 'alt="" class="carrier-img-width"> '
                         + '</div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> '
@@ -4029,7 +4589,7 @@ protocall.carrier = {
                 }
 //rep id
 
-                var associateBlock = '<div id=' + email + '  value=' + carrierid + ' class="carrier-feed-associated-view  left p-relative" data-type=""> <div class="border-all p-relative"> <div class="associated-background p-relative">'
+                var associateBlock = '<div id=' + email + '  value=' + carrierid + ' class="carrier-feed-associated-view  left p-relative" data-type=""> <div class=" p-relative"> <div class="associated-background p-relative">'
                         + '<div class="associated-carrier-pic inline-block "> <img src=' + image + ' '
                         + 'alt="" class="carrier-img-width"> '
                         + '</div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> '
@@ -4088,7 +4648,7 @@ protocall.carrier = {
                     }
 //rep id
 
-                    var associateBlock = '<div id=' + email + '  value=' + carrierid + ' class="carrier-feed-associated-view mycustomerView left p-relative" data-type="dt-viewcustomerfeedview"> <div class="border-all p-relative"> <div class="associated-background p-relative">'
+                    var associateBlock = '<div id=' + email + '  value=' + carrierid + ' class="carrier-feed-associated-view mycustomerView left p-relative" data-type="dt-viewcustomerfeedview"> <div class=" p-relative"> <div class="associated-background p-relative">'
                             + '<div class="associated-carrier-pic inline-block "> <img src=' + image + ' '
                             + 'alt="" class="carrier-img-width"> '
                             + '</div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> '
@@ -4144,7 +4704,7 @@ protocall.carrier = {
                     }
 //rep id
 
-                    var associateBlock = '<div id=' + email + '  value=' + carrierid + '  class="carrier-feed-associated-view   left p-relative" data-type="dt-assigncustomer"> <div class="border-all p-relative"> <div class="associated-background p-relative">'
+                    var associateBlock = '<div id=' + email + '  value=' + carrierid + '  class="carrier-feed-associated-view   left p-relative" data-type="dt-assigncustomer"> <div class=" p-relative"> <div class="associated-background p-relative">'
                             + '<div class="associated-carrier-pic inline-block "> <img src=' + image + ' '
                             + 'alt="" class="carrier-img-width"> '
                             + '</div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> '
@@ -4198,13 +4758,13 @@ protocall.carrier = {
                     }
 //rep id
 
-                    var associateBlock = '<div id=' + email + '  value=' + carrierid + ' class="carrier-feed-associated-view myagenciesView left p-relative" data-type="viewagenciesfeedview"> <div class="border-all p-relative"> <div class="associated-background p-relative">'
+                    var associateBlock = '<div id=' + email + '  value=' + carrierid + ' class="carrier-feed-associated-view myagenciesView left p-relative" data-type="viewagenciesfeedview"> <div class=" p-relative"> <div class="associated-background p-relative">'
                             + '<div class="associated-carrier-pic inline-block "> <img src=' + image + ' '
                             + 'alt="" class="carrier-img-width"> '
                             + '</div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> '
                             + '<div class="carrier-name t-caps t-left">' + name + '</div> '
                             + '<div class="carrier-location t-caps t-left">' + location + '</div> '
-                            + '<div class="carrier-location t-caps t-left"><a title=' + email + ' href="mailto:' + email + '">' + email + '</a></div></div> </div> </div> ';
+                            + '<div class="carrier-location t-caps t-left"><a title=' + email + ' href="mailto:' + email + '">' + email + '</a></div></div> </div> </div></div> ';
                     totalHTML += associateBlock;
                 }
             }
@@ -4259,7 +4819,7 @@ protocall.carrier = {
 //                    }
 //rep id
 
-            var associateBlock = '<div id=' + carrierid + '  class="carrier-feed-associated-view  carrier-feed-assigntocustomeroverlay-view left p-relative" data-type="dt-assigncustomer"> <div class="border-all p-relative"> <div class="associated-background p-relative">'
+            var associateBlock = '<div id=' + carrierid + '  class="carrier-feed-associated-view  carrier-feed-assigntocustomeroverlay-view left p-relative" data-type="dt-assigncustomer"> <div class=" p-relative"> <div class="associated-background p-relative">'
                     + '<div class="associated-carrier-pic inline-block "> <img src=' + image + ' '
                     + 'alt="" class="carrier-img-width"> '
                     + '</div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> '
@@ -4267,7 +4827,7 @@ protocall.carrier = {
                     + '<div class="carrier-location t-caps t-left">' + location + '</div> '
                     + '<div class="carrier-location t-caps t-left"><a title=' + email + ' href="mailto:' + email + '">' + email + '</a></div></div> </div> </div></div> ';
             totalHTML += associateBlock;
-            alert(totalHTML);
+            // alert(totalHTML);
             // }
         }
 //        } catch (err) {
@@ -4318,7 +4878,7 @@ protocall.carrier = {
 //                    }
 //rep id
 
-                    var associateBlock = '<div id=' + carrierid + '  class="carrier-feed-associated-view  carrier-feed-assigntocustomeroverlay-view left p-relative" data-type="dt-assigncustomer"> <div class="border-all p-relative"> <div class="associated-background p-relative">'
+                    var associateBlock = '<div id=' + carrierid + '  class="carrier-feed-associated-view  carrier-feed-assigntocustomeroverlay-view left p-relative" data-type="dt-assigncustomer"> <div class=" p-relative"> <div class="associated-background p-relative">'
                             + '<div class="associated-carrier-pic inline-block "> <img src=' + image + ' '
                             + 'alt="" class="carrier-img-width"> '
                             + '</div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> '
@@ -4377,7 +4937,7 @@ protocall.carrier = {
 //                    }
 //rep id
 
-                    var associateBlock = '<div id=' + carrierid + '  class="carrier-feed-associated-view  carrier-feed-assigntocustomeroverlay-view left p-relative" data-type="dt-assigncustomer"> <div class="border-all p-relative"> <div class="associated-background p-relative">'
+                    var associateBlock = '<div id=' + carrierid + '  class="carrier-feed-associated-view  carrier-feed-assigntocustomeroverlay-view left p-relative" data-type="dt-assigncustomer"> <div class=" p-relative"> <div class="associated-background p-relative">'
                             + '<div class="associated-carrier-pic inline-block "> <img src=' + image + ' '
                             + 'alt="" class="carrier-img-width"> '
                             + '</div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> '
@@ -4431,7 +4991,7 @@ protocall.carrier = {
 //
 //                    }
 
-                var associateBlock = '<div id=' + email + '  value=' + carrierid + ' class="carrier-feed-associated-view mycustomerView left p-relative" data-type="viewcustomerfeedview"> <div class="border-all p-relative"> <div class="associated-background p-relative">'
+                var associateBlock = '<div id=' + email + '  value=' + carrierid + ' class="carrier-feed-associated-view mycustomerView left p-relative" data-type="viewcustomerfeedview"> <div class=" p-relative"> <div class="associated-background p-relative">'
                         + '<div class="associated-carrier-pic inline-block "> <img src=' + image + ' '
                         + 'alt="" class="carrier-img-width"> '
                         + '</div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> <div class="carrier-name t-caps t-left">' + name + '</div> '
@@ -4482,7 +5042,7 @@ protocall.carrier = {
                 //
                 //                    }
 
-                var associateBlock = '<div id=' + email + '  value=' + carrierid + ' class="carrier-feed-associated-view mycustomerView left p-relative" data-type="viewcustomerfeedview"> <div class="border-all p-relative"> <div class="associated-background p-relative">'
+                var associateBlock = '<div id=' + email + '  value=' + carrierid + ' class="carrier-feed-associated-view mycustomerView left p-relative" data-type="viewcustomerfeedview"> <div class=" p-relative"> <div class="associated-background p-relative">'
                         + '<div class="associated-carrier-pic inline-block "> <img src=' + image + ' '
                         + 'alt="" class="carrier-img-width"> '
                         + '</div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> <div class="carrier-name t-caps t-left">' + name + '</div> '
@@ -4515,7 +5075,6 @@ protocall.carrier = {
         }
     },
     loadFeed: function (Carrierid) {
-
         //var html = staticTemplate.carriers.staticCarrierFeedViewTemplate(Carrierid);
         if (PAGEREFRESH.ISPAGEREFRESHEDFORCARRIERFEEDVIEW) {
             //HeaderTemplate.Menu.DynamicHeaderTemplate();
@@ -4538,7 +5097,7 @@ protocall.carrier = {
 
         if (sessionStorage.loginType != 'SuperAdmin') {
             var dropDownContent = '<div class="associated-carrierview p-relative"> <div class="p-relative ">'
-                    + '<select id="id-associatedropdown" class="associated-carrier-sort t-upper p-relative opensans-regular inline-block"><option>ASSOCIATED REPS</option><option>ASSOCIATED CUSTOMERS</option></select> '
+                    + '<select id="id-associatedropdown" class="associated-carrier-sort t-upper p-relative opensans-regular inline-block"><option>ASSOCIATED CUSTOMERS</option><option>ASSOCIATED REPS</option></select> '
                     + '<div id="associatedownarrow" class="p-relative inline-block"> <div id="associatedownarrow" class="id-associatedownarrow sprite-im drop-down-icon">&nbsp;</div> </div> </div> '
                     + '<div id="id-carrierassociatedblock" class="associated-carrier-feed p-relative border-bot">';
             totalHTML = totalHTML + dropDownContent;
@@ -4554,6 +5113,19 @@ protocall.carrier = {
         $(".content-holder").empty();
         $(".content-holder").append($(totalHTML));
         protocall.events.GlobalContainerScrollevent();
+
+
+        if (localStorage.getItem("LOGIN_LABEL") == "Agency") {
+
+            if (localStorage.LoginType == 'Admin') {
+                $(".mb-submenu").empty();
+                $(".mb-submenu").append("<div class=\"mb-submenu-in p-relative\"> <div class=\"bcrum-lb-submenu clr-fl inline-block v-align-mid\"><a href=\"#\" class=\"carrier-headerbox snap left f-sz-16 ptsans-light carriers t-upper p-relative f-color-green\" data-type=\"page\" data-submenu=\"carriers\"><div class=\"\"><div class=\"sprite-im carriers-icon inline-block v-align-mid mr-space-10 \">&nbsp;</div><span class=\"sub-menu-text inline-block v-align-mid\"> carriers</span><span id=\"id-carrierpage-headertext\"></span></div></a><div class=\"bcrum-icon-blk left f-color-green f-sz-16 ptsans-light\" style=\"display:none;\">&gt;</div><a href=\"#\" class=\"snap left f-sz-16 ptsans-light feeds-customer t-caps p-relative f-color-green\" data-type=\"page\" data-submenu=\"carriers-customer\" style=\"display:none;\"></a></div><div class=\"tab-rb-submenu inline-block v-align-mid\" style=\"width:69%;\"><div class=\"tab-rb-submenu-in-block p-relative\" style='display:none;'><div href=\"#\" class=\"snap submenu-sort right f-sz-16 ptsans-light p-relative\" data-type=\"page\" data-submenu=\"sortbycarrier\" >div class=\"sort-text f-italic\">Recent</div><div class=\"sprite-im drop-down-icon submenu-drop-icon\">&nbsp;</div></div></div></div></div>");
+                var Omega = '\u003E';
+                $("#id-carrierpage-headertext").text(Omega + "   " + localStorage.getItem("TEMP_CARRIERNAME"));
+                $('#id-carrierpage-headertext').prop(Omega + "   " + localStorage.getItem("TEMP_CARRIERNAME"));
+            }
+        }
+
         if (sessionStorage.loginType != 'SuperAdmin') {
             localStorage.setItem("ASSOCIATEFEED", null);
             if (localStorage.getItem("ASSOCIATEFEED") == "null") {
@@ -4565,12 +5137,12 @@ protocall.carrier = {
                         t.server.handleError(resp);
                     } else {
                         localStorage.setItem("ASSOCIATEFEED", JSON.stringify(resp));
-                        protocall.carrier.loadAssociatedReps();
+                        protocall.carrier.loadAssociatedCustomers();
                     }
                 });
             }
 
-            protocall.carrier.loadAssociatedReps();
+            protocall.carrier.loadAssociatedCustomers();
         }
 
     }
@@ -4698,7 +5270,7 @@ protocall.customer = {
                     }
                 } else {
                     for (var index = 0; index < data.length; index++) {
-                        var element = data[index];
+                        var element = data[index].userDetails;
                         if (element.emailId.email == emailID) {
                             html = staticTemplate.customers.staticCustomerViewTemplate(element);
                             status = 1;
@@ -4728,6 +5300,7 @@ protocall.customer = {
             $(".content-holder").append($(html));
             protocall.events.GlobalContainerScrollevent();
             $(".container").addClass("container-maxwidth");
+
             //$(".container").removeClass("container");
             protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
             if (!(PAGEREFRESH.ISPAGEREFRESHEDFORCUSTOMERFEEDVIEW)) {
@@ -4737,9 +5310,30 @@ protocall.customer = {
             if (localStorage.LoginType == 'Representatives') {
                 var Omega = '\u003E';
                 $(".mb-submenu-in").empty();
-                $(".mb-submenu-in").append("<div class=\"bcrum-lb-submenu clr-fl inline-block v-align-mid\"><a href=\"#\" class=\"carrier-headerbox  left f-sz-16 ptsans-light snap carriers t-upper p-relative f-color-green\" data-type=\"page\" data-submenu=\"customers\"><div class=\"\"><div class=\"sprite-im carriers-icon inline-block v-align-mid mr-space-10 \"> </div>"
+                $(".mb-submenu-in").append("<div class=\"bcrum-lb-submenu clr-fl inline-block v-align-mid\"><a href=\"#\" class=\"carrier-headerbox  left f-sz-16 ptsans-light snap carriers t-upper p-relative f-color-green\" data-type=\"page\" data-submenu=\"customers\"><div class=\"\"><div class=\"sprite-im customers-icon inline-block v-align-mid mr-space-10 \"> </div>"
                         + "<span class=\"sub-menu-text inline-block v-align-mid\"> CUSTOMERS </span><span id=\"id-carrierpage-headertext\">" + Omega + "   " + localStorage.getItem("id-customers-headername") + "</span></div></a><div class=\"bcrum-icon-blk left f-color-green f-sz-16 ptsans-light\" style=\"display:none;\">&gt;</div><a href=\"#\" class=\"snap left f-sz-16 ptsans-light feeds-customer t-caps p-relative f-color-green\" data-type=\"page\" data-submenu=\"carriers-customer\" style=\"display:none;\"></a></div>");
             }
+
+            if (localStorage.getItem("LOGIN_LABEL") == "Agency") {
+
+                if (localStorage.LoginType == 'Admin') {
+                    var Omega = '\u003E';
+                    $(".mb-submenu-in").empty();
+                    $(".mb-submenu-in").append("<div class=\"bcrum-lb-submenu clr-fl inline-block v-align-mid\"><a href=\"#\" class=\"carrier-headerbox  left f-sz-16 ptsans-light snap carriers t-upper p-relative f-color-green\" data-type=\"page\" data-submenu=\"customers\"><div class=\"\"><div class=\"sprite-im customers-icon inline-block v-align-mid mr-space-10 \"> </div>"
+                            + "<span class=\"sub-menu-text inline-block v-align-mid\"> CUSTOMERS </span><span id=\"id-carrierpage-headertext\">" + Omega + "   " + localStorage.getItem("id-customers-headername") + "</span></div></a><div class=\"bcrum-icon-blk left f-color-green f-sz-16 ptsans-light\" style=\"display:none;\">&gt;</div><a href=\"#\" class=\"snap left f-sz-16 ptsans-light feeds-customer t-caps p-relative f-color-green\" data-type=\"page\" data-submenu=\"carriers-customer\" style=\"display:none;\"></a><a href=\"/assignrep\" class=\"snap submenu-tab bg-color-green right f-sz-16 ptsans-light assignrep p-relative\" data-type=\"page\" data-submenu=\"assignrep\" style='width: 10%;padding-left: 15px;margin-right: 0px;'><div class=\"sprite-im inline-block tab-icon v-align-mid\" style=\"display:none;\">&nbsp;</div><div class=\"submenu-title t-caps inline-block f-color-w v-align-mid\"> assign rep</div><div class=\"cnt-blk inline-block v-align-mid\" style=\"display:none;\">(<span class=\"cnt-no\"></span>)</div></a></div>");
+                }
+            }
+
+            if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
+
+                if (localStorage.LoginType == 'Admin') {
+                    var Omega = '\u003E';
+                    $(".mb-submenu-in").empty();
+                    $(".mb-submenu-in").append("<div class=\"bcrum-lb-submenu clr-fl inline-block v-align-mid\"><a href=\"#\" class=\"carrier-headerbox  left f-sz-16 ptsans-light snap carriers t-upper p-relative f-color-green\" data-type=\"page\" data-submenu=\"customers\"><div class=\"\"><div class=\"sprite-im customers-icon inline-block v-align-mid mr-space-10 \"> </div>"
+                            + "<span class=\"sub-menu-text inline-block v-align-mid\"> CUSTOMERS </span><span id=\"id-carrierpage-headertext\">" + Omega + "   " + localStorage.getItem("id-customers-headername") + "</span></div></a><div class=\"bcrum-icon-blk left f-color-green f-sz-16 ptsans-light\" style=\"display:none;\">&gt;</div><a href=\"#\" class=\"snap left f-sz-16 ptsans-light feeds-customer t-caps p-relative f-color-green\" data-type=\"page\" data-submenu=\"carriers-customer\" style=\"display:none;\"></a></div>");
+                }
+            }
+
             localStorage.setItem("ASSOCIATEFEED", null);
             if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
                 if (localStorage.LoginType == 'Representatives') {
@@ -4965,100 +5559,406 @@ protocall.customer = {
         var totalHTML = "<div>No Records </div>";
         localStorage.setItem("ASSOCIATE_CARRIER", "<div>No Records </div>");
         var userTab = JSON.parse(localStorage.getItem("customers_data"));
+        console.log("djhdhhdg", userTab);
         for (var index = 0; index < userTab.length; index++) {
-            var temp_carriedid = userTab[index].carrierId;
-            var temp_emailid = userTab[index].emailId.email;
-            if (temp_carriedid == carrierId && temp_emailid == emailID) {
-                var agencyemail = userTab[index].agencyRepresentativeId.email;
-                var alertlistarr = [];
-                alertlistarr = userTab[index].policyListWithCarrier;
-                if (alertlistarr.length > 0) {
-                    var datalist = {userId: emailID, agencyRepresentativeId: agencyemail, carrierId: carrierId, alertList: alertlistarr};
-                    var path = utils.server.getServerPath("userwithpoliciesandotherproduct");
-                    var request = path(datalist).execute(function (resp) {
-                        if (resp.error) {
-                            t.server.handleError(resp);
-                        } else {
-                            var carrierIds = "";
-                            for (var i = 0; i < resp.resultMap.Policies.length; i++) {
-                                if (totalHTML == "<div>No Records </div>") {
-                                    totalHTML = "";
-                                }
-
-                                var carrierPic = resp.resultMap.Policies[i].carrierDetails.carrierLogo;
-                                var carrierId = resp.resultMap.Policies[i].carrierDetails.carrierId;
-                                var carrierName = resp.resultMap.Policies[i].carrierDetails.carrierName;
-                                var carrierEmail = resp.resultMap.Policies[i].carrierDetails.emailId.email;
-                                var carrierLocation = resp.resultMap.Policies[i].carrierDetails.city + "," + resp.resultMap.Policies[i].carrierDetails.state;
-                                carrierIds += "," + carrierId;
-                                if (carrierPic != undefined) {
-                                    carrierPic = "https://proto-call-test.appspot.com/file/" + carrierPic;
+            if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
+                if (localStorage.LoginType == 'Admin') {
+                    var temp_carriedid = userTab[index].CustomerDetails.carrierId;
+                    var temp_emailid = userTab[index].CustomerDetails.emailId.email;
+                    if (temp_carriedid == carrierId && temp_emailid == emailID) {
+                        var agencyemail = userTab[index].CustomerDetails.agencyRepresentativeId.email;
+                        var alertlistarr = [];
+                        alertlistarr = userTab[index].CustomerDetails.policyListWithCarrier;
+                        if (alertlistarr.length > 0) {
+                            console.log("", emailID + "" + agencyemail + "" + carrierId + "" + alertlistarr);
+                            var datalist = {userId: emailID, agencyRepresentativeId: agencyemail, carrierId: carrierId, alertList: alertlistarr};
+							var path = utils.server.getServerPath("userwithpoliciesandotherproduct");
+                            var request = path(datalist).execute(function (resp) {
+                                if (resp.error) {
+                                    t.server.handleError(resp);
                                 } else {
-                                    carrierPic = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
-                                }
+                                    var carrierIds = "";
 
-                                if (carrierName == undefined)
-                                {
-                                    carrierName = ' ';
-                                }
+                                    console.log(resp);
+                                    for (var i = 0; i < resp.resultMap.Policies.length; i++) {
+                                        if (totalHTML == "<div>No Records </div>") {
+                                            totalHTML = "";
+                                        }
 
-                                if (carrierEmail == undefined)
-                                {
-                                    carrierEmail = ' ';
-                                }
-                                if (carrierLocation == undefined)
-                                {
-                                    carrierLocation = ' ';
-                                }
+                                        var carrierPic = resp.resultMap.Policies[i].carrierDetails.carrierLogo;
+                                        var carrierId = resp.resultMap.Policies[i].carrierDetails.carrierId;
+                                        var carrierName = resp.resultMap.Policies[i].carrierDetails.carrierName;
+                                        var carrierEmail = resp.resultMap.Policies[i].carrierDetails.emailId.email;
+                                        var carrierLocation = resp.resultMap.Policies[i].carrierDetails.city + "," + resp.resultMap.Policies[i].carrierDetails.state;
+                                        carrierIds += "," + carrierId;
+                                        if (carrierPic != undefined) {
+                                            carrierPic = "https://proto-call-test.appspot.com/file/" + carrierPic;
+                                        } else {
+                                            carrierPic = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                                        }
+
+                                        if (carrierName == undefined)
+                                        {
+                                            carrierName = ' ';
+                                        }
+
+                                        if (carrierEmail == undefined)
+                                        {
+                                            carrierEmail = ' ';
+                                        }
+                                        if (carrierLocation == undefined)
+                                        {
+                                            carrierLocation = ' ';
+                                        }
 
 //<div class="carrier-view p-relative bg-color-green t-caps t-center opensans-regular f-color-w snap" data-type="viewcarrierfeedview" 
 //data-id="5587210c-3fb9-4060-96d0-e92a4badf67d">view </div>
 
-                                var associateBlock = '';
-                                associateBlock = '<div id=' + carrierId + '  class="carrier-feed-associated-view   left p-relative snap" data-type="viewcarrierfeedview"  data-id="' + carrierId + '"> <div class="border-all p-relative"> <div class="associated-background p-relative">'
-                                        + '<div class="associated-carrier-pic inline-block "> <img src=' + carrierPic + ' '
-                                        + 'alt="" class="carrier-img-width"> '
-                                        + '</div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> '
-                                        + '<div class="carrier-name t-caps t-left">' + carrierName + '</div> '
-                                        + '<div class="carrier-location t-caps t-left">' + carrierLocation + '</div> '
-                                        + '<div class="carrier-location t-caps t-left"><a title=' + carrierEmail + ' href="mailto:' + carrierEmail + '">' + carrierEmail + '</a></div></div> </div> </div> </div> ';
-                                if (localStorage.LoginType == 'Representatives') {
-                                    associateBlock = '<div id=' + carrierId + '  class="carrier-feed-associated-view   left p-relative " data-type="viewcarrierfeedview"  data-id="' + carrierId + '"> <div class="border-all p-relative"> <div class="associated-background p-relative">'
-                                            + '<div class="associated-carrier-pic inline-block "> <img src=' + carrierPic + ' '
-                                            + 'alt="" class="carrier-img-width"> '
-                                            + '</div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> '
-                                            + '<div class="carrier-name t-caps t-left">' + carrierName + '</div> '
-                                            + '<div class="carrier-location t-caps t-left">' + carrierLocation + '</div> '
-                                            + '<div class="carrier-location t-caps t-left"><a title=' + carrierEmail + ' href="mailto:' + carrierEmail + '">' + carrierEmail + '</a></div></div> </div> </div> </div> ';
-                                }
+                                        var associateBlock = '';
+                                        associateBlock = '<div id=' + carrierId + '  class="carrier-feed-associated-view   left p-relative snap" data-type="viewcarrierfeedview"  data-id="' + carrierId + '"> <div class=" p-relative"> <div class="associated-background p-relative">'
+                                                + '<div class="associated-carrier-pic inline-block "> <img src=' + carrierPic + ' '
+                                                + 'alt="" class="carrier-img-width"> '
+                                                + '</div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> '
+                                                + '<div class="carrier-name t-caps t-left">' + carrierName + '</div> '
+                                                + '<div class="carrier-location t-caps t-left">' + carrierLocation + '</div> '
+                                                + '<div class="carrier-location t-caps t-left"><a title=' + carrierEmail + ' href="mailto:' + carrierEmail + '">' + carrierEmail + '</a></div></div> </div> </div> </div> ';
+                                        if (localStorage.LoginType == 'Representatives') {
+                                            associateBlock = '<div id=' + carrierId + '  class="carrier-feed-associated-view   left p-relative " data-type="viewcarrierfeedview"  data-id="' + carrierId + '"> <div class=" p-relative"> <div class="associated-background p-relative">'
+                                                    + '<div class="associated-carrier-pic inline-block "> <img src=' + carrierPic + ' '
+                                                    + 'alt="" class="carrier-img-width"> '
+                                                    + '</div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> '
+                                                    + '<div class="carrier-name t-caps t-left">' + carrierName + '</div> '
+                                                    + '<div class="carrier-location t-caps t-left">' + carrierLocation + '</div> '
+                                                    + '<div class="carrier-location t-caps t-left"><a title=' + carrierEmail + ' href="mailto:' + carrierEmail + '">' + carrierEmail + '</a></div></div> </div> </div> </div> ';
+                                        }
 
-                                if (totalHTML == "") {
-                                    totalHTML += associateBlock;
+                                        if (totalHTML == "") {
+                                            totalHTML += associateBlock;
+                                        } else {
+                                            if (totalHTML.indexOf(associateBlock) > -1) {
+                                            } else {
+                                                totalHTML += associateBlock;
+                                            }
+                                        }
+
+                                    }
+
+                                    carrierIds = "";
+                                    localStorage.setItem("ASSOCIATE_CARRIER", totalHTML);
+                                    //  alert(localStorage.getItem("ASSOCIATE_CARRIER"));
+                                    if (localStorage.LoginType == 'Representatives') {
+                                        $("#id-carrierassociatedblock").html('');
+                                        if (localStorage.getItem("ASSOCIATE_CARRIER") == undefined || localStorage.getItem("ASSOCIATE_CARRIER") == "") {
+                                            localStorage.setItem("ASSOCIATE_CARRIER", "<div>No Records</div>");
+                                        } else {
+                                            $("#id-carrierassociatedblock").append(localStorage.getItem("ASSOCIATE_CARRIER"));
+                                        }
+
+                                        // $("#id-carrierassociatedblock").append(localStorage.getItem("ASSOCIATE_CARRIER"));
+                                    }
+
+                                }
+                            });
+                        }
+                    }
+                } else {
+                    var temp_carriedid = userTab[index].userDetails.carrierId;
+                    var temp_emailid = userTab[index].userDetails.emailId.email;
+                    if (temp_carriedid == carrierId && temp_emailid == emailID) {
+                        var agencyemail = userTab[index].userDetails.agencyRepresentativeId.email;
+                        var alertlistarr = [];
+                        alertlistarr = userTab[index].userDetails.policyListWithCarrier;
+                        if (alertlistarr.length > 0) {
+                            console.log("", emailID + "" + agencyemail + "" + carrierId + "" + alertlistarr);
+                            var datalist = {userId: emailID, agencyRepresentativeId: agencyemail, carrierId: carrierId, alertList: alertlistarr};
+                            var path = utils.server.getServerPath("userwithpoliciesandotherproduct");
+                            var request = path(datalist).execute(function (resp) {
+                                if (resp.error) {
+                                    t.server.handleError(resp);
                                 } else {
-                                    if (totalHTML.indexOf(associateBlock) > -1) {
-                                    } else {
-                                        totalHTML += associateBlock;
+                                    var carrierIds = "";
+
+                                    console.log(resp);
+                                    for (var i = 0; i < resp.resultMap.Policies.length; i++) {
+                                        if (totalHTML == "<div>No Records </div>") {
+                                            totalHTML = "";
+                                        }
+
+                                        var carrierPic = resp.resultMap.Policies[i].carrierDetails.carrierLogo;
+                                        var carrierId = resp.resultMap.Policies[i].carrierDetails.carrierId;
+                                        var carrierName = resp.resultMap.Policies[i].carrierDetails.carrierName;
+                                        var carrierEmail = resp.resultMap.Policies[i].carrierDetails.emailId.email;
+                                        var carrierLocation = resp.resultMap.Policies[i].carrierDetails.city + "," + resp.resultMap.Policies[i].carrierDetails.state;
+                                        carrierIds += "," + carrierId;
+                                        if (carrierPic != undefined) {
+                                            carrierPic = "https://proto-call-test.appspot.com/file/" + carrierPic;
+                                        } else {
+                                            carrierPic = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                                        }
+
+                                        if (carrierName == undefined)
+                                        {
+                                            carrierName = ' ';
+                                        }
+
+                                        if (carrierEmail == undefined)
+                                        {
+                                            carrierEmail = ' ';
+                                        }
+                                        if (carrierLocation == undefined)
+                                        {
+                                            carrierLocation = ' ';
+                                        }
+
+//<div class="carrier-view p-relative bg-color-green t-caps t-center opensans-regular f-color-w snap" data-type="viewcarrierfeedview" 
+//data-id="5587210c-3fb9-4060-96d0-e92a4badf67d">view </div>
+
+                                        var associateBlock = '';
+                                        associateBlock = '<div id=' + carrierId + '  class="carrier-feed-associated-view   left p-relative snap" data-type="viewcarrierfeedview"  data-id="' + carrierId + '"> <div class=" p-relative"> <div class="associated-background p-relative">'
+                                                + '<div class="associated-carrier-pic inline-block "> <img src=' + carrierPic + ' '
+                                                + 'alt="" class="carrier-img-width"> '
+                                                + '</div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> '
+                                                + '<div class="carrier-name t-caps t-left">' + carrierName + '</div> '
+                                                + '<div class="carrier-location t-caps t-left">' + carrierLocation + '</div> '
+                                                + '<div class="carrier-location t-caps t-left"><a title=' + carrierEmail + ' href="mailto:' + carrierEmail + '">' + carrierEmail + '</a></div></div> </div> </div> </div> ';
+                                        if (localStorage.LoginType == 'Representatives') {
+                                            associateBlock = '<div id=' + carrierId + '  class="carrier-feed-associated-view   left p-relative " data-type="viewcarrierfeedview"  data-id="' + carrierId + '"> <div class=" p-relative"> <div class="associated-background p-relative">'
+                                                    + '<div class="associated-carrier-pic inline-block "> <img src=' + carrierPic + ' '
+                                                    + 'alt="" class="carrier-img-width"> '
+                                                    + '</div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> '
+                                                    + '<div class="carrier-name t-caps t-left">' + carrierName + '</div> '
+                                                    + '<div class="carrier-location t-caps t-left">' + carrierLocation + '</div> '
+                                                    + '<div class="carrier-location t-caps t-left"><a title=' + carrierEmail + ' href="mailto:' + carrierEmail + '">' + carrierEmail + '</a></div></div> </div> </div> </div> ';
+                                        }
+
+                                        if (totalHTML == "") {
+                                            totalHTML += associateBlock;
+                                        } else {
+                                            if (totalHTML.indexOf(associateBlock) > -1) {
+                                            } else {
+                                                totalHTML += associateBlock;
+                                            }
+                                        }
+
+                                    }
+
+                                    carrierIds = "";
+                                    localStorage.setItem("ASSOCIATE_CARRIER", totalHTML);
+                                    //  alert(localStorage.getItem("ASSOCIATE_CARRIER"));
+                                    if (localStorage.LoginType == 'Representatives') {
+                                        $("#id-carrierassociatedblock").html('');
+                                        if (localStorage.getItem("ASSOCIATE_CARRIER") == undefined || localStorage.getItem("ASSOCIATE_CARRIER") == "") {
+                                            localStorage.setItem("ASSOCIATE_CARRIER", "<div>No Records</div>");
+                                        } else {
+                                            $("#id-carrierassociatedblock").append(localStorage.getItem("ASSOCIATE_CARRIER"));
+                                        }
+
+                                        // $("#id-carrierassociatedblock").append(localStorage.getItem("ASSOCIATE_CARRIER"));
+                                    }
+
+                                }
+                            });
+                        }
+                    }
+                }
+            } else {
+                if (localStorage.LoginType == 'Admin') {
+                    var temp_carriedid = userTab[index].carrierId;
+                    var temp_emailid = userTab[index].emailId.email;
+                    if (temp_carriedid == carrierId && temp_emailid == emailID) {
+                        var agencyemail = userTab[index].agencyRepresentativeId.email;
+                        var alertlistarr = [];
+                        alertlistarr = userTab[index].policyListWithCarrier;
+                        if (alertlistarr.length > 0) {
+                            console.log("", emailID + "" + agencyemail + "" + carrierId + "" + alertlistarr);
+                            var datalist = {userId: emailID, agencyRepresentativeId: agencyemail, carrierId: carrierId, alertList: alertlistarr};
+                            var path = utils.server.getServerPath("userwithpoliciesandotherproduct");
+                            var request = path(datalist).execute(function (resp) {
+                                if (resp.error) {
+                                    t.server.handleError(resp);
+                                } else {
+                                    var carrierIds = "";
+
+                                    console.log(resp);
+                                    for (var i = 0; i < resp.resultMap.Policies.length; i++) {
+                                        if (totalHTML == "<div>No Records </div>") {
+                                            totalHTML = "";
+                                        }
+
+                                        var carrierPic = resp.resultMap.Policies[i].carrierDetails.carrierLogo;
+                                        var carrierId = resp.resultMap.Policies[i].carrierDetails.carrierId;
+                                        var carrierName = resp.resultMap.Policies[i].carrierDetails.carrierName;
+                                        var carrierEmail = resp.resultMap.Policies[i].carrierDetails.emailId.email;
+                                        var carrierLocation = resp.resultMap.Policies[i].carrierDetails.city + "," + resp.resultMap.Policies[i].carrierDetails.state;
+                                        carrierIds += "," + carrierId;
+                                        if (carrierPic != undefined) {
+                                            carrierPic = "https://proto-call-test.appspot.com/file/" + carrierPic;
+                                        } else {
+                                            carrierPic = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                                        }
+
+                                        if (carrierName == undefined)
+                                        {
+                                            carrierName = ' ';
+                                        }
+
+                                        if (carrierEmail == undefined)
+                                        {
+                                            carrierEmail = ' ';
+                                        }
+                                        if (carrierLocation == undefined)
+                                        {
+                                            carrierLocation = ' ';
+                                        }
+
+//<div class="carrier-view p-relative bg-color-green t-caps t-center opensans-regular f-color-w snap" data-type="viewcarrierfeedview" 
+//data-id="5587210c-3fb9-4060-96d0-e92a4badf67d">view </div>
+
+                                        var associateBlock = '';
+                                        associateBlock = '<div id=' + carrierId + '  class="carrier-feed-associated-view   left p-relative snap" data-type="viewcarrierfeedview"  data-id="' + carrierId + '"> <div class=" p-relative"> <div class="associated-background p-relative">'
+                                                + '<div class="associated-carrier-pic inline-block "> <img src=' + carrierPic + ' '
+                                                + 'alt="" class="carrier-img-width"> '
+                                                + '</div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> '
+                                                + '<div class="carrier-name t-caps t-left">' + carrierName + '</div> '
+                                                + '<div class="carrier-location t-caps t-left">' + carrierLocation + '</div> '
+                                                + '<div class="carrier-location t-caps t-left"><a title=' + carrierEmail + ' href="mailto:' + carrierEmail + '">' + carrierEmail + '</a></div></div> </div> </div> </div> ';
+                                        if (localStorage.LoginType == 'Representatives') {
+                                            associateBlock = '<div id=' + carrierId + '  class="carrier-feed-associated-view   left p-relative " data-type="viewcarrierfeedview"  data-id="' + carrierId + '"> <div class=" p-relative"> <div class="associated-background p-relative">'
+                                                    + '<div class="associated-carrier-pic inline-block "> <img src=' + carrierPic + ' '
+                                                    + 'alt="" class="carrier-img-width"> '
+                                                    + '</div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> '
+                                                    + '<div class="carrier-name t-caps t-left">' + carrierName + '</div> '
+                                                    + '<div class="carrier-location t-caps t-left">' + carrierLocation + '</div> '
+                                                    + '<div class="carrier-location t-caps t-left"><a title=' + carrierEmail + ' href="mailto:' + carrierEmail + '">' + carrierEmail + '</a></div></div> </div> </div> </div> ';
+                                        }
+
+                                        if (totalHTML == "") {
+                                            totalHTML += associateBlock;
+                                        } else {
+                                            if (totalHTML.indexOf(associateBlock) > -1) {
+                                            } else {
+                                                totalHTML += associateBlock;
+                                            }
+                                        }
+
+                                    }
+
+                                    carrierIds = "";
+                                    localStorage.setItem("ASSOCIATE_CARRIER", totalHTML);
+                                    //  alert(localStorage.getItem("ASSOCIATE_CARRIER"));
+                                    if (localStorage.LoginType == 'Representatives') {
+                                        $("#id-carrierassociatedblock").html('');
+                                        if (localStorage.getItem("ASSOCIATE_CARRIER") == undefined || localStorage.getItem("ASSOCIATE_CARRIER") == "") {
+                                            localStorage.setItem("ASSOCIATE_CARRIER", "<div>No Records</div>");
+                                        } else {
+                                            $("#id-carrierassociatedblock").append(localStorage.getItem("ASSOCIATE_CARRIER"));
+                                        }
+
+                                        // $("#id-carrierassociatedblock").append(localStorage.getItem("ASSOCIATE_CARRIER"));
                                     }
                                 }
-
-                            }
-
-                            carrierIds = "";
-                            localStorage.setItem("ASSOCIATE_CARRIER", totalHTML);
-                            //  alert(localStorage.getItem("ASSOCIATE_CARRIER"));
-                            if (localStorage.LoginType == 'Representatives') {
-                                $("#id-carrierassociatedblock").html('');
-                                if (localStorage.getItem("ASSOCIATE_CARRIER") == undefined || localStorage.getItem("ASSOCIATE_CARRIER") == "") {
-                                    localStorage.setItem("ASSOCIATE_CARRIER", "<div>No Records</div>");
-                                } else {
-                                    $("#id-carrierassociatedblock").append(localStorage.getItem("ASSOCIATE_CARRIER"));
-                                }
-
-                                // $("#id-carrierassociatedblock").append(localStorage.getItem("ASSOCIATE_CARRIER"));
-                            }
-
+                            });
                         }
-                    });
+                    }
+                } else {
+                    var temp_carriedid = userTab[index].carrierId;
+                    var temp_emailid = userTab[index].emailId.email;
+                    if (temp_carriedid == carrierId && temp_emailid == emailID) {
+                        var agencyemail = userTab[index].agencyRepresentativeId.email;
+                        var alertlistarr = [];
+                        alertlistarr = userTab[index].policyListWithCarrier;
+                        if (alertlistarr.length > 0) {
+                            console.log("", emailID + "" + agencyemail + "" + carrierId + "" + alertlistarr);
+                            var datalist = {userId: emailID, agencyRepresentativeId: agencyemail, carrierId: carrierId, alertList: alertlistarr};
+                            var path = utils.server.getServerPath("userwithpoliciesandotherproduct");
+                            var request = path(datalist).execute(function (resp) {
+                                if (resp.error) {
+                                    t.server.handleError(resp);
+                                } else {
+                                    var carrierIds = "";
+
+                                    console.log(resp);
+                                    for (var i = 0; i < resp.resultMap.Policies.length; i++) {
+                                        if (totalHTML == "<div>No Records </div>") {
+                                            totalHTML = "";
+                                        }
+
+                                        var carrierPic = resp.resultMap.Policies[i].carrierDetails.carrierLogo;
+                                        var carrierId = resp.resultMap.Policies[i].carrierDetails.carrierId;
+                                        var carrierName = resp.resultMap.Policies[i].carrierDetails.carrierName;
+                                        var carrierEmail = resp.resultMap.Policies[i].carrierDetails.emailId.email;
+                                        var carrierLocation = resp.resultMap.Policies[i].carrierDetails.city + "," + resp.resultMap.Policies[i].carrierDetails.state;
+                                        carrierIds += "," + carrierId;
+                                        if (carrierPic != undefined) {
+                                            carrierPic = "https://proto-call-test.appspot.com/file/" + carrierPic;
+                                        } else {
+                                            carrierPic = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                                        }
+
+                                        if (carrierName == undefined)
+                                        {
+                                            carrierName = ' ';
+                                        }
+
+                                        if (carrierEmail == undefined)
+                                        {
+                                            carrierEmail = ' ';
+                                        }
+                                        if (carrierLocation == undefined)
+                                        {
+                                            carrierLocation = ' ';
+                                        }
+
+//<div class="carrier-view p-relative bg-color-green t-caps t-center opensans-regular f-color-w snap" data-type="viewcarrierfeedview" 
+//data-id="5587210c-3fb9-4060-96d0-e92a4badf67d">view </div>
+
+                                        var associateBlock = '';
+                                        associateBlock = '<div id=' + carrierId + '  class="carrier-feed-associated-view   left p-relative snap" data-type="viewcarrierfeedview"  data-id="' + carrierId + '"> <div class=" p-relative"> <div class="associated-background p-relative">'
+                                                + '<div class="associated-carrier-pic inline-block "> <img src=' + carrierPic + ' '
+                                                + 'alt="" class="carrier-img-width"> '
+                                                + '</div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> '
+                                                + '<div class="carrier-name t-caps t-left">' + carrierName + '</div> '
+                                                + '<div class="carrier-location t-caps t-left">' + carrierLocation + '</div> '
+                                                + '<div class="carrier-location t-caps t-left"><a title=' + carrierEmail + ' href="mailto:' + carrierEmail + '">' + carrierEmail + '</a></div></div> </div> </div> </div> ';
+                                        if (localStorage.LoginType == 'Representatives') {
+                                            associateBlock = '<div id=' + carrierId + '  class="carrier-feed-associated-view   left p-relative " data-type="viewcarrierfeedview"  data-id="' + carrierId + '"> <div class=" p-relative"> <div class="associated-background p-relative">'
+                                                    + '<div class="associated-carrier-pic inline-block "> <img src=' + carrierPic + ' '
+                                                    + 'alt="" class="carrier-img-width"> '
+                                                    + '</div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> '
+                                                    + '<div class="carrier-name t-caps t-left">' + carrierName + '</div> '
+                                                    + '<div class="carrier-location t-caps t-left">' + carrierLocation + '</div> '
+                                                    + '<div class="carrier-location t-caps t-left"><a title=' + carrierEmail + ' href="mailto:' + carrierEmail + '">' + carrierEmail + '</a></div></div> </div> </div> </div> ';
+                                        }
+
+                                        if (totalHTML == "") {
+                                            totalHTML += associateBlock;
+                                        } else {
+                                            if (totalHTML.indexOf(associateBlock) > -1) {
+                                            } else {
+                                                totalHTML += associateBlock;
+                                            }
+                                        }
+
+                                    }
+
+                                    carrierIds = "";
+                                    localStorage.setItem("ASSOCIATE_CARRIER", totalHTML);
+                                    //  alert(localStorage.getItem("ASSOCIATE_CARRIER"));
+                                    if (localStorage.LoginType == 'Representatives') {
+                                        $("#id-carrierassociatedblock").html('');
+                                        if (localStorage.getItem("ASSOCIATE_CARRIER") == undefined || localStorage.getItem("ASSOCIATE_CARRIER") == "") {
+                                            localStorage.setItem("ASSOCIATE_CARRIER", "<div>No Records</div>");
+                                        } else {
+                                            $("#id-carrierassociatedblock").append(localStorage.getItem("ASSOCIATE_CARRIER"));
+                                        }
+
+                                        // $("#id-carrierassociatedblock").append(localStorage.getItem("ASSOCIATE_CARRIER"));
+                                    }
+
+                                }
+                            });
+                        }
+                    }
                 }
             }
 
@@ -5101,7 +6001,8 @@ protocall.customer = {
 }
 
 protocall.myRep = {initMyRepsPage: function () {
-
+		HOMEPAGERESPONSE.SORTBYALPHABETICALVIEW = false;
+		HOMEPAGERESPONSE.SORTBYRECENTVIEW = true;
         localStorage.myrepvalue1 = "mysortselected";
         localStorage.myrepvalue2 = "";
         localStorage.setItem("SUBMENU", "MYREPS_PAGE");
@@ -5120,6 +6021,8 @@ protocall.myRep = {initMyRepsPage: function () {
         MyrepsdynamicTemplate.myreps.CarrierRepsDynamicList();
     },
     initMyRepsPageSort: function () {
+		HOMEPAGERESPONSE.SORTBYALPHABETICALVIEW = true;
+		HOMEPAGERESPONSE.SORTBYRECENTVIEW = false;
         var page = "myrepspage";
         var data = {agencyId: "49c03e36-f3f1-4132-8115-2f74c8a7bae3"},
         deepPath = "agencyrepresentativelistsortedbyname",
@@ -5198,10 +6101,20 @@ protocall.InviteRep = {sendemailinvite: function ($el) {
         }
 
         var page = "InviteRep";
+		var roleValue;
+		if(localStorage.getItem("LOGIN_LABEL") == "Agency"){
+			roleValue = 1;
+		} else if(localStorage.getItem("LOGIN_LABEL") == "Carrier") {
+			roleValue = 2;
+		} else {
+			roleValue = 3;
+		}
         //var emailList     = [ {"email":"dhfsf.p@tringapps.com"}, {"email":"sdjfhsdgfs.k@tringapps.com"} ];
         var emailList = [{"email": email}];
         var deepPath = "sendinvitation";
-        var link = "http://gridframe.net/demo/protocall/#signup";
+        //var link = "/#signup-"+roleValue;
+        //var link = "http://localhost/Protocall-FinaBuild/Protocall-Mar-25/#signup-"+roleValue;
+        var link = "https://1-dot-windy-shoreline-89117.appspot.com/#signup-"+roleValue;
         var resetPassword = false;
         var callback = protocall.InviteRep.InviteRepbyEmail;
         var content = sessionStorage.agencyName + 'is inviting you to join in protocall.Please use the below link to signup in protocall and the link will expire in 24 hours.';
@@ -5253,7 +6166,8 @@ protocall.myProfile = {loadFeedSetting: function ($el) {
         $(".content-holder").empty();
         $(".content-holder").append(html);
         $(".mb-submenu").empty();
-        var subMenu = '<div class="bcrum-lb-submenu clr-fl inline-block v-align-mid" style="width:20%;"><a href="#" class="snap left f-sz-16 ptsans-light myprofile t-upper p-relative f-color-green" data-type="page" data-submenu="myprofile"><div class=""><div class="sprite-im myprofile-icon inline-block v-align-mid mr-space-10"></div><span class="sub-menu-text inline-block v-align-mid"> my profile</span></div></a><div class="bcrum-icon-blk left f-color-green f-sz-16 ptsans-light" style="display:none;">&gt;</div><a href="#" class="snap left f-sz-16 ptsans-light feeds-customer t-caps p-relative f-color-green" data-type="page" data-submenu="myprofile-customer" style="display:none;"></a></div><div class="tab-rb-submenu inline-block v-align-mid" style="width:80%;"><div class="tab-rb-submenu-in-block p-relative"><a href="/edit" class="snap submenu-tab bg-color-green right f-sz-16 ptsans-light edit p-relative" data-type="page" data-submenu="edit"><div class="sprite-im inline-block edit-icon v-align-mid" style="display:block;">&nbsp;</div><div class="submenu-title t-caps inline-block f-color-w v-align-mid "> edit</div><div class="cnt-blk inline-block v-align-mid" style="display:none;">(<span class="cnt-no"></span>)</div></a></div></div>';
+        var subMenu = '<div class="bcrum-lb-submenu clr-fl inline-block v-align-mid" style="width:20%;"><a href="#" class="snap left f-sz-16 ptsans-light myprofile t-upper p-relative f-color-green" data-type="page" data-submenu="myprofile"><div class=""><div class="sprite-im myprofile-icon inline-block v-align-mid mr-space-10" style="margin-top:-1px"></div><span class="sub-menu-text inline-block v-align-mid"> my profile</span></div></a><div class="bcrum-icon-blk left f-color-green f-sz-16 ptsans-light" style="display:none;">&gt;</div><a href="#" class="snap left f-sz-16 ptsans-light feeds-customer t-caps p-relative f-color-green" data-type="page" data-submenu="myprofile-customer" style="display:none;"></a></div><div class="tab-rb-submenu inline-block v-align-mid" style="width:80%;"><div class="tab-rb-submenu-in-block p-relative"><a href="/edit" class="snap submenu-tab bg-color-green right f-sz-16 ptsans-light edit p-relative" data-type="page" data-submenu="edit"><div class="sprite-im inline-block edit-icon v-align-mid" style="display:block;">&nbsp;</div><div class="submenu-title t-caps inline-block f-color-w v-align-mid "> edit</div><div class="cnt-blk inline-block v-align-mid" style="display:none;">(<span class="cnt-no"></span>)</div></a><a href="/#" class="snap submenu-tab bg-color-green right f-sz-16 ptsans-light p-relative" data-type="page" data-submenu="dt-resetpassword" style="width:150px">'
+                + '<div class="sprite-im inline-block v-align-mid" style="display:none;">&nbsp;</div><div class="submenu-title1 t-caps inline-block f-color-w v-align-mid " > Reset Password </div><div class="cnt-blk inline-block v-align-mid" style="display:none;">(<span class="cnt-no"></span>)</div></a></div></div>';
         $(".mb-submenu").append(subMenu);
         protocall.events.GlobalContainerScrollevent();
         this.setSelectedClassPopContent($el);
@@ -5283,18 +6197,30 @@ protocall.util = {
         footer = "";
         console.log("data in viewingHomePageData", dataValue);
         console.log("dataValue.resultMap.isNextPage", dataValue.resultMap.isNextPage);
+        CONSTANTS.HASNEXTPAGE = false;
         if (dataValue !== "undefined" && dataValue.resultMap !== "undefined") {
+			if (HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED) {
+				HOMEPAGERESPONSE.UNREADFEEDCOUNT = dataValue.resultMap.count;
+				/* if (alertDetailsValue.alertStatusDetails.status == undefined) {
+					HOMEPAGERESPONSE.UNREADFEEDCOUNT = HOMEPAGERESPONSE.UNREADFEEDCOUNT + 1;
+					} */
+				} else {
+					HOMEPAGERESPONSE.UNREADFEEDCOUNT = HOMEPAGERESPONSE.UNREADFEEDCOUNT;
+				}
             if (dataValue.resultMap.isNextPage == true) {
                 console.log("is Next page is true");
                 CONSTANTS.HASNEXTPAGE = true;
             } else {
                 CONSTANTS.HASNEXTPAGE = false;
             }
-            if (dataValue.resultMap.TypeCode !== "undefined" && dataValue.resultMap.TypeCode == "4011") {                 //console.log("resultMap.ArrayOfAlertDetails.length", dataValue.resultMap.ArrayOfAlertDetails.length);
+            if (dataValue.resultMap.TypeCode !== "undefined" && dataValue.resultMap.TypeCode == "4011" && CONSTANTS.HASNEXTPAGE == true) {
+                PAGE_COUNT = 0;
+                //console.log("resultMap.ArrayOfAlertDetails.length", dataValue.resultMap.ArrayOfAlertDetails.length);
                 if (dataValue.resultMap.ArrayOfAlertDetails !== "undefined" && dataValue.resultMap.ArrayOfAlertDetails.length !== "undefined" && dataValue.resultMap.ArrayOfAlertDetails.length !== 0) {
                     $.each(dataValue.resultMap.ArrayOfAlertDetails, function (index, alertDetailsValue) {
                         console.log("alertDetailsValue.alertDetails index", alertDetailsValue.alertDetails.length);
                         var alertType = alertDetailsValue.alertDetails.type;
+                        // alert(alertType);
                         if (HOMEPAGERESPONSE.INCIDENTALERTSCLICKED) {
                             console.log("HOMEPAGERESPONSE.INCIDENTALERTSCLICKED", HOMEPAGERESPONSE.INCIDENTALERTSCLICKED);
                             console.log("alertDetailsValue.alertDetails INCIDENTALERTSCLICKED", alertDetailsValue.alertDetails.length);
@@ -5306,61 +6232,75 @@ protocall.util = {
                         } else {
                             feedHTML += template.feedsTemplateHTML(alertDetailsValue);
                             console.log("HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADEDCOUNT", HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADEDCOUNT);
-                            if (HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED) {
-                                if (alertDetailsValue.alertStatusDetails.status == undefined) {
-                                    HOMEPAGERESPONSE.UNREADFEEDCOUNT = HOMEPAGERESPONSE.UNREADFEEDCOUNT + 1;
-                                }
-                            } else {
-                                HOMEPAGERESPONSE.UNREADFEEDCOUNT = HOMEPAGERESPONSE.UNREADFEEDCOUNT;
-                            }
                         }
                         HOMEPAGERESPONSE.RECURRINGALERTDFEEDS.push(alertDetailsValue);
                     });
                     /*Naveen 23-2-2015 Changes Start */
-                    /* if (feedHTML == "" && HOMEPAGERESPONSE.POLICYALERTCLICKED) {
-                     feedHTML = '<div class="feed-block clr-fl">There are No Policy Feeds Available for the User</div>';
-                     }
-                     if (feedHTML == "" && HOMEPAGERESPONSE.INCIDENTALERTSCLICKED) {
-                     feedHTML = '<div class="feed-block clr-fl">There are No Incident Feeds Available for the User</div>';
-                     }
-                     if (feedHTML == "" && HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED) {
-                     feedHTML = '<div class="feed-block clr-fl">There are No My Alert Feeds Available for the User</div>';
-                     } */
+                    if (feedHTML == "" && HOMEPAGERESPONSE.POLICYALERTCLICKED) {
+                        feedHTML = "<div id=\"\">" + "No Records..!" + "</div>";
+                    }
+                    if (feedHTML == "" && HOMEPAGERESPONSE.INCIDENTALERTSCLICKED) {
+                        feedHTML = "<div id=\"\">" + "No Records..!" + "</div>";
+                    }
+                    if (feedHTML == "" && HOMEPAGERESPONSE.HOMEPAGEMYALERTSLOADED) {
+                        feedHTML = "<div id=\"\">" + "No Records..!" + "</div>";
+                    }
                     /*Naveen 23-2-2015 Changes End */
                     console.log("HOMEPAGERESPONSE.INCIDENTALERTSCLICKED 2", HOMEPAGERESPONSE.INCIDENTALERTSCLICKED);
                 }
-            } else if (dataValue.resultMap.TypeCode !== "undefined" && dataValue.resultMap.TypeCode == "4012") {
-                feedHTML = '<div class="feed-block clr-fl">There are No Policy Feeds Available for the User</div>';
+            } else if (dataValue.resultMap.AlertMessage != "undefined" && dataValue.resultMap.TypeCode == "4012") {
+                PAGE_COUNT++;
+                feedHTML = "<div id=\"\">" + "No Records..!" + "</div>";
             }
         }
-        /* if (CONSTANTS.HASNEXTPAGE === false && dataValue.resultMap.TypeCode == "4012") {
-         feedHTML = '<div class="feed-block clr-fl">' + dataValue.resultMap.AlertMessage + '</div>';
-         }  */
         if (CONSTANTS.PGNUMBER == 1) {
-            $("#page").empty();
             header = HeaderTemplate.Menu.DynamicHeaderTemplate();
-            if (dataValue.resultMap.AlertMessage != "undefined" && dataValue.resultMap.TypeCode == "4012") {
-                feedHTML = "<div id=\"id-norecords\">" + "No Records..!" + "</div>";
-            }
-
-            //            content = '<div class="topContainer"><div class="container"><div class="content-holder">' + feedHTML + '</div></div></div></div></div>';
-            // header = HeaderTemplate.Menu.DynamicHeaderTemplate();
             content = '<div class="container"><div class="content-holder">' + feedHTML + '</div></div></div></div>';
             var footer = footerDynamicTemplate.footer.DynamicFooterTemplate();
             totalHtml = header + content + footer;
-            $("#page").append(totalHtml);
+            var pageNumber = protocall.grabHashPage();
+            if (pageNumber == "carriers") {
+                protocall.view.loadCarrierPage(true);
+            } else if (pageNumber == "customers") {
+                protocall.view.loadCustomerPage(true);
+            } else if (pageNumber == "myreps") {
+                protocall.view.loadMyRepsPage(true);
+            } else if (pageNumber == "myProfileView") {
+                var $el = $(".myProfileView");
+                protocall.view.viewProfileViewPage(true, $el);
+            } else if (pageNumber == "carrieragency") {
+                protocall.view.loadCarrierOwnerAgenciesPage(true);
+            } else {
+                $("#page").empty();
+                $("#page").append(totalHtml);
+            }
             protocall.events.GlobalContainerScrollevent();
         } else {
-            $(".content-holder").append($(feedHTML));
-            protocall.events.GlobalContainerScrollevent();
-        }
+            var pageNumber = protocall.grabHashPage();
+            if (pageNumber == "carriers") {
+                protocall.view.loadCarrierPage(true);
+            } else if (pageNumber == "customers") {
+                protocall.view.loadCustomerPage(true);
+            } else if (pageNumber == "myreps") {
+                protocall.view.loadMyRepsPage(true);
+            } else if (pageNumber == "myProfileView") {
+                var $el = $(".myProfileView");
+                protocall.view.viewProfileViewPage(true, $el);
+            } else if (pageNumber == "carrieragency") {
+                protocall.view.loadCarrierOwnerAgenciesPage(true);
+            } else {
+                IsLoadNextPage = true;
+                if (PAGE_COUNT == 0) {
+                    $(".content-holder").append($(feedHTML));
+                } else if (PAGE_COUNT == 1) {
+                    $(".content-holder").append($(feedHTML));
+                }
+            }
 
-        $(".topContainer").css("box-shadow", "inset 0px 8px 8px #E9EFF0");
-        if (HOMEPAGERESPONSE.LISTOFALERTIDSFORARCHIVE.length == 0) {
-            $("a.archives").css("display", "none");
-        } else {
-            $("a.archives").css("display", "block");
+            protocall.events.GlobalContainerScrollevent();
         }
+        $(".content-holder").removeClass("spinner1");
+        $(".topContainer").css("box-shadow", "inset 0px 8px 8px #E9EFF0");
         if (HOMEPAGERESPONSE.UNREADFEEDCOUNT !== 0) {
             $(".mb-submenu").find("a.myalerts span.cnt-no").text(HOMEPAGERESPONSE.UNREADFEEDCOUNT);
         } else {
@@ -5394,13 +6334,6 @@ protocall.util = {
             $(".edit-agency-pic").css("display", "none");
         }
 
-
-        $("#id-norecords").animate({
-            width: "20%",
-            opacity: 1,
-            marginLeft: "0.2in",
-            fontSize: "16px"
-        }, 1500);
     }
 } /*Naveen 23-2-2015 Chnage end*/
 
@@ -5422,9 +6355,9 @@ function readBrowserURL(input) {
             $('#id-agencyprofilelogo').attr('src', e.target.result);
             $('.setAgencyPic').attr('src', e.target.result);
             sessionStorage.agencyLogo = e.target.result;
+			sessionStorage.profilePicAfterUpdate = e.target.result;
         };
         reader.readAsDataURL(input.files[0]);
-        sessionStorage.profilePicAfterUpdate = e.target.result;
         console.log("sessionStorage.profilePicAfterUpdate", sessionStorage.profilePicAfterUpdate);
     }
 }
@@ -5515,17 +6448,17 @@ function editAgencySaveData() {
     addBottomBorder();
     hideAgencyTextboxes();
     document.getElementById("id-carrier-edit").innerHTML = "edit";
-    document.getElementById("id-c-agencyid").innerHTML = document.getElementById("id-carrier-agencyid").value;
-    document.getElementById("id-c-masteragencyid").innerHTML = document.getElementById("id-carrier-masteragencyid").value;
-    document.getElementById("id-c-agencytype").innerHTML = document.getElementById("id-carrier-agencytype").value;
-    document.getElementById("id-c-agencyname").innerHTML = document.getElementById("id-carrier-agencyname").value;
-    document.getElementById("id-c-agencyaddress1").innerHTML = document.getElementById("id-carrier-agencyaddress1").value;
-    document.getElementById("id-c-agencyaddress2").innerHTML = document.getElementById("id-carrier-agencyaddress2").value;
-    document.getElementById("id-c-agencycity").innerHTML = document.getElementById("id-carrier-agencycity").value;
-    document.getElementById("id-c-agencystate").innerHTML = document.getElementById("id-carrier-agencystate").value;
-    document.getElementById("id-c-agencyzip").innerHTML = document.getElementById("id-carrier-agencyzipcode").value;
-    document.getElementById("id-c-agencyphone").innerHTML = document.getElementById("id-carrier-agencyphone").value;
-    document.getElementById("id-c-agencyemail").innerHTML = document.getElementById("id-carrier-agencyemail").value;
+    document.getElementById("id-c-agencyid").innerHTML = $("#id-carrier-agencyid").val();
+    document.getElementById("id-c-masteragencyid").innerHTML = $("#id-carrier-masteragencyid").val();
+    document.getElementById("id-c-agencytype").innerHTML = $("#id-carrier-agencytype").val();
+    document.getElementById("id-c-agencyname").innerHTML = $("#id-carrier-agencyname").val();
+    document.getElementById("id-c-agencyaddress1").innerHTML = $("#id-carrier-agencyaddress1").val();
+    document.getElementById("id-c-agencyaddress2").innerHTML = $("#id-carrier-agencyaddress2").val();
+    document.getElementById("id-c-agencycity").innerHTML = $("#id-carrier-agencycity").val();
+    document.getElementById("id-c-agencystate").innerHTML = $("#id-carrier-agencystate").val();
+    document.getElementById("id-c-agencyzip").innerHTML = $("#id-carrier-agencyzipcode").val();
+    document.getElementById("id-c-agencyphone").innerHTML = $("#id-carrier-agencyphone").val();
+    document.getElementById("id-c-agencyemail").innerHTML = $("#id-carrier-agencyemail").val();
     $("#id-c-agencyid").show();
     $("#id-c-masteragencyid").show();
     $("#id-c-agencytype").show();
@@ -5549,16 +6482,35 @@ function editAgencySaveData() {
     var agencyphone = document.getElementById("id-carrier-agencyphone").value;
     var agencyemail = document.getElementById("id-carrier-agencyemail").value;
     page = "agencysavepage";
-    var data = {agencyId: masteragencyid, agencyName: agencyname, address: agencyaddress1, address2: agencyaddress2, agencyOwner: "agencyowner", agencyType: agencytype, carrierAgencyId: agencyid
-        , city: agencycity, state: agencystate, zipcode: agencyzipcode, phone: agencyphone, emailId: agencyemail};
-    utils.server.displayMessage("Successfully Saved..!");
-    deepPath = "editagency";
-    utils.server.makeServerCall(page, data, null, deepPath);
+
+    //
+    if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
+        deepPath = "editcarrier";
+        var data = {carrierId: masteragencyid, carrierName: agencyname, address: agencyaddress1, address2: agencyaddress2, city: agencycity, state: agencystate, zip: agencyzipcode,
+            phone: agencyphone, emailId: agencyemail};
+        utils.server.displayMessage("Successfully Saved..!");
+        //  var callback = utils.server.getCodeResponseAssignCustomers;
+        utils.server.makeServerCall(page, data, null, deepPath);
+    } else {
+        deepPath = "editagency";
+        var data = {agencyId: masteragencyid, agencyName: agencyname, address: agencyaddress1, address2: agencyaddress2, agencyOwner: "agencyowner", agencyType: agencytype, carrierAgencyId: agencyid
+            , city: agencycity, state: agencystate, zipcode: agencyzipcode, phone: agencyphone, emailId: agencyemail};
+        utils.server.displayMessage("Successfully Saved..!");
+        // var callback = utils.server.getCodeResponseAssignCustomers;
+        utils.server.makeServerCall(page, data, null, deepPath);
+    }
 }
 
 function editAgencyEditData() {
     removerBottomBorder();
+//    if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
+//        document.getElementById("id-carrier-edit").innerHTML = "Save";
+//    } else {
+//        document.getElementById("id-carrier-edit").innerHTML = "Edit";
+//    }
+
     document.getElementById("id-carrier-edit").innerHTML = "Save";
+
     $("#id-c-agencyid").hide();
     $("#id-c-masteragencyid").hide();
     $("#id-c-agencytype").hide();
@@ -5616,16 +6568,16 @@ function editVendorSaveData() {
     $("#id-v-state").css("display", "block");
     $("#id-v-zipcode").css("display", "block");
     hideVendorTextboxes();
-    document.getElementById("id-v-preferredvendorid").innerHTML = document.getElementById("id-vendor-preferredvendorid").value;
-    document.getElementById("id-v-vendortype").innerHTML = document.getElementById("id-vendor-type").value;
-    document.getElementById("id-v-vendorname").innerHTML = document.getElementById("id-vendor-name").value;
-    document.getElementById("id-v-vendorphone").innerHTML = document.getElementById("id-vendor-phone").value;
-    document.getElementById("id-v-address1").innerHTML = document.getElementById("id-vendor-address1").value;
-    document.getElementById("id-v-address2").innerHTML = document.getElementById("id-vendor-address2").value;
-    document.getElementById("id-v-city").innerHTML = document.getElementById("id-vendor-city").value;
-    document.getElementById("id-v-state").innerHTML = document.getElementById("id-vendor-state").value;
-    document.getElementById("id-v-zipcode").innerHTML = document.getElementById("id-vendor-zipcode").value;
-    var preferredvendorid = document.getElementById("id-vendor-preferredvendorid").value;
+    document.getElementById("id-v-preferredvendorid").innerHTML = $("#id-vendor-preferredvendorid").val();
+    document.getElementById("id-v-vendortype").innerHTML = $("#id-vendor-type").val();
+    document.getElementById("id-v-vendorname").innerHTML = $("#id-vendor-name").val();
+    document.getElementById("id-v-vendorphone").innerHTML = $("#id-vendor-phone").val().replace(/(\d\d\d)(\d\d\d)(\d\d\d\d)/, '$1-$2-$3');
+    document.getElementById("id-v-address1").innerHTML = $("#id-vendor-address1").val();
+    document.getElementById("id-v-address2").innerHTML = $("#id-vendor-address2").val();
+    document.getElementById("id-v-city").innerHTML = $("#id-vendor-city").val();
+    document.getElementById("id-v-state").innerHTML = $("#id-vendor-state").val();
+    document.getElementById("id-v-zipcode").innerHTML = $("#id-vendor-zipcode").val();
+    var preferredvendorid = $("#id-vendor-preferredvendorid").val();
     var type = document.getElementById("id-vendor-type").value;
     var name = document.getElementById("id-vendor-name").value;
     var phone = document.getElementById("id-vendor-phone").value;
@@ -5634,14 +6586,14 @@ function editVendorSaveData() {
     var city = document.getElementById("id-vendor-city").value;
     var state = document.getElementById("id-vendor-state").value;
     var zipcode = document.getElementById("id-vendor-zipcode").value;
-    //    alert(SERVICEID + "" + name + " " + type + "" + zipcode + "" + phone);
+    // alert(SERVICEID + "" + name + " " + type + "" + zipcode + "" + phone);
 
     if (preferredvendorid != "" || preferredvendorid != null) {
         page = "vendorsavepage";
-        var data = {serviceId: SERVICEID, serviceName: name, serviceType: type, zipcode: zipcode, phone: phone,
-            address1: address1, address2: address2, city: city, state: state};
+        var data = {preferredVendorId: SERVICEID, name: name, serviceType: type, zipcode: zipcode, phone: phone,
+            address: address1, address2: address2, city: city, state: state};
         utils.server.displayMessage("Successfully Saved..!");
-        deepPath = "editservice";
+        deepPath = "editpreferredvendorservice";
         utils.server.makeServerCall(page, data, null, deepPath);
         utils.server.loadPrefferedvendorsdetails();
     }
@@ -5651,16 +6603,23 @@ function editVendorSaveData() {
 
 function editVendorEditData() {
     removerBottomBorder();
+//    if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
+//        document.getElementById("id-carrier-edit").innerHTML = "Save";
+//    } else {
+//        document.getElementById("id-carrier-edit").innerHTML = "Edit";
+//    }
+
     document.getElementById("id-carrier-edit").innerHTML = "Save";
-    document.getElementById("id-v-preferredvendorid").style.visibility = "hidden";
-    document.getElementById("id-v-vendortype").style.visibility = "hidden";
-    document.getElementById("id-v-vendorname").style.visibility = "hidden";
-    document.getElementById("id-v-vendorphone").style.visibility = "hidden";
-    document.getElementById("id-v-address1").style.visibility = "hidden";
-    document.getElementById("id-v-address2").style.visibility = "hidden";
-    document.getElementById("id-v-city").style.visibility = "hidden";
-    document.getElementById("id-v-state").style.visibility = "hidden";
-    document.getElementById("id-v-zipcode").style.visibility = "hidden";
+
+//    document.getElementById("id-v-preferredvendorid").style.visibility = "hidden";
+//    document.getElementById("id-v-vendortype").style.visibility = "hidden";
+//    document.getElementById("id-v-vendorname").style.visibility = "hidden";
+//    document.getElementById("id-v-vendorphone").style.visibility = "hidden";
+//    document.getElementById("id-v-address1").style.visibility = "hidden";
+//    document.getElementById("id-v-address2").style.visibility = "hidden";
+//    document.getElementById("id-v-city").style.visibility = "hidden";
+//    document.getElementById("id-v-state").style.visibility = "hidden";
+//    document.getElementById("id-v-zipcode").style.visibility = "hidden";
     $("#id-vendor-preferredvendorid").css("visibility", "visible");
     $("#id-vendor-type").css("visibility", "visible");
     $("#id-vendor-name").css("visibility", "visible");
@@ -5713,14 +6672,14 @@ function addBottomBorder() {
 function editDataInfo() {
     var innerHtmlValue = document.getElementById("id-carrier-edit").innerHTML;
     if (REFERENCE_TYPE === "agency_info") {
-        if (innerHtmlValue === "edit") {
+        if (innerHtmlValue.trim().toLowerCase() == "edit") {
             editAgencyEditData();
             IsAgencyDataChanged = true;
         } else {
             editAgencySaveData();
         }
-    } else if (REFERENCE_TYPE === "vendor_info") {
-        if (innerHtmlValue === "edit") {
+    } else if (REFERENCE_TYPE == "vendor_info") {
+        if (innerHtmlValue.trim().toLowerCase() == "edit") {
             editVendorEditData();
             IsVendorDataChanged = true;
         } else {
@@ -5732,7 +6691,7 @@ function editDataInfo() {
 
 
 function readURL(input) {
-    if (input.files && input.files[0]) {
+	if (input.files && input.files[0]) {
         var reader = new FileReader();
         reader.onload = function (e) {
             $('.ageny-img-width').attr('src', e.target.result);
@@ -5744,4 +6703,103 @@ function readURL(input) {
 }
 
 
+$("#id-norecords").animate({
+    width: "20%",
+    opacity: 1,
+    marginLeft: "0.2in",
+    fontSize: "16px"
+}, 1500);
 
+function GetSlider() {
+    var currentPosition = 0;
+    var slideWidth = 500;
+    var slides = $('.slide');
+    var numberOfSlides = slides.length;
+    var slideShowInterval;
+    var speed = 30000000;
+
+    //Assign a timer, so it will run periodically
+    slideShowInterval = setInterval(changePosition, speed);
+
+    slides.wrapAll('<div id="slidesHolder"></div>')
+
+    slides.css({'float': 'left'});
+
+    //set #slidesHolder width equal to the total width of all the slides
+    $('#slidesHolder').css('width', slideWidth * numberOfSlides);
+
+    $('#slideshow')
+            .prepend('<span class="nav" id="leftNav">Move Left</span>')
+            .append('<span class="nav" id="rightNav">Move Right</span>');
+
+    manageNav(currentPosition);
+
+    //tell the buttons what to do when clicked
+    $('.nav').bind('click', function () {
+
+        //determine new position
+        currentPosition = ($(this).attr('id') == 'rightNav')
+                ? currentPosition + 1 : currentPosition - 1;
+
+        //hide/show controls
+        manageNav(currentPosition);
+        clearInterval(slideShowInterval);
+        slideShowInterval = setInterval(changePosition, speed);
+        moveSlide();
+    });
+
+    function manageNav(position) {
+        //hide left arrow if position is first slide
+        if (position == 0) {
+            $('#leftNav').hide()
+        }
+        else {
+            $('#leftNav').show()
+        }
+        //hide right arrow is slide position is last slide
+        if (position == numberOfSlides - 1) {
+            $('#rightNav').hide()
+        }
+        else {
+            $('#rightNav').show()
+        }
+    }
+
+
+    /*changePosition: this is called when the slide is moved by the 
+     timer and NOT when the next or previous buttons are clicked*/
+    function changePosition() {
+        if (currentPosition == numberOfSlides - 1) {
+            currentPosition = 0;
+            manageNav(currentPosition);
+        } else {
+            currentPosition++;
+            manageNav(currentPosition);
+        }
+        moveSlide();
+    }
+
+
+    //moveSlide: this function moves the slide 
+    function moveSlide() {
+        $('#slidesHolder')
+                .animate({'marginLeft': slideWidth * (-currentPosition)});
+    }
+}
+
+function convertImgToBase64URL(url, callback, outputFormat){
+    var canvas = document.createElement('CANVAS'),
+        ctx = canvas.getContext('2d'),
+        img = new Image();
+    img.crossOrigin = 'Anonymous';
+    img.onload = function(){
+        var dataURL;
+        canvas.height = img.height;
+        canvas.width = img.width;
+        ctx.drawImage(img, 0, 0);
+        dataURL = canvas.toDataURL(outputFormat);
+        callback(dataURL);
+        canvas = null; 
+    };
+    img.src = url;
+}

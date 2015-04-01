@@ -1,4 +1,4 @@
-.login-logo{margin:auto;text-align:center;margin-top:100px;}
+.login-logo{margin:auto;text-align:center;margin-top:100px;height: 85px;}
 .login-type-box1{display:inline-block;width:25%;height:350px;vertical-align:middle;}
 .login-type-box2{display:inline-block;width:50%;height:350px;vertical-align:middle;background:white;margin-left:-4px;}
 .ctrl-login-box{width: 75%;margin:auto;padding-top:40px;min-height:400px;}
@@ -8,8 +8,8 @@ background: lightgray;margin-bottom:10px;text-align:center;color:white;cursor:po
 .box {padding:20px;}
 .box div input{background:none;color:black;}
 .userbox{border:solid 1px lightgrey;color:black;margin-bottom:15px;}
-.passbox{border:solid 1px lightgrey;color:black;margin-bottom:15px;}
-.logbutton{background:#f34f4e;color:white;margin-bottom:15px;cursor:pointer;}
+.passbox{border:solid 1px lightgrey;color:black;margin-bottom: 25px;}
+.logbutton{background:#f34f4e;color:white;margin-bottom: -7px;cursor:pointer;margin-top: 10px;}
 
 /* Webkit */
 ::-webkit-input-placeholder { color: #CCC; }
@@ -27,5 +27,7 @@ background: lightgray;margin-bottom:10px;text-align:center;color:white;cursor:po
 font-weight: bold;}
 
 .login-error{padding: 0px 20px;color: red;text-align: center;}
+.signup-error{padding: 0px 20px;color: red;text-align: center;}
+.signup-success{padding: 0px 20px;color: green;text-align: center;}
 
 .resetpassword-text{padding:15px 0px;}

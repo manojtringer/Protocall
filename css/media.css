@@ -21,11 +21,11 @@
 }
 
 
-@media all and (max-width: 1090px) {
+/*@media all and (max-width: 1090px) {
     .tab-rb-submenu > div .submenu-tab {padding:0px 15px !important;}
-}
+}*/
 
-@media only screen and (min-width: 750px) and (max-width:1000px){
+/*@media only screen and (min-width: 750px) and (max-width:1000px){
     .submenu-sort{margin:10px 0px;float:left !important;min-width:150px;}
     .feed-user-det-b{min-width:350px;}
 }
@@ -49,7 +49,7 @@
 }
 
 
-@media all and (max-width: 1250px) {
+@media all and (max-width: 1280px) {
     .m-width{
         width:100%;
         margin:auto;
@@ -62,14 +62,18 @@
             width:100%;
         }
 
+        .submenu-title{
+            width: 10%;
+        }
+
         .bcrum-lb-submenu  a:last-child{
             font-size:13px;
         }
         .mb-submenu .mb-submenu-in >div:last-child{
-            /*width: 70%;*/
+            width: 70%;
         }
         .mb-submenu .mb-submenu-in >div:first-child{
-            /*width:30%;*/
+             width:30%; 
         }
         .tab-rb-submenu > div .submenu-tab{
 
@@ -95,7 +99,7 @@
             width: 65%;
         }
         .search-blk{
-            /*width:70%;*/
+            width:70%;
         }
         .logged-user-info .user-info > div{
             width:100%;
@@ -123,7 +127,7 @@
     @media all and (max-width: 850px) {
 
         .search-blk {
-            /*width: 60%;*/
+            width: 60%;
         }
         .logged-user-info .user-info > div >span:last-child{
             display:none;
@@ -189,11 +193,11 @@
 
     @media screen and (max-width: 600px) {
         .o-box {
-            /* width: 40%; */
+             width: 40%; 
         }
-    }
+    }*/
 
-}
+/*}*/
 
 
 

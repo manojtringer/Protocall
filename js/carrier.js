@@ -70,6 +70,7 @@ var CarrierdynamicTemplate = {
                     localStorage.setItem("users", JSON.stringify(resultCarrier));
 
                     var template = '';
+                    var loopcount = 1;
                     for (var rc = 0; rc < resultCarrier.length; rc++) {
                         var c = resultCarrier[rc];
                         if (c.emailId == undefined) {
@@ -91,7 +92,17 @@ var CarrierdynamicTemplate = {
                             profilePicture = "https://proto-call-test.appspot.com/file/" + profilePath;
                         }
 
-                        template += CarrierdynamicTemplate.carrier.CarrierDynamicList(c);
+                        if (loopcount == 4) {
+                            // alert("dd" + cEmail);
+                            loopcount = 0;
+                            template += '<div class="carrier-profile-screen left border-all p-relative"  style="margin-right: 0px !important;"><div class="carrier-logo p-relative opensans-regular"><div class="mycarrierlogo-pic"><img  src="' + profilePicture + '" alt="" class="mycarrier-img-width snap" data-type="viewcarrierfeedview" data-id = "' + c.carrierId + '"></div> </div> <div class="carrier-info bg-color-white p-relative carrier-groupblock opensans-regular"> <div class="carrier-name t-caps t-center">' + c.carrierName + '</div> <div class="carrier-location t-caps t-center">' + c.state + '</div> '
+                                    + '<div class="carrier-email t-center"><a title=' + cEmail + ' href="mailto:' + cEmail + '">' + cEmail + '</a></div></div> <div class="carrier-view p-relative bg-color-green t-caps t-center opensans-regular f-color-w snap" data-type="viewcarrierfeedview" data-id = "' + c.carrierId + '">view </div></div>';
+                        } else {
+                            template += CarrierdynamicTemplate.carrier.CarrierDynamicList(c);
+                        }
+
+
+                        loopcount++;
                     }
                     var header = HeaderTemplate.Menu.DynamicHeaderTemplate();
 
@@ -150,7 +161,7 @@ var CarrierdynamicTemplate = {
                         }
 //rep id
 
-                        var associateBlock = '<div id=' + email + '  value=' + carrierid + ' class="carrier-feed-associated-view mycustomerView left p-relative" data-type="viewcustomerfeedview"> <div class="border-all p-relative"> <div class="associated-background p-relative">'
+                        var associateBlock = '<div id=' + email + '  value=' + carrierid + ' class="carrier-feed-associated-view mycustomerView left p-relative" data-type="viewcustomerfeedview"> <div class=" p-relative"> <div class="associated-background p-relative">'
                                 + '<div class="associated-carrier-pic inline-block "> <img src=' + image + ' '
                                 + 'alt="" class="carrier-img-width"> '
                                 + '</div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> '
@@ -205,7 +216,7 @@ var CarrierdynamicTemplate = {
                         }
 //rep id
 
-                        var associateBlock = '<div id=' + email + '  value=' + carrierid + ' class="carrier-feed-associated-view myagenciesView left p-relative" data-type="viewagenciesfeedview"> <div class="border-all p-relative"> <div class="associated-background p-relative">'
+                        var associateBlock = '<div id=' + email + '  value=' + carrierid + ' class="carrier-feed-associated-view myagenciesView left p-relative" data-type="viewagenciesfeedview"> <div class=" p-relative"> <div class="associated-background p-relative">'
                                 + '<div class="associated-carrier-pic inline-block "> <img src=' + image + ' '
                                 + 'alt="" class="carrier-img-width"> '
                                 + '</div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> '
@@ -266,7 +277,7 @@ var CarrierdynamicTemplate = {
                         }
 //rep id
 
-                        var associateBlock = '<div id=' + email + '  value=' + carrierid + ' class="carrier-feed-associated-view mycustomerView left p-relative" data-type="viewcustomerfeedview"> <div class="border-all p-relative"> <div class="associated-background p-relative">'
+                        var associateBlock = '<div id=' + email + '  value=' + carrierid + ' class="carrier-feed-associated-view mycustomerView left p-relative" data-type="viewcustomerfeedview"> <div class=" p-relative"> <div class="associated-background p-relative">'
                                 + '<div class="associated-carrier-pic inline-block "> <img src=' + image + ' '
                                 + 'alt="" class="carrier-img-width"> '
                                 + '</div> <div class="associated-cus-info inline-block opensans-regular f-color-w p-relative"> '
@@ -299,6 +310,7 @@ var CarrierdynamicTemplate = {
                 localStorage.setItem("users", JSON.stringify(resultCarrier));
 
                 var template = '';
+                var loopCount = 1;
                 for (var rc = 0; rc < resultCarrier.length; rc++) {
                     var c = resultCarrier[rc];
                     if (c.emailId == undefined) {
@@ -319,8 +331,16 @@ var CarrierdynamicTemplate = {
                         var profilePath = c.carrierLogo;
                         profilePicture = "https://proto-call-test.appspot.com/file/" + profilePath;
                     }
+                    if (loopCount == 4) {
+                        //  alert(cEmail);
+                        loopCount = 0;
+                        template += '<div class="carrier-profile-screen left border-all p-relative" style="margin-right: 0px !important;"><div class="carrier-logo p-relative opensans-regular"><div class="mycarrierlogo-pic"><img  src="' + profilePicture + '" alt="" class="mycarrier-img-width snap" data-type="viewcarrierfeedview" data-id = "' + c.carrierId + '"></div> </div> <div class="carrier-info bg-color-white p-relative carrier-groupblock opensans-regular"> <div class="carrier-name t-caps t-center">' + c.carrierName + '</div> <div class="carrier-location t-caps t-center">' + c.state + '</div> '
+                                + '<div class="carrier-email t-center"><a title=' + cEmail + ' href="mailto:' + cEmail + '">' + cEmail + '</a></div></div> <div class="carrier-view p-relative bg-color-green t-caps t-center opensans-regular f-color-w snap" data-type="viewcarrierfeedview" data-id = "' + c.carrierId + '">view </div></div>';
+                    } else {
+                        template += CarrierdynamicTemplate.carrier.CarrierDynamicList(c);
+                    }
 
-                    template += CarrierdynamicTemplate.carrier.CarrierDynamicList(c);
+                    loopCount++;
                 }
                 var header = HeaderTemplate.Menu.DynamicHeaderTemplate();
 
@@ -347,12 +367,12 @@ var CarrierdynamicTemplate = {
             }
 
             if (viewdata.facebookPage == undefined) {
-                facebook = "";
+                facebook = "#";
             } else {
                 facebook = viewdata.facebookPage;
             }
 
-            var html = '<div class="carrier-view-parent bg-color-white p-relative"> <div class="carrier-view-leftbloack inline-block v-align-mid p-relative"> <div class="carrier-view-auth opensans-regular p-relative"> <div class="carrier-view-name inline-block t-caps">AGENCY ID :</div> <div class="carrier-view-id inline-block">' + viewdata.carrierId + '</div> </div> <div class="carrier-logo-view p-relative"> <div class="carrierlogo-viewpic"> <img src="' + HOMEPAGERESPONSE.PROFILEAPI + viewdata.carrierLogo + '" alt="" class="carrier-img-width"> </div> </div> <div class="carrier-view-social p-relative clr-fr"> <div class="carrier-view-website p-relative left bg-color-green"> <div class="p-relative inline-block v-align-top"> <div class="sprite-im pop-out">&nbsp;</div> </div> <div class="carrier-website-name inline-block t-caps opensans-regular "><a class="f-color-w" href="' + viewdata.website.value + '" target="_blank">WEBSITE</a></div> </div> <div class="carrier-view-facebook p-relative left bg-color-green"> <div class="p-relative inline-block v-align-top"> <div class="sprite-im pop-out">&nbsp;</div> </div> <div class="carrier-facebook-name inline-block t-caps opensans-regular f-color-w"><a class="f-color-w" href="' + facebook + '" target="_blank">FACEBOOK</a></div> </div> </div> </div> <div class="carrier-view-rightblock inline-block v-align-mid p-relative "> <div class="carrier-view-block p-relative "> <div class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">agency name</div> <div class="carrier-left-content t-left right ">' + viewdata.carrierName + '</div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">address</div> <div class="carrier-left-content t-left right">' + viewdata.address + '</div> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">address</div> <div class="carrier-left-content t-left right ">' + address2 + '</div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">state</div> <div class="carrier-left-content t-left right">' + viewdata.state + '</div> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">city</div> <div class="carrier-left-content t-left right ">' + viewdata.city + '</div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">phone</div> <div class="carrier-left-content t-left right"><a href="tel:' + viewdata.phone.number + '">' + viewdata.phone.number + '</a></div> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div class="carrier-border-view clr-fl"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">zip</div> <div class="carrier-left-content t-left right ">' + viewdata.zip + '</div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">email</div> '
+            var html = '<div class="carrier-view-parent bg-color-white p-relative"> <div class="carrier-view-leftbloack inline-block v-align-mid p-relative"> <div class="carrier-view-auth opensans-regular p-relative"> <div class="carrier-view-name inline-block t-caps">CARRIER ID :</div> <div class="carrier-view-id inline-block">' + viewdata.carrierId + '</div> </div> <div class="carrier-logo-view p-relative"> <div class="carrierlogo-viewpic"> <img src="' + HOMEPAGERESPONSE.PROFILEAPI + viewdata.carrierLogo + '" alt="" class="carrier-img-width"> </div> </div> <div class="carrier-view-social p-relative clr-fr"> <div class="carrier-view-website p-relative left bg-color-green"> <div class="p-relative inline-block v-align-top"> <div class="sprite-im pop-out">&nbsp;</div> </div> <div class="carrier-website-name inline-block t-caps opensans-regular "><a class="f-color-w" href="' + viewdata.website.value + '" target="_blank">WEBSITE</a></div> </div> <div class="carrier-view-facebook p-relative left bg-color-green"> <div class="p-relative inline-block v-align-top"> <div class="sprite-im pop-out">&nbsp;</div> </div> <div class="carrier-facebook-name inline-block t-caps opensans-regular f-color-w"><a class="f-color-w" href="' + facebook + '" target="_blank">FACEBOOK</a></div> </div> </div> </div> <div class="carrier-view-rightblock inline-block v-align-mid p-relative "> <div class="carrier-view-block p-relative "> <div class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">carrier Name </div> <div class="carrier-left-content t-left right ">' + viewdata.carrierName + '</div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">address</div> <div class="carrier-left-content t-left right">' + viewdata.address + '</div> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">address</div> <div class="carrier-left-content t-left right ">' + address2 + '</div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">state</div> <div class="carrier-left-content t-left right">' + viewdata.state + '</div> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">city</div> <div class="carrier-left-content t-left right ">' + viewdata.city + '</div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">phone</div> <div class="carrier-left-content t-left right"><a href="tel:' + viewdata.phone.number + '">' + viewdata.phone.number + '</a></div> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div class="carrier-border-view clr-fl"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">zip</div> <div class="carrier-left-content t-left right ">' + viewdata.zip + '</div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">email</div> '
                     + '<div class="carrier-left-content t-left right"><a title=' + viewdata.emailId.email + ' href="mailto:' + viewdata.emailId.email + '">' + viewdata.emailId.email + '</a></div> </div> </div> </div> </div> </div> </div> '
 
 //            var html = '<div class="carrier-view-parent bg-color-white p-relative"> <div class="carrier-view-leftbloack inline-block v-align-mid p-relative"> <div class="carrier-view-auth opensans-regular p-relative"> <div class="carrier-view-name inline-block t-caps">CARRIER ID :</div> <div class="carrier-view-id inline-block">\' + viewdata.carrierId + \'</div> </div> <div class="carrier-logo-view p-relative"> <div class="carrierlogo-viewpic"> <img src="\' + HOMEPAGERESPONSE.PROFILEAPI + viewdata.carrierLogo + \'" alt="" class="carrier-img-width"> </div> </div> <div class="carrier-view-social p-relative clr-fr"> <div class="carrier-view-website p-relative left bg-color-green"> <div class="p-relative inline-block v-align-top"> <div class="sprite-im pop-out">&nbsp;</div> </div> <div class="carrier-website-name inline-block t-caps opensans-regular "><a class="f-color-w" href="\' + viewdata.website.value + \'" target="_blank">WEBSITE</a></div> </div> <div class="carrier-view-facebook p-relative left bg-color-green"> <div class="p-relative inline-block v-align-top"> <div class="sprite-im pop-out">&nbsp;</div> </div> <div class="carrier-facebook-name inline-block t-caps opensans-regular f-color-w"><a class="f-color-w" href="\' + viewdata.facebookPage + \'" target="_blank">FACEBOOK</a></div> </div> </div> </div> <div class="carrier-view-rightblock inline-block v-align-mid p-relative "> <div class="carrier-view-block p-relative "> <div class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">carrier name</div> <div class="carrier-left-content t-left right ">\' + viewdata.carrierName + \'</div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">address</div> <div class="carrier-left-content t-left right">\' + viewdata.address + \'</div> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">address</div> <div class="carrier-left-content t-left right ">\' + viewdata.address + \'</div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">state</div> <div class="carrier-left-content t-left right">\' + viewdata.state + \'</div> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">city</div> <div class="carrier-left-content t-left right ">\' + viewdata.city + \'</div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">phone</div> <div class="carrier-left-content t-left right"><a href="tel:\' + viewdata.phone.number + \'">\' + viewdata.phone.number + \'</a></div> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div class="carrier-border-view clr-fl"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">zip</div> <div class="carrier-left-content t-left right ">\' + viewdata.zip + \'</div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">email</div> '
