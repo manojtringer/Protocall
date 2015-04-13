@@ -8,26 +8,58 @@ var MyrepsdynamicTemplate = {
             return Header;
         },
         CarrierRepsDynamicList: function () {
-
-            var datares = JSON.parse(localStorage.getItem("CARRIERAGENCYTOTALDETAILS"));
+			var datares = "";
+			if((RESPONSE.CARRIERAGENCYTOTALDETAILS).length != 0){
+				datares=RESPONSE.CARRIERAGENCYTOTALDETAILS[0];
+				localStorage.setItem("carrireRepDetails",JSON.stringify(datares));
+			} else {
+				datares=JSON.parse(localStorage.getItem("carrireRepDetails"));
+				if(datares == null){
+					datares = JSON.parse(localStorage.getItem("customerDetailsValue"));
+				}
+			}
+          //  var datares = JSON.parse(localStorage.getItem("CARRIERAGENCYTOTALDETAILS"));
             console.log("wow", datares);
             if (datares.resultMap.myRepTab != null && datares.resultMap.myRepTab != "") {
 
                 var resultreps = datares.resultMap.myRepTab;
                 var template = '';
+                var loopCount = 1;
                 for (var c = 0; c < resultreps.length; c++) {
                     var rep = resultreps[c].RepresentativeDetails;
-                    if (rep.carrierRepresentativeId.email == undefined) {
-                        cusEmail = ' ';
-                    } else {
-                        cusEmail = rep.carrierRepresentativeId.email;
+
+
+                    try {
+                        if (rep.carrierRepresentativeId.email == undefined) {
+                            cusEmail = ' ';
+                        } else {
+                            cusEmail = rep.carrierRepresentativeId.email;
+                        }
+                    } catch (err) {
+                        if (rep.emailId.email == undefined) {
+                            cusEmail = ' ';
+                        } else {
+                            cusEmail = rep.emailId.email;
+                        }
                     }
-                    if (rep.name == undefined)
-                    {
-                        lastName = ' ';
-                    } else {
-                        lastName = rep.name;
+
+
+                    try {
+                        if (rep.name == undefined)
+                        {
+                            lastName = ' ';
+                        } else {
+                            lastName = rep.name;
+                        }
+                    } catch (err) {
+                        if (rep.firstName == undefined)
+                        {
+                            lastName = ' ';
+                        } else {
+                            lastName = rep.firstName;
+                        }
                     }
+
                     if (rep.profilePicture == undefined)
                     {
                         profilePicture = "http://www.deshow.net/d/file/animal/2009-05/animal-pictures-pet-photography-557-4.jpg";
@@ -37,7 +69,19 @@ var MyrepsdynamicTemplate = {
                         profilePicture = "http://www.deshow.net/d/file/animal/2009-05/animal-pictures-pet-photography-557-4.jpg";
                         // profilePicture = ProfileAPI + profilePath;
                     }
-                    template += MyrepsdynamicTemplate.myreps.carrierRepstemplate(rep);
+                    if (loopCount >= 3) {
+                        loopCount = 0;
+                        template += MyrepsdynamicTemplate.myreps.carrierRepstemplate(rep, true);
+                        //  template += MyrepsdynamicTemplate.myreps.RepsDynamicList(rep, true);
+
+                    } else {
+                        template += MyrepsdynamicTemplate.myreps.carrierRepstemplate(rep, false);
+                        // template += MyrepsdynamicTemplate.myreps.RepsDynamicList(rep, false);
+
+                    }
+                    loopCount++;
+
+                    // 
                 }
 
                 var header = HeaderTemplate.Menu.DynamicHeaderTemplate();
@@ -55,7 +99,7 @@ var MyrepsdynamicTemplate = {
 
             }
         },
-        carrierRepstemplate: function (rep) {
+        carrierRepstemplate: function (rep, status) {
             console.log("vimeo", rep);
             var profilePicture, name, location, carrierAgencyRepresentativeId = "";
 
@@ -63,58 +107,293 @@ var MyrepsdynamicTemplate = {
             if (rep.profilePicture != undefined) {
                 profilePicture = "https://proto-call-test.appspot.com/file/" + rep.profilePicture;
             } else {
-                profilePicture = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                profilePicture = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1zfBfV0zBRmjltZfQowBP2Uo_DVnENyvKzQenY6ofyfSvk-Cb8w";
             }
-            if (rep.name != undefined) {
+
+            try {
+                if (rep.carrierRepresentativeId.email == undefined) {
+                    try {
+                        if (rep.emailId.email == undefined) {
+                            cusEmail = ' ';
+                        } else {
+                            cusEmail = rep.emailId.email;
+                        }
+                    } catch (err) {
+                        cusEmail = ' ';
+                    }
+                } else {
+                    cusEmail = rep.carrierRepresentativeId.email;
+                }
+            } catch (err) {
+//                if (rep.emailId.email == undefined) {
+//                    cusEmail = ' ';
+//                } else {
+//                    cusEmail = rep.emailId.email;
+//                }
+            }
+
+
+            //  try {
+
+            if (rep.name == undefined)
+            {
+                try {
+                    name = rep.firstName;
+                } catch (err) {
+                    name = "NA";
+                }
+            } else {
                 name = rep.name;
-            } else {
-                name = "";
             }
-            if (rep.location != undefined) {
-                location = rep.location;
-            } else {
-                location = "";
-            }
-            if (rep.carrierRepresentativeId.email != undefined) {
-                carrierRepresentativeEmail = rep.carrierRepresentativeId.email;
-            } else {
-                carrierRepresentativeEmail = "";
+            // } catch (err) {
+
+
+
+
+
+            try {
+                if (rep.location != undefined) {
+                    location = rep.location;
+                } else {
+                    try {
+                        location = rep.residentialCity;
+                    } catch (err) {
+                        location = "";
+                    }
+                }
+            } catch (err) {
+                //residentialCity
+                if (rep.residentialCity != undefined) {
+                    location = rep.residentialCity;
+                } else {
+                    location = "";
+                }
             }
 
-            if (rep.carrierCarrierRepresentativeId != undefined) {
-                var carrepId = rep.carrierCarrierRepresentativeId;
+
+            if (rep.phone != undefined) {
+                var carrepId = rep.phone.number;
             } else {
-                var carrepId = "";
+                var carrepId = "NA";
             }
 
-            var htmlData = '<div class="reps-feed-screen clr-fl left border-all p-relative">'
+            var style = "";
+            if (status == true) {
+                style = "style=\"margin-right: 0px !important;\"";
+
+            } else {
+                style = "";
+            }
+            if (location == "Undefined" || location == undefined) {
+                location = "NA";
+            }
+
+            var htmlData = '<div class="reps-feed-screen clr-fl left border-all p-relative" ' + style + '>'
                     + '<div class="reps-feed-info clr-fl p-relative"><div class="reps-feed-pic left ">'
                     + '<img src=' + profilePicture + ' alt="" class="carrier-img-width"></div>'
                     + '<div class="reps-profile-info-root">'
                     + '<div class="reps-profile-info t-left left opensans-regular f-color-w p-relative"><div class="carrier-name t-caps">' + name + '</div>'
                     + '<div class="carrier-location t-caps">' + location + '</div><div class="carrier-email">'
-                    + '<a title=' + carrierRepresentativeEmail + ' href="mailto:' + carrierRepresentativeEmail + '">' + carrierRepresentativeEmail + '</a></div>'
+                    + '<a title=' + cusEmail + ' href="mailto:' + cusEmail + '">' + cusEmail + '</a></div>'
                     + '<div class="carrier-id t-caps">#' + carrepId + '</div></div></div></div>'
-                    + '<div id="' + rep.carrierId + '" class="Carrierreps-feed-view p-relative bg-color-green t-caps t-center opensans-regular f-color-w snap" data-type="viewCarrierRep">View</div><div style="border-left: solid 1px white;" id=""  class="Carrierreps-feed-view p-relative bg-color-green t-caps t-center opensans-regular f-color-w snap" data-type="dt-assigncustomer">Assign</div></div>';
+                    + '<div id="' + cusEmail + '" class="Carrierreps-feed-view p-relative bg-color-green t-caps t-center opensans-regular f-color-w snap" data-type="viewCarrierRep">View</div><div style="border-left: solid 1px white;" id=""  class="Carrierreps-feed-view p-relative bg-color-green t-caps t-center opensans-regular f-color-w snap" data-type="dt-assigncustomer">Assign</div></div>';
 
             return htmlData;
 
         },
         MyrepsDynamicList: function (data) {
 
+            if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
+                if (data.resultMap != null && data.resultMap != "") {
+                    RESPONSE.myreps_data[0]=data.resultMap.myRepTab;
+                    //localStorage.setItem("myreps_data", JSON.stringify(data.resultMap.myRepTab));
+                    var resultreps = data.resultMap.myRepTab;
+                    var template = '';
+                    var loopCount = 1;
+                    for (var c = 0; c < resultreps.length; c++) {
+                        var rep = resultreps[c];
+
+
+                        try {
+                            if (rep.carrierRepresentativeId.email == undefined) {
+                                if (rep.emailId.email == undefined) {
+                                    cusEmail = ' ';
+                                } else {
+                                    cusEmail = rep.emailId.email;
+                                }
+                            } else {
+                                cusEmail = rep.carrierRepresentativeId.email;
+                            }
+                        } catch (err) {
+//                            if (rep.emailId.email == undefined) {
+//                                cusEmail = ' ';
+//                            } else {
+//                                cusEmail = rep.emailId.email;
+//                            }
+                        }
+                        if (rep.name == undefined)
+                        {
+                            lastName = ' ';
+                        } else {
+                            lastName = rep.name;
+                        }
+                        if (rep.profilePicture == undefined)
+                        {
+                            profilePicture = "http://www.deshow.net/d/file/animal/2009-05/animal-pictures-pet-photography-557-4.jpg";
+
+                        } else {
+                            var profilePath = rep.profilePicture;
+                            profilePicture = "http://www.deshow.net/d/file/animal/2009-05/animal-pictures-pet-photography-557-4.jpg";
+                            // profilePicture = ProfileAPI + profilePath;
+                        }
+
+                        if (loopCount >= 3) {
+                            loopCount = 0;
+                            template += MyrepsdynamicTemplate.myreps.carrierRepstemplate(rep, true);
+
+                        } else {
+                            template += MyrepsdynamicTemplate.myreps.carrierRepstemplate(rep, false);
+
+                        }
+                        loopCount++;
+
+
+                    }
+                    var header = HeaderTemplate.Menu.DynamicHeaderTemplate();
+                    var content = '<div class="container"> <div class="content-holder">' + template + '</div></div></div></div>';
+                    var footer = HomedynamicTemplate.home.HomeDynamicFooterTemplate();
+
+                    $("#page").empty();
+                    totalHtml = header + content + footer;
+                    $("#page").append(totalHtml);
+                    protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CARRIER_REPS_PAGE);
+                    protocall.events.GlobalContainerScrollevent();
+                    protocall.displaySpinner(false);
+                    $(".content-holder").removeClass("spinner1");
+                    $(".content-holder").css("opacity", "1");
+                    $(".carrierreps").click();
+                }
+            } else {
+                if (data.resultMap != null && data.resultMap != "") {
+                     RESPONSE.myreps_data[0]=data.resultMap.repTab;
+                   // localStorage.setItem("myreps_data", JSON.stringify(data.resultMap.repTab));
+                    var resultreps = data.resultMap.repTab;
+                    var template = '';
+                    var loopCount = 1;
+                    for (var c = 0; c < resultreps.length; c++) {
+                        var rep = resultreps[c];
+						if(HOMEPAGERESPONSE.SEARCHAGENCYREP){
+							if(HOMEPAGERESPONSE.REQUIREDUSEREMAILID == rep.agencyRepresentativeId.email){
+								if (rep.name == undefined)
+								{
+									lastName = ' ';
+								} else {
+									lastName = rep.name;
+								}
+								if (rep.profilePicture == undefined)
+								{
+									profilePicture = "http://www.deshow.net/d/file/animal/2009-05/animal-pictures-pet-photography-557-4.jpg";
+
+								} else {
+									var profilePath = rep.profilePicture;
+									profilePicture = "http://www.deshow.net/d/file/animal/2009-05/animal-pictures-pet-photography-557-4.jpg";
+									// profilePicture = ProfileAPI + profilePath;
+								}
+								template += MyrepsdynamicTemplate.myreps.RepsDynamicList(rep, false);
+								break;
+							}
+						} else {
+							if (rep.name == undefined)
+							{
+								lastName = ' ';
+							} else {
+								lastName = rep.name;
+							}
+							if (rep.profilePicture == undefined)
+							{
+								profilePicture = "http://www.deshow.net/d/file/animal/2009-05/animal-pictures-pet-photography-557-4.jpg";
+
+							} else {
+								var profilePath = rep.profilePicture;
+								profilePicture = "http://www.deshow.net/d/file/animal/2009-05/animal-pictures-pet-photography-557-4.jpg";
+								// profilePicture = ProfileAPI + profilePath;
+							}
+
+							if (loopCount >= 3) {
+								loopCount = 0;
+								template += MyrepsdynamicTemplate.myreps.RepsDynamicList(rep, true);
+
+							} else {
+								template += MyrepsdynamicTemplate.myreps.RepsDynamicList(rep, false);
+
+							}
+							loopCount++;
+						}
+//                        //  try {
+//                        try {
+//                            if (rep.agencyRepresentativeId.email == undefined) {
+//                                //if (rep.emailId.email == undefined) {
+//                                cusEmail = 'N/A';
+//                                // } else {
+//                                // cusEmail = rep.emailId.email;
+//                                // }
+//                            } else {
+//                                cusEmail = rep.agencyRepresentativeId.email;
+//                            }
+//                        } catch (err) {
+//                            cusEmail = 'N/A';
+//                        }
+//
+//                        try {
+//                            if (rep.emailId.email == undefined) {
+//                                //cusEmail = ' ';
+//                            } else {
+//                                cusEmail = rep.emailId.email;
+//                            }
+//                        } catch (err) {
+//                            cusEmail = 'N/A';
+//                        }
+//                        // }
+                    }
+                    var header = HeaderTemplate.Menu.DynamicHeaderTemplate();
+                    var content = '<div class="container"> <div class="content-holder">' + template + '</div></div></div></div>';
+                    var footer = HomedynamicTemplate.home.HomeDynamicFooterTemplate();
+
+                    $("#page").empty();
+                    totalHtml = header + content + footer;
+                    $("#page").append(totalHtml);
+                    protocall.displaySpinner(false);
+                    protocall.setMenuSelection(CONSTANTS.LINK_TYPE.MY_REP_PAGE);
+                    protocall.events.GlobalContainerScrollevent();
+                }
+            }
+
+        },
+        MyrepsDynamicListSort: function (data) {
             if (data.resultMap != null && data.resultMap != "") {
-                localStorage.setItem("myreps_data", JSON.stringify(data.resultMap.repTab));
-                var resultreps = data.resultMap.repTab;
+                RESPONSE.myreps_data[0]=data.resultMap.repTab;
+               // localStorage.setItem("myreps_data", JSON.stringify(data.resultMap.repTab));
+                var resultreps = data.resultMap.ArrayOfCarriersDetails;
                 var template = '';
                 var loopCount = 1;
                 for (var c = 0; c < resultreps.length; c++) {
                     var rep = resultreps[c];
+
                     try {
-                        if (rep.agencyRepresentativeId.email == undefined) {
-                            cusEmail = ' ';
+                        if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
+                            if (rep.carrierRepresentativeId.email == undefined) {
+                                cusEmail = ' ';
+                            } else {
+                                cusEmail = rep.carrierRepresentativeId.email;
+                            }
                         } else {
-                            cusEmail = rep.agencyRepresentativeId.email;
+                            if (rep.agencyRepresentativeId.email == undefined) {
+                                cusEmail = ' ';
+                            } else {
+                                cusEmail = rep.agencyRepresentativeId.email;
+                            }
                         }
+
                     } catch (err) {
                         if (rep.emailId.email == undefined) {
                             cusEmail = ' ';
@@ -140,9 +419,9 @@ var MyrepsdynamicTemplate = {
 
                     if (loopCount == 3) {
                         loopCount = 0;
-                        template += MyrepsdynamicTemplate.myreps.RepsDynamicList(rep, true);
+                        template += MyrepsdynamicTemplate.myreps.carrierRepstemplate(rep, true);
                     } else {
-                        template += MyrepsdynamicTemplate.myreps.RepsDynamicList(rep, false);
+                        template += MyrepsdynamicTemplate.myreps.carrierRepstemplate(rep, false);
                     }
 
                     loopCount++;
@@ -157,50 +436,9 @@ var MyrepsdynamicTemplate = {
                 totalHtml = header + content + footer;
                 $("#page").append(totalHtml);
                 protocall.displaySpinner(false);
-                protocall.setMenuSelection(CONSTANTS.LINK_TYPE.MY_REP_PAGE);
+                protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CARRIER_REPS_PAGE);
                 protocall.events.GlobalContainerScrollevent();
-            }
-        },
-        MyrepsDynamicListSort: function (data) {
-			if (data.resultMap != null && data.resultMap != "") {
-                localStorage.setItem("myreps_data", JSON.stringify(data.resultMap.repTab));
-                var resultreps = data.resultMap.ArrayOfCarriersDetails;
-                var template = '';
-                for (var c = 0; c < resultreps.length; c++) {
-                    var rep = resultreps[c];
-                    if (rep.agencyRepresentativeId.email == undefined) {
-                        cusEmail = ' ';
-                    } else {
-                        cusEmail = rep.agencyRepresentativeId.email;
-                    }
-                    if (rep.name == undefined)
-                    {
-                        lastName = ' ';
-                    } else {
-                        lastName = rep.name;
-                    }
-                    if (rep.profilePicture == undefined)
-                    {
-                        profilePicture = "http://www.deshow.net/d/file/animal/2009-05/animal-pictures-pet-photography-557-4.jpg";
-
-                    } else {
-                        var profilePath = rep.profilePicture;
-                        profilePicture = "http://www.deshow.net/d/file/animal/2009-05/animal-pictures-pet-photography-557-4.jpg";
-                        // profilePicture = ProfileAPI + profilePath;
-                    }
-                    template += MyrepsdynamicTemplate.myreps.RepsDynamicList(rep);
-                }
-
-                var header = HeaderTemplate.Menu.DynamicHeaderTemplate();
-                var content = '<div class="container"> <div class="content-holder">' + template + '</div></div></div></div>';
-                var footer = HomedynamicTemplate.home.HomeDynamicFooterTemplate();
-
-                $("#page").empty();
-                totalHtml = header + content + footer;
-                $("#page").append(totalHtml);
-                protocall.displaySpinner(false);
-                protocall.setMenuSelection(CONSTANTS.LINK_TYPE.MY_REP_PAGE);
-                protocall.events.GlobalContainerScrollevent();
+                //$(".carrierreps").css("background", "#f34f4e");
             }
         },
         CarrierRepsviewSubmenu: function () {
@@ -212,54 +450,102 @@ var MyrepsdynamicTemplate = {
         },
         RepsDynamicList: function (rep, status) {
 
+            console.log("my resp data", rep);
             var profilePicture, name, location, agencyRepresentativeId, carrierAgencyRepresentativeId = "";
 
             //undefined
             if (rep.profilePicture != undefined) {
                 profilePicture = "https://proto-call-test.appspot.com/file/" + rep.profilePicture;
             } else {
-                profilePicture = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                profilePicture = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1zfBfV0zBRmjltZfQowBP2Uo_DVnENyvKzQenY6ofyfSvk-Cb8w";
             }
+
             if (rep.name != undefined) {
                 name = rep.name;
             } else {
-                name = "";
+                try {
+                    name = rep.firstName;
+                } catch (err) {
+                    name = "";
+                }
             }
             if (rep.location != undefined) {
                 location = rep.location;
             } else {
-                location = "";
+                try {
+                    location = rep.residentialCity;
+                } catch (err) {
+                    location = "";
+                }
+            }
+
+
+            if (location == "Undefined" || location == undefined) {
+                location = "NA";
             }
             try {
-                if (rep.agencyRepresentativeId.email != undefined) {
-                    agencyRepresentativeId = rep.agencyRepresentativeId.email;
+                if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
+                    if (rep.carrierRepresentativeId.email != undefined) {
+                        agencyRepresentativeId = rep.carrierRepresentativeId.email;
+                    } else {
+                        agencyRepresentativeId = "";
+                    }
                 } else {
-                    agencyRepresentativeId = "";
+
+
+                    try {
+                        if (rep.emailId.email != undefined) {
+                            agencyRepresentativeId = rep.emailId.email;
+                        }
+                    } catch (err) {
+                        try {
+                            if (rep.agencyRepresentativeId.email == undefined) {
+                                //if (rep.emailId.email == undefined) {
+                                agencyRepresentativeId = 'N/A';
+                                // } else {
+                                // cusEmail = rep.emailId.email;
+                                // }
+                            } else {
+                                agencyRepresentativeId = rep.agencyRepresentativeId.email;
+                            }
+                        } catch (err) {
+                            agencyRepresentativeId = 'N/A';
+                        }
+                    }
+                }
+
+            } catch (err) {
+//                if (rep.emailId.email != undefined) {
+//                    agencyRepresentativeId = rep.emailId.email;
+//                } else {
+//                    agencyRepresentativeId = "";
+//                }
+            }
+
+            try {
+                if (rep.phone != undefined) {
+                    carrierAgencyRepresentativeId = rep.phone.number;
+                } else {
+                    carrierAgencyRepresentativeId = "NA";
                 }
             } catch (err) {
-                if (rep.emailId.email != undefined) {
-                    agencyRepresentativeId = rep.emailId.email;
-                } else {
-                    agencyRepresentativeId = "";
-                }
+                carrierAgencyRepresentativeId = "NA";
             }
-
-            if (rep.carrierAgencyRepresentativeId != undefined) {
-                carrierAgencyRepresentativeId = rep.carrierAgencyRepresentativeId;
-            } else {
-                carrierAgencyRepresentativeId = "";
-            }
-
 
             var style = "";
 
             if (status == true) {
                 style = "style=\"margin-right: 0px !important;\"";
-              //   style = "";
+                //   style = "";
             } else {
                 style = "";
             }
+            if (location == "Undefined" || location == undefined) {
+                location = "NA";
+            }
 
+
+            console.log("hjadsgfhg", name + "" + location + "" + carrierAgencyRepresentativeId);
 
             var htmlData = '<div class="reps-feed-screen clr-fl left border-all p-relative" ' + style + '>'
                     + '<div class="reps-feed-info clr-fl p-relative"><div class="reps-feed-pic left ">'

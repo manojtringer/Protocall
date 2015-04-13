@@ -1,9 +1,12 @@
 
 .root-logo-content{
-    width: 15%;
+    width: 200px;
     background-color: transparent;
-    left: 45%;
-    top: 60px;
+    /* left: 20%; */
+    margin: auto;
+    margin-left: 20%;
+    margin-top: 28px;
+    position: initial !important;
 }
 
 .o-btn-yes{
@@ -27,18 +30,24 @@
     left: 42%;
 }
 .signup-root-content{
-    width: 45%;
-    /* max-height: 1003px; */
-    height: auto;
-    background-color: #Fff;
+    max-width: 490px;
+    width: 100%;
+    min-width: 290px;
+    max-width: 400px;
+    max-height: 520px;
+    /* height: 100%; */
+    background-color: #f4f5f5;
     margin: auto;
-    top: 160px;
+    top: 82px;
+    margin-bottom: 20px;
     /* overflow: hidden; */
-    display: table;
+    display: inline-grid;
+    box-shadow: 0 0 1px 1px #CCC;
 }
 .signup-parent-content{
-    margin: 20px 100px 0px 100px;
-    height: 100%;
+    margin: 20px 50px 0px 50px;
+    /* max-height: 415px; */
+    height: 400px;
     background: transparent;
     overflow: a;
 }
@@ -58,7 +67,9 @@
 .c-firstname{
     height: 41px;
     margin-top: 20px;
-    top: 25px;
+    top: -11px;
+    /* max-width: 532px; */
+    background: white;
 }
 .firstname-icon{
     height: 40px;
@@ -75,7 +86,7 @@
     height:42px;
     line-height:40px;
     position:relative;
-    margin: 50px auto 15px auto;
+    margin: 20px auto 15px auto;
     text-align: center;
 
 }
@@ -83,27 +94,28 @@
     right: 0px;
 }
 .o-signup{
-    height: 12%;
-    width: 18%;
-    top: -28px;
+    height: 93px;
+    width: 100px;
+    top: -72px;
     left: 41%;
     background-color: white;
     border-radius: 150px; 
-    border: 1px solid #ccc;
+    border: 2px solid #ccc;
+    /* margin-bottom: 10px; */
 }
 .o-signup-icon{
-    width: 54% !important;
-    left: 17px;
-    top: 10px;
+    /* width: 54% !important; */
+    left: 18px;
+    top: 25px;
 }
 .o-signup-reset{
-    height: 18%;
-    width: 18%;
-    top: -35px;
+    height: 96px;
+    width: 100px;
+    top: -77px;
     left: 41%;
     background-color: white;
     border-radius: 150px; 
-    border: 1px solid #ccc;
+    border: 2px solid #ccc;
 }
 
 div#id-emailid-infobox span {
@@ -149,7 +161,7 @@ div#id-emailpassword-infobox span {
     background: #DCEDEC;
     height: 130px;
     right: -160px;
-    top: 14%;
+    top: 2%;
     line-height: 30px;
     text-align: center;
     visibility: hidden;
@@ -164,8 +176,8 @@ div#id-emailpassword-infobox span:after {
     border-bottom: 10px solid transparent; 
     border-right:10px solid #DCEDEC; 
     position: absolute;
-    top: 20%;
-    left: -4%;
+    top: 6%;
+    left: -3%;
 }
 div:hover#id-emailpassword-infobox span {
     visibility: visible;

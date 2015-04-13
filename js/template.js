@@ -132,7 +132,7 @@ var template = {
         var html = "", alertFeedHtml = "";
         console.log("alertDetailsValue in policyAlertFeedHMLT", alertDetailsValue.length)
         if (alertType == "policyalert") {
-            var policyrightSideFeed = template.rightSideFeed(alertDetailsValue, alertType);
+            var policyrightSideFeed = template.rightSideFeed(alertDetailsValue, "Policy Alert");
             alertFeedHtml = '<div class="rg-block left p-relative">'
                     + '<div class="feed-det bg-color-dblue p-relative">'
                     + '<div class="feed-docs-pad p-relative docs-block t-center">'
@@ -176,16 +176,33 @@ var template = {
                 alertTime = moment(Number(alDate)).format('h:mmA');
             }
             birthday = HOMEPAGERESPONSE.COMMONUSERDETAILS.birthday;
-            residentialCity = HOMEPAGERESPONSE.COMMONUSERDETAILS.residentialCity;
-            phoneNumber = HOMEPAGERESPONSE.COMMONUSERDETAILS.phoneNumber;
+			if (alertDetailsValue.IncidentDetails != undefined) {
+				if(alertDetailsValue.IncidentDetails.incidentCity != undefined){
+					if(alertType == "incidentalert") {
+						residentialCity = alertDetailsValue.IncidentDetails.incidentCity;
+					} 
+				} else {
+					residentialCity = "";
+				}
+			} else {
+				residentialCity = "";
+			}
+			if(HOMEPAGERESPONSE.COMMONUSERDETAILS.residentialCity != undefined){
+				if(alertType == "policyalert") {
+					residentialCity = HOMEPAGERESPONSE.COMMONUSERDETAILS.residentialCity;
+				}
+			} else {
+				residentialCity = "";
+			}
+			phoneNumber = HOMEPAGERESPONSE.COMMONUSERDETAILS.phoneNumber;
             feedUserEmail = HOMEPAGERESPONSE.COMMONUSERDETAILS.userEmail;
             profilePicture = HOMEPAGERESPONSE.COMMONUSERDETAILS.profilePicture;
             try {
                 if (profilePicture == undefined) {
-                    profilePicture = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                    profilePicture = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1zfBfV0zBRmjltZfQowBP2Uo_DVnENyvKzQenY6ofyfSvk-Cb8w";
                 }
             } catch (err) {
-                profilePicture = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                profilePicture = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1zfBfV0zBRmjltZfQowBP2Uo_DVnENyvKzQenY6ofyfSvk-Cb8w";
             }
             bDate = HOMEPAGERESPONSE.COMMONUSERDETAILS.birthday;
             alertId = alertDetailsValue.alertDetails.alertId;
@@ -206,10 +223,32 @@ var template = {
                 bDay = alertDetailsValue.userDetails.birthDate;
                 bDate = moment(bDay).format('MMM D, YYYY');
             }
-            if (alertDetailsValue.userDetails.residentialCity !== "undefined") {
+            /* if (alertDetailsValue.userDetails.residentialCity !== "undefined") {
                 residentialCity = alertDetailsValue.userDetails.residentialCity;
-            }
-            if (alertDetailsValue.userDetails.phone.number !== "undefined") {
+            } */
+			if(alertType == "incidentalert"){
+				if (alertDetailsValue.IncidentDetails != undefined) {
+					if(alertDetailsValue.IncidentDetails.incidentCity != undefined){
+						if(alertType == "incidentalert") {
+							residentialCity = alertDetailsValue.IncidentDetails.incidentCity;
+						} 
+					} else {
+						residentialCity = "NA";
+					}
+				} else {
+					residentialCity = "";
+				}
+			} else {
+			residentialCity = alertDetailsValue.userDetails.residentialCity;
+			}
+			/* if (alertDetailsValue.userDetails.residentialCity != undefined) {
+				if(alertType == "policyalert"){
+					residentialCity = alertDetailsValue.userDetails.residentialCity;
+				}
+			} else {
+				residentialCity = "";
+			} */
+			if (alertDetailsValue.userDetails.phone.number !== "undefined") {
                 phoneNumber = alertDetailsValue.userDetails.phone.number;
             }
             if (alertDetailsValue.userDetails.emailId.email !== "undefined") {
@@ -220,10 +259,10 @@ var template = {
                 if (alertDetailsValue.userDetails.profilePicture != undefined) {
                     profilePicture = HOMEPAGERESPONSE.PROFILEAPI + alertDetailsValue.userDetails.profilePicture;
                 } else {
-                    profilePicture = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                    profilePicture = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1zfBfV0zBRmjltZfQowBP2Uo_DVnENyvKzQenY6ofyfSvk-Cb8w";
                 }
             } catch (err) {
-                profilePicture = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                profilePicture = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1zfBfV0zBRmjltZfQowBP2Uo_DVnENyvKzQenY6ofyfSvk-Cb8w";
             }
             if (alertDetailsValue.alertDetails.alertId !== "undefined") {
                 alertId = alertDetailsValue.alertDetails.alertId;
@@ -234,6 +273,55 @@ var template = {
         } else {
             viewArchiveFeedHTML = '<input style="z-index:10;" id=' + alertId + ' type="checkbox" class="checkbox snap" data-type="archiveCheckBox"><label for=' + alertId + '></label>';
         }
+
+        var repNameLists = "";
+        var repNameFlag = 0;
+
+        //sharedNameAndTheirRole
+
+        try {
+            if (alertDetailsValue.sharedNameAndTheirRole != undefined) {
+
+                for (var index = 0; index < alertDetailsValue.sharedNameAndTheirRole.length; index++) {
+
+                    var repName = alertDetailsValue.sharedNameAndTheirRole[index];
+
+                    if (localStorage.getItem("LOGIN_LABEL") == "Agency") {
+                        if (repName.index("agencyrepresentative") > -1) {
+                            repNameLists += repName.substring(0, index("@")) + ",";
+                            repNameFlag = 1;
+                        }
+                    } else {
+                        if (repName.index("carrierrepresentative") > -1) {
+                            repNameLists += repName.substring(0, index("@")) + ",";
+                            repNameFlag = 1;
+                        }
+                    }
+
+                }
+
+
+            }
+        } catch (err) {
+
+        }
+
+        if (alertType == "incidentalert") {
+            alertType = "Incident Alert";
+        }
+
+
+        var agencyName = "";
+        if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
+
+            if (alertDetailsValue.alertDetails.agencyName != undefined) {
+                agencyName = '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 feed-time t-upper" style="margin-left:4px;">' + alertDetailsValue.alertDetails.agencyName + '</div>';
+            }
+
+        } else {
+            agencyName = "";
+        }
+
         rightSideAlerFeedHTML = '<div class="lf-block left">'
                 + '<div class="leftblk-spacing">'
                 + '<div class="feed-det bg-color-dblue p-relative">'
@@ -250,11 +338,16 @@ var template = {
                 + '<div class="sprite-im mobile-icon mobile-icon-pos">&nbsp;</div>'
                 + '</div>'
                 + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-16 cust-name t-caps" style="margin-left:5px;">' + firstName + ' ' + lastName + '</div>'
-                + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 feed-time t-upper" style="margin-left:4px;">' + alertTime + '</div>'
-                + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-13 alert-color alert-type t-caps" style="margin-left:-7px;">' + alertType + '</div>'
-                + '<div class="sprite-im inline-block assigedrep-icon">&nbsp;</div>'
-                + '<div title=' + alertType + ' class="p-relative inline-block opensans-regular v-align-bot f-sz-13 alert-color alert-type t-caps" style="   cursor: pointer; margin-left: 5px; text-overflow: ellipsis;">' + alertType + '</div>'
-                + '</div>'
+                + agencyName + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 feed-time t-upper" style="margin-left:4px;">' + alertTime + '</div>'
+                + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-13 alert-color alert-type t-caps" style="margin-left:-7px;">' + alertType + '</div>';
+
+        if (repNameFlag == 1) {
+            rightSideAlerFeedHTML += '<div class="sprite-im inline-block assigedrep-icon">&nbsp;</div><div title=' + repNameLists + ' class="p-relative inline-block opensans-regular v-align-bot f-sz-13 alert-color alert-type t-caps" style="   cursor: pointer; margin-left: 5px; text-overflow: ellipsis;">' + repNameLists + '</div>'
+            repNameFlag = 0;
+        }
+
+
+        rightSideAlerFeedHTML += '</div>'
                 + '<div class="bot-b" style="width:103%;">'
                 + '<div class="p-relative inline-block v-align-bot" style="margin-left:-2px;">'
                 + '<div class="sprite-im calendar-icon calendar-icon-pos">&nbsp;</div>'

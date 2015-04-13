@@ -12,199 +12,602 @@
         width: 90%;
     }
     .signup-root-content{
-        width: 65%;
+        width: 61%;
+
+        /* left: 0px; */
+        margin-left: 6px;
     }
 }
 
 @media all and (max-width: 1070px) {
-    .feed-user-share-b{margin-left: 15%;margin-top: 10px;}
+    // .feed-user-share-b{margin-left: 15%;margin-top: 10px;}
+}
+
+@media all and (max-width: 320px) {
+    html,body {
+        min-width: 320px !important;
+        width: 100% !important;  
+        overflow-x:hidden !important;  
+    }
+
+    .m-width {
+        max-width: 320px !important;
+    }
+
+    #email{
+        width: 90% !important;  
+    }
+
+    .root-logo-content{
+        margin-left: 20% !important;
+    }
+}
+
+@media all and (min-width: 650px)  and (max-width: 850px) {
+    .signup-root-content {
+        margin-left: 25% !important;
+    }
+}
+@media all and (min-width: 450px)  and (max-width: 500px) {
+    .signup-root-content {
+        margin-left: 8% !important;
+    }
+}
+@media all and (min-width: 500px)  and (max-width: 850px) {
+    .login-type-box1 {
+        margin-left: 10% !important;
+    }
+
+    .signup-root-content {
+        margin-left: 15% !important;
+    }
+    .root-logo-content{
+        margin-left: 40% !important;
+    }
+}
+
+@media all and (min-width: 823px) {
+
+    .root-logo-content{
+        margin-left: 42% !important;
+    }
 }
 
 
-/*@media all and (max-width: 1090px) {
-    .tab-rb-submenu > div .submenu-tab {padding:0px 15px !important;}
+/*Home Page styles*/
+
+@media all and (max-width: 1263px) {
+
+    .submenu-tab,.submenu-sort{
+        width: 100px !important;
+    }
+
+
+}
+
+@media all and (max-width: 1182px) {
+    .rg-block{
+        height: 111px !important;
+    }
+
+    .feed-addRemove-block {
+        margin-top: 18px;
+        line-height: 47px !important;
+    }
+}
+
+@media all and (min-width: 320px) and (max-width: 1180px) {
+
+    .feed-user-share-b{
+
+        width: 100% !important;
+        margin-left:100px !important;
+
+    }
+
+    .feed-user-det-b {
+        width: 80% !important;
+    }
+}
+
+@media all and (max-width: 940px)
+{
+    .feed-user-det-b {
+        /* width: 1500px !important; */
+
+        /* width: 100%; */
+    }
+
+}
+
+
+@media all and (max-width: 877px)
+{
+    .feed-user-det-b {
+        width: 70% !important;
+    }
+
+}
+
+
+
+/*
+@media only screen and (min-width: 320px) and (max-width:480px) {
+
+    #page{
+        max-width:  400px;      
+        overflow-x: hidden !important;
+        overflow: hidden;
+    }
+
+    body{
+        max-width: 400px;
+        overflow: hidden !important;
+    }
+
+    #id_loginfadeinout{
+        left: -78px !important;
+        width: 100% !important;
+        margin: auto;
+    }
+
+    .login-type-box2{
+        width: 53% !important;
+
+        height: 78% !important;
+    }
+
+    .login-type-box1{
+        width: 27% !important;
+
+    }
+
+    .mylistbox{
+        font-size: 10px !important;
+    }
+
+    #email,#password{
+        width: 85% !important;
+    }
+    .o-signup-reset{
+        left: 34% !important;
+    }
+    #id-emailpassword-infobox {
+        display: none;
+    }
+    .login-logo{
+        margin-left: -31% !important;
+        margin-top: 75px !important;
+        height: 65px !important;
+    }
+    .ctrl-login-box {
+        padding-top: 0px !important;
+    }
+    .c-firstname{
+        max-width:none !important;
+        width: 100% !important;
+    }
+}
+
+
+@media only screen and (min-width: 360px) and (max-width:640px) {
+
+    #page{
+        min-width: 400px;      
+        overflow-x: hidden !important;
+        overflow: hidden;
+    }
+
+    body{
+        max-width: 400px;
+        overflow: hidden !important;
+    }
+
+    #id_loginfadeinout{
+        left: -78px !important;
+
+        width: 100% !important;
+        margin: auto;
+    }
+
+    .login-type-box2{
+        width: 60% !important;
+
+        height: 78% !important;
+    }
+
+    .login-type-box1{
+        width: 30% !important;
+
+    }
+
+    .mylistbox{
+        font-size: 13px !important;
+    }
+
+    #email,#password{
+        width: 85% !important;
+    }
+    .o-signup-reset{
+        left: 34% !important;
+    }
+    #id-emailpassword-infobox {
+        display: none;
+    }
+    .login-logo{
+        margin-left: 28% !important;
+        margin-top: 40px !important;
+        height: 65px !important;
+    }
+    .ctrl-login-box {
+        padding-top: 0px !important;
+    }
+    .c-firstname{
+        max-width:none !important;
+        width: 100% !important;
+    }
 }*/
 
-/*@media only screen and (min-width: 750px) and (max-width:1000px){
-    .submenu-sort{margin:10px 0px;float:left !important;min-width:150px;}
-    .feed-user-det-b{min-width:350px;}
-}
 
-@media only screen and (min-width: 950px) and (max-width:1010px){
-    .tab-rb-submenu > div .submenu-tab{
-        padding: 0px 15px !important;
-        font-size: 16px;
+/*@media only screen and (min-width: 768px) and (max-width:1024px) {
+
+    #page{
+        max-width:  768px;
+        overflow-x: hidden !important;
+        overflow: hidden;
+
     }
 
-    .docs-block a{margin-right: 35px;}
-    .feed-addRemove-text{font-size: 13px;}
-    .feed-user-share-b{width:30% !important;}
-}
+    body{
+        max-width: 400px;
+        overflow: hidden !important;
+    }
 
-@media all and (max-width: 850px) {
-    .tab-rb-submenu > div .submenu-tab{
-        padding: 0px 10px !important;
-        font-size: 16px;
+
+    #id_loginfadeinout{
+        left: -10% !important;
+        width: 100% !important;
+        margin: auto;
+    }
+
+    .login-type-box2{
+        width: 60% !important;
+
+        height: 78% !important;
+    }
+
+    .login-type-box1{
+        width: 30% !important;
+
+    }
+
+    .mylistbox{
+        font-size: 13px !important;
+    }
+
+    #email,#password{
+        width: 85% !important;
+    }
+    .o-signup-reset{
+        left: 40% !important;
+    }
+    #id-emailpassword-infobox {
+        display: none;
+    }
+    .login-logo{
+        margin-left: -31% !important;
+        margin-top: 75px !important;
+        height: 65px !important;
+    }
+    .ctrl-login-box {
+        padding-top: 0px !important;
+    }
+    .c-firstname{
+        max-width:none !important;
+        width: 100% !important;
     }
 }
 
+@media only screen and (min-width: 800px) and (max-width:1280px) {
 
-@media all and (max-width: 1280px) {
+    #page{
+        min-width: 800px;
+        overflow-x: hidden !important;
+        overflow: hidden;
+
+    }
+    .c-firstname{
+        max-width:none !important;
+        width: 100% !important;
+    }
+
+    body{
+        max-width: 400px;
+        overflow: hidden !important;
+    }
+
+
+    #id_loginfadeinout{
+        left: -10% !important;
+        width: 100% !important;
+        margin: auto;
+    }
+
+    .login-type-box2{
+        width: 60% !important;
+
+        height: 78% !important;
+    }
+
+    .login-type-box1{
+        width: 30% !important;
+
+    }
+
+    .mylistbox{
+        font-size: 13px !important;
+    }
+
+    #email,#password{
+        width: 85% !important;
+    }
+    .o-signup-reset{
+        left: 40% !important;
+    }
+    #id-emailpassword-infobox {
+        display: none;
+    }
+    .login-logo{
+        margin-left: -31% !important;
+        margin-top: 75px !important;
+        height: 65px !important;
+    }
+    .ctrl-login-box {
+        padding-top: 0px !important;
+    }
+}
+
+@media only screen and (min-width: 980px) and (max-width:1280px) {
+
+
+
+    #page{
+        min-width: 980px !important;
+        overflow-x: hidden !important;
+        overflow: hidden;
+    }
+
+    body{
+        max-width: 400px;
+        overflow: hidden !important;
+    }
+    .carrier-view-left{
+        width: 30% !important;
+    }
+
+    .carrier-view-right{
+        width: 68% !important;
+    }
+
+    .carrier-view-website{
+        width: 93% !important;
+    }
+    .associated-carrier-sort{
+        width: 25% !important;
+    }
+
+    .mycarrierlogo-pic{
+        width: 70% !important;
+    }
+    .carrier-view-facebook{
+        width: 93% !important;
+        margin-top: 10px;
+    }
+    .carrier-view-block{
+        width: 91% !important;
+    }
+    .tab-rb-submenu > div .submenu-tab{
+        width: 15.8% !important;
+
+    }
+    .feed-user-details-top{
+        width: 72% !important;
+    }
+
+    .feed-user-top-details .feed-user-details-top .feed-user-other-details > div {
+        margin-right: 1px !important;
+    }
+
+    .bcrum-lb-submenu{
+        width: 30% !important;
+    }
+
+    .feed-user-det-b{
+        width: 72% !important;
+    }
+
+    .submenu-sort{
+        float: left !important;;
+        margin-top: 10px !important;
+        margin-left:2px !important;
+    }
+
+    .feed-user-share-b{
+        margin-left: 15%  !important;
+    }
+
     .m-width{
-        width:100%;
-        margin:auto;
+        max-width: 100% !important;
+        margin: 0px 10px 0px -1px !important;
     }
 
+    .rg-block{
+        height: 127px !important;
+    }
 
+    .bot-b{
+        width: 113% !important;
+    }
 
-    @media all and (max-width: 1200px) {
-        .mb-submenu-in{
-            width:100%;
-        }
+    #id_loginfadeinout{
+        left: -10% !important;
+        width: 100% !important;
+        margin: auto;
+    }
 
-        .submenu-title{
-            width: 10%;
-        }
+    .login-type-box2{
+        width: 60% !important;
 
-        .bcrum-lb-submenu  a:last-child{
-            font-size:13px;
-        }
-        .mb-submenu .mb-submenu-in >div:last-child{
-            width: 70%;
-        }
-        .mb-submenu .mb-submenu-in >div:first-child{
-             width:30%; 
-        }
-        .tab-rb-submenu > div .submenu-tab{
+        height: 78% !important;
+    }
 
-        }
-
-
-        .feed-block .feed-det .feed-det-pad .feed-pic-b{
-            margin-right: 10px;
-        }
-
-        .feed-user-det-b .bot-b .feed-date, .feed-user-det-b .bot-b .feed-location, .feed-user-det-b .bot-b .cust-phone, .feed-user-det-b .bot-b .cust-email {
-            margin: 0px 12px;
-
-        }
-
-
-
+    .login-type-box1{
+        width: 30% !important;
 
     }
 
-    @media all and (max-width: 1000px) {
-        .signup-root-content{
-            width: 65%;
-        }
-        .search-blk{
-            width:70%;
-        }
-        .logged-user-info .user-info > div{
-            width:100%;
-            font-size:14px;
-        }
-
-        .agency-details .agency-pic-box{
-            width: 40%;
-        }
-
-        .reps-feed-screen {
-            width: 30%;
-        }
-
-        .customer-feed-screen {
-            width: 31%;
-        }
-        .carrier-profile-screen {
-            width: 31%;
-        }
-
-
+    .mylistbox{
+        font-size: 13px !important;
     }
 
-    @media all and (max-width: 850px) {
-
-        .search-blk {
-            width: 60%;
-        }
-        .logged-user-info .user-info > div >span:last-child{
-            display:none;
-        }
-
-        .reps-feed-screen {
-            width: 44%;
-        }
-        .customer-feed-screen {
-            width: 45%;
-        }
-        .carrier-profile-screen {
-            width: 44%;
-            left: 40px;
-        }
-
+    #email,#password{
+        width: 85% !important;
     }
-    @media all and (max-width: 600px) {
+    .o-signup-reset{
+        left: 40% !important;
+    }
+    #id-emailpassword-infobox {
+        display: none;
+    }
+    .login-logo{
+        margin-left: -31% !important;
+        margin-top: 75px !important;
+        height: 65px !important;
+    }
+    .ctrl-login-box {
+        padding-top: 0px !important;
+    }
+}
 
-        .search-blk {
-            width: 55%;
-        }
-        .logged-user-info{
-            border:none;
-            width:60px;
-            right: -60%;
-        }
-        .logged-user-info  > div {
-            float:none;
-        }
+@media only screen and (min-width: 1280px){
 
-        .logged-user-info :nth-child(n+2){
-            display:none;
-        }
-        .customer-feed-screen {
-            width: 46%;
-        }
-        .carrier-profile-screen {
-            width: 47%;
-        }
+    #page{
+        min-width: 1280px !important;
+        overflow-x: hidden !important;
+        overflow: hidden;
 
+
+         margin: auto; 
     }
 
-    @media all and (max-width: 500px) {
-        .search-blk {
-            width: 50%;
-        }
+    .c-firstname{
+        max-width:none !important;
+        width: 100% !important;
+    }
 
-        .reps-feed-screen {
-            width: 90%;
-            left: 20px;
-        }
-        .customer-feed-screen {
-            width: 90%;
-            left: 20px;
-        }
-        .carrier-profile-screen {
-            width: 90%;
-            left: 15px;
-        }
+    body{
+        max-width: 400px;
+        overflow: hidden !important;
     }
 
 
-    @media screen and (max-width: 600px) {
-        .o-box {
-             width: 40%; 
-        }
-    }*/
+    #id_loginfadeinout{
+        left: -7% !important;
+        width: 100% !important;
+        margin: auto;
+    }
 
-/*}*/
+    .login-type-box2{
+        width: 60% !important;
+
+        height: 78% !important;
+    }
+
+    .login-type-box1{
+        width: 30% !important;
+
+    }
+
+    .mylistbox{
+        font-size: 13px !important;
+    }
+
+    #email,#password{
+        width: 85% !important;
+    }
+    .o-signup-reset{
+        left: 40% !important;
+    }
+    #id-emailpassword-infobox {
+        display: none;
+    }
+    .login-logo{
+        margin-left: -31% !important;
+        margin-top: 75px !important;
+        height: 65px !important;
+    }
+    .ctrl-login-box {
+        padding-top: 0px !important;
+    }
+}
 
 
+@media only screen and (min-width: 1920px){
+
+    #page{
+        min-width: 1920px !important;
+        overflow-x: hidden !important;
+        overflow: hidden;
+
+    }
+
+    .c-firstname{
+        max-width:none !important;
+        width: 100% !important;
+    }
+
+    body{
+        max-width: 400px;
+        overflow: hidden !important;
+    }
 
 
+    #id_loginfadeinout{
+        left: -7% !important;
+        width: 100% !important;
+        margin: auto;
+    }
 
+    .login-type-box2{
+        width: 60% !important;
 
+        height: 78% !important;
+    }
 
+    .login-type-box1{
+        width: 30% !important;
 
+    }
 
+    .mylistbox{
+        font-size: 13px !important;
+    }
 
+    #email,#password{
+        width: 85% !important;
+    }
+    .o-signup-reset{
+        left: 40% !important;
+    }
+    #id-emailpassword-infobox {
+        display: none;
+    }
+    .login-logo{
+        margin-left: -31% !important;
+        margin-top: 75px !important;
+        height: 65px !important;
+    }
+    .ctrl-login-box {
+        padding-top: 0px !important;
+    }
+}*/

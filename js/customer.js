@@ -106,23 +106,27 @@ var CustomerdynamicTemplate = {
                 //var data = "";
                 if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
                     if (localStorage.LoginType == 'Representatives') {
-                        data = JSON.parse(localStorage.getItem("CARRIERREP_DATA"));
+                        data=RESPONSE.CARRIERREP_DATA[0];
+                      //  data = JSON.parse(localStorage.getItem("CARRIERREP_DATA"));
                         console.log("manoj", data);
                         if (data.resultMap != null && data.resultMap != "") {
 
-                            var resultCustomer = data.resultMap.agencyTab[0];
-
+                            var resultCustomer = data.resultMap.agencyTab;
+                            debugger;
                             console.log("---->", resultCustomer.length);
                             var template = '';
-                            var length = 1;
-                            if (resultCustomer.length == undefined) {
-                                length = 1;
-                            } else {
-                                length = resultCustomer.length;
-                            }
+                            /* var length = 1;
+                             if (resultCustomer.length == undefined) {
+                             length = 1;
+                             } else {
+                             length = resultCustomer.length;
+                             } */
                             // alert("1" + data.resultMap.CustomerTab[0].emailId.email);
-                            for (var c = 0; c < length; c++) {
-                                var cus = resultCustomer.agencyDetail;
+                            $.each(resultCustomer, function (index, agencyDetails) {
+                                var cus = agencyDetails.agencyDetail;
+                                template += CustomerdynamicTemplate.customer.agenciesDynamicList(cus);
+                            });
+
 
 
 //                    if (cus.agencyLogo == undefined)
@@ -134,8 +138,8 @@ var CustomerdynamicTemplate = {
 //                        profilePicture = "http://www.deshow.net/d/file/animal/2009-05/animal-pictures-pet-photography-557-4.jpg";
 //                        //profilePicture = ProfileAPI + profilePath;
 //                    }
-                                template += CustomerdynamicTemplate.customer.agenciesDynamicList(cus);
-                            }
+
+                            //}
 
                             //  var resp = data.resultMap.carrierTab[2][0];
                             //  template += CustomerdynamicTemplate.customer.CustomerDynamicList(resp);
@@ -153,23 +157,41 @@ var CustomerdynamicTemplate = {
                         $(".edit-cover-pic").css("display", "none");
                         $(".edit-agency-pic").css("display", "none");
                     } else {
-                        data = JSON.parse(localStorage.getItem("CARRIERAGENCYTOTALDETAILS"));
+						/* if(PAGEREFRESH.ISPAGEREFRESHED){
+							data = JSON.parse(sessionStorage.carrierAgencyDetails);
+						} else {
+							data=RESPONSE.CARRIERAGENCYTOTALDETAILS[0];
+							sessionStorage.carrierAgencyDetails = data;
+						} */
+						//data = JSON.parse(localStorage.getItem("CARRIERAGENCYTOTALDETAILS"));
+						if((RESPONSE.CARRIERAGENCYTOTALDETAILS).length != 0){
+							data=RESPONSE.CARRIERAGENCYTOTALDETAILS[0];
+							localStorage.setItem("carrierAgencyDetails", JSON.stringify(RESPONSE.CARRIERAGENCYTOTALDETAILS[0]));
+						} else {
+							data = JSON.parse(localStorage.getItem("customerDetailsValue"));
+							console.log("data",data);
+						}
+						
+						/* localStorage.CARRIERAGENCYTOTALDETAILS = data;
+						if() */
                         console.log("manoj", data);
                         if (data.resultMap != null && data.resultMap != "") {
 
-                            var resultCustomer = data.resultMap.agencyTab[0];
+                            var resultCustomer = data.resultMap.agencyTab;
 
                             console.log("---->", resultCustomer.length);
                             var template = '';
-                            var length = 1;
-                            if (resultCustomer.length == undefined) {
-                                length = 1;
-                            } else {
-                                length = resultCustomer.length;
-                            }
+                            /* var length = 1;
+                             if (resultCustomer.length == undefined) {
+                             length = 1;
+                             } else {
+                             length = resultCustomer.length;
+                             } */
                             // alert("1" + data.resultMap.CustomerTab[0].emailId.email);
-                            for (var c = 0; c < length; c++) {
-                                var cus = resultCustomer.AgencyDetail;
+                            $.each(resultCustomer, function (index, agencyDetails) {
+                                var cus = agencyDetails.AgencyDetail;
+                                template += CustomerdynamicTemplate.customer.agenciesDynamicList(cus);
+                            });
 
 
 //                    if (cus.agencyLogo == undefined)
@@ -181,8 +203,8 @@ var CustomerdynamicTemplate = {
 //                        profilePicture = "http://www.deshow.net/d/file/animal/2009-05/animal-pictures-pet-photography-557-4.jpg";
 //                        //profilePicture = ProfileAPI + profilePath;
 //                    }
-                                template += CustomerdynamicTemplate.customer.agenciesDynamicList(cus);
-                            }
+                            /*    template += CustomerdynamicTemplate.customer.agenciesDynamicList(cus);
+                             } */
 
                             //  var resp = data.resultMap.carrierTab[2][0];
                             //  template += CustomerdynamicTemplate.customer.CustomerDynamicList(resp);
@@ -199,7 +221,8 @@ var CustomerdynamicTemplate = {
                         }
                     }
                 } else {
-                    data = JSON.parse(localStorage.getItem("CARRIERAGENCYTOTALDETAILS"));
+                      data=RESPONSE.CARRIERAGENCYTOTALDETAILS[0];
+                    //data = JSON.parse(localStorage.getItem("CARRIERAGENCYTOTALDETAILS"));
                     console.log("manoj", data);
                     if (data.resultMap != null && data.resultMap != "") {
 
@@ -288,7 +311,8 @@ var CustomerdynamicTemplate = {
                 protocall.setMenuSelection(CONSTANTS.LINK_TYPE.AGENCIES_PAGE);
                 protocall.events.GlobalContainerScrollevent();
             } else {
-                var data = JSON.parse(localStorage.getItem("CARRIERREP_DATA"));
+                var data=RESPONSE.CARRIERREP_DATA[0];
+               // var data = JSON.parse(localStorage.getItem("CARRIERREP_DATA"));
 
                 console.log("manoj", data);
                 if (data.resultMap != null && data.resultMap != "") {
@@ -397,7 +421,17 @@ var CustomerdynamicTemplate = {
 
         },
         loadcarrierAdmincustomercontent: function (data, page) {
-            data = JSON.parse(localStorage.getItem("CARRIERAGENCYTOTALDETAILS"));
+			if((RESPONSE.CARRIERAGENCYTOTALDETAILS).length != 0){
+				data=RESPONSE.CARRIERAGENCYTOTALDETAILS[0];
+				localStorage.setItem("customerDetailsValue",JSON.stringify(data));
+			} else {
+				data = JSON.parse(localStorage.getItem("carrierAgencyDetails"));
+				if(data == null){
+					data = JSON.parse(localStorage.getItem("customerDetailsValue"));
+				}
+			}
+              
+           // data = JSON.parse(localStorage.getItem("CARRIERAGENCYTOTALDETAILS"));
             console.log("manoj------>", data);
             // alert(data.resultMap.CustomerTab[0].emailId.email);
             if (data.resultMap != null && data.resultMap != "") {
@@ -456,7 +490,11 @@ var CustomerdynamicTemplate = {
             // alert("2"+localStorage.LoginType);
             // if (localStorage.LoginType == 'Representatives') {
 
-            data = JSON.parse(localStorage.getItem("carrierrepcustomers_data"));
+// data=RESPONSE.customers_data[0];
+
+data=RESPONSE.carrierrepcustomers_data[0];
+ 
+          //  data = JSON.parse(localStorage.getItem("carrierrepcustomers_data"));
             console.log("manoj------>", data);
             // alert(data.resultMap.CustomerTab[0].emailId.email);
             if (data.resultMap != null && data.resultMap != "") {
@@ -513,9 +551,11 @@ var CustomerdynamicTemplate = {
         loadcustomercontent: function (data, page) {
 
             if (sessionStorage.loginType == 'SuperAdmin') {
-
-                localStorage.setItem("customers_data", HOMEPAGERESPONSE.SUPERADMINCUSTOMERS);
-                localStorage.setItem("users", HOMEPAGERESPONSE.SUPERADMINCARRIERDETAILS);
+                
+                RESPONSE.customers_data[0]=HOMEPAGERESPONSE.SUPERADMINCUSTOMERS;
+                //localStorage.setItem("customers_data", HOMEPAGERESPONSE.SUPERADMINCUSTOMERS);
+                 RESPONSE.users[0] =HOMEPAGERESPONSE.SUPERADMINCARRIERDETAILS;
+               // localStorage.setItem("users", HOMEPAGERESPONSE.SUPERADMINCARRIERDETAILS);
                 var resultCustomer = HOMEPAGERESPONSE.SUPERADMINCUSTOMERS;
                 var template = '';
                 for (var c = 0; c < resultCustomer.length; c++) {
@@ -559,7 +599,8 @@ var CustomerdynamicTemplate = {
             } else {
                 if (localStorage.LoginType == 'Representatives') {
                     //alert("2");
-                    data = JSON.parse(localStorage.getItem("AGENCYLOGIN_DATA"));
+                    data=RESPONSE.AGENCYLOGIN_DATA[0];
+                 //   data = JSON.parse(localStorage.getItem("AGENCYLOGIN_DATA"));
                     // alert(data.resultMap.CustomerTab[0].emailId.email);
                     if (data.resultMap != null && data.resultMap != "") {
                         //localStorage.setItem("customers_data", JSON.stringify(data.resultMap.CustomerTab));
@@ -567,33 +608,38 @@ var CustomerdynamicTemplate = {
                         // var resultCustomer = data.resultMap.CustomerTab[0];
                         var template = '';
                         // alert("1" + data.resultMap.CustomerTab[0].emailId.email);
-                        for (var c = 0; c < data.resultMap.CustomerTab.length; c++) {
-                            var cus = data.resultMap.CustomerTab[c];
+                        if (typeof (data.resultMap.CustomerTab) != "string") {
+                            for (var c = 0; c < data.resultMap.CustomerTab.length; c++) {
+                                var cus = data.resultMap.CustomerTab[c];
+                                console.log("typeof the value is ", typeof (data.resultMap.CustomerTab));
 
 
-                            if (cus.emailId.email == undefined) {
-                                cusEmail = ' ';
-                            } else {
-                                cusEmail = cus.emailId.email;
-                            }
-                            if (cus.lastName == undefined)
-                            {
-                                lastName = ' ';
-                            } else {
-                                lastName = cus.lastName;
-                            }
-                            if (cus.profilePicture == undefined)
-                            {
-                                profilePicture = "http://www.deshow.net/d/file/animal/2009-05/animal-pictures-pet-photography-557-4.jpg";
 
-                            } else {
-                                var profilePath = cus.profilePicture;
-                                profilePicture = "http://www.deshow.net/d/file/animal/2009-05/animal-pictures-pet-photography-557-4.jpg";
-                                //profilePicture = ProfileAPI + profilePath;
+                                if (cus.emailId.email == undefined) {
+                                    cusEmail = ' ';
+                                } else {
+                                    cusEmail = cus.emailId.email;
+                                }
+                                if (cus.lastName == undefined)
+                                {
+                                    lastName = ' ';
+                                } else {
+                                    lastName = cus.lastName;
+                                }
+                                if (cus.profilePicture == undefined)
+                                {
+                                    profilePicture = "http://www.deshow.net/d/file/animal/2009-05/animal-pictures-pet-photography-557-4.jpg";
+
+                                } else {
+                                    var profilePath = cus.profilePicture;
+                                    profilePicture = "http://www.deshow.net/d/file/animal/2009-05/animal-pictures-pet-photography-557-4.jpg";
+                                    //profilePicture = ProfileAPI + profilePath;
+                                }
+                                template += CustomerdynamicTemplate.customer.CustomerDynamicList(cus);
                             }
-                            template += CustomerdynamicTemplate.customer.CustomerDynamicList(cus);
+                        } else {
+                            template = "None of the customers were assigned to this representative by his admin";
                         }
-
                         var header = HeaderTemplate.Menu.DynamicHeaderTemplate();
 
                         var content = '<div class="container"> <div class="content-holder">' + template + '</div></div></div></div>';
@@ -622,8 +668,10 @@ var CustomerdynamicTemplate = {
                 } else {
 
                     if (data.resultMap != null && data.resultMap != "") {
-                        localStorage.setItem("customers_data", JSON.stringify(data.resultMap.userTab));
-                        localStorage.setItem("users", JSON.stringify(data.resultMap.carrierTab));
+                         RESPONSE.customers_data[0]=data.resultMap.userTab;
+                        //localStorage.setItem("customers_data", JSON.stringify(data.resultMap.userTab));
+                        RESPONSE.users[0] =data.resultMap.carrierTab;
+                       // localStorage.setItem("users", JSON.stringify(data.resultMap.carrierTab));
                         var resultCustomer = data.resultMap.userTab;
                         var template = '';
                         for (var c = 0; c < resultCustomer.length; c++) {
@@ -687,7 +735,8 @@ var CustomerdynamicTemplate = {
 
 
             if (data.resultMap != null && data.resultMap != "") {
-                localStorage.setItem("customers_data", JSON.stringify(data.resultMap.userTab));
+                 RESPONSE.customers_data[0]=data.resultMap.userTab;
+                //localStorage.setItem("customers_data", JSON.stringify(data.resultMap.userTab));
                 var resultCustomer = data.resultMap.ArrayOfUserDetails;
                 var template = '';
                 for (var c = 0; c < resultCustomer.length; c++) {
@@ -747,14 +796,18 @@ var CustomerdynamicTemplate = {
             if (cus.agencyLogo != undefined) {
                 profilePicture = "https://proto-call-test.appspot.com/file/" + cus.agencyLogo;
             } else {
-                profilePicture = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                profilePicture = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1zfBfV0zBRmjltZfQowBP2Uo_DVnENyvKzQenY6ofyfSvk-Cb8w";
             }
 
             var phoneHtml = "";
-            if (cus.phone.number == undefined) {
-                phoneHtml = "<span class=\"sprite-im carrier-mobile-icon\" style=\"display:none;position: absolute;top: 17px;left: 57%;margin-left: 10px;\">&nbsp;</span>";
-            } else {
-                phoneHtml = "<a href=\"tel:" + cus.phone.number + "\"><div class=\"sprite-im carrier-mobile-icon\" style=\"position: relative;float:right;margin-left: 5px\">&nbsp;</div></a>";
+            try {
+                if (cus.phone.number == undefined) {
+                    phoneHtml = "<span class=\"sprite-im carrier-mobile-icon\" style=\"display:none;position: absolute;top: 17px;left: 57%;margin-left: 10px;\">&nbsp;</span>";
+                } else {
+                    phoneHtml = "<a href=\"tel:" + cus.phone.number + "\"><div class=\"sprite-im carrier-mobile-icon\" style=\"position: relative;float:right;margin-left: 5px\">&nbsp;</div></a>";
+                }
+            } catch (err) {
+
             }
 
             var html = " <div class=\"parent-content-holder\"> <div class=\"topview p-relative\"> <div class=\"topview-leftcontent\">"
@@ -784,14 +837,18 @@ var CustomerdynamicTemplate = {
             if (cus.agencyLogo != undefined) {
                 profilePicture = "https://proto-call-test.appspot.com/file/" + cus.agencyLogo;
             } else {
-                profilePicture = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                profilePicture = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1zfBfV0zBRmjltZfQowBP2Uo_DVnENyvKzQenY6ofyfSvk-Cb8w";
             }
 
             var phoneHtml = "";
-            if (cus.phone.number == undefined) {
-                phoneHtml = "<span class=\"sprite-im carrier-mobile-icon\" style=\"display:none;position: absolute;top: 17px;left: 57%;margin-left: 10px;\">&nbsp;</span>";
-            } else {
-                phoneHtml = "<a href=\"tel:" + cus.phone.number + "\"><div class=\"sprite-im carrier-mobile-icon\" style=\"position: relative;float:right;margin-left: 5px\">&nbsp;</div></a>";
+            try {
+                if (cus.phone.number == undefined) {
+                    phoneHtml = "<span class=\"sprite-im carrier-mobile-icon\" style=\"display:none;position: absolute;top: 17px;left: 57%;margin-left: 10px;\">&nbsp;</span>";
+                } else {
+                    phoneHtml = "<a href=\"tel:" + cus.phone.number + "\"><div class=\"sprite-im carrier-mobile-icon\" style=\"position: relative;float:right;margin-left: 5px\">&nbsp;</div></a>";
+                }
+            } catch (err) {
+
             }
 
             var html = " <div class=\"parent-content-holder\"> <div class=\"topview p-relative\"> <div class=\"topview-leftcontent\">"
@@ -809,20 +866,24 @@ var CustomerdynamicTemplate = {
                 if (cus.profilePicture != undefined) {
                     profilePicture = "https://proto-call-test.appspot.com/file/" + cus.profilePicture;
                 } else {
-                    profilePicture = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                    profilePicture = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1zfBfV0zBRmjltZfQowBP2Uo_DVnENyvKzQenY6ofyfSvk-Cb8w";
                 }
 
                 var phoneHtml = "";
-                if (cus.phone.number == undefined) {
-                    phoneHtml = "<span class=\"sprite-im carrier-mobile-icon\" style=\"display:none;position: absolute;top: 17px;left: 57%;margin-left: 10px;\">&nbsp;</span>";
-                } else {
-                    phoneHtml = "<a href=\"tel:" + cus.phone.number + "\"><div class=\"sprite-im carrier-mobile-icon\" style=\"position: relative;float:right;margin-left: 5px\">&nbsp;</div></a>";
+                try {
+                    if (cus.phone.number == undefined) {
+                        phoneHtml = "<span class=\"sprite-im carrier-mobile-icon\" style=\"display:none;position: absolute;top: 17px;left: 57%;margin-left: 10px;\">&nbsp;</span>";
+                    } else {
+                        phoneHtml = "<a href=\"tel:" + cus.phone.number + "\"><div class=\"sprite-im carrier-mobile-icon\" style=\"position: relative;float:right;margin-left: 5px\">&nbsp;</div></a>";
+                    }
+                } catch (err) {
+
                 }
 
                 html = " <div class=\"parent-content-holder\"> <div class=\"topview p-relative\"> <div class=\"topview-leftcontent\">"
                         + "<img src=\"" + profilePicture + "\" alt=\"\" id=" + cusEmail + "  value=" + cus.carrierId + " class=\"carrier-img-width \" data-type=\"viewcustomerfeedview\"></div> <div class=\"topview-rightcontent\"> <div class=\"carrierid\" style=\"display:none;\">" + cus.carrierId + "</div>"
-                        + "<div class=\"topview-rightcontentcarrier-name t-caps \" style=\"font-size: 16px;color: #3e3e3e;float:left;margin-right:5px;margin-bottom: 5px;\">" + cus.firstName + phoneHtml + "</div>"
-                        + "<div class=\"topview-rightcontentcarrier-location t-caps \" style=\"color: #3e3e3e;font-style: italic;clear:both;margin-bottom: 5px;\">" + cus.residentialCity + "</div> "
+                        + "<div class=\"topview-rightcontentcarrier-name t-caps \" style=\"font-size: 15px;color: #3e3e3e;float:left;margin-right:5px;margin-bottom: 5px;\">" + cus.firstName + " " + cus.lastName + " " + phoneHtml + "</div>"
+                        + "<div class=\"topview-rightcontentcarrier-location t-caps \" style=\"color: #3e3e3e;font-style: italic;clear:both;margin-bottom: 5px;\">" + cus.residentialCity + "," + cus.residentialState + "</div> "
                         + "<div class=\"topview-rightcontentcarrier-email\"><a title=" + cusEmail + " href=\"mailto:" + cusEmail + "\">" + cusEmail + "</a></div> </div> <input type=\"checkbox\" class=\"getSelectedCustomers  p-absolute snap\" data-type=\"customersCheckBox\" value=" + cusEmail + " id='id" + cusEmail + "' > "
                         + "<label for='id" + cusEmail + "' class=\"customer-feed-label\" style=\"display:block;\"></label> </div> <div class=\"downview p-relative\">"
                         + "<div id=" + cusEmail + "  value=" + cus.carrierId + " class=\"carrier-view mycustomerView p-relative bg-color-green t-caps t-center opensans-regular f-color-w snap\" data-type=\"viewcustomerfeedview\">view</div> </div> </div>";
@@ -832,20 +893,24 @@ var CustomerdynamicTemplate = {
                         if (cus.profilePicture != undefined) {
                             profilePicture = "https://proto-call-test.appspot.com/file/" + cus.profilePicture;
                         } else {
-                            profilePicture = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                            profilePicture = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1zfBfV0zBRmjltZfQowBP2Uo_DVnENyvKzQenY6ofyfSvk-Cb8w";
                         }
 
                         var phoneHtml = "";
-                        if (cus.phone.number == undefined) {
-                            phoneHtml = "<span class=\"sprite-im carrier-mobile-icon\" style=\"display:none;position: absolute;top: 17px;left: 57%;margin-left: 10px;\">&nbsp;</span>";
-                        } else {
-                            phoneHtml = "<a href=\"tel:" + cus.phone.number + "\"><div class=\"sprite-im carrier-mobile-icon\" style=\"position: relative;float:right;margin-left: 5px\">&nbsp;</div></a>";
+                        try {
+                            if (cus.phone.number == undefined) {
+                                phoneHtml = "<span class=\"sprite-im carrier-mobile-icon\" style=\"display:none;position: absolute;top: 17px;left: 57%;margin-left: 10px;\">&nbsp;</span>";
+                            } else {
+                                phoneHtml = "<a href=\"tel:" + cus.phone.number + "\"><div class=\"sprite-im carrier-mobile-icon\" style=\"position: relative;float:right;margin-left: 5px\">&nbsp;</div></a>";
+                            }
+                        } catch (err) {
+
                         }
 
                         html = " <div class=\"parent-content-holder\"> <div class=\"topview p-relative\"> <div class=\"topview-leftcontent\">"
                                 + "<img src=\"" + profilePicture + "\" alt=\"\" id=" + cusEmail + "  value=" + cus.carrierId + " class=\"carrier-img-width \" data-type=\"viewcustomerfeedview\"></div> <div class=\"topview-rightcontent\"> <div class=\"carrierid\" style=\"display:none;\">" + cus.carrierId + "</div>"
-                                + "<div class=\"topview-rightcontentcarrier-name t-caps \" style=\"font-size: 16px;color: #3e3e3e;float:left;margin-right:5px;margin-bottom: 5px;\">" + cus.firstName + phoneHtml + "</div>"
-                                + "<div class=\"topview-rightcontentcarrier-location t-caps \" style=\"color: #3e3e3e;font-style: italic;clear:both;margin-bottom: 5px;\">" + cus.residentialCity + "</div> "
+                                + "<div class=\"topview-rightcontentcarrier-name t-caps \" style=\"font-size: 15px;color: #3e3e3e;float:left;margin-right:5px;margin-bottom: 5px;\">" + cus.firstName + " " + cus.lastName + " " + phoneHtml + "</div>"
+                                + "<div class=\"topview-rightcontentcarrier-location t-caps \" style=\"color: #3e3e3e;font-style: italic;clear:both;margin-bottom: 5px;\">" + cus.residentialCity + "," + cus.residentialState + "</div> "
                                 + "<div class=\"topview-rightcontentcarrier-email\"><a title=" + cusEmail + "  href=\"mailto:" + cusEmail + "\">" + cusEmail + "</a></div> </div> <input type=\"checkbox\" class=\"getSelectedCustomers  p-absolute snap\" data-type=\"customersCheckBox\" value=" + cusEmail + " id='id" + cusEmail + "' > <label for='id" + cusEmail + "' class=\"customer-feed-label\" style=\"display:none;\"></label> </div> <div class=\"downview p-relative\">"
                                 + "<div id=" + cusEmail + "  value=" + cus.carrierId + " class=\"carrier-view mycustomerView p-relative bg-color-green t-caps t-center opensans-regular f-color-w snap\" data-type=\"viewcustomerfeedview\">view</div> </div> </div>";
                     }
@@ -853,20 +918,24 @@ var CustomerdynamicTemplate = {
                         if (cus.profilePicture != undefined) {
                             profilePicture = "https://proto-call-test.appspot.com/file/" + cus.profilePicture;
                         } else {
-                            profilePicture = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                            profilePicture = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1zfBfV0zBRmjltZfQowBP2Uo_DVnENyvKzQenY6ofyfSvk-Cb8w";
                         }
 
                         var phoneHtml = "";
-                        if (cus.phone.number == undefined) {
-                            phoneHtml = "<span class=\"sprite-im carrier-mobile-icon\" style=\"display:none;position: absolute;top: 17px;left: 57%;margin-left: 10px;\">&nbsp;</span>";
-                        } else {
-                            phoneHtml = "<a href=\"tel:" + cus.phone.number + "\"><div class=\"sprite-im carrier-mobile-icon\" style=\"position: relative;float:right;margin-left: 5px\">&nbsp;</div></a>";
+                        try {
+                            if (cus.phone.number == undefined) {
+                                phoneHtml = "<span class=\"sprite-im carrier-mobile-icon\" style=\"display:none;position: absolute;top: 17px;left: 57%;margin-left: 10px;\">&nbsp;</span>";
+                            } else {
+                                phoneHtml = "<a href=\"tel:" + cus.phone.number + "\"><div class=\"sprite-im carrier-mobile-icon\" style=\"position: relative;float:right;margin-left: 5px\">&nbsp;</div></a>";
+                            }
+                        } catch (err) {
+
                         }
 
                         html = " <div class=\"parent-content-holder\"> <div class=\"topview p-relative\"> <div class=\"topview-leftcontent\">"
                                 + "<img src=\"" + profilePicture + "\" alt=\"\" id=" + cusEmail + "  value=" + cus.carrierId + " class=\"carrier-img-width \" data-type=\"viewcustomerfeedview\"></div> <div class=\"topview-rightcontent\"> <div class=\"carrierid\" style=\"display:none;\">" + cus.carrierId + "</div>"
-                                + "<div class=\"topview-rightcontentcarrier-name t-caps \" style=\"font-size: 16px;color: #3e3e3e;float:left;margin-right:5px;margin-bottom: 5px;\">" + cus.firstName + phoneHtml + "</div>"
-                                + "<div class=\"topview-rightcontentcarrier-location t-caps \" style=\"color: #3e3e3e;font-style: italic;clear:both;margin-bottom: 5px;\">" + cus.residentialCity + "</div> "
+                                + "<div class=\"topview-rightcontentcarrier-name t-caps \" style=\"font-size: 15px;color: #3e3e3e;float:left;margin-right:5px;margin-bottom: 5px;\">" + cus.firstName + " " + cus.lastName + " " + phoneHtml + "</div>"
+                                + "<div class=\"topview-rightcontentcarrier-location t-caps \" style=\"color: #3e3e3e;font-style: italic;clear:both;margin-bottom: 5px;\">" + cus.residentialCity + "," + cus.residentialState + "</div> "
                                 + "<div class=\"topview-rightcontentcarrier-email\"><a title=" + cusEmail + "  href=\"mailto:" + cusEmail + "\">" + cusEmail + "</a></div> </div> <input type=\"checkbox\" class=\"getSelectedCustomers  p-absolute snap\" data-type=\"customersCheckBox\" value=" + cusEmail + " id='id" + cusEmail + "' > <label for='id" + cusEmail + "' class=\"customer-feed-label\" style=\"display:block;\"></label> </div> <div class=\"downview p-relative\">"
                                 + "<div id=" + cusEmail + "  value=" + cus.carrierId + " class=\"carrier-view mycustomerView p-relative bg-color-green t-caps t-center opensans-regular f-color-w snap\" data-type=\"viewcustomerfeedview\">view</div> </div> </div>";
                     }
@@ -875,40 +944,48 @@ var CustomerdynamicTemplate = {
                         if (cus.profilePicture != undefined) {
                             profilePicture = "https://proto-call-test.appspot.com/file/" + cus.profilePicture;
                         } else {
-                            profilePicture = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                            profilePicture = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1zfBfV0zBRmjltZfQowBP2Uo_DVnENyvKzQenY6ofyfSvk-Cb8w";
                         }
 
                         var phoneHtml = "";
-                        if (cus.phone.number == undefined) {
-                            phoneHtml = "<span class=\"sprite-im carrier-mobile-icon\" style=\"display:none;position: absolute;top: 17px;left: 57%;margin-left: 10px;\">&nbsp;</span>";
-                        } else {
-                            phoneHtml = "<a href=\"tel:" + cus.phone.number + "\"><div class=\"sprite-im carrier-mobile-icon\" style=\"position: relative;float:right;margin-left: 5px\">&nbsp;</div></a>";
+                        try {
+                            if (cus.phone.number == undefined) {
+                                phoneHtml = "<span class=\"sprite-im carrier-mobile-icon\" style=\"display:none;position: absolute;top: 17px;left: 57%;margin-left: 10px;\">&nbsp;</span>";
+                            } else {
+                                phoneHtml = "<a href=\"tel:" + cus.phone.number + "\"><div class=\"sprite-im carrier-mobile-icon\" style=\"position: relative;float:right;margin-left: 5px\">&nbsp;</div></a>";
+                            }
+                        } catch (err) {
+
                         }
 
                         html = " <div class=\"parent-content-holder\"> <div class=\"topview p-relative\"> <div class=\"topview-leftcontent\">"
                                 + "<img src=\"" + profilePicture + "\" alt=\"\" id=" + cusEmail + "  value=" + cus.carrierId + " class=\"carrier-img-width \" data-type=\"viewcustomerfeedview\"></div> <div class=\"topview-rightcontent\"> <div class=\"carrierid\" style=\"display:none;\">" + cus.carrierId + "</div>"
-                                + "<div class=\"topview-rightcontentcarrier-name t-caps \" style=\"font-size: 16px;color: #3e3e3e;float:left;margin-right:5px;margin-bottom: 5px;\">" + cus.firstName + phoneHtml + "</div>"
-                                + "<div class=\"topview-rightcontentcarrier-location t-caps \" style=\"color: #3e3e3e;font-style: italic;clear:both;margin-bottom: 5px;\">" + cus.residentialCity + "</div> "
+                                + "<div class=\"topview-rightcontentcarrier-name t-caps \" style=\"font-size: 15px;color: #3e3e3e;float:left;margin-right:5px;margin-bottom: 5px;\">" + cus.firstName + " " + cus.lastName + " " + phoneHtml + "</div>"
+                                + "<div class=\"topview-rightcontentcarrier-location t-caps \" style=\"color: #3e3e3e;font-style: italic;clear:both;margin-bottom: 5px;\">" + cus.residentialCity + "," + cus.residentialState + "</div> "
                                 + "<div class=\"topview-rightcontentcarrier-email\"><a title=" + cusEmail + "  href=\"mailto:" + cusEmail + "\">" + cusEmail + "</a></div> </div> <input type=\"checkbox\" class=\"getSelectedCustomers  p-absolute snap\" data-type=\"customersCheckBox\" value=" + cusEmail + " id='id" + cusEmail + "' > <label for='id" + cusEmail + "' class=\"customer-feed-label\" style=\"display:block;\"></label> </div> <div class=\"downview p-relative\">"
                                 + "<div id=" + cusEmail + "  value=" + cus.carrierId + " class=\"carrier-view mycustomerView p-relative bg-color-green t-caps t-center opensans-regular f-color-w snap\" data-type=\"viewcustomerfeedview\">view</div> </div> </div>";
                     } else {
                         if (cus.profilePicture != undefined) {
                             profilePicture = "https://proto-call-test.appspot.com/file/" + cus.profilePicture;
                         } else {
-                            profilePicture = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                            profilePicture = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1zfBfV0zBRmjltZfQowBP2Uo_DVnENyvKzQenY6ofyfSvk-Cb8w";
                         }
 
                         var phoneHtml = "";
-                        if (cus.phone.number == undefined) {
-                            phoneHtml = "<span class=\"sprite-im carrier-mobile-icon\" style=\"display:none;position: absolute;top: 17px;left: 57%;margin-left: 10px;\">&nbsp;</span>";
-                        } else {
-                            phoneHtml = "<a href=\"tel:" + cus.phone.number + "\"><div class=\"sprite-im carrier-mobile-icon\" style=\"position: relative;float:right;margin-left: 5px\">&nbsp;</div></a>";
+                        try {
+                            if (cus.phone.number == undefined) {
+                                phoneHtml = "<span class=\"sprite-im carrier-mobile-icon\" style=\"display:none;position: absolute;top: 17px;left: 57%;margin-left: 10px;\">&nbsp;</span>";
+                            } else {
+                                phoneHtml = "<a href=\"tel:" + cus.phone.number + "\"><div class=\"sprite-im carrier-mobile-icon\" style=\"position: relative;float:right;margin-left: 5px\">&nbsp;</div></a>";
+                            }
+                        } catch (err) {
+
                         }
 
                         html = " <div class=\"parent-content-holder\"> <div class=\"topview p-relative\"> <div class=\"topview-leftcontent\">"
                                 + "<img src=\"" + profilePicture + "\" alt=\"\" id=" + cusEmail + "  value=" + cus.carrierId + " class=\"carrier-img-width \" data-type=\"viewcustomerfeedview\"></div> <div class=\"topview-rightcontent\"> <div class=\"carrierid\" style=\"display:none;\">" + cus.carrierId + "</div>"
                                 + "<div class=\"topview-rightcontentcarrier-name t-caps \" style=\"font-size: 16px;color: #3e3e3e;float:left;margin-right:5px;margin-bottom: 5px;\">" + cus.firstName + phoneHtml + "</div>"
-                                + "<div class=\"topview-rightcontentcarrier-location t-caps \" style=\"color: #3e3e3e;font-style: italic;clear:both;margin-bottom: 5px;\">" + cus.residentialCity + "</div> "
+                                + "<div class=\"topview-rightcontentcarrier-location t-caps \" style=\"color: #3e3e3e;font-style: italic;clear:both;margin-bottom: 5px;\">" + cus.residentialCity + "," + cus.residentialState + "</div> "
                                 + "<div class=\"topview-rightcontentcarrier-email\"><a title=" + cusEmail + "  href=\"mailto:" + cusEmail + "\">" + cusEmail + "</a></div> </div> <input type=\"checkbox\" class=\"getSelectedCustomers  p-absolute snap\" data-type=\"customersCheckBox\" value=" + cusEmail + " id='id" + cusEmail + "' > <label for='id" + cusEmail + "' class=\"customer-feed-label\" style=\"display:none;\"></label> </div> <div class=\"downview p-relative\">"
                                 + "<div id=" + cusEmail + "  value=" + cus.carrierId + " class=\"carrier-view mycustomerView p-relative bg-color-green t-caps t-center opensans-regular f-color-w snap\" data-type=\"viewcustomerfeedview\">view</div> </div> </div>";
                     }

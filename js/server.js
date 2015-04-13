@@ -19,29 +19,40 @@ utils.server = {
     gotagencyLogoEditresponse: function (data) {
 //        sessionStorage.userName = data.resultMap.editedDetails.firstName;
 //        sessionStorage.userPhoneNumber = data.resultMap.editedDetails.phone.number;
-		  if(data.resultMap.TypeCode == "4051"){
-			  if(localStorage.getItem("LOGIN_LABEL") == "Agency"){
-				  sessionStorage.agencyEmail = data.resultMap.editedAgencyDetails.emailId.email;
-				  sessionStorage.agencyName = data.resultMap.editedAgencyDetails.agencyName;
-			  } else {
-				  sessionStorage.agencyEmail = data.resultMap.EditedCarrierDetails.emailId.email;
-				  sessionStorage.agencyName = data.resultMap.EditedCarrierDetails.carrierName;
-			  }
-			  
-			  $("#adminEmailIDValue").html(sessionStorage.agencyEmail);
-			  $("#agencyNameValue").html(sessionStorage.agencyName);
-		  }
+        if (data.resultMap.TypeCode == "4051") {
+            if (localStorage.getItem("LOGIN_LABEL") == "Agency") {
+                sessionStorage.agencyEmail = data.resultMap.editedAgencyDetails.emailId.email;
+                sessionStorage.agencyName = data.resultMap.editedAgencyDetails.agencyName;
+            } else {
+                sessionStorage.agencyEmail = data.resultMap.EditedCarrierDetails.emailId.email;
+                sessionStorage.agencyName = data.resultMap.EditedCarrierDetails.carrierName;
+            }
+
+            $("#adminEmailIDValue").html(sessionStorage.agencyEmail);
+            $("#agencyNameValue").html(sessionStorage.agencyName);
+        }
     },
-	gotprofileEditresponse: function (data) {
-		  if(data.resultMap.TypeCode == "4051"){
-			  sessionStorage.userName = data.resultMap.editedDetails.firstName;
-			  sessionStorage.userPhoneNumber = data.resultMap.editedDetails.phone.number;
-			  sessionStorage.userEmailId = data.resultMap.editedDetails.emailId.email;
-			  $("#namenew").html(sessionStorage.userName);
-			  $("#phonenew").html(sessionStorage.userPhoneNumber);
-			  $("#emailnew").html(sessionStorage.userEmailId);
-			  $("#profileUserName").html(sessionStorage.userName);
-		  }
+    gotprofileEditresponse: function (data) {
+        if (data.resultMap.TypeCode == "4051") {
+            sessionStorage.userPhoneNumber = data.resultMap.editedDetails.phone.number;
+            if (sessionStorage.loginType == 'AgencyAdmin' || sessionStorage.loginType == 'CarrierAdmin') {
+                sessionStorage.userEmailId = data.resultMap.editedDetails.emailId.email;
+                sessionStorage.userName = data.resultMap.editedDetails.firstName;
+            } else if (sessionStorage.loginType == 'AgencyRepresentative') {
+                sessionStorage.userEmailId = data.resultMap.editedDetails.agencyRepresentativeId.email;
+                sessionStorage.userName = data.resultMap.editedDetails.name;
+            } else if (sessionStorage.loginType == 'CarrierRepresentative') {
+                sessionStorage.userEmailId = data.resultMap.editedDetails.carrierRepresentativeId.email;
+                sessionStorage.userName = data.resultMap.editedDetails.name;
+            } else {
+                sessionStorage.userEmailId = data.resultMap.editedDetails.emailId.email;
+            }
+            //sessionStorage.userEmailId = data.resultMap.editedDetails.emailId.email;
+            $("#namenew").html(sessionStorage.userName);
+            $("#phonenew").html(sessionStorage.userPhoneNumber);
+            $("#emailnew").html(sessionStorage.userEmailId);
+            $("#profileUserName").html(sessionStorage.userName);
+        }
     },
     getData: function (page, data, callback, deepPath) {
         //console.log(deepPath);
@@ -110,8 +121,15 @@ utils.server = {
             } else if (ref == "updatesetting") {
                 t.set.settingErrorHandling(data);
             } else {
-                var serverErrorMessage = JSON.parse(data.message).ErrorMessage;
-                t.ui.showToast(serverErrorMessage);
+                $(".content-holder").removeClass("spinner1");
+                $(".content-holder").css("opacity", "1");
+                $(".content-holder").empty();
+                $(".content-holder").html('<h3 style="color:red">Service Not Available</h3>');
+                $(".content-holder").fadeIn();
+                $(".content-holder").fadeIn("slow");
+                $(".content-holder").fadeIn(300);
+                /* var serverErrorMessage = JSON.parse(data.message);
+                 t.ui.showToast(serverErrorMessage); */
             }
         } else {
             if (ref == "serviceslotcreation") {
@@ -133,15 +151,22 @@ utils.server = {
         }
         return path;
     },
+    gotRsksj: function (data) {
+        RESPONSE.ASSOCIATEFEED[0] = data;
+        protocall.carrier.loadAssociatedCustomers();
+    },
     gotloginresponse: function (data) {
 //userDetails
 //name
 //resultMap
-        console.log("myvinoth", data);
+
+
+        //  console.log("myvinoth", data);
 
         //alert(data.resultMap.TypeCode);
 
         // alert("4001" + localStorage.getItem("LOGIN_LABEL") + "-->" + localStorage.LoginType);
+
 
 
         if (data.resultMap.TypeCode == '4001') {
@@ -168,6 +193,7 @@ utils.server = {
                 }
                 if (localStorage.LoginType == 'Representatives') {
                     sessionStorage.loginType = 'AgencyRepresentative';
+                    sessionStorage.userEmailId = data.resultMap.userDetails.agencyRepresentativeId.email;
                     if (data.resultMap.agencyDetails.agencyName == undefined) {
                         sessionStorage.agencyName = "";
                     } else {
@@ -190,15 +216,17 @@ utils.server = {
                 // sessionStorage.profilePic = localStorage.imageURl + data.resultMap.userDetails.profilePicture;
                 sessionStorage.agencyEmail = data.resultMap.agencyDetails.emailId.email;
                 sessionStorage.agencyPhone = data.resultMap.agencyDetails.phone.number;
-				if(data.resultMap.userDetails.phone !== undefined){
-					sessionStorage.userPhoneNumber = data.resultMap.userDetails.phone.number;
-				} else {
-					sessionStorage.userPhoneNumber = "";
-				}
-                
+                if (data.resultMap.userDetails.phone !== undefined) {
+                    sessionStorage.userPhoneNumber = data.resultMap.userDetails.phone.number;
+                } else {
+                    sessionStorage.userPhoneNumber = "";
+                }
+
                 sessionStorage.agencyId = data.resultMap.agencyId;
                 try {
-                    sessionStorage.userEmailId = data.resultMap.userDetails.emailId.email;
+                    if (sessionStorage.loginType != 'AgencyRepresentative') {
+                        sessionStorage.userEmailId = data.resultMap.userDetails.emailId.email;
+                    }
                 } catch (err) {
                     sessionStorage.userEmailId = "";
                 }
@@ -258,11 +286,13 @@ utils.server = {
                     sessionStorage.agencyLogo = localStorage.imageURl + data.resultMap.carrierDetails.carrierLogo;
                     sessionStorage.agencyPhone = data.resultMap.carrierDetails.phone.number;
                     sessionStorage.agencyId = data.resultMap.carrierDetails.carrierId;
-                    //  sessionStorage.userEmailId = data.resultMap.userDetails.emailId.email;
+                    sessionStorage.userEmailId = data.resultMap.userDetails.carrierRepresentativeId.email;
                     sessionStorage.userPhoneNumber = data.resultMap.userDetails.phone.number;
 
                     try {
-                        sessionStorage.userEmailId = data.resultMap.userDetails.emailId.email;
+                        if (sessionStorage.loginType != 'CarrierRepresentative') {
+                            sessionStorage.userEmailId = data.resultMap.userDetails.emailId.email;
+                        }
                     } catch (err) {
                         sessionStorage.userEmailId = "";
                     }
@@ -308,10 +338,13 @@ utils.server = {
                         if (resp.error) {
                             t.server.handleError(resp);
                         } else {
-                            localStorage.setItem("AGENCY_ADMIN_TOTAL_DETAILS", JSON.stringify(resp));
-                            localStorage.setItem("AGENCYLOGIN_DATA", JSON.stringify(resp));
-                            localStorage.setItem("customers_data", JSON.stringify(resp.resultMap.customerTab));
-                            HOMEPAGERESPONSE.CUSTOMERDATA = resp.resultMap.customerTab;
+                            RESPONSE.AGENCY_ADMIN_TOTAL_DETAILS[0] = resp;
+                            // localStorage.setItem("AGENCY_ADMIN_TOTAL_DETAILS", JSON.stringify(resp));
+                            RESPONSE.AGENCYLOGIN_DATA[0] = resp;
+                            // localStorage.setItem("AGENCYLOGIN_DATA", JSON.stringify(resp));
+                            RESPONSE.customers_data[0] = resp.resultMap.CustomerTab;
+                            //localStorage.setItem("customers_data", JSON.stringify(resp.resultMap.CustomerTab));
+                            HOMEPAGERESPONSE.CUSTOMERDATA = resp.resultMap.CustomerTab;
                         }
                     });
                 }
@@ -325,11 +358,17 @@ utils.server = {
                         if (resp.error) {
                             t.server.handleError(resp);
                         } else {
-                            localStorage.setItem("CARRIERAGENCYTOTALDETAILS", JSON.stringify(resp));
-                            localStorage.setItem("CARRIERREP_DATA", JSON.stringify(resp));
-                            localStorage.setItem("customers_data", JSON.stringify(resp.resultMap.customerTab));
-                            localStorage.setItem("agencies_data", JSON.stringify(resp.resultMap.agencyTab[0].agencyDetail));
-                            localStorage.setItem("carrierrepcustomers_data", JSON.stringify(resp));
+                            debugger;
+                            RESPONSE.CARRIERAGENCYTOTALDETAILS[0] = resp;
+                            // localStorage.setItem("CARRIERAGENCYTOTALDETAILS", JSON.stringify(resp));
+                            RESPONSE.CARRIERREP_DATA[0] = resp;
+                            //  localStorage.setItem("CARRIERREP_DATA", JSON.stringify(resp));
+                            RESPONSE.customers_data[0] = resp.resultMap.customerTab;
+                            // localStorage.setItem("customers_data", JSON.stringify(resp.resultMap.customerTab));
+                            RESPONSE.agencies_data[0] = resp.resultMap.agencyTab[0].agencyDetail;
+                            // localStorage.setItem("agencies_data", JSON.stringify(resp.resultMap.agencyTab[0].agencyDetail));
+                            RESPONSE.carrierrepcustomers_data[0] = resp;
+                            //localStorage.setItem("carrierrepcustomers_data", JSON.stringify(resp));
                         }
                     });
                 }
@@ -339,6 +378,7 @@ utils.server = {
                     var data = {},
                             deepPath = "carrierdashboarddesign",
                             page = "home",
+                            async = false,
                             callback = protocall.carrier.getresponsecarrieragency,
                             authId = "",
                             spinnerMsg = "";
@@ -390,24 +430,28 @@ utils.server = {
         } else if (data.resultMap.TypeCode == '4002') {
             var error = "Your password is wrong, check whether the caplock is enabled";
             protocall.displaySpinner(false);
-            $('.login-error').html(error);
+            showAlertBox(error);
+            // $('.login-error').html(error);
             return false
         }
         else if (data.resultMap.TypeCode == '4005') {
             var error = "You are not a registered user";
+            showAlertBox(error);
             protocall.displaySpinner(false);
-            $('.login-error').html(error);
+            // $('.login-error').html(error);
             return false
         } else if (data.resultMap.TypeCode == '4006') {
             var error = "You are not a registered user";
+            showAlertBox(error);
             protocall.displaySpinner(false);
-            $('.login-error').html(error);
+            // $('.login-error').html(error);
             return false
         }
         else if (data.resultMap.TypeCode == '4007') {
             var error = "Provide your agencyId";
             protocall.displaySpinner(false);
-            $('.login-error').html(error);
+            showAlertBox(error);
+            //$('.login-error').html(error);
             return false
         }
 
@@ -438,13 +482,25 @@ utils.server = {
 
         if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
             //  if (localStorage.LoginType == 'Admin') {
-            data = JSON.parse(localStorage.getItem("customers_data"));
+            data = RESPONSE.customers_data[0];
+            // data = JSON.parse(localStorage.getItem("customers_data"));
             console.log("4675", data);
             //CustomerDetails
             RESPONSE_ARRAY = [];
             var feedHtml = staticTemplate.home.assignCustomersTemplate();
             for (var index = 0; index < data.length; index++) {
                 var customerName = data[index].CustomerDetails.firstName;
+                try {
+
+                    customerName = customerName + " " + data[index].CustomerDetails.lastName;
+                } catch (err) {
+
+                }
+
+                //if (customerName == customerName.indexOf("undefined") > -1) {
+                customerName = customerName.replace("undefined", " ");
+                //  }
+
                 var customerCity = data[index].CustomerDetails.residentialCity;
                 var customerState = data[index].CustomerDetails.residentialState;
                 var customerEmailId = data[index].CustomerDetails.emailId.email;
@@ -468,11 +524,20 @@ utils.server = {
             $("#id-overlayaiigncustomers").click();
             //}
         } else {
-            data = JSON.parse(localStorage.getItem("customers_data"));
+            data = RESPONSE.customers_data[0];
+            // data = JSON.parse(localStorage.getItem("customers_data"));
             RESPONSE_ARRAY = [];
             var feedHtml = staticTemplate.home.assignCustomersTemplate();
             for (index = 0; index < data.length; index++) {
                 var customerName = data[index].firstName;
+                try {
+                    customerName = customerName + " " + data[index].lastName;
+                } catch (err) {
+
+                }
+                // if (customerName == customerName.indexOf("undefined") > -1) {
+                customerName = customerName.replace("undefined", " ");
+                // }
                 var customerCity = data[index].residentialCity;
                 var customerState = data[index].residentialState;
                 var customerEmailId = data[index].emailId.email;
@@ -499,13 +564,24 @@ utils.server = {
 
     },
     shareToRep: function (alertid) {
-        ALERTID = alertid;
-        protocall.displaySpinner(true);
-        var page = "pagesharewithrepoverlay";
-        var data = {};
-        var callback = utils.server.gotShareWithRepResponse;
-        var deepPath = "agencyrepresentativenamewithlocation";
-        utils.server.makeServerCall(page, data, callback, deepPath);
+
+        if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
+            ALERTID = alertid;
+            protocall.displaySpinner(true);
+            var page = "pagesharewithrepoverlay";
+            var data = {};
+            var callback = utils.server.gotShareWithRepResponse;
+            var deepPath = "carrierrepresentativenamewithlocation";
+            utils.server.makeServerCall(page, data, callback, deepPath);
+        } else {
+            ALERTID = alertid;
+            protocall.displaySpinner(true);
+            var page = "pagesharewithrepoverlay";
+            var data = {};
+            var callback = utils.server.gotShareWithRepResponse;
+            var deepPath = "agencyrepresentativenamewithlocation";
+            utils.server.makeServerCall(page, data, callback, deepPath);
+        }
     },
     assignToRep: function () {
         // CUSTOMERS_LIST = customersEmailIds;
@@ -522,84 +598,231 @@ utils.server = {
 
         RESPONSE_ARRAY = [];
         var feedHtml = staticTemplate.home.shareWithRepTemplate();
-        for (var index = 0; index < data.resultMap.RepresentativeDetails.length; index++) {
-            var customerName = "";
-            var customerCity = "";
-            var customerState = "";
-            var customerEmailId = "";
-            try {
-                if (data.resultMap.RepresentativeDetails[index].location == undefined) {
+        if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
+            for (var index = 0; index < data.resultMap.RepresentativeDetails.length; index++) {
+                var customerName = "";
+                var customerCity = "";
+                var customerState = "";
+                var customerEmailId = "";
+                try {
+                    if (data.resultMap.RepresentativeDetails[index].location == undefined) {
+                        try {
+                            customerCity = data.resultMap.RepresentativeDetails[index].residentialCity;
+                            customerState = data.resultMap.RepresentativeDetails[index].residentialState;
+                        } catch (err1) {
+                            customerCity = "";
+                        }
+                    } else {
+                        customerCity = data.resultMap.RepresentativeDetails[index].location;
+                    }
+
+                } catch (err) {
                     try {
                         customerCity = data.resultMap.RepresentativeDetails[index].residentialCity;
+                        customerState = data.resultMap.RepresentativeDetails[index].residentialState;
                     } catch (err1) {
                         customerCity = "";
                     }
-                } else {
-                    customerCity = data.resultMap.RepresentativeDetails[index].location;
                 }
-
-            } catch (err) {
                 try {
-                    customerCity = data.resultMap.RepresentativeDetails[index].residentialCity;
-                } catch (err1) {
-                    customerCity = "";
-                }
-            }
-            try {
 
-                if (data.resultMap.RepresentativeDetails[index].name == undefined) {
+                    if (data.resultMap.RepresentativeDetails[index].name == undefined) {
+                        customerName = data.resultMap.RepresentativeDetails[index].firstName;
+                        try {
+                            customerName = customerName + " " + data.resultMap.RepresentativeDetails[index].lastName;
+                        } catch (err) {
+
+                        }
+                        //if (customerName == customerName.indexOf("undefined") > -1) {
+                        customerName = customerName.replace("undefined", " ");
+                        //}
+                    } else {
+                        customerName = data.resultMap.RepresentativeDetails[index].name;
+                        try {
+                            customerName = customerName + " " + data.resultMap.RepresentativeDetails[index].lastName;
+                        } catch (err) {
+
+                        }
+                        //if (customerName == customerName.indexOf("undefined") > -1) {
+                        customerName = customerName.replace("undefined", " ");
+                        // }
+                    }
+                } catch (err) {
+                    // alert(data.resultMap.RepresentativeDetails[index]);
+                    console.log("owner data--->", data.resultMap.RepresentativeDetails[index]);
                     customerName = data.resultMap.RepresentativeDetails[index].firstName;
-                } else {
-                    customerName = data.resultMap.RepresentativeDetails[index].name;
+                    try {
+                        customerName = customerName + " " + data.resultMap.RepresentativeDetails[index].lastName;
+                    } catch (err) {
+
+                    }
                 }
-            } catch (err) {
-                // alert(data.resultMap.RepresentativeDetails[index]);
-                console.log("owner data--->", data.resultMap.RepresentativeDetails[index]);
-                customerName = data.resultMap.RepresentativeDetails[index].firstName;
-            }
 
-            var charcustomerName = "";
+                //if (customerName == customerName.indexOf("undefined") > -1) {
+                customerName = customerName.replace("undefined", " ");
+                //}
 
-            try {
-                charcustomerName = customerName.charAt(0).toUpperCase();
-            } catch (err) {
+                var charcustomerName = "";
 
-            }
+                try {
+                    charcustomerName = customerName.charAt(0).toUpperCase();
+                } catch (err) {
 
-            try {
-                if (data.resultMap.RepresentativeDetails[index].agencyRepresentativeId.email == undefined) {
+                }
+
+                try {
+                    if (data.resultMap.RepresentativeDetails[index].carrierRepresentativeId.email == undefined) {
+                        customerEmailId = data.resultMap.RepresentativeDetails[index].emailId.email;
+                    } else {
+                        customerEmailId = data.resultMap.RepresentativeDetails[index].carrierRepresentativeId.email;
+                    }
+
+                } catch (err) {
+                    // console.log("errorrrrr", data.resultMap.RepresentativeDetails[index]);
                     customerEmailId = data.resultMap.RepresentativeDetails[index].emailId.email;
-                } else {
-                    customerEmailId = data.resultMap.RepresentativeDetails[index].agencyRepresentativeId.email;
+                }
+                if (customerCity == undefined) {
+                    customerCity = "NA";
+                }
+                RESPONSE_ARRAY[index] = [customerName, customerCity, customerState, customerEmailId];
+                //<input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'>
+                var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + " id='name" + index + "' name='" + charcustomerName + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
+                feedHtml = feedHtml + tempHtml;
+                tempHtml = "";
+            }
+        } else {
+            for (var index = 0; index < data.resultMap.RepresentativeDetails.length; index++) {
+                var customerName = "";
+                var customerCity = "";
+                var customerState = "";
+                var customerEmailId = "";
+                try {
+                    if (data.resultMap.RepresentativeDetails[index].location == undefined) {
+                        try {
+                            customerCity = data.resultMap.RepresentativeDetails[index].residentialCity;
+                            customerState = data.resultMap.RepresentativeDetails[index].residentialState;
+                        } catch (err1) {
+                            customerCity = "";
+                        }
+                    } else {
+                        customerCity = data.resultMap.RepresentativeDetails[index].location;
+                    }
+
+                } catch (err) {
+                    try {
+                        customerCity = data.resultMap.RepresentativeDetails[index].residentialCity;
+                        customerState = data.resultMap.RepresentativeDetails[index].residentialState;
+                    } catch (err1) {
+                        customerCity = "";
+                    }
+                }
+                try {
+
+                    if (data.resultMap.RepresentativeDetails[index].name == undefined) {
+                        customerName = data.resultMap.RepresentativeDetails[index].firstName;
+                        try {
+                            customerName = customerName + " " + data.resultMap.RepresentativeDetails[index].lastName;
+                        } catch (err) {
+
+                        }
+                    } else {
+                        customerName = data.resultMap.RepresentativeDetails[index].name;
+                        try {
+                            customerName = customerName + " " + data.resultMap.RepresentativeDetails[index].lastName;
+                        } catch (err) {
+
+                        }
+                    }
+                    // if (customerName == customerName.indexOf("undefined") > -1) {
+                    customerName = customerName.replace("undefined", " ");
+                    // }
+                } catch (err) {
+                    // alert(data.resultMap.RepresentativeDetails[index]);
+                    console.log("owner data--->", data.resultMap.RepresentativeDetails[index]);
+                    customerName = data.resultMap.RepresentativeDetails[index].firstName;
+                    try {
+                        customerName = customerName + " " + data.resultMap.RepresentativeDetails[index].lastName;
+                    } catch (err) {
+
+                    }
+                    // if (customerName == customerName.indexOf("undefined") > -1) {
+                    customerName = customerName.replace("undefined", " ");
+                    // }
                 }
 
-            } catch (err) {
-                customerEmailId = data.resultMap.RepresentativeDetails[index].emailId.email;
+                var charcustomerName = "";
+
+                try {
+                    charcustomerName = customerName.charAt(0).toUpperCase();
+                } catch (err) {
+
+                }
+
+                try {
+                    if (data.resultMap.RepresentativeDetails[index].agencyRepresentativeId.email == undefined) {
+                        customerEmailId = data.resultMap.RepresentativeDetails[index].emailId.email;
+                    } else {
+                        customerEmailId = data.resultMap.RepresentativeDetails[index].agencyRepresentativeId.email;
+                    }
+
+                } catch (err) {
+                    customerEmailId = data.resultMap.RepresentativeDetails[index].emailId.email;
+                }
+                if (customerCity == undefined) {
+                    customerCity = "NA";
+                }
+                RESPONSE_ARRAY[index] = [customerName, customerCity, customerState, customerEmailId];
+                //<input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'>
+                var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + " id='name" + index + "' name='" + charcustomerName + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
+                feedHtml = feedHtml + tempHtml;
+                tempHtml = "";
             }
-			if(customerCity == undefined){
-				customerCity = "NA";
-			}
-            RESPONSE_ARRAY[index] = [customerName, customerCity, customerState, customerEmailId];
-            //<input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'>
-            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + " id='name" + index + "' name='" + charcustomerName + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
-            feedHtml = feedHtml + tempHtml;
-            tempHtml = "";
         }
+
         var buttonHtml = " </form> </div> </div> <div class='o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w' data-type='dt_overlaybtn_sharerepwithcustomers'>Share</div> </div> ";
         var finalHtml = feedHtml + buttonHtml;
         overlay.displayOverlay(finalHtml);
         sharewithRepSelectAllDropDown("false");
         protocall.displaySpinner(false);
     },
-    gotAssignToRepResponse: function (data, page) {
+    gotAssignToRepResponse: function (data1, page) {
 
-
+        var data = "";
         RESPONSE_ARRAY = [];
 
         if (localStorage.getItem("LOGIN_LABEL") == "Agency") {
-            data = JSON.parse(localStorage.getItem("AGENCY_ADMIN_TOTAL_DETAILS"));
+            //data = JSON.parse(localStorage.getItem("AGENCY_ADMIN_TOTAL_DETAILS"));
+            data = RESPONSE.AGENCY_ADMIN_TOTAL_DETAILS[0];
+
+            var flag = 0;
+            $('.getSelectedCustomers').each(function () {
+                str = this.checked ? "1" : "0";
+                if (str == "1") {
+                    flag = 1;
+                }
+            });
+
+            if (flag == 0) {
+                if (localStorage.getItem("ARRAY_CUSTOMERS_LIST") == "" || localStorage.getItem("ARRAY_CUSTOMERS_LIST") == null || localStorage.getItem("ARRAY_CUSTOMERS_LIST") == undefined) {
+                    //$(".error").html("Please select atleat a Customer..!");
+                    showAlertBox("Please select atleat a Customer..!");
+                    // $(".error").css("display", "block");
+                    //  alert("2");
+                    // $(".error").css("padding-top", "10px");
+                    //$(".error").css("padding-bottom", "10px");
+                    //$('.error').delay(3000).slideUp('slow');
+
+                    return false;
+//                    setTimeout(myFunction, 3000);
+//                    function myFunction() {
+//                        overlay.closeOverlay();
+//                    }
+                }
+            }
 
             var feedHtml = staticTemplate.home.assignToRepTemplate();
+
+
             for (var index = 0; index < data.resultMap.repTab.length; index++) {
                 var customerName = "";
                 var customerCity = "";
@@ -611,6 +834,7 @@ utils.server = {
                     if (data.resultMap.repTab[index].location == undefined) {
                         try {
                             customerCity = data.resultMap.repTab[index].residentialCity;
+                            customerState = data.resultMap.repTab[index].residentialState;
                         } catch (err1) {
                             customerCity = "";
                         }
@@ -621,6 +845,7 @@ utils.server = {
                 } catch (err) {
                     try {
                         customerCity = data.resultMap.repTab[index].residentialCity;
+                        customerState = data.resultMap.repTab[index].residentialState;
                     } catch (err1) {
                         customerCity = "";
                     }
@@ -628,15 +853,36 @@ utils.server = {
                 try {
 
                     if (data.resultMap.repTab[index].name == undefined) {
-                        customerName = data.resultMap.repTab[index].firstName;
+                        var firstName = data.resultMap.repTab[index].firstName;
+                        try {
+                            firstName = firstName + " " + data.resultMap.repTab[index].lastName;
+                        } catch (err) {
+
+                        }
                     } else {
-                        customerName = data.resultMap.repTab[index].name;
+                        firstName = data.resultMap.repTab[index].name;
+                        try {
+                            firstName = firstName + " " + data.resultMap.repTab[index].lastName;
+                        } catch (err) {
+
+                        }
                     }
                 } catch (err) {
                     // alert(data.resultMap.RepresentativeDetails[index]);
                     console.log("owner data--->", data.resultMap.repTab[index]);
-                    customerName = data.resultMap.repTab[index].firstName;
+                    firstName = data.resultMap.repTab[index].firstName;
+                    try {
+                        firstName = firstName + "  " + data.resultMap.repTab[index].lastName;
+                    } catch (err) {
+
+                    }
                 }
+
+                //if (firstName == firstName.indexOf("undefined") > -1) {
+                firstName = firstName.replace("undefined", " ");
+//
+                // }
+
 
                 var charcustomerName = "";
 
@@ -656,10 +902,12 @@ utils.server = {
                     customerEmailId = data.resultMap.repTab[index].emailId.email;
                 }
 
-
-                RESPONSE_ARRAY[index] = [customerName, customerCity, customerState, customerEmailId];
+                if (customerCity == undefined) {
+                    customerCity = "NA";
+                }
+                RESPONSE_ARRAY[index] = [firstName, customerCity, customerState, customerEmailId];
                 //<input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'>
-                var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + "  id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
+                var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + "  id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + firstName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
                 feedHtml = feedHtml + tempHtml;
                 tempHtml = "";
             }
@@ -667,51 +915,13 @@ utils.server = {
             var finalHtml = feedHtml + buttonHtml;
             overlay.displayOverlay(finalHtml);
             sharewithRepSelectAllDropDown("false");
-            var flag = 0;
-            $('.getSelectedCustomers').each(function () {
-                str = this.checked ? "1" : "0";
-                if (str == "1") {
-                    flag = 1;
-                }
-            });
+
 
             // alert(flag + "data--" + localStorage.getItem("ARRAY_CUSTOMERS_LIST"));
-            if (flag == 0) {
-                if (localStorage.getItem("ARRAY_CUSTOMERS_LIST") == "" || localStorage.getItem("ARRAY_CUSTOMERS_LIST") == null || localStorage.getItem("ARRAY_CUSTOMERS_LIST") == undefined) {
-                    $(".error").html("Please select atleat a Customer..!");
-                    $(".error").css("display", "block");
-                    //  alert("2");
-                    $(".error").css("padding-top", "10px");
-                    $(".error").css("padding-bottom", "10px");
-                    $('.error').delay(3000).slideUp('slow');
 
-                    setTimeout(myFunction, 3000);
-                    function myFunction() {
-                        overlay.closeOverlay();
-                    }
-                }
-            }
             // protocall.displaySpinner(false);
         } else {
-            data = JSON.parse(localStorage.getItem("CARRIERAGENCYTOTALDETAILS"));
-            var feedHtml = staticTemplate.home.assignToRepTemplate();
-            for (var index = 0; index < data.resultMap.myRepTab.length; index++) {
-                var customerName = data.resultMap.myRepTab[index].RepresentativeDetails.name;
-                var customerCity = data.resultMap.myRepTab[index].RepresentativeDetails.location;
-                var customerState = "";
-                var customerEmailId = data.resultMap.myRepTab[index].RepresentativeDetails.carrierRepresentativeId.email;
-                //            alert(customerEmailId);
 
-                RESPONSE_ARRAY[index] = [customerName, customerCity, customerState, customerEmailId];
-                //<input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'>
-                var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + "  id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
-                feedHtml = feedHtml + tempHtml;
-                tempHtml = "";
-            }
-            var buttonHtml = " </form> </div> </div> <div class='o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w' data-type='dt_overlaybtn_assignToReps'>Assign</div> </div> ";
-            var finalHtml = feedHtml + buttonHtml;
-            overlay.displayOverlay(finalHtml);
-            sharewithRepSelectAllDropDown("false");
             var flag = 0;
             $('.getSelectedCustomers').each(function () {
                 str = this.checked ? "1" : "0";
@@ -723,19 +933,110 @@ utils.server = {
             // alert(flag + "data--" + localStorage.getItem("ARRAY_CUSTOMERS_LIST"));
             if (flag == 0) {
                 if (localStorage.getItem("ARRAY_CUSTOMERS_LIST") == "" || localStorage.getItem("ARRAY_CUSTOMERS_LIST") == null || localStorage.getItem("ARRAY_CUSTOMERS_LIST") == undefined) {
-                    $(".error").html("Please select atleat a Customer..!");
-                    $(".error").css("display", "block");
-                    //  alert("2");
-                    $(".error").css("padding-top", "10px");
-                    $(".error").css("padding-bottom", "10px");
-                    $('.error').delay(3000).slideUp('slow');
+//                    $(".error").html("Please select atleat a Customer..!");
+//                    $(".error").css("display", "block");
+//                    //  alert("2");
+//                    $(".error").css("padding-top", "10px");
+//                    $(".error").css("padding-bottom", "10px");
+//                    $('.error').delay(3000).slideUp('slow');
+                    showAlertBox("Please select atleat a Customer..!");
+                    return  false;
 
-                    setTimeout(myFunction, 3000);
-                    function myFunction() {
-                        overlay.closeOverlay();
-                    }
+//                    setTimeout(myFunction, 3000);
+//                    function myFunction() {
+//                        overlay.closeOverlay();
+//                    }
                 }
             }
+
+            data = RESPONSE.CARRIERAGENCYTOTALDETAILS[0];
+            //data = JSON.parse(localStorage.getItem("CARRIERAGENCYTOTALDETAILS"));
+            var feedHtml = staticTemplate.home.assignToRepTemplate();
+            for (var index = 0; index < data.resultMap.myRepTab.length; index++) {
+                var customerName = "";
+                var customerCity = "";
+                var customerState = "";
+                var customerEmailId = "";
+
+                console.log("dhagsdfhg----->", data.resultMap.myRepTab[index].RepresentativeDetails);
+
+                try {
+                    customerEmailId = data.resultMap.myRepTab[index].RepresentativeDetails.carrierRepresentativeId.email;
+                } catch (err) {
+
+                    customerEmailId = data.resultMap.myRepTab[index].RepresentativeDetails.emailId.email;
+                }
+
+                try {
+                    if (data.resultMap.myRepTab[index].RepresentativeDetails.name == undefined) {
+                        customerName = data.resultMap.myRepTab[index].RepresentativeDetails.firstName;
+                        try {
+                            customerName = customerName + " " + data.resultMap.myRepTab[index].RepresentativeDetails.lastName;
+                        } catch (err) {
+
+                        }
+                    } else {
+                        customerName = data.resultMap.myRepTab[index].RepresentativeDetails.name;
+                        try {
+                            customerName = customerName + " " + data.resultMap.myRepTab[index].RepresentativeDetails.lastName;
+                        } catch (err) {
+
+                        }
+                    }
+
+                } catch (err) {
+
+
+                }
+                // if (customerName == customerName.indexOf("undefined") > -1) {
+                customerName = customerName.replace("undefined", " ");
+                //  }
+
+                try {
+                    if (data.resultMap.myRepTab[index].RepresentativeDetails.location != undefined) {
+                        customerCity = data.resultMap.myRepTab[index].RepresentativeDetails.location;
+                    } else {
+                        customerCity = data.resultMap.myRepTab[index].RepresentativeDetails.residentialCity;
+                        customerState = data.resultMap.myRepTab[index].RepresentativeDetails.residentialState;
+                    }
+
+                } catch (err) {
+
+                }
+                //            alert(customerEmailId);
+
+
+                if (customerCity == undefined) {
+                    customerCity = "NA";
+                }
+                var charcustomerName = "";
+
+                try {
+                    charcustomerName = customerName.charAt(0).toUpperCase();
+                } catch (err) {
+
+                }
+
+
+//customerName.charAt(0).toUpperCase()
+
+
+
+                // if (customerName != undefined) {
+                RESPONSE_ARRAY[index] = [customerName, customerCity, customerState, customerEmailId];
+                console.log("assp name ", customerName);
+                // alert(customerName);
+                //<input type='checkbox' id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'>
+                var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + "  id='name" + index + "' name='" + charcustomerName + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
+                feedHtml = feedHtml + tempHtml;
+                tempHtml = "";
+                // }
+            }
+            var buttonHtml = " </form> </div> </div> <div class='o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w' data-type='dt_overlaybtn_assignToReps'>Assign</div> </div> ";
+            var finalHtml = feedHtml + buttonHtml;
+            overlay.displayOverlay(finalHtml);
+            sharewithRepSelectAllDropDown("false");
+
         }
 
 
@@ -769,6 +1070,7 @@ utils.server = {
                 if (data.resultMap.RepresentativeDetails[index].location == undefined) {
                     try {
                         customerCity = data.resultMap.RepresentativeDetails[index].residentialCity;
+                        customerState = data.resultMap.RepresentativeDetails[index].residentialState;
                     } catch (err1) {
                         customerCity = "";
                     }
@@ -779,6 +1081,7 @@ utils.server = {
             } catch (err) {
                 try {
                     customerCity = data.resultMap.RepresentativeDetails[index].residentialCity;
+                    customerState = data.resultMap.RepresentativeDetails[index].residentialState;
                 } catch (err1) {
                     customerCity = "";
                 }
@@ -787,15 +1090,32 @@ utils.server = {
 
                 if (data.resultMap.RepresentativeDetails[index].name == undefined) {
                     customerName = data.resultMap.RepresentativeDetails[index].firstName;
+                    try {
+                        customerName = customerName + " " + data.resultMap.RepresentativeDetails[index].lastName;
+                    } catch (err) {
+
+                    }
                 } else {
                     customerName = data.resultMap.RepresentativeDetails[index].name;
+                    try {
+                        customerName = customerName + " " + data.resultMap.RepresentativeDetails[index].lastName;
+                    } catch (err) {
+
+                    }
                 }
             } catch (err) {
                 // alert(data.resultMap.RepresentativeDetails[index]);
                 console.log("owner data--->", data.resultMap.RepresentativeDetails[index]);
                 customerName = data.resultMap.RepresentativeDetails[index].firstName;
-            }
+                try {
+                    customerName = customerName + " " + data.resultMap.RepresentativeDetails[index].lastName;
+                } catch (err) {
 
+                }
+            }
+            // if (customerName == customerName.indexOf("undefined") > -1) {
+            customerName = customerName.replace("undefined", " ");
+            //}
             var charcustomerName = "";
 
             try {
@@ -811,9 +1131,16 @@ utils.server = {
                     customerEmailId = data.resultMap.RepresentativeDetails[index].agencyRepresentativeId.email;
                 }
             } catch (err) {
-                customerEmailId = data.resultMap.RepresentativeDetails[index].emailId.email;
+                try {
+                    if (data.resultMap.RepresentativeDetails[index].carrierRepresentativeId.email == undefined) {
+                        customerEmailId = data.resultMap.RepresentativeDetails[index].emailId.email;
+                    } else {
+                        customerEmailId = data.resultMap.RepresentativeDetails[index].carrierRepresentativeId.email;
+                    }
+                } catch (err) {
+                    customerEmailId = data.resultMap.RepresentativeDetails[index].emailId.email;
+                }
             }
-
 
 
 
@@ -843,10 +1170,8 @@ utils.server = {
                 privacystatus = customerEmailId + "#" + privacy;
             }
 
+
             RESPONSE_ARRAY[index] = [customerName, customerCity, customerState, customerEmailId, privacy, carrierAgencyRepresentativeId, privacystatus];
-
-
-
             var toggleStyleOn = "";
             var toggleStyleOff = "";
 
@@ -886,6 +1211,14 @@ utils.server = {
         var feedHtml = staticTemplate.home.sendAppLinkTemplate($(".app-download-bar").html());
         for (var index = 0; index < data.result.resultObject.length; index++) {
             var customerName = data.result.resultObject[index].name;
+            try {
+                customerName = customerName + " " + data.result.resultObject[index].lastName;
+            } catch (err) {
+
+            }
+            // if (customerName == customerName.indexOf("undefined") > -1) {
+            customerName = customerName.replace("undefined", " ");
+            // }
             var customerCity = data.result.resultObject[index].city;
             var customerState = data.result.resultObject[index].state;
             var customerEmailId = data.result.resultObject[index].userId.email;
@@ -947,12 +1280,15 @@ utils.server = {
             scheduledDate = date;
         }
 
-        utils.server.displayMessage("Successfully Send..!");
+        // utils.server.displayMessage("Successfully Send..!");
         var page = "pushmessagepage";
         var data = {isNow: booleanValue, targetString: $("#idpushmessage-textarea").val(), agencyId: sessionStorage.ownerId, scheduledDate: scheduledDate};
         var callback = utils.server.getCodeResponseAssignCustomers;
         var deepPath = "sendpushmessage";
         utils.server.makeServerCall(page, data, callback, deepPath);
+        protocall.closeOverlay();
+        showAlertBox("Successfully Send..!");
+
     },
     submitAddVendorDetails: function () {
         var page = "addvendorpage";
@@ -965,8 +1301,16 @@ utils.server = {
             var callback = utils.server.gotAddvendorReponse;
             utils.server.makeServerCall(page, data, callback, deepPath);
             utils.server.loadPrefferedvendorsdetails();
+            showAlertBox("Successfully Saved..!");
         } else {
-            utils.server.displayError2("No Empty Values..!");
+            // $(".success2").css("display", "none");
+            $(".error2").css("display", "block");
+            $(".error2").css("padding-top", "4px");
+            $(".error2").css("padding-bottom", "10px");
+            $(".error2").html("No Empty Values..!");
+            $('.error2').delay(2000).slideUp('slow');
+//              showAlertBox("Successfully Send..!");
+//            utils.server.displayError2("No Empty Values..!");
         }
     },
     gotAddvendorReponse: function () {
@@ -1024,18 +1368,20 @@ utils.server = {
             });
         }
 
-        $(".success1").html("Sucessfully Saved..!");
-        $(".error1").css("display", "none");
-        $(".success1").css("display", "block");
-        $(".success1").css("padding-top", "4px");
-        $(".success1").css("padding-bottom", "10px");
-        $('.success1').delay(2000).slideUp('slow');
+//        $(".success1").html("Sucessfully Saved..!");
+//        $(".error1").css("display", "none");
+//        $(".success1").css("display", "block");
+//        $(".success1").css("padding-top", "4px");
+//        $(".success1").css("padding-bottom", "10px");
+//        $('.success1').delay(2000).slideUp('slow');
 
         var page = "submitprivacydata";
         var data = {alertList: representativeId};
         var callback = utils.server.getCodeResponseAssignCustomers;
         var deepPath = "editprivacy";
         utils.server.makeServerCall(page, data, callback, deepPath);
+        protocall.closeOverlay();
+        showAlertBox("Sucessfully Saved..!");
     },
     submitSendAppLinkData: function () {
         var representativeId = [];
@@ -1047,7 +1393,7 @@ utils.server = {
                 index++;
             }
         });
-        protocall.displaySpinner(true);
+        // protocall.displaySpinner(true);
         if (index == 0) {
             $(".error2").html("Please select atleat a name to share..!");
             $(".error2").css("display", "block");
@@ -1078,7 +1424,7 @@ utils.server = {
             }
             index++;
         });
-        protocall.displaySpinner(true);
+        // protocall.displaySpinner(true);
         //          ********************** Doubts here ---------------------->
 
         console.log(customersEmailIds);
@@ -1103,7 +1449,8 @@ utils.server = {
         $('.settings-vendor-bar').css("background-color", "#ccc");
         $('#id-preferred-vendors-view-load').css("color", "black");
         $("#id-preferred-vendors-view-load").click();
-        localStorage.setItem("SETTINGTAB_PreferredVendorDATA", JSON.stringify(data.resultMap.listOfPreferredVendor));
+        RESPONSE.SETTINGTAB_PreferredVendorDATA[0] = data.resultMap.listOfPreferredVendor;
+        //localStorage.setItem("SETTINGTAB_PreferredVendorDATA", JSON.stringify(data.resultMap.listOfPreferredVendor));
     },
     carrierOwnerMyProfileSubmenu: function () {
         $(".mb-submenu").empty();
@@ -1139,7 +1486,8 @@ utils.server = {
     MysettingsResponse: function (data) {
         if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
             if (localStorage.LoginType == 'Admin') {
-                localStorage.setItem("SETTINGTAB_PreferredVendorDATA", JSON.stringify(data.resultMap.listOfPreferredVendor));
+                RESPONSE.SETTINGTAB_PreferredVendorDATA[0] = data.resultMap.listOfPreferredVendor;
+                // localStorage.setItem("SETTINGTAB_PreferredVendorDATA", JSON.stringify(data.resultMap.listOfPreferredVendor));
                 //  var header = HeaderTemplate.Menu.DynamicHeaderTemplate();
                 var html = staticTemplate.customers.staticSettingsTemplate(data);
                 //  TEMPSETTINGSPAGE = "";
@@ -1154,7 +1502,8 @@ utils.server = {
 
             }
         } else {
-            localStorage.setItem("SETTINGTAB_PreferredVendorDATA", JSON.stringify(data.resultMap.listOfPreferredVendor));
+            RESPONSE.SETTINGTAB_PreferredVendorDATA[0] = data.resultMap.listOfPreferredVendor;
+            // localStorage.setItem("SETTINGTAB_PreferredVendorDATA", JSON.stringify(data.resultMap.listOfPreferredVendor));
             // var header = HeaderTemplate.Menu.DynamicHeaderTemplate();
             var html = staticTemplate.customers.staticSettingsTemplate(data);
             //  TEMPSETTINGSPAGE = "";
@@ -1176,7 +1525,8 @@ utils.server = {
 
     },
     getResponseForPreferredVendor: function (idvalue) {
-        var data = JSON.parse(localStorage.getItem("SETTINGTAB_PreferredVendorDATA"));
+        var data = RESPONSE.SETTINGTAB_PreferredVendorDATA[0];
+        // var data = JSON.parse(localStorage.getItem("SETTINGTAB_PreferredVendorDATA"));
 
         var footer = "";
         var status = 0;
@@ -1217,6 +1567,7 @@ utils.server = {
         $('#id-agency-view-load').css("color", "black");
         $('.settings-vendor-bar').css("background-color", "#f34f4e");
         $('#id-preferred-vendors-view-load').css("color", "white");
+        $("#id-canecelbutton").css("display", "none");
         protocall.view.LoadVendorInfo();
 
     },
@@ -1247,7 +1598,6 @@ utils.server = {
     submitShareWithRepsData: function () {
 
         // var fromMailId = "agencyowner@gmail.com";
-
         var fromMailId = sessionStorage.userEmailId;
         var representativeId = [];
         var alertID = ALERTID;
@@ -1269,6 +1619,22 @@ utils.server = {
             $('.error').delay(2000).slideUp('slow');
             return false;
         }
+
+        $('.checkbox').each(function () {
+            str = this.checked ? "1" : "0";
+            if (str == "1") {
+                // representativeId[index] = $(this).val();
+                // index++;
+                var page = "shareWithRepPage";
+				var toUserIdValue = $(this).val();
+                var data = {fromUserId: fromMailId, alertId: alertID, toUserId: toUserIdValue};
+                var callback = utils.server.getCodeResponseAssignCustomers;
+                var deepPath = "sharewithrepresentative";
+                utils.server.makeServerCall(page, data, callback, deepPath);
+            }
+
+        });
+
 //        if (index > 1) {
 //            $(".error").html("You can select only one representative at a time..!");
 //            $(".error").css("display", "block");
@@ -1278,11 +1644,7 @@ utils.server = {
 //            return false;
 //        }
 
-        var page = "shareWithRepPage";
-        var data = {fromUserId: fromMailId, alertId: alertID, toUserId: representativeId};
-        var callback = utils.server.getCodeResponseAssignCustomers;
-        var deepPath = "sharewithrepresentative";
-        utils.server.makeServerCall(page, data, callback, deepPath);
+
     },
     submitAssignToCustomers: function () {
         var representativeId = '';
@@ -1308,7 +1670,7 @@ utils.server = {
 
 
         });
-        protocall.displaySpinner(true);
+        //protocall.displaySpinner(true);
 
         if (subIndex == 0) {
             $(".error").html("Please select atleat a customers to Assign..!");
@@ -1358,7 +1720,7 @@ utils.server = {
             }
 
         });
-        protocall.displaySpinner(true);
+        // protocall.displaySpinner(true);
         if (index == 0) {
             $(".error").html("Please select atleat a representative to share..!");
             $(".error").css("display", "block");
@@ -1384,73 +1746,128 @@ utils.server = {
     },
     displayError: function (message) {
         // alert("dd1");
-        $(".success").css("display", "none");
-        $(".error").css("display", "block");
-        $(".error").css("visibility", "visible");
-        $(".error").css("padding-top", "4px");
-        $(".error").css("padding-bottom", "10px");
-        $(".error").html(message);
-        $('.error').delay(2000).slideUp('slow');
+        //showAlertBox(message);
+//        $(".success").css("display", "none");
+//        $(".error").css("display", "block");
+//        $(".error").css("visibility", "visible");
+//        $(".error").css("padding-top", "4px");
+//        $(".error").css("padding-bottom", "10px");
+//        $(".error").html(message);
+//        $('.error').delay(2000).slideUp('slow');
     },
     displayError2: function (message) {
-        $(".success2").css("display", "none");
-        $(".error2").css("display", "block");
-        $(".error2").css("padding-top", "4px");
-        $(".error2").css("padding-bottom", "10px");
-        $(".error2").html(message);
-        $('.error2').delay(2000).slideUp('slow');
+        // showAlertBox(message);
+//        $(".success2").css("display", "none");
+//        $(".error2").css("display", "block");
+//        $(".error2").css("padding-top", "4px");
+//        $(".error2").css("padding-bottom", "10px");
+//        $(".error2").html(message);
+//        $('.error2').delay(2000).slideUp('slow');
     },
     displayMessage: function (message) {
-        $(".success").html(message);
-        $(".error").css("display", "none");
-        $(".success").css("display", "block");
-        $(".success").css("padding-top", "4px");
-        $(".success").css("padding-bottom", "10px");
-        $('.success').delay(2000).slideUp('slow');
+        //showAlertBox(message);
+//        $(".success").html(message);
+//        $(".error").css("display", "none");
+//        $(".success").css("display", "block");
+//        $(".success").css("padding-top", "4px");
+//        $(".success").css("padding-bottom", "10px");
+//        $('.success').delay(2000).slideUp('slow');
     },
     displayMessage2: function (message) {
-        $(".success2").html(message);
-        $(".error2").css("display", "none");
-        $(".success2").css("display", "block");
-        $(".success2").css("padding-top", "4px");
-        $(".success2").css("padding-bottom", "10px");
-        $('.success2').delay(2000).slideUp('slow');
+        //  showAlertBox(message);
+//        $(".success2").html(message);
+//        $(".error2").css("display", "none");
+//        $(".success2").css("display", "block");
+//        $(".success2").css("padding-top", "4px");
+//        $(".success2").css("padding-bottom", "10px");
+//        $('.success2').delay(2000).slideUp('slow');
 
     },
     getCodeResponseAssignCustomers: function (data)
     {
+        protocall.closeOverlay();
+
         var message = "";
         if (data.resultMap.TypeCode == '4031') {
-            message = "Successfully assigned the List of Customers under the selected representative";
+            message = "The representative has been successfully assigned to the customer.";
+            showAlertBox(message);
             utils.server.displayMessage(message);
+            setTimeout(function () {
+                if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
+                    if (localStorage.LoginType == 'Representatives') {
+                        var dataq = {};
+                        var path = utils.server.getServerPath("carrierdashboarddesignforrepresentativelogin");
+                        var request = path(dataq).execute(function (resp) {
+                            if (resp.error) {
+                                t.server.handleError(resp);
+                            } else {
+                                debugger;
+                                RESPONSE.CARRIERAGENCYTOTALDETAILS[0] = resp;
+                                // localStorage.setItem("CARRIERAGENCYTOTALDETAILS", JSON.stringify(resp));
+                                RESPONSE.CARRIERREP_DATA[0] = resp;
+                                //  localStorage.setItem("CARRIERREP_DATA", JSON.stringify(resp));
+                                RESPONSE.customers_data[0] = resp.resultMap.customerTab;
+                                // localStorage.setItem("customers_data", JSON.stringify(resp.resultMap.customerTab));
+                                RESPONSE.agencies_data[0] = resp.resultMap.agencyTab[0].agencyDetail;
+                                // localStorage.setItem("agencies_data", JSON.stringify(resp.resultMap.agencyTab[0].agencyDetail));
+                                RESPONSE.carrierrepcustomers_data[0] = resp;
+                                //localStorage.setItem("carrierrepcustomers_data", JSON.stringify(resp));
+                            }
+                        });
+                    }
+                    if (localStorage.LoginType == 'Admin') {
+
+                        var page = "carriers";
+                        var data = {},
+                                deepPath = "carrierdashboarddesign",
+                                page = "home",
+                                async = false,
+                                callback = protocall.carrier.getresponsecarrieragency,
+                                authId = "",
+                                spinnerMsg = "";
+                        utils.server.makeServerCall(page, data, callback, deepPath);
+                    }
+                }
+
+
+                //protocall.view.viewCustomerFeed(true, localStorage.selectedEmail, localStorage.carrierIDValue);
+                //localStorage.carrierIDValue="";
+                //localStorage.selectedEmail="";
+            }, 1000);
+
         }
         if (data.resultMap.TypeCode == '4032') {
             //alert("atleast one customer");
             message = "Please select atleast one customer for the given representative";
+            showAlertBox(message);
             utils.server.errorMessage(message);
         }
         if (data.resultMap.TypeCode == '4033') {
             //alert("Authentication Erro");
             message = "Authentication Error: Only admin or superadmin can assign customers to the representatives";
+            showAlertBox(message);
             utils.server.errorMessage(message);
         }
         if (data.resultMap.TypeCode == '4034') {
             message = "Shared data  successfully..!";
+            showAlertBox(message);
             utils.server.displayMessage(message);
         }
 
         if (data.resultMap.TypeCode == '4012') {
             message = "No device token were registered to send the push notification";
+            showAlertBox(message);
             utils.server.displayError(message);
         }
 
 
 
     },
-    imagesToServer: function (form, callback, isFormData,qs, pagespinner,imageType,imageContentType) {
+    imagesToServer: function (form, callback, isFormData, qs, pagespinner, imageType, imageContentType) {
         isFormData = (typeof isFormData == "undefined" || isFormData == false) ? false : true;
         var formData;
-		var imageValue;
+        var imageValue;
+        var res;
         if (!isFormData) {
             var isValidSubmit;
             if (!isValidSubmit) {
@@ -1461,20 +1878,21 @@ utils.server = {
             formData = form;
             console.log(formData);
         }
-		var imageUploadURL = HOMEPAGERESPONSE.PROFILEAPIFORIMAGE+qs+"?typeOfImage="+imageType;
-		if(imageType == "profilePicture"){
-			imageValue = sessionStorage.profilePicAfterUpdate;
-		} else {
-			imageValue = sessionStorage.agencyLogo;
-		}
-		if(imageContentType.match("jpeg")){
-			imageContentType = "image/jpg";
-		} else {
-			imageContentType = "image/png";
-		}
-		var res = imageValue.slice(0,22);
-		var imageValueAfterReplace = imageValue.replace(res,"");
-		$.ajax({
+        var imageUploadURL = HOMEPAGERESPONSE.PROFILEAPIFORIMAGE + qs + "?typeOfImage=" + imageType;
+        if (imageType == "profilePicture") {
+            imageValue = sessionStorage.profilePicAfterUpdate;
+        } else {
+            imageValue = sessionStorage.agencyLogo;
+        }
+        if (imageContentType == "image/jpeg") {
+            res = imageValue.slice(0, 23);
+        } else if (imageContentType == "image/png") {
+            res = imageValue.slice(0, 22);
+        }
+        var imageValueAfterReplace = imageValue.replace(res, "");
+        console.log("imageValueAfterReplace", imageValueAfterReplace);
+
+        $.ajax({
             type: "POST",
             url: imageUploadURL, processData: false,
             contentType: imageContentType,
@@ -1484,6 +1902,7 @@ utils.server = {
             },
             success: function (data) {
                 callback(data, form, isFormData);
+                HOMEPAGERESPONSE.ISEDITIMAGEICONCLICKED = false;
             },
             error: function (data) {
                 console.log(data);
@@ -1578,8 +1997,14 @@ function onKeyPressEventAssignCustomers(tag) {
                 var customerCity = RESPONSE_ARRAY[index][1];
                 var customerState = RESPONSE_ARRAY[index][2];
                 var customerEmailId = RESPONSE_ARRAY[index][3];
+                var location = customerCity;
+                if (RESPONSE_ARRAY[index][2] != undefined) {
+                    if (RESPONSE_ARRAY[index][2] != "") {
+                        location = location + "," + RESPONSE_ARRAY[index][2];
+                    }
+                }
 
-                var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox'  value=" + customerEmailId + "  id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
+                var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox'  value=" + customerEmailId + "  id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + location + "</div> </div> </label> </div>";
                 finalHtml = finalHtml + tempHtml;
                 tempHtml = "";
             }
@@ -1598,8 +2023,14 @@ function onKeyPressEventAssignCustomers(tag) {
             var customerCity = RESPONSE_ARRAY[index][1];
             var customerState = RESPONSE_ARRAY[index][2];
             var customerEmailId = RESPONSE_ARRAY[index][3];
+            var location = customerCity;
+            if (RESPONSE_ARRAY[index][2] != undefined) {
+                if (RESPONSE_ARRAY[index][2] != "") {
+                    location = location + "," + RESPONSE_ARRAY[index][2];
+                }
+            }
 
-            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox'  value=" + customerEmailId + "  id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
+            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox'  value=" + customerEmailId + "  id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + location + "</div> </div> </label> </div>";
             finalHtml = finalHtml + tempHtml;
             tempHtml = "";
         }
@@ -1617,7 +2048,13 @@ function onKeyPressEventshareWithRep(tag) {
                 var customerCity = RESPONSE_ARRAY[index][1];
                 var customerState = RESPONSE_ARRAY[index][2];
                 var customerEmailId = RESPONSE_ARRAY[index][3];
-                var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + "  id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + "</div> </div> </label> </div>";
+                var location = customerCity;
+                if (RESPONSE_ARRAY[index][2] != undefined) {
+                    if (RESPONSE_ARRAY[index][2] != "") {
+                        location = location + "," + RESPONSE_ARRAY[index][2];
+                    }
+                }
+                var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + "  id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + location + "</div> </div> </label> </div>";
                 finalHtml = finalHtml + tempHtml;
                 tempHtml = "";
             }
@@ -1635,7 +2072,13 @@ function onKeyPressEventshareWithRep(tag) {
             var customerName = RESPONSE_ARRAY[index][0];
             var customerCity = RESPONSE_ARRAY[index][1];
             var customerState = RESPONSE_ARRAY[index][2];
-            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + " id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + "</div> </div> </label> </div>";
+            var location = customerCity;
+            if (RESPONSE_ARRAY[index][2] != undefined) {
+                if (RESPONSE_ARRAY[index][2] != "") {
+                    location = location + "," + RESPONSE_ARRAY[index][2];
+                }
+            }
+            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + " id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + location + "</div> </div> </label> </div>";
             finalHtml = finalHtml + tempHtml;
             tempHtml = "";
         }
@@ -1713,6 +2156,12 @@ function onKeyPressEventPrivacy(tag) {
                 carrierAgencyRepresentativeId = "";
             }
 
+// var location=customerCity;
+//                if(RESPONSE_ARRAY[index][2]!=undefined){
+//                    if(RESPONSE_ARRAY[index][2]!=""){
+//                        location=location+","+RESPONSE_ARRAY[index][2];
+//                    }
+//                }
             var toggleStyle = "";
             if (privacy == "on") {
                 toggleStyle = "margin-left:50px";
@@ -1749,15 +2198,25 @@ function sortbyBox1() {
     if (selectedOption == "Alphabetical") {
         RESPONSE_ARRAY.sort();
         $('#timepicker2').empty();
-        sharewithRepSelectAllDropDown("true");
+        var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+        $.each(alphabet, function (letter) {
+            $('#timepicker2').append($('<option> Section ' + alphabet[letter] + '</option>'));
+        });
+        // sharewithRepSelectAllDropDown("true");
         var finalHtml = "<form>";
         for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
             var customerName = RESPONSE_ARRAY[index][0];
             var customerCity = RESPONSE_ARRAY[index][1];
             var customerState = RESPONSE_ARRAY[index][2];
             var customerEmailId = RESPONSE_ARRAY[index][3];
+            var location = customerCity;
+            if (RESPONSE_ARRAY[index][2] != undefined) {
+                if (RESPONSE_ARRAY[index][2] != "") {
+                    location = location + "" + RESPONSE_ARRAY[index][2];
+                }
+            }
 
-            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox'  value=" + customerEmailId + "  id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
+            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox'  value=" + customerEmailId + "  id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + location + "</div> </div> </label> </div>";
             finalHtml = finalHtml + tempHtml;
             tempHtml = "";
         }
@@ -1772,6 +2231,13 @@ function sortbyBox1() {
         var TEMP_ARRAY = [];
         for (var i = 0; i < RESPONSE_ARRAY.length; i++) {
             TEMP_ARRAY[i] = RESPONSE_ARRAY[i][1];
+            if (RESPONSE_ARRAY[i][2] != undefined && RESPONSE_ARRAY[i][2] != "undefined") {
+                if (RESPONSE_ARRAY[i][2] != "") {
+                    TEMP_ARRAY[i] = TEMP_ARRAY[i] + "" + RESPONSE_ARRAY[i][2];
+                }
+
+            }
+
         }
         TEMP_ARRAY = unique(TEMP_ARRAY);
         for (var i = 0; i < TEMP_ARRAY.length; i++) {
@@ -1785,8 +2251,14 @@ function sortbyBox1() {
             var customerCity = RESPONSE_ARRAY[index][1];
             var customerState = RESPONSE_ARRAY[index][2];
             var customerEmailId = RESPONSE_ARRAY[index][3];
+            var location = customerCity;
+            if (RESPONSE_ARRAY[index][2] != undefined) {
+                if (RESPONSE_ARRAY[index][2] != "") {
+                    location = location + "" + RESPONSE_ARRAY[index][2];
+                }
+            }
 
-            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox'  value=" + customerEmailId + "  id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
+            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox'  value=" + customerEmailId + "  id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + location + "</div> </div> </label> </div>";
             finalHtml = finalHtml + tempHtml;
             tempHtml = "";
         }
@@ -1805,7 +2277,14 @@ function sortbyBox1() {
             var customerState = RESPONSE_ARRAY[index][2];
             var customerEmailId = RESPONSE_ARRAY[index][3];
 
-            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox'  value=" + customerEmailId + "  id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
+            var location = customerCity;
+            if (RESPONSE_ARRAY[index][2] != undefined) {
+                if (RESPONSE_ARRAY[index][2] != "") {
+                    location = location + "" + RESPONSE_ARRAY[index][2];
+                }
+            }
+
+            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox'  value=" + customerEmailId + "  id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + location + "</div> </div> </label> </div>";
             finalHtml = finalHtml + tempHtml;
             tempHtml = "";
         }
@@ -1856,8 +2335,14 @@ function Sharewithrep_sortbyBox1(idvalue) {
             var customerName = RESPONSE_ARRAY[index][0];
             var customerCity = RESPONSE_ARRAY[index][1];
             var customerEmailId = RESPONSE_ARRAY[index][3];
+            var location = customerCity;
+            if (RESPONSE_ARRAY[index][2] != undefined) {
+                if (RESPONSE_ARRAY[index][2] != "") {
+                    location = location + "," + RESPONSE_ARRAY[index][2];
+                }
+            }
 
-            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + " id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + "</div> </div> </label> </div>";
+            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + " id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + location + "</div> </div> </label> </div>";
             finalHtml = finalHtml + tempHtml;
             tempHtml = "";
         }
@@ -1874,6 +2359,12 @@ function Sharewithrep_sortbyBox1(idvalue) {
         var TEMP_ARRAY = [];
         for (var i = 0; i < RESPONSE_ARRAY.length; i++) {
             TEMP_ARRAY[i] = RESPONSE_ARRAY[i][1];
+            if (RESPONSE_ARRAY[i][2] != undefined && RESPONSE_ARRAY[i][2] != "undefined") {
+                if (RESPONSE_ARRAY[i][2] != "") {
+                    TEMP_ARRAY[i] = TEMP_ARRAY[i] + "," + RESPONSE_ARRAY[i][2];
+                }
+
+            }
         }
         TEMP_ARRAY = unique(TEMP_ARRAY);
         for (var i = 0; i < TEMP_ARRAY.length; i++) {
@@ -1886,7 +2377,13 @@ function Sharewithrep_sortbyBox1(idvalue) {
             var customerName = RESPONSE_ARRAY[index][0];
             var customerCity = RESPONSE_ARRAY[index][1];
             var customerEmailId = RESPONSE_ARRAY[index][3];
-            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + " id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + "</div> </div> </label> </div>";
+            var location = customerCity;
+            if (RESPONSE_ARRAY[index][2] != undefined) {
+                if (RESPONSE_ARRAY[index][2] != "") {
+                    location = location + "," + RESPONSE_ARRAY[index][2];
+                }
+            }
+            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + " id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + location + "</div> </div> </label> </div>";
             finalHtml = finalHtml + tempHtml;
             tempHtml = "";
         }
@@ -1906,7 +2403,13 @@ function Sharewithrep_sortbyBox1(idvalue) {
             var customerName = RESPONSE_ARRAY[index][0];
             var customerCity = RESPONSE_ARRAY[index][1];
             var customerEmailId = RESPONSE_ARRAY[index][3];
-            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + " id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + "</div> </div> </label> </div>";
+            var location = customerCity;
+            if (RESPONSE_ARRAY[index][2] != undefined) {
+                if (RESPONSE_ARRAY[index][2] != "") {
+                    location = location + "," + RESPONSE_ARRAY[index][2];
+                }
+            }
+            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + " id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + location + "</div> </div> </label> </div>";
             finalHtml = finalHtml + tempHtml;
             tempHtml = "";
         }
@@ -1944,7 +2447,13 @@ function sharewithRepSortbyBox2() {
             var customerName = RESPONSE_ARRAY[index][0];
             var customerCity = RESPONSE_ARRAY[index][1];
             var customerEmailId = RESPONSE_ARRAY[index][3];
-            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox'  value=" + customerEmailId + " id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + "</div> </div> </label> </div>";
+            var location = customerCity;
+            if (RESPONSE_ARRAY[index][2] != undefined) {
+                if (RESPONSE_ARRAY[index][2] != "") {
+                    location = location + "," + RESPONSE_ARRAY[index][2];
+                }
+            }
+            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox'  value=" + customerEmailId + " id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + location + "</div> </div> </label> </div>";
             finalHtml = finalHtml + tempHtml;
             tempHtml = "";             //}
         }
@@ -1964,7 +2473,13 @@ function sharewithRepSortbyBox2() {
             if (customerName.charAt(0) == char) {
                 var customerCity = RESPONSE_ARRAY[index][1];
                 var customerEmailId = RESPONSE_ARRAY[index][3];
-                var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + " id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + "</div> </div> </label> </div>";
+                var location = customerCity;
+                if (RESPONSE_ARRAY[index][2] != undefined) {
+                    if (RESPONSE_ARRAY[index][2] != "") {
+                        location = location + "," + RESPONSE_ARRAY[index][2];
+                    }
+                }
+                var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + " id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + location + "</div> </div> </label> </div>";
                 finalHtml = finalHtml + tempHtml;
                 tempHtml = "";
             }
@@ -1989,11 +2504,17 @@ function sharewithRepSortbyBox2() {
 
         var finalHtml = "<form>";
         for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
-            if (RESPONSE_ARRAY[index][1].indexOf(selectedOption) > -1) {
+            if (RESPONSE_ARRAY[index][1].indexOf(selectedOption.split(',')[0]) > -1) {
                 var customerName = RESPONSE_ARRAY[index][0];
                 var customerCity = RESPONSE_ARRAY[index][1];
                 var customerEmailId = RESPONSE_ARRAY[index][3];
-                var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox'  value=" + customerEmailId + " id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + "</div> </div> </label> </div>";
+                var location = customerCity;
+                if (RESPONSE_ARRAY[index][2] != undefined) {
+                    if (RESPONSE_ARRAY[index][2] != "") {
+                        location = location + "," + RESPONSE_ARRAY[index][2];
+                    }
+                }
+                var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox'  value=" + customerEmailId + " id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + location + "</div> </div> </label> </div>";
                 finalHtml = finalHtml + tempHtml;
                 tempHtml = "";
             }
@@ -2030,7 +2551,14 @@ function sendAppLinkSortbyBox1() {
             var customerCity = RESPONSE_ARRAY[index][1];
             var customerEmailId = RESPONSE_ARRAY[index][3];
 
-            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + " id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + "</div> </div> </label> </div>";
+            var location = customerCity;
+            if (RESPONSE_ARRAY[index][2] != undefined) {
+                if (RESPONSE_ARRAY[index][2] != "") {
+                    location = location + "," + RESPONSE_ARRAY[index][2];
+                }
+            }
+
+            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + " id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + location + "</div> </div> </label> </div>";
             finalHtml = finalHtml + tempHtml;
             tempHtml = "";
         }
@@ -2048,6 +2576,12 @@ function sendAppLinkSortbyBox1() {
         var TEMP_ARRAY = [];
         for (var i = 0; i < RESPONSE_ARRAY.length; i++) {
             TEMP_ARRAY[i] = RESPONSE_ARRAY[i][1];
+            if (RESPONSE_ARRAY[i][2] != undefined && RESPONSE_ARRAY[i][2] != "undefined") {
+                if (RESPONSE_ARRAY[i][2] != "") {
+                    TEMP_ARRAY[i] = TEMP_ARRAY[i] + "," + RESPONSE_ARRAY[i][2];
+                }
+
+            }
         }
         TEMP_ARRAY = unique(TEMP_ARRAY);
         for (var i = 0; i < TEMP_ARRAY.length; i++) {
@@ -2059,7 +2593,14 @@ function sendAppLinkSortbyBox1() {
             var customerName = RESPONSE_ARRAY[index][0];
             var customerCity = RESPONSE_ARRAY[index][1];
             var customerEmailId = RESPONSE_ARRAY[index][3];
-            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + " id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + "</div> </div> </label> </div>";
+            var location = customerCity;
+            if (RESPONSE_ARRAY[index][2] != undefined) {
+                if (RESPONSE_ARRAY[index][2] != "") {
+                    location = location + "," + RESPONSE_ARRAY[index][2];
+                }
+            }
+
+            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + " id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + location + "</div> </div> </label> </div>";
             finalHtml = finalHtml + tempHtml;
             tempHtml = "";
         }
@@ -2079,7 +2620,14 @@ function sendAppLinkSortbyBox1() {
             var customerName = RESPONSE_ARRAY[index][0];
             var customerCity = RESPONSE_ARRAY[index][1];
             var customerEmailId = RESPONSE_ARRAY[index][3];
-            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + " id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + "</div> </div> </label> </div>";
+
+            var location = customerCity;
+            if (RESPONSE_ARRAY[index][2] != undefined) {
+                if (RESPONSE_ARRAY[index][2] != "") {
+                    location = location + "," + RESPONSE_ARRAY[index][2];
+                }
+            }
+            var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + " id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + location + "</div> </div> </label> </div>";
             finalHtml = finalHtml + tempHtml;
             tempHtml = "";
         }
@@ -2109,12 +2657,19 @@ function sendAppLinkSortbyBox2() {
         //sharewithRepSelectAllDropDown("false"); 
         var finalHtml = "<form>";
         for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
-            if (RESPONSE_ARRAY[index][1].indexOf(selectedOption) > -1) {
+            if (RESPONSE_ARRAY[index][1].indexOf(selectedOption.split(',')[0]) > -1) {
                 var customerName = RESPONSE_ARRAY[index][0];
                 var customerCity = RESPONSE_ARRAY[index][1];
                 var customerState = RESPONSE_ARRAY[index][2];
                 var customerEmailId = RESPONSE_ARRAY[index][3];
-                var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox'  value=" + customerEmailId + "  id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
+
+                var location = customerCity;
+                if (RESPONSE_ARRAY[index][2] != undefined) {
+                    if (RESPONSE_ARRAY[index][2] != "") {
+                        location = location + "," + RESPONSE_ARRAY[index][2];
+                    }
+                }
+                var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox'  value=" + customerEmailId + "  id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + location + "</div> </div> </label> </div>";
                 finalHtml = finalHtml + tempHtml;
                 tempHtml = "";
             }
@@ -2136,25 +2691,60 @@ function sortbyBox2() {
             this.checked = true;
         });
     } else if (selectedOption.indexOf("Section") > -1) {
-        $("input[name='" + selectedOption.trim().charAt(8).toUpperCase() + "']").each(function () {
-            if (this.checked == true) {
-                this.checked = false;
-            } else {
-                this.checked = true;
+//        $("input[name='" + selectedOption.trim().charAt(8).toUpperCase() + "']").each(function () {
+//            if (this.checked == true) {
+//                this.checked = false;
+//            } else {
+//                this.checked = true;
+//            }
+//        });
+
+        var char = selectedOption.trim().charAt(8).toUpperCase();
+        var finalHtml = "<form>";
+        for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
+            var customerName = RESPONSE_ARRAY[index][0];
+
+            if (customerName.charAt(0) == char) {
+                var customerCity = RESPONSE_ARRAY[index][1];
+                var customerEmailId = RESPONSE_ARRAY[index][3];
+                var location = customerCity;
+                if (RESPONSE_ARRAY[index][2] != undefined) {
+                    if (RESPONSE_ARRAY[index][2] != "") {
+                        location = location + "" + RESPONSE_ARRAY[index][2];
+                    }
+                }
+                var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + " id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + location + "</div> </div> </label> </div>";
+                finalHtml = finalHtml + tempHtml;
+                tempHtml = "";
             }
-        });
+        }
+        if (finalHtml == "<form>") {
+            var tempHtml = "<div class='rep-grp-blk opensans-regular t-center border-bot text-color-overlay p-relative'> No Records Found </div>";
+            finalHtml = finalHtml + tempHtml;
+        }
+        $(".rep-content-blk").html(finalHtml + "</form>");
+
+
     } else {
         //sharewithRepSelectAllDropDown("false");
 
         var finalHtml = "<form>";
         for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
-            if (RESPONSE_ARRAY[index][1].indexOf(selectedOption) > -1) {
+            if (RESPONSE_ARRAY[index][1].indexOf(selectedOption.split(',')[0]) > -1) {
                 var customerName = RESPONSE_ARRAY[index][0];
                 var customerCity = RESPONSE_ARRAY[index][1];
                 var customerState = RESPONSE_ARRAY[index][2];
                 var customerEmailId = RESPONSE_ARRAY[index][3];
 
-                var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox'  value=" + customerEmailId + "  id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + customerCity + customerState + "</div> </div> </label> </div>";
+                var location = customerCity;
+                if (customerState != undefined) {
+                    if (customerState != "") {
+                        location = location + "" + customerState;
+                    }
+                }
+
+
+                var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox'  value=" + customerEmailId + "  id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + location + "</div> </div> </label> </div>";
                 finalHtml = finalHtml + tempHtml;
                 tempHtml = "";
             }
@@ -2215,19 +2805,19 @@ function privacykeyup(e) {
 function moveani(index, idValue, idcontainerValue) {
     if (idValue === "id-switch-off") {
         var value = $('.togglevalue' + index).text();
-        // alert(value.replace("on", "off"));
+
         $('.togglevalue' + index).text(value.replace("off", "on"));
         document.getElementById(idcontainerValue).style.marginLeft = "50px";
-        if (index > 0) {
-            $('.togglevalue' + index).text("on");
-        }
+//        if (index > 0) {
+//            $('.togglevalue' + index).text("on");
+//        }
     } else if (idValue === "id-switch-on") {
         var value = $('.togglevalue' + index).text();
-        // alert(value.replace("on", "off"));
+
         $('.togglevalue' + index).text(value.replace("on", "off"));
-        if (index > 0) {
-            $('.togglevalue' + index).text("off");
-        }
+//        if (index > 0) {
+//            $('.togglevalue' + index).text("off");
+//        }
         document.getElementById(idcontainerValue).style.marginLeft = "-10px";
     }
 

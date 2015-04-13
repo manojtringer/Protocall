@@ -285,10 +285,10 @@ var staticTemplate = {
             var html = '<div class="feed-block clr-fl"> <div class="lf-block left"> <div class="leftblk-spacing"> <div class="feed-det bg-color-dblue p-relative"> <div class="feed-det-pad p-relative"> <div class="feed-pic-b inline-block v-align-mid"> <div id="" class="feed-user-pic-box"> <input type="checkbox" id="feedcheck" name="" class="checkbox"><label for="feedcheck" class="feed-label"></label> <img src="http://www.deshow.net/d/file/animal/2009-05/animal-pictures-pet-photography-557-4.jpg" alt="" class="feeduserpic"> </div></div><div class="feed-user-det-b inline-block v-align-mid"> <div class="top-b p-relative"> <div class="p-relative inline-block v-align-top"> <div class="sprite-im mobile-icon mobile-icon-pos">&nbsp;</div></div><div class="p-relative inline-block opensans-regular v-align-bot f-sz-16 cust-name t-caps">Hugh Jackman</div><div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 feed-time t-upper">10.55 AM</div><div class="p-relative inline-block opensans-regular v-align-bot f-sz-13 alert-color alert-type t-caps">policy alert</div><div class="p-relative inline-block v-align-mid"> <div class="sprite-im rep-icon rep-icon-pos">&nbsp;</div></div><div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 rep-name t-caps">robert</div></div><div class="bot-b"> <div class="p-relative inline-block v-align-bot"> <div class="sprite-im calendar-icon calendar-icon-pos">&nbsp;</div></div><div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 feed-date t-caps">Nov 18,2014</div><div class="p-relative inline-block v-align-bot"> <div class="sprite-im map-icon map-icon-pos">&nbsp;</div></div><div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 feed-location t-caps">California</div><div class="p-relative inline-block v-align-bot"> <div class="sprite-im phone-icon phone-icon-pos">&nbsp;</div></div><div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 cust-phone t-caps">0000 000 000</div><div class="p-relative inline-block v-align-bot"> <div class="sprite-im email-icon email-icon-pos">&nbsp;</div></div><div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 cust-email no-right-margin">xyz@mail.com</div></div></div><div class="feed-user-share-b inline-block v-align-mid"> <div class="myshare"> <div class="inner-share-spacing snap" data-type="share"> <div class="t-center mid-align"> <div class="sprite-im inline-block v-align-mid share-icon">&nbsp;</div><span class="feed-menu-text inline-block v-align-mid f-color-w">Share</span> </div></div></div><div class="myview"> <div class="inner-view-spacing snap" data-type="view"> <div class="t-center mid-align"> <div class="sprite-im inline-block v-align-mid view-icon">&nbsp;</div><span class="feed-menu-text inline-block v-align-mid f-color-w">View</span> </div></div></div></div></div></div></div></div><div class="rg-block left p-relative"> <div class="feed-det bg-color-dblue p-relative"> <div class="feed-docs-pad p-relative docs-block t-center"> <a href="/text" class="snap feed-docs inline-block v-align-mid f-sz-14 opensans-regular f-color-green textDoc p-relative" data-type="textDoc"> <div class="t-center p-relative"> <div class="doc-icon-box"> <div class="sprite-im text-icon doc-icon-placement">&nbsp;</div></div><div class="doc-cnt-box"><span class="doc-count doc-count-placement">2</span> </div><div class="feed-menu-text bold">Text</div></div></a> <a href="/photos" class="snap feed-docs inline-block v-align-mid f-sz-14 opensans-regular f-color-green photosDoc p-relative" data-type="photosDoc"> <div class="t-center p-relative"> <div class="doc-icon-box"> <div class="sprite-im photos-icon doc-icon-placement">&nbsp;</div></div><div class="doc-cnt-box"><span class="doc-count doc-count-placement">2</span> </div><div class="feed-menu-text bold">Photos</div></div></a> <a href="/voice" class="snap feed-docs inline-block v-align-mid f-sz-14 opensans-regular f-color-green voiceDoc p-relative" data-type="voiceDoc"> <div class="t-center p-relative"> <div class="doc-icon-box"> <div class="sprite-im voice-icon doc-icon-placement">&nbsp;</div></div><div class="doc-cnt-box"><span class="doc-count doc-count-placement">2</span> </div><div class="feed-menu-text bold">Voice</div></div></a> </div></div></div></div>';
             return html;
         },
-        matchReleaseClaimTemplate: function () {
+        matchReleaseClaimTemplate: function (contentValue) {
             var html = '<h2 class="t-left opensans-regular f-color-green" style="display:none;">Header</h2>'
                     + '<div class="o-sub-content p-relative">'
-                    + '<div class="alert-mess-text f-sz-18 t-center opensans-regular bold">The claim has been released to the carrier!</div>'
+                    + '<div class="alert-mess-text f-sz-18 t-center opensans-regular bold">'+contentValue+'</div>'
                     + '<div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="closeOverlay">Done</div>'
                     + '</div>';
             return html;
@@ -443,6 +443,7 @@ var staticTemplate = {
         /*Naveen 23-2-2015 Chnage end*/
         showAudioOverlayTemplate: function (alertID) {
             console.log("in audio");
+            RESPONSE.STATENAME = "";
             RESPONSE.AUDIODETAILS = [], RESPONSE.MEDIAID = [], RESPONSE.AUDIOTEXT = [], RESPONSE.TIMESTAMPAUDIO = [], RESPONSE.AUDIOURLS = [];
             var numberOfAudio = 0, voiceThumbNailViewHTML = "", resultThumbNail = "", originalAudioFileHTML = "", resultOriginaAudioFile = "", sliderBar = "", voiceFeedValues = {};
             if (HOMEPAGERESPONSE.RELATEDFEEDSLOADED) {
@@ -456,12 +457,21 @@ var staticTemplate = {
                     console.log("condition satisfied alertDetailsValue", alertDetailsValue);
                     numberOfAudio = alertDetailsValue.NoofAudioRecord;
                     RESPONSE.AUDIODETAILS = alertDetailsValue.AudioDetails;
+                    if (HOMEPAGERESPONSE.RELATEDFEEDSLOADED) {
+                        RESPONSE.STATENAME = HOMEPAGERESPONSE.COMMONUSERDETAILS.residentialCity;
+                    } else {
+                        RESPONSE.STATENAME = alertDetailsValue.userDetails.residentialCity;
+                    }
+                    /* if (element.residentialCity != undefined && element.residentialCity != null && element.residentialCity != "") {
+                     RESPONSE.STATENAME.push("," + element.residentialCity);
+                     } else {
+                     RESPONSE.STATENAME.push(" ");
+                     } */
                     //console.log("noOfPictureRecords",numberOfPictures);
                 }
             });
             console.log("audioDetailsArray", RESPONSE.AUDIODETAILS.length);
             RESPONSE.AUDIODETAILTIME = [];
-            RESPONSE.STATENAME = [];
             $.each(RESPONSE.AUDIODETAILS, function (i, element) {
                 audioTimeStamp = element.lastModified;
                 audioTime = moment(Number(audioTimeStamp)).format('h:mmA');
@@ -472,11 +482,11 @@ var staticTemplate = {
                 RESPONSE.AUDIOTEXT.push(element.fileName);
                 RESPONSE.TIMESTAMPAUDIO.push(audioTime);
                 RESPONSE.AUDIOURLS.push(element.file);
-                if (element.residentialCity != undefined && element.residentialCity != null && element.residentialCity != "") {
-                    RESPONSE.STATENAME.push("," + element.residentialCity);
-                } else {
-                    RESPONSE.STATENAME.push(" ");
-                }
+                /* if (element.residentialCity != undefined && element.residentialCity != null && element.residentialCity != "") {
+                 RESPONSE.STATENAME.push("," + element.residentialCity);
+                 } else {
+                 RESPONSE.STATENAME.push(" ");
+                 } */
                 RESPONSE.AUDIODETAILTIME.push(JSON.parse(JSON.stringify(moment(Number(timeValue)).format("Do MMM YY, h:mm A")).replace("th", " ")));
             });
             console.log("RESPONSE.MEDIAID", RESPONSE.MEDIAID);
@@ -486,6 +496,7 @@ var staticTemplate = {
              } */
             for (var i = 0, j = 0; i <= numberOfAudio - 1; i++, j++) {
                 var audioValue = HOMEPAGERESPONSE.PROFILEAPI + RESPONSE.AUDIOURLS[i];
+                var audioValueToBeDownloaded = HOMEPAGERESPONSE.PROFILEAPIFORAUDIO + RESPONSE.AUDIOTEXT[0] + ".m4a?key=" + RESPONSE.AUDIOURLS[0];
                 //console.log();
                 voiceThumbNailViewHTML = voiceThumbNailViewHTML
                         + '<div style="text-align:center;color:#939393;margin-bottom:10px;background:white;cursor:pointer;" class="opensans-regular audioOverlay" data-type="thumbNail" name=' + RESPONSE.MEDIAIDFORPICTURE[i] + '>'
@@ -508,10 +519,10 @@ var staticTemplate = {
                     + '<div style="height:70px;color:#585858;position: absolute;;width: 100%;background:white;>'
                     + '<div style="height:70px;height:70px;color:#585858;position: absolute;;width: 100%;background:white;">'
                     + '<div style="width:50%;float:left;margin-top:25px;margin-left:25px;color:#939393" class="opensans-regular">'
-                    + '<span id="voiceinformation" style="color:rgb(47,156,161);">' + RESPONSE.AUDIOTEXT[0] + '</span><span id="locationInformation">' + RESPONSE.STATENAME[0] + '</span>'
+                    + '<span id="voiceinformation" style="color:rgb(47,156,161);">' + RESPONSE.AUDIOTEXT[0] + '</span><span id="locationInformation" style="color:rgb(47,156,161);font-style:italic;font-size:12px;">,&nbsp' + RESPONSE.STATENAME + '</span>'
                     + '</div>'
-                    + '<a id="downloadAudioLink" style="float:left;margin-left:20px;margin-top:20px;" href=' + audioValue + ' class="sprite-im download-icon" download>&nbsp;</a>'
-                    + '<div style="width:50%;float:left;margin-top:-10px;margin-left:25px;color:#939393" class="audiodetailestime">' + RESPONSE.AUDIODETAILTIME[0] + '</div>'
+                    + '<a id="downloadAudioLink" style="float:left;margin-left:20px;margin-top:20px;" href=' + audioValueToBeDownloaded + ' class="sprite-im download-icon" download>&nbsp;</a>'
+                    + '<div style="width:50%;float:left;margin-top:-15px;margin-left:25px;color:#939393" class="audiodetailestime">' + RESPONSE.AUDIODETAILTIME[0] + '</div>'
                     + '</div>'
                     + '<div style="width:100%;position: absolute;top: 69px;background:white;border-top:2px solid #939393;min-height:406px;">'
                     + '<div style="width:80%;position: absolute;  margin: auto;  top: 160px;  left: 120px;" id="viewVoice">'
@@ -520,14 +531,14 @@ var staticTemplate = {
                     + '<source id="id-media_source" src=' + HOMEPAGERESPONSE.PROFILEAPI + RESPONSE.AUDIOURLS[0] + '>'
                     + '</audio>'
                     + '</div>'
-         
 
-            +'</div>'
+
+                    + '</div>'
                     + '</div>'
                     + '</div>'
                     + '</div>';
-            
-             
+
+
             return html;
         },
         /*Naveen 23-2-2015 Changes Start */
@@ -572,74 +583,76 @@ var staticTemplate = {
                 if (element.otherPartyName !== undefined) {
                     console.log("if");
                     RESPONSE.OTHERPARTYNAMES.push(element.otherPartyName);
+                } else {
+                    RESPONSE.OTHERPARTYNAMES.push("Nil");
                 }
                 if (element.fileName !== undefined) {
                     console.log("if");
                     RESPONSE.NAMES.push(element.fileName);
                 } else {
-					RESPONSE.NAMES.push("Nil");
-				}
+                    RESPONSE.NAMES.push("Nil");
+                }
                 if (element.role !== undefined) {
                     RESPONSE.ROLE.push(element.role);
                 } else {
-					RESPONSE.ROLE.push("Nil");
-				}
+                    RESPONSE.ROLE.push("Nil");
+                }
                 if (element.phone !== undefined) {
                     RESPONSE.PHONE.push(element.phone.number);
                 } else {
-					RESPONSE.PHONE.push("Nil");
-				}
+                    RESPONSE.PHONE.push("Nil");
+                }
                 if (element.address !== undefined) {
                     RESPONSE.ADDRESS.push(element.address.address);
                 } else {
-					RESPONSE.ADDRESS.push("Nil");
-				}
+                    RESPONSE.ADDRESS.push("Nil");
+                }
                 if (element.carrier !== undefined) {
                     RESPONSE.INSURANCECO.push(element.carrier);
                 } else {
-					RESPONSE.INSURANCECO.push("Nil");
-				}
+                    RESPONSE.INSURANCECO.push("Nil");
+                }
                 if (element.policyNumber !== undefined) {
                     RESPONSE.POLICY.push(element.policyNumber);
                 } else {
-					RESPONSE.POLICY.push("Nil");
-				}
+                    RESPONSE.POLICY.push("Nil");
+                }
                 if (element.vehicleIdentificationNumber !== undefined) {
                     RESPONSE.VEHICLENO.push(element.vehicleIdentificationNumber);
                 } else {
-					RESPONSE.VEHICLENO.push("Nil");
-				}
+                    RESPONSE.VEHICLENO.push("Nil");
+                }
                 if (element.model !== undefined) {
                     RESPONSE.VEHICLEMODEL.push(element.model);
                 } else {
-					RESPONSE.VEHICLEMODEL.push("Nil");
-				}
+                    RESPONSE.VEHICLEMODEL.push("Nil");
+                }
                 if (element.driverLicenseState !== undefined) {
                     RESPONSE.DRIVINGLICENCESTATE.push(element.driverLicenseState);
                 } else {
-					RESPONSE.DRIVINGLICENCESTATE.push("Nil");
-				}
+                    RESPONSE.DRIVINGLICENCESTATE.push("Nil");
+                }
                 if (element.driverLicenseNumber !== undefined) {
                     RESPONSE.DRIVINGLICENCENUMBER.push(element.driverLicenseNumber);
                 } else {
-					RESPONSE.DRIVINGLICENCENUMBER.push("Nil");
-				}
+                    RESPONSE.DRIVINGLICENCENUMBER.push("Nil");
+                }
                 if (element.injuries !== undefined) {
                     RESPONSE.INJURIES.push(element.injuries);
                 } else {
-					RESPONSE.INJURIES.push("Nil");
-				}
+                    RESPONSE.INJURIES.push("Nil");
+                }
                 if (element.otherInformation !== undefined) {
                     RESPONSE.OTHERINFORMATION.push(element.otherInformation);
                 } else {
-					RESPONSE.OTHERINFORMATION.push("Nil");
-				}
+                    RESPONSE.OTHERINFORMATION.push("Nil");
+                }
             });
             /* if (noofDocuments > 4) {
              sliderBar = '<div id="slider-vertical" style="float:left;position: absolute;height: 332px;left: 96px;top: 10px;">'
              + '</div>';
              } */
-			 var textDownload = HOMEPAGERESPONSE.TEXTDOWNLOADURL; 
+            var textDownload = HOMEPAGERESPONSE.TEXTDOWNLOADURL;
             for (var i = 0, j = 0; i <= noofDocuments - 1; i++, j++) {
                 console.log("in for loop");
                 documentThumbNailViewHTML = documentThumbNailViewHTML
@@ -696,7 +709,7 @@ var staticTemplate = {
                     + '<span class="secondSpan">' + RESPONSE.OTHERINFORMATION[0] + '</span>'
                     + '</p>'
                     + '</div>';
-			var firstTextDownload = textDownload+RESPONSE.OTHERPARTYIDS[0];
+            var firstTextDownload = textDownload + RESPONSE.OTHERPARTYIDS[0];
             var html = '<div class="o-sub-content p-relative">'
                     + '<div style="position:relative;width:100%;">'
                     /*Thumbnail Text */
@@ -713,7 +726,7 @@ var staticTemplate = {
                     + '<span id="textinformation" style="color:rgb(47,156,161);">' + RESPONSE.NAMES[0] + '</span>'
                     + '</div>'
                     + '<a id="copyTextOverlay" class="sprite-im copy-clipBoard-icon" style="float:left;margin-left:20px;margin-top:20px;" href="javascript:void(0)" data-type="copyText">&nbsp;</a>'
-                    + '<a id="downloadTextLink" class="sprite-im download-icon" style="float:left;margin-left:20px;margin-top:20px;" href='+firstTextDownload+' download>&nbsp;</a>'
+                    + '<a id="downloadTextLink" class="sprite-im download-icon" style="float:left;margin-left:20px;margin-top:20px;" href=' + firstTextDownload + ' download>&nbsp;</a>'
                     + '<a id="printTextOverlay" class="sprite-im printImage-icon" style="float:left;margin-left:20px;margin-top:20px;" href="javascript:void(0)" data-type="printPage">&nbsp;</a>'
                     + '</div>'
                     + '<div style="width:100%;position: absolute;top: 69px;background:white;border-top:2px solid #939393;min-height:406px;">'
@@ -804,41 +817,41 @@ var staticTemplate = {
         },
         properyPolicyTemplate: function () {
             var html = "";
-			var dueDate = "",startDate,endDate;
+            var dueDate = "", startDate, endDate;
             for (i = 0; i < HOMEPAGERESPONSE.PROPERTYPOLICYCOUNT; i++) {
-				dueDate = moment(new Date(parseInt(HOMEPAGERESPONSE.PROPERTYNEXTPAYMENTAMOUNTDATE[i]))).format('MMM D, YYYY');
-				startDate = moment(new Date(parseInt(HOMEPAGERESPONSE.PROPERTYDURATIONSTARTDATE[i]))).format('MMM YYYY');
-				endDate = moment(new Date(parseInt(HOMEPAGERESPONSE.PROPERTYDURATIONENDDATE[i]))).format('MMM YYYY');
-                html += '<div id="slideshow"> <div id="slideshowWindow"> <div class="slide"><div ><h2 class="t-left f-color-green opensans-regular" style="">Property Policy</h2> <div class="o-sub-content p-relative"> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Carrier Name</div> <div class="policy-value t-left right f-sz-16">' + HOMEPAGERESPONSE.PROPERTYCARRIERNAMES[i] + '</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Carrier Number</div> <div class="policy-value t-left right f-sz-16">' + HOMEPAGERESPONSE.PROPERTYPHONENUMBER[i] + '</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Due Amount</div> <div class="policy-value t-left right f-sz-16"><span class="money-sym">$</span>' + HOMEPAGERESPONSE.PROPERTYNEXTPAYMENTAMOUNT[i] + '</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Next Due Date</div> <div class="policy-value t-left right date-format f-sz-16">' + dueDate + '</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16 ">Policy type</div> <div class="policy-value t-left right f-sz-16">Property</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Policy duration</div> <div class="policy-value t-left right f-sz-16">'+startDate+' to '+endDate+'</div> </div> <div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="closeOverlay">Done</div></div> </div></div></div></div>';
+                dueDate = moment(new Date(parseInt(HOMEPAGERESPONSE.PROPERTYNEXTPAYMENTAMOUNTDATE[i]))).format('MMM D, YYYY');
+                startDate = moment(new Date(parseInt(HOMEPAGERESPONSE.PROPERTYDURATIONSTARTDATE[i]))).format('MMM YYYY');
+                endDate = moment(new Date(parseInt(HOMEPAGERESPONSE.PROPERTYDURATIONENDDATE[i]))).format('MMM YYYY');
+                html += '<div id="slideshow"> <div id="slideshowWindow"> <div class="slide"><div ><h2 class="t-left f-color-green opensans-regular" style="">Property Policy</h2> <div class="o-sub-content p-relative"> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Carrier Name</div> <div class="policy-value t-left right f-sz-16">' + HOMEPAGERESPONSE.PROPERTYCARRIERNAMES[i] + '</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Carrier Number</div> <div class="policy-value t-left right f-sz-16">' + HOMEPAGERESPONSE.PROPERTYPHONENUMBER[i] + '</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Due Amount</div> <div class="policy-value t-left right f-sz-16"><span class="money-sym">$</span>' + HOMEPAGERESPONSE.PROPERTYNEXTPAYMENTAMOUNT[i] + '</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Next Due Date</div> <div class="policy-value t-left right date-format f-sz-16">' + dueDate + '</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16 ">Policy type</div> <div class="policy-value t-left right f-sz-16">Property</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Policy duration</div> <div class="policy-value t-left right f-sz-16">' + startDate + ' to ' + endDate + '</div> </div> <div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="closeOverlay">Done</div></div> </div></div></div></div>';
 
             }
             return html;
         },
         healthPolicyTemplate: function () {
             var html = "";
-            var dueDate = "",startDate,endDate;
+            var dueDate = "", startDate, endDate;
             for (i = 0; i < HOMEPAGERESPONSE.OTHERPOLICYCOUNT; i++) {
-				dueDate = moment(new Date(parseInt(HOMEPAGERESPONSE.OTHERNEXTPAYMENTAMOUNTDATE[i]))).format('MMM D, YYYY');
-				startDate = moment(new Date(parseInt(HOMEPAGERESPONSE.OTHERDURATIONSTARTDATE[i]))).format('MMM YYYY');
-				endDate = moment(new Date(parseInt(HOMEPAGERESPONSE.OTHERDURATIONENDDATE[i]))).format('MMM YYYY');
-				html += '<div id="slideshow"> <div id="slideshowWindow"> <div class="slide"><div ><h2 class="t-left f-color-green opensans-regular" style="">Others</h2> <div class="o-sub-content p-relative"> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Carrier Name</div> <div class="policy-value t-left right f-sz-16">' + HOMEPAGERESPONSE.OTHERCARRIERNAMES[i] + '</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Carrier Number</div> <div class="policy-value t-left right f-sz-16">' + HOMEPAGERESPONSE.OTHERPHONENUMBER[i] + '</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Due Amount</div> <div class="policy-value t-left right f-sz-16"><span class="money-sym">$</span>' + HOMEPAGERESPONSE.OTHERNEXTPAYMENTAMOUNT[i] + '</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Next Due Date</div> <div class="policy-value t-left right date-format f-sz-16">' + dueDate + '</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16 ">Policy type</div> <div class="policy-value t-left right f-sz-16">Other</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Policy duration</div> <div class="policy-value t-left right f-sz-16">'+startDate+' to '+endDate+'</div> </div> <div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="closeOverlay">Done</div></div> </div></div></div></div>';
+                dueDate = moment(new Date(parseInt(HOMEPAGERESPONSE.OTHERNEXTPAYMENTAMOUNTDATE[i]))).format('MMM D, YYYY');
+                startDate = moment(new Date(parseInt(HOMEPAGERESPONSE.OTHERDURATIONSTARTDATE[i]))).format('MMM YYYY');
+                endDate = moment(new Date(parseInt(HOMEPAGERESPONSE.OTHERDURATIONENDDATE[i]))).format('MMM YYYY');
+                html += '<div id="slideshow"> <div id="slideshowWindow"> <div class="slide"><div ><h2 class="t-left f-color-green opensans-regular" style="">Others</h2> <div class="o-sub-content p-relative"> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Carrier Name</div> <div class="policy-value t-left right f-sz-16">' + HOMEPAGERESPONSE.OTHERCARRIERNAMES[i] + '</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Carrier Number</div> <div class="policy-value t-left right f-sz-16">' + HOMEPAGERESPONSE.OTHERPHONENUMBER[i] + '</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Due Amount</div> <div class="policy-value t-left right f-sz-16"><span class="money-sym">$</span>' + HOMEPAGERESPONSE.OTHERNEXTPAYMENTAMOUNT[i] + '</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Next Due Date</div> <div class="policy-value t-left right date-format f-sz-16">' + dueDate + '</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16 ">Policy type</div> <div class="policy-value t-left right f-sz-16">Other</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Policy duration</div> <div class="policy-value t-left right f-sz-16">' + startDate + ' to ' + endDate + '</div> </div> <div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="closeOverlay">Done</div></div> </div></div></div></div>';
 
             }
             return html;
         },
         vehiclePolicyTemplate: function () {
             var html = "";
-			var dueDate = "",startDate,endDate;
+            var dueDate = "", startDate, endDate;
             for (i = 0; i < HOMEPAGERESPONSE.VEHICLEPOLICYCOUNT; i++) {
-				dueDate = moment(new Date(parseInt(HOMEPAGERESPONSE.VEHICLENEXTPAYMENTAMOUNTDATE[i]))).format('MMM D, YYYY');
-				startDate = moment(new Date(parseInt(HOMEPAGERESPONSE.VEHICLEDURATIONSTARTDATE[i]))).format('MMM YYYY');
-				endDate = moment(new Date(parseInt(HOMEPAGERESPONSE.VEHICLEDURATIONENDDATE[i]))).format('MMM YYYY');
-                html += '<div id="slideshow"> <div id="slideshowWindow"> <div class="slide"><div ><h2 class="t-left f-color-green opensans-regular" style="">Vehicles/Watercrafts</h2> <div class="o-sub-content p-relative"> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Carrier Name</div> <div class="policy-value t-left right f-sz-16">' + HOMEPAGERESPONSE.VEHICLECARRIERNAMES[i] + '</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Carrier Number</div> <div class="policy-value t-left right f-sz-16">' + HOMEPAGERESPONSE.VEHICLEPHONENUMBER[i] + '</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Due Amount</div> <div class="policy-value t-left right f-sz-16"><span class="money-sym">$</span>' + HOMEPAGERESPONSE.VEHICLENEXTPAYMENTAMOUNTDATE[i] + '</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Next Due Date</div> <div class="policy-value t-left right date-format f-sz-16">' + dueDate + '</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16 ">Policy type</div> <div class="policy-value t-left right f-sz-16">Vehicle</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Policy duration</div> <div class="policy-value t-left right f-sz-16">'+startDate+' to '+endDate+'</div> </div> <div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="closeOverlay">Done</div></div> </div></div></div></div>';
+                dueDate = moment(new Date(parseInt(HOMEPAGERESPONSE.VEHICLENEXTPAYMENTAMOUNTDATE[i]))).format('MMM D, YYYY');
+                startDate = moment(new Date(parseInt(HOMEPAGERESPONSE.VEHICLEDURATIONSTARTDATE[i]))).format('MMM YYYY');
+                endDate = moment(new Date(parseInt(HOMEPAGERESPONSE.VEHICLEDURATIONENDDATE[i]))).format('MMM YYYY');
+                html += '<div id="slideshow"> <div id="slideshowWindow"> <div class="slide"><div ><h2 class="t-left f-color-green opensans-regular" style="">Vehicles/Watercrafts</h2> <div class="o-sub-content p-relative"> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Carrier Name</div> <div class="policy-value t-left right f-sz-16">' + HOMEPAGERESPONSE.VEHICLECARRIERNAMES[i] + '</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Carrier Number</div> <div class="policy-value t-left right f-sz-16">' + HOMEPAGERESPONSE.VEHICLEPHONENUMBER[i] + '</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Due Amount</div> <div class="policy-value t-left right f-sz-16"><span class="money-sym">$</span>' + HOMEPAGERESPONSE.VEHICLENEXTPAYMENTAMOUNTDATE[i] + '</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Next Due Date</div> <div class="policy-value t-left right date-format f-sz-16">' + dueDate + '</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16 ">Policy type</div> <div class="policy-value t-left right f-sz-16">Vehicle</div> </div> <div class="policy-group p-relative opensans-regular text-color-overlay f-sz-14 clr-fl"> <div class="policy-title t-right left f-sz-16">Policy duration</div> <div class="policy-value t-left right f-sz-16">' + startDate + ' to ' + endDate + '</div> </div> <div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="closeOverlay">Done</div></div> </div></div></div></div>';
 
             }
             return html;
         },
-  addVendorDetailsTemplate: function () {
+        addVendorDetailsTemplate: function () {
             var html = ' <h2 class="t-left f-color-green opensans-regular" style="">Add Vendor details</h2> <div class="o-sub-content p-relative"> <div class="success2" style=" display:none; color: green;"></div><div class="error2" style=" display:none; color: red;"></div><div class="left-sub-content left p-relative"> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Type</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all">'
                     + '<select tabindex="1" class="opensans-regular" id="id-vendortype"><option>Towing Service</option><option>Home Restoration</option></select>'
                     + '</div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Address 1</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input tabindex="3" id="id-vendoraddress1" type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">City</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input tabindex="5" id="id-vendorcity" type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Zip</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input tabindex="7" id="id-vendorzip" type="text" class="opensans-regular" placeholder="" /> </div> </div> </div> <div class="right-sub-content right p-relative"> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Name</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input tabindex="2" id="id-vendorname" type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Address 2</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input tabindex="4" id="id-vendoraddress2" type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">State</div> <div class="url-box text-box-outer textBox-placeholder-italic border-all"> <input tabindex="6"  id="id-vendorstate" type="text" class="opensans-regular" placeholder="" /> </div> </div> <div class="vendorbox"> <div class="link opensans-regular t-right f-sz-14">Phone</div> <div class="url-box right text-box-outer textBox-placeholder-italic border-all"> <input tabindex="8" id="id-vendorphone" type="text" class="opensans-regular" placeholder="" /> </div> </div> </div> </div> <div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="overlaybtn_addvendordetails">Save</div> ';
@@ -947,10 +960,10 @@ var staticTemplate = {
             }
 
             /* if (tempObj.profilePicture !== "undefined") {
-                profilePicture = tempObj.profilePicture;
-            } else {
-                profilePicture = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
-            } */
+             profilePicture = tempObj.profilePicture;
+             } else {
+             profilePicture = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1zfBfV0zBRmjltZfQowBP2Uo_DVnENyvKzQenY6ofyfSvk-Cb8w";
+             } */
             var html = '<div class="view-feed-block">'
                     + '<div class="view-in-blocks inline-block v-align-mid bg-color-dblue p-relative">'
                     + '<div class="p-relative">'
@@ -1086,6 +1099,8 @@ var staticTemplate = {
             return html;
         },
         insurencePolicyDetails: function (insurencePolicyDetail) {
+            //RESPONSE.POLICYIDS = [];
+            var matchedRadioButtonHTML = "";
             console.log("insurencePolicyDetail>>>>>>>>>>>>", insurencePolicyDetail);
             var policyDetailsValue = insurencePolicyDetail.policyDetails,
                     carrierName = insurencePolicyDetail.carrierDetails.carrierName,
@@ -1100,69 +1115,85 @@ var staticTemplate = {
                     matchAndOrReleaseClaimHTML = "",
                     policyType = "",
                     policyId = insurencePolicyDetail.policyDetails.policyId;
+            RESPONSE.POLICYIDS.push(policyId);
             exipryDateOfPolicy = moment(new Date(parseInt(expiryDate))).format('MMM D, YYYY'),
                     policyCoverageDetails = insurencePolicyDetail.PolicyCoverageDetails,
-                    incidentDate = HOMEPAGERESPONSE.COMMONUSERDETAILS.incidentDate;
-            /* if(insurencePolicyDetail.PolicyCoverageDetails.carrierVehiclesWatercraftsId !== undefined){
-             policyType = "Vehicle";
-             } else if(insurencePolicyDetail.PolicyCoverageDetails.carrierPropertyId !== undefined){
-             policyType = "Property";
-             } else {
-             policyType = "Other Product";
-             } */
-			if(policyCoverageDetails){
-				$.each(policyCoverageDetails, function (index, value) {
-					console.log("value>>>>>>>>>>>>>>>", value);
-					if (value.carrierVehiclesWatercraftsId !== undefined) {
-						policyType = "Vehicle";
-						return false;
-					} else if (value.carrierPropertyId !== undefined) {
-						policyType = "Property";
-						return false;
-					} else {
-						policyType = "Other Product";
-						return false;
-					}
-				});
-			}
-            
-            console.log("carrierName", carrierName);
-            console.log("carrierId", carrierId);
-            console.log("dueAmount", dueAmount);
-            console.log("dueDate", dueDate);
-            console.log("effectiveDate", effectiveDate);
-            console.log("effectiveDate", effectiveDate);
-            //$.each(policyDetailsValue,function(index,value){
-
-            //}) 
+                    incidentId = HOMEPAGERESPONSE.COMMONUSERDETAILS.incidentIdValue;
+            if (policyCoverageDetails) {
+                $.each(policyCoverageDetails, function (index, value) {
+                    console.log("value>>>>>>>>>>>>>>>", value);
+                    if (value.carrierVehiclesWatercraftsId !== undefined) {
+                        policyType = "Vehicle";
+                        return false;
+                    } else if (value.carrierPropertyId !== undefined) {
+                        policyType = "Property";
+                        return false;
+                    } else {
+                        policyType = "Other Product";
+                        return false;
+                    }
+                });
+            }
             var hiddenPolicyDetailsHTML = '<div class="matchAndReleaseClaim" style="display:none;">'
-                    + '<span class="incidentDateSpan">' + incidentDate + '</span>'
+                    + '<span class="incidentDateSpan">' + incidentId + '</span>'
                     + '<span class="carrierIdSpan">' + carrierId + '</span>'
                     + '<span class="policyIdSpan">' + policyId + '</span>'
                     + '<span class="policyTypeSpan">' + policyType + '</span>'
                     + '</div>';
             if (HOMEPAGERESPONSE.COMMONUSERDETAILS.alertType == "incidentalert") {
                 matchAndOrReleaseClaimHTML = '<div class="match-blk p-relative">'
-                        + '<a href="/matchReleaseClaim" class="snap bg-color-green block f-sz-12 ptsans-light t-upper t-center matchReleaseClaim p-relative f-color-w" data-type="matchReleaseClaim">'
+                        + '<a href="/matchReleaseClaim" class="snap bg-color-green block f-sz-12 ptsans-light t-upper t-center matchReleaseClaim p-relative f-color-w" data-type="matchReleaseClaim" id=' + policyId + '>'
                         + '<div>Match & Release Claim</div>'
                         + hiddenPolicyDetailsHTML
                         + '</a>'
                         + '</div>';
             } else {
                 matchAndOrReleaseClaimHTML = '<div class="match-blk p-relative">'
-                        + '<a href="/matchClaim" class="snap bg-color-green block f-sz-12 ptsans-light t-upper t-center matchReleaseClaim p-relative f-color-w" data-type="matchClaim">'
+                        + '<a href="/matchClaim" class="snap bg-color-green block f-sz-12 ptsans-light t-upper t-center matchReleaseClaim p-relative f-color-w" data-type="matchClaim" id=' + policyId + '>'
                         + '<div>Match</div>'
                         + hiddenPolicyDetailsHTML
                         + '</a>'
                         + '</div>';
             }
+            console.log("count value is");
+            if (HOMEPAGERESPONSE.COMMONUSERDETAILS.statusOfPolicy != undefined && (HOMEPAGERESPONSE.COMMONUSERDETAILS.statusOfPolicy == "Matched" && HOMEPAGERESPONSE.COMMONUSERDETAILS.alertType == "policyalert")) {
+                var matchedPolicyID = HOMEPAGERESPONSE.COMMONUSERDETAILS.incidentIdValue;
+                if (matchedPolicyID == policyId) {
+                    matchedRadioButtonHTML = '<input type="radio" checked="checked" id=' + policyId + ' name="policyRadioValue" style="box-sizing: border-box;padding: 5px;-webkit-appearance: none;width: 21px;height: 20px;border: 1px solid darkgray; border-radius: 73px;outline: none;box-shadow: 0 0 5px 0px gray inset;"/>'
+                            + '<label for=' + policyId + '>'
+                    matchAndOrReleaseClaimHTML = '<div class="match-blk p-relative">'
+                            + '<a href="javascrip:void(0)" class="selected-tab snap bg-color-green block f-sz-12 ptsans-light t-upper t-center matchReleaseClaim p-relative f-color-w" id=' + policyId + '>'
+                            + '<div>Match</div>'
+                            + hiddenPolicyDetailsHTML
+                            + '</a>'
+                            + '</div>';
+                } else if (RESPONSE.MATCHEDPOLICYID == policyId) {
+                    matchedRadioButtonHTML = '<input type="radio" checked="checked" id=' + policyId + ' name="policyRadioValue" style="box-sizing: border-box;padding: 5px;-webkit-appearance: none;width: 21px;height: 20px;border: 1px solid darkgray; border-radius: 73px;outline: none;box-shadow: 0 0 5px 0px gray inset;"/>'
+                            + '<label for=' + policyId + '>'
+                    matchAndOrReleaseClaimHTML = '<div class="match-blk p-relative">'
+                            + '<a href="javascrip:void(0)" class="selected-tab snap bg-color-green block f-sz-12 ptsans-light t-upper t-center matchReleaseClaim p-relative f-color-w" id=' + policyId + '>'
+                            + '<div>Match</div>'
+                            + hiddenPolicyDetailsHTML
+                            + '</a>'
+                            + '</div>';
+                } else {
+                    matchedRadioButtonHTML = '<input type="radio" id=' + policyId + ' name="policyRadioValue" style="box-sizing: border-box;padding: 5px;-webkit-appearance: none;width: 21px;height: 20px;border: 1px solid darkgray; border-radius: 73px;outline: none;box-shadow: 0 0 5px 0px gray inset;"/>'
+                            + '<label for=' + policyId + '>'
+                }
+            } else {
+                matchedRadioButtonHTML = '<input type="radio" id=' + policyId + ' name="policyRadioValue" style="box-sizing: border-box;padding: 5px;-webkit-appearance: none;width: 21px;height: 20px;border: 1px solid darkgray; border-radius: 73px;outline: none;box-shadow: 0 0 5px 0px gray inset;"/>'
+                        + '<label for=' + policyId + '>'
+            }
+            /* } else {
+             matchedRadioButtonHTML = '<input type="radio" id=' + policyId + ' name="policyRadioValue" style="box-sizing: border-box;padding: 5px;-webkit-appearance: none;width: 21px;height: 20px;border: 1px solid darkgray; border-radius: 73px;outline: none;box-shadow: 0 0 5px 0px gray inset;"/>'
+             + '<label for=' + policyId + '>'
+             } */
             var html = '<div class="insurance-policy-blk">'
                     + '<div class="policy-det-blk inline-block  v-align-mid">'
-                    + '<input type="checkbox" id=' + policyId + ' name="" class="checkbox" />'
-                    + '<label for=' + policyId + ' class="policy-label">'
+                    + matchedRadioButtonHTML
                     + '<div class="p-relative insurance-main-det inline-block v-align-top">'
                     + '<div class="insurance-tit-blk">'
-                    + '<div class="f-sz-16 inline-block opensans-regular">' + carrierName + ',</div>'
+                    + '<div class="f-sz-16 inline-block opensans-regular" style="margin-left:10px;" >' + carrierName + ',</div>'
                     + '<div class="f-sz-13	inline-block opensans-regular">' + carrierPolicyNumber + '</div>'
                     + '</div>'
                     + '<div class="insurance-det-blk">'
@@ -1242,7 +1273,8 @@ var staticTemplate = {
         staticCarrierFeedViewTemplate: function (Carrieremail) {
 
             console.log("bbb", Carrieremail);
-            resultCarrier = JSON.parse(localStorage.getItem("users"));
+            resultCarrier = RESPONSE.users[0];
+            // resultCarrier = JSON.parse(localStorage.getItem("users"));
             for (var rc = 0; rc < resultCarrier.length; rc++) {
                 var result = resultCarrier[rc];
                 if (result.carrierId == Carrieremail) {
@@ -1507,7 +1539,7 @@ var staticTemplate = {
             if (viewdata.agencyLogo != undefined) {
                 profilePicture = "https://proto-call-test.appspot.com/file/" + viewdata.agencyLogo;
             } else {
-                profilePicture = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                profilePicture = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1zfBfV0zBRmjltZfQowBP2Uo_DVnENyvKzQenY6ofyfSvk-Cb8w";
             }
 
 //            //  }
@@ -1656,10 +1688,15 @@ var staticTemplate = {
                 email = "";
             }
             var phoneHtml = "";
-            if (data.phone.number != undefined) {
-                phone = data.phone.number;
-                phoneHtml = "<a href=\"tel:" + data.phone.number + "\"><div class=\"sprite-im carrier-mobile-icon\" style=\"float:left;display:block;\">&nbsp;</div></a>";
-            } else {
+            try {
+                if (data.phone.number != undefined) {
+                    phone = data.phone.number;
+                    phoneHtml = "<a href=\"tel:" + data.phone.number + "\"><div class=\"sprite-im carrier-mobile-icon\" style=\"float:left;display:block;\">&nbsp;</div></a>";
+                } else {
+                    phone = "";
+                    phoneHtml = "<div class=\"sprite-im carrier-mobile-icon\" style=\"float:left;display:none;\">&nbsp;</div>";
+                }
+            } catch (err) {
                 phone = "";
                 phoneHtml = "<div class=\"sprite-im carrier-mobile-icon\" style=\"float:left;display:none;\">&nbsp;</div>";
             }
@@ -1667,7 +1704,7 @@ var staticTemplate = {
             if (data.profilePicture != undefined) {
                 profilePicture = "https://proto-call-test.appspot.com/file/" + data.profilePicture;
             } else {
-                profilePicture = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                profilePicture = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1zfBfV0zBRmjltZfQowBP2Uo_DVnENyvKzQenY6ofyfSvk-Cb8w";
             }
 
             //  }
@@ -1697,7 +1734,7 @@ var staticTemplate = {
                             + '<div id="id-carrierassociatedblock" class="associated-carrier-feed p-relative border-bot"> ';
                 }
                 if (localStorage.LoginType == 'Admin') {
-                    dropdownHtml = '<select id="id-customers-dropdown" class="associated-carrier-sort t-upper p-relative opensans-regular inline-block"><option>ASSOCIATED REPS</option><option>ASSOCIATED AGENCY</option></select>'
+                    dropdownHtml = '<select id="id-customers-dropdown1" class="associated-carrier-sort t-upper p-relative opensans-regular inline-block"><option>ASSOCIATED REPS</option><option>ASSOCIATED AGENCY</option></select>'
                             + '<div id="associatedcustomersdropdownarrow" class="p-relative inline-block" style="display:block;"> <div  class="associatedownarrow-customer sprite-im drop-down-icon">&nbsp;</div> </div> </div> '
                             + '<div id="id-carrierassociatedblock" class="associated-carrier-feed p-relative border-bot"> ';
                 }
@@ -1729,7 +1766,7 @@ var staticTemplate = {
                     + '<div class="carrier-left-content t-left right t-upper ">' + state + '</div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">residential zipcode</div>'
                     + '<div class="carrier-left-content t-left right">' + zipcode + '</div> </div> </div> </div> </div> <div class="customer-view-block p-relative "> <div class="customer-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width opensans-regular clr-fl"> <div class="carrier-left-title t-right t-caps left">email</div> '
                     + '<div class="carrier-left-content t-left right"><a title=' + email + ' href="mailto:' + email + '">' + email + '</a></div> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">phone</div> '
-                    + '<div class="carrier-left-content t-left right"><a href="tel:' + phone + '">' + phone + '</a></div> </div> </div> </div> </div> <div class="customer-view-button p-relative" > <div class="customer-view-policy inline-block t-caps t-center opensans-regular">policies</div> <div class="customer-policy-button p-relative inline-block bg-color-green t-caps t-center opensans-regular f-color-w snap " data-type="dt-propertypolicy">property policy</div> <div class="customer-policy-button p-relative inline-block bg-color-green t-caps t-center opensans-regular f-color-w snap" data-type="dt-healthpolicy">Others</div> <div class="customer-policy-button p-relative inline-block bg-color-green t-caps t-center opensans-regular f-color-w snap" data-type="dt-vehiclepolicy">Vehicles/Watercrafts</div> </div> </div> </div> <div class="associated-carrierview p-relative"> <div class="p-relative "> '
+                    + '<div class="carrier-left-content t-left right"><a href="tel:' + phone + '">' + phone + '</a></div> </div> </div> </div> </div> <div class="customer-view-button p-relative" > <div class="customer-view-policy inline-block t-caps t-center opensans-regular">policies</div> <div class="customer-policy-button p-relative inline-block bg-color-green t-caps t-center opensans-regular f-color-w snap " data-type="dt-propertypolicy" id="showPolicies">Show Policies</div></div> </div> </div> <div class="associated-carrierview p-relative"> <div class="p-relative "> '
                     + dropdownHtml;
 //                    + '<select id="id-customers-dropdown" class="associated-carrier-sort t-upper p-relative opensans-regular inline-block"><option>ASSOCIATED REPS</option><option>ASSOCIATED CARRIER</option></select>'
 //                    + '<div id="associatedcustomersdropdownarrow" class="p-relative inline-block" style="display:block;"> <div  class="associatedownarrow-customer sprite-im drop-down-icon">&nbsp;</div> </div> </div> '
@@ -1742,29 +1779,63 @@ var staticTemplate = {
             return html;
         },
         staticSettingsTemplate: function (data) {
-
             //console.log(data);
             var html = "";
+            var website = "";
+            var faceBook = "";
+
+            console.log("setinsdjgfhg", data);
+
             if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
                 if (localStorage.LoginType == 'Admin') {
+                    /* RESPONSE.BACKGROUNDCOLORVALUE = data.resultMap.agencyDetails.color;
+                     RESPONSE.THEMECOLOR = data.resultMap.agencyDetails.themeColor;
+                     RESPONSE.FRAMECOLOR = data.resultMap.agencyDetails.frameColor; */
+                    try {
+                        if (data.resultMap.carrierDetails.website.value == undefined) {
+                            website = "";
+                        } else {
+                            website = data.resultMap.carrierDetails.website.value;
+                        }
+                    } catch (err) {
+
+                    }
+
+                    try {
+                        if (data.resultMap.carrierDetails.facebookPage == undefined) {
+                            faceBook = "";
+                        } else {
+                            faceBook = data.resultMap.carrierDetails.facebookPage;
+                        }
+                    } catch (err) {
+
+                    }
+
                     html = ' <form id="carrier-form"> <div class="settings-click-button clr-fl"><div class="success" style=" display:none; color: green;"></div><div class="error" style=" display:none; color: red;"></div> <div class="settings-agency-bar inline-block p-relative bg-color-gray t-caps t-center opensans-regular f-color-w snap"><a class="snap" href="javascript:void(0)" id="id-agency-view-load" data-type="agency-view-load" >AGENCY</a></div> <div class="settings-vendor-bar inline-block p-relative bg-color-gray t-caps t-center opensans-regular f-color-w snap"><a class="snap" href="javascript:void(0)" id="id-preferred-vendors-view-load" data-type="preferred vendors-view-load" >PREFERRED VENDORS</a></div> '
-                            + '<div class="settings-edit-bar right inline-block p-relative bg-color-green snap" data-type="agency-edit-load" style="display:none;"><div class="p-relative inline-block"> <div class="edit-icon sprite-im">&nbsp;</div> </div> <div class="p-relative inline-block t-caps t-right opensans-regular f-color-w"> <a id="id-carrier-edit" class="f-color-w" href="javascript:void(0)" >edit</a></div>'
+                            + '<div class="settings-edit-bar right inline-block p-relative bg-color-green snap" data-type="agency-edit-load" style="display:none;"><div class="p-relative inline-block"> <div class="edit-icon sprite-im" style="margin-top:7px !important;">&nbsp;</div> </div> <div class="p-relative inline-block t-caps t-right opensans-regular f-color-w" style="margin-left: 25px;"> <a id="id-carrier-edit" class="f-color-w" href="javascript:void(0)" >edit</a></div>'
                             + '</div><div class="removevendor-bar right inline-block p-relative bg-color-green snap" data-type="agency-remove-load" style="display:none"> <div class="p-relative inline-block"> <div class="remove-icon sprite-im">&nbsp;</div> </div> <div class="p-relative inline-block t-caps t-right opensans-regular f-color-w"><a class="f-color-w" href="javascript:void(0)"  >remove</a></div> </div> <div class="addvendor-bar right inline-block p-relative bg-color-green snap" data-type="agency-addvendor-load" style="display:none"> <div class="p-relative inline-block"> <div class="add-icon sprite-im">&nbsp;</div> </div> <div class="p-relative inline-block t-caps t-right opensans-regular f-color-w"><a class="f-color-w" href="javascript:void(0)"  >add vendor</a></div></div></div> <div class="bg-color-white"><div class="agency-view-block"><div class="settings-view-leftblock inline-block v-align-mid p-relative"> <div class="settings-view-auth opensans-regular p-relative"> <div class="carrier-view-name inline-block t-upper">Carrier id</div> '
                             + '<div class="carrier-view-id inline-block">' + data.resultMap.carrierDetails.carrierId + '</div> </div> <div class="settings-logo-view p-relative"> '
-                            + '<div class="settingslogo-viewpic"> <img src=http://2-dot-proto-call-test.appspot.com/file/' + data.resultMap.carrierDetails.carrierLogo + ' alt="" class="carrier-img-width"> </div> </div> <div class="settings-view-social p-relative clr-fr"> <div class="settings-view-website p-relative left bg-color-green"> <div class="p-relative inline-block v-align-top"> <div class="sprite-im pop-out">&nbsp;</div> </div> '
-                            + '<div class="carrier-website-name inline-block t-caps opensans-regular f-color-w t-center"><a href="' + data.resultMap.carrierDetails.website.value + '" class="f-color-w">WEBSITE</a></div> </div> <div class="settings-view-facebook p-relative left bg-color-green"> <div class="p-relative inline-block v-align-top"> <div class="sprite-im pop-out">&nbsp;</div> </div> <div class="carrier-facebook-name inline-block t-caps opensans-regular f-color-w t-center">FACEBOOK</div> </div> </div> </div> <div class="settings-view-rightblock inline-block v-align-mid p-relative "> <div class="carrier-view-block p-relative "> <div id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">carrier  id</div> '
-                            + '<div id="id-c-agencyid" class="carrier-left-content t-left right " style="visibility: visible"></div> <input id="id-carrier-agencyid" class="carrier-left-content-textbox t-left right p-absoalute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">Master Carrier id</div> '
-                            + '<div class="carrier-left-content t-left right" id="id-c-masteragencyid" title=' + data.resultMap.carrierDetails.carrierId + ' style="visibility: visible">' + data.resultMap.carrierDetails.carrierId + '</div> <input id="id-carrier-masteragencyid" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">Carrier Type</div> '
+                            + '<div class="settingslogo-viewpic"> <img id="id-agencypic" src=http://2-dot-proto-call-test.appspot.com/file/' + data.resultMap.carrierDetails.carrierLogo + ' alt="" class="carrier-img-width"> <div id="id-edit-agency-pic" class=\"edit-agency-pic p-absolute anim bg-color-red f-color-w snap\" data-type=\"editAgencyPic\" style=\"display: none;\"> <div class=\"p-relative t-center\" style=\" margin-left: -9px;\"> <div class=\"sprite-im Edit-icon inline-block v-align-mid\"> &nbsp; </div><div class=\"inline-block f-sz-12 v-align-mid opensans-regular \"> Edit </div></div></div></div> </div> <div class="settings-view-social p-relative clr-fr"> <div class="settings-view-website p-relative left bg-color-green"> <div class="p-relative inline-block v-align-top"> <div class="sprite-im pop-out">&nbsp;</div> </div> '
+                            + '<div class="carrier-website-name inline-block t-caps opensans-regular f-color-w t-center"><a target="_blank" href="' + website + '" class="f-color-w">WEBSITE</a></div> </div> <div class="settings-view-facebook p-relative left bg-color-green"> <div class="p-relative inline-block v-align-top"> <div class="sprite-im pop-out">&nbsp;</div> </div> <div class="carrier-facebook-name inline-block t-caps opensans-regular f-color-w t-center"><a target="_blank" href="' + faceBook + '" class="f-color-w">FACEBOOK</a></div> </div> </div> </div> <div class="settings-view-rightblock inline-block v-align-mid p-relative "> <div class="carrier-view-block p-relative "> <div id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">carrier  id</div> '
+                            + '<div id="id-c-agencyid" class="carrier-left-content t-left right " style="visibility: visible"></div> <input id="id-carrier-agencyid" class="carrier-left-content-textbox t-left right p-absoalute" type="text" value="" style="visibility: hidden;margin-right:7%;"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">Master Carrier id</div> '
+                            + '<div class="carrier-left-content t-left right" id="id-c-masteragencyid" title=' + data.resultMap.carrierDetails.carrierId + ' style="visibility: visible">' + data.resultMap.carrierDetails.carrierId + '</div> <input id="id-carrier-masteragencyid" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden" readonly> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left" style="  width: 50%;"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">Carrier Type</div> '
                             + '<div id="id-c-agencytype" class="carrier-left-content t-left right " style="visibility: visible"></div> '
                             + '<select id="id-carrier-agencytype" class="carrier-left-content-textbox t-left right p-absolute" style="visibility: hidden"><option>Master Type</option><option>Branch</option></select> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">name</div> '
-                            + '<div id="id-c-agencyname" class="carrier-left-content t-left right" style="visibility: visible">' + data.resultMap.carrierDetails.carrierName + '</div> <input id="id-carrier-agencyname" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">address</div> '
+                            + '<div id="id-c-agencyname" class="carrier-left-content t-left right" style="visibility: visible">' + data.resultMap.carrierDetails.carrierName + '</div> <input id="id-carrier-agencyname" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left" style="  width: 50%;"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">address</div> '
                             + '<div id="id-c-agencyaddress1" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.carrierDetails.address + '</div> <input id="id-carrier-agencyaddress1" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">address</div> '
-                            + '<div id="id-c-agencyaddress2" class="carrier-left-content t-left right" style="visibility: visible"></div> <input id="id-carrier-agencyaddress2" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view border-bot clr-fl"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">city</div> '
+                            + '<div id="id-c-agencyaddress2" class="carrier-left-content t-left right" style="visibility: visible"></div> <input id="id-carrier-agencyaddress2" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view border-bot clr-fl"> <div class="carrier-view-left p-relative left" style="  width: 50%;"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">city</div> '
                             + '<div id="id-c-agencycity" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.carrierDetails.city + '</div> <input id="id-carrier-agencycity" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">state</div> '
                             + '<div id="id-c-agencystate" class="carrier-left-content t-left right t-upper" style="visibility: visible">' + data.resultMap.carrierDetails.state + '</div> <input id="id-carrier-agencystate" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view border-bot clr-fl"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">zip</div> '
                             + '<div id="id-c-agencyzip" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.carrierDetails.zip + '</div> <input id="id-carrier-agencyzipcode" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">phone</div> '
-                            + '<div id="id-c-agencyphone" class="carrier-left-content t-left right t-upper" style="visibility: visible">' + data.resultMap.carrierDetails.phone.number + '</div> <input id="id-carrier-agencyphone" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width opensans-regular clr-fl"> <div class="carrier-left-title t-right left t-caps">email</div>'
-                            + '<div id="id-c-agencyemail" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.carrierDetails.emailId.email + '</div> <input id="id-carrier-agencyemail" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left"></div> <div class="carrier-left-content t-left right t-upper"></div> </div> </div> </div> </div> </div></div> <div class="preferred-vendor-block inline-block v-align-mid p-relative clr-fl">'
+                            + '<div id="id-c-agencyphone" class="carrier-left-content t-left right t-upper" style="visibility: visible">' + data.resultMap.carrierDetails.phone.number + '</div> <input id="id-carrier-agencyphone" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div>'
+
+                            + '<div class=\"carrier-view-block p-relative \"> <div id=\"id-carrier-border-view\" class=\"carrier-border-view border-bot clr-fl\"> <div class=\"carrier-view-left p-relative left\" style="  width: 50%;"> <div class=\"carrier-left-width t-caps opensans-regular clr-fl\"> <div class=\"carrier-left-title t-right left\">Website</div><div id=\"id-c-agencywebsite\" class=\"carrier-left-content t-left right \" style=\"visibility: visible\">' + website + '</div><input id=\"id-carrier-agencywebsite\" class=\"carrier-left-content-textbox t-left right p-absolute\" type=\"text\" value=\"\" style=\"visibility: hidden\"> </div></div><div class=\"carrier-view-right right t-caps opensans-regular\"> <div class=\"carrier-left-width clr-fl\"> <div class=\"carrier-left-title t-right left\">Facebook</div>'
+                            + '<div id=\"id-c-agencyfacebook\" class=\"carrier-left-content t-left right t-upper\" style=\"visibility: visible\">' + faceBook + '</div><input id=\"id-carrier-agencyfacebook\" class=\"carrier-left-content-textbox t-left right p-absolute\" type=\"text\" value=\"\" style=\"visibility: hidden\"> </div></div></div></div>'
+                            + '<div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view border-bot clr-fl"> <div class="carrier-view-left p-relative left" style="  width: 50%;"> <div class="carrier-left-width opensans-regular clr-fl"> <div class="carrier-left-title t-right left t-caps">email</div>'
+
+
+                            + '<div id="id-c-agencyemail" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.carrierDetails.emailId.email + '</div> <input id="id-carrier-agencyemail" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div>'
+                            + '</div></div> <div class="preferred-vendor-block inline-block v-align-mid p-relative clr-fl">'
                             + '<div class="preffered-border-view clr-fl border-bot left clr-fl"> <div class="preffered-view-left p-relative left"> <div class="carrier-left-width t-upper opensans-regular "> <div id ="id-vendornamebox" class="carrier-left-title t-upper t-left inline-block " style="color:black">name</div> '
                             + '<div id ="id-vendortypebox" class="carrier-left-title t-right inline-block" style="color:black">type</div> </div> </div> <div class="preffered-view-right right p-relative right "> <div class="carrier-left-width t-upper opensans-regular"> <div class="carrier-left-title t-left inline-block" style="color:black">phone</div> <div class="carrier-left-title t-right inline-block" style="color:black">state,city</div> </div> </div> </div>';
                     // alert("1" + data.resultMap.listOfPreferredVendor[0].serviceId);
@@ -1786,25 +1857,71 @@ var staticTemplate = {
 
                 }
             } else {
+                try {
+                    if (data.resultMap.agencyDetails.website.value == undefined) {
+                        website = "";
+                    } else {
+                        website = data.resultMap.agencyDetails.website.value;
+                    }
+                } catch (err) {
+
+                }
+
+                try {
+                    if (data.resultMap.agencyDetails.facebookPage == undefined) {
+                        faceBook = "";
+                    } else {
+                        faceBook = data.resultMap.agencyDetails.facebookPage;
+                    }
+                } catch (err) {
+
+                }
+                RESPONSE.BACKGROUNDCOLORVALUE = data.resultMap.agencyDetails.color;
+                RESPONSE.THEMECOLOR = data.resultMap.agencyDetails.themeColor;
+                RESPONSE.FRAMECOLOR = data.resultMap.agencyDetails.frameColor;
                 html = ' <form id="carrier-form"> <div class="carrier-view-parent p-relative"> <div class="app-link t-upper opensans-regular p-relative">app download link</div> <div class="app-parent p-relative"> '
                         + '<div class="app-download-bar inline-block p-relative bg-color-white">' + data.resultMap.appDownloadLink + '</div> <div class="send-app-bar inline-block p-relative border-all bg-color-green t-caps t-center opensans-regular f-color-w snap"  data-type="sendapplink" ><a class="f-color-w" href="javascript:void(0)" >send app link</a></div> </div> <div class="settings-click-button clr-fl"><div class="success" style=" display:none; color: green;"></div><div class="error" style=" display:none; color: red;"></div> <div class="settings-agency-bar inline-block p-relative bg-color-gray t-caps t-center opensans-regular f-color-w snap"><a class="snap" href="javascript:void(0)" id="id-agency-view-load" data-type="agency-view-load" >AGENCY</a></div> <div class="settings-vendor-bar inline-block p-relative bg-color-gray t-caps t-center opensans-regular f-color-w snap"><a class="snap" href="javascript:void(0)" id="id-preferred-vendors-view-load" data-type="preferred vendors-view-load" >PREFERRED VENDORS</a></div> '
-                        + '<div class="settings-edit-bar right inline-block p-relative bg-color-green snap" data-type="agency-edit-load"><div class="p-relative inline-block"> <div class="edit-icon sprite-im">&nbsp;</div> </div> <div class="p-relative inline-block t-caps t-right opensans-regular f-color-w"> <a id="id-carrier-edit" class="f-color-w" href="javascript:void(0)" >edit</a></div>'
+                        + '<div class=\"settings-edit-bar right inline-block p-relative bg-color-green snap\" data-type=\"agency-edit-load\" style=\"display: block;\"><div class=\"p-relative inline-block\"> <div class=\"edit-icon sprite-im\" style="margin-top:7px !important;">&nbsp;</div></div><div class=\"p-relative inline-block t-caps t-right opensans-regular f-color-w\" style=\"margin-left: 25px;\"> <a id=\"id-carrier-edit\" class=\"f-color-w\" href=\"javascript:void(0)\">Edit</a></div></div>'
+                        + '<div id="id-canecelbutton" class="settings-edit-bar right inline-block p-relative bg-color-green snap" data-type="" style="margin-right: 8px;display:none;"><div class="p-relative inline-block"> <div class="edit-icon sprite-im" style="display:none;">&nbsp;</div> </div> <div class="p-relative inline-block t-caps t-right opensans-regular f-color-w" style="margin-left: 25px;  margin-top: 9px;"> <a id="" class="f-color-w" href="javascript:void(0)" >Cancel</a></div>'
                         + '</div><div id="id-editremovebar" class="removevendor-bar right inline-block p-relative bg-color-green snap" data-type="agency-remove-load"> <div class="p-relative inline-block"> <div class="remove-icon sprite-im">&nbsp;</div> </div> <div class="p-relative inline-block t-caps t-right opensans-regular f-color-w"><a id="id-preffervendoreditremovebar" class="f-color-w" href="javascript:void(0)"  >Edit</a></div> </div> <div class="addvendor-bar right inline-block p-relative bg-color-green snap" data-type="agency-addvendor-load"> <div class="p-relative inline-block"> <div class="add-icon sprite-im">&nbsp;</div> </div> <div class="p-relative inline-block t-caps t-right opensans-regular f-color-w"><a class="f-color-w" href="javascript:void(0)"  >add vendor</a></div></div></div> <div class="bg-color-white"><div class="agency-view-block"><div class="settings-view-leftblock inline-block v-align-mid p-relative"> <div class="settings-view-auth opensans-regular p-relative"> <div class="carrier-view-name inline-block t-upper">agency id</div> '
                         + '<div class="carrier-view-id inline-block">' + data.resultMap.agencyDetails.agencyId + '</div> </div> <div class="settings-logo-view p-relative"> '
-                        + '<div class="settingslogo-viewpic"> <img src=http://2-dot-proto-call-test.appspot.com/file/' + data.resultMap.agencyDetails.agencyLogo + ' alt="" class="carrier-img-width"> </div> </div> <div class="settings-view-social p-relative clr-fr"> <div class="settings-view-website p-relative left bg-color-green"> <div class="p-relative inline-block v-align-top"> <div class="sprite-im pop-out">&nbsp;</div> </div> '
-                        + '<div class="carrier-website-name inline-block t-caps opensans-regular f-color-w t-center"><a href="' + data.resultMap.agencyDetails.website.value + '" class="f-color-w">WEBSITE</a></div> </div> <div class="settings-view-facebook p-relative left bg-color-green"> <div class="p-relative inline-block v-align-top"> <div class="sprite-im pop-out">&nbsp;</div> </div> <div class="carrier-facebook-name inline-block t-caps opensans-regular f-color-w t-center">FACEBOOK</div> </div> </div> </div> <div class="settings-view-rightblock inline-block v-align-mid p-relative "> <div class="carrier-view-block p-relative "> <div id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">carrier id</div> '
-                        + '<div id="id-c-agencyid" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.agencyDetails.carrierAgencyId + '</div> <input id="id-carrier-agencyid" class="carrier-left-content-textbox t-left right p-absoalute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">master agency id</div> '
-                        + '<div class="carrier-left-content t-left right" id="id-c-masteragencyid" title=' + data.resultMap.agencyDetails.agencyId + ' style="visibility: visible">' + data.resultMap.agencyDetails.agencyId + '</div> <input id="id-carrier-masteragencyid" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">agency type</div> '
+                        + '<div class="settingslogo-viewpic"> <img id="id-agencypic" src=http://2-dot-proto-call-test.appspot.com/file/' + data.resultMap.agencyDetails.agencyLogo + ' alt="" class="carrier-img-width"> <div id="id-edit-agency-pic" class=\"edit-agency-pic p-absolute anim bg-color-red f-color-w snap\" data-type=\"editAgencyPic\" style=\"display: none;\"> <div class=\"p-relative t-center\" style=\" margin-left: -9px;\"> <div class=\"sprite-im Edit-icon inline-block v-align-mid\"> &nbsp; </div><div class=\"inline-block f-sz-12 v-align-mid opensans-regular \"> Edit </div></div></div></div> </div> <div class="settings-view-social p-relative clr-fr"> <div class="settings-view-website p-relative left bg-color-green"> <div class="p-relative inline-block v-align-top"> <div class="sprite-im pop-out">&nbsp;</div> </div> '
+                        + '<div class="carrier-website-name inline-block t-caps opensans-regular f-color-w t-center"><a target="_blank" href="' + website + '" class="f-color-w">WEBSITE</a></div> </div> <div class="settings-view-facebook p-relative left bg-color-green"> <div class="p-relative inline-block v-align-top"> <div class="sprite-im pop-out">&nbsp;</div> </div> <div class="carrier-facebook-name inline-block t-caps opensans-regular f-color-w t-center"><a target="_blank" href="' + faceBook + '" class="f-color-w">FACEBOOK</a></div> </div> </div> </div> <div class="settings-view-rightblock inline-block v-align-mid p-relative "> <div class="carrier-view-block p-relative "> <div id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left" style="  width: 50%;"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">carrier id</div> '
+                        + '<div id="id-c-agencyid" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.agencyDetails.carrierAgencyId + '</div> <input id="id-carrier-agencyid" class="carrier-left-content-textbox t-left right p-absoalute" type="text" value="" style="visibility: hidden;margin-right:-7%;"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular" style="width: 50%;"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">master agency id</div> '
+                        + '<div class="carrier-left-content t-left right" id="id-c-masteragencyid" title=' + data.resultMap.agencyDetails.agencyId + ' style="visibility: visible">' + data.resultMap.agencyDetails.agencyId + '</div> <input id="id-carrier-masteragencyid" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden" readonly> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left" style="  width: 50%;"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">agency type</div> '
                         + '<div id="id-c-agencytype" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.agencyDetails.agencyType + '</div> '
                         + '<select id="id-carrier-agencytype" class="carrier-left-content-textbox t-left right p-absolute" style="visibility: hidden"><option>Master Type</option><option>Branch</option></select></div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">name</div> '
-                        + '<div id="id-c-agencyname" class="carrier-left-content t-left right" style="visibility: visible">' + data.resultMap.agencyDetails.agencyName + '</div> <input id="id-carrier-agencyname" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">address</div> '
-                        + '<div id="id-c-agencyaddress1" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.agencyDetails.address + '</div> <input id="id-carrier-agencyaddress1" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">address</div> '
-                        + '<div id="id-c-agencyaddress2" class="carrier-left-content t-left right" style="visibility: visible">' + data.resultMap.agencyDetails.address2 + '</div> <input id="id-carrier-agencyaddress2" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view border-bot clr-fl"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">city</div> '
-                        + '<div id="id-c-agencycity" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.agencyDetails.city + '</div> <input id="id-carrier-agencycity" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">state</div> '
-                        + '<div id="id-c-agencystate" class="carrier-left-content t-left right t-upper" style="visibility: visible">' + data.resultMap.agencyDetails.state + '</div> <input id="id-carrier-agencystate" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view border-bot clr-fl"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">zip</div> '
-                        + '<div id="id-c-agencyzip" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.agencyDetails.zipcode + '</div> <input id="id-carrier-agencyzipcode" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">phone</div> '
-                        + '<div id="id-c-agencyphone" class="carrier-left-content t-left right t-upper" style="visibility: visible">' + data.resultMap.agencyDetails.phone.number + '</div> <input id="id-carrier-agencyphone" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl"> <div class="carrier-view-left p-relative left"> <div class="carrier-left-width opensans-regular clr-fl"> <div class="carrier-left-title t-right left t-caps">email</div>'
-                        + '<div id="id-c-agencyemail" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.agencyDetails.emailId.email + '</div> <input id="id-carrier-agencyemail" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left"></div> <div class="carrier-left-content t-left right t-upper"></div> </div> </div> </div> </div> </div></div> <div class="preferred-vendor-block inline-block v-align-mid p-relative clr-fl">'
+                        + '<div id="id-c-agencyname" class="carrier-left-content t-left right" style="visibility: visible">' + data.resultMap.agencyDetails.agencyName + '</div> <input id="id-carrier-agencyname" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view clr-fl border-bot"> <div class="carrier-view-left p-relative left" style="  width: 50%;"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">address</div> '
+                        + '<div id="id-c-agencyaddress1" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.agencyDetails.address + '</div> <input id="id-carrier-agencyaddress1" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular" style="width: 50%;"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">address</div> '
+                        + '<div id="id-c-agencyaddress2" class="carrier-left-content t-left right" style="visibility: visible">' + data.resultMap.agencyDetails.address2 + '</div> <input id="id-carrier-agencyaddress2" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view border-bot clr-fl"> <div class="carrier-view-left p-relative left" style="  width: 50%;"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">city</div> '
+                        + '<div id="id-c-agencycity" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.agencyDetails.city + '</div> <input id="id-carrier-agencycity" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular" style="width: 50%;"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">state</div> '
+                        + '<div id="id-c-agencystate" class="carrier-left-content t-left right t-upper" style="visibility: visible">' + data.resultMap.agencyDetails.state + '</div> <input id="id-carrier-agencystate" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> <div class="carrier-view-block p-relative " > <div  id="id-carrier-border-view" class="carrier-border-view border-bot clr-fl"> <div class="carrier-view-left p-relative left" style="  width: 50%;"> <div class="carrier-left-width t-caps opensans-regular clr-fl"> <div class="carrier-left-title t-right left">zip</div> '
+                        + '<div id="id-c-agencyzip" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.agencyDetails.zipcode + '</div> <input id="id-carrier-agencyzipcode" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular" style="width: 50%;"> <div class="carrier-left-width clr-fl"> <div class="carrier-left-title t-right left">phone</div> '
+                        + '<div id="id-c-agencyphone" class="carrier-left-content t-left right t-upper" style="visibility: visible">' + data.resultMap.agencyDetails.phone.number + '</div> <input id="id-carrier-agencyphone" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> </div> </div> '
+
+                        + '<div class=\"carrier-view-block p-relative \"> <div id=\"id-carrier-border-view\" class=\"carrier-border-view border-bot clr-fl\"> <div class=\"carrier-view-left p-relative left\" style="  width: 50%;"> <div class=\"carrier-left-width t-caps opensans-regular clr-fl\"> <div class=\"carrier-left-title t-right left\">Website</div><div id=\"id-c-agencywebsite\" class=\"carrier-left-content t-left right \" style=\"visibility: visible\">' + website + '</div><input id=\"id-carrier-agencywebsite\" class=\"carrier-left-content-textbox t-left right p-absolute\" type=\"text\" value=\"\" style=\"visibility: hidden\"> </div></div><div class=\"carrier-view-right right t-caps opensans-regular\" style="width: 50%;"> <div class=\"carrier-left-width clr-fl\"> <div class=\"carrier-left-title t-right left\">Facebook</div>'
+                        + '<div id=\"id-c-agencyfacebook\" class=\"carrier-left-content t-left right t-upper\" style=\"visibility: visible\">' + faceBook + '</div><input id=\"id-carrier-agencyfacebook\" class=\"carrier-left-content-textbox t-left right p-absolute\" type=\"text\" value=\"\" style=\"visibility: hidden\"> </div></div></div></div>'
+                        + '<div class="carrier-view-block p-relative "> <div  id="id-carrier-border-view" class="carrier-border-view border-bot clr-fl"> <div class="carrier-view-left p-relative left" style="  width: 50%;"> <div class="carrier-left-width opensans-regular clr-fl"> <div class="carrier-left-title t-right left t-caps">email</div>'
+
+                        + '<div id="id-c-agencyemail" class="carrier-left-content t-left right " style="visibility: visible">' + data.resultMap.agencyDetails.emailId.email + '</div> <input id="id-carrier-agencyemail" class="carrier-left-content-textbox t-left right p-absolute" type="text" value="" style="visibility: hidden"> </div> </div> <div class="carrier-view-right right t-caps opensans-regular" style="width: 50%;"> <div class="carrier-left-width clr-fl" style="height:31px;"> <div class="carrier-left-title t-right left">Background Color</div> <div class="carrier-left-content t-left right t-upper" style="margin-top:-4px;margin-right:0px;" ><input type="color" id="color_Name" style="width:187px;" value = ' + data.resultMap.agencyDetails.color + ' /></div></div> </div> </div> </div>'
+                        + '<div class="carrier-view-block p-relative ">'
+                        + '<div id="id-carrier-border-view" class="carrier-border-view border-bot clr-fl">'
+                        + '<div class="carrier-view-left p-relative left" style="  width: 50%;">'
+                        + '<div class="carrier-left-width t-caps opensans-regular clr-fl" style="height:31px;">'
+                        + '<div class="carrier-left-title t-right left">Emergency Popup Color</div>'
+                        + '<div id="themeColorValue" class="carrier-left-content t-left right " style="visibility: visible"><input type="color" id="theme_color_value" style="width:187px;margin-top:-4px;" value = ' + data.resultMap.agencyDetails.themeColor + ' /></div>'
+                        + '</div>'
+                        + '</div>'
+                        + '<div class="carrier-view-right right t-caps opensans-regular" style="width: 50%;">'
+                        + '<div class="carrier-left-width clr-fl" style="height:31px;">'
+                        + '<div class="carrier-left-title t-right left">CardDetails Color</div>'
+                        + '<div id="frameColorValue" class="carrier-left-content t-left right t-upper" style="visibility: visible"><input type="color" id="frame_color_value" style="width:187px;margin-top:-4px;" value = ' + data.resultMap.agencyDetails.frameColor + ' /></div>'
+                        + '</div>'
+                        + '</div>'
+                        + '</div>'
+                        + '</div>'
+                        + '</div></div>'
+                        + '<div class="preferred-vendor-block inline-block v-align-mid p-relative clr-fl">'
                         + '<div class="preffered-border-view clr-fl border-bot left clr-fl"> <div class="preffered-view-left p-relative left"> <div class="carrier-left-width t-upper opensans-regular "> <div id ="id-vendornamebox" class="carrier-left-title t-upper t-left inline-block " style="color:black">name</div> '
                         + '<div id ="id-vendortypebox" class="carrier-left-title t-right inline-block" style="color:black">type</div> </div> </div> <div class="preffered-view-right right p-relative right "> <div class="carrier-left-width t-upper opensans-regular"> <div class="carrier-left-title t-left inline-block" style="color:black">phone</div> <div class="carrier-left-title t-right inline-block" style="color:black">state,city</div> </div> </div> </div>';
                 for (var index = 0; index < data.resultMap.listOfPreferredVendor.length; index++) {
@@ -1824,60 +1941,122 @@ var staticTemplate = {
             return html;
         },
         dynamicMyProfileViewTemplate: function () {
-            var carrierid = $(".Carrierreps-feed-view").attr("id");
-            localStorage.setItem("CARRIERADMIN_MYREPID", carrierid);
+            debugger;
+			var data = "";
+//            setTimeout(function () {
+
             var tempCarriedId = localStorage.getItem("CARRIERADMIN_MYREPID");
-            var data = JSON.parse(localStorage.getItem("CARRIERAGENCYTOTALDETAILS"));
+			if((RESPONSE.CARRIERAGENCYTOTALDETAILS).length != 0){
+				data = RESPONSE.CARRIERAGENCYTOTALDETAILS[0];
+			} else {
+				data = JSON.parse(localStorage.getItem("customerDetailsValue"));
+			}
+            
+            //  var data = JSON.parse(localStorage.getItem("CARRIERAGENCYTOTALDETAILS"));
             console.log("Manoj---->", data);
-            var name, phone, email, profilepic = '';
-            var html = "<div> No records </div>"
+
+
+            var html = "<div> No records </div>";
 
             for (var index = 0; index < data.resultMap.myRepTab.length; index++) {
+                var name, phone, email, profilepic = '';
+                try {
+                    if (data.resultMap.myRepTab[index].RepresentativeDetails.carrierRepresentativeId.email == tempCarriedId) {
+                        var details = data.resultMap.myRepTab[index].RepresentativeDetails;
+                        if (details.name != undefined) {
+                            name = details.name;
+                        } else {
+                            name = '';
+                        }
 
-                if (data.resultMap.myRepTab[index].RepresentativeDetails.carrierId == tempCarriedId) {
-                    var details = data.resultMap.myRepTab[index].RepresentativeDetails;
-                    if (details.name != undefined) {
-                        name = details.name;
-                    } else {
-                        name = '';
+                        localStorage.setItem("id-customers-headername", name);
+
+                        if (details.phone.number != undefined) {
+                            phone = details.phone.number;
+                        } else {
+                            phone = '';
+                        }
+                        if (details.carrierRepresentativeId.email != undefined) {
+                            email = details.carrierRepresentativeId.email;
+                        } else if (details.agencyRepresentativeId.email != undefined) {
+                            email = details.agencyRepresentativeId.email;
+                        } else {
+                            email = '';
+                        }
+                        if (details.profilePicture != undefined) {
+                            profilepic = HOMEPAGERESPONSE.PROFILEAPI + details.profilePicture;
+                        } else {
+                            profilepic = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREcPNRtKYiBvLn1TGvtd2JZQrg_P4IubK34BlZIEcmnel20KIINiVxnPV0';
+                        }
+                        html = "";
+                        localStorage.setItem("CARRIERREP_EMAILID", email);
+                        html = '<div class="agenyparent-class bg-color-white"> <div class="p-relative"> <form> <div class="agenyleft-profile inline-block v-align-mid p-relative"> '
+                                + '<div class="agenyleft-image"> <div class="overflow-hidden"> <div class="agenypic-info"> <img src=' + profilepic + ' alt="" class="ageny-img-width"> </div><div id="id-changeimg" class="v-align-mid opensans-regular text-color-overlay f-sz-12 p-relative" style="padding:0px 25px;display:none;"> <div class="sprite-im profcamera-icon inline-block"> &nbsp; </div><div class="t-upper inline-block"> Change Image </div><input type="file" name="agency-prof-img" id="agency-prof-img" onchange="readURL(this);"/> </div></div></div></div><div class="agenyright-profile inline-block v-align-mid"> <div class="agenyparent-block"> <div class="agenyinternal-block"> <div class="agenygroup-block border-bot opensans-regular"> <div class="agenychild-block"> <div class="agenytitle-block inline-block p-relative"> Name </div><div class="agenycontent-block inline-block p-relative"> '
+                                + '<span class="profile-result-cls" id="nameview"> ' + name + ' </span> </div><input type="text" name="profileName" value="" class="agencyprofinput" id="namenew"> </div></div><div class="agenygroup-block border-bot opensans-regular"> <div class="agenychild-block"> <div class="agenytitle-block inline-block p-relative" > Phone </div><div class="agenycontent-block inline-block p-relative"> '
+                                + '<span class="profile-result-cls" id="phoneview"> ' + phone + ' </span> </div><input type="text" name="profileName" value="" class="agencyprofinput" id="phonenew"> </div></div><div class="agenygroup-block border-bot opensans-regular"> <div class="agenychild-block"> <div class="agenytitle-block inline-block p-relative"> Email </div><div class="agenycontent-block inline-block p-relative">'
+                                + '<span class="profile-result-cls" id="emailview"> ' + email + ' </span> </div><input type="text" name="profileName" value="" class="agencyprofinput" id="emailnew" readonly> </div></div></div></div></div></form> </div></div>';
+
+                        var dropdownHtml = '<div id="id-customers-dropdown" class="associated-carrier-sort t-upper p-relative opensans-regular inline-block">ASSOCIATED CUSTOMERS</div>'
+                                + '<div id="associatedcustomersdropdownarrow" class="p-relative inline-block" style="display:none;"> <div  class="associatedownarrow-customer sprite-im drop-down-icon">&nbsp;</div> </div> </div> '
+                                + '<div id="id-carrierassociatedblock" class="associated-carrier-feed p-relative border-bot"> ';
+
+                        html = html + dropdownHtml;
+                        break;
                     }
+                } catch (err) {
+                    if (data.resultMap.myRepTab[index].RepresentativeDetails.emailId.email == tempCarriedId) {
+                        var name, phone, email, profilepic = '';
+                        var details = data.resultMap.myRepTab[index].RepresentativeDetails;
+                        if (details.firstName != undefined) {
+                            name = details.firstName;
+                        } else {
+                            name = '';
+                        }
 
-                    localStorage.setItem("id-customers-headername", name);
+                        localStorage.setItem("id-customers-headername", name);
 
-                    if (details.phone.number != undefined) {
-                        phone = details.phone.number;
-                    } else {
-                        phone = '';
+                        if (details.phone.number != undefined) {
+                            phone = details.phone.number;
+                        } else {
+                            phone = '';
+                        }
+                        if (details.emailId.email != undefined) {
+                            email = details.emailId.email;
+                        } else if (details.emailId.email != undefined) {
+                            email = details.emailId.email;
+                        } else {
+                            email = '';
+                        }
+                        if (details.profilePicture != undefined) {
+                            profilepic = HOMEPAGERESPONSE.PROFILEAPI + details.profilePicture;
+                        } else {
+                            profilepic = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREcPNRtKYiBvLn1TGvtd2JZQrg_P4IubK34BlZIEcmnel20KIINiVxnPV0';
+                        }
+                        html = "";
+                        localStorage.setItem("CARRIERREP_EMAILID", email);
+                        html = '<div class="agenyparent-class bg-color-white"> <div class="p-relative"> <form> <div class="agenyleft-profile inline-block v-align-mid p-relative"> '
+                                + '<div class="agenyleft-image"> <div class="overflow-hidden"> <div class="agenypic-info"> <img src=' + profilepic + ' alt="" class="ageny-img-width"> </div><div id="id-changeimg" class="v-align-mid opensans-regular text-color-overlay f-sz-12 p-relative" style="padding:0px 25px;display:none;"> <div class="sprite-im profcamera-icon inline-block"> &nbsp; </div><div class="t-upper inline-block"> Change Image </div><input type="file" name="agency-prof-img" id="agency-prof-img" onchange="readURL(this);"/> </div></div></div></div><div class="agenyright-profile inline-block v-align-mid"> <div class="agenyparent-block"> <div class="agenyinternal-block"> <div class="agenygroup-block border-bot opensans-regular"> <div class="agenychild-block"> <div class="agenytitle-block inline-block p-relative"> Name </div><div class="agenycontent-block inline-block p-relative"> '
+                                + '<span class="profile-result-cls" id="nameview"> ' + name + ' </span> </div><input type="text" name="profileName" value="" class="agencyprofinput" id="namenew"> </div></div><div class="agenygroup-block border-bot opensans-regular"> <div class="agenychild-block"> <div class="agenytitle-block inline-block p-relative" > Phone </div><div class="agenycontent-block inline-block p-relative"> '
+                                + '<span class="profile-result-cls" id="phoneview"> ' + phone + ' </span> </div><input type="text" name="profileName" value="" class="agencyprofinput" id="phonenew"> </div></div><div class="agenygroup-block border-bot opensans-regular"> <div class="agenychild-block"> <div class="agenytitle-block inline-block p-relative"> Email </div><div class="agenycontent-block inline-block p-relative">'
+                                + '<span class="profile-result-cls" id="emailview"> ' + email + ' </span> </div><input type="text" name="profileName" value="" class="agencyprofinput" id="emailnew" readonly> </div></div></div></div></div></form> </div></div>';
+
+                        var dropdownHtml = '<div id="id-customers-dropdown" class="associated-carrier-sort t-upper p-relative opensans-regular inline-block">ASSOCIATED CUSTOMERS</div>'
+                                + '<div id="associatedcustomersdropdownarrow" class="p-relative inline-block" style="display:none;"> <div  class="associatedownarrow-customer sprite-im drop-down-icon">&nbsp;</div> </div> </div> '
+                                + '<div id="id-carrierassociatedblock" class="associated-carrier-feed p-relative border-bot"> ';
+
+                        html = html + dropdownHtml;
+                        break;
                     }
-                    if (details.carrierRepresentativeId.email != undefined) {
-                        email = details.carrierRepresentativeId.email;
-                    } else {
-                        email = '';
-                    }
-                    if (details.profilePicture != undefined) {
-                        profilepic = HOMEPAGERESPONSE.PROFILEAPI+details.profilePicture;
-                    } else {
-                        profilepic = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREcPNRtKYiBvLn1TGvtd2JZQrg_P4IubK34BlZIEcmnel20KIINiVxnPV0';
-                    }
-                    html = "";
-                    localStorage.setItem("CARRIERREP_EMAILID", email);
-                    html = '<div class="agenyparent-class bg-color-white"> <div class="p-relative"> <form> <div class="agenyleft-profile inline-block v-align-mid p-relative"> '
-                            + '<div class="agenyleft-image"> <div class="overflow-hidden"> <div class="agenypic-info"> <img src=' + profilepic + ' alt="" class="ageny-img-width"> </div><div id="id-changeimg" class="v-align-mid opensans-regular text-color-overlay f-sz-12 p-relative" style="padding:0px 25px;display:none;"> <div class="sprite-im profcamera-icon inline-block"> &nbsp; </div><div class="t-upper inline-block"> Change Image </div><input type="file" name="agency-prof-img" id="agency-prof-img" onchange="readURL(this);"/> </div></div></div></div><div class="agenyright-profile inline-block v-align-mid"> <div class="agenyparent-block"> <div class="agenyinternal-block"> <div class="agenygroup-block border-bot opensans-regular"> <div class="agenychild-block"> <div class="agenytitle-block inline-block p-relative"> Name </div><div class="agenycontent-block inline-block p-relative"> '
-                            + '<span class="profile-result-cls" id="nameview"> ' + name + ' </span> </div><input type="text" name="profileName" value="" class="agencyprofinput" id="namenew"> </div></div><div class="agenygroup-block border-bot opensans-regular"> <div class="agenychild-block"> <div class="agenytitle-block inline-block p-relative" > Phone </div><div class="agenycontent-block inline-block p-relative"> '
-                            + '<span class="profile-result-cls" id="phoneview"> ' + phone + ' </span> </div><input type="text" name="profileName" value="" class="agencyprofinput" id="phonenew"> </div></div><div class="agenygroup-block border-bot opensans-regular"> <div class="agenychild-block"> <div class="agenytitle-block inline-block p-relative"> Email </div><div class="agenycontent-block inline-block p-relative">'
-                            + '<span class="profile-result-cls" id="emailview"> ' + email + ' </span> </div><input type="text" name="profileName" value="" class="agencyprofinput" id="emailnew" readonly> </div></div></div></div></div></form> </div></div>';
-
-                    var dropdownHtml = '<div id="id-customers-dropdown" class="associated-carrier-sort t-upper p-relative opensans-regular inline-block">ASSOCIATED CUSTOMERS</div>'
-                            + '<div id="associatedcustomersdropdownarrow" class="p-relative inline-block" style="display:none;"> <div  class="associatedownarrow-customer sprite-im drop-down-icon">&nbsp;</div> </div> </div> '
-                            + '<div id="id-carrierassociatedblock" class="associated-carrier-feed p-relative border-bot"> ';
-
-                    html = html + dropdownHtml;
-                    break;
                 }
 
             }
 
             return html;
+
+//            }, 500);
+
+
+
         },
         staticMyProfileViewTemplate: function () {
 
@@ -1900,7 +2079,7 @@ var staticTemplate = {
             }
 
             if (sessionStorage.profilePic == undefined) {
-                profilePic = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                profilePic = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1zfBfV0zBRmjltZfQowBP2Uo_DVnENyvKzQenY6ofyfSvk-Cb8w";
             } else {
                 profilePic = sessionStorage.profilePic;
             }
@@ -1916,33 +2095,7 @@ var staticTemplate = {
     myreps: {
         inviteRepsTemplate: function () {
             var html = "";
-            if (localStorage.getItem("LOGIN_LABEL") == "Carriers") {
-                if (localStorage.LoginType == 'Admin') {
-
-                    html = '<h2 class="t-left f-color-green opensans-regular" style="">Invite Reps</h2>'
-                            + ' <div class="o-sub-content p-relative">'
-                            + '  <div class="text-box-big">'
-                            + '  <textarea id="txtbox-sendinvite" placeholder="Custom message"></textarea>'
-                            + '</div>'
-                            + '<div class="checkbox-box">'
-                            + '<div class="checkbox-box1" style="display:none;"> <input type="radio" class="sendinvite_agency" value="" id="radio-button-agency" checked onclick="checkboxStatus(\'radio-button-agency\')" />Agency</div>'
-                            + ' <div class="checkbox-box2"> <input type="radio" class="sendinvite_rep" value="" id="radio-button-rep" checked onclick="checkboxStatus(\'radio-button-rep\')" />Representative</div>'
-                            + '</div>'
-                            + '<div class="checkbox-form">'
-                            + '<div id="delete_item0" class="checkbox-box">'
-                            + ' <div class="checkbox-box-t1"> <input type="text" class="sendinvite_firstname" value="" id="txt_sendinvite_firstname0" placeholder="FirstName"/></div>'
-                            + '<div class="checkbox-box-t1"> <input type="text" class="sendinvite_LastName" value="" id="txt_sendinvite_LastName0"  placeholder="LastName"/></div>'
-                            + '<div class="checkbox-box-t1"> <input type="text" class="sendinvite_EmailId" value="" id="txt_sendinvite_EmailId0"  placeholder="EmailId"/>  '
-                            + '<div id="0" class="sprite-im rep-icon rep-icon-pos deleteitem" style="float: right;  position: relative;  /* top: 52%; */  right: -9%;  margin-top: -26px;">&nbsp;</div></div>'
-                            + '</div>'
-                            + '</div>'
-                            + '<div class="addmore snap" data-type="addmoredata">'
-                            + '<div><div class="sprite-im rep-icon rep-icon-pos" style="float: left;  position: relative;  margin-left: 87%;  margin-top: 3px;">&nbsp;</div>Add More</div></div>'
-                            + '</div>'
-                            + ' <div class="o-btn snap opensans-regular p-relative t-center bg-color-red f-color-w" data-type="sendInvite">Send Invite</div>'
-                            + '</div>';
-                }
-            } else if (sessionStorage.loginType == 'SuperAdmin') {
+            if (sessionStorage.loginType == 'SuperAdmin') {
                 html = '<h2 class="t-left f-color-green opensans-regular" style="">Invite ' + localStorage.getItem("TABNAME") + '</h2>'
                         + '<div class="o-sub-content p-relative">'
                         + '<div class="f-sz-14 t-left opensans-regular invite-reps-text">User will have access to all the features of Dashboard</div>'

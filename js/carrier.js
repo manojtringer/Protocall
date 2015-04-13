@@ -16,8 +16,10 @@ var CarrierdynamicTemplate = {
                 //console.log("supepe", data);
                 //if (data.resultMap != null && data.resultMap != "") {
                 var resultCarrier = HOMEPAGERESPONSE.SUPERADMINCARRIERDETAILS;
-                localStorage.setItem("customers_data", JSON.stringify(HOMEPAGERESPONSE.SUPERADMINCUSTOMERS));
-                localStorage.setItem("users", JSON.stringify(resultCarrier));
+                RESPONSE.customers_data[0]=HOMEPAGERESPONSE.SUPERADMINCUSTOMERS;
+               // localStorage.setItem("customers_data", JSON.stringify(HOMEPAGERESPONSE.SUPERADMINCUSTOMERS));
+               RESPONSE.users[0]=resultCarrier;
+              //  localStorage.setItem("users", JSON.stringify(resultCarrier));
 
                 var template = '';
                 for (var rc = 0; rc < resultCarrier.length; rc++) {
@@ -59,15 +61,19 @@ var CarrierdynamicTemplate = {
 
             if (localStorage.getItem("LOGIN_LABEL") == "Agency") {
                 if (localStorage.getItem("AGENCYCARRIERTABDATA") == undefined) {
-                    localStorage.setItem("AGENCYCARRIERTABDATA", JSON.stringify(data));
+                    RESPONSE.AGENCYCARRIERTABDATA[0]=data;
+                   // localStorage.setItem("AGENCYCARRIERTABDATA", JSON.stringify(data));
                 } else {
-                    data = JSON.parse(localStorage.getItem("AGENCYCARRIERTABDATA"));
+                    data = RESPONSE.AGENCYCARRIERTABDATA[0];
                 }
 
                 if (data.resultMap != null && data.resultMap != "") {
                     var resultCarrier = data.resultMap.carrierTab;
-                    localStorage.setItem("customers_data", JSON.stringify(data.resultMap.userTab));
-                    localStorage.setItem("users", JSON.stringify(resultCarrier));
+                     RESPONSE.customers_data[0]=data.resultMap.userTab;
+                   // localStorage.setItem("customers_data", JSON.stringify(data.resultMap.userTab));
+                   
+                   RESPONSE.users[0]=resultCarrier;
+                   // localStorage.setItem("users", JSON.stringify(resultCarrier));
 
                     var template = '';
                     var loopcount = 1;
@@ -125,8 +131,9 @@ var CarrierdynamicTemplate = {
 
         },
         loadAssocaiteCustomersDataForCarrier: function () {
-            var totalHTML = "<div>No Records </div>";
-            var response = JSON.parse(localStorage.getItem("CARRIERREP_DATA"));
+            var totalHTML = "<div>There are  no Customers records</div>";
+            var response=RESPONSE.CARRIERREP_DATA[0];
+            //var response = JSON.parse(localStorage.getItem("CARRIERREP_DATA"));
             var resp = response;
             try {
                 if (resp.resultMap.carrierTab[2].length != undefined) {
@@ -152,9 +159,9 @@ var CarrierdynamicTemplate = {
                             email = "";
                         }
 
-                        //var image = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                        //var image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1zfBfV0zBRmjltZfQowBP2Uo_DVnENyvKzQenY6ofyfSvk-Cb8w";
                         if (image == undefined) {
-                            image = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                            image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1zfBfV0zBRmjltZfQowBP2Uo_DVnENyvKzQenY6ofyfSvk-Cb8w";
                         } else {
                             image = "https://proto-call-test.appspot.com/file/" + image;
 
@@ -173,15 +180,27 @@ var CarrierdynamicTemplate = {
                     }
                 }
             } catch (err) {
-                totalHTML = "<div>No Records </div>";
+                totalHTML = "<div>There are  no Customers records</div>";
+
             }
 
             $("#id-carrierassociatedblock").html('');
             $("#id-carrierassociatedblock").append(totalHTML);
+
+             if (localStorage.IsDropdownClick == "true") {
+            
+            localStorage.IsDropdownClick = "false";
+
+                if (totalHTML == "<div>There are  no Customers records</div>") {
+                    showAlertBox("No Associated Customers Records..!");
+                }
+            }
+
         },
         loadAssocaiteAgenciesDataForCarrier: function () {
-            var totalHTML = "<div>No Records </div>";
-            var response = JSON.parse(localStorage.getItem("CARRIERREP_DATA"));
+            var totalHTML = "<div>There are  no Agencies records</div>";
+            var response=RESPONSE.CARRIERREP_DATA[0];
+          //  var response = JSON.parse(localStorage.getItem("CARRIERREP_DATA"));
             var resp = response;
             try {
                 if (resp.resultMap.carrierTab[0].length != undefined) {
@@ -207,9 +226,9 @@ var CarrierdynamicTemplate = {
                             email = "";
                         }
 
-                        //var image = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                        //var image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1zfBfV0zBRmjltZfQowBP2Uo_DVnENyvKzQenY6ofyfSvk-Cb8w";
                         if (image == undefined) {
-                            image = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                            image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1zfBfV0zBRmjltZfQowBP2Uo_DVnENyvKzQenY6ofyfSvk-Cb8w";
                         } else {
                             image = "https://proto-call-test.appspot.com/file/" + image;
 
@@ -228,18 +247,28 @@ var CarrierdynamicTemplate = {
                     }
                 }
             } catch (err) {
-                totalHTML = "<div>No Records </div>";
+                totalHTML = "<div>There are  no Agencies records</div>";
+
             }
 
             $("#id-carrierassociatedblock").html('');
             $("#id-carrierassociatedblock").append(totalHTML);
+             if (localStorage.IsDropdownClick == "true") {
+            
+            localStorage.IsDropdownClick = "false";
+                if (totalHTML == "<div>There are  no Agencies records</div>") {
+                    showAlertBox("No Associated Agencies Records..!");
+                }
+            }
+
 
         },
         loadAssociatedCustomersForCarrier: function (contenthtml) {
-            var response = JSON.parse(localStorage.getItem("CARRIERREP_DATA"));
+          //  var response = JSON.parse(localStorage.getItem("CARRIERREP_DATA"));
+            var response=RESPONSE.CARRIERREP_DATA[0];
             var template = CarrierdynamicTemplate.carrier.carrierRepdynamicView(response);
 
-            var totalHTML = "<div>No Records </div>";
+            var totalHTML = "<div>There are  no Customers records</div>";
             var resp = response;
 
             //$("#id-carrierassociatedblock").html('');
@@ -268,9 +297,9 @@ var CarrierdynamicTemplate = {
                             email = "";
                         }
 
-                        //var image = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                        //var image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1zfBfV0zBRmjltZfQowBP2Uo_DVnENyvKzQenY6ofyfSvk-Cb8w";
                         if (image == undefined) {
-                            image = "http://www.sdpb.org/s/photogallery/img/no-image-available.jpg";
+                            image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1zfBfV0zBRmjltZfQowBP2Uo_DVnENyvKzQenY6ofyfSvk-Cb8w";
                         } else {
                             image = "https://proto-call-test.appspot.com/file/" + image;
 
@@ -289,7 +318,8 @@ var CarrierdynamicTemplate = {
                     }
                 }
             } catch (err) {
-                totalHTML = "<div>No Records </div>";
+                totalHTML = "<div>There are  no Customers records</div>";
+
             }
             var temp_html = template + totalHTML + "</div>";
             var contenta = contenthtml + '<div class="container"> <div class="content-holder">' + temp_html + '</div></div></div></div></div>';
@@ -300,6 +330,15 @@ var CarrierdynamicTemplate = {
             protocall.displaySpinner(false);
             protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CARRIERS_PAGE);
             protocall.events.GlobalContainerScrollevent();
+
+            if (localStorage.IsDropdownClick == "true") {
+            
+            localStorage.IsDropdownClick = "false";
+                if (totalHTML == "<div>There are  no Customers records</div>") {
+                    showAlertBox("There are  no Customers records");
+                }
+            }
+
 //            }
 //        });
         },
@@ -307,7 +346,8 @@ var CarrierdynamicTemplate = {
 
             if (data.resultMap != null && data.resultMap != "") {
                 var resultCarrier = data.resultMap.ArrayOfCarriersDetails;
-                localStorage.setItem("users", JSON.stringify(resultCarrier));
+                RESPONSE.users[0]=resultCarrier;
+               // localStorage.setItem("users", JSON.stringify(resultCarrier));
 
                 var template = '';
                 var loopCount = 1;

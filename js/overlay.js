@@ -173,7 +173,7 @@ var popUpContent = {
         }
     },
     alignPopUpContent: function ($el) {
-        var eBot = $el.offset().top;
+		var eBot = $el.offset().top;
         var eHeight = $el.outerHeight();
         var eLeft = $el.offset().left;
         var eWidth = $el.outerWidth();
@@ -183,7 +183,7 @@ var popUpContent = {
         console.log(eBot);
         console.log(popUpTop);
         $('#pop-up-content').css("top", popUpTop);
-        $('#pop-up-content').css("left", popUpLeft).css("width", eWidth);
+        $('#pop-up-content').css("left", popUpLeft).css("width", eWidth).css("height","initial");
     }
 
 }
