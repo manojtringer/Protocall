@@ -11,16 +11,18 @@
 
 .o-btn-yes{
     width: 16%;
+    min-width: 55px;
     height:42px;
     line-height:40px;
     position:relative;
     margin: 20px auto;
     text-align: center;
     margin-right: 5px;
-    left: 31%;
+    left: 20%;
 }
 .o-btn-no{
     width: 16%;
+    min-width: 55px;
     height:42px;
     line-height:40px;
     position:relative;
@@ -32,13 +34,14 @@
 .signup-root-content{
     max-width: 490px;
     width: 100%;
-    min-width: 290px;
+    min-width: 330px;
     max-width: 400px;
-    max-height: 520px;
+    /* max-height: 566px; */
     /* height: 100%; */
     background-color: #f4f5f5;
     margin: auto;
-    top: 82px;
+    top: 14px;
+    margin-top: 77px;
     margin-bottom: 20px;
     /* overflow: hidden; */
     display: inline-grid;
@@ -77,7 +80,7 @@
 }
 .firstname-textbox{
     height: 40px;
-    width: 85%;
+    width: 80%;
     color: black;
 }
 

@@ -492,7 +492,7 @@ utils.server = {
                 var customerName = data[index].CustomerDetails.firstName;
                 try {
 
-                    customerName = customerName + " " + data[index].CustomerDetails.lastName;
+                    customerName = data[index].CustomerDetails.lastName + " " + customerName;
                 } catch (err) {
 
                 }
@@ -2194,14 +2194,18 @@ function onKeyPressEventPrivacy(tag) {
 }
 
 function sortbyBox1() {
+	debugger;
     var selectedOption = document.getElementById("timepicker").value;
     if (selectedOption == "Alphabetical") {
         RESPONSE_ARRAY.sort();
+        $("#timepicker2").prop("disabled", false);
         $('#timepicker2').empty();
+        $('#timepicker2').append('<option> None </option>');
         var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
         $.each(alphabet, function (letter) {
             $('#timepicker2').append($('<option> Section ' + alphabet[letter] + '</option>'));
         });
+		//$('#timepicker2').prepend($('<option> None</option>'));
         // sharewithRepSelectAllDropDown("true");
         var finalHtml = "<form>";
         for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
@@ -2319,6 +2323,7 @@ var unique = function (origArr) {
 
 function Sharewithrep_sortbyBox1(idvalue) {
     var selectedOption = document.getElementById("timepicker").value;
+	debugger;
     if (selectedOption == "Alphabetical") {
         RESPONSE_ARRAY.sort();
         $("#timepicker2").prop("disabled", false);
@@ -2328,8 +2333,7 @@ function Sharewithrep_sortbyBox1(idvalue) {
         $.each(alphabet, function (letter) {
             $('#timepicker2').append($('<option> Section ' + alphabet[letter] + '</option>'));
         });
-
-
+		//$('#timepicker2').prepend($('<option> None</option>'));
         var finalHtml = "<form>";
         for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
             var customerName = RESPONSE_ARRAY[index][0];
@@ -2370,7 +2374,7 @@ function Sharewithrep_sortbyBox1(idvalue) {
         for (var i = 0; i < TEMP_ARRAY.length; i++) {
             $('#timepicker2').append($('<option> ' + TEMP_ARRAY[i] + '</option>'));
         }
-
+		$('#timepicker2').prepend($('<option> None</option>'));
         //--***************  Section Sortby Box 2
         var finalHtml = "<form>";
         for (var index = 0; index < RESPONSE_ARRAY.length; index++) {
@@ -2685,6 +2689,7 @@ function sendAppLinkSortbyBox2() {
 }
 
 function sortbyBox2() {
+	debugger;
     var selectedOption = document.getElementById("timepicker2").value;
     if (selectedOption == "Select All") {
         $('.checkbox').each(function () {
@@ -2716,7 +2721,7 @@ function sortbyBox2() {
                 var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox' value=" + customerEmailId + " id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + location + "</div> </div> </label> </div>";
                 finalHtml = finalHtml + tempHtml;
                 tempHtml = "";
-            }
+            } 
         }
         if (finalHtml == "<form>") {
             var tempHtml = "<div class='rep-grp-blk opensans-regular t-center border-bot text-color-overlay p-relative'> No Records Found </div>";
@@ -2747,7 +2752,22 @@ function sortbyBox2() {
                 var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox'  value=" + customerEmailId + "  id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + location + "</div> </div> </label> </div>";
                 finalHtml = finalHtml + tempHtml;
                 tempHtml = "";
-            }
+            } else if(selectedOption == "None"){
+				var customerName = RESPONSE_ARRAY[index][0];
+				var customerCity = RESPONSE_ARRAY[index][1];
+				var customerState = RESPONSE_ARRAY[index][2];
+				var customerEmailId = RESPONSE_ARRAY[index][3];
+				var location = customerCity;
+				if (RESPONSE_ARRAY[index][2] != undefined) {
+					if (RESPONSE_ARRAY[index][2] != "") {
+						location = location + "" + RESPONSE_ARRAY[index][2];
+					}
+				}
+
+				var tempHtml = "<div class='rep-grp-blk opensans-regular border-bot text-color-overlay p-relative'> <input type='checkbox'  value=" + customerEmailId + "  id='name" + index + "' name='" + customerName.charAt(0).toUpperCase() + "' class='checkbox'> <label for='name" + index + "' class=' rep-label'> <div class='lbl-in-block p-relative'> <div class='f-sz-14 text-color-overlay left rep-name'>" + customerName + "</div> <div class='t-caps f-sz-13 right f-italic t-right location-color rep-location'>" + location + "</div> </div> </label> </div>";
+				finalHtml = finalHtml + tempHtml;
+				tempHtml = "";
+			}
         }
 
         if (finalHtml == "<form>") {

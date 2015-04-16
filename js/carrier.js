@@ -98,14 +98,14 @@ var CarrierdynamicTemplate = {
                             profilePicture = "https://proto-call-test.appspot.com/file/" + profilePath;
                         }
 
-                        if (loopcount == 4) {
-                            // alert("dd" + cEmail);
-                            loopcount = 0;
-                            template += '<div class="carrier-profile-screen left border-all p-relative"  style="margin-right: 0px !important;"><div class="carrier-logo p-relative opensans-regular"><div class="mycarrierlogo-pic"><img  src="' + profilePicture + '" alt="" class="mycarrier-img-width snap" data-type="viewcarrierfeedview" data-id = "' + c.carrierId + '"></div> </div> <div class="carrier-info bg-color-white p-relative carrier-groupblock opensans-regular"> <div class="carrier-name t-caps t-center">' + c.carrierName + '</div> <div class="carrier-location t-caps t-center">' + c.state + '</div> '
-                                    + '<div class="carrier-email t-center"><a title=' + cEmail + ' href="mailto:' + cEmail + '">' + cEmail + '</a></div></div> <div class="carrier-view p-relative bg-color-green t-caps t-center opensans-regular f-color-w snap" data-type="viewcarrierfeedview" data-id = "' + c.carrierId + '">view </div></div>';
-                        } else {
-                            template += CarrierdynamicTemplate.carrier.CarrierDynamicList(c);
-                        }
+                        // if (loopcount == 4) {
+                        // alert("dd" + cEmail);
+//                            loopcount = 0;
+//                            template += '<div class="carrier-profile-screen left border-all p-relative"  style="margin-right: 0px !important;"><div class="carrier-logo p-relative opensans-regular"><div class="mycarrierlogo-pic"><img  src="' + profilePicture + '" alt="" class="mycarrier-img-width snap" data-type="viewcarrierfeedview" data-id = "' + c.carrierId + '"></div> </div> <div class="carrier-info bg-color-white p-relative carrier-groupblock opensans-regular"> <div class="carrier-name t-caps t-center">' + c.carrierName + '</div> <div class="carrier-location t-caps t-center">' + c.state + '</div> '
+//                                    + '<div class="carrier-email t-center"><a title=' + cEmail + ' href="mailto:' + cEmail + '">' + cEmail + '</a></div></div> <div class="carrier-view p-relative bg-color-green t-caps t-center opensans-regular f-color-w snap" data-type="viewcarrierfeedview" data-id = "' + c.carrierId + '">view </div></div>';
+                        //} else {
+                        template += CarrierdynamicTemplate.carrier.CarrierDynamicList(c);
+                        //}
 
 
                         loopcount++;

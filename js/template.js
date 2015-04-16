@@ -134,7 +134,7 @@ var template = {
         if (alertType == "policyalert") {
             var policyrightSideFeed = template.rightSideFeed(alertDetailsValue, "Policy Alert");
             alertFeedHtml = '<div class="rg-block left p-relative">'
-                    + '<div class="feed-det bg-color-dblue p-relative">'
+                    + '<div class="feed-det bg-color-dblue p-relative" style="margin-left:7px">'
                     + '<div class="feed-docs-pad p-relative docs-block t-center">'
                     + '<a href="/changecoverage" class="snap feed-addRemove-block inline-block v-align-mid f-sz-14 opensans-regular f-color-green changeCoverage p-relative" data-type="changeCoverage">'
                     + '<div class="t-center">'
@@ -323,8 +323,8 @@ var template = {
         }
 
         rightSideAlerFeedHTML = '<div class="lf-block left">'
-                + '<div class="leftblk-spacing">'
-                + '<div class="feed-det bg-color-dblue p-relative">'
+                + '<div class="leftblk-spacing" style="padding-right: 10px;">'
+                + '<div class="feed-det bg-color-dblue p-relative" >'
                 + '<div class="feed-det-pad p-relative">'
                 + '<div class="feed-pic-b inline-block v-align-mid">'
                 + '<div class="feed-user-pic-box">'
@@ -350,21 +350,25 @@ var template = {
         rightSideAlerFeedHTML += '</div>'
                 + '<div class="bot-b" style="width:103%;">'
                 + '<div class="p-relative inline-block v-align-bot" style="margin-left:-2px;">'
-                + '<div class="sprite-im calendar-icon calendar-icon-pos">&nbsp;</div>'
+                + '<div class="sprite-im calendar-icon calendar-icon-pos" style="float:left;">&nbsp;</div>'
+                + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 feed-date t-caps" style="float:left;margin-left:5px;">' + alertDate + '</div>'
                 + '</div>'
-                + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 feed-date t-caps" style="margin-left:5px;">' + alertDate + '</div>'
+
                 + '<div class="p-relative inline-block v-align-bot">'
-                + '<div class="sprite-im map-icon map-icon-pos">&nbsp;</div>'
+                + '<div class="sprite-im map-icon map-icon-pos" style="float:left;">&nbsp;</div>'
+                + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 feed-location t-caps" style="float:left;margin-left:5px;">' + residentialCity + '</div>'
                 + '</div>'
-                + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 feed-location t-caps" style="margin-left:5px;">' + residentialCity + '</div>'
+
                 + '<div class="p-relative inline-block v-align-bot">'
-                + '<div class="sprite-im phone-icon phone-icon-pos">&nbsp;</div>'
+                + '<div class="sprite-im phone-icon phone-icon-pos" style="float:left;">&nbsp;</div>'
+                + '<div id="id-custphone" class="p-relative inline-block opensans-regular v-align-bot f-sz-12 cust-phone t-caps" style="float:left;margin-left:5px;">' + phoneNumber + '</div>'
                 + '</div>'
-                + '<div class="p-relative inline-block opensans-regular v-align-bot f-sz-12 cust-phone t-caps" style="margin-left:5px;">' + phoneNumber + '</div>'
+
                 + '<div class="p-relative inline-block v-align-bot">'
-                + '<div class="sprite-im email-icon email-icon-pos">&nbsp;</div>'
+                + '<div class="sprite-im email-icon email-icon-pos" style="float:left;">&nbsp;</div>'
+                + '<div id="id-custemail" title=' + feedUserEmail + ' class="p-relative inline-block opensans-regular v-align-bot f-sz-12 cust-email no-right-margin" style="float:left;margin-left:4px;  text-overflow: ellipsis;">' + feedUserEmail + '</div>'
                 + '</div>'
-                + '<div title=' + feedUserEmail + ' class="p-relative inline-block opensans-regular v-align-bot f-sz-12 cust-email no-right-margin" style="margin-left:4px;  text-overflow: ellipsis;">' + feedUserEmail + '</div>'
+
                 + '</div>'
                 + '</div>'
                 + '<div class="feed-user-share-b inline-block v-align-mid" style="margin-left:25px;">'

@@ -4,16 +4,18 @@ html,body {
     -webkit-transition: 0.5s;
     -moz-transition: 0.5s;
     transition: 0.5s;
-    /*min-width: 1024px;*/
+    min-width: 320px;
+    overflow-x: auto;
+    overflow-y: hidden !important;
     /* max-width: 320px; */ 
-    height: 110%;
+    height: 100%;
     /* max-height: 1000px !important; */
 }
 body{
     position:relative;
     z-index:1;
     overflow:hidden !important;
-    overflow-x: hidden !important;
+    /*overflow-x: hidden !important;*/
     /* height: 100vh !important; */
 }
 
@@ -88,6 +90,7 @@ h1, h2, h3, h4, h5, h6 {
 a {
     color: #3e3e3e;
     text-decoration: none;
+    /* text-overflow: ellipsis; */
 }
 *::-webkit-input-placeholder {
     color: #FFF;
@@ -102,11 +105,11 @@ a {
     color: #FFF;
 }
 .block {display:block}
-.inline-block {display:inline-block;}
+.inline-block {display: inline-block;}
 .p-relative {position: relative;}
 .p-absolute {position:absolute;}
 .left {float:left;}
-.right {float:right;}
+.right {float: right;}
 .clr-fl{overflow:hidden;position:relative;}
 .t-center {text-align:center;}
 .t-left{text-align:left;}
@@ -200,11 +203,11 @@ input, select, textarea {
     border-bottom: 1px solid #ccc;
 }
 
-.logo-container{width:25%;height: 64px;margin-top: -8px;}
+.logo-container{width: 25%;height: 64px;margin-top: -8px;}
 
 .m-width{
     max-width:1250px;
-    min-width: 600px;
+    min-width: 320px;
     margin: auto;
 }
 .w-pad{
@@ -225,7 +228,8 @@ input, select, textarea {
 }
 .logo{
     height: -27%;
-    width: 68%;
+    max-width: 100%;
+    max-height: 100%;
     cursor: pointer;
     zoom: 9px;
 }
@@ -234,8 +238,8 @@ input, select, textarea {
 .searchbox-border{border:1px solid #b9b8b8;}
 
 .logo-holder{
-    width:100%;
-    /* height: 100px; */
+    width: 100%;
+    height: 60px;
     overflow: hidden;
     position: relative;
     /* background: #CCC; */
@@ -607,7 +611,7 @@ input, select, textarea {
 }
 .m-block {
     border-bottom: 1px solid #b9b8b8;
-    /* width: 100%; */
+    width: 100%;
     height: 150px;
 }
 
@@ -766,7 +770,7 @@ input, select, textarea {
     line-height: 39px;
 }
 .mb-submenu .mb-submenu-in  >div:last-child{
-    width:100%;
+    width: 100%;
 }
 
 
@@ -876,16 +880,16 @@ footer  .foot-in{
 
 /********** Content Section **************************/
 .container{
-    /* height: 5%; */
+    height: 100%;
     width: 100%;
     /* margin-bottom: 146%; */
-    /* max-height: 600px; */
+    max-height: 403px;
     margin-top: 6px;
     /* margin-bottom: 84%; */
     overflow: auto !important;
 
 
-    max-height: calc(100% - 320px) !important;
+    /* max-height: 450px; */
     overflow-x: hidden;
     /* box-shadow: inset 0px 8px 8px #444444; */
     /*      -webkit-box-shadow: inset 0 20px 20px -20px rgba(0,0,0,0.8);
@@ -898,17 +902,24 @@ footer  .foot-in{
 .container .content-holder{
     height: 100%;
 
+    width: 100%;
+    /* min-width: 200px; */
 }
 
 /*************** Feeds *********************/
 .feed-block{
-    width:100%;
+    /* width:100%; */
+    /* min-width: 200px; */
     margin-bottom:16px;
 }
 
 .feed-block .feed-det{
     height: 100%;
-    min-height: 85px;
+    /* margin-left: 7px; */
+    min-height: 87px;
+    width: 100%;
+    /* min-width: 200px; */
+    min-width: 1;
 }
 
 .feed-block .feed-det .feed-det-pad{
@@ -916,6 +927,8 @@ footer  .foot-in{
 }
 .feed-block .feed-det .feed-det-pad .feed-pic-b{
     margin-right: 15px;
+    position: absolute;
+    /* z-index: 2; */
 }
 
 .feed-block .feed-det .feed-det-pad .feed-pic-b .feed-user-pic-box{
@@ -930,6 +943,7 @@ footer  .foot-in{
     margin-right: auto;
     overflow: hidden;
     text-align: center;
+    /* margin-top: 10px; */
 }
 
 .feed-block .feed-det .feed-det-pad .feed-pic-b .feed-user-pic-box img{
@@ -946,12 +960,17 @@ footer  .foot-in{
 .topContainer{
     padding: 0px;
     height: 8px;
+    /* margin-right: -47px; */
+    /* max-width: 300px; */
     /* background: red; */
     /* margin-top: -6px; */
     margin-bottom: -9px;
 }
 .feed-user-det-b {
     width: 61%;
+    position: static;
+    margin-left: 93px;
+    margin-top: 7px;
 }
 
 .feed-user-det-b  .top-b {
@@ -1458,6 +1477,12 @@ input[type=checkbox]:checked + .customer-feed-label:before {
     height: 165px;
     position: relative;
     margin-left: auto;
+    
+
+
+    min-width: 170px;
+
+
     margin-right: auto;
     overflow: hidden;
 
@@ -1500,8 +1525,9 @@ input[type=checkbox]:checked + .customer-feed-label:before {
 }
 
 #page{
-    height: 100%;
+    /* height: 100%; */
     background-color: #eff2f3;
+    margin: 2px;
 }
 
 /************* Carrier View Page ********************/
@@ -1532,7 +1558,7 @@ input[type=checkbox]:checked + .customer-feed-label:before {
     color: #3e3e3e;
     font-size: 15px;
     /*margin-right: 15px;*/
-    /* text-align: left; */
+    text-overflow: ellipsis;
     font-style: italic;
 }
 .carrier-email{
@@ -1542,6 +1568,7 @@ input[type=checkbox]:checked + .customer-feed-label:before {
     /*margin-right: 15px;*/
     font-style: italic;
     /* text-align: left; */
+    text-overflow: ellipsis;
 }
 .carrier-view{
     width: 100%;
@@ -1576,7 +1603,8 @@ input[type=checkbox]:checked + .customer-feed-label:before {
     /* display: block; */   margin: auto;
 }
 .mycarrier-img-width{
-    width: 100%;
+    max-width: 100%;
+    max-height: 100%;
     position: absolute;
     margin: auto;
     top: 0;
@@ -1623,7 +1651,8 @@ input[type=checkbox]:checked + .customer-feed-label:before {
     margin-right: 15px;
     overflow: hidden;
     /* width: 300px; */
-    width: 200px;
+    max-width: 285px;
+    min-width: 200px;
     display: inline-block;
     vertical-align: middle;
 }
@@ -1637,7 +1666,7 @@ input[type=checkbox]:checked + .customer-feed-label:before {
     /* overflow-x: auto; */
 }
 .carrier-logo-view{
-    width: 94%;
+    width: 93%;
     background-color: #eee;
     margin-left: 15px;
 }
@@ -1649,7 +1678,7 @@ input[type=checkbox]:checked + .customer-feed-label:before {
     padding: 19px 15px 15px 15px;
 }
 .carrier-view-social{
-    width: 96%;
+    width: 98%;
     padding: 15px 15px;
 }
 .carrier-view-website{
@@ -1657,12 +1686,14 @@ input[type=checkbox]:checked + .customer-feed-label:before {
     bottom: 8px;
     margin-right: 6px;
     width: 43%;
+    max-width: 121px;
 }
 .carrier-view-facebook{
     padding: 6px;
     bottom: 8px;
     margin-right: 6px;
     width: 44%;
+    max-width: 125px;
 }
 .carrier-website-name{
 
@@ -1767,14 +1798,14 @@ input[type=checkbox]:checked + .customer-feed-label:before {
 
 /************ Associated Carrier view related feed ********/
 .associated-carrierview{
-    width: 98%;
+    width: 100%;
     padding: 20px 0px;
 }
 .associated-carrier-sort{
     font-size: 16px;
     margin-right: 15px;
     color: black;
-    width: 20%;
+    width: 235px;
     background: #E9EFF0;
 }
 .associated-carrier-feed{
@@ -1786,12 +1817,13 @@ input[type=checkbox]:checked + .customer-feed-label:before {
     position: relative;
     padding: 10px 9px;
     height: 60px;
+    text-align: center;
 }
 .carrier-feed-associated-view{
     padding: 25px 0px 0px 0px;
     margin-right: 15px;
     cursor: pointer;
-    width : 370px;
+    width: 355px;
 }
 .associated-cus-info{
     padding: 0px 5px;
@@ -1800,11 +1832,12 @@ input[type=checkbox]:checked + .customer-feed-label:before {
     position: absolute;
     margin-top: 7px;
     /* height: 70px; */
+    /* width: 50px; */
 }
 /******* customer profile view *****/
 .customer-view-feed{
     width: 12%;
-    /*padding: 15px 0px;*/
+    padding: 15px 0px;
 }
 .customer-logo-view{
     width: 110%;
@@ -1817,7 +1850,10 @@ input[type=checkbox]:checked + .customer-feed-label:before {
     position: relative;
     overflow: hidden;
     margin: auto;
+    margin-top: 81px;
+    /* vertical-align: middle; */
     width: 100%;
+    min-width: 200px;
     height: 100%;
 }
 .customer-view-name{
@@ -1945,7 +1981,7 @@ input[type=checkbox]:checked + .customer-feed-label:before {
     /* margin-bottom:20px; */
     min-height: 60px;
     margin-top: 7px;
-    max-height: calc(100% - 310px);
+    /* max-height: calc(100% - 500px); */
     overflow: auto;
     /* overflow-y: scroll; */
 }
@@ -2076,9 +2112,10 @@ input[type=checkbox]:checked + .vendor-label:before {
     padding: 1px 2px;
 }
 .reps-profile-info {
-    /* width: 50%; */
+    width: 60%;
     padding: 6px;
     margin-top: 4px;
+    /* height: 83px; */
     /* max-width: 1000px; */
 }
 .reps-feed-view {
@@ -3561,6 +3598,7 @@ footer  .foot-in{
 }
 .feed-user-share-b{
     width: 23%;
+    margin-top: 18px;
 }
 .feed-user-share-b a:first-child {
     margin-right: 0px;
@@ -3596,7 +3634,7 @@ footer  .foot-in{
 
 .parent-content-holder{
     height: auto;
-    width: 23%;
+    width: 24%;
     background: white;
     float: left;
     margin: 5px;
@@ -3641,10 +3679,13 @@ footer  .foot-in{
     text-align: left;
 }
 .reps-profile-info-root{
+    /* float: right; */
+    /* height: 56px; */
 }
 #associatedownarrow{
     left: -4%;
     top: 5px;
+    /* width: 20px; */
 }
 .associated-background{
     background: #D2DADD;
@@ -3653,13 +3694,15 @@ footer  .foot-in{
     height: 10%;
 }
 .container{
-    height: 100%;
+    /* height: 100%; */
     width: 100%;
+    /* min-width: 200px; */
     /* overflow-y: scroll; */
 }
 
 .m-width{
     height: 85%;
+    /* width: 200px; */
 }
 
 .topview-rightcontentcarrier-email{
@@ -3706,7 +3749,7 @@ footer  .foot-in{
 }
 
 #id-carrier-view-rightblock{
-    width: 86% !important;
+    /* width: 86% !important; */
 }
 
 .message-icon{
@@ -3724,13 +3767,13 @@ footer  .foot-in{
     height: 20px;
     float: left;
     margin-top: 10px;
-    margin-right: -4px;
-    margin-left: 11px;
+    margin-right: -3px;
+    margin-left: 1px;
 }
 
 
 #associatedcustomersdropdownarrow{
-    left: 19%;
+    left: 190px;
     top: -22px;
     width: 80%;
 }
@@ -3739,13 +3782,15 @@ footer  .foot-in{
 }
 
 .Carrierreps-feed-view {
-    width: 49.877%;
+    margin-left: 3px;
+    width: 48.877%;
     padding: 5px 0px;
     display:inline-block;	
 }
 .reps-feed-screen {
     width: 32%;
-    margin-right: 20px;
+    height: 135px;
+    margin-right: 10px;
     margin-bottom: 10px;
 
     background: white;

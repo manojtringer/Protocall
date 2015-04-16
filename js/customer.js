@@ -218,6 +218,8 @@ var CustomerdynamicTemplate = {
                             protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CARRIERAGENCY);
                             protocall.events.GlobalContainerScrollevent();
                             protocall.displaySpinner(false);
+                            $(".edit-cover-pic").css("display", "block");
+                            $(".edit-agency-pic").css("display", "block");
                         }
                     }
                 } else {
@@ -268,8 +270,8 @@ var CustomerdynamicTemplate = {
                     }
                 }
 
-                $(".edit-cover-pic").css("display", "none");
-                $(".edit-agency-pic").css("display", "none");
+                //  $(".edit-cover-pic").css("display", "none");
+                // $(".edit-agency-pic").css("display", "none");
             }
         },
         loadAgenciesPage: function (data) {
@@ -482,8 +484,8 @@ var CustomerdynamicTemplate = {
                 protocall.setMenuSelection(CONSTANTS.LINK_TYPE.CUSTOMERS_PAGE);
                 protocall.events.GlobalContainerScrollevent();
             }
-            $(".edit-cover-pic").css("display", "none");
-            $(".edit-agency-pic").css("display", "none");
+            $(".edit-cover-pic").css("display", "block");
+            $(".edit-agency-pic").css("display", "block");
             //} 
         },
         loadcarrierRepcustomercontent: function (data, page) {
@@ -802,9 +804,9 @@ data=RESPONSE.carrierrepcustomers_data[0];
             var phoneHtml = "";
             try {
                 if (cus.phone.number == undefined) {
-                    phoneHtml = "<span class=\"sprite-im carrier-mobile-icon\" style=\"display:none;position: absolute;top: 17px;left: 57%;margin-left: 10px;\">&nbsp;</span>";
+                    phoneHtml = "<div style='  float: left;'><span class=\"sprite-im carrier-mobile-icon\" style=\"display:none;position: absolute;top: 17px;left: 57%;margin-left: 10px;\">&nbsp;</span></div>";
                 } else {
-                    phoneHtml = "<a href=\"tel:" + cus.phone.number + "\"><div class=\"sprite-im carrier-mobile-icon\" style=\"position: relative;float:right;margin-left: 5px\">&nbsp;</div></a>";
+                    phoneHtml = "<div style='  float: left;'><a href=\"tel:" + cus.phone.number + "\"><div class=\"sprite-im carrier-mobile-icon\" style=\"position: relative;float:left;margin-right: -16px\">&nbsp;</div></a></div>";
                 }
             } catch (err) {
 
@@ -812,7 +814,7 @@ data=RESPONSE.carrierrepcustomers_data[0];
 
             var html = " <div class=\"parent-content-holder\"> <div class=\"topview p-relative\"> <div class=\"topview-leftcontent\">"
                     + "<img src=\"" + profilePicture + "\" alt=\"\" id=" + cusEmail + "  value=" + cus.agencyId + " class=\"carrier-img-width \" data-type=\"viewcustomerfeedview\"></div> <div class=\"topview-rightcontent\"> <div class=\"carrierid\" style=\"display:none;\">" + cus.agencyId + "</div>"
-                    + "<div class=\"topview-rightcontentcarrier-name t-caps \" style=\"font-size: 16px;color: #3e3e3e;float:left;margin-right:5px;margin-bottom: 5px;\">" + cus.agencyName + phoneHtml + "</div>"
+                    + phoneHtml + "<div class=\"topview-rightcontentcarrier-name t-caps \" style=\"font-size: 16px;color: #3e3e3e;float:left;margin-right:5px;margin-bottom: 5px;\">" + cus.agencyName + "</div>"
                     + "<div class=\"topview-rightcontentcarrier-location t-caps \" style=\"color: #3e3e3e;font-style: italic;clear:both;margin-bottom: 5px;\">" + cus.city + "</div> <div class=\"topview-rightcontentcarrier-email\"><a title=" + cusEmail + " href=\"mailto:" + cusEmail + "\">" + cusEmail + "</a></div> </div> <input type=\"checkbox\" class=\"getSelectedCustomers  p-absolute snap\" data-type=\"customersCheckBox\" value=" + cusEmail + " id=" + cusEmail + " > <label for=" + cusEmail + " class=\"customer-feed-label\" style=\"display:none;\"></label> </div> <div class=\"downview p-relative\">"
                     + "<div id=" + cusEmail + "  value=" + cus.agencyId + " class=\"carrier-view myagenciesView p-relative bg-color-green t-caps t-center opensans-regular f-color-w snap\" data-type=\"viewagenciesfeedview\">view</div> </div> </div>";
 
@@ -843,9 +845,9 @@ data=RESPONSE.carrierrepcustomers_data[0];
             var phoneHtml = "";
             try {
                 if (cus.phone.number == undefined) {
-                    phoneHtml = "<span class=\"sprite-im carrier-mobile-icon\" style=\"display:none;position: absolute;top: 17px;left: 57%;margin-left: 10px;\">&nbsp;</span>";
+                    phoneHtml = "<div style='  float: left;'><span class=\"sprite-im carrier-mobile-icon\" style=\"display:none;position: absolute;top: 17px;left: 57%;margin-left: 10px;\">&nbsp;</span></div>";
                 } else {
-                    phoneHtml = "<a href=\"tel:" + cus.phone.number + "\"><div class=\"sprite-im carrier-mobile-icon\" style=\"position: relative;float:right;margin-left: 5px\">&nbsp;</div></a>";
+                    phoneHtml = "<div style='  float: left;'><a href=\"tel:" + cus.phone.number + "\"><div class=\"sprite-im carrier-mobile-icon\" style=\"position: relative;float:left;margin-right: -16px\">&nbsp;</div></a></div>";
                 }
             } catch (err) {
 
@@ -853,7 +855,7 @@ data=RESPONSE.carrierrepcustomers_data[0];
 
             var html = " <div class=\"parent-content-holder\"> <div class=\"topview p-relative\"> <div class=\"topview-leftcontent\">"
                     + "<img src=\"" + profilePicture + "\" alt=\"\" id=" + cusEmail + "  value=" + cus.agencyId + " class=\"carrier-img-width \" data-type=\"viewcustomerfeedview\"></div> <div class=\"topview-rightcontent\"> <div class=\"carrierid\" style=\"display:none;\">" + cus.agencyId + "</div>"
-                    + "<div class=\"topview-rightcontentcarrier-name t-caps \" style=\"font-size: 16px;color: #3e3e3e;float:left;margin-right:5px;margin-bottom: 5px;\">" + cus.agencyName + phoneHtml + "</div>"
+                    + phoneHtml + "<div class=\"topview-rightcontentcarrier-name t-caps \" style=\"font-size: 16px;color: #3e3e3e;float:left;margin-right:5px;margin-bottom: 5px;\">" + cus.agencyName + "</div>"
                     + "<div class=\"topview-rightcontentcarrier-location t-caps \" style=\"color: #3e3e3e;font-style: italic;clear:both;margin-bottom: 5px;\">" + cus.city + "</div> <div class=\"topview-rightcontentcarrier-email\"><a title=" + cusEmail + " href=\"mailto:" + cusEmail + "\">" + cusEmail + "</a></div> </div> <input type=\"checkbox\" class=\"getSelectedCustomers  p-absolute snap\" data-type=\"customersCheckBox\" value=" + cusEmail + " id=" + cusEmail + " > <label for=" + cusEmail + " class=\"customer-feed-label\" style=\"display:none;\"></label> </div> <div class=\"downview p-relative\">"
                     + "<div id=" + cusEmail + "  value=" + cus.agencyId + " class=\"carrier-view myagenciesView p-relative bg-color-green t-caps t-center opensans-regular f-color-w snap\" data-type=\"viewagenciesfeedview\">view</div> </div> </div>";
 
@@ -872,9 +874,9 @@ data=RESPONSE.carrierrepcustomers_data[0];
                 var phoneHtml = "";
                 try {
                     if (cus.phone.number == undefined) {
-                        phoneHtml = "<span class=\"sprite-im carrier-mobile-icon\" style=\"display:none;position: absolute;top: 17px;left: 57%;margin-left: 10px;\">&nbsp;</span>";
+                        phoneHtml = "<div style='  float: left;'><span class=\"sprite-im carrier-mobile-icon\" style=\"display:none;position: absolute;top: 17px;left: 57%;margin-left: 10px;\">&nbsp;</span></div>";
                     } else {
-                        phoneHtml = "<a href=\"tel:" + cus.phone.number + "\"><div class=\"sprite-im carrier-mobile-icon\" style=\"position: relative;float:right;margin-left: 5px\">&nbsp;</div></a>";
+                        phoneHtml = "<div style='  float: left;'><a href=\"tel:" + cus.phone.number + "\"><div class=\"sprite-im carrier-mobile-icon\" style=\"position: relative;float:left;margin-right: -16px\">&nbsp;</div></a></div>";
                     }
                 } catch (err) {
 
@@ -882,7 +884,7 @@ data=RESPONSE.carrierrepcustomers_data[0];
 
                 html = " <div class=\"parent-content-holder\"> <div class=\"topview p-relative\"> <div class=\"topview-leftcontent\">"
                         + "<img src=\"" + profilePicture + "\" alt=\"\" id=" + cusEmail + "  value=" + cus.carrierId + " class=\"carrier-img-width \" data-type=\"viewcustomerfeedview\"></div> <div class=\"topview-rightcontent\"> <div class=\"carrierid\" style=\"display:none;\">" + cus.carrierId + "</div>"
-                        + "<div class=\"topview-rightcontentcarrier-name t-caps \" style=\"font-size: 15px;color: #3e3e3e;float:left;margin-right:5px;margin-bottom: 5px;\">" + cus.firstName + " " + cus.lastName + " " + phoneHtml + "</div>"
+                        + phoneHtml + "<div class=\"topview-rightcontentcarrier-name t-caps \" style=\"font-size: 15px;color: #3e3e3e;float:left;margin-right:5px;margin-bottom: 5px;\">" + cus.firstName + " " + cus.lastName + "</div>"
                         + "<div class=\"topview-rightcontentcarrier-location t-caps \" style=\"color: #3e3e3e;font-style: italic;clear:both;margin-bottom: 5px;\">" + cus.residentialCity + "," + cus.residentialState + "</div> "
                         + "<div class=\"topview-rightcontentcarrier-email\"><a title=" + cusEmail + " href=\"mailto:" + cusEmail + "\">" + cusEmail + "</a></div> </div> <input type=\"checkbox\" class=\"getSelectedCustomers  p-absolute snap\" data-type=\"customersCheckBox\" value=" + cusEmail + " id='id" + cusEmail + "' > "
                         + "<label for='id" + cusEmail + "' class=\"customer-feed-label\" style=\"display:block;\"></label> </div> <div class=\"downview p-relative\">"
@@ -899,9 +901,9 @@ data=RESPONSE.carrierrepcustomers_data[0];
                         var phoneHtml = "";
                         try {
                             if (cus.phone.number == undefined) {
-                                phoneHtml = "<span class=\"sprite-im carrier-mobile-icon\" style=\"display:none;position: absolute;top: 17px;left: 57%;margin-left: 10px;\">&nbsp;</span>";
+                                phoneHtml = "<div style='  float: left;'><span class=\"sprite-im carrier-mobile-icon\" style=\"display:none;position: absolute;top: 17px;left: 57%;margin-left: 10px;\">&nbsp;</span></div>";
                             } else {
-                                phoneHtml = "<a href=\"tel:" + cus.phone.number + "\"><div class=\"sprite-im carrier-mobile-icon\" style=\"position: relative;float:right;margin-left: 5px\">&nbsp;</div></a>";
+                                phoneHtml = "<div style='  float: left;'><a href=\"tel:" + cus.phone.number + "\"><div class=\"sprite-im carrier-mobile-icon\" style=\"position: relative;float:left;margin-right: -16px\">&nbsp;</div></a></div>";
                             }
                         } catch (err) {
 
@@ -909,7 +911,7 @@ data=RESPONSE.carrierrepcustomers_data[0];
 
                         html = " <div class=\"parent-content-holder\"> <div class=\"topview p-relative\"> <div class=\"topview-leftcontent\">"
                                 + "<img src=\"" + profilePicture + "\" alt=\"\" id=" + cusEmail + "  value=" + cus.carrierId + " class=\"carrier-img-width \" data-type=\"viewcustomerfeedview\"></div> <div class=\"topview-rightcontent\"> <div class=\"carrierid\" style=\"display:none;\">" + cus.carrierId + "</div>"
-                                + "<div class=\"topview-rightcontentcarrier-name t-caps \" style=\"font-size: 15px;color: #3e3e3e;float:left;margin-right:5px;margin-bottom: 5px;\">" + cus.firstName + " " + cus.lastName + " " + phoneHtml + "</div>"
+                                + phoneHtml + "<div class=\"topview-rightcontentcarrier-name t-caps \" style=\"font-size: 15px;color: #3e3e3e;float:left;margin-right:5px;margin-bottom: 5px;\">" + cus.firstName + " " + cus.lastName + "</div>"
                                 + "<div class=\"topview-rightcontentcarrier-location t-caps \" style=\"color: #3e3e3e;font-style: italic;clear:both;margin-bottom: 5px;\">" + cus.residentialCity + "," + cus.residentialState + "</div> "
                                 + "<div class=\"topview-rightcontentcarrier-email\"><a title=" + cusEmail + "  href=\"mailto:" + cusEmail + "\">" + cusEmail + "</a></div> </div> <input type=\"checkbox\" class=\"getSelectedCustomers  p-absolute snap\" data-type=\"customersCheckBox\" value=" + cusEmail + " id='id" + cusEmail + "' > <label for='id" + cusEmail + "' class=\"customer-feed-label\" style=\"display:none;\"></label> </div> <div class=\"downview p-relative\">"
                                 + "<div id=" + cusEmail + "  value=" + cus.carrierId + " class=\"carrier-view mycustomerView p-relative bg-color-green t-caps t-center opensans-regular f-color-w snap\" data-type=\"viewcustomerfeedview\">view</div> </div> </div>";
@@ -924,9 +926,9 @@ data=RESPONSE.carrierrepcustomers_data[0];
                         var phoneHtml = "";
                         try {
                             if (cus.phone.number == undefined) {
-                                phoneHtml = "<span class=\"sprite-im carrier-mobile-icon\" style=\"display:none;position: absolute;top: 17px;left: 57%;margin-left: 10px;\">&nbsp;</span>";
+                                phoneHtml = "<div style='  float: left;'><span class=\"sprite-im carrier-mobile-icon\" style=\"display:none;position: absolute;top: 17px;left: 57%;margin-left: 10px;\">&nbsp;</span></div>";
                             } else {
-                                phoneHtml = "<a href=\"tel:" + cus.phone.number + "\"><div class=\"sprite-im carrier-mobile-icon\" style=\"position: relative;float:right;margin-left: 5px\">&nbsp;</div></a>";
+                                phoneHtml = "<div style='  float: left;'><a href=\"tel:" + cus.phone.number + "\"><div class=\"sprite-im carrier-mobile-icon\" style=\"position: relative;float:left;margin-right: -16px\">&nbsp;</div></a></div>";
                             }
                         } catch (err) {
 
@@ -934,7 +936,7 @@ data=RESPONSE.carrierrepcustomers_data[0];
 
                         html = " <div class=\"parent-content-holder\"> <div class=\"topview p-relative\"> <div class=\"topview-leftcontent\">"
                                 + "<img src=\"" + profilePicture + "\" alt=\"\" id=" + cusEmail + "  value=" + cus.carrierId + " class=\"carrier-img-width \" data-type=\"viewcustomerfeedview\"></div> <div class=\"topview-rightcontent\"> <div class=\"carrierid\" style=\"display:none;\">" + cus.carrierId + "</div>"
-                                + "<div class=\"topview-rightcontentcarrier-name t-caps \" style=\"font-size: 15px;color: #3e3e3e;float:left;margin-right:5px;margin-bottom: 5px;\">" + cus.firstName + " " + cus.lastName + " " + phoneHtml + "</div>"
+                                + phoneHtml + "<div class=\"topview-rightcontentcarrier-name t-caps \" style=\"font-size: 15px;color: #3e3e3e;float:left;margin-right:5px;margin-bottom: 5px;\">" + cus.firstName + " " + cus.lastName + "</div>"
                                 + "<div class=\"topview-rightcontentcarrier-location t-caps \" style=\"color: #3e3e3e;font-style: italic;clear:both;margin-bottom: 5px;\">" + cus.residentialCity + "," + cus.residentialState + "</div> "
                                 + "<div class=\"topview-rightcontentcarrier-email\"><a title=" + cusEmail + "  href=\"mailto:" + cusEmail + "\">" + cusEmail + "</a></div> </div> <input type=\"checkbox\" class=\"getSelectedCustomers  p-absolute snap\" data-type=\"customersCheckBox\" value=" + cusEmail + " id='id" + cusEmail + "' > <label for='id" + cusEmail + "' class=\"customer-feed-label\" style=\"display:block;\"></label> </div> <div class=\"downview p-relative\">"
                                 + "<div id=" + cusEmail + "  value=" + cus.carrierId + " class=\"carrier-view mycustomerView p-relative bg-color-green t-caps t-center opensans-regular f-color-w snap\" data-type=\"viewcustomerfeedview\">view</div> </div> </div>";
@@ -950,9 +952,9 @@ data=RESPONSE.carrierrepcustomers_data[0];
                         var phoneHtml = "";
                         try {
                             if (cus.phone.number == undefined) {
-                                phoneHtml = "<span class=\"sprite-im carrier-mobile-icon\" style=\"display:none;position: absolute;top: 17px;left: 57%;margin-left: 10px;\">&nbsp;</span>";
+                                phoneHtml = "<div style='  float: left;'><span class=\"sprite-im carrier-mobile-icon\" style=\"display:none;position: absolute;top: 17px;left: 57%;margin-left: 10px;\">&nbsp;</span></div>";
                             } else {
-                                phoneHtml = "<a href=\"tel:" + cus.phone.number + "\"><div class=\"sprite-im carrier-mobile-icon\" style=\"position: relative;float:right;margin-left: 5px\">&nbsp;</div></a>";
+                                phoneHtml = "<div style='  float: left;'><a href=\"tel:" + cus.phone.number + "\"><div class=\"sprite-im carrier-mobile-icon\" style=\"position: relative;float:left;margin-right: -16px\">&nbsp;</div></a></div>";
                             }
                         } catch (err) {
 
@@ -960,7 +962,7 @@ data=RESPONSE.carrierrepcustomers_data[0];
 
                         html = " <div class=\"parent-content-holder\"> <div class=\"topview p-relative\"> <div class=\"topview-leftcontent\">"
                                 + "<img src=\"" + profilePicture + "\" alt=\"\" id=" + cusEmail + "  value=" + cus.carrierId + " class=\"carrier-img-width \" data-type=\"viewcustomerfeedview\"></div> <div class=\"topview-rightcontent\"> <div class=\"carrierid\" style=\"display:none;\">" + cus.carrierId + "</div>"
-                                + "<div class=\"topview-rightcontentcarrier-name t-caps \" style=\"font-size: 15px;color: #3e3e3e;float:left;margin-right:5px;margin-bottom: 5px;\">" + cus.firstName + " " + cus.lastName + " " + phoneHtml + "</div>"
+                                + phoneHtml + "<div class=\"topview-rightcontentcarrier-name t-caps \" style=\"font-size: 15px;color: #3e3e3e;float:left;margin-right:5px;margin-bottom: 5px;\">" + cus.firstName + " " + cus.lastName + "</div>"
                                 + "<div class=\"topview-rightcontentcarrier-location t-caps \" style=\"color: #3e3e3e;font-style: italic;clear:both;margin-bottom: 5px;\">" + cus.residentialCity + "," + cus.residentialState + "</div> "
                                 + "<div class=\"topview-rightcontentcarrier-email\"><a title=" + cusEmail + "  href=\"mailto:" + cusEmail + "\">" + cusEmail + "</a></div> </div> <input type=\"checkbox\" class=\"getSelectedCustomers  p-absolute snap\" data-type=\"customersCheckBox\" value=" + cusEmail + " id='id" + cusEmail + "' > <label for='id" + cusEmail + "' class=\"customer-feed-label\" style=\"display:block;\"></label> </div> <div class=\"downview p-relative\">"
                                 + "<div id=" + cusEmail + "  value=" + cus.carrierId + " class=\"carrier-view mycustomerView p-relative bg-color-green t-caps t-center opensans-regular f-color-w snap\" data-type=\"viewcustomerfeedview\">view</div> </div> </div>";
@@ -974,9 +976,9 @@ data=RESPONSE.carrierrepcustomers_data[0];
                         var phoneHtml = "";
                         try {
                             if (cus.phone.number == undefined) {
-                                phoneHtml = "<span class=\"sprite-im carrier-mobile-icon\" style=\"display:none;position: absolute;top: 17px;left: 57%;margin-left: 10px;\">&nbsp;</span>";
+                                phoneHtml = "<div style='  float: left;'><span class=\"sprite-im carrier-mobile-icon\" style=\"display:none;position: absolute;top: 17px;left: 57%;margin-left: 10px;\">&nbsp;</span></div>";
                             } else {
-                                phoneHtml = "<a href=\"tel:" + cus.phone.number + "\"><div class=\"sprite-im carrier-mobile-icon\" style=\"position: relative;float:right;margin-left: 5px\">&nbsp;</div></a>";
+                                phoneHtml = "<div style='  float: left;'><a href=\"tel:" + cus.phone.number + "\"><div class=\"sprite-im carrier-mobile-icon\" style=\"position: relative;float:left;margin-right: -16px\">&nbsp;</div></a></div>";
                             }
                         } catch (err) {
 
@@ -984,7 +986,7 @@ data=RESPONSE.carrierrepcustomers_data[0];
 
                         html = " <div class=\"parent-content-holder\"> <div class=\"topview p-relative\"> <div class=\"topview-leftcontent\">"
                                 + "<img src=\"" + profilePicture + "\" alt=\"\" id=" + cusEmail + "  value=" + cus.carrierId + " class=\"carrier-img-width \" data-type=\"viewcustomerfeedview\"></div> <div class=\"topview-rightcontent\"> <div class=\"carrierid\" style=\"display:none;\">" + cus.carrierId + "</div>"
-                                + "<div class=\"topview-rightcontentcarrier-name t-caps \" style=\"font-size: 16px;color: #3e3e3e;float:left;margin-right:5px;margin-bottom: 5px;\">" + cus.firstName + phoneHtml + "</div>"
+                                + phoneHtml + "<div class=\"topview-rightcontentcarrier-name t-caps \" style=\"font-size: 16px;color: #3e3e3e;float:left;margin-right:5px;margin-bottom: 5px;\">" + cus.firstName + "</div>"
                                 + "<div class=\"topview-rightcontentcarrier-location t-caps \" style=\"color: #3e3e3e;font-style: italic;clear:both;margin-bottom: 5px;\">" + cus.residentialCity + "," + cus.residentialState + "</div> "
                                 + "<div class=\"topview-rightcontentcarrier-email\"><a title=" + cusEmail + "  href=\"mailto:" + cusEmail + "\">" + cusEmail + "</a></div> </div> <input type=\"checkbox\" class=\"getSelectedCustomers  p-absolute snap\" data-type=\"customersCheckBox\" value=" + cusEmail + " id='id" + cusEmail + "' > <label for='id" + cusEmail + "' class=\"customer-feed-label\" style=\"display:none;\"></label> </div> <div class=\"downview p-relative\">"
                                 + "<div id=" + cusEmail + "  value=" + cus.carrierId + " class=\"carrier-view mycustomerView p-relative bg-color-green t-caps t-center opensans-regular f-color-w snap\" data-type=\"viewcustomerfeedview\">view</div> </div> </div>";

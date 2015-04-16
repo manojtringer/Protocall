@@ -247,15 +247,15 @@ var MyrepsdynamicTemplate = {
                             // profilePicture = ProfileAPI + profilePath;
                         }
 
-                        if (loopCount >= 3) {
-                            loopCount = 0;
-                            template += MyrepsdynamicTemplate.myreps.carrierRepstemplate(rep, true);
+                        // if (loopCount >= 3) {
+                        // loopCount = 0;
+                        //template += MyrepsdynamicTemplate.myreps.carrierRepstemplate(rep, true);
 
-                        } else {
-                            template += MyrepsdynamicTemplate.myreps.carrierRepstemplate(rep, false);
+                        //} else {
+                        template += MyrepsdynamicTemplate.myreps.carrierRepstemplate(rep, false);
 
-                        }
-                        loopCount++;
+                        // }
+                        // loopCount++;
 
 
                     }
@@ -319,16 +319,16 @@ var MyrepsdynamicTemplate = {
 								// profilePicture = ProfileAPI + profilePath;
 							}
 
-							if (loopCount >= 3) {
-								loopCount = 0;
-								template += MyrepsdynamicTemplate.myreps.RepsDynamicList(rep, true);
+                            //if (loopCount >= 3) {
+                            //loopCount = 0;
+                            //template += MyrepsdynamicTemplate.myreps.RepsDynamicList(rep, true);
 
-							} else {
-								template += MyrepsdynamicTemplate.myreps.RepsDynamicList(rep, false);
+                            //} else {
+                            template += MyrepsdynamicTemplate.myreps.RepsDynamicList(rep, false);
 
-							}
-							loopCount++;
-						}
+                            //}
+                            //loopCount++;
+                        }
 //                        //  try {
 //                        try {
 //                            if (rep.agencyRepresentativeId.email == undefined) {
@@ -417,14 +417,14 @@ var MyrepsdynamicTemplate = {
                         // profilePicture = ProfileAPI + profilePath;
                     }
 
-                    if (loopCount == 3) {
-                        loopCount = 0;
-                        template += MyrepsdynamicTemplate.myreps.carrierRepstemplate(rep, true);
-                    } else {
-                        template += MyrepsdynamicTemplate.myreps.carrierRepstemplate(rep, false);
-                    }
+                    // if (loopCount == 3) {
+                    // loopCount = 0;
+                    //  template += MyrepsdynamicTemplate.myreps.carrierRepstemplate(rep, true);
+                    // } else {
+                    template += MyrepsdynamicTemplate.myreps.carrierRepstemplate(rep, false);
+                    // }
 
-                    loopCount++;
+                    //loopCount++;
 
                 }
 
